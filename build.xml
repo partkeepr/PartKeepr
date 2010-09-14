@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="partdb2" default="test-setup">
+	<target name="test-setup" >
+        <echo msg="Testing the installation..." />
+        
+       	<phpunit haltonfailure="true" codecoverage="false" printsummary="true">
+			<batchtest>
+				<fileset dir="setup/tests/">
+					<include name="*Test.php" />
+				</fileset>
+			</batchtest>
+			<formatter type="plain" usefile="false" />
+		</phpunit>
+		
+		<echo msg=""/>
+        
+        <echo msg="       ***************************"/>
+        <echo msg="       Setup Test Complete"/>
+        <echo msg="       ***************************"/>
+        <echo msg=""/>
+        <echo msg="       No errors were found."/>
+        <echo msg="       You may now proceed!"/>
+    </target>
+    
+    <target name="build">
+	    <echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
+			<mkdir dir="build/"/>
+			<copy overwrite="false" todir="build/extjs/">
+				<fileset dir="3rdparty/ext-3.2.1/">
+					<include name="ext-all.js"/>
+					<include name="ext-all-debug.js"/>
+					<include name="ext-all-debug-w-comments.js"/>
+					<include name="adapter/ext/ext-base.js"/>
+					<include name="adapter/ext/ext-base-debug-w-comments.js"/>
+					<include name="source/adapter/ext-base.js"/>
+					<include name="resources/**"/>
+				</fileset>
+			</copy>
+			
+		<echo>Copying Ext Statusbar (removing features during a major version is stupid, ExtJS guys...)</echo>
+		<copy overwrite="false" todir="build/js/ux/">
+			<fileset dir="3rdparty/ext-3.2.1/examples/ux">
+				<include name="statusbar/**"/>
+			</fileset>
+		</copy>
+		
+		<echo>Copying phpjs</echo>
+			<mkdir dir="build/js/org.phpjs.lib/"/>
+			<copy overwrite="false" todir="build/js/org.phpjs.lib">
+				<fileset dir="3rdparty/phpjs/">
+					<include name="php.default.min.js"/>
+				</fileset>
+			</copy>
+			
+		<echo>Copying JS frontend</echo>
+		<copy overwrite="true" todir="build/">
+			<fileset dir="frontend">
+				<include name="**"/>
+			</fileset>
+		</copy>
+    </target>
+    
+    <target name="build.quick">
+    		
+		<echo>Copying JS frontend</echo>
+		<copy overwrite="true" todir="build/">
+			<fileset dir="frontend">
+				<include name="js/**"/>
+				<include name="css/**"/>
+				<include name="index.html"/>
+				<include name="service.php"/>
+				
+			</fileset>
+		</copy>
+    </target>
+    <target name="test">
+		
+		<mkdir dir="tests/reports/phpunit"/>
+		
+		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="true" haltonerror="true" codecoverage="false" printsummary="true">
+			<formatter todir="tests/reports/phpunit/" type="xml"/>
+			<batchtest>
+				<fileset dir="tests/">
+					<include name="**/*Test.php" />
+				</fileset>
+			</batchtest>
+			<formatter type="plain" usefile="false" />
+		</phpunit>
+		
+		<phpunitreport infile="tests/reports/phpunit/testsuites.xml" format="frames" todir="tests/reports/phpunit"/>
+		
+	</target>
+</project>

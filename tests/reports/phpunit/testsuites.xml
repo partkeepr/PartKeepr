@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Phing Batchtest" tests="7" assertions="12" failures="0" errors="1" time="0.286509">
+    <testsuite name="de\RaumZeitLabor\PartDB2\Tests\Auth\AuthManagerTest" file="/home/felicitus/public_html/partdb2/tests/Auth/AuthManagerTest.php" namespace="de\RaumZeitLabor\PartDB2\Tests\Auth" fullPackage="de.RaumZeitLabor.PartDB2.Tests.Auth" tests="1" assertions="0" failures="0" errors="0" time="0.003725">
+      <testcase name="testBasics" class="de\RaumZeitLabor\PartDB2\Tests\Auth\AuthManagerTest" file="/home/felicitus/public_html/partdb2/tests/Auth/AuthManagerTest.php" line="7" assertions="0" time="0.003725"/>
+    </testsuite>
+    <testsuite name="de\RaumZeitLabor\PartDB2\Tests\Auth\UserManagerTest" file="/home/felicitus/public_html/partdb2/tests/Auth/UserManagerTest.php" namespace="de\RaumZeitLabor\PartDB2\Tests\Auth" fullPackage="de.RaumZeitLabor.PartDB2.Tests.Auth" tests="4" assertions="3" failures="0" errors="1" time="0.235301">
+      <testcase name="testUserExists" class="de\RaumZeitLabor\PartDB2\Tests\Auth\UserManagerTest" file="/home/felicitus/public_html/partdb2/tests/Auth/UserManagerTest.php" line="17" assertions="1" time="0.073451"/>
+      <testcase name="testCreateUser" class="de\RaumZeitLabor\PartDB2\Tests\Auth\UserManagerTest" file="/home/felicitus/public_html/partdb2/tests/Auth/UserManagerTest.php" line="21" assertions="1" time="0.031516"/>
+      <testcase name="testDeleteUser" class="de\RaumZeitLabor\PartDB2\Tests\Auth\UserManagerTest" file="/home/felicitus/public_html/partdb2/tests/Auth/UserManagerTest.php" line="33" assertions="1" time="0.015458"/>
+      <testcase name="testDoctrineUsernameBug" class="de\RaumZeitLabor\PartDB2\Tests\Auth\UserManagerTest" file="/home/felicitus/public_html/partdb2/tests/Auth/UserManagerTest.php" line="46" assertions="0" time="0.114876">
+        <error type="Exception">de\RaumZeitLabor\PartDB2\Tests\Auth\UserManagerTest::testDoctrineUsernameBug
+Exception: 
+
+/home/felicitus/public_html/partdb2/src/de/RaumZeitLabor/PartDB2/Auth/UserManager.php:47
+/home/felicitus/public_html/partdb2/tests/Auth/UserManagerTest.php:59
+/usr/share/php/phing.php:37
+</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="de\RaumZeitLabor\PartDB2\Tests\Auth\UserTest" file="/home/felicitus/public_html/partdb2/tests/Auth/UserTest.php" namespace="de\RaumZeitLabor\PartDB2\Tests\Auth" fullPackage="de.RaumZeitLabor.PartDB2.Tests.Auth" tests="1" assertions="6" failures="0" errors="0" time="0.019053">
+      <testcase name="testBasics" class="de\RaumZeitLabor\PartDB2\Tests\Auth\UserTest" file="/home/felicitus/public_html/partdb2/tests/Auth/UserTest.php" line="8" assertions="6" time="0.019053"/>
+    </testsuite>
+    <testsuite name="de\RaumZeitLabor\PartDB2\Tests\Util\ConfigurationTest" file="/home/felicitus/public_html/partdb2/tests/Util/ConfigurationTest.php" namespace="de\RaumZeitLabor\PartDB2\Tests\Util" fullPackage="de.RaumZeitLabor.PartDB2.Tests.Util" tests="1" assertions="3" failures="0" errors="0" time="0.028430">
+      <testcase name="testConfiguration" class="de\RaumZeitLabor\PartDB2\Tests\Util\ConfigurationTest" file="/home/felicitus/public_html/partdb2/tests/Util/ConfigurationTest.php" line="7" assertions="3" time="0.028430"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

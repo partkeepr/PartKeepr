@@ -1,0 +1,77 @@
+PartDB2 Quick Installation Guide
+================================
+
+BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING! 
+BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING!
+BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING!
+
+The project is in a pre-alpha state. It's more a sketch or a draft than a
+working product. Most of the documentation is missing, same goes for unit tests
+and code coverage.
+
+
+
+Prequisites:
+------------
+* PHP 5.3 or higher
+* PDO
+* SOAP
+* A working PEAR installation
+
+
+Install the required PEAR packages:
+-----------------------------------
+
+pear config-set auto_discover 1
+pear install phpunit/PHPUnit
+pear channel-discover pear.phing.info
+pear install phing/phing
+pear install pear.doctrine-project.org/DoctrineCommon-2.0.0RC1
+pear install pear.doctrine-project.org/DoctrineDBAL-2.0.0BETA4
+pear install pear.doctrine-project.org/DoctrineORM-2.0.0BETA4
+
+
+Verify if everything is setup correctly:
+----------------------------------------
+cd <installation path>
+phing test-setup
+
+
+Install the database and test data
+----------------------------------
+
+Create the user partdb2, password partdb2 with access to the partdb2 database 
+in mysql (e.g. with phpmyadmin).
+
+Then you need to execute the file testing/UserTest.php - this creates the
+schema. If you add new objects (=new tables), you need to add them there also.
+
+I know, it's ugly, but will change soon.
+
+Username/Password is test/test, but right now the system automatically logs
+you in (makes development easier). 
+
+
+Building the frontend
+---------------------
+
+Type:
+
+phing build
+
+Then wait a minute or so, after everything is completed successfully
+(remember that 777 on the whole project might be a good idea until the final
+path layout has been stabilized).
+
+You can then fire up your browser and point it to the build/ directory. Note
+that you need chrome/chromium with console.log support OR Firefox with the
+firebug extension. Otherwise, your browser complains about the missing
+console.log function. These console.log statements are necessary for debugging
+and development.
+
+If you make changes to any file in the frontend/ directory, you need to
+re-build the project. To speed up things, you can use "phing build.quick" to
+skip most files you usually don't change - everything in 3rdparty and
+the huge image directories.
+
+ 

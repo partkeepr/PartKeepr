@@ -1,0 +1,5 @@
+Things to do before release
+===========================
+
+* Check if every file has UTF-8 declaration on top (automated?)
+* Document (automated documentation testing?)
