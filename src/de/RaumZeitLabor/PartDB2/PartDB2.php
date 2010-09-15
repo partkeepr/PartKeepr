@@ -55,7 +55,11 @@ class PartDB2 {
 		
 		$classLoader = new ClassLoader('Doctrine\Common');
 		$classLoader->register(); // register on SPL autoload stack
+		
+		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", dirname(dirname(dirname(dirname(__DIR__)))) ."/3rdparty/doctrine2-nestedset/lib");
+		$classLoader->register();
 	}
+	
 
 	/**
 	 * Initializes the configuration for a given environment.
