@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    convertErrorsToExceptions="true"
+    convertWarningsToExceptions="true"
+    convertNoticesToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    syntaxCheck="false"
+    bootstrap="autoload.php"
+>
+    <testsuites>
+        <testsuite name="NestedSet">
+            <directory>DoctrineExtensions/NestedSet</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>../lib/DoctrineExtensions/NestedSet</directory>
+        </whitelist>
+    </filter>
+</phpunit>
