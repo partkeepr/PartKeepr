@@ -7,13 +7,21 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 		Ext.apply(this, {
 			root: new Ext.tree.TreeNode({id: 0}),
 			rootVisible: false,
+			animate: false,
 			tbar: {
 				items: [
 				        {
 				        	tooltip: '$[de.RaumZeitLabor.PartDB2.CategoryManager.add]',
-				        	icon: 'resources/silkicons/add.png',
+				        	icon: 'resources/silkicons/folder_add.png',
 				        	handler: this.addCategory.createDelegate(this)
 				        },
+				        {
+				        	tooltip: '$[de.RaumZeitLabor.PartDB2.CategoryManager.edit]',
+				        	icon: 'resources/silkicons/folder_edit.png',
+				        	id: 'category-edit-button',
+				        	handler: this.editCategory.createDelegate(this),
+				        	disabled: true
+				        }
 				       /* {
 				        	tooltip: '$[de.RaumZeitLabor.PartDB2.FootPrintManager.delete]',
 				        	icon: 'resources/silkicons/delete.png',
@@ -26,13 +34,27 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 		});
 		de.RaumZeitLabor.PartDB2.PartsManagerTree.superclass.initComponent.call(this);
 		
+		this.getSelectionModel().on("selectionchange", this.onSelectionChange.createDelegate(this));
 		this.loadTree();
 	},
 	
 	addCategory: function () {
 		Ext.getCmp("category-details").createCategory();
 	},
-	
+	onSelectionChange: function (sm, node) {
+		if (node) {
+			this.selectedNode = node.id;
+			Ext.getCmp("category-edit-button").enable();
+		} else {
+			Ext.getCmp("category-edit-button").disable();
+		}
+	},
+	editCategory: function () {
+		var category = this.getSelectionModel().getSelectedNode().id;
+		
+		
+		Ext.getCmp("category-details").editCategory(category);
+	},	
 	loadTree: function () {
 		var call = new org.jerrymouse.service.Call(
     			"de.RaumZeitLabor.PartDB2.Category.CategoryManagerService", 
@@ -42,29 +64,34 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
     	call.doCall();
 	},
 	onCategoriesLoaded: function (result) {
-		console.log(result);
-		
 		this.getRootNode().removeAll(true);
 		
-		for (var i=0;i<result.categories.length;i++) {
+		var node = this.buildCategoryTree(result);
+		
+		this.setRootNode(node);
+		
+		if (this.selectedNode) {
+			var target = node.findChild("id", this.selectedNode, true);
 			
-			var node = new Ext.tree.TreeNode(
-					{
-						id: result.categories[i].id,
-						text: result.categories[i].name,
-						tooltip: result.categories[i].description
-					});
-			if (result.categories[i].parent == 0) {
-				this.getRootNode().appendChild(node);
-			} else {
-				var appendNode = this.getRootNode().findChild("id", result.categories[i].parent, true);;
-				appendNode.appendChild(node);
+			if (target) {
+				target.ensureVisible();
+				target.select();
 			}
-	
-			
-			//console.log(result.categories[i].description);
 		}
 		
+	},
+	buildCategoryTree: function (data) {
+		var node = new Ext.tree.TreeNode({
+			id: data.id,
+			text: data.name,
+			tooltip: data.description
+		});
+		
+		for (var i=0;i<data.children.length;i++) {
+			node.appendChild(this.buildCategoryTree(data.children[i]));
+		}
+		
+		return node;
 	}
 
 });

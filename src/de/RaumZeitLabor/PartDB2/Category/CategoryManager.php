@@ -6,44 +6,75 @@ use de\RaumZeitLabor\PartDB2\Util\Singleton,
 	de\RaumZeitLabor\PartDB2\Category\Category,
 	de\RaumZeitLabor\PartDB2\Category\Exceptions\CategoryNotFoundException,
 	de\RaumZeitLabor\PartDB2\PartDB2;
+use DoctrineExtensions\NestedSet\Manager;
+use DoctrineExtensions\NestedSet\Config;
+use DoctrineExtensions\NestedSet\NodeWrapper;
 
 class CategoryManager extends Singleton {
-	public function getCategories ($parent = 0) {
+	private $nodeManager;
 		
-		$qb = PartDB2::getEM()->createQueryBuilder();
-		$qb->select("c.*")->from("de\RaumZeitLabor\PartDB2\Category\Category","c");
-		$qb->where("c.parent = :parent");
-		$qb->setParameter("parent", $parent);
+	public function getNodeManager () {
+		if (!$this->nodeManager) {
+			$config = new Config(PartDB2::getEM(), 'de\RaumZeitLabor\PartDB2\Category\Category');
 		
-		$result = $qb->getQuery()->getArrayResult();
-		return array("categories" => $result);
+			$this->nodeManager = new Manager($config);
+		}
+
+		return $this->nodeManager;
 	}
 	
 	public function getAllCategories () {
-		
-		$qb = PartDB2::getEM()->createQueryBuilder();
-		$qb->select("c")->from("de\RaumZeitLabor\PartDB2\Category\Category","c");
-		
-		$result = $qb->getQuery()->getArrayResult();
-		return array("categories" => $result);
+		return $this->getNodeManager()->fetchTree(1);
 	}
 	
 	
-	public function addCategory ($categoryName, $parent, $description = "") {
+	public function ensureRootExists () {
+		/* Check if the root node exists */
+		$rootNode = $this->getNodeManager()->fetchTree(1);
+		
+		if ($rootNode === null) {
+			$this->createRootNode();
+		}
+	}
+	
+	public function getRootNode () {
+		return $this->getNodeManager()->fetchTree(1);
+	}
+	
+	public function createRootNode () {
+		$rootNode = new Category();
+		$rootNode->setName("Root Category");
+		$rootNode->setDescription("");
+		
+		$this->getNodeManager()->createRoot($rootNode);
+	}
+	
+	public function addCategory ($categoryName, $parent = 0, $description = "") {
+		if ($parent == 0) {
+			$parent = $this->getRootNode();
+			
+		} else {
+			$parent = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\Category\Category", $parent);	
+
+			$parent = new NodeWrapper($parent, $this->getNodeManager());
+		}
+		
 		$category = new Category();
 		$category->setDescription($description);
 		$category->setName($categoryName);
-		$category->setParent($parent);
-		
-		PartDB2::getEM()->persist($category);
+
+		return $parent->addChild($category);
+
 		
 	}
 	
 	public function deleteCategory ($id) {
 		$category = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\Category\Category", $id);
 		
+		
 		if ($category) {
-			PartDB2::getEM()->remove($category);
+			$category = new NodeWrapper($category, $this->getNodeManager());
+			$category->delete();
 		} else {
 			throw new CategoryNotFoundException;
 		}
@@ -56,7 +87,11 @@ class CategoryManager extends Singleton {
 	public function getCategory ($id) {
 		$category = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\Category\Category", $id);
 		
-	if ($category) {
+		
+		
+		if ($category) {
+			$category = new NodeWrapper($category, $this->getNodeManager());
+			
 			return $category;
 		} else {
 			throw new CategoryNotFoundException;

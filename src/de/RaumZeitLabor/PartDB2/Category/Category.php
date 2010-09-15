@@ -2,26 +2,30 @@
 namespace de\RaumZeitLabor\PartDB2\Category;
 declare(encoding = 'UTF-8');
 
-/** @Entity @Table(name="categories") */
+use DoctrineExtensions\NestedSet\Node;
 
-class Category {
+/** @Entity @Table(name="categories",indexes={@index(name="lft", columns={"lft"}),@index(name="rgt", columns={"rgt"})}) */
+class Category implements Node {
 	/** @Id @Column(type="integer") 
 	 * @GeneratedValue(strategy="AUTO")
 	 */
 	private $id;
 	
+	  /**
+     * @Column(type="integer")
+     */
+    private $lft;
+
+    /**
+     * @Column(type="integer")
+     */
+    private $rgt;
+    
 	/** @Column(length=128) */
 	private $name;
 	
 	/** @Column(length=32768) */
 	private $description;
-	
-	/** @Column(type="integer") */
-	private $parent = 0;
-	
-	public function getId () {
-		return $this->id;
-	}
 	
 	public function setName ($name) {
 		$this->name = $name;
@@ -34,5 +38,28 @@ class Category {
 	public function setDescription ($description) {
 		$this->description = $description;
 	}
+	
+
+	public function getName () {
+		return $this->name;
+	}
+    public function getId() { return $this->id; }
+
+    public function getLeftValue() { return $this->lft; }
+    public function setLeftValue($lft) { $this->lft = $lft; }
+
+    public function getRightValue() { return $this->rgt; }
+    public function setRightValue($rgt) { $this->rgt = $rgt; }
+    
+	public function serialize () {
+		return array(
+					"id" => $this->id,
+					"name" => $this->name,
+					"description" => $this->description
+		
+		);
+	}
+	
+	public function __toString () {}
 }
 ?>
