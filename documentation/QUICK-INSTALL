@@ -43,8 +43,12 @@ Install the database and test data
 Create the user partdb2, password partdb2 with access to the partdb2 database 
 in mysql (e.g. with phpmyadmin).
 
-Then you need to execute the file testing/UserTest.php - this creates the
-schema. If you add new objects (=new tables), you need to add them there also.
+Then execute the file testing/SetupDatabase.php from the command line.
+Command line is important because you need to enter "YES" to confirm
+the operation.
+
+
+If you add new objects (=new tables), you need to add them there also.
 
 I know, it's ugly, but will change soon.
 
