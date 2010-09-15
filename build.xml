@@ -69,10 +69,19 @@
 				<include name="css/**"/>
 				<include name="index.html"/>
 				<include name="service.php"/>
-				
 			</fileset>
 		</copy>
     </target>
+    
+    <!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->
+    <target name="jslint">
+    	<jsllint>
+  			<fileset dir="frontend">
+    			<include name="**/*.js"/>
+  			</fileset>
+		</jsllint>
+    </target>
+    
     <target name="test">
 		
 		<mkdir dir="tests/reports/phpunit"/>
