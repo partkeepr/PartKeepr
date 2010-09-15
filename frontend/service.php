@@ -25,5 +25,13 @@ try {
 	$response["exception"] = $e->serialize();
 	
 	echo json_encode($response);
+} catch (\Exception $e) {
+	$response = array();
+	$response["status"] = "systemerror";
+	$response["exception"] = get_class($e);
+	$response["message"] = $e->getMessage();
+	$response["backtrace"] = $e->getTraceAsString();
+	
+	echo json_encode($response);
 }
 ?>

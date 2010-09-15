@@ -85,6 +85,12 @@ Ext.extend(org.jerrymouse.service.Call, Ext.util.Observable, {
 			return;
 		}
 		
+		/* Check the status */
+		if (response.status == "systemerror") {
+			this.displaySystemError(response);
+			return;
+		}
+		
 		
 		
 		if (this.sHandler) { 
@@ -113,10 +119,10 @@ Ext.extend(org.jerrymouse.service.Call, Ext.util.Observable, {
 	},
 	displaySystemError: function (obj) {
 		var errorMsg;
-		
-		errorMsg = "Error Message: " + obj.getItem("errorMessage").toString()+"<br>";
-		errorMsg += "Exception:"+obj.getItem("exception").toString()+"<br>";
-		errorMsg += "Backtrace:<br>"+str_replace("\n", "<br>", obj.getItem("backtrace").toString());
+
+		errorMsg = "Error Message: " + obj.message+"<br>";
+		errorMsg += "Exception:"+obj.exception+"<br>";
+		errorMsg += "Backtrace:<br>"+str_replace("\n", "<br>", obj.backtrace);
 		
 		Ext.Msg.maxWidth = 800;
 		
