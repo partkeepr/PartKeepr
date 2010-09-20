@@ -49,7 +49,9 @@ class CategoryManager extends Singleton {
 		$this->getNodeManager()->createRoot($rootNode);
 	}
 	
-	public function addCategory ($categoryName, $parent = 0, $description = "") {
+	public function addCategory (Category $category) {
+		$parent = $category->getParent();
+		 
 		if ($parent == 0) {
 			$parent = $this->getRootNode();
 			
@@ -59,10 +61,6 @@ class CategoryManager extends Singleton {
 			$parent = new NodeWrapper($parent, $this->getNodeManager());
 		}
 		
-		$category = new Category();
-		$category->setDescription($description);
-		$category->setName($categoryName);
-
 		return $parent->addChild($category);
 
 		

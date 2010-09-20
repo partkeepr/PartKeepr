@@ -27,12 +27,18 @@ class Category implements Node {
 	/** @Column(length=32768) */
 	private $description;
 	
+	private $parent;
+	
 	public function setName ($name) {
 		$this->name = $name;
 	}
 	
 	public function setParent ($id) {
 		$this->parent = $id;
+	}
+	
+	public function getParent () {
+		return $this->parent;
 	}
 	
 	public function setDescription ($description) {

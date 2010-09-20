@@ -18,7 +18,13 @@ class CategoryManagerService extends Service {
 		$this->requireParameter("name");
 		$this->requireParameter("parent");
 
-		$category = CategoryManager::getInstance()->addCategory($this->getParameter("name"), $this->getParameter("parent"), $this->getParameter("description", ""));
+		$category = new Category;
+		$category->setName($this->getParameter("name"));
+		$category->setDescription($this->getParameter("description", ""));
+		$category->setParent($this->getParameter("parent"));
+		
+		$category = CategoryManager::getInstance()->addCategory($category);
+		
 		return $this->serializeCategory($category);
 		
 	}
