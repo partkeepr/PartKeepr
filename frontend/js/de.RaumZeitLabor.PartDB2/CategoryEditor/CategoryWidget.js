@@ -2,10 +2,16 @@ Ext.ns("de.RaumZeitLabor.PartDB2.CategoryEditor");
 
 de.RaumZeitLabor.PartDB2.CategoryEditor.CategoryWidget = Ext.extend(Ext.tree.TreePanel,	{
 					initComponent : function() {
+						
+						new Ext.tree.TreeSorter(this, {
+						    folderSort: false,
+						    dir: "asc"
+						});
+						
 						Ext.apply(this, {
 							border: false,
 							animate: false,
-							containerScroll: false,
+							autoScroll: true,
 							root : new Ext.tree.TreeNode( {
 								id : 0
 							}),

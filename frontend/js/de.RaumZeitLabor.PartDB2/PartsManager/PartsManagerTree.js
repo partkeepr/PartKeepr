@@ -4,10 +4,18 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 	
 	id: 'parts-tree',
 	initComponent: function () {
+		new Ext.tree.TreeSorter(this, {
+		    folderSort: false,
+		    dir: "asc"
+		});
+
+	
 		Ext.apply(this, {
 			root: new Ext.tree.TreeNode({id: 0}),
 			rootVisible: false,
 			animate: false,
+		    autoScroll: true,
+
 			tbar: {
 				items: [
 				        {
