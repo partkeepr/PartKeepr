@@ -110,6 +110,11 @@ class PartDB2 {
 		$cache = new \Doctrine\Common\Cache\ArrayCache;
 		$config->setMetadataCacheImpl($cache);
 		
+		$config->setQueryCacheImpl($cache);
+		
+		//$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
+		//$config->setSQLLogger($logger);
+		
 		/* @todo what's up with this proxy stuff? */
 		// Proxy configuration
 		$config->setProxyDir(dirname(dirname(dirname(__DIR__))) . '/Proxies');
