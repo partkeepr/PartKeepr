@@ -82,6 +82,25 @@
 		</jsllint>
     </target>
     
+    <!-- Checks all PHP files for messy code. -->
+    <target name="phpmd">
+    	<phpmd rulesets="codesize,unusedcode,design,naming">
+	    	<fileset dir="src/">
+	     		<include name="**/*.php" />
+	   		</fileset>
+   		</phpmd>
+    </target>
+    
+    <!-- Checks all PHP files for copy/paste code -->
+    <target name="phpcpd">
+    	<phpcpd>
+    		<fileset dir="src/">
+	     		<include name="**/*.php" />
+	   		</fileset>
+	   		<formatter type="pmd" outfile="reports/pmd-cpd.xml"/>
+    	</phpcpd>
+    </target>
+    
     <target name="test">
 		
 		<mkdir dir="tests/reports/phpunit"/>
