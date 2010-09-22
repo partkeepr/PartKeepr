@@ -26,8 +26,8 @@
     	<delete dir="reports" />
     </target>
     
-	<target name="cruise-control" depends="clean,phpmd,phpcpd,code-coverage,doc,test">
-		
+	<target name="cruise-control" depends="clean,phpmd,phpcpd,code-coverage,php-documentor">
+			
 	</target>
  
 	<target name="build">
@@ -116,7 +116,8 @@
 	<target name="code-coverage">
 	  
 		<mkdir dir="reports/coverage/db"/>
-
+		<mkdir dir="reports/phpunit"/>
+		
 		<coverage-setup database="reports/coverage/db/coverage.db">
 			<fileset dir="src">
 				<include name="**/*.php"/>
@@ -133,12 +134,14 @@
 			
 		</phpunit>
 		
+		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
+		
 		<coverage-report outfile="reports/coverage/db/coverage.xml">
 			<report todir="reports/coverage/"/>
 		</coverage-report>
 	</target>
 	
-	<target name="doc">
+	<target name="php-documentor">
 		<phpdoc title="API Documentation" destdir="reports/api/" undocumentedelements="true" sourcecode="true" output="HTML:Smarty:PHP">
 			<fileset dir="src/">
 				<include name="**/*.php" />
