@@ -129,6 +129,19 @@
     	</coverage-report>
 	</target>
 	
+	<target name="doc">
+		<phpdoc title="API Documentation" destdir="reports/api/" sourcecode="false" output="HTML:Smarty:PHP">
+	   		<fileset dir="src/">
+	      		<include name="**/*.php" />
+	   		</fileset>
+	   		<projdocfileset dir=".">
+	      		<include name="README" />
+	      		<include name="INSTALL" />
+	      		<include name="CHANGELOG" />
+	   		</projdocfileset>
+			</phpdoc>
+	</target>
+
     <target name="test">
 		<mkdir dir="reports/phpunit"/>
 		
