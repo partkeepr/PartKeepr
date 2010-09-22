@@ -139,7 +139,7 @@
 	</target>
 	
 	<target name="doc">
-		<phpdoc title="API Documentation" destdir="reports/api/" sourcecode="false" output="HTML:Smarty:PHP">
+		<phpdoc title="API Documentation" destdir="reports/api/" undocumentedelements="true" sourcecode="true" output="HTML:Smarty:PHP">
 			<fileset dir="src/">
 				<include name="**/*.php" />
 			</fileset>
