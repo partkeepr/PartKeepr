@@ -125,11 +125,13 @@
 		</coverage-setup>
     	
 		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" codecoverage="true" printsummary="true">
+			
 			<batchtest>
 				<fileset dir="tests/">
 					<include name="**/*Test.php" />
 				</fileset>
 			</batchtest>
+			<formatter todir="reports/phpunit/" type="xml"/>
 			<formatter type="clover" usefile="true" todir="reports/coverage/"/>
 			
 		</phpunit>
