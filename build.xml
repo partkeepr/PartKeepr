@@ -164,7 +164,7 @@
 			<formatter type="plain" usefile="false" />
 		</phpunit>
 		
-		<phpunitreport infile="tests/reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
+		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
 		
 	</target>
 </project>
