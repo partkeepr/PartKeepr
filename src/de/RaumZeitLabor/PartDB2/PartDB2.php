@@ -145,6 +145,17 @@ class PartDB2 {
 		return self::$entityManager;
 	}
 	
+	public static function getClassMetaData () {
+		$classes = array(
+			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Auth\User'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Session\Session'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Footprint\Footprint'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Category\Category')
+		);
+		
+		return $classes;
+	}
+	
 	/**
 	 *@todo stub
 	 */

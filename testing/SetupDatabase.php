@@ -41,12 +41,9 @@ if (!($_SERVER["argc"] == 2 && $_SERVER["argv"][1] == "--yes")) {
 echo "Performing actions...\n";
 
 $tool = new \Doctrine\ORM\Tools\SchemaTool(PartDB2::getEM());
-$classes = array(
-  PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Auth\User'),
-  PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Session\Session'),
-  PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Footprint\Footprint'),
-  PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Category\Category')
-);
+
+$classes = PartDB2::getClassMetaData();
+
 $tool->dropSchema($classes);
 $tool->createSchema($classes);
 
