@@ -105,11 +105,34 @@
     	</phpcpd>
     </target>
     
-    <target name="test">
+    <target name="code-coverage">
+	  
+		<mkdir dir="reports/coverage/db"/>
+
+		<coverage-setup database="reports/coverage/db/coverage.db">
+      	  <fileset dir="src">
+		  		<include name="**/*.php"/>
+		  </fileset>
+    	</coverage-setup>
+    	
+    	<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" codecoverage="true" printsummary="true">
+			<batchtest>
+				<fileset dir="tests/">
+					<include name="**/*Test.php" />
+				</fileset>
+			</batchtest>
+			<formatter type="plain" usefile="false" />
+		</phpunit>
 		
+		<coverage-report outfile="reports/coverage/db/coverage.xml">
+      		<report todir="reports/coverage/"/>
+    	</coverage-report>
+	</target>
+	
+    <target name="test">
 		<mkdir dir="reports/phpunit"/>
 		
-		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="true" haltonerror="true" codecoverage="false" printsummary="true">
+		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" haltonerror="true" codecoverage="false" printsummary="true">
 			<formatter todir="reports/phpunit/" type="xml"/>
 			<batchtest>
 				<fileset dir="tests/">
