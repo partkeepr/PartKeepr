@@ -20,6 +20,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 			selectedClass:'',
 			fieldLabel: '$[de.RaumZeitLabor.PartDB2.CategoryEditor.parentCategory]',
 			name: 'parent',
+			anchor: '100%',
 			lazyInit: false,
 			onSelect:Ext.emptyFn
 		});
@@ -108,10 +109,12 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 			        {
 			        	fieldLabel: '$[de.RaumZeitLabor.PartDB2.CategoryEditor.categoryName]',
 			        	name: 'name',
+			        	anchor: '100%',
 			        	xtype: 'textfield'
 			        }, {
 			        	fieldLabel: '$[de.RaumZeitLabor.PartDB2.CategoryEditor.categoryDescription]',
 			        	name: 'description',
+			        	anchor: '100%',
 			        	xtype: 'textarea'
 			        }, this.categoryComboBox
 			        ],
