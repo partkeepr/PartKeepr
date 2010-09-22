@@ -88,20 +88,24 @@
     
     <!-- Checks all PHP files for messy code. -->
     <target name="phpmd">
+    	<mkdir dir="reports/logs"/>
+    	
     	<phpmd rulesets="codesize,unusedcode,design,naming">
 	    	<fileset dir="src/">
 	     		<include name="**/*.php" />
 	   		</fileset>
+	   		<formatter type="xml" outfile="reports/logs/pmd.xml"/>
    		</phpmd>
     </target>
     
     <!-- Checks all PHP files for copy/paste code -->
     <target name="phpcpd">
+    	<mkdir dir="reports/logs"/>
     	<phpcpd>
     		<fileset dir="src/">
 	     		<include name="**/*.php" />
 	   		</fileset>
-	   		<formatter type="pmd" outfile="reports/pmd-cpd.xml"/>
+	   		<formatter type="pmd" outfile="reports/logs/pmd-cpd.xml"/>
     	</phpcpd>
     </target>
     
