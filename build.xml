@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="partdb2" default="test-setup">
 	<target name="test-setup" >
-        <echo msg="Testing the installation..." />
+		<echo msg="Testing the installation..." />
         
-       	<phpunit haltonfailure="true" codecoverage="false" printsummary="true">
+		<phpunit haltonfailure="true" codecoverage="false" printsummary="true">
 			<batchtest>
 				<fileset dir="setup/tests/">
 					<include name="*Test.php" />
@@ -14,32 +14,38 @@
 		
 		<echo msg=""/>
         
-        <echo msg="       ***************************"/>
-        <echo msg="       Setup Test Complete"/>
-        <echo msg="       ***************************"/>
-        <echo msg=""/>
-        <echo msg="       No errors were found."/>
-        <echo msg="       You may now proceed!"/>
-    </target>
+		<echo msg="       ***************************"/>
+		<echo msg="       Setup Test Complete"/>
+		<echo msg="       ***************************"/>
+		<echo msg=""/>
+		<echo msg="       No errors were found."/>
+		<echo msg="       You may now proceed!"/>
+	</target>
     
-    <target name="cruise-control">
-    	<phingcall target="test"/>
-    </target>
-    
-    <target name="build">
-	    <echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
-			<mkdir dir="build/"/>
-			<copy overwrite="false" todir="build/extjs/">
-				<fileset dir="3rdparty/ext-3.2.1/">
-					<include name="ext-all.js"/>
-					<include name="ext-all-debug.js"/>
-					<include name="ext-all-debug-w-comments.js"/>
-					<include name="adapter/ext/ext-base.js"/>
-					<include name="adapter/ext/ext-base-debug-w-comments.js"/>
-					<include name="source/adapter/ext-base.js"/>
-					<include name="resources/**"/>
-				</fileset>
-			</copy>
+	<target name="cruise-control">
+		<phingcall target="test"/>
+	</target>
+ 
+	<target name="metrics">   
+		<phpdepend file="src/">
+			<logger type="phpunit-xml" outfile="reports/metrics.xml"/>
+		</phpdepend>
+	</target>
+	
+	<target name="build">
+		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
+		<mkdir dir="build/"/>
+		<copy overwrite="false" todir="build/extjs/">
+			<fileset dir="3rdparty/ext-3.2.1/">
+				<include name="ext-all.js"/>
+				<include name="ext-all-debug.js"/>
+				<include name="ext-all-debug-w-comments.js"/>
+				<include name="adapter/ext/ext-base.js"/>
+				<include name="adapter/ext/ext-base-debug-w-comments.js"/>
+				<include name="source/adapter/ext-base.js"/>
+				<include name="resources/**"/>
+			</fileset>
+		</copy>
 			
 		<echo>Copying Ext Statusbar (removing features during a major version is stupid, ExtJS guys...)</echo>
 		<copy overwrite="false" todir="build/js/ux/">
@@ -49,12 +55,12 @@
 		</copy>
 		
 		<echo>Copying phpjs</echo>
-			<mkdir dir="build/js/org.phpjs.lib/"/>
-			<copy overwrite="false" todir="build/js/org.phpjs.lib">
-				<fileset dir="3rdparty/phpjs/">
-					<include name="php.default.min.js"/>
-				</fileset>
-			</copy>
+		<mkdir dir="build/js/org.phpjs.lib/"/>
+		<copy overwrite="false" todir="build/js/org.phpjs.lib">
+			<fileset dir="3rdparty/phpjs/">
+				<include name="php.default.min.js"/>
+			</fileset>
+		</copy>
 			
 		<echo>Copying JS frontend</echo>
 		<copy overwrite="true" todir="build/">
@@ -62,9 +68,9 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
-    </target>
+	</target>
     
-    <target name="build.quick">
+	<target name="build.quick">
     		
 		<echo>Copying JS frontend</echo>
 		<copy overwrite="true" todir="build/">
@@ -75,51 +81,51 @@
 				<include name="service.php"/>
 			</fileset>
 		</copy>
-    </target>
+	</target>
     
-    <!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->
-    <target name="jslint">
-    	<jsllint>
-  			<fileset dir="frontend">
-    			<include name="**/*.js"/>
-  			</fileset>
+	<!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->
+	<target name="jslint">
+		<jsllint>
+			<fileset dir="frontend">
+				<include name="**/*.js"/>
+			</fileset>
 		</jsllint>
-    </target>
+	</target>
     
-    <!-- Checks all PHP files for messy code. -->
-    <target name="phpmd">
-    	<mkdir dir="reports/logs"/>
+	<!-- Checks all PHP files for messy code. -->
+	<target name="phpmd">
+		<mkdir dir="reports/logs"/>
     	
-    	<phpmd rulesets="codesize,unusedcode,design,naming">
-	    	<fileset dir="src/">
-	     		<include name="**/*.php" />
-	   		</fileset>
-	   		<formatter type="xml" outfile="reports/logs/pmd.xml"/>
-   		</phpmd>
-    </target>
+		<phpmd rulesets="codesize,unusedcode,design,naming">
+			<fileset dir="src/">
+				<include name="**/*.php" />
+			</fileset>
+			<formatter type="xml" outfile="reports/logs/pmd.xml"/>
+		</phpmd>
+	</target>
     
-    <!-- Checks all PHP files for copy/paste code -->
-    <target name="phpcpd">
-    	<mkdir dir="reports/logs"/>
-    	<phpcpd>
-    		<fileset dir="src/">
-	     		<include name="**/*.php" />
-	   		</fileset>
-	   		<formatter type="pmd" outfile="reports/logs/pmd-cpd.xml"/>
-    	</phpcpd>
-    </target>
+	<!-- Checks all PHP files for copy/paste code -->
+	<target name="phpcpd">
+		<mkdir dir="reports/logs"/>
+		<phpcpd minTokens="30">
+			<fileset dir="src/">
+				<include name="**/*.php" />
+			</fileset>
+			<formatter type="pmd" outfile="reports/logs/pmd-cpd.xml"/>
+		</phpcpd>
+	</target>
     
-    <target name="code-coverage">
+	<target name="code-coverage">
 	  
 		<mkdir dir="reports/coverage/db"/>
 
 		<coverage-setup database="reports/coverage/db/coverage.db">
-      	  <fileset dir="src">
-		  		<include name="**/*.php"/>
-		  </fileset>
-    	</coverage-setup>
+			<fileset dir="src">
+				<include name="**/*.php"/>
+			</fileset>
+		</coverage-setup>
     	
-    	<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" codecoverage="true" printsummary="true">
+		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" codecoverage="true" printsummary="true">
 			<batchtest>
 				<fileset dir="tests/">
 					<include name="**/*Test.php" />
@@ -129,24 +135,24 @@
 		</phpunit>
 		
 		<coverage-report outfile="reports/coverage/db/coverage.xml">
-      		<report todir="reports/coverage/"/>
-    	</coverage-report>
+			<report todir="reports/coverage/"/>
+		</coverage-report>
 	</target>
 	
 	<target name="doc">
 		<phpdoc title="API Documentation" destdir="reports/api/" sourcecode="false" output="HTML:Smarty:PHP">
-	   		<fileset dir="src/">
-	      		<include name="**/*.php" />
-	   		</fileset>
-	   		<projdocfileset dir=".">
-	      		<include name="README" />
-	      		<include name="INSTALL" />
-	      		<include name="CHANGELOG" />
-	   		</projdocfileset>
-			</phpdoc>
+			<fileset dir="src/">
+				<include name="**/*.php" />
+			</fileset>
+			<projdocfileset dir=".">
+				<include name="README" />
+				<include name="INSTALL" />
+				<include name="CHANGELOG" />
+			</projdocfileset>
+		</phpdoc>
 	</target>
 
-    <target name="test">
+	<target name="test">
 		<mkdir dir="reports/phpunit"/>
 		
 		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" haltonerror="true" codecoverage="false" printsummary="true">
