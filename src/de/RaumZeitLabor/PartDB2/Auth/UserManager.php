@@ -6,7 +6,8 @@ use de\RaumZeitLabor\PartDB2\Util\Singleton,
 	de\RaumZeitLabor\PartDB2\Auth\User,
 	de\RaumZeitLabor\PartDB2\PartDB2,
 	de\RaumZeitLabor\PartDB2\Auth\Exceptions\UserAlreadyExistsException,
-	de\RaumZeitLabor\PartDB2\Auth\Exceptions\UserDoesNotExistException;
+	de\RaumZeitLabor\PartDB2\Auth\Exceptions\UserDoesNotExistException,
+	de\RaumZeitLabor\PartDB2\Auth\Exceptions\InvalidLoginDataException;
 
 class UserManager extends Singleton {
 	
@@ -46,7 +47,7 @@ class UserManager extends Singleton {
 						);
 		
 		if ($result == null) {
-			return false; 
+			throw new InvalidLoginDataException();
 		} else {
 			return $result;
 		}

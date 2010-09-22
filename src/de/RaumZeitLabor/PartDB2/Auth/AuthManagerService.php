@@ -5,8 +5,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartDB2\Service\AnonService,
 	de\RaumZeitLabor\PartDB2\Auth\User,
 	de\RaumZeitLabor\PartDB2\Auth\UserManager,
-	de\RaumZeitLabor\PartDB2\Session\SessionManager,
-	de\RaumZeitLabor\PartDB2\Auth\Exceptions\InvalidLoginDataException;
+	de\RaumZeitLabor\PartDB2\Session\SessionManager;
 
 class AuthManagerService extends AnonService {
 	public function login () {
@@ -17,7 +16,7 @@ class AuthManagerService extends AnonService {
 		
 		
 		$user = new User;
-		$user->setUsername		($this->getParameter("username"));
+		$user->setRawUsername		($this->getParameter("username"));
 		$user->setHashedPassword($this->getParameter("password"));
 		
 		$authenticatedUser = UserManager::getInstance()->authenticate($user);
@@ -33,5 +32,7 @@ class AuthManagerService extends AnonService {
 		
 	
 	}	
+	
+	
 }
 ?>
