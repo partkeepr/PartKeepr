@@ -28,7 +28,7 @@
  
 	<target name="metrics">   
 		<phpdepend file="src/">
-			<logger type="phpunit-xml" outfile="reports/metrics.xml"/>
+			<logger type="jdepend-xml" outfile="reports/metrics.xml"/>
 		</phpdepend>
 	</target>
 	
@@ -131,7 +131,8 @@
 					<include name="**/*Test.php" />
 				</fileset>
 			</batchtest>
-			<formatter type="plain" usefile="false" />
+			<formatter type="clover" usefile="true" todir="reports/coverage/"/>
+			
 		</phpunit>
 		
 		<coverage-report outfile="reports/coverage/db/coverage.xml">
