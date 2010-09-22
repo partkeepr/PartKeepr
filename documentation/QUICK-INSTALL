@@ -16,6 +16,7 @@ Prequisites:
 * PHP 5.3 or higher
 * PDO
 * SOAP
+* Tokenizer Support
 * A working PEAR installation
 
 
@@ -29,6 +30,27 @@ pear install phing/phing
 pear install pear.doctrine-project.org/DoctrineCommon-2.0.0RC1
 pear install pear.doctrine-project.org/DoctrineDBAL-2.0.0BETA4
 pear install pear.doctrine-project.org/DoctrineORM-2.0.0BETA4
+
+
+Install the optional PEAR packages:
+-----------------------------------
+These packages are required if you wish to build the test suite. I know,
+it's quite a big list, but they are required for development. If you
+only wish to use the product, you can safely skip them.
+
+pear channel-discover components.ez.no
+pear install phpunit/phpcpd
+pear channel-discover pear.phpmd.org
+pear channel-discover pear.pdepend.org
+pear install --alldeps phpmd/PHP_PMD-alpha
+pear install PhpDocumentor
+
+
+Install optional binaries:
+--------------------------
+If you wish to build the complete test suite, you need additional software:
+
+jslint from http://www.javascriptlint.com/
 
 
 Verify if everything is setup correctly:
@@ -47,10 +69,6 @@ Then execute the file testing/SetupDatabase.php from the command line.
 Command line is important because you need to enter "YES" to confirm
 the operation.
 
-
-If you add new objects (=new tables), you need to add them there also.
-
-I know, it's ugly, but will change soon.
 
 Username/Password is test/test, but right now the system automatically logs
 you in (makes development easier). 
