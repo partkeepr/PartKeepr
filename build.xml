@@ -103,10 +103,10 @@
     
     <target name="test">
 		
-		<mkdir dir="tests/reports/phpunit"/>
+		<mkdir dir="reports/phpunit"/>
 		
 		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="true" haltonerror="true" codecoverage="false" printsummary="true">
-			<formatter todir="tests/reports/phpunit/" type="xml"/>
+			<formatter todir="reports/phpunit/" type="xml"/>
 			<batchtest>
 				<fileset dir="tests/">
 					<include name="**/*Test.php" />
@@ -115,7 +115,7 @@
 			<formatter type="plain" usefile="false" />
 		</phpunit>
 		
-		<phpunitreport infile="tests/reports/phpunit/testsuites.xml" format="frames" todir="tests/reports/phpunit"/>
+		<phpunitreport infile="tests/reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
 		
 	</target>
 </project>
