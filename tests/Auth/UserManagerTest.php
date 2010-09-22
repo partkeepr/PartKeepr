@@ -52,7 +52,7 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase {
 		PartDB2::getEM()->flush();
 		
 		$user2 = new User;
-		$user2->setUsername("2test");
+		$user2->setRawUsername("2test");
 		$user2->setPassword("test");
 		
 		/* User shouldn't be able to login, even if we cut numbers and special chars from usernames */
