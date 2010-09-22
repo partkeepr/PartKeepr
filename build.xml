@@ -22,16 +22,14 @@
 		<echo msg="       You may now proceed!"/>
 	</target>
     
-	<target name="cruise-control">
+    <target name="clean">
+    	<delete dir="reports" />
+    </target>
+    
+	<target name="cruise-control" depends="phpmd,phpcpd,code-coverage,doc,test">
 		<phingcall target="test"/>
 	</target>
  
-	<target name="metrics">   
-		<phpdepend file="src/">
-			<logger type="jdepend-xml" outfile="reports/metrics.xml"/>
-		</phpdepend>
-	</target>
-	
 	<target name="build">
 		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
 		<mkdir dir="build/"/>
