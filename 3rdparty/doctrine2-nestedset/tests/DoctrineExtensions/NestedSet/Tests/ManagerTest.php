@@ -307,6 +307,24 @@ class ManagerTest extends DatabaseTest
 
 
     /**
+     * @covers DoctrineExtensions\NestedSet\Manager::fetchTree
+     * @covers DoctrineExtensions\NestedSet\Manager::fetchTreeAsArray
+     * @covers DoctrineExtensions\NestedSet\Manager::buildTree
+     */
+    public function testFetchTreeDuplicate()
+    {
+        $this->loadData();
+        $nodes = $this->nodes;
+
+        $root1 = $this->nsm->fetchTree(1);
+        $this->assertEquals(2, count($root1->getChildren()), '1st root has correct number of children');
+
+        $root2 = $this->nsm->fetchTree(1);
+        $this->assertEquals(2, count($root2->getChildren()), '1st root has correct number of children after 2nd fetchTree()');
+    }
+
+
+    /**
      * @covers DoctrineExtensions\NestedSet\Manager::createRoot
      */
     public function testCreateRoot()
@@ -368,6 +386,22 @@ class ManagerTest extends DatabaseTest
         $node = new NodeMock(1, '1');
         $wrapper = new NodeWrapper($node, $this->nsm);
         $this->nsm->wrapNode($wrapper);
+    }
+
+
+    /**
+     * @covers DoctrineExtensions\NestedSet\Manager::reset
+     */
+    public function testReset()
+    {
+        $node = new NodeMock(1, '1');
+        $wrapper1 = $this->nsm->wrapNode($node);
+        $wrapper2 = $this->nsm->wrapNode($node);
+        $this->assertSame($wrapper1, $wrapper2, '->wrapNode() returns cached NodeWrapper instance');
+
+        $this->nsm->reset();
+        $wrapper3 = $this->nsm->wrapNode($node);
+        $this->assertNotSame($wrapper1, $wrapper3, '->reset() clears NodeWrapper cache');
     }
 
 

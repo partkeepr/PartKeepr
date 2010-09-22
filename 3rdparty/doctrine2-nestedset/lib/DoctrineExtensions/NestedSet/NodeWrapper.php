@@ -172,6 +172,11 @@ class NodeWrapper implements Node
      */
     public function getDescendants($depth = null)
     {
+        if(!$this->hasChildren())
+        {
+            return array();
+        }
+
         if($this->descendants === null)
         {
             $qb = $this->getManager()->getConfiguration()->getBaseQueryBuilder();

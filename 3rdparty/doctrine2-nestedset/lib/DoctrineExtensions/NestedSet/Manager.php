@@ -287,8 +287,8 @@ class Manager
             throw new \InvalidArgumentException('Can\'t wrap a NodeWrapper node');
         }
 
-		$oid = spl_object_hash($node);
-        if(!isset($this->wrappers[$oid]))
+        $oid = spl_object_hash($node);
+        if(!isset($this->wrappers[$oid]) || $this->wrappers[$oid]->getNode() !== $node)
         {
             $this->wrappers[$oid] = new NodeWrapper($node, $this);
         }
@@ -297,6 +297,13 @@ class Manager
     }
 
 
+    /**
+     * Resets the manager.  Clears NodeWrapper caches.
+     */
+    public function reset()
+    {
+        $this->wrappers = array();
+    }
 
 
     /**
@@ -518,6 +525,13 @@ class Manager
             return;
         }
         // @codeCoverageIgnoreEnd
+
+        // We are rebuilding the tree, so we invalidate all NodeWrappers
+        // in case they have cached children/metadata/etc.
+        foreach($wrappers as $wrapper)
+        {
+            $wrapper->invalidate();
+        }
 
         $config = $this->getConfiguration();
 

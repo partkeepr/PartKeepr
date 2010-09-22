@@ -325,6 +325,16 @@ class NodeWrapperTest extends DatabaseTest
 
 
     /**
+     * @covers DoctrineExtensions\NestedSet\NodeWrapper::getDescendants
+     */
+    public function testGetDescendants_None()
+    {
+        $d = $this->wrappers[2]->getDescendants();
+        $this->assertEmpty($d, '->getDescendants() works with no children');
+    }
+
+
+    /**
      * @covers DoctrineExtensions\NestedSet\NodeWrapper::getPrevSibling
      */
     public function testGetPrevSibling_UnloadedTree()
