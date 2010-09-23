@@ -26,7 +26,7 @@
     	<delete dir="reports" />
     </target>
     
-	<target name="cruise-control" depends="clean,phpmd,phpcpd,code-coverage,php-documentor">
+	<target name="cruise-control" depends="clean,phpmd,jslint,phpcpd,code-coverage,php-documentor">
 			
 	</target>
  
