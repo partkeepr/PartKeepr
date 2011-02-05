@@ -1,5 +1,5 @@
 <?php
-namespace de\raumzeitlabor\PartDB2\Category;
+namespace de\RaumZeitLabor\PartDB2\Category;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Service\Service;
