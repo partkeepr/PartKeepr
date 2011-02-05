@@ -150,7 +150,8 @@ class PartDB2 {
 			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Auth\User'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Session\Session'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Footprint\Footprint'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Category\Category')
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Category\Category'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Part\Part')
 		);
 		
 		return $classes;

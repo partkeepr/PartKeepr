@@ -10,6 +10,7 @@ use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
 use de\RaumZeitLabor\PartDB2\PartDB2;
 
 use de\RaumZeitLabor\PartDB2\Category\Category;
+use de\RaumZeitLabor\PartDB2\Part\Part;
 use de\RaumZeitLabor\PartDB2\Category\CategoryManager;
 use de\RaumZeitLabor\PartDB2\Category\CategoryManagerService;
 
@@ -44,7 +45,7 @@ $tool = new \Doctrine\ORM\Tools\SchemaTool(PartDB2::getEM());
 
 $classes = PartDB2::getClassMetaData();
 
-$tool->dropSchema($classes);
+$tool->dropDatabase($classes);
 $tool->createSchema($classes);
 
 /* Create initial test user */
@@ -56,7 +57,11 @@ PartDB2::getEM()->persist($user);
 
 include("SetupData/footprints.php");
 include("SetupData/categories.php");
+include("SetupData/parts.php");
 /* Create footprints */
+
+$newFootprints = array();
+$newCategories = array();
 
 echo "Creating footprints from SetupData/footprints.php\n";
 foreach ($footprints as $sFootprint) {
@@ -66,9 +71,10 @@ foreach ($footprints as $sFootprint) {
 	echo " Adding footprint ".$sFootprint["name"]."\n";
 	PartDB2::getEM()->persist($footprint);
 	
+	$newFootprints[$sFootprint["id"]] = $footprint;
 }
 
-echo "Creating cagtegories from SetupData/categories.php\n";
+echo "Creating categories from SetupData/categories.php\n";
 
 $categoryManager = CategoryManager::getInstance();
 $categoryManager->ensureRootExists();
@@ -78,6 +84,8 @@ $categoryManager->ensureRootExists();
 addCategoryRecursive($categories, 0, $categoryManager->getRootNode());
 
 function addCategoryRecursive ($aCategories, $currentId, $parent) {
+	global $newCategories;
+	
 	foreach ($aCategories as $aCategory) {
 		if ($aCategory["parentnode"] == $currentId) {
 			echo "Adding ".$aCategory["name"]."\n";			
@@ -88,12 +96,22 @@ function addCategoryRecursive ($aCategories, $currentId, $parent) {
 			$category = CategoryManager::getInstance()->addCategory($oCategory);
 			
 			addCategoryRecursive($aCategories, $aCategory["id"], $category);
+			
+			$newCategories[$aCategory["id"]] = $oCategory;
 		}
 	}
 	
 }
 
-
+foreach ($parts as $part) {
+	$oPart = new Part();
+	$oPart->setName($part["name"]);
+	$oPart->setComment($part["comment"]);
+	$oPart->setFootprint($newFootprints[$part["id_footprint"]]);
+	$oPart->setCategory($newCategories[$part["id_category"]]);
+	echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
+	PartDB2::getEM()->persist($oPart);
+}
 
 PartDB2::getEM()->flush();
 
