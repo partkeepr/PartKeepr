@@ -23,6 +23,17 @@ class CategoryManager extends Singleton {
 		return $this->nodeManager;
 	}
 	
+	public function getChildNodes ($id) {
+		$category = $this->getCategory($id);
+		
+		$aData = array();
+		
+		foreach ($category->getDescendants() as $cat) {
+			$aData[] = $cat->getNode()->getId();	
+		}
+		return $aData;
+	}
+	
 	public function getAllCategories () {
 		return $this->getNodeManager()->fetchTree(1);
 	}
