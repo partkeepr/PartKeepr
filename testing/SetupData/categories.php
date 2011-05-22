@@ -1,9 +1,19 @@
 <?php
+/**
+ * Export to PHP Array plugin for PHPMyAdmin
+ * @author Geoffray Warnants
+ * @version 0.2b
+ */
 
+//
+// Database "partdb"
+//
+
+// partdb.categories
 $categories = array(
   array('id'=>8,'name'=>'SPG Regler verschieben','parentnode'=>7),
-  array('id'=>7,'name'=>'ALT','parentnode'=>0),
-  array('id'=>9,'name'=>'ALT 2','parentnode'=>0),
+  array('id'=>199,'name'=>'1 Zubehör','parentnode'=>150),
+  array('id'=>200,'name'=>'3 Spindeltrimmer','parentnode'=>149),
   array('id'=>10,'name'=>'Kondensatoren','parentnode'=>9),
   array('id'=>15,'name'=>'Folienkondensatoren','parentnode'=>10),
   array('id'=>14,'name'=>'Elektrolytkondensatoren','parentnode'=>10),
@@ -167,5 +177,13 @@ $categories = array(
   array('id'=>191,'name'=>'7 Brückengleichrichter','parentnode'=>75),
   array('id'=>192,'name'=>'7 Sicherungen & Zubehör','parentnode'=>41),
   array('id'=>193,'name'=>'5 Lüfter','parentnode'=>44),
-  array('id'=>194,'name'=>'6 Lampen','parentnode'=>84)
+  array('id'=>194,'name'=>'6 Lampen','parentnode'=>84),
+  array('id'=>195,'name'=>'7 Glasfasertechnik','parentnode'=>84),
+  array('id'=>196,'name'=>'5 Widerstandsnetzwerke','parentnode'=>117),
+  array('id'=>197,'name'=>'1 SMD','parentnode'=>196),
+  array('id'=>198,'name'=>'6 Drahtwiderstand','parentnode'=>146),
+  array('id'=>201,'name'=>'7 Drahtstifte','parentnode'=>47),
+  array('id'=>202,'name'=>'8 Federn','parentnode'=>47),
+  array('id'=>203,'name'=>'9 Dübel','parentnode'=>47),
+  array('id'=>204,'name'=>'A Sonstiges','parentnode'=>47)
 );
