@@ -47,27 +47,29 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 	},
 	
 	addCategory: function () {
-		Ext.getCmp("category-details").createCategory();
+		Ext.getCmp("card-category-editor").createCategory();
 	},
 	onSelectionChange: function (sm, node) {
 		if (node) {
 			this.selectedNode = node.id;
 			Ext.getCmp("category-edit-button").enable();
+			
+			Ext.getCmp("parts-manager-window").showPartsList();
+			
+			Ext.getCmp("parts-list").setLimitCategory(node.attributes.id);
+			Ext.getCmp("parts-list").store.load();
+			Ext.getCmp("parts-list").show();
 		} else {
 			Ext.getCmp("category-edit-button").disable();
 		}
 		
-		Ext.getCmp("parts-manager-window").showPartsList();
 		
-		Ext.getCmp("parts-list").setLimitCategory(node.attributes.id);
-		Ext.getCmp("parts-list").store.load();
-		Ext.getCmp("parts-list").show();
 	},
 	editCategory: function () {
 		var category = this.getSelectionModel().getSelectedNode().id;
 		
 		
-		Ext.getCmp("category-details").editCategory(category);
+		Ext.getCmp("card-category-editor").editCategory(category);
 	},	
 	loadTree: function () {
 		var call = new org.jerrymouse.service.Call(

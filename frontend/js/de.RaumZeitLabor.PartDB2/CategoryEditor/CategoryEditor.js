@@ -148,6 +148,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 			this.categoryComboBox.parentId = Ext.getCmp("parts-tree").getRootNode().id;
 			this.categoryComboBox.setValue(Ext.getCmp("parts-tree").getRootNode().text);
 		}
+		Ext.getCmp("parts-manager-window").showCategoryEditor();
 		this.show();
 	},
 	editCategory: function (id) {
@@ -195,6 +196,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 		this.categoryComboBox.setValue(response.parentName);
 		
 		
+		Ext.getCmp("parts-manager-window").showCategoryEditor();
 		this.show();
 	}
 });

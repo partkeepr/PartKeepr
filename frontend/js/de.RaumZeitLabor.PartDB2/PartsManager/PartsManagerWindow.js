@@ -49,6 +49,10 @@ de.RaumZeitLabor.PartDB2.PartsManagerWindow = Ext.extend(org.jerrymouse.gui.widg
 	showPartsList: function () {
 		Ext.getCmp("parts-mananger-window-card").getLayout().setActiveItem("parts-list");
 		this.partsList.show();
+	},
+	showCategoryEditor: function () {
+		Ext.getCmp("parts-mananger-window-card").getLayout().setActiveItem("card-category-editor");
+		Ext.getCmp("card-category-editor").doLayout();
 	}
 });
 
