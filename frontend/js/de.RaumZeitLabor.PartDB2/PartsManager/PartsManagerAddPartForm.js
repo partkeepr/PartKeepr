@@ -114,6 +114,11 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			valueField: "id",
 			fieldLabel: "Footprint"
 		});
+
+		this.keepStorageLocation = new Ext.form.Checkbox({
+			boxLabel: "Lagerort nach dem Speichern beibehalten"
+		});
+
 		
 		this.items = [
 		              this.categoryComboBox,
@@ -132,6 +137,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		            	          ]
 		              },		              
 		              this.partStorageLocation,
+		              this.keepStorageLocation,
 		              this.footprintCombo,
 		              this.commentField
 		              ];
@@ -150,12 +156,18 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		});
 		
 		this.cancelButton = new Ext.Button({
-			text: "Abbrechen"
+			text: "Abbrechen",
+			handler: this.onCancelAction.createDelegate(this)
 		});
+		
+		
 		this.buttons = [
 		                this.addButton,
-		                this.cancelButton
+		                this.cancelButton,
+		                
 		                ];
+		
+		this.addEvents("cancelEntry");
 		de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm.superclass.initComponent.call(this);
 	},
 	isStoreLocationInList: function () {
@@ -205,9 +217,31 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			call.setParameter("footprint", this.footprintCombo.getValue());
 			call.setParameter("comment", this.commentField.getValue());
 
-			//call.setHandler(this.onCategoriesLoaded.createDelegate(this))
+			call.setHandler(this.onPartAdded.createDelegate(this))
 			call.doCall();
 		}
+	},
+	onPartAdded: function () {
+		this.clearForm();
+	},
+	onCancelAction: function () {
+		this.clearForm(true);
+
+		this.fireEvent("cancelEntry");
+	},
+	clearForm: function (force) {
+		this.partName.reset();
+		this.partQuantity.reset();
+		this.partMinStock.reset();
+		this.footprintCombo.reset();
+		this.commentField.reset();
+		
+		if (this.keepStorageLocation.getValue() !== true || force == true)
+		{
+			this.partStorageLocation.reset();
+		}
+		
+		this.partName.focus(false, 10);
 	},
 	reloadStorageLocations: function () {
 		this.storageLocationStore.reload();
