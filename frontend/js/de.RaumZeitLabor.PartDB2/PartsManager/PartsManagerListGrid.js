@@ -1,7 +1,7 @@
 Ext.ns("de.RaumZeitLabor.PartDB2.PartsManagerListGrid");
 
 de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
-	height: '100%',
+	layout: 'fit',
 	initComponent: function () {
 	 
 		 this.colModel = new Ext.grid.ColumnModel({
@@ -11,6 +11,8 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		        },
 		        columns: [
 		                 {header: 'Name', dataIndex: 'name', width: 300},
+		                 {header: 'Lagerort', dataIndex: 'storagelocation', width: 100},
+		                 {header: 'Stück', dataIndex: 'stockLevel', width: 100},
 		        ],
 		    });
 		   
@@ -34,11 +36,42 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		        },
 		        fields: [
 		            'id',
-		            'name'
+		            'name',
+		            'storagelocation',
+		            'stockLevel'
 		        ]
 		    });
 		 
 		 
+		 this.tbStockLevel = new Ext.form.ComboBox({
+			 store: new Ext.data.ArrayStore({
+			        id: 0,
+			        fields: [
+			            'id',
+			            'type'
+			        ],
+			        data: [['all', 'Alle'], ['zero', 'Nur Bestand = 0'], ['nonzero', 'Nur Bestand > 0']]
+			    }),
+			 valueField: "id",
+			 displayField:"type",
+			 mode: 'local',
+			 triggerAction: 'all',
+			 editable: false,
+			 forceSelection: true,
+			 value: 'all',
+			 width: 100,
+			 listeners: {
+				 select: function () {
+					 this.store.reload();	 
+				 }.createDelegate(this)
+			 }
+		 });
+		 
+		 this.tbar = new Ext.Toolbar({
+			items: [
+			        this.tbStockLevel
+			        ] 
+		 });
 		 this.bbar =  new Ext.PagingToolbar(
 					{
 						"pageSize": pageSize,
@@ -49,6 +82,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 	},
 	onBeforeLoad: function (store, options) {
 		this.call.setParameter("category", this.limitCategory);
+		this.call.setParameter("stockmode", this.tbStockLevel.getValue());
 	},
 	setLimitCategory: function (category) {
 		this.limitCategory = category;

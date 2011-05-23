@@ -5,7 +5,14 @@ declare(encoding = 'UTF-8');
 /** @Entity @Table(name="users") */
 
 class User {
-	/** @Id @Column(length=50) */
+	/**
+	 * @Id @Column(type="integer")
+	 * @GeneratedValue(strategy="AUTO")
+	 * @var unknown_type
+	 */
+	private $id;
+	
+	/** @Column(length=50) */
 	private $username;
 	
 	/** @Column(length=32) */

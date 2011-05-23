@@ -11,7 +11,7 @@ use de\RaumZeitLabor\PartDB2\Util\Singleton,
 class PartManager extends Singleton {
 	public function getParts ($aParameters = array()) {
 		$qb = PartDB2::getEM()->createQueryBuilder();
-		$qb->select("COUNT(p)")->from("de\RaumZeitLabor\PartDB2\Part\Part","p");
+		$qb->select("COUNT(p)")->from("de\RaumZeitLabor\PartDB2\Part\Part","p")->leftJoin('p.storageLocation', "st");
 		
 		if (array_key_exists("limit", $aParameters)) {
 			$limit = intval($aParameters["limit"]);
@@ -35,17 +35,35 @@ class PartManager extends Singleton {
 			$dir = "asc";
 		}
 		
-		if (array_key_exists("sortby", $aParameters)) {
-			$sortby = $aParameters["sortby"];
+		if (array_key_exists("stockmode", $aParameters)) {
+			switch (strtolower($aParameters["stockmode"])) {
+				case "all":
+				case "zero":
+				case "nonzero":
+					$stockmode = strtolower($aParameters["stockmode"]);
+					break;
+				default:
+					$stockmode = "all";
+			}
+		} else {
+			$stockmode = "all";
+		}
+		
+		if (array_key_exists("sort", $aParameters)) {
+			$sortby = $aParameters["sort"];
 			
 			switch (strtolower($sortby)) {
 				case "name":
+					$sortby = "p.name";
+					break;
+				case "storagelocation":
+					$sortby = "st.name";
 					break;
 				default:
-					$sortby = "name";
+					$sortby = "p.name";
 			}
 		} else {
-			$sortby = "name";
+			$sortby = "p.name";
 		}
 		
 		if (array_key_exists("category", $aParameters)) {
@@ -55,6 +73,16 @@ class PartManager extends Singleton {
 		}
 		
 		$qb->where("1=1");
+		
+		switch ($stockmode) {
+			case "all":
+				break;
+			case "zero":
+				$qb->andWhere("p.stockLevel = 0");
+				break;
+			case "nonzero":
+				$qb->andWhere("p.stockLevel > 0");	
+		}
 		
 		if ($category !== 0) {
 			/* Fetch all children */
@@ -68,13 +96,20 @@ class PartManager extends Singleton {
 		
 		$qb->setMaxResults($limit);
 		$qb->setFirstResult($start);
-		$qb->select("p.name");
-		$qb->orderBy("p.".$sortby, $dir);
+		$qb->select("p.id, p.name, p.stockLevel, st.name AS storagelocation");
+		
+		$qb->orderBy($sortby, $dir);
 		
 		$query = $qb->getQuery();
 		
 		$result = $query->getArrayResult();
 		
 		return array("parts" => $result, "totalCount" => $count);
+	}
+	
+	public function getPart ($id) {
+		$part = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\Part\Part", $id);
+		
+		return $part;
 	}
 }

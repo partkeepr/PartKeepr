@@ -11,8 +11,8 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 
 	
 		Ext.apply(this, {
-			root: new Ext.tree.TreeNode({id: 0}),
-			rootVisible: false,
+			root: new Ext.tree.TreeNode({id: 0, expanded: true}),
+			rootVisible: true,
 			animate: false,
 		    autoScroll: true,
 
@@ -29,6 +29,18 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 				        	id: 'category-edit-button',
 				        	handler: this.editCategory.createDelegate(this),
 				        	disabled: true
+				        },
+				        {
+				        	tooltip: '$[de.RaumZeitLabor.PartDB2.CategoryManager.edit]',
+				        	icon: 'resources/silkicons/bullet_toggle_minus.png',
+				        	id: 'category-collapse-button',
+				        	handler: this.onCollapse.createDelegate(this)
+				        },
+				        {
+				        	tooltip: '$[de.RaumZeitLabor.PartDB2.CategoryManager.edit]',
+				        	icon: 'resources/silkicons/bullet_toggle_plus.png',
+				        	id: 'category-expand-button',
+				        	handler: this.onExpand.createDelegate(this)
 				        }
 				       /* {
 				        	tooltip: '$[de.RaumZeitLabor.PartDB2.FootPrintManager.delete]',
@@ -45,6 +57,12 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 		this.getSelectionModel().on("selectionchange", this.onSelectionChange.createDelegate(this));
 		this.loadTree();
 	},
+	onCollapse: function () {
+		this.getRootNode().collapse(true);
+	},
+	onExpand: function () {
+		this.getRootNode().expand(true);
+	},
 	
 	addCategory: function () {
 		Ext.getCmp("card-category-editor").createCategory();
@@ -57,7 +75,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 			Ext.getCmp("parts-manager-window").showPartsList();
 			
 			Ext.getCmp("parts-list").setLimitCategory(node.attributes.id);
-			Ext.getCmp("parts-list").store.load();
+			Ext.getCmp("parts-list").store.load({ params: { start: 0 }});
 			Ext.getCmp("parts-list").show();
 		} else {
 			Ext.getCmp("category-edit-button").disable();
@@ -95,6 +113,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 			}
 		}
 		
+		this.getRootNode().expand();
 	},
 	buildCategoryTree: function (data) {
 		var node = new Ext.tree.TreeNode({

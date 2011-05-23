@@ -17,7 +17,6 @@ class Session {
 	
 	/**
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartDB2\Auth\User")
-	 * @JoinColumn(name="user", referencedColumnName="username")
      */
 	private $user;
 	

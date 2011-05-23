@@ -11,6 +11,8 @@ use de\RaumZeitLabor\PartDB2\PartDB2;
 
 use de\RaumZeitLabor\PartDB2\Category\Category;
 use de\RaumZeitLabor\PartDB2\Part\Part;
+use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation;
+use de\RaumZeitLabor\PartDB2\Stock\StockEntry;
 use de\RaumZeitLabor\PartDB2\Category\CategoryManager;
 use de\RaumZeitLabor\PartDB2\Category\CategoryManagerService;
 
@@ -58,6 +60,7 @@ PartDB2::getEM()->persist($user);
 include("SetupData/footprints.php");
 include("SetupData/categories.php");
 include("SetupData/parts.php");
+include("SetupData/storagelocations.php");
 /* Create footprints */
 
 $newFootprints = array();
@@ -66,7 +69,7 @@ $newCategories = array();
 echo "Creating footprints from SetupData/footprints.php\n";
 foreach ($footprints as $sFootprint) {
 	$footprint = new Footprint();
-	$footprint->setFootprint($sFootprint["name"]);
+	$footprint->setFootprint(stripslashes($sFootprint["name"]));
 
 	echo " Adding footprint ".$sFootprint["name"]."\n";
 	PartDB2::getEM()->persist($footprint);
@@ -90,7 +93,7 @@ function addCategoryRecursive ($aCategories, $currentId, $parent) {
 		if ($aCategory["parentnode"] == $currentId) {
 			echo "Adding ".$aCategory["name"]."\n";			
 			$oCategory = new Category();
-			$oCategory->setName($aCategory["name"]);
+			$oCategory->setName(stripslashes($aCategory["name"]));
 			$oCategory->setDescription("");
 			$oCategory->setParent($parent->getId());
 			$category = CategoryManager::getInstance()->addCategory($oCategory);
@@ -103,15 +106,32 @@ function addCategoryRecursive ($aCategories, $currentId, $parent) {
 	
 }
 
+echo "\n";
+foreach ($storeloc as $store) {
+	$oStorageLocation = new StorageLocation();
+	$oStorageLocation->setName(stripslashes($store["name"]));
+	PartDB2::getEM()->persist($oStorageLocation);
+	echo "Migrating storage location ".sprintf("%-40s", $store["name"])."\r";
+	$newStorageLocations[$store["id"]] = $oStorageLocation;
+}
+
+echo "\n";
 foreach ($parts as $part) {
 	$oPart = new Part();
-	$oPart->setName($part["name"]);
-	$oPart->setComment($part["comment"]);
+	$oPart->setName(stripslashes($part["name"]));
+	$oPart->setComment(stripslashes($part["comment"]));
 	$oPart->setFootprint($newFootprints[$part["id_footprint"]]);
 	$oPart->setCategory($newCategories[$part["id_category"]]);
+	$oPart->setStorageLocation($newStorageLocations[$part["id_storeloc"]]);
+	$oPart->setMinStockLevel($part["mininstock"]);
 	echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
 	PartDB2::getEM()->persist($oPart);
+	
+	$oStock = new StockEntry($oPart, $part["instock"]);
+	PartDB2::getEM()->persist($oStock);
 }
+
+
 
 PartDB2::getEM()->flush();
 

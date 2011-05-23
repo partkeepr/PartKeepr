@@ -121,6 +121,9 @@ class PartDB2 {
 		$config->setProxyNamespace('Proxies');
 		$config->setAutoGenerateProxyClasses(true);
 		
+		$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
+        //$config->setSQLLogger($logger);
+		
 		self::$entityManager = EntityManager::create($connectionOptions, $config);
 	}
 	
@@ -151,7 +154,9 @@ class PartDB2 {
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Session\Session'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Footprint\Footprint'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Category\Category'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Part\Part')
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Part\Part'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Stock\StockEntry')
 		);
 		
 		return $classes;

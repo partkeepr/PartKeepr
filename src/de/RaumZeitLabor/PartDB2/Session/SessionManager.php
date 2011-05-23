@@ -30,8 +30,16 @@ class SessionManager extends Singleton {
 	}
 	
 	public function resumeSession ($session) {
-		$result = PartDB2::getEM()->find("de\\RaumZeitLabor\\PartDB2\\Session\\Session", $session);
+		$query = PartDB2::getEM()->createQuery("SELECT s FROM de\\RaumZeitLabor\\PartDB2\\Session\\Session s WHERE s.sessionid = :session");
+		$query->setParameter("session", $session);
+		$query->execute();
+		$result = $query->getResult();
 
+		if (is_object($result[0])) {
+			self::$currentSession = $result[0];
+		} else {
+			die("FOO");
+		}
 	}
 }
 ?>
