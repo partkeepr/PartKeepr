@@ -23,8 +23,12 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 			
 		this.call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.FootPrintManager.loading]');
 		this.call.setParameter("limit", pageSize);
-			
-		 this.store = new Ext.data.JsonStore({
+		
+		this.sm = new Ext.grid.RowSelectionModel({ singleSelect: true });
+		
+		this.addPartDialog = new de.RaumZeitLabor.PartDB2.PartsManagerAddPartDialog();
+		
+		this.store = new Ext.data.JsonStore({
 		        root: 'parts',
 		        totalProperty: 'totalCount',
 		        proxy: new ServiceCallDataProxy(this.call),
@@ -71,13 +75,53 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 			        this.tbStockLevel
 			        ] 
 		 });
+		 
+		 this.addPartButton = new Ext.Button({
+			 	text: "Bauteil erfassen",
+			 	cls:'x-btn-text-icon',
+				icon: 'resources/silkicons/brick_add.png',
+				handler: this.onPartAdd.createDelegate(this)
+		 });
+		 
+		 this.deletePartButton = new Ext.Button({
+			 	text: "Bauteil löschen",
+				cls:'x-btn-text-icon',
+				icon: 'resources/silkicons/brick_delete.png',
+				handler: this.onPartDelete.createDelegate(this)
+		 });
+		 
 		 this.bbar =  new Ext.PagingToolbar(
 					{
 						"pageSize": pageSize,
 						store: this.store,
-			            displayInfo: false				
+			            displayInfo: false,
+			            items: [
+			                    this.addPartButton,
+			                    this.deletePartButton
+			                    ]
 					});
 		 de.RaumZeitLabor.PartDB2.PartsManagerListGrid.superclass.initComponent.call(this);
+	},
+	onPartAdd: function () {
+		this.addPartDialog.show();
+	},
+	onPartDelete: function () {
+		var r = this.getSelectionModel().getSelected();
+		
+		Ext.Msg.confirm("Bauteil löschen", "Soll das Bauteil <b>"+r.get("name")+"</b>, Lagernd in <b>"+r.get("storagelocation")+"</b>, wirklich gelöscht werden?", function (button) {
+			if (button == "yes") {
+				var call = new org.jerrymouse.service.Call(
+						"de.RaumZeitLabor.PartDB2.Part.PartManagerService", 
+						"deletePart");
+				
+				call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.FootPrintManager.loading]');
+				call.setParameter("part", r.get("id"));
+				call.setHandler(function () {
+					this.store.reload();
+				}.createDelegate(this));
+				call.doCall();
+			}
+		}.createDelegate(this));
 	},
 	onBeforeLoad: function (store, options) {
 		this.call.setParameter("category", this.limitCategory);

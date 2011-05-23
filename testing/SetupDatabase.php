@@ -132,6 +132,7 @@ foreach ($parts as $part) {
 	
 	$oStock = new StockEntry($oPart, $part["instock"]);
 	PartDB2::getEM()->persist($oStock);
+
 }
 
 

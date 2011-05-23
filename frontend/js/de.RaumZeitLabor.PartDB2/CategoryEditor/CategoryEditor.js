@@ -4,103 +4,13 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 	id: "category-details",
 	categoryId: null,
 	categoryComboBox: null,
-	parentCategoryTree: null,
 	initComponent: function () {
 		
-		this.categoryComboBox = new Ext.form.ComboBox({
-			store:new Ext.data.SimpleStore({fields:[],data:[[]]}),
-			editable:false,
-			shadow:false,
-			mode: 'local',
-			triggerAction:'all',
-			maxHeight: 400,
-			width: 200,
-			listWidth: 400,
-			tpl: '<tpl for="."><div id="tree1" style="overflow: auto;"></div></tpl>',
-			selectedClass:'',
+		this.categoryComboBox = new de.RaumZeitLabor.PartDB2.CategoryComboBox({
 			fieldLabel: '$[de.RaumZeitLabor.PartDB2.CategoryEditor.parentCategory]',
 			name: 'parent',
 			anchor: '100%',
-			lazyInit: false,
-			onSelect:Ext.emptyFn
 		});
-		
-		this.categoryComboBox.onViewClick = function () {
-			
-		};
-		
-		this.categoryComboBox.on("beforeselect", function () {
-			return false;
-		});
-		
-		var tree = new de.RaumZeitLabor.PartDB2.CategoryEditor.CategoryWidget();
-		
-		this.parentCategoryTree = tree;
-		
-		tree.on('click', function (node) {
-			this.categoryComboBox.setValue(node.text);
-			this.categoryComboBox.collapse();
-			this.categoryComboBox.parentId = node.id;
-		}.createDelegate(this));
-		
-		tree.on("afterrender", function (obj) {
-			var node = obj.getRootNode().findChild("id", this.categoryComboBox.parentId, true);
-			
-			
-			if (node) {
-				node.ensureVisible();
-				node.select();
-			} else {
-				obj.getRootNode().select();
-			}
-			
-			if (this.disabledNode) {
-				this.disabledNode.enable();
-			}
-			
-			var node = obj.getRootNode().findChild("id", this.categoryId, true);
-			
-			if (node) {
-				this.disabledNode = node;
-				node.disable();
-			}
-			
-			obj.expandAll();
-			
-		}.createDelegate(this));
-		
-		this.categoryComboBox.on('expand',function(e){
-			if (tree.rendered) {
-				var node = tree.getRootNode().findChild("id", this.categoryComboBox.parentId, true);
-				
-				
-				if (node) {
-					node.ensureVisible();
-					node.select();
-				} else {
-					tree.getRootNode().select();
-				}
-				
-				tree.getRootNode().eachChild(function (n) {
-					n.enable();
-				});
-				
-				if (this.disabledNode) {
-					this.disabledNode.enable();
-				}
-
-				var node = tree.getRootNode().findChild("id", this.categoryId, true);
-				
-				if (node) {
-					this.disabledNode = node;
-					node.disable();
-				}
-				tree.expandAll();
-			} else {
-				tree.render('tree1');
-			}
-			
-	  	}.createDelegate(this));
 		
 		Ext.apply(this, {
 			cls: 'x-panel-mc',
@@ -134,6 +44,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 	
 	setCategoryId: function (id) {
 		this.categoryId = id;
+		this.categoryComboBox.categoryId = id;
 	},
 	createCategory: function () {
 		this.getForm().setValues({name: "", description: "", parent: 0})
@@ -188,7 +99,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 	onCategorySaved: function (response) {
 			Ext.getCmp("parts-tree").selectedNode = response.id;
 			Ext.getCmp("parts-tree").loadTree();
-			this.parentCategoryTree.loadTree();
+			this.categoryComboBox.loadTree();
 	},
 	onCategoryLoaded: function (response) {
 		this.getForm().setValues(response);

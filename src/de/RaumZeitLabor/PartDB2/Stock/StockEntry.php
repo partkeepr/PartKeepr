@@ -4,8 +4,9 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Part\Part;
 use de\RaumZeitLabor\PartDB2\Auth\User;
+use de\RaumZeitLabor\PartDB2\PartDB2;
 
-/** @Entity **/
+/** @Entity @HasLifecycleCallbacks **/
 class StockEntry {
 	
 	/**
@@ -47,4 +48,14 @@ class StockEntry {
 	public function setUser (User $user = null) {
 		$this->user = $user;
 	}
+	
+	/**
+	 * @PostPersist
+	 */
+	public function updateStockLevel () {
+		$query = PartDB2::getEM()->createQuery('UPDATE de\RaumZeitLabor\PartDB2\Part\Part p SET p.stockLevel = p.stockLevel + :val WHERE p = :part');
+		$query->setParameter("val", $this->stockLevel);
+		$query->setParameter("part", $this->part);
+		$query->execute();
+	} 
 }

@@ -61,6 +61,10 @@ class PartManagerService extends Service {
 		return $this->serializePart($part);
 	}
 	
+	public function deletePart () {
+		PartManager::getInstance()->deletePart($this->getParameter("part"));
+	}
+	
 	private function serializePart ($part) {
 		return $part->serialize();
 	}

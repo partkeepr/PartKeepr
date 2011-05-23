@@ -18,17 +18,15 @@ class FootprintManager extends Singleton {
 			$qb->setParameter("filter", "%".$filter."%");
 		}
 				
-		$qb->setMaxResults($limit);
-		$qb->setFirstResult($start);
+		if ($limit > -1) {
+			$qb->setMaxResults($limit);
+			$qb->setFirstResult($start);
+		}
 		
 		$qb->orderBy("f.".$sort, $dir);
 		
 		$query = $qb->getQuery();
 		
-		/*if ($filter != "") {
-			$query->setParameter("filter", "%".$filter."%");
-		}*/
-
 		$result = $query->getResult();
 		
 		$totalQueryBuilder = PartDB2::getEM()->createQueryBuilder();

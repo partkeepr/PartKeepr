@@ -107,6 +107,13 @@ class PartManager extends Singleton {
 		return array("parts" => $result, "totalCount" => $count);
 	}
 	
+	public function deletePart ($id) {
+		$part = PartManager::getInstance()->getPart($id);
+		
+		PartDB2::getEM()->remove($part);
+		PartDB2::getEM()->flush();
+	}
+	
 	public function getPart ($id) {
 		$part = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\Part\Part", $id);
 		

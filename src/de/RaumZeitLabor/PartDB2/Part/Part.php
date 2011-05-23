@@ -49,6 +49,13 @@ class Part {
 	 */
 	private $minStockLevel;
 	
+	/**
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Stock\StockEntry",mappedBy="part",cascade={"persist", "remove"})
+	 * Enter description here ...
+	 * @var unknown_type
+	 */
+	private $stockLevels;
+	
 	public function updateStockLevel () {
 		$this->stockLevel = $this->getStockLevel();
 	}
