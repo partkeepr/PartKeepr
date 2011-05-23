@@ -43,6 +43,9 @@ if (!($_SERVER["argc"] == 2 && $_SERVER["argv"][1] == "--yes")) {
 
 echo "Performing actions...\n";
 
+mkdir("../src/Proxies");
+chmod("../src/Proxies", 0777);
+
 $tool = new \Doctrine\ORM\Tools\SchemaTool(PartDB2::getEM());
 
 $classes = PartDB2::getClassMetaData();
