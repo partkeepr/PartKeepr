@@ -99,7 +99,8 @@ class Part {
 					"stockLevel" => $this->getStockLevel(),
 					"footprint" => is_object($this->footprint) ? $this->footprint->serialize() : null,
 					"minStockLevel" => $this->minStockLevel,
-					"storageLocation" => is_object($this->storageLocation) ? $this->storageLocation->serialize() : null
+					"storageLocation" => is_object($this->storageLocation) ? $this->storageLocation->serialize() : null,
+					"category" => $this->category->serialize()
 		
 		
 		);

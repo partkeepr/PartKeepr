@@ -116,9 +116,27 @@ class PartManager extends Singleton {
 		return array("parts" => $result, "totalCount" => $count);
 	}
 	
-	public function addPart ($aParameters) {
+	public function addOrUpdatePart ($aParameters) {
 		
-		$part = new Part();
+		if ($aParameters["part"] !== null) {
+			try {
+				$part = $this->getPart($aParameters["part"]);
+			} catch (\Exception $e) {
+				$part = new Part();
+				$user = SessionManager::getCurrentSession()->getUser();
+		
+				$stock = new StockEntry($part, $aParameters["quantity"], $user);
+				PartDB2::getEM()->persist($stock);
+			}
+		} else {
+			$part = new Part();
+			
+			$user = SessionManager::getCurrentSession()->getUser();
+		
+			$stock = new StockEntry($part, $aParameters["quantity"], $user);
+			PartDB2::getEM()->persist($stock);
+		}
+		
 		$part->setName($aParameters["name"]);
 		$part->setMinStockLevel($aParameters["minstock"]);
 		$part->setComment($aParameters["comment"]);
@@ -143,12 +161,7 @@ class PartManager extends Singleton {
 		$category = CategoryManager::getInstance()->getCategory($aParameters["category"]);
 		$part->setCategory($category->getNode());
 		
-		$user = SessionManager::getCurrentSession()->getUser();
-		
-		$stock = new StockEntry($part, $aParameters["quantity"], $user);
-		
 		PartDB2::getEM()->persist($part);
-		PartDB2::getEM()->persist($stock);
 		PartDB2::getEM()->flush();
 		
 	}

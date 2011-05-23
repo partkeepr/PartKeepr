@@ -26,6 +26,8 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		
 		this.sm = new Ext.grid.RowSelectionModel({ singleSelect: true });
 		
+		this.sm.on("selectionchange", this.onSelectionChange.createDelegate(this));
+		
 		this.addPartDialog = new de.RaumZeitLabor.PartDB2.PartsManagerAddPartDialog();
 		
 		this.store = new Ext.data.JsonStore({
@@ -83,9 +85,18 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 				handler: this.onPartAdd.createDelegate(this)
 		 });
 		 
+		 this.editPartButton = new Ext.Button({
+			 	text: "Bauteil editieren",
+			 	cls:'x-btn-text-icon',
+				icon: 'resources/silkicons/brick_edit.png',
+				disabled: true,
+				handler: this.onPartEdit.createDelegate(this)
+		 });
+		 
 		 this.deletePartButton = new Ext.Button({
 			 	text: "Bauteil löschen",
 				cls:'x-btn-text-icon',
+				disabled: true,
 				icon: 'resources/silkicons/brick_delete.png',
 				handler: this.onPartDelete.createDelegate(this)
 		 });
@@ -97,13 +108,17 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 			            displayInfo: false,
 			            items: [
 			                    this.addPartButton,
+			                    this.editPartButton,
 			                    this.deletePartButton
 			                    ]
 					});
 		 de.RaumZeitLabor.PartDB2.PartsManagerListGrid.superclass.initComponent.call(this);
 	},
 	onPartAdd: function () {
-		this.addPartDialog.show();
+		this.addPartDialog.addPart();
+	},
+	onPartEdit: function () {
+		this.addPartDialog.editPart(this.getSelectionModel().getSelected().get("id"));
 	},
 	onPartDelete: function () {
 		var r = this.getSelectionModel().getSelected();
@@ -129,5 +144,14 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 	},
 	setLimitCategory: function (category) {
 		this.limitCategory = category;
+	},
+	onSelectionChange: function () {
+		if (this.getSelectionModel().getCount() == 0) {
+			this.editPartButton.disable();
+			this.deletePartButton.disable();
+		} else {
+			this.editPartButton.enable();
+			this.deletePartButton.enable();
+		}
 	}
 });

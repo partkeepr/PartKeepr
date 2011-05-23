@@ -46,6 +46,11 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			anchor: '100%',
 		});
 		
+		this.partQuantityDisplay = new Ext.form.DisplayField({
+			fieldLabel: 'Aktuelle Stückzahl',
+			hidden: true,
+			width: 100
+		});
 		// @todo Put the storage location combobox into an own component
 		this.storageLocationCall = new org.jerrymouse.service.Call(
 				"de.RaumZeitLabor.PartDB2.StorageLocation.StorageLocationService", 
@@ -127,6 +132,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		            	  xtype: "compositefield",
 		            	  fieldLabel: "Stück",
 		            	  items: [
+		            	          	this.partQuantityDisplay,
 		            	          	this.partQuantity,
 		            	          	{
 		            	          		xtype: "label",
@@ -167,7 +173,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		                
 		                ];
 		
-		this.addEvents("cancelEntry");
+		this.addEvents("cancelEntry", "partLoaded", "partSaved");
 		de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm.superclass.initComponent.call(this);
 	},
 	isStoreLocationInList: function () {
@@ -199,21 +205,20 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	onAddAction: function () {
 		if (this.getForm().isValid()) {
 			
-			if (this.mode == "add") {
-				var call = new org.jerrymouse.service.Call(
+			var call = new org.jerrymouse.service.Call(
 	    			"de.RaumZeitLabor.PartDB2.Part.PartManagerService", 
-	    			"addPart");
-			} else {
-				var call = new org.jerrymouse.service.Call(
-		    			"de.RaumZeitLabor.PartDB2.Part.PartManagerService", 
-		    			"updatePart");
+	    			"addOrUpdatePart");
+			
+			if (this.mode == "edit") {
+				call.setParameter("part", this.partId)
 			}
 			
 			call.setParameter("category", this.categoryComboBox.parentId)
 			call.setParameter("name", this.partName.getValue());
 			call.setParameter("quantity", this.partQuantity.getValue());
 			call.setParameter("minstock", this.partMinStock.getValue());
-			call.setParameter("storagelocation", this.partStorageLocation.getValue());
+			
+			call.setParameter("storagelocation", this.getStorageLocation());
 			call.setParameter("footprint", this.footprintCombo.getValue());
 			call.setParameter("comment", this.commentField.getValue());
 
@@ -221,25 +226,95 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			call.doCall();
 		}
 	},
+	getStorageLocation: function () {
+		var idx = this.partStorageLocation.store.findExact("id", this.partStorageLocation.getValue());
+		
+		if (idx !== -1) {
+			return this.partStorageLocation.store.getAt(idx).get("id");
+		}
+		
+		var idx = this.partStorageLocation.store.findExact("name", this.partStorageLocation.getValue());
+		
+		if (idx !== -1) {
+			return this.partStorageLocation.store.getAt(idx).get("id");
+		}
+		
+		return idx;
+	},
 	onPartAdded: function () {
 		this.clearForm();
+		if (this.mode == "edit") {
+			this.fireEvent("partSaved");
+		}
 	},
 	onCancelAction: function () {
 		this.clearForm(true);
 
 		this.fireEvent("cancelEntry");
 	},
+	loadPart: function (part) {
+		var call = new org.jerrymouse.service.Call(
+				"de.RaumZeitLabor.PartDB2.Part.PartManagerService", 
+				"getPart");
+		
+		this.setEditMode(part);
+		
+		call.setParameter("part", part);
+		call.setHandler(this.onPartLoaded.createDelegate(this));
+		call.doCall();
+	},
+	setEditMode: function (part) {
+		this.mode = "edit";
+		this.partQuantity.disable();
+		this.keepStorageLocation.hide();
+		this.partId = part;
+		this.partQuantityDisplay.show();
+		this.partQuantity.hide();
+		this.addButton.setText("Speichern");
+	},
+	setAddMode: function () {
+		this.mode = "add";
+		this.keepStorageLocation.show();
+		this.partQuantity.enable();
+		this.partId = null;
+		this.partQuantityDisplay.hide();
+		this.partQuantity.show();
+		this.addButton.setText("Hinzufügen");
+	},
+	onPartLoaded: function (response) {
+		
+		this.commentField.setValue(response.comment);
+		this.footprintCombo.setValue(response.footprint.footprint);
+		this.partMinStock.setValue(response.minStockLevel);
+		this.partName.setValue(response.name);
+		
+		if (this.mode == "edit") {
+			this.partQuantityDisplay.setValue(response.stockLevel);
+		} else {
+			this.partQuantity.setValue(response.stockLevel);
+		}
+				
+		this.partStorageLocation.setValue(response.storageLocation.name);
+		
+		this.categoryComboBox.setValue(response.category.name);
+		this.categoryComboBox.parentId = response.category.id;
+
+		this.fireEvent("partLoaded");
+	},
 	clearForm: function (force) {
-		this.partName.reset();
-		this.partQuantity.reset();
-		this.partMinStock.reset();
-		this.footprintCombo.reset();
-		this.commentField.reset();
+		this.partName.setRawValue("");
+		this.partQuantity.setRawValue(0);
+		this.partMinStock.setRawValue(0);
+		this.footprintCombo.setRawValue("");
+		this.commentField.setRawValue("");
 		
 		if (this.keepStorageLocation.getValue() !== true || force == true)
 		{
-			this.partStorageLocation.reset();
+			this.partStorageLocation.setRawValue("");
 		}
+		
+		this.categoryComboBox.setValue("");
+		this.categoryComboBox.parentId = null;
 		
 		this.partName.focus(false, 10);
 	},
@@ -248,4 +323,3 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		this.footprintStore.reload();
 	}
 });
-	 
