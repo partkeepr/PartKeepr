@@ -6,6 +6,8 @@ use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocationManager;
 
 use de\RaumZeitLabor\PartDB2\Part\Part;
 use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
+use de\RaumZeitLabor\PartDB2\Session\SessionManager;
+use de\RaumZeitLabor\PartDB2\Stock\StockEntry;
 
 declare(encoding = 'UTF-8');
 
@@ -141,7 +143,12 @@ class PartManager extends Singleton {
 		$category = CategoryManager::getInstance()->getCategory($aParameters["category"]);
 		$part->setCategory($category->getNode());
 		
+		$user = SessionManager::getCurrentSession()->getUser();
+		
+		$stock = new StockEntry($part, $aParameters["quantity"], $user);
+		
 		PartDB2::getEM()->persist($part);
+		PartDB2::getEM()->persist($stock);
 		PartDB2::getEM()->flush();
 		
 	}
