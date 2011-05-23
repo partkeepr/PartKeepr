@@ -4,6 +4,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	frame: true,
 	border: false,
 	monitorValid: true,
+	mode: 'add',
 	initComponent: function () {
 		
 		
@@ -27,6 +28,23 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			flex: 1
 		});
 		
+		this.categoryComboBox = new de.RaumZeitLabor.PartDB2.CategoryComboBox({
+			fieldLabel: 'Kategorie',
+			name: 'parent',
+			anchor: '100%',
+			style: 'margin-bottom: 8px;',
+			validator: function (value) {
+				if (value == "") {
+					return "Es muß eine Kategorie ausgewählt werden";
+				}
+				return true;
+			}.createDelegate(this),
+		});
+		
+		this.commentField = new Ext.form.TextArea({
+			fieldLabel: 'Kommentar',
+			anchor: '100%',
+		});
 		
 		// @todo Put the storage location combobox into an own component
 		this.storageLocationCall = new org.jerrymouse.service.Call(
@@ -52,7 +70,13 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			anchor: '100%',
 			mode: 'local',
 			valueField: "id",
-			fieldLabel: "Lagerort"
+			fieldLabel: "Lagerort",
+			validator: function (value) {
+				if (value == "") {
+					return "Ein Lagerort muß ausgewählt oder eingegeben werden";
+				}
+				
+			}.createDelegate(this)
 		});
 		
 		// @todo Put the footprint combobox into an own component
@@ -75,6 +99,14 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	    });
 		
 		this.footprintCombo = new Ext.form.ComboBox({
+			validator: function (value) {
+				return true;
+				/*if (value == "") {
+					return "Es muß ein Footprint ausgewählt werden";
+				}
+				console.log(this.footprintCombo.getValue());
+				console.log(value);*/
+			}.createDelegate(this),
 			store: this.footprintStore,
 			displayField: "footprint",
 			anchor: '100%',
@@ -84,6 +116,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		});
 		
 		this.items = [
+		              this.categoryComboBox,
 		              this.partName,
 		              {
 		            	  xtype: "compositefield",
@@ -99,9 +132,82 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		            	          ]
 		              },		              
 		              this.partStorageLocation,
-		              this.footprintCombo];
+		              this.footprintCombo,
+		              this.commentField
+		              ];
 	
+		var btntext;
+		
+		if (this.mode == "add") {
+			btntext = "Hinzufügen";
+		} else {
+			btntext = "Speichern";
+		}
+		
+		this.addButton = new Ext.Button({
+			text: btntext,
+			handler: this.onAddAction.createDelegate(this)
+		});
+		
+		this.cancelButton = new Ext.Button({
+			text: "Abbrechen"
+		});
+		this.buttons = [
+		                this.addButton,
+		                this.cancelButton
+		                ];
 		de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm.superclass.initComponent.call(this);
+	},
+	isStoreLocationInList: function () {
+		var foundId = this.partStorageLocation.store.findExact("id", this.partStorageLocation.getValue());
+		var foundName = this.partStorageLocation.store.findExact("name", this.partStorageLocation.getValue());
+		
+		if (foundId !== -1) {
+			return true;
+		} else if (foundName !== -1) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	getStoreLocation: function () {
+		var foundId = this.partStorageLocation.store.findExact("id", this.partStorageLocation.getValue());
+		var foundName = this.partStorageLocation.store.findExact("name", this.partStorageLocation.getValue());
+		
+		if (foundId !== -1) {
+			return foundId;
+		}
+		
+		if (foundName !== 1) {
+			return foundName;
+		}
+		
+		return null;
+	},
+	onAddAction: function () {
+		if (this.getForm().isValid()) {
+			
+			if (this.mode == "add") {
+				var call = new org.jerrymouse.service.Call(
+	    			"de.RaumZeitLabor.PartDB2.Part.PartManagerService", 
+	    			"addPart");
+			} else {
+				var call = new org.jerrymouse.service.Call(
+		    			"de.RaumZeitLabor.PartDB2.Part.PartManagerService", 
+		    			"updatePart");
+			}
+			
+			call.setParameter("category", this.categoryComboBox.parentId)
+			call.setParameter("name", this.partName.getValue());
+			call.setParameter("quantity", this.partQuantity.getValue());
+			call.setParameter("minstock", this.partMinStock.getValue());
+			call.setParameter("storagelocation", this.partStorageLocation.getValue());
+			call.setParameter("footprint", this.footprintCombo.getValue());
+			call.setParameter("comment", this.commentField.getValue());
+
+			//call.setHandler(this.onCategoriesLoaded.createDelegate(this))
+			call.doCall();
+		}
 	},
 	reloadStorageLocations: function () {
 		this.storageLocationStore.reload();

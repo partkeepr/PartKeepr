@@ -38,6 +38,21 @@ class PartManagerService extends Service {
 		return true;
 	}
 	
+	public function addPart () {
+		$aParameters = array();
+		
+		$aParameters["category"] = $this->getParameter("category");
+		$aParameters["name"] = $this->getParameter("name");
+		$aParameters["quantity"] = $this->getParameter("quantity");
+		$aParameters["minstock"] = $this->getParameter("minstock");
+		$aParameters["storagelocation"] = $this->getParameter("storagelocation");
+		$aParameters["footprint"] = $this->getParameter("footprint");
+		$aParameters["comment"] = $this->getParameter("comment");
+		
+		PartManager::getInstance()->addPart($aParameters);
+		
+	}
+	
 	public function deleteStock () {
 		$part = PartManager::getInstance()->getPart($this->getParameter("part"));
 		

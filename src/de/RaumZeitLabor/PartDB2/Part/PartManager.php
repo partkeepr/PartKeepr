@@ -1,5 +1,12 @@
 <?php
 namespace de\raumzeitlabor\PartDB2\Part;
+use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation;
+
+use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocationManager;
+
+use de\RaumZeitLabor\PartDB2\Part\Part;
+use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Util\Singleton,
@@ -107,6 +114,37 @@ class PartManager extends Singleton {
 		return array("parts" => $result, "totalCount" => $count);
 	}
 	
+	public function addPart ($aParameters) {
+		
+		$part = new Part();
+		$part->setName($aParameters["name"]);
+		$part->setMinStockLevel($aParameters["minstock"]);
+		$part->setComment($aParameters["comment"]);
+		
+		try {
+			$footprint = FootprintManager::getInstance()->getFootprint($aParameters["footprint"]);
+			$part->setFootprint($footprint);	
+		} catch (\Exception $e) {}
+		
+		try {
+			$storageLocation = StorageLocationManager::getInstance()->getStorageLocation($aParameters["storagelocation"]);
+			$part->setStorageLocation($storageLocation);	
+		} catch (\Exception $e) {
+			$storageLocation = new StorageLocation();
+			$storageLocation->setName($aParameters["storagelocation"]);
+			$part->setStorageLocation($storageLocation);
+			
+			PartDB2::getEM()->persist($storageLocation);
+		}
+		
+		
+		$category = CategoryManager::getInstance()->getCategory($aParameters["category"]);
+		$part->setCategory($category->getNode());
+		
+		PartDB2::getEM()->persist($part);
+		PartDB2::getEM()->flush();
+		
+	}
 	public function deletePart ($id) {
 		$part = PartManager::getInstance()->getPart($id);
 		

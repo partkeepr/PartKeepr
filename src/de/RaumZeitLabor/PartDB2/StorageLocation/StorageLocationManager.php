@@ -26,4 +26,14 @@ class StorageLocationManager extends Singleton {
 		
 		return array("storageLocations" => $result, "totalCount" => $count);
 	}
+	
+	public function getStorageLocation ($id) {
+		$storageLocation = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation", $id);
+		
+		if ($storageLocation) {
+			return $storageLocation;
+		} else {
+			throw new \Exception("StorageLocation not found");
+		}
+	}
 }
