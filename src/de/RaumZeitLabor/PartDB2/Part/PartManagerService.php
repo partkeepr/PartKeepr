@@ -51,6 +51,7 @@ class PartManagerService extends Service {
 		
 		PartManager::getInstance()->addPart($aParameters);
 		
+		return true;
 	}
 	
 	public function deleteStock () {
