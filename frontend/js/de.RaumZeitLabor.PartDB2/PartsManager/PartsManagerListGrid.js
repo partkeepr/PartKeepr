@@ -58,7 +58,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 			 editable: false,
 			 forceSelection: true,
 			 value: 'all',
-			 width: 100,
+			 width: 120,
 			 listeners: {
 				 select: function () {
 					 this.store.reload();	 
