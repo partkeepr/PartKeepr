@@ -1,7 +1,6 @@
 Ext.ns("de.RaumZeitLabor.PartDB2.PartsManagerListGrid");
 
 de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
-	layout: 'fit',
 	initComponent: function () {
 	 
 		 this.colModel = new Ext.grid.ColumnModel({

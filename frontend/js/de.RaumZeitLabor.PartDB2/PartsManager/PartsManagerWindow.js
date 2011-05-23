@@ -2,21 +2,24 @@ Ext.ns("de.RaumZeitLabor.PartDB2.PartsManagerWindow");
 
 de.RaumZeitLabor.PartDB2.PartsManagerWindow = Ext.extend(org.jerrymouse.gui.widgets.window, {
 	renderHidden: true,
+	maximizable: true,
+	layout: 'border',
+	
 	initComponent: function () {
 	
-		this.partsManagerTree = new de.RaumZeitLabor.PartDB2.PartsManagerTree();
-		
-		Ext.apply(this.partsManagerTree, {
-		    region:'west',
+		this.partsManagerTree = new de.RaumZeitLabor.PartDB2.PartsManagerTree({
+			border: false,
+			region:'west',
+			split: true,
 		    margins: '0 0 0 0',
 		    cmargins: '0 0 0 0',
 		    padding: '0 0 0 0',
 		    width: 250
 		});
 		
-		this.categoryEditor = new de.RaumZeitLabor.PartDB2.CategoryEditor({ id: 'card-category-editor' });
+		this.categoryEditor = new de.RaumZeitLabor.PartDB2.CategoryEditor({ border: false, id: 'card-category-editor' });
 		
-		this.partsList = new de.RaumZeitLabor.PartDB2.PartsManagerListGrid({ flex: 1, id: 'parts-list'});
+		this.partsList = new de.RaumZeitLabor.PartDB2.PartsManagerListGrid({ flex: 1, border: false, width: '100%', id: 'parts-list'});
 		
 		this.partsList.getSelectionModel().on("rowselect", this.onPartSelect.createDelegate(this));
 		this.partsList.getSelectionModel().on("selectionchange", function (sm) {
@@ -32,9 +35,9 @@ de.RaumZeitLabor.PartDB2.PartsManagerWindow = Ext.extend(org.jerrymouse.gui.widg
 		this.partsDetail = new de.RaumZeitLabor.PartDB2.PartsManagerPartDetail({ hidden: true });
 		
 		this.partsLayout = new Ext.Panel({
+				border: false,
 				layout: 'vbox',
-				align : 'stretch',
-			    pack  : 'start',
+				layoutConfig : { align : 'stretch' },
 				id: 'parts-overview',
 				items: [
 				        	this.partsList,
@@ -43,26 +46,16 @@ de.RaumZeitLabor.PartDB2.PartsManagerWindow = Ext.extend(org.jerrymouse.gui.widg
 		});
 		
 		
-		Ext.apply(this.partsManagerDetails, {
-		    region:'center',
-		    collapsible: false,
-		    margins: '0 0 0 0'
-		 });
-		
 		Ext.apply(this, {
 			width: 800,
 			height: 600,
 			title: "$[de.RaumZeitLabor.PartDB2.PartsManager.manage]",
-			layout:'border',
-			defaults: {
-			    collapsible: false,
-			    split: false
-			},
 			items: [
 			        this.partsManagerTree,
 			        {
 			        	layout: 'card',
 			        	region: 'center',
+			        	border: false,
 			        	id: 'parts-mananger-window-card',
 			        	items: [
 			        	        this.categoryEditor,

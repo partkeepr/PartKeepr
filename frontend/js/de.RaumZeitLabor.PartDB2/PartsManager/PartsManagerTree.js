@@ -70,16 +70,22 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
 	onSelectionChange: function (sm, node) {
 		if (node) {
 			this.selectedNode = node.id;
-			Ext.getCmp("category-edit-button").enable();
+			
+			if (node.attributes.id != this.getRootNode().attributes.id) {
+				Ext.getCmp("category-edit-button").enable();
+			} else {
+				Ext.getCmp("category-edit-button").disable();
+			}
 			
 			Ext.getCmp("parts-manager-window").showPartsList();
-			
 			Ext.getCmp("parts-list").setLimitCategory(node.attributes.id);
 			Ext.getCmp("parts-list").store.load({ params: { start: 0 }});
 			Ext.getCmp("parts-list").show();
 		} else {
 			Ext.getCmp("category-edit-button").disable();
 		}
+		
+		
 		
 		
 	},
