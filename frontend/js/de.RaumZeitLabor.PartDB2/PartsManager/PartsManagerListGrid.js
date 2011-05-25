@@ -15,7 +15,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		        ],
 		    });
 		   
-		var pageSize = 13;
+		var pageSize = 15;
 		
 		this.call = new org.jerrymouse.service.Call(
 					"de.RaumZeitLabor.PartDB2.Part.PartManagerService", 
