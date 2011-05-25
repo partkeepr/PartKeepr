@@ -107,9 +107,9 @@ class PartDB2 {
 			'host' => 		PartDB2Configuration::getOption("partdb2.database.hostname", "localhost")
 		);
 		
-		$cache = new \Doctrine\Common\Cache\ArrayCache;
+		$cache = new \Doctrine\Common\Cache\ApcCache();
 		$config->setMetadataCacheImpl($cache);
-		
+
 		$config->setQueryCacheImpl($cache);
 		
 		//$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
