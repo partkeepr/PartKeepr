@@ -12,7 +12,7 @@ class PartManagerService extends Service {
 	public function getParts () {
 		$aParameters = array(
 			"start" => $this->getParameter("start", 0),
-			"limit" => $this->getParameter("start", 15),
+			"limit" => $this->getParameter("limit", 15),
 			"sort" => $this->getParameter("sort", "name"),
 			"dir" => $this->getParameter("dir", "asc"),
 			"filter" => $this->getParameter("filter", ""),
