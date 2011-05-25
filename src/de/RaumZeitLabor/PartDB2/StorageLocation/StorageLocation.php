@@ -13,7 +13,7 @@ class StorageLocation {
 	private $id;
 	
 	/**
-	 * @Column
+	 * @Column(type="string",unique=true)
 	 */
 	private $name;
 	

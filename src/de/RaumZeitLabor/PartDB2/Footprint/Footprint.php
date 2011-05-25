@@ -10,7 +10,7 @@ class Footprint {
 	 */
 	private $id;
 	
-	/** @Column(length=64) */
+	/** @Column(length=64,unique=true) */
 	private $footprint;
 	
 	public function setFootprint ($footprint) {
