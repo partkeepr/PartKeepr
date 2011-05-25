@@ -24,7 +24,7 @@ echo "Actions performed by this script:\n";
 echo "* Drop the old database INCLUDING ALL DATA\n";
 echo "* Creates the schema\n";
 echo "* Creates a test user (username/password test)\n";
-echo "* Add sample footprint data\n";
+echo "* Imports data from database partdb\n";
 echo "=)))==========================================\n";
 
 if (!($_SERVER["argc"] == 2 && $_SERVER["argv"][1] == "--yes")) {
@@ -60,32 +60,42 @@ $user->setPassword("test");
 
 PartDB2::getEM()->persist($user);
 
-include("SetupData/footprints.php");
-include("SetupData/categories.php");
-include("SetupData/parts.php");
-include("SetupData/storagelocations.php");
 /* Create footprints */
 
 $newFootprints = array();
 $newCategories = array();
 
+mysql_connect("localhost", "partdb", "partdb");
+mysql_select_db("partdb");
+
 echo "Creating footprints from SetupData/footprints.php\n";
-foreach ($footprints as $sFootprint) {
+
+$r = mysql_query("SELECT * FROM footprints");
+
+while ($sFootprint = mysql_fetch_assoc($r)) {
 	$footprint = new Footprint();
 	$footprint->setFootprint(stripslashes($sFootprint["name"]));
 
-	echo " Adding footprint ".$sFootprint["name"]."\n";
+	echo " Adding footprint ".$sFootprint["name"]."\r";
 	PartDB2::getEM()->persist($footprint);
 	
 	$newFootprints[$sFootprint["id"]] = $footprint;
 }
 
-echo "Creating categories from SetupData/categories.php\n";
+echo "\n\Creating categories from existing data\n";
 
 $categoryManager = CategoryManager::getInstance();
 $categoryManager->ensureRootExists();
 
 /* Pass 1: Create numeric nodes */
+
+$r = mysql_query("SELECT * FROM categories");
+
+$categories = array();
+
+while ($cat = mysql_fetch_assoc($r)) {
+	$categories[] = $cat;
+}
 
 addCategoryRecursive($categories, 0, $categoryManager->getRootNode());
 
@@ -94,7 +104,7 @@ function addCategoryRecursive ($aCategories, $currentId, $parent) {
 	
 	foreach ($aCategories as $aCategory) {
 		if ($aCategory["parentnode"] == $currentId) {
-			echo "Adding ".$aCategory["name"]."\n";			
+			echo "Adding ".sprintf("%40s", $aCategory["name"])."\r";			
 			$oCategory = new Category();
 			$oCategory->setName(stripslashes($aCategory["name"]));
 			$oCategory->setDescription("");
@@ -110,7 +120,10 @@ function addCategoryRecursive ($aCategories, $currentId, $parent) {
 }
 
 echo "\n";
-foreach ($storeloc as $store) {
+
+$r = mysql_query("SELECT * FROM storeloc");
+
+while ($store = mysql_fetch_assoc($r)) {
 	$oStorageLocation = new StorageLocation();
 	$oStorageLocation->setName(stripslashes($store["name"]));
 	PartDB2::getEM()->persist($oStorageLocation);
@@ -119,7 +132,10 @@ foreach ($storeloc as $store) {
 }
 
 echo "\n";
-foreach ($parts as $part) {
+
+$r = mysql_query("SELECT * FROM parts");
+
+while ($part = mysql_fetch_assoc($r)) {
 	$oPart = new Part();
 	$oPart->setName(stripslashes($part["name"]));
 	$oPart->setComment(stripslashes($part["comment"]));
