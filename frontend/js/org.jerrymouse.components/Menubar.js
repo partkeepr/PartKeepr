@@ -48,6 +48,9 @@ org.jerrymouse.components.Menubar = Ext.extend(Ext.Toolbar, {
 				    	   text: "$[de.RaumZeitLabor.PartDB2.FootPrintManager.manage]",
 				    	   handler: de.RaumZeitLabor.PartDB2.FootPrintManagerWindow.handler
 				       },{
+				    	   text: "$[de.RaumZeitLabor.PartDB2.StorageLocationManager.manage]",
+				    	   handler: de.RaumZeitLabor.PartDB2.StorageLocationManagerWindow.handler
+				       },{
 				    	   text: "$[de.RaumZeitLabor.PartDB2.PartsManager.manage]",
 				    	   handler: de.RaumZeitLabor.PartDB2.PartsManagerWindow.handler
 				       }

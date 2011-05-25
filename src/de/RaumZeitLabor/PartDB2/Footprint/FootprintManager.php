@@ -62,10 +62,6 @@ class FootprintManager extends Singleton {
 		}
 	}
 	
-	public function saveFootprint (Footprint $footprint) {
-		PartDB2::getEM()->persist($footprint);
-	}
-	
 	public function getFootprint ($id) {
 		$footprint = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\Footprint\Footprint", $id);
 		

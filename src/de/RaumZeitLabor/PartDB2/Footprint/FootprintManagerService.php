@@ -41,7 +41,7 @@ class FootprintManagerService extends Service {
 		
 		$footprint->setFootprint($this->getParameter("footprint"));
 		
-		FootprintManager::getInstance()->saveFootprint($footprint);
+		PartDB2::getEM()->flush();
 		
 		return $footprint->serialize();
 	}

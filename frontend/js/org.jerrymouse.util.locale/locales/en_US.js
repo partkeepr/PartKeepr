@@ -53,7 +53,19 @@ locales.en_US = {
 		"de.RaumZeitLabor.PartDB2.CategoryEditor.categoryDescription": "Description",
 		"de.RaumZeitLabor.PartDB2.CategoryEditor.parentCategory": "Parent Category",
 		"de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategor": "Loading Category...",
-		"de.RaumZeitLabor.PartDB2.CategoryEditor.saveCategory": "Saving Category..."
+		"de.RaumZeitLabor.PartDB2.CategoryEditor.saveCategory": "Saving Category...",
 		
+		/* Storage Locations */
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.manage": "Manage Storage Locations",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.name": "Storage Location Name",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.add": "Add Storage Location",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.delete": "Delete Storage Location",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.deleteStorageLocationDialogTitle": "Delete Storage Location",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.deleteStorageLocationDialogMessage": "Do you really wish to delete the selected storage location?",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.addStorageLocationDialogTitle": "Add a new storage location",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.addStorageLocationDialogMessage": "Enter the name of the new storage location:",
+		"de.RaumZeitLabor.PartDB2.StorageLocationManager.name": "Name",
 		
+		/* Parts */
+		"de.RaumZeitLabor.PartDB2.PartsManager.manage": "Manage Parts"
 };
