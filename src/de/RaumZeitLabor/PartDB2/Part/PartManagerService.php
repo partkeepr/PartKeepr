@@ -51,6 +51,7 @@ class PartManagerService extends Service {
 		$aParameters["storagelocation"] = $this->getParameter("storagelocation");
 		$aParameters["footprint"] = $this->getParameter("footprint");
 		$aParameters["comment"] = $this->getParameter("comment");
+		$aParameters["manufacturer"] = $this->getParameter("manufacturer");
 		
 		PartManager::getInstance()->addOrUpdatePart($aParameters);
 		

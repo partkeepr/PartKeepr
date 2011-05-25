@@ -15,6 +15,7 @@ use de\RaumZeitLabor\PartDB2\Util\Singleton,
 	de\RaumZeitLabor\PartDB2\Footprint\Footprint,
 	de\RaumZeitLabor\PartDB2\PartDB2,
 	de\RaumZeitLabor\PartDB2\Category\CategoryManager,
+	de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerManager,
 	de\RaumZeitLabor\PartDB2\Footprint\Exceptions\FootprintNotFoundException;
 
 class PartManager extends Singleton {
@@ -155,6 +156,17 @@ class PartManager extends Singleton {
 			$part->setStorageLocation($storageLocation);
 			
 			PartDB2::getEM()->persist($storageLocation);
+		}
+		
+		try {
+			$manufacturer = ManufacturerManager::getInstance()->getManufacturer($aParameters["manufacturer"]);
+			$part->setManufacturer($manufacturer);	
+		} catch (\Exception $e) {
+			$manufacturer = new Manufacturer();
+			$manufacturer->setName($aParameters["manufacturer"]);
+			$part->setManufacturer($manufacturer);
+			
+			PartDB2::getEM()->persist($manufacturer);
 		}
 		
 		

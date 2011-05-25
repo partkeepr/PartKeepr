@@ -35,6 +35,11 @@ class Part {
 	private $storageLocation;
 	
 	/**
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer")
+	 */
+	private $manufacturer;
+	
+	/**
 	 * @Column(type="text")
 	 */
 	private $comment;
@@ -80,6 +85,10 @@ class Part {
 		$this->footprint = $footprint;
 	}
 	
+	public function setManufacturer (\de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer $manufacturer) {
+		$this->manufacturer = $manufacturer;
+	}
+	
 	public function setComment ($comment) {
 		$this->comment = $comment;
 	}
@@ -100,6 +109,7 @@ class Part {
 					"footprint" => is_object($this->footprint) ? $this->footprint->serialize() : null,
 					"minStockLevel" => $this->minStockLevel,
 					"storageLocation" => is_object($this->storageLocation) ? $this->storageLocation->serialize() : null,
+					"manufacturer" => is_object($this->manufacturer) ? $this->manufacturer->serialize() : null,
 					"category" => $this->category->serialize()
 		
 		

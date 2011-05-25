@@ -156,7 +156,8 @@ class PartDB2 {
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Category\Category'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Part\Part'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Stock\StockEntry')
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Stock\StockEntry'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer')
 		);
 		
 		return $classes;

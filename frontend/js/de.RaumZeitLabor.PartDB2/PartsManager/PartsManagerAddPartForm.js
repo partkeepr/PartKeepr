@@ -116,6 +116,37 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			valueField: "id",
 			fieldLabel: "Footprint"
 		});
+		
+		// @todo Put the footprint combobox into an own component
+		this.manufacturerCall = new org.jerrymouse.service.Call(
+				"de.RaumZeitLabor.PartDB2.Manufacturer.ManufacturerService", 
+				"getManufacturers");
+	
+		this.manufacturerCall.setParameter("limit", -1);
+		
+		this.manufacturerStore = new Ext.data.JsonStore({
+	        root: 'manufacturers',
+	        totalProperty: 'totalCount',
+	        proxy: new ServiceCallDataProxy(this.manufacturerCall),
+	        idProperty: 'id',
+	        remoteSort: false,
+	        fields: [
+	            'id',
+	            'name'
+	        ]
+	    });
+		
+		this.manufacturerCombo = new Ext.form.ClearableComboBox({
+			validator: function (value) {
+				return true;
+			}.createDelegate(this),
+			store: this.manufacturerStore,
+			displayField: "name",
+			anchor: '100%',
+			mode: 'local',
+			valueField: "id",
+			fieldLabel: "Hersteller"
+		});
 
 		this.keepStorageLocation = new Ext.form.Checkbox({
 			boxLabel: "Lagerort nach dem Speichern beibehalten"
@@ -142,6 +173,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		              this.partStorageLocation,
 		              this.keepStorageLocation,
 		              this.footprintCombo,
+		              this.manufacturerCombo,
 		              this.commentField
 		              ];
 	
@@ -214,6 +246,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			call.setParameter("name", this.partName.getValue());
 			call.setParameter("quantity", this.partQuantity.getValue());
 			call.setParameter("minstock", this.partMinStock.getValue());
+			call.setParameter("manufacturer", this.getManufacturer());
 			
 			call.setParameter("storagelocation", this.getStorageLocation());
 			call.setParameter("footprint", this.footprintCombo.getValue());
@@ -234,6 +267,21 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		
 		if (idx !== -1) {
 			return this.partStorageLocation.store.getAt(idx).get("id");
+		}
+		
+		return idx;
+	},
+	getManufacturer: function () {
+		var idx = this.manufacturerCombo.store.findExact("id", this.manufacturerCombo.getValue());
+		
+		if (idx !== -1) {
+			return this.manufacturerCombo.store.getAt(idx).get("id");
+		}
+		
+		var idx = this.manufacturerCombo.store.findExact("name", this.manufacturerCombo.getValue());
+		
+		if (idx !== -1) {
+			return this.manufacturerCombo.store.getAt(idx).get("id");
 		}
 		
 		return idx;
@@ -281,7 +329,15 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	onPartLoaded: function (response) {
 		
 		this.commentField.setValue(response.comment);
-		this.footprintCombo.setValue(response.footprint.footprint);
+		
+		if (response.footprint !== null) {
+			this.footprintCombo.setValue(response.footprint.footprint);
+		}
+		
+		if (response.manufacturer !== null) {
+			this.manufacturerCombo.setValue(response.manufacturer.name);
+		}
+		
 		this.partMinStock.setValue(response.minStockLevel);
 		this.partName.setValue(response.name);
 		
@@ -303,6 +359,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		this.partQuantity.setRawValue(0);
 		this.partMinStock.setRawValue(0);
 		this.footprintCombo.setRawValue("");
+		this.manufacturerCombo.setRawValue("");
 		this.commentField.setRawValue("");
 		
 		if (this.keepStorageLocation.getValue() !== true || force == true)
@@ -318,5 +375,6 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	reloadStorageLocations: function () {
 		this.storageLocationStore.reload();
 		this.footprintStore.reload();
+		this.manufacturerStore.reload();
 	}
 });

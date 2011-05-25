@@ -66,6 +66,17 @@ locales.en_US = {
 		"de.RaumZeitLabor.PartDB2.StorageLocationManager.addStorageLocationDialogMessage": "Enter the name of the new storage location:",
 		"de.RaumZeitLabor.PartDB2.StorageLocationManager.name": "Name",
 		
+		/* Manufacturers */
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.manage": "Manage Manufacturers",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.name": "Manufacturer Name",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.add": "Add Manufacturer",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.delete": "Delete Manufacturer",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.deleteManufacturerDialogTitle": "Delete Manufacturer",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.deleteManufacturerDialogMessage": "Do you really wish to delete the selected manufacturer?",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.addManufacturerDialogTitle": "Add a new manufacturer",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.addManufacturerDialogMessage": "Enter the name of the new manufacturer:",
+		"de.RaumZeitLabor.PartDB2.ManufacturerManager.name": "Name",
+		
 		/* Parts */
 		"de.RaumZeitLabor.PartDB2.PartsManager.manage": "Manage Parts"
 };
