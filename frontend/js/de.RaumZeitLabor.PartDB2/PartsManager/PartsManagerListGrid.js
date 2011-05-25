@@ -11,8 +11,8 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		        columns: [
 		                 {header: 'Name', dataIndex: 'name', width: 300},
 		                 {header: 'Lagerort', dataIndex: 'storagelocation', width: 100},
-		                 {header: 'Stück', dataIndex: 'stockLevel', width: 100},
-		        ],
+		                 {header: 'Stück', dataIndex: 'stockLevel', width: 100}
+		        ]
 		    });
 		   
 		var pageSize = 15;
@@ -146,7 +146,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		this.limitCategory = category;
 	},
 	onSelectionChange: function () {
-		if (this.getSelectionModel().getCount() == 0) {
+		if (this.getSelectionModel().getCount() === 0) {
 			this.editPartButton.disable();
 			this.deletePartButton.disable();
 		} else {

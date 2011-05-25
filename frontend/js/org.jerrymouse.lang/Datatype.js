@@ -16,7 +16,7 @@ Ext.ns("org.jerrymouse.lang");
 
 org.jerrymouse.lang.Datatype = function () {
 	
-}
+};
 
 Ext.extend(org.jerrymouse.lang.Datatype, org.jerrymouse.lang.Object, {
 	setValue: function (value) {

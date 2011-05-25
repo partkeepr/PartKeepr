@@ -18,11 +18,8 @@ de.RaumZeitLabor.PartDB2.CategoryEditor.CategoryWidget = Ext.extend(Ext.tree.Tre
 							rootVisible : true
 						});
 
-						de.RaumZeitLabor.PartDB2.PartsManagerTree.superclass.initComponent
-								.call(this);
+						de.RaumZeitLabor.PartDB2.PartsManagerTree.superclass.initComponent.call(this);
 
-						/*this.getSelectionModel().on("selectionchange",
-								this.onSelectionChange.createDelegate(this));*/
 						this.loadTree();
 
 					},
@@ -30,10 +27,8 @@ de.RaumZeitLabor.PartDB2.CategoryEditor.CategoryWidget = Ext.extend(Ext.tree.Tre
 						var call = new org.jerrymouse.service.Call(
 								"de.RaumZeitLabor.PartDB2.Category.CategoryManagerService",
 								"getAllCategories");
-						call
-								.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategories]');
-						call.setHandler(this.onCategoriesLoaded
-								.createDelegate(this))
+						call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategories]');
+						call.setHandler(this.onCategoriesLoaded.createDelegate(this));
 						call.doCall();
 					},
 					onCategoriesLoaded: function (result) {
@@ -54,8 +49,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor.CategoryWidget = Ext.extend(Ext.tree.Tre
 						});
 
 						for ( var i = 0; i < data.children.length; i++) {
-							node.appendChild(this
-									.buildCategoryTree(data.children[i]));
+							node.appendChild(this.buildCategoryTree(data.children[i]));
 						}
 
 						return node;

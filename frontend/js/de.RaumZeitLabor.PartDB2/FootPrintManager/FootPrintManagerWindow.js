@@ -43,5 +43,4 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerWindow = Ext.extend(org.jerrymouse.gui.
 de.RaumZeitLabor.PartDB2.FootPrintManagerWindow.handler = function () {
 	var footPrintManager = new de.RaumZeitLabor.PartDB2.FootPrintManagerWindow();
 	footPrintManager.show();
-}
-
+};

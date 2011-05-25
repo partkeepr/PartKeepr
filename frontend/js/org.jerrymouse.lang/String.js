@@ -16,7 +16,7 @@ Ext.ns("org.jerrymouse.lang");
 
 org.jerrymouse.lang.String = function (string) {
 	this.value = string;
-}
+};
 
 Ext.extend(org.jerrymouse.lang.String, org.jerrymouse.lang.Datatype, {
 	value: "",

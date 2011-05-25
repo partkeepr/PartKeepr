@@ -18,7 +18,7 @@ org.jerrymouse.service.Call = function (service, call) {
 	this.setService(service);
 	this.setCall(call);
 	this.parameters = {};
-}
+};
 
 Ext.extend(org.jerrymouse.service.Call, Ext.util.Observable, {
 	service: null,
@@ -73,10 +73,10 @@ Ext.extend(org.jerrymouse.service.Call, Ext.util.Observable, {
 			params: mp
 		});
 	},
-	onSuccess: function (response) {
+	onSuccess: function (responseObj) {
 		Ext.getCmp("jm-statusbar").endLoad();
 		
-		var response = Ext.decode(response.responseText);
+		var response = Ext.decode(responseObj.responseText);
 		
 				
 		/* Check the status */
@@ -103,7 +103,7 @@ Ext.extend(org.jerrymouse.service.Call, Ext.util.Observable, {
 	displayError: function (obj) {
 		var errorMsg;
 		
-		if (obj.message == "") {
+		if (obj.message === "") {
 			errorMsg = obj.exception;
 		} else {
 			errorMsg = obj.message;

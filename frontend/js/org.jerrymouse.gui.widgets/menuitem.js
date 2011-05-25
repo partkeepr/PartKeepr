@@ -49,6 +49,6 @@ Ext.override(Ext.menu.Item, {
     },
     
 	onLocaleChange: function (obj) {
-		obj.setText(obj.text)
+		obj.setText(obj.text);
 	}
 });

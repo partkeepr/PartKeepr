@@ -23,7 +23,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerWindow = Ext.extend(org.jerrymouse.gui.widg
 		
 		this.partsList.getSelectionModel().on("rowselect", this.onPartSelect.createDelegate(this));
 		this.partsList.getSelectionModel().on("selectionchange", function (sm) {
-			if (sm.getCount() == 0) {
+			if (sm.getCount() === 0) {
 				this.partsDetail.hide();
 			} else {
 				this.partsDetail.show();
@@ -81,5 +81,4 @@ de.RaumZeitLabor.PartDB2.PartsManagerWindow = Ext.extend(org.jerrymouse.gui.widg
 de.RaumZeitLabor.PartDB2.PartsManagerWindow.handler = function () {
 	var partsManager = new de.RaumZeitLabor.PartDB2.PartsManagerWindow({id: 'parts-manager-window'});
 	partsManager.show();
-}
-
+};

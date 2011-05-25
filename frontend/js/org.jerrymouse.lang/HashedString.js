@@ -16,7 +16,7 @@ Ext.ns("org.jerrymouse.lang");
 
 org.jerrymouse.lang.HashedString = function (string) {
 	this.value = SHA1(string);
-}
+};
 
 Ext.extend(org.jerrymouse.lang.HashedString, org.jerrymouse.lang.String, {
 	getClassType: function () {

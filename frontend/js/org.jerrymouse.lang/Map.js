@@ -16,7 +16,7 @@ Ext.ns("org.jerrymouse.lang");
 
 org.jerrymouse.lang.Map = function () {
 	this.data = {};
-}
+};
 
 Ext.extend(org.jerrymouse.lang.Map, org.jerrymouse.lang.Object, {
 	data: null,

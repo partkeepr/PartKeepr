@@ -20,19 +20,19 @@ Ext.setLocale = function (locale) {
 			item.onLocaleChange(item);
 		}
 	});
-}
+};
 
 Ext.getLocale = function () {
 	return Ext.jm_locale;
-}
+};
 
 Ext.getLocaleFlag = function () {
 	return locales[Ext.jm_locale].flag;
-}
+};
 
 Ext.getDateFormat = function () {
 	return locales[Ext.jm_locale].dateformat;
-}
+};
 
 Ext.replaceLocaleTags = function (string) {
 	var regexp = /\$\[(.+?)\]/g;
@@ -45,8 +45,8 @@ Ext.replaceLocaleTags = function (string) {
 	}
 	
 	return workingCopy;
-}
+};
 
 Ext.replaceString = function (search, replace, subject) {
     return subject.split(search).join(replace);
-}
+};

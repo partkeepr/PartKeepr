@@ -20,7 +20,7 @@ org.jerrymouse.lang.ArbitraryStorableObject = function (type) {
 	this.attributes = new org.jerrymouse.lang.Map();
 	this.refLists = new org.jerrymouse.lang.Map();
 	this.objLists = new org.jerrymouse.lang.Map();
-}
+};
 
 Ext.extend(org.jerrymouse.lang.ArbitraryStorableObject, org.jerrymouse.lang.Object, {
 	revision: null,

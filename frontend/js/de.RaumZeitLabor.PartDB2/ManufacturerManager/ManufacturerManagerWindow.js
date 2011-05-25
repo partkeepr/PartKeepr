@@ -33,5 +33,4 @@ de.RaumZeitLabor.PartDB2.ManufacturerManagerWindow = Ext.extend(org.jerrymouse.g
 de.RaumZeitLabor.PartDB2.ManufacturerManagerWindow.handler = function () {
 	var manufacturerManager = new de.RaumZeitLabor.PartDB2.ManufacturerManagerWindow();
 	manufacturerManager.show();
-}
-
+};

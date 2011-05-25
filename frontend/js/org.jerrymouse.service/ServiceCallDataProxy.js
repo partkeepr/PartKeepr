@@ -102,8 +102,7 @@ Ext.extend(ServiceCallDataProxy, Ext.data.DataProxy, {
 	                 return;
 	             }
 	             callback.call(scope, result, arg, true);
-	         }.createDelegate(this)
-	    );
+	         }.createDelegate(this));
     	
     	this.call.doCall();
 	}

@@ -41,4 +41,4 @@ org.jerrymouse.components.statusbar.ConnectionButton = Ext.extend(Ext.Button, {
 	}
 });
 
-Ext.reg('org.jerrymouse.components.statusbar.ConnectionButton', org.jerrymouse.components.statusbar.ConnectionButton)
+Ext.reg('org.jerrymouse.components.statusbar.ConnectionButton', org.jerrymouse.components.statusbar.ConnectionButton);

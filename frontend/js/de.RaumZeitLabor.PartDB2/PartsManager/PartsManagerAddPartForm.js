@@ -34,16 +34,16 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			anchor: '100%',
 			style: 'margin-bottom: 8px;',
 			validator: function (value) {
-				if (value == "") {
+				if (value === "") {
 					return "Es muß eine Kategorie ausgewählt werden";
 				}
 				return true;
-			}.createDelegate(this),
+			}.createDelegate(this)
 		});
 		
 		this.commentField = new Ext.form.TextArea({
 			fieldLabel: 'Kommentar',
-			anchor: '100%',
+			anchor: '100%'
 		});
 		
 		this.partQuantityDisplay = new Ext.form.DisplayField({
@@ -79,7 +79,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			valueField: "id",
 			fieldLabel: "Lagerort",
 			validator: function (value) {
-				if (value == "") {
+				if (value === "") {
 					return "Ein Lagerort muß ausgewählt oder eingegeben werden";
 				}
 				
@@ -198,8 +198,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		
 		this.buttons = [
 		                this.addButton,
-		                this.cancelButton,
-		                
+		                this.cancelButton
 		                ];
 		
 		this.addEvents("cancelEntry", "partLoaded", "partSaved");
@@ -239,10 +238,10 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	    			"addOrUpdatePart");
 			
 			if (this.mode == "edit") {
-				call.setParameter("part", this.partId)
+				call.setParameter("part", this.partId);
 			}
 			
-			call.setParameter("category", this.categoryComboBox.parentId)
+			call.setParameter("category", this.categoryComboBox.parentId);
 			call.setParameter("name", this.partName.getValue());
 			call.setParameter("quantity", this.partQuantity.getValue());
 			call.setParameter("minstock", this.partMinStock.getValue());
@@ -252,7 +251,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			call.setParameter("footprint", this.footprintCombo.getValue());
 			call.setParameter("comment", this.commentField.getValue());
 
-			call.setHandler(this.onPartAdded.createDelegate(this))
+			call.setHandler(this.onPartAdded.createDelegate(this));
 			call.doCall();
 		}
 	},
@@ -263,7 +262,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			return this.partStorageLocation.store.getAt(idx).get("id");
 		}
 		
-		var idx = this.partStorageLocation.store.findExact("name", this.partStorageLocation.getValue());
+		idx = this.partStorageLocation.store.findExact("name", this.partStorageLocation.getValue());
 		
 		if (idx !== -1) {
 			return this.partStorageLocation.store.getAt(idx).get("id");
@@ -278,7 +277,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 			return this.manufacturerCombo.store.getAt(idx).get("id");
 		}
 		
-		var idx = this.manufacturerCombo.store.findExact("name", this.manufacturerCombo.getValue());
+		idx = this.manufacturerCombo.store.findExact("name", this.manufacturerCombo.getValue());
 		
 		if (idx !== -1) {
 			return this.manufacturerCombo.store.getAt(idx).get("id");
@@ -362,7 +361,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 		this.manufacturerCombo.setRawValue("");
 		this.commentField.setRawValue("");
 		
-		if (this.keepStorageLocation.getValue() !== true || force == true)
+		if (this.keepStorageLocation.getValue() !== true || force === true)
 		{
 			this.partStorageLocation.setRawValue("");
 		}

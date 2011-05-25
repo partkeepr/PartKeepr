@@ -41,7 +41,7 @@ de.RaumZeitLabor.PartDB2.ManufacturerManagerDetails = Ext.extend(Ext.form.FormPa
     			"getManufacturer");
     	call.setParameter("id", this.storageLocationId);
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.ManufacturerManager.loadManufacturer]');
-    	call.setHandler(this.onManufacturerLoaded.createDelegate(this))
+    	call.setHandler(this.onManufacturerLoaded.createDelegate(this));
     	call.doCall();
 	},
 	saveManufacturer: function () {
@@ -51,7 +51,7 @@ de.RaumZeitLabor.PartDB2.ManufacturerManagerDetails = Ext.extend(Ext.form.FormPa
     	call.setParameter("id", this.storageLocationId);
     	call.setParameters(this.getForm().getValues());
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.ManufacturerManager.saveManufacturer]');
-    	call.setHandler(this.onManufacturerSaved.createDelegate(this))
+    	call.setHandler(this.onManufacturerSaved.createDelegate(this));
     	call.doCall();
 	},
 	onManufacturerSaved: function (response) {

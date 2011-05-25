@@ -16,7 +16,7 @@ Ext.ns("org.jerrymouse.lang");
 
 org.jerrymouse.lang.Vector = function () {
 	this.data = [];
-}
+};
 
 Ext.extend(org.jerrymouse.lang.Vector, org.jerrymouse.lang.Object, {
 	data: null,

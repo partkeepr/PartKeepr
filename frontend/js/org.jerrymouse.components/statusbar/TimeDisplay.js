@@ -25,7 +25,7 @@ org.jerrymouse.components.statusbar.TimeDisplay = function (t) {
     this.el = s;
     
     org.jerrymouse.components.statusbar.TimeDisplay.superclass.constructor.call(this, s);
-}
+};
 
 Ext.extend(org.jerrymouse.components.statusbar.TimeDisplay, Ext.Toolbar.TextItem, {
 	el: null,
@@ -44,4 +44,4 @@ Ext.extend(org.jerrymouse.components.statusbar.TimeDisplay, Ext.Toolbar.TextItem
 	}
 });
 
-Ext.reg('org.jerrymouse.components.statusbar.TimeDisplay', org.jerrymouse.components.statusbar.TimeDisplay)
+Ext.reg('org.jerrymouse.components.statusbar.TimeDisplay', org.jerrymouse.components.statusbar.TimeDisplay);

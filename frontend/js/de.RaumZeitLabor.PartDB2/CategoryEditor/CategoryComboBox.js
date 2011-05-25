@@ -15,7 +15,7 @@ de.RaumZeitLabor.PartDB2.CategoryComboBox = Ext.extend(Ext.form.ComboBox, {
 		
 		this.treeDivId = Ext.id();
 		
-		this.tpl = '<tpl for="."><div id="'+this.treeDivId+'" style="overflow: auto;"></div></tpl>',
+		this.tpl = '<tpl for="."><div id="'+this.treeDivId+'" style="overflow: auto;"></div></tpl>';
 		
 		this.store = new Ext.data.SimpleStore({fields:[],data:[[]]});
 		
@@ -46,7 +46,7 @@ de.RaumZeitLabor.PartDB2.CategoryComboBox = Ext.extend(Ext.form.ComboBox, {
 				this.disabledNode.enable();
 			}
 			
-			var node = obj.getRootNode().findChild("id", this.categoryId, true);
+			node = obj.getRootNode().findChild("id", this.categoryId, true);
 			
 			if (node) {
 				this.disabledNode = node;
@@ -77,7 +77,7 @@ de.RaumZeitLabor.PartDB2.CategoryComboBox = Ext.extend(Ext.form.ComboBox, {
 					this.disabledNode.enable();
 				}
 
-				var node = this.tree.getRootNode().findChild("id", this.categoryId, true);
+				node = this.tree.getRootNode().findChild("id", this.categoryId, true);
 				
 				if (node) {
 					this.disabledNode = node;

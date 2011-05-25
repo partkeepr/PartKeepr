@@ -68,7 +68,7 @@ org.jerrymouse.components.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 		obj.setText(obj.text);
 	},
 	startLoad: function (message) {
-		if (message != null) {
+		if (message !== null) {
 			this.showBusy({text: message, iconCls: "x-status-busy"});
 		} else {
 			this.showBusy();
@@ -83,4 +83,4 @@ org.jerrymouse.components.Statusbar = Ext.extend(Ext.ux.StatusBar, {
 	
 });
 
-Ext.reg('org.jerrymouse.components.Statusbar', org.jerrymouse.components.Statusbar)
+Ext.reg('org.jerrymouse.components.Statusbar', org.jerrymouse.components.Statusbar);

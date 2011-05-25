@@ -44,7 +44,7 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerDetails = Ext.extend(Ext.form.FormPanel
     			"getFootprint");
     	call.setParameter("id", this.footprintId);
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.FootPrintManager.loadFootprint]');
-    	call.setHandler(this.onFootprintLoaded.createDelegate(this))
+    	call.setHandler(this.onFootprintLoaded.createDelegate(this));
     	call.doCall();
 	},
 	saveFootprint: function () {
@@ -54,7 +54,7 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerDetails = Ext.extend(Ext.form.FormPanel
     	call.setParameter("id", this.footprintId);
     	call.setParameters(this.getForm().getValues());
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.FootPrintManager.saveFootprint]');
-    	call.setHandler(this.onFootprintSaved.createDelegate(this))
+    	call.setHandler(this.onFootprintSaved.createDelegate(this));
     	call.doCall();
 	},
 	onFootprintSaved: function (response) {

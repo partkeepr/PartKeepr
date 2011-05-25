@@ -33,5 +33,4 @@ de.RaumZeitLabor.PartDB2.StorageLocationManagerWindow = Ext.extend(org.jerrymous
 de.RaumZeitLabor.PartDB2.StorageLocationManagerWindow.handler = function () {
 	var storageLocationManager = new de.RaumZeitLabor.PartDB2.StorageLocationManagerWindow();
 	storageLocationManager.show();
-}
-
+};

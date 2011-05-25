@@ -54,7 +54,7 @@ de.RaumZeitLabor.PartDB2.StorageLocationListGrid = Ext.extend(Ext.grid.GridPanel
             columns: [
                 {header: '$[de.RaumZeitLabor.PartDB2.StorageLocationManager.name]', dataIndex: 'name', id: 'name'}
                 
-            ],
+            ]
         }),
 
         tbar: {
@@ -113,7 +113,7 @@ de.RaumZeitLabor.PartDB2.StorageLocationListGrid = Ext.extend(Ext.grid.GridPanel
 		Ext.getCmp("storagelocation-details").editStorageLocation(record.get("id"));
 	},
 	onStorageLocationSelectionChange: function (sm) {
-		if (sm.getCount() == 0) {
+		if (sm.getCount() === 0) {
 			Ext.getCmp("storagelocation-delete-button").disable();
 		}
 	},
@@ -133,7 +133,7 @@ de.RaumZeitLabor.PartDB2.StorageLocationListGrid = Ext.extend(Ext.grid.GridPanel
 									"deleteStorageLocation");
 							call.setParameter("id", record.get("id"));
 							call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.StorageLocationManager.deleteStorageLocation]');
-							call.setHandler(this.onStorageLocationDeleted.createDelegate(this))
+							call.setHandler(this.onStorageLocationDeleted.createDelegate(this));
 							call.doCall();
 						}
 				}.createDelegate(this));
@@ -149,7 +149,7 @@ de.RaumZeitLabor.PartDB2.StorageLocationListGrid = Ext.extend(Ext.grid.GridPanel
 		    					"addStorageLocation");
 						call.setParameter("name", text);
 						call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.StorageLocationManager.addStorageLocation]');
-						call.setHandler(this.onStorageLocationAdded.createDelegate(this))
+						call.setHandler(this.onStorageLocationAdded.createDelegate(this));
 						call.doCall();
 					}
 				}.createDelegate(this));

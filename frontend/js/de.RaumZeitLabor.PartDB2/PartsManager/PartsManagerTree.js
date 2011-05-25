@@ -100,7 +100,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerTree = Ext.extend(Ext.tree.TreePanel, {
     			"de.RaumZeitLabor.PartDB2.Category.CategoryManagerService", 
     			"getAllCategories");
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategories]');
-    	call.setHandler(this.onCategoriesLoaded.createDelegate(this))
+    	call.setHandler(this.onCategoriesLoaded.createDelegate(this));
     	call.doCall();
 	},
 	onCategoriesLoaded: function (result) {

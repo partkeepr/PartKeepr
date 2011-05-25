@@ -41,7 +41,7 @@ de.RaumZeitLabor.PartDB2.StorageLocationManagerDetails = Ext.extend(Ext.form.For
     			"getStorageLocation");
     	call.setParameter("id", this.storageLocationId);
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.StorageLocationManager.loadStorageLocation]');
-    	call.setHandler(this.onStorageLocationLoaded.createDelegate(this))
+    	call.setHandler(this.onStorageLocationLoaded.createDelegate(this));
     	call.doCall();
 	},
 	saveStorageLocation: function () {
@@ -51,7 +51,7 @@ de.RaumZeitLabor.PartDB2.StorageLocationManagerDetails = Ext.extend(Ext.form.For
     	call.setParameter("id", this.storageLocationId);
     	call.setParameters(this.getForm().getValues());
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.StorageLocationManager.saveStorageLocation]');
-    	call.setHandler(this.onStorageLocationSaved.createDelegate(this))
+    	call.setHandler(this.onStorageLocationSaved.createDelegate(this));
     	call.doCall();
 	},
 	onStorageLocationSaved: function (response) {

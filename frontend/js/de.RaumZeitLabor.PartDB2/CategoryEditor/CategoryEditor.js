@@ -9,7 +9,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 		this.categoryComboBox = new de.RaumZeitLabor.PartDB2.CategoryComboBox({
 			fieldLabel: '$[de.RaumZeitLabor.PartDB2.CategoryEditor.parentCategory]',
 			name: 'parent',
-			anchor: '100%',
+			anchor: '100%'
 		});
 		
 		Ext.apply(this, {
@@ -47,7 +47,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
 		this.categoryComboBox.categoryId = id;
 	},
 	createCategory: function () {
-		this.getForm().setValues({name: "", description: "", parent: 0})
+		this.getForm().setValues({name: "", description: "", parent: 0});
 		this.setCategoryId(null);
 		
 		var node = Ext.getCmp("parts-tree").getSelectionModel().getSelectedNode();
@@ -70,14 +70,14 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
     			"getCategory");
     	call.setParameter("id", this.categoryId);
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategory]');
-    	call.setHandler(this.onCategoryLoaded.createDelegate(this))
+    	call.setHandler(this.onCategoryLoaded.createDelegate(this));
     	call.doCall();
 	},
 	saveCategory: function () {
 		
 		var sCall;
 		
-		if (this.categoryId == null) {
+		if (this.categoryId === null) {
 			sCall = "addCategory";
 		} else {
 			sCall = "saveCategory";
@@ -93,7 +93,7 @@ de.RaumZeitLabor.PartDB2.CategoryEditor = Ext.extend(Ext.form.FormPanel, {
     	call.setParameter("id", this.categoryId);
     	call.setParameters(parameters);
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.saveCategory]');
-    	call.setHandler(this.onCategorySaved.createDelegate(this))
+    	call.setHandler(this.onCategorySaved.createDelegate(this));
     	call.doCall();
 	},
 	onCategorySaved: function (response) {

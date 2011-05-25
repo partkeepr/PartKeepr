@@ -54,7 +54,7 @@ de.RaumZeitLabor.PartDB2.ManufacturerListGrid = Ext.extend(Ext.grid.GridPanel, {
             columns: [
                 {header: '$[de.RaumZeitLabor.PartDB2.ManufacturerManager.name]', dataIndex: 'name', id: 'name'}
                 
-            ],
+            ]
         }),
 
         tbar: {
@@ -113,7 +113,7 @@ de.RaumZeitLabor.PartDB2.ManufacturerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		Ext.getCmp("manufacturer-details").editManufacturer(record.get("id"));
 	},
 	onManufacturerSelectionChange: function (sm) {
-		if (sm.getCount() == 0) {
+		if (sm.getCount() === 0) {
 			Ext.getCmp("manufacturer-delete-button").disable();
 		}
 	},
@@ -133,7 +133,7 @@ de.RaumZeitLabor.PartDB2.ManufacturerListGrid = Ext.extend(Ext.grid.GridPanel, {
 									"deleteManufacturer");
 							call.setParameter("id", record.get("id"));
 							call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.ManufacturerManager.deleteManufacturer]');
-							call.setHandler(this.onManufacturerDeleted.createDelegate(this))
+							call.setHandler(this.onManufacturerDeleted.createDelegate(this));
 							call.doCall();
 						}
 				}.createDelegate(this));
@@ -149,7 +149,7 @@ de.RaumZeitLabor.PartDB2.ManufacturerListGrid = Ext.extend(Ext.grid.GridPanel, {
 		    					"addManufacturer");
 						call.setParameter("name", text);
 						call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.ManufacturerManager.addManufacturer]');
-						call.setHandler(this.onManufacturerAdded.createDelegate(this))
+						call.setHandler(this.onManufacturerAdded.createDelegate(this));
 						call.doCall();
 					}
 				}.createDelegate(this));

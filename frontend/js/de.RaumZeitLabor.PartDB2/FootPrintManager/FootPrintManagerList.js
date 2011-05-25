@@ -55,7 +55,7 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerList = Ext.extend(Ext.grid.GridPanel, {
             columns: [
                 {header: '$[de.RaumZeitLabor.PartDB2.FootPrintManager.footprint]', dataIndex: 'footprint', id: 'footprint'}
                 
-            ],
+            ]
         }),
 
         tbar: {
@@ -114,7 +114,7 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerList = Ext.extend(Ext.grid.GridPanel, {
 		Ext.getCmp("footprint-details").editFootprint(record.get("id"));
 	},
 	onFootprintSelectionChange: function (sm) {
-		if (sm.getCount() == 0) {
+		if (sm.getCount() === 0) {
 			Ext.getCmp("footprint-delete-button").disable();
 		}
 	},
@@ -134,7 +134,7 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerList = Ext.extend(Ext.grid.GridPanel, {
 		    			"deleteFootprint");
 		    	call.setParameter("id", record.get("id"));
 		    	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.FootPrintManager.deleteFootprint]');
-		    	call.setHandler(this.onFootprintDeleted.createDelegate(this))
+		    	call.setHandler(this.onFootprintDeleted.createDelegate(this));
 		    	call.doCall();
 		    }
 		}.createDelegate(this));
@@ -147,7 +147,7 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerList = Ext.extend(Ext.grid.GridPanel, {
 		    			"addFootprint");
 		    	call.setParameter("footprint", text);
 		    	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.FootPrintManager.addFootprint]');
-		    	call.setHandler(this.onFootprintAdded.createDelegate(this))
+		    	call.setHandler(this.onFootprintAdded.createDelegate(this));
 		    	call.doCall();
 		    }
 		}.createDelegate(this));

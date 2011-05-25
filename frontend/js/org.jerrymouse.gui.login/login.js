@@ -72,7 +72,7 @@ org.jerrymouse.gui.login.dialog = Ext.extend(org.jerrymouse.gui.widgets.window, 
 			       		icon: 'resources/silkicons/cancel.png'
 			       	}, '->', {
 			       		xtype: 'org.jerrymouse.gui.widgets.LanguageChooser',
-			       		helpId: 'org.jerrymouse.gui.login.languagechooser',
+			       		helpId: 'org.jerrymouse.gui.login.languagechooser'
 			       	}]
 		});
 		
@@ -90,7 +90,7 @@ org.jerrymouse.gui.login.dialog = Ext.extend(org.jerrymouse.gui.widgets.window, 
 		call.setParameter("password", md5(this.passwordField.getValue()));
 		call.setLoadMessage('$[org.jerrymouse.gui.login.login_loading_message]');
 		call.setAnonymous(true);
-		call.setHandler(this.onLogin.createDelegate(this))
+		call.setHandler(this.onLogin.createDelegate(this));
 		call.doCall();
 	},
 	onLogin: function (obj) {

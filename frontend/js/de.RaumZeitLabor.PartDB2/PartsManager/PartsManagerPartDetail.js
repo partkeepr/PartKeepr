@@ -105,7 +105,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerPartDetail = Ext.extend(Ext.TabPanel, {
     			"getPart");
 		call.setParameter("part", id);
     	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategories]');
-    	call.setHandler(this.onPartLoaded.createDelegate(this))
+    	call.setHandler(this.onPartLoaded.createDelegate(this));
     	call.doCall();
 	},
 	onPartLoaded: function (response) {

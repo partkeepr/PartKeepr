@@ -53,4 +53,4 @@ org.jerrymouse.gui.widgets.LanguageChooser = Ext.extend(Ext.Button, {
 
 });
 
-Ext.reg('org.jerrymouse.gui.widgets.LanguageChooser', org.jerrymouse.gui.widgets.LanguageChooser)
+Ext.reg('org.jerrymouse.gui.widgets.LanguageChooser', org.jerrymouse.gui.widgets.LanguageChooser);
