@@ -69,7 +69,7 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	        ]
 	    });
 		
-		this.partStorageLocation = new Ext.form.ComboBox({
+		this.partStorageLocation = new Ext.form.ClearableComboBox({
 			store: this.storageLocationStore,
 			displayField: "name",
 			anchor: '100%',
@@ -103,14 +103,9 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 	        ]
 	    });
 		
-		this.footprintCombo = new Ext.form.ComboBox({
+		this.footprintCombo = new Ext.form.ClearableComboBox({
 			validator: function (value) {
 				return true;
-				/*if (value == "") {
-					return "Es muß ein Footprint ausgewählt werden";
-				}
-				console.log(this.footprintCombo.getValue());
-				console.log(value);*/
 			}.createDelegate(this),
 			store: this.footprintStore,
 			displayField: "footprint",
