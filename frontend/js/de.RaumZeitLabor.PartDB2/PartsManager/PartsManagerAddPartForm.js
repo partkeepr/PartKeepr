@@ -56,6 +56,8 @@ de.RaumZeitLabor.PartDB2.PartsManagerAddPartForm = Ext.extend(Ext.form.FormPanel
 				"de.RaumZeitLabor.PartDB2.StorageLocation.StorageLocationService", 
 				"getStorageLocations");
 	
+		this.storageLocationCall.setParameter("limit", -1);
+		
 		this.storageLocationStore = new Ext.data.JsonStore({
 	        root: 'storageLocations',
 	        totalProperty: 'totalCount',
