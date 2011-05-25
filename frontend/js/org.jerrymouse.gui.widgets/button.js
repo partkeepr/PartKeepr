@@ -27,7 +27,6 @@ org.jerrymouse.gui.widgets.button = Ext.extend(Ext.Button, {
 		org.jerrymouse.gui.widgets.button.superclass.setText.call(this, Ext.replaceLocaleTags(text));
 	},
 	onRender : function(ct, position){
-		console.log("FOO");
 		org.jerrymouse.gui.widgets.toolbar.button.superclass.onRender.call(this, ct, position);
 		this.setText(this.text);
 	}

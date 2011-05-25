@@ -124,8 +124,6 @@ de.RaumZeitLabor.PartDB2.FootPrintManagerList = Ext.extend(Ext.grid.GridPanel, {
 	deleteFootprint: function () {
 		var record = this.getSelectionModel().getSelected();
 		
-		console.log(record.get("id"));
-		
 		org.jerrymouse.gui.widgets.messagebox.confirm('$[de.RaumZeitLabor.PartDB2.FootPrintManager.deleteFootprintDialogTitle]', '$[de.RaumZeitLabor.PartDB2.FootPrintManager.deleteFootprintDialogMessage]',function(btn, text){
 			
 			if (btn == 'yes'){

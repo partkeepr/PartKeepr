@@ -19,7 +19,6 @@ Ext.override(Ext.menu.TextItem, {
         var s = document.createElement("span");
         s.className = this.itemCls;
         s.innerHTML = Ext.replaceLocaleTags(this.text);
-        console.log("FOO");
         this.el = s;
         Ext.menu.TextItem.superclass.onRender.apply(this, arguments);
     }
