@@ -2,7 +2,7 @@
 namespace de\RaumZeitLabor\PartDB2\Footprint;
 declare(encoding = 'UTF-8');
 
-/** @Entity @Table(name="footprints") */
+/** @Entity */
 
 class Footprint {
 	/** @Id @Column(type="integer") 

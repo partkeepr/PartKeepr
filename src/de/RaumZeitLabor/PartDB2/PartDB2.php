@@ -56,6 +56,9 @@ class PartDB2 {
 		$classLoader = new ClassLoader('Doctrine\Common');
 		$classLoader->register(); // register on SPL autoload stack
 		
+		$classLoader = new ClassLoader('Symfony', 'Doctrine');
+		$classLoader->register(); // register on SPL autoload stack
+		
 		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", dirname(dirname(dirname(dirname(__DIR__)))) ."/3rdparty/doctrine2-nestedset/lib");
 		$classLoader->register();
 	}
@@ -157,7 +160,11 @@ class PartDB2 {
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Part\Part'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation'),
   			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Stock\StockEntry'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer')
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Image\Image'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Image\CachedImage'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Image\TempImage'),
+  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo')
 		);
 		
 		return $classes;
@@ -169,5 +176,28 @@ class PartDB2 {
 	public static function i18n ($string) {
 		return $string;
 	}
+	
+	public static function createGUIDv4() {
+	    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+	
+	      // 32 bits for "time_low"
+	      mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+	
+	      // 16 bits for "time_mid"
+	      mt_rand(0, 0xffff),
+	
+	      // 16 bits for "time_hi_and_version",
+	      // four most significant bits holds version number 4
+	      mt_rand(0, 0x0fff) | 0x4000,
+	
+	      // 16 bits, 8 bits for "clk_seq_hi_res",
+	      // 8 bits for "clk_seq_low",
+	      // two most significant bits holds zero and one for variant DCE1.1
+	      mt_rand(0, 0x3fff) | 0x8000,
+	
+	      // 48 bits for "node"
+	      mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+	    );
+	  }
 }
 ?>

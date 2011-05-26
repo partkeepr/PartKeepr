@@ -30,6 +30,29 @@ class ManufacturerService extends Service {
 		ManufacturerManager::getInstance()->deleteManufacturer($this->getParameter("id"));
 	}
 	
+	public function deleteManufacturerLogo () {
+		$this->requireParameter("id");
+		
+		$logo = ManufacturerICLogo::loadById($this->getParameter("id"));
+		
+		PartDB2::getEM()->remove($logo);
+		PartDB2::getEM()->flush();
+	}
+	
+	public function getManufacturerLogos () {
+		$this->requireParameter("id");
+		$manufacturer = ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"));
+		
+		$aData = array();
+		
+		foreach ($manufacturer->getICLogos() as $logo) {
+			$aData[] = array("id" => $logo->getId());
+		}
+		
+		return array("logos" => $aData);
+			
+	}
+	
 	public function getManufacturer () {
 		$this->requireParameter("id");
 		

@@ -4,7 +4,7 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Auth\User;
 
-/** @Entity @Table(name="sessions") */
+/** @Entity */
 class Session {
 	
 	/** @Id @Column(type="integer") 

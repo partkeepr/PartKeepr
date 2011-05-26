@@ -2,6 +2,8 @@
 namespace de\RaumZeitLabor\PartDB2\Manufacturer;
 declare(encoding = 'UTF-8');
 
+use de\RaumZeitLabor\PartDB2\PartDB2;
+
 /** @Entity **/
 class Manufacturer {
 	
@@ -17,11 +19,27 @@ class Manufacturer {
 	 */
 	private $name;
 	
+	/**
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"})
+	 */
+	private $icLogos;
+	
+	public function __construct () {
+		$this->icLogos = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 	public function setName ($name) {
 		$this->name = $name;
+	}
+	
+	public function getICLogos () {
+		return $this->icLogos;
 	}
 	
 	public function serialize () {
 		return array("id" => $this->id, "name" => $this->name);
 	}
+	
+	public static function loadById ($id) {
+    	return PartDB2::getEM()->find(get_called_class(), $id);
+    }
 }

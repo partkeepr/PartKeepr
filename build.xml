@@ -34,7 +34,7 @@
 		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
 		<mkdir dir="build/"/>
 		<copy overwrite="false" todir="build/extjs/">
-			<fileset dir="3rdparty/ext-3.2.1/">
+			<fileset dir="3rdparty/ext-3.3.1/">
 				<include name="ext-all.js"/>
 				<include name="ext-all-debug.js"/>
 				<include name="ext-all-debug-w-comments.js"/>
@@ -47,7 +47,7 @@
 			
 		<echo>Copying Ext Statusbar (removing features during a major version is stupid, ExtJS guys...)</echo>
 		<copy overwrite="false" todir="build/js/ux/">
-			<fileset dir="3rdparty/ext-3.2.1/examples/ux">
+			<fileset dir="3rdparty/ext-3.3.1/examples/ux">
 				<include name="statusbar/**"/>
 			</fileset>
 		</copy>
@@ -77,6 +77,8 @@
 				<include name="css/**"/>
 				<include name="index.html"/>
 				<include name="service.php"/>
+				<include name="image.php"/>
+				<include name="upload.php"/>
 			</fileset>
 		</copy>
 	</target>

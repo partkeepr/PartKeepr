@@ -4,7 +4,7 @@ declare(encoding = 'UTF-8');
 
 use DoctrineExtensions\NestedSet\Node;
 
-/** @Entity @Table(name="categories",indexes={@index(name="lft", columns={"lft"}),@index(name="rgt", columns={"rgt"})}) */
+/** @Entity @Table(indexes={@index(name="lft", columns={"lft"}),@index(name="rgt", columns={"rgt"})}) */
 class Category implements Node {
 	/** @Id @Column(type="integer") 
 	 * @GeneratedValue(strategy="AUTO")

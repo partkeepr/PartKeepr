@@ -16,6 +16,9 @@ use de\RaumZeitLabor\PartDB2\Stock\StockEntry;
 use de\RaumZeitLabor\PartDB2\Category\CategoryManager;
 use de\RaumZeitLabor\PartDB2\Category\CategoryManagerService;
 
+use de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo;
+use de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer;
+
 PartDB2::initialize();
 
 
@@ -43,8 +46,11 @@ if (!($_SERVER["argc"] == 2 && $_SERVER["argv"][1] == "--yes")) {
 
 echo "Performing actions...\n";
 
-mkdir("../src/Proxies");
+@mkdir("../src/Proxies");
+@mkdir("../data");
+@mkdir("../data/images");
 chmod("../src/Proxies", 0777);
+chmod("../data/images", 0777);
 
 $tool = new \Doctrine\ORM\Tools\SchemaTool(PartDB2::getEM());
 
@@ -151,10 +157,30 @@ while ($part = mysql_fetch_assoc($r)) {
 
 }
 
+PartDB2::getEM()->flush();
 
+/* Add manufacturers and IC logos */
+$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/manufacturers/manufacturers.yaml");
+
+foreach ($data as $mfgname => $logos) {
+	$manufacturer = new Manufacturer();
+	$manufacturer->setName($mfgname);
+	
+	PartDB2::getEM()->persist($manufacturer);
+	
+	foreach ($logos as $logo) {
+		$mfglogo = new ManufacturerICLogo();
+		$mfglogo->setManufacturer($manufacturer);
+		$mfglogo->replace("../setup/data/manufacturers/images/".$logo);
+		
+		PartDB2::getEM()->persist($mfglogo);
+	}
+}
 
 PartDB2::getEM()->flush();
 
 echo "All done.\n";
 
+apc_clear_cache();
+apc_clear_cache("user");
 ?>
