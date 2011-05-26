@@ -30,6 +30,7 @@ PartDB2 needs:
 * Tokenizer Support
 * A working PEAR installation
 * A MySQL database
+* The Imagick pecl extension
 
 Installation
 ------------
