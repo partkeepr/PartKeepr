@@ -69,6 +69,9 @@ class PartManager extends Singleton {
 				case "storagelocation":
 					$sortby = "st.name";
 					break;
+				case "stocklevel":
+					$sortby = "p.stockLevel";
+					break;
 				default:
 					$sortby = "p.name";
 			}
