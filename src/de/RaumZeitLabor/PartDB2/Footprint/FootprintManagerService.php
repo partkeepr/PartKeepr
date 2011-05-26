@@ -2,8 +2,9 @@
 namespace de\raumzeitlabor\PartDB2\Footprint;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\Service\Service;
-use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
+use de\RaumZeitLabor\PartDB2\Service\Service,
+	de\RaumZeitLabor\PartDB2\PartDB2,
+	de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
 
 class FootprintManagerService extends Service {
 	public function getFootprints () {
