@@ -81,11 +81,13 @@ de.RaumZeitLabor.PartDB2.ManufacturerListGrid = Ext.extend(Ext.grid.GridPanel, {
 			        	listeners: {
 			        		'startSearch': function (text) {
 			        			this.store.proxy.call.setParameter("filter", text);
-			        			this.store.reload();
+			        			this.store.proxy.call.setParameter("start", 0);
+			        			this.store.load({start: 0});
 			        		}.createDelegate(this),
 			        		'resetSearch': function (text) {
 			        			this.store.proxy.call.setParameter("filter", '');
-			        			this.store.reload();
+			        			this.store.proxy.call.setParameter("start", 0);
+			        			this.store.load({start: 0});
 			        		}.createDelegate(this)
 			        	},
 			        	id: 'filter'
