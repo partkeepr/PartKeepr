@@ -96,8 +96,8 @@ class PartDB2 {
 		$config = new Configuration;
 		
 		$driverImpl = $config->newDefaultAnnotationDriver(
-			array(__DIR__."/Auth"),
-			array(__DIR__."/Session")
+			array(__DIR__)
+			//array(__DIR__."/Session")
 			
 			);
 		$config->setMetadataDriverImpl($driverImpl);
@@ -122,7 +122,8 @@ class PartDB2 {
 		// Proxy configuration
 		$config->setProxyDir(dirname(dirname(dirname(__DIR__))) . '/Proxies');
 		$config->setProxyNamespace('Proxies');
-		$config->setAutoGenerateProxyClasses(true);
+		$config->setEntityNamespaces(self::getEntityClasses());
+		$config->setAutoGenerateProxyClasses(false);
 		
 		$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
         //$config->setSQLLogger($logger);
@@ -152,22 +153,32 @@ class PartDB2 {
 	}
 	
 	public static function getClassMetaData () {
-		$classes = array(
-			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Auth\User'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Session\Session'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Footprint\Footprint'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Category\Category'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Part\Part'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Stock\StockEntry'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Image\Image'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Image\CachedImage'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Image\TempImage'),
-  			PartDB2::getEM()->getClassMetadata('de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo')
-		);
+		$classes = self::getEntityClasses();
+
+		$aClasses = array();
 		
-		return $classes;
+		foreach ($classes as $class) {
+			$aClasses[] = PartDB2::getEM()->getClassMetadata($class);
+		}
+		
+		return $aClasses;
+	}
+	
+	public static function getEntityClasses () {
+		return array(
+			'de\RaumZeitLabor\PartDB2\Auth\User',
+			'de\RaumZeitLabor\PartDB2\Session\Session',
+			'de\RaumZeitLabor\PartDB2\Footprint\Footprint',
+			'de\RaumZeitLabor\PartDB2\Category\Category',
+			'de\RaumZeitLabor\PartDB2\Part\Part',
+			'de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation',
+			'de\RaumZeitLabor\PartDB2\Stock\StockEntry',
+			'de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer',
+			'de\RaumZeitLabor\PartDB2\Image\Image',
+			'de\RaumZeitLabor\PartDB2\Image\CachedImage',
+			'de\RaumZeitLabor\PartDB2\Image\TempImage',
+			'de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo'
+		);
 	}
 	
 	/**
