@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-PluginManager'>/**
+</span> * @class Ext.PluginManager
+ * @extends Ext.AbstractManager
+ * &lt;p&gt;Provides a registry of available Plugin &lt;i&gt;classes&lt;/i&gt; indexed by a mnemonic code known as the Plugin's ptype.
+ * The &lt;code&gt;{@link Ext.Component#xtype xtype}&lt;/code&gt; provides a way to avoid instantiating child Components
+ * when creating a full, nested config object for a complete Ext page.&lt;/p&gt;
+ * &lt;p&gt;A child Component may be specified simply as a &lt;i&gt;config object&lt;/i&gt;
+ * as long as the correct &lt;code&gt;{@link Ext.Component#xtype xtype}&lt;/code&gt; is specified so that if and when the Component
+ * needs rendering, the correct type can be looked up for lazy instantiation.&lt;/p&gt;
+ * &lt;p&gt;For a list of all available &lt;code&gt;{@link Ext.Component#xtype xtypes}&lt;/code&gt;, see {@link Ext.Component}.&lt;/p&gt;
+ * @singleton
+ */
+Ext.define('Ext.PluginManager', {
+    extend: 'Ext.AbstractManager',
+    alternateClassName: 'Ext.PluginMgr',
+    singleton: true,
+    typeName: 'ptype',
+
+<span id='Ext-PluginManager-method-create'>    /**
+</span>     * Creates a new Plugin from the specified config object using the
+     * config object's ptype to determine the class to instantiate.
+     * @param {Object} config A configuration object for the Plugin you wish to create.
+     * @param {Constructor} defaultType The constructor to provide the default Plugin type if
+     * the config object does not contain a &lt;code&gt;ptype&lt;/code&gt;. (Optional if the config contains a &lt;code&gt;ptype&lt;/code&gt;).
+     * @return {Ext.Component} The newly instantiated Plugin.
+     */
+    //create: function(plugin, defaultType) {
+    //    if (plugin instanceof this) {
+    //        return plugin;
+    //    } else {
+    //        var type, config = {};
+    //
+    //        if (Ext.isString(plugin)) {
+    //            type = plugin;
+    //        }
+    //        else {
+    //            type = plugin[this.typeName] || defaultType;
+    //            config = plugin;
+    //        }
+    //
+    //        return Ext.createByAlias('plugin.' + type, config);
+    //    }
+    //},
+
+    create : function(config, defaultType){
+        if (config.init) {
+            return config;
+        } else {
+            return Ext.createByAlias('plugin.' + (config.ptype || defaultType), config);
+        }
+        
+        // Prior system supported Singleton plugins.
+        //var PluginCls = this.types[config.ptype || defaultType];
+        //if (PluginCls.init) {
+        //    return PluginCls;
+        //} else {
+        //    return new PluginCls(config);
+        //}
+    },
+
+<span id='Ext-PluginManager-method-findByType'>    /**
+</span>     * Returns all plugins registered with the given type. Here, 'type' refers to the type of plugin, not its ptype.
+     * @param {String} type The type to search for
+     * @param {Boolean} defaultsOnly True to only return plugins of this type where the plugin's isDefault property is truthy
+     * @return {Array} All matching plugins
+     */
+    findByType: function(type, defaultsOnly) {
+        var matches = [],
+            types   = this.types;
+
+        for (var name in types) {
+            if (!types.hasOwnProperty(name)) {
+                continue;
+            }
+            var item = types[name];
+
+            if (item.type == type &amp;&amp; (!defaultsOnly || (defaultsOnly === true &amp;&amp; item.isDefault))) {
+                matches.push(item);
+            }
+        }
+
+        return matches;
+    }
+}, function() {    
+<span id='Ext-method-preg'>    /**
+</span>     * Shorthand for {@link Ext.PluginManager#registerType}
+     * @param {String} ptype The ptype mnemonic string by which the Plugin class
+     * may be looked up.
+     * @param {Constructor} cls The new Plugin class.
+     * @member Ext
+     * @method preg
+     */
+    Ext.preg = function() {
+        return Ext.PluginManager.registerType.apply(Ext.PluginManager, arguments);
+    };
+});
+</pre>
+</body>
+</html>

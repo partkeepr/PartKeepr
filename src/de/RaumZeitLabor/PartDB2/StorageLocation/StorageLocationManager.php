@@ -42,7 +42,7 @@ class StorageLocationManager extends Singleton {
 		
 		$totalQuery = $totalQueryBuilder->getQuery();
 		
-		return array("storageLocations" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
+		return array("data" => $result, "start" => $start, "totalCount" => $totalQuery->getSingleScalarResult());
 	}
 	
 	public function getStorageLocation ($id) {
@@ -60,11 +60,27 @@ class StorageLocationManager extends Singleton {
 		$storageLocation->setName($name);
 		
 		PartDB2::getEM()->persist($storageLocation);
+		PartDB2::getEM()->flush();
+		
+		return $storageLocation;
 	}
 	public function deleteStorageLocation ($id) {
 		$storageLocation = $this->getStorageLocation($id);
 		
 		PartDB2::getEM()->remove($storageLocation);
 		PartDB2::getEM()->flush();
+	}
+	
+	public function getOrCreateStorageLocation ($storageLocation) {
+		try {
+			return $this->getStorageLocation($storageLocation);
+		} catch (StorageLocationNotFoundException $e) {
+			$sl = new StorageLocation();
+			$sl->setName($storageLocation);
+			
+			PartDB2::getEM()->persist($sl);
+			
+			return $sl;
+		}
 	}
 }

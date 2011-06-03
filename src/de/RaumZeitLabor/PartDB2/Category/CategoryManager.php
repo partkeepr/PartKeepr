@@ -4,6 +4,7 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Util\Singleton,
 	de\RaumZeitLabor\PartDB2\Category\Category,
+	de\RaumZeitLabor\PartDB2\Util\SerializableException,
 	de\RaumZeitLabor\PartDB2\Category\Exceptions\CategoryNotFoundException,
 	de\RaumZeitLabor\PartDB2\PartDB2;
 use DoctrineExtensions\NestedSet\Manager;
@@ -82,8 +83,25 @@ class CategoryManager extends Singleton {
 		
 		
 		if ($category) {
-			$category = new NodeWrapper($category, $this->getNodeManager());
-			$category->delete();
+			try {
+				$category = new NodeWrapper($category, $this->getNodeManager());
+				
+				if ($category->hasChildren()) {
+					$exception = new SerializableException(sprintf(PartDB2::i18n("Category '%s' contains other categories."), $category->getNode()->getName()));
+					$exception->setDetail(sprintf(PartDB2::i18n("You tried to delete the category '%s', but it still contains other categories. Please move the categories or delete them first."), $category->getNode()->getName()));
+				
+					throw $exception;
+				}
+				$category->delete();	
+			} catch (\PDOException $e) {
+				if ($e->getCode() == "23000") {
+					$exception = new SerializableException(sprintf(PartDB2::i18n("Category '%s' contains parts."), $category->getNode()->getName()));
+					$exception->setDetail(sprintf(PartDB2::i18n("You tried to delete the category '%s', but it still contains parts. Please move the parts to another category."), $category->getNode()->getName()));
+				
+					throw $exception;
+				}
+			}
+			
 		} else {
 			throw new CategoryNotFoundException;
 		}

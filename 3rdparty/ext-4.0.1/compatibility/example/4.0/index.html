@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Ext JS Migration Demo (4.0)</title>
+    <!-- Ext 4.0 -->
+    <link rel="stylesheet" type="text/css" href="../../../../resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../../../bootstrap.js"></script>
+    
+    <!-- App-specific -->
+    <link rel="stylesheet" type="text/css" href="../shared/app.css" />
+    <style>
+        .x-tree-panel .x-grid-row-selected .x-grid-cell-inner {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        // Enable dynamic loading for improved debugging support
+        Ext.Loader.setConfig({enabled: true});
+        
+        // Since the app classes are not under the standard Ext /src path we
+        // have to tell the loader where to look for them. The app names should
+        // match the physical layout, including namespaces (e.g. Ext.migration.App 
+        // should be found in migration/App.js). This is how the ClassManager can
+        // resolve the classes dynamically.
+        Ext.Loader.setPath('Ext.migration', 'migration/');
+        
+        // Make sure the app entry point class is "required" initially (along with any
+        // other Ext classes that might be required for the app to initialize). All
+        // other dependencies will be maintained at the individual class level.
+        Ext.require([
+            'Ext.migration.App'
+        ]);
+        
+        Ext.onReady(function(){
+            // Referencing Ext.migration.App directly as an instance object will not 
+            // work yet at this stage since classes are defined by their string names
+            // now. You must first explicitly create an instance via the ClassManager.
+            Ext.create('Ext.migration.App').init();
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,155 @@
+/**
+ * @class Ext.layout.container.Card
+ * @extends Ext.layout.container.AbstractCard
+  * <p>This layout manages multiple child Components, each fitted to the Container, where only a single child Component can be
+  * visible at any given time.  This layout style is most commonly used for wizards, tab implementations, etc.
+  * This class is intended to be extended or created via the layout:'card' {@link Ext.container.Container#layout} config,
+  * and should generally not need to be created directly via the new keyword.</p>
+  * <p>The CardLayout's focal method is {@link #setActiveItem}.  Since only one panel is displayed at a time,
+  * the only way to move from one Component to the next is by calling setActiveItem, passing the id or index of
+  * the next panel to display.  The layout itself does not provide a user interface for handling this navigation,
+  * so that functionality must be provided by the developer.</p>
+  * <p>In the following example, a simplistic wizard setup is demonstrated.  A button bar is added
+  * to the footer of the containing panel to provide navigation buttons.  The buttons will be handled by a
+  * common navigation routine -- for this example, the implementation of that routine has been ommitted since
+  * it can be any type of custom logic.  Note that other uses of a CardLayout (like a tab control) would require a
+  * completely different implementation.  For serious implementations, a better approach would be to extend
+  * CardLayout to provide the custom functionality needed.  
+  * {@img Ext.layout.container.Card/Ext.layout.container.Card.png Ext.layout.container.Card container layout}
+  * Example usage:</p>
+  * <pre><code>
+    var navHandler = function(direction){
+         // This routine could contain business logic required to manage the navigation steps.
+         // It would call setActiveItem as needed, manage navigation button state, handle any
+         // branching logic that might be required, handle alternate actions like cancellation
+         // or finalization, etc.  A complete wizard implementation could get pretty
+         // sophisticated depending on the complexity required, and should probably be
+         // done as a subclass of CardLayout in a real-world implementation.
+     };
+
+    Ext.create('Ext.panel.Panel', {
+        title: 'Example Wizard',
+        width: 300,
+        height: 200,
+        layout: 'card',
+        activeItem: 0, // make sure the active item is set on the container config!
+        bodyStyle: 'padding:15px',
+        defaults: {
+            // applied to each contained panel
+            border:false
+        },
+        // just an example of one possible navigation scheme, using buttons
+        bbar: [
+        {
+            id: 'move-prev',
+            text: 'Back',
+            handler: navHandler(this, [-1]),
+            disabled: true
+        },
+        '->', // greedy spacer so that the buttons are aligned to each side
+        {
+            id: 'move-next',
+            text: 'Next',
+            handler: navHandler(this, [1])
+        }],
+        // the panels (or "cards") within the layout
+        items: [{
+            id: 'card-0',
+            html: '&lt;h1&gt;Welcome to the Wizard!&lt;/h1&gt;&lt;p&gt;Step 1 of 3&lt;/p&gt;'
+        },{
+            id: 'card-1',
+            html: '&lt;p&gt;Step 2 of 3&lt;/p&gt;'
+        },{
+            id: 'card-2',
+            html: '&lt;h1&gt;Congratulations!&lt;/h1&gt;&lt;p&gt;Step 3 of 3 - Complete&lt;/p&gt;'
+        }],
+        renderTo: Ext.getBody()
+    });  
+ </code></pre>
+  */
+Ext.define('Ext.layout.container.Card', {
+
+    /* Begin Definitions */
+
+    alias: ['layout.card'],
+    alternateClassName: 'Ext.layout.CardLayout',
+
+    extend: 'Ext.layout.container.AbstractCard',
+
+    /* End Definitions */
+
+    setActiveItem: function(newCard) {
+        var me = this,
+            owner = me.owner,
+            oldCard = me.activeItem,
+            newIndex;
+
+        // Block upward layouts until we are done.
+        me.layoutBusy = true;
+
+        newCard = me.parseActiveItem(newCard);
+        newIndex = owner.items.indexOf(newCard);
+
+        // If the card is not a child of the owner, then add it
+        if (newIndex == -1) {
+            newIndex = owner.items.items.length;
+            owner.add(newCard);
+        }
+
+        // Is this a valid, different card?
+        if (newCard && oldCard != newCard) {
+            // If the card has not been rendered yet, now is the time to do so.
+            if (!newCard.rendered) {
+                me.renderItem(newCard, me.getRenderTarget(), owner.items.length);
+                me.configureItem(newCard, 0);
+            }
+
+            me.activeItem = newCard;
+
+            // Fire the beforeactivate and beforedeactivate events on the cards
+            if (newCard.fireEvent('beforeactivate', newCard, oldCard) === false) {
+                me.layoutBusy = false;
+                return false;
+            }
+            if (oldCard && oldCard.fireEvent('beforedeactivate', oldCard, newCard) === false) {
+                me.layoutBusy = false;
+                return false;
+            }
+
+            // If the card hasnt been sized yet, do it now
+            if (!me.sizeAllCards) {
+                me.setItemBox(newCard, me.getTargetBox());
+            }
+            else {
+                // onLayout calls setItemBox
+                me.onLayout();
+            }
+
+            if (oldCard) {
+                if (me.hideInactive) {
+                    oldCard.hide();
+                }
+                oldCard.fireEvent('deactivate', oldCard, newCard);
+            }
+
+            // Make sure the new card is shown
+            if (newCard.hidden) {
+                newCard.show();
+            }
+
+            newCard.fireEvent('activate', newCard, oldCard);
+
+            me.layoutBusy = false;
+
+            if (!me.sizeAllCards) {
+                if (!owner.componentLayout.layoutBusy) {
+                    me.onLayout();
+                }
+            }
+            return newCard;
+        }
+
+        me.layoutBusy = false;
+        return false;
+    }
+});

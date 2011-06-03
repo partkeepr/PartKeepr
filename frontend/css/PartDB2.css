@@ -1,0 +1,64 @@
+.manufacturer-ic-logos .thumb{
+	background: #ffffff;
+	padding: 3px;
+}
+
+.manufacturer-ic-logos .thumb-wrap{
+	display: inline-block;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+
+.manufacturer-ic-logos .thumb-wrap span{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+}
+
+.manufacturer-ic-logos .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url(../resources/images/over.gif) repeat-x left top;
+	padding: 4px;
+}
+
+.manufacturer-ic-logos .x-item-selected{
+	background: #eff5fb url(../resources/images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}
+.manufacturer-ic-logos .x-view-selected .thumb{
+	background:transparent;
+}
+
+.manufacturer-ic-logos .thumb-wrap span {
+	cursor: default;
+}
+
+.partdisplay h1 {
+	font-size: 2em;
+}
+
+div.partdisplay td {
+	padding: 2px;
+	vertical-align: top;
+}
+
+div.partdisplay table {
+	width: 100%;	
+}
+td.e {
+	background-color: #eeeeee;
+}
+
+td.e2 {
+	background-color: #dddddd;	
+}
+
+td.o {
+	background-color: #cccccc;	
+}
+
+td.o2 {
+	background-color: #bbbbbb;	
+}

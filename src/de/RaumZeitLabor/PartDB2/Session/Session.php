@@ -34,11 +34,9 @@ class Session {
 		return $this->sessionid;
 	}
 	
-	public function resume ($session) {
-		session_id($session);
+	public function resume () {
+		session_id($this->sessionid);
 		session_start();
-		
-		$this->sessionid = session_id();
 	}
 	
 	public function getUser () {

@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartDB2\Manufacturer;
+use de\RaumZeitLabor\PartDB2\Service\RestfulService;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Service\Service;
@@ -8,7 +10,59 @@ use de\RaumZeitLabor\PartDB2\Part\PartManager,
 	de\RaumZeitLabor\PartDB2\PartDB2,
 	de\RaumZeitLabor\PartDB2\Session\SessionManager;
 
-class ManufacturerService extends Service {
+class ManufacturerService extends Service implements RestfulService {
+		public function get () {
+		if ($this->hasParameter("id")) {
+			return ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"))->serialize();
+		} else {
+			if ($this->hasParameter("sort")) {
+				$tmp = json_decode($this->getParameter("sort"), true);
+				
+				$aSortParams = $tmp[0];
+			} else {
+				$aSortParams = array(
+					"property" => "name",
+					"direction" => "ASC");
+			}
+			return ManufacturerManager::getInstance()->getManufacturers(
+			$this->getParameter("start", $this->getParameter("start", 0)),
+			$this->getParameter("limit", $this->getParameter("limit", 25)),
+			$this->getParameter("sortby", $aSortParams["property"]),
+			$this->getParameter("dir", $aSortParams["direction"]),
+			$this->getParameter("query", ""));
+		}
+	}
+	
+	public function create () {
+		$this->requireParameter("name");
+		
+		$manufacturer = ManufacturerManager::getInstance()->addManufacturer($this->getParameter("name"));
+		
+		return array("data" => $manufacturer->serialize());
+	}
+	
+	public function update () {
+		$this->requireParameter("id");
+		$this->requireParameter("name");
+		$manufacturer = ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"));
+		$manufacturer->setName($this->getParameter("manufacturer"));
+		
+		PartDB2::getEM()->flush();
+		
+		return array("data" => $manufacturer->serialize());
+		
+	}
+	
+	public function destroy () {
+		$this->requireParameter("id");
+		
+		ManufacturerManager::getInstance()->deleteManufacturer($this->getParameter("id"));
+		
+		return array("data" => null);
+	}
+	
+	
+	// Old stuff below
 	public function getManufacturers() {
 		return ManufacturerManager::getInstance()->getManufacturers(
 			$this->getParameter("start", 0),

@@ -1,0 +1,29 @@
+#app-header {
+    font-family: Arial, sans-serif;
+    color: #596F8F;
+    font-size: 22px;
+    font-weight: 200;
+    padding: 14px 15px 8px 80px;
+    text-shadow: 0 1px 0 #fff;
+    background: url(app-logo.png) no-repeat 8px 8px;
+}
+#app-header .subtitle {
+    font-size: 12px;
+    color: #369;
+}
+#order-view .x-panel-body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+#order-view .x-panel-body h1 {
+    background: #eee;
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    padding: 14px 15px 10px;
+}
+#order-view .x-panel-body p {
+    padding: 10px 15px 0;
+}
+.x-tree-selected {
+    font-weight: bold;
+}

@@ -1,0 +1,132 @@
+/*
+ * Styles shared by Ext 4 Overview and Migration guides
+ */
+* {
+	color: #555;
+}
+body {
+	margin-bottom: 200px;
+}
+h1 {
+	margin-top: 20px;
+	font-size: 2.4em;
+}
+h2 {
+	color: #339;
+}
+pre code {
+	background: #f6f6ff;
+	border: 1px solid #ccf;
+	display: block;
+	padding: 0 15px;
+	line-height: 1.2em;
+}
+#hd {
+	margin-top: 50px;
+}
+#ft {
+	padding-top: 20px;
+}
+#ft p {
+	color: gray;
+}
+.draft {
+	background-color: #FFD336;
+	border-bottom: 1px solid #F3B249;
+	font-size: 15px;
+	text-align: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 35px;
+	width: 100%;
+}
+.draft p {
+	padding: 5px 0;
+}
+.resource-box {
+	padding: 10px 20px;
+	background: #f6f6f6;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	width: 300px;
+	margin-bottom: 15px;
+	border: 1px solid #ddd;
+}
+.resource-box h3 {
+	margin-bottom: .4em;
+	color: #777;
+	font-size: 16px;
+}
+.resource-box p {
+	margin: 0;
+}
+.shadow {
+	-moz-box-shadow: 0 5px 8px #ccc;
+	-webkit-box-shadow: 0 5px 8px #ccc;
+	box-shadow: 0 5px 8px #ccc;
+}
+.diagram {
+	border:1px solid #ccc;
+	margin-bottom: 1.5em;
+	-moz-box-shadow: 0 5px 8px #ccc;
+	-webkit-box-shadow: 0 5px 8px #ccc;
+	box-shadow: 0 5px 8px #ccc;
+}
+.attn {
+	background: #ff9;
+	border: 1px solid #FFD336;
+	padding: 2px 5px;
+}
+
+/*
+ * Migration guide specific styles
+ */
+#overview-ct {
+	border: 1px solid #F3B249;
+	width: 700px;
+	padding: 0 30px 10px;
+	background: #ffd;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+table.api {
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+}
+table.api td,
+table.api th {
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	vertical-align: top;
+	padding: 3px 10px;
+}
+table.api th {
+	background: #eee;
+	font-size: 14px;
+	padding-bottom: 1px;
+}
+table.api tr.configs td,
+table.api tr.props td,
+table.api tr.methods td {
+	background: #ffd;
+	font-weight: bold;
+	padding-bottom: 1px;
+	color: #777;
+}
+table.api th.ext3,
+table.api th.ext4 {
+	width: 150px;
+}
+.none {
+	font-style: italic;
+	color: #999;
+}
+
+/* Override a blueprint default style */
+tbody tr:nth-child(even) td,
+tbody tr.even td {
+	background: #fff;
+}

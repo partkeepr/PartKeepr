@@ -19,83 +19,26 @@ use de\RaumZeitLabor\PartDB2\Util\Singleton,
 	de\RaumZeitLabor\PartDB2\Footprint\Exceptions\FootprintNotFoundException;
 
 class PartManager extends Singleton {
-	public function getParts ($aParameters = array()) {
+	public function getParts ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "", $category = 0) {
+		
 		$qb = PartDB2::getEM()->createQueryBuilder();
-		$qb->select("COUNT(p)")->from("de\RaumZeitLabor\PartDB2\Part\Part","p")->leftJoin('p.storageLocation', "st");
-		
-		if (array_key_exists("limit", $aParameters)) {
-			$limit = intval($aParameters["limit"]);
-		} else {
-			$limit = 20;
-		}
-		
-		if (array_key_exists("start", $aParameters)) {
-			$start = intval($aParameters["start"]);
-		} else {
-			$start = 0;
-		}
-		
-		if (array_key_exists("dir", $aParameters)) {
-			$dir = $aParameters["dir"];
-			
-			if (strtolower($dir) != "asc" && strtolower($dir) != "desc") {
-				$dir = "asc";
-			}
-		} else {
-			$dir = "asc";
-		}
-		
-		if (array_key_exists("stockmode", $aParameters)) {
-			switch (strtolower($aParameters["stockmode"])) {
-				case "all":
-				case "zero":
-				case "nonzero":
-					$stockmode = strtolower($aParameters["stockmode"]);
-					break;
-				default:
-					$stockmode = "all";
-			}
-		} else {
-			$stockmode = "all";
-		}
-		
-		if (array_key_exists("sort", $aParameters)) {
-			$sortby = $aParameters["sort"];
-			
-			switch (strtolower($sortby)) {
-				case "name":
-					$sortby = "p.name";
-					break;
-				case "storagelocation":
-					$sortby = "st.name";
-					break;
-				case "stocklevel":
-					$sortby = "p.stockLevel";
-					break;
-				default:
-					$sortby = "p.name";
-			}
-		} else {
-			$sortby = "p.name";
-		}
-		
-		if (array_key_exists("category", $aParameters)) {
-			$category = intval($aParameters["category"]);
-		} else {
-			$category = 0;
-		}
-		
+		$qb->select("COUNT(p.id)")->from("de\RaumZeitLabor\PartDB2\Part\Part","p")
+		->join("p.storageLocation", "st")
+		->join("p.footprint", "f")
+		->join("p.category", "c");
+
 		$qb->where("1=1");
-		
-		switch ($stockmode) {
-			case "all":
-				break;
-			case "zero":
-				$qb->andWhere("p.stockLevel = 0");
-				break;
-			case "nonzero":
-				$qb->andWhere("p.stockLevel > 0");	
+		if ($filter != "") {
+			$qb = $qb->where("p.name LIKE :filter");
+			$qb->setParameter("filter", "%".$filter."%");
 		}
+				
+		$qb->orderBy("p.".$sort, $dir);
+
+		
+		$category = intval($category);
+		
+		
 		
 		if ($category !== 0) {
 			/* Fetch all children */
@@ -104,23 +47,32 @@ class PartManager extends Singleton {
 			$qb->andWhere("p.category IN (".implode(",", $childs).")");
 		}
 		
-		$countQuery = $qb->getQuery();
-		$count = $countQuery->getSingleScalarResult();
+		$totalQuery = $qb->getQuery();
 		
-		$qb->setMaxResults($limit);
-		$qb->setFirstResult($start);
-		$qb->select("p.id, p.name, p.stockLevel, st.name AS storagelocation");
 		
-		$qb->orderBy($sortby, $dir);
+		
+		
+		$qb->select("p.name, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, st.name as storageLocationName, f.id AS footprint_id, f.footprint AS footprintName, c.id AS category_id, c.name AS categoryName");
+
+		if ($limit > -1) {
+			$qb->setMaxResults($limit);
+			$qb->setFirstResult($start);
+		}
 		
 		$query = $qb->getQuery();
 		
 		$result = $query->getArrayResult();
 		
-		return array("parts" => $result, "totalCount" => $count);
+		
+		
+		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
 	}
 	
 	public function addOrUpdatePart ($aParameters) {
+		
+		if (!array_key_exists("quantity", $aParameters)) {
+			$aParameters["quantity"] = 0;
+		}
 		
 		if ($aParameters["part"] !== null) {
 			try {
@@ -141,40 +93,32 @@ class PartManager extends Singleton {
 			PartDB2::getEM()->persist($stock);
 		}
 		
-		$part->setName($aParameters["name"]);
-		$part->setMinStockLevel($aParameters["minstock"]);
-		$part->setComment($aParameters["comment"]);
+		if (array_key_exists("name", $aParameters)) {
+			$part->setName($aParameters["name"]);
+		}
 		
-		try {
-			$footprint = FootprintManager::getInstance()->getFootprint($aParameters["footprint"]);
+		if (array_key_exists("minstock", $aParameters)) {
+			$part->setMinStockLevel($aParameters["minstock"]);
+		}
+		
+		if (array_key_exists("comment", $aParameters)) {
+			$part->setComment($aParameters["comment"]);
+		}
+		
+		if (array_key_exists("footprint", $aParameters)) {
+			$footprint = FootprintManager::getInstance()->getOrCreateFootprint($aParameters["footprint"]);
 			$part->setFootprint($footprint);	
-		} catch (\Exception $e) {}
+		}
 		
-		try {
-			$storageLocation = StorageLocationManager::getInstance()->getStorageLocation($aParameters["storagelocation"]);
-			$part->setStorageLocation($storageLocation);	
-		} catch (\Exception $e) {
-			$storageLocation = new StorageLocation();
-			$storageLocation->setName($aParameters["storagelocation"]);
+		if (array_key_exists("storagelocation", $aParameters)) {
+			$storageLocation = StorageLocationManager::getInstance()->getOrCreateStorageLocation($aParameters["storagelocation"]);
 			$part->setStorageLocation($storageLocation);
-			
-			PartDB2::getEM()->persist($storageLocation);
 		}
 		
-		try {
-			$manufacturer = ManufacturerManager::getInstance()->getManufacturer($aParameters["manufacturer"]);
-			$part->setManufacturer($manufacturer);	
-		} catch (\Exception $e) {
-			$manufacturer = new Manufacturer();
-			$manufacturer->setName($aParameters["manufacturer"]);
-			$part->setManufacturer($manufacturer);
-			
-			PartDB2::getEM()->persist($manufacturer);
+		if (array_key_exists("category", $aParameters)) {
+			$category = CategoryManager::getInstance()->getCategory($aParameters["category"]);
+			$part->setCategory($category->getNode());	
 		}
-		
-		
-		$category = CategoryManager::getInstance()->getCategory($aParameters["category"]);
-		$part->setCategory($category->getNode());
 		
 		PartDB2::getEM()->persist($part);
 		PartDB2::getEM()->flush();

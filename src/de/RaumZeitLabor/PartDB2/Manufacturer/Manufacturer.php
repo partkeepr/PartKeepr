@@ -35,6 +35,10 @@ class Manufacturer {
 		return $this->icLogos;
 	}
 	
+	public function getId () {
+		return $this->id;
+	}
+	
 	public function serialize () {
 		return array("id" => $this->id, "name" => $this->name);
 	}

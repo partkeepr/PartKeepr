@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Ext 4 Overview Guide</title>
+	<link rel="stylesheet" href="resources/css/screen.css" type="text/css" media="screen, projection">
+	<!--link rel="stylesheet" href="resources/css/fancy-type.css" type="text/css" media="screen"-->
+	<link rel="stylesheet" href="resources/css/link-icons.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="resources/css/print.css" type="text/css" media="print"> 
+	<!--[if lt IE 8]>
+		<link rel="stylesheet" href="resources/css/ie.css" type="text/css" media="screen, projection">
+	<![endif]-->
+	<link rel="stylesheet" href="resources/css/ext-guide.css" type="text/css" media="screen, projection">
+</head>
+<body id="overview-guide">
+
+<div class="container">
+
+	<div class="span-24" id="hd">
+		<img src="resources/images/logo-sencha-sm.png" alt="Sencha" height="50" width ="120" />
+	</div>
+
+	<div class="span-24">
+		<h1 id="intro">Ext 4 Overview Guide</h1>
+		<p>Ext 4 is a revolutionary step forward in web app development. Almost every major component within the framework has been improved, in many cases drastically so.  There are also many components and subsystems that are brand new since Ext 3. This guide will provide an introduction to all major changes between Ext 3 and 4.</p>
+		<p>If you are migrating an application from Ext 3 we also have a detailed <a href="ext3-to-4-migration.html">Ext 3 to 4 Migration Guide</a>.</p>
+		<p id="forum-link">If you find any issues in this document or would like to provide feedback, please visit the <a href="http://www.sencha.com/forum/showthread.php?124015-Ext-3-to-4-Migration" title="Ext 3 to 4 Migration">Ext 3 to 4 Migration</a> thread in the Sencha forums.</p>
+	</div>
+	
+	<div class="span-24">
+
+		<h1>General</h1>
+		<p>These changes apply across both <a href="#ext-core">Ext Core</a> and <a href="#extjs">Ext JS</a>.</p>
+		
+		<h2 id="general-compat">Ext 3 Compatibility</h2>
+		<p>Ext 4 is by far the most comprehensive update to Ext JS that we've ever produced, and many changes were required that are not compatible with Ext 3. However, we've gone to great lengths to provide as much backwards-compatibility as possible.</p>
+		
+		<h3>JS Compatibility Layer</h3>
+		<p>This is an optional JavaScript file that can be referenced after Ext 4 is loaded that will provide the aliases and overrides necessary to make the vast majority of Ext 3 code run correctly under Ext 4 as-is.</p>
+		<p><strong>NOTE:</strong> At the moment this compatibility layer is not yet available, but it will be prior to the final 4.0 release.</p>
+		
+		<h3 id="general-sandbox">Sandbox Mode</h3>
+		<p>Ext 4 has introduced changes that now make it possible to completely sandbox previous versions of the framework alongside Ext 4 within the same page. On the JavaScript side, this is possible with the removal of all prototypal enhancements to core JavaScript objects in Ext 4. Now you can simply alias the global <tt>Ext</tt> object to a different name and be completely isolated from previous Ext versions.</p>
+		<p>On the markup/CSS side of things, Ext 4 now uses CSS generated from templates using Compass &amp; SASS, so it is trivial to customize the prefix of all CSS rules defined by the framework. Combined with the new <tt>Ext.baseCSSPrefix</tt> property, it is now extremely easy to isolate markup generated from multiple versions of Ext on a single page.</p>
+		
+		<h2 id="general-package">Package &amp; Namespace Updates</h2>
+		<p>All classes and packages have been restructured according to a strict naming convention. This makes classes more consistent and easier to find. For example, in Ext 3 classes like Button, CycleButton and SplitButton are simply grouped under /widgets (along with many other classes). The classes are also defined directly on the global Ext object.</p>
+
+		<p>In Ext 4, every class has been consistently placed into packages and namespaces based on related functionality. This is not entirely new, but was never consistently enforced in Ext 3. Back to the Button example above, in Ext 4 these classes are now:</p>
+		<ul>
+			<li>Grouped into a single <tt>src/button/</tt> package at the file level</li>
+			<li>Grouped into a new <tt>Ext.button</tt> namespace in code</li>
+			<li>Renamed based on the new namspaces (e.g., <tt>Ext.SplitButton</tt> &#x2192; <tt>Ext.button.Split</tt>)</li>
+		</ul>
+		<p>All classes that were reorganized are still available via the new <tt>alternateClassName</tt> property, so Ext 3 classnames will still work under Ext 4 if necessary (e.g. <tt>alternateClassName: 'Ext.SplitButton'</tt>). <em>Going forward with Ext 4 development it's recommended that you migrate to the new conventions in your own code</em>.</p>
+	</div>	
+	
+	<div class="span-24" id="ext-core">
+		<h1>Ext Core</h1>
+
+		<h2 id="class-system">New Class System</h2>
+		
+		<div class="resource-box">
+			<h3>Resources</h3>
+			<p><a href="http://www.sencha.com/blog/countdown-to-ext-js-4-dynamic-loading-and-new-class-system">Overview blog post &amp; demo</a></p>
+		</div>
+
+		<p>Ext of course is already built on a powerful prototype-based class system, which approximates a traditional OO-based class system. In Ext 4 we've taken our class system to a new level of flexibility with the addition of many key features, and best of all the changes are 100% backwards-compatible with the Ext 3 class system. The main new features are:</p>
+		<ul>
+			<li><tt>Ext.define</tt> to create class definitions within the new system</li>
+			<li>Automatic dependency management and dynamic class loading</li>
+			<li>Mixins</li>
+			<li>Statics</li>
+			<li>New <tt>config</tt> option for Automatic setter / getter generation</li>
+		</ul>
+		
+		<img class="diagram" src="resources/images/ext4-class-system.jpg" alt="Ext 4 Class System" height="541" width="645" />
+		
+		<h3 id="class-definition">Class Definition</h3>
+		<p>You can still use the tried and true <tt>new ClassName()</tt> syntax in Ext 4, but the preferred syntax going forward is to use the new <tt>Ext.define</tt> function to define new classes. By defining classes explicitly within the Ext class system all of the additional class features in the following sections become enabled. The <tt>new</tt> keyword will still work, but without those benefits.</p>
+		<p>An additional benefit of using <tt>Ext.define</tt> is that it will automatically detect and create new namespaces as needed, without the need for explicitly defining the namespaces separately from declaring the classes that use them.</p>
+		<p>Here's a simple example of the old and new syntax for how you would define a custom class that extends an existing Ext component:</p>
+		<pre><code>
+// Ext 3:
+Ext.ns('MyApp'); // required in Ext 3
+MyApp.CustomerPanel = Ext.extend(Ext.Panel, {
+    // etc.
+});
+
+// Ext 4
+Ext.define('MyApp.CustomerPanel', {
+    extend: 'Ext.panel.Panel',
+    // etc.
+});
+		</code></pre>
+		
+		<h3 id="class-loading">Class Loading</h3>
+		<p>Ext 4 now includes a robust dynamic class loading system that also provides integrated dependency management. Again, this is an optional feature, but provides a couple of key benefits:</p>
+		<ul>
+			<li><strong>Dynamic loading</strong>: Classes can be loaded dynamically and asynchronously at runtime simply based on the dependency tree that Ext manages internally. This means that you can stop managing brittle blocks of manual <tt>include</tt> tags in HTML pages and simply let the class loader figure out what your page needs to run. This is mostly useful in the development environment when dependency flexibility is more important than page load speed.</li>
+			<li><strong>Dynamic build generation</strong>: For production, it's usually preferable still to compile down to a single (or few) build files. Since Ext now understands the entire dependency graph at runtime, it can easily output that graph as needed (for example, in the form of a custom build configuration). And even more importantly, this capability is not restricted to the Ext namespace. You can include any number of custom classes and namespaces in addition to Ext and as long as everything is defined using the class system Ext will be able to figure out how they all relate. In the very near future, any Ext developer will have one-click custom build capability that automatically manages the entire Ext + custom application class graph, even as it changes from one minute to the next, and only builds <em>exactly</em> what's actually needed by the app.</li>
+		</ul>
+		<p>This dynamic loading is enabled simply by using <tt>Ext.define</tt> and by defining the dependencies in code using two new class properties:</p>
+		<ul>
+			<li><tt>requires</tt>: The class dependencies required for a class to work. These are guaranteed to be loaded prior to the current class being instantiated.</li>
+			<li><tt>uses</tt>: Optional class dependencies that are used by, but not required by, a class. These can be loaded asynchronously and do not have to be available for the class to be instantiated.</li>
+		</ul>
+		
+		<h3 id="class-mixins">Mixins</h3>
+		<p>This is a new approach to plugging custom functionality into existing classes. The new <tt>mixins</tt> config, included during instantiation of a class, allows you to "mix in" new capabilities to the class prototype. This is similar to the existing <tt>Ext.override</tt> function, although it does not replace existing methods like override does, it simply augments the prototype with whatever is new. Example syntax:</p>
+		<pre><code>
+Ext.define('Sample.Musician', {
+    extend: 'Sample.Person',
+
+    mixins: {
+        guitar: 'Sample.ability.CanPlayGuitar',
+        compose: 'Sample.ability.CanComposeSongs',
+        sing: 'Sample.ability.CanSing'
+    }
+});
+		</code></pre>
+		
+		<h3 id="class-statics">Statics</h3>
+		<p>Any class can now define static methods simply by defining them in its <tt>statics</tt> class property.</p>
+		
+		<h3 id="class-config">Config</h3>
+		<p>In Ext we currently use the term <strong>config</strong> to mean any properties on a class prototype that, by convention, make up its configurable API and can be set by calling code. While this is still true in Ext 4, there is also a new optional config that's actually called <tt>config</tt>. When configuration properties are added to the <tt>config</tt> property, it will automatically generate a getter, setter, reset and apply (template method for custom setter logic) methods matching that property. For example, given this code:</p>
+		<pre><code>
+Ext.define('MyClass', {
+    config: {
+        title: 'Default Title'
+    }
+});
+		</code></pre>
+		<p>...the following methods will get generated automatically behind the scenes:</p>
+		<pre><code>
+title: 'Default Title',
+
+getTitle: function() {
+    return this.title;
+},
+
+resetTitle: function() {
+    this.setTitle('Default Title');
+},
+
+setTitle: function(newTitle) {
+   this.title = this.applyTitle(newTitle) || newTitle;
+},
+
+applyTitle: function(newTitle) {
+    // custom code here
+    // e.g. Ext.get('titleEl').update(newTitle);
+}
+		</code></pre>
+	</div>
+	
+	<div class="span-24" id="env">
+		<h2>Env Namespace</h2>
+		<p>Provides access to comprehensive information about the host browser and operating system, as well as a complete list of modern browser feature detection.</p>
+
+		<h3>Ext.env.Browser</h3>
+		<p>This class provides all of the browser metadata (name, engine, version, isStrict, etc.) that used to exist directly on the global <tt>Ext</tt> object.</p>
+		
+		<h3>Ext.env.FeatureDetector</h3>
+		<p>This is a brand new class whose functionality did not exist in Ext 3. It provides properties detailing the feature capabilities of the running host environment, primarily to detect the availability of modern HTML5 and CSS3 features, as well as mobile features, including:</p>
+		<ul>
+			<li>CSS transforms / animations / transitions</li>
+			<li>Canvas / SVG / VML</li>
+			<li>Touch availability / Orientation</li>
+			<li>Geolocation</li>
+			<li>SqlDatabase</li>
+			<li>Websockets</li>
+			<li>History</li>
+			<li>Audio</li>
+			<li>Video</li>
+		</ul>
+		
+		<h3>Ext.env.OS</h3>
+		<p>Identifies the current host operating system, and includes a more comprehensive list than Ext 3 did (adding various mobile OS'es).</p>
+		
+	</div>	
+	
+	<div class="span-24" id="lang">
+		<h2>Lang Package</h2>
+		<p>Much of the functionality within this new package existed under Ext 3, but as modifications to core JavaScript object prototypes. While this was convenient, it made it very challenging for Ext to coexist with other frameworks that modified the same objects. It also meant that Ext was directly exposed to any changes that might occur in the ECMAscript specification going forward. To remedy these problems we've completely removed all core JavaScript object modifications and placed them all into appropriately namespaced static classes under the <tt>Ext</tt> object.</p>
+		<p>All of the Prototype enhancements to the following objects have been moved accordingly (note that there is not actually a <tt>lang</tt> <em>namespace</em> &mdash; it's just the package that holds these new files in the source tree):</p>
+		
+		<ul>
+			<li>Array &rarr; Ext.Array</li>
+			<li>Date &rarr; Ext.Date</li>
+			<li>Function &rarr; Ext.Function</li>
+			<li>Number &rarr; Ext.Number</li>
+			<li>Object &rarr; Ext.Object</li>
+			<li>String &rarr; Ext.String</li>
+		</ul>
+
+		<p>Note that these will all be aliased back to the core object prototypes in the compatibility file, but in order to fully move to Ext 4 and remove the extra compatibility layer the usage of any of the Ext 3 versions of these functions will ultimately have to be updated to the new namespaced versions.</p>
+		
+		<!--h3>Array</h3>
+		<p><span class="attn">Needs write up</span></p>
+		
+		<h3>Date</h3>
+		<p><span class="attn">Why Date vs. Ext.util.Date?</span></p-->
+		
+		<h3>Ext.Function</h3>
+		<p>There are a few noteworthy changes to how the base <tt>Function</tt> prototype methods have been implemented in Ext 4.  Most importantly, the <tt>Function.createDelegate</tt> and <tt>Function.createCallback</tt> methods are now named <tt>Ext.Function.bind</tt> and <tt>Ext.Function.pass</tt> respectively. Likewise, <tt>Function.defer</tt> is now available as <tt>Ext.Function.defer</tt>. Because these three functions are so commonly used, they are also aliased directly onto the Ext object as <tt>Ext.bind</tt>, <tt>Ext.pass</tt> and <tt>Ext.defer</tt>.</p>
+		<p>The other <tt>Function</tt> methods like <tt>createSequence</tt> and <tt>createInterceptor</tt> have also been moved to <tt>Ext.Function</tt>, and there are also a few new useful additions like <tt>createBuffered</tt> and <tt>createThrottled</tt>.</p>
+		<p>Here are some examples of how the invocation syntax has changed:</p>
+		<pre><code>
+// Ext 3:
+myFunction.createDelegate(this, [arg1, arg2]);
+myFunction.defer(1000, this);
+
+// Ext 4:
+Ext.bind(myFunction, this, [arg1, arg2];
+Ext.defer(myFunction, 1000, this);
+		</code></pre>
+		
+		<!--h3>Number</h3>
+		<p><span class="attn">Needs write up</span></p>
+		
+		<h3>Object</h3>
+		<p><span class="attn">Needs write up</span></p>
+		
+		<h3>String</h3>
+		<p><span class="attn">Needs write up</span></p-->
+		
+	</div>
+	
+	<!--
+	************************************************************
+	 Ext JS
+	************************************************************
+	-->
+	<div class="span-24" id="extjs">
+	<h1>Ext JS</h1>
+
+		<div class="resource-box">
+			<h3>Resources</h3>
+			<p><a href="http://vimeo.com/17666102" alt="Intro to Ext 4 (video)">Intro to Ext 4 (video)</a></p>
+			<p><a href="http://vimeo.com/17733892" alt="Ext 4 Architecture (video)">Ext 4 Architecture (video)</a></p>
+		</div>
+		
+		<h2>General</h2>
+
+		<h3 id="adapters">Adapters</h3>
+		<p>In previous versions of Ext through version 3 we supported the use of third-party base libraries via adapters. As of Ext 4 this support has been discontinued. Moving forward, Ext Core will be the required foundation for all Ext JS applications. Of course third party libraries may still be optionally used <em>in addition to</em> Ext Core (and in fact this will even work better now that JavaScript object modifications  <a href="#lang">have been removed</a> from Ext), but they will no longer be supported as base library <em>dependencies</em> for Ext.</p>
+
+		<h3 id="aria">ARIA</h3>
+		<p>Ext 4 features a new level of accessibility with full ARIA support baked right into every component in the framework. <tt>Ext.Component</tt> now has a config property called <tt>ariaRole</tt> which defaults to "presentation" (meaning the role is simply visual and provides no user interaction functionality) but can be easily overridden as needed. For example, <tt>Ext.button.Button</tt> overrides the default with <tt>ariaRole:'button'</tt>. This renders the standard <tt>role</tt> HTML attribute into the wrapping markup tag and tells screen readers that the contained markup (no matter how complex) functionally represents an action button. This is hugely important for accessibility and is now implemented throughout Ext.</p>
+		<p>Another important ARIA hint that is built into <tt>Ext.Component</tt> is automatic adding/removing of the standard <tt>aria-disabled</tt> HTML attribute to signify the enabled state of functional UI elements to screen readers.</p>
+	</div>
+		
+	<div class="span-24" id="data">
+		<h2>Data</h2>
+		<p>The data package has seen a significant upgrade since 3.x. Data is one of the many packages that Ext 4 now shares with Sencha Touch, and there is already a huge amount of information about it available today.  Here are a few of the articles that give some background on the new capabilities &mdash; we strongly suggest reading at least the first one before diving into code:</p>
+
+		<div class="resource-box">
+			<h3>Resources</h3>
+			<p><a href="http://www.sencha.com/blog/countdown-to-ext-js-4-data-package/" alt="Ext 4 Data Overview (blog post)">Ext 4 Data Overview (blog post)</a></p>
+			<p><a href="http://www.sencha.com/blog/ext-js-4-anatomy-of-a-model/" alt="Model (blog post)">Models (blog post)</a></p>
+			<p><a href="http://edspencer.net/2011/02/proxies-extjs-4.html" alt="Proxy (blog post)">Proxies (blog post)</a></p>
+			<p><a href="http://www.sencha.com/blog/using-validations-and-associations-in-sencha-touch/" alt="Validations &amp; Associations (blog post)">Validations &amp; Associations (blog post)</a></p>
+		</div>
+
+		<h3>Overview</h3>
+		<p>Most of the changes in the data package are non-breaking when including the Ext 3 compatibility file. The biggest updates have come to <tt>Store</tt>, <tt>Proxy</tt> and <tt>Model</tt>, which is the new name for <tt>Record</tt>:</p>
+		<ul>
+		    <li><tt><strong>Store</strong></tt> no longer cares about the format of the data (e.g. no need for <tt>JsonStore</tt>, <tt>XmlStore</tt> and other store subclasses). It now delegates all of its loading and saving to the attached Proxy, which now receives the <tt>Reader</tt> and <tt>Writer</tt> instances. Store can also perform multi sorting, filtering and grouping dynamically on the client side, and can synchronize itself with your server</li>
+		    <li><tt><strong>Proxy</strong></tt> can now be attached to either a Store or <a href="http://www.sencha.com/blog/ext-js-4-anatomy-of-a-model">directly to a Model</a>, which makes it easy to manipulate data without a Store. Proxies can be configured with Readers and Writers which decode and encode communications with your server.</li>
+		    <li><tt><strong>Model</strong></tt> is a much more capable version of Record, adding support for <a href="http://www.sencha.com/blog/ext-js-4-anatomy-of-a-model">associations, validations and much more</a>.</li>
+		</ul>
+
+		<p>Ext JS 4 also features the brand new <tt>LocalStorageProxy</tt> which seamlessly persists your Model data into HTML5 localStorage.</p>
+	</div>
+
+	<div class="span-24" id="draw">
+		<h2>Draw</h2>
+		<p>This package is entirely new and has no Ext 3 analog. This is an entire library that provides custom drawing capabilities by abstracting the standard Canvas, SVG and VML engines, choosing the best one available at runtime based on the current browser. This package provides the foundation for the new <a href="#charting">charting</a> package in Ext 4, but can also easily be used for any type of custom drawing and graphics needs. Here are the major features:</p>
+		<ul>
+			<li>HTML5 standards based</li>
+			<li>Rendering of primitive shapes, text, images, gradients</li>
+			<li>Library classes for manipulating color, matrix transformations, etc.</li>
+			<li><tt>Ext.draw.DrawComponent</tt>
+			<ul>
+				<li>Extends <tt>Ext.Component</tt></li>
+				<li>Engine preference via feature detection</li>
+				<li>Customizable engine preference order</li>
+				<li>Layout participation</li>
+			</ul>
+			<li>Built-in sprite management via <tt>Ext.draw.Sprite</tt>
+				<ul>
+					<li>Abstracted drawing elements</li>
+					<li>Normalizes differences between engine API syntax</li>
+					<li>Attributes</li>
+					<li>Event support (extends <tt>Observable</tt>)</li>
+					<li>Transforms (Rotate, Translate, Scale)</li>
+					<li>Animation supported through <tt>Ext.fx</tt></li>
+					<li><tt>SpriteComposites</tt></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="span-24" id="charting">
+		<h2>Charting &amp; Visualization</h2>
+		
+		<p>Charting in Ext 4 is a huge step forward from Ext 3, which did support charting, but only Flash-based. In Ext 4 we've completely removed Flash from the picture, yet retained complete best-of-breed browser support (all the way back to IE6) using Canvas, SVG and VML. The charting engine automatically selects the best engine for the current platform at runtime, and everything is rendered uniformly and with the best possible performance across all supported browsers. More importantly, all charting functions share a single uniform API, regardless of the underlying charting engine in use.</p>
+		
+		<div class="resource-box">
+			<h3>Resources</h3>
+			<p><a href="http://vimeo.com/17673342" alt="SenchaCon Overview (video)">SenchaCon Overview (video)</a></p>
+			<p><a href="http://www.slideshare.net/senchainc/charts-5971878" alt="SenchaCon Overview (slides)">SenchaCon Overview (slides)</a></p>
+		</div>
+		
+		<img class="diagram" src="resources/images/working-with-charts.gif" alt="Working with Charts" />
+		
+	</div>
+	
+	<div class="span-24">
+		<h2>Fx</h2>
+		<p>In Ext 3, the Fx class mainly provided a set of useful Element effects (slide, highlight, fade, etc.). In Ext 4 this basic functionality has been retained, but there is an entire Fx package that goes far beyond simple element effects.</p>
+		<p>There's now an underlying Animator class that coordinates multiple animations concurrently running on the page.</p>
+		<p>Components may now be animated in size and position via new Fx "target" classes (<tt>Ext.fx.target.*</tt>), which opens up many new possibilities for creating dynamic UI's.</p>
+	</div>
+	
+	<div class="span-24" id="layout">
+		<h2>Layout</h2>
+		
+		<div class="resource-box">
+			<h3>Resources</h3>
+			<p><a href="http://vimeo.com/17917111" alt="Ext 4 Layouts (video)">Ext 4 Layouts (video)</a></p>
+			<p><a href="http://www.slideshare.net/senchainc/layouts-5971880" alt="Ext 4 Layouts (slides)">Ext 4 Layouts (slides)</a></p>
+		</div>
+		
+		<h3 id="component-layout">ComponentLayout</h3>
+		<p>Complex components use the new <tt>ComponentLayout</tt> (as opposed to <tt>ContainerLayout</tt>, the new name for the traditional Container-based layouts carried over from Ext 3) to perform sizing of internal elements in response to resize calls.
+		An example of this is the <tt>FieldLayout</tt> which manages the size and position of both an associated label and input element within the containing Field Component.</p>
+		
+		<h3>FormLayout</h3>
+		<p>As of Ext 4, <tt>FormLayout</tt> is no longer available. See <a href="#form-layout">Layout</a> in the Form section later in this document for details.</p>
+		
+		<h3>BorderLayout</h3>
+		<p>Border layout in Ext 4 is fully backwards-compatible to Ext 3.</p>
+		<p>Panel Headers now may be orientated vertically, so east and west regions are replaced on collapse by a vertical header (a full-fledged <tt>Ext.panel.Header</tt> instance, unlike the simple <tt>Element</tt> in Ext 3) containing the title rotated by 90 degrees (courtesy of Ext 4's new <a href="#draw">Draw package</a>). The placeholder Header is accessible using the layout's new <tt>getPlaceHolder</tt> method. The placeholder Component is not rendered until the Panel is first collapsed. All the methods of the <tt>Ext.panel.Header</tt> class are available on it. As a <tt>Container</tt> subclass, it also inherits all the methods of <tt>Container</tt>.</p>
+		<p>Another small difference is that the <tt>cmargins</tt> config is no longer supported. The placeholder Header now has the same margins that the expanded Panel did. This makes it easier to create layouts which look good in both collapsed and expanded states by default.</p>
+		<p>Internally, the BorderLayout class now uses nested <tt>HBox</tt> and <tt>VBox</tt> layouts to create the bordered arrangement, making the layout much more flexible and customizable than it has ever been.</p>
+	</div>
+
+	<div class="span-24" id="component">
+		<h2>Component</h2>
+		
+		<p>Any <tt>Component</tt> subclass may now be configured as floatable using the <tt>floating:true</tt> config to specify that it floats above the document flow. Floating components may be configured as draggable and/or resizeable using the standard configs. They may also be added as child items to any container, in which case they will not participate in the container's layout, but will float above it.</p>
+		<p>All floating Components now have their z-index managed by a <tt>ZIndexManager</tt>. This is the successor to the Ext 3 <tt>WindowGroup</tt> class. By default, floating components (such as Windows) which are rendered into the document body by having their <tt>show</tt> method called are managed by the singleton <tt>Ext.WindowMgr</tt>. All floating components therefore have a <code>toFront</code> and <tt>toBack</tt> method which invokes the <tt>ZIndexManager</tt>.</p>
+		<p>Floating components which are added to a specific <tt>Container</tt> acquire a <tt>ZIndexManager</tt> reference at render time. They search for an ancestor <tt>Container</tt> from which to request z-index management. Usually, this will be provided by the singleton <tt>Ext.WindowMgr</tt>, but if the floating component is the descendant of a floating <strong>Container</strong> such as a Window, that Window will create its own <tt>ZIndexManager</tt> instance, and all floating Components within will be managed relative to the Window's z-index.</p>
+		<p>This is a huge improvement over previous versions of Ext, in which complex arrangements of floated containers could quickly lead to z-index conflicts among different components. Now, for example, the dropdowns of combo boxes that are contained in a window will <em>always</em> be correctly managed above that window.</p>
+	</div>
+	
+	<div class="span-24" id="form">
+		<h2>Form</h2>
+
+		<h3 id="form-layout">Layout</h3>
+		<p>In Ext 3 the <tt>FormPanel</tt> used the <tt>FormLayout</tt> class for positioning field labels, input boxes, error indicators, etc. In Ext 4 <tt>FormLayout</tt> has been removed entirely, in favor of using standard layouts for overall arrangement and the new <tt>FieldLayout</tt> (one of the new <a href="#component-layout"><tt>ComponentLayout</tt></a> classes) for the field labels etc. This makes it now possible to use any kind of standard layouts within any form, making the creation of custom form layouts exceedingly simple compared to Ext 3.</p>
+		<p>The default container layout for <tt>FormPanel</tt> is now <tt>anchor</tt>, although any standard layout may now be used within forms.</p>
+		
+		<h3>FieldContainer</h3>
+		<p>Ext4 also introduces a new class for managing form layouts: <tt>Ext.form.FieldContainer</tt>. This is a standard <tt>Ext.Container</tt> which has been enhanced to allow addition of a label and/or an error message, using all the same configurations regarding label and error placement that are supported by <tt>Ext.form.Field</tt>. The container's children will be confined to the same space as the field input would occupy in a real Field. This makes it easy to add any group of arbitrary components to a form and have them line up exactly with the form's fields.</p>
+		
+		<h3>Field as Mixin</h3>
+		<p>One longstanding difficulty with Ext has been adding non-<tt>Field</tt> components into a form with field-like capabilities like layout, validation, value management, etc. The only way to easily inherit field behavior in Ext 3 was to subclass <tt>Ext.form.Field</tt> directly, but in reality many components must subclass something outside of the <tt>Field</tt> class hiearchy. Since Ext (and JavaScript) has no support for true multiple inheritance, the result is normally copying most if <tt>Field</tt>'s code directly into the custom class, which is non-optimal to say the least.</p>
+		<p>Now that Ext 4 supports <a href="#class-mixins">mixins</a> as part of its updated class system, this is no longer an issue. <tt>Field</tt> can now be used as a mixin to any other component, making it simple to provide full <tt>Field</tt> API support to almost anything. And of course you can easily override methods as needed if the default <tt>Field</tt> behavior needs to be customized (it is common to override <tt>getValue</tt> and <tt>setValue</tt> for example).</p>
+		
+		<h3>Validation</h3>
+		<p>A common desire when building forms is to give the user feedback on the validity of fields as immediately as possible, as the user is entering data. While this could be done in Ext 3, it was clumsy and required using the <tt>monitorValid</tt> option on <tt>FormPanel</tt> which was non-optimal for performance because it invoked full-form validation several times per second.</p>
+		<p>In Ext 4 we have reworked form validation to make immediate feedback more elegant and performant. This is enabled mainly by implementing a new event flow:</p>
+		<ul>
+			<li>Input fields now listen to a set of modern browser events that allow us to detect changes immediately as the user makes them via any possible method, including typing, cutting/pasting, and dragging text into the field. We handle these events and roll them up together, firing the field's <tt>changeevent</tt> when a change in its value is observed (discussed further below).</li>
+			<li>Each field validates itself when its value changes. When its validity changes from valid to invalid or vice-versa, it fires a new <tt>validitychange</tt> event.</li>
+			<li>When any of the <tt>validitychange</tt> events fired by the fields causes the overall validity of the enclosing form to change, the BasicForm fires a <tt>validitychange</tt> event of its own.</li>
+		</ul>
+		<p>This new event flow allows for immediate feedback to users regarding the validity of the form, and because it is based on events rather than polling, performance is excellent. Therefore, this is now the default behavior (it had to be enabled explicitly in Ext 3), though it can of course be easily disabled.</p>
+		<p>There are still situations, however, in which polling may still be useful. Some browsers (notably Opera and older versions of Safari) do not always fire events when fields are edited in certain ways such as cutting/pasting via the context menu. To handle these edge cases, you can use the new <tt>pollForChanges</tt> config on FormPanel to set up interval polling for changes to field values; this triggers the same event flow above. While polling is still not great for performance, this is less intensive than Ext 3's polling because it only checks for value changes, rather than forcing validation (and therefore value parsing, conversion, and pattern matching) each time.</p>
+		<p>The validation of each field is now triggered when a change in the field's value is detected (assuming the <tt>validateOnChange</tt> config is left enabled). The browser events used to detect value changes are defined by the <tt>checkChangeEvents</tt> config, and are set to the following by default:</p>
+		<ul>
+			<li><tt>change</tt> and <tt>propertychange</tt> for Internet Explorer</li>
+			<li><tt>change</tt>, <tt>input</tt>, <tt>textInput</tt>, <tt>keyup</tt>, and <tt>dragdrop</tt> for all other browsers</li>
+		</ul>
+		<p>This set of events successfully detects nearly all user-initiated changes across the set of supported browsers. The only known exceptions at the time of writing are:</p>
+		<ul>
+			<li>Safari 3.2 and older: cut/paste in textareas via the context menu, and dragging text into textareas</li>
+			<li>Opera 10 and 11: dragging text into text fields and textareas, and cut via the context menu in text fields and textareas</li>
+			<li>Opera 9: Same as Opera 10 and 11, plus paste from context menu in text fields and textareas</li>
+		</ul>
+		<p>If you must absolutely ensure that changes triggered by the above actions also trigger validation, you can use FormPanel's <tt>pollForChanges</tt> and <tt>pollInterval</tt> configs, and/or <tt>startPolling</tt> and <tt>stopPolling</tt> methods to check for changes on a timer.</p>
+		
+		<p>Ext 3 supported the <tt>formBind</tt> property on buttons added to the form via the <tt>buttons</tt> property, which allows them to be automatically enabled/disabled as the form's validity changes. In Ext 4, this has been expanded so that formBind may be specified on <em>any component</em> that is added anywhere in the <tt>FormPanel</tt>.</p>
+
+		<h3>FieldDefaults</h3>
+		<p>One time-saving feature of the old Ext 3 <tt>FormLayout</tt> was that it allowed developers to configure the layout of all fields within the form from a single config, using the <tt>hideLabels</tt>, <tt>labelAlign</tt>, etc. config properties of <tt>FormPanel</tt>. Since Ext 4 now uses the standard layouts for form containers, it would be much less convenient to have to specify common field layout properties again and again for each field or container. Therefore FormPanel now has a <tt>fieldDefaults</tt> config object, which specifies values that will be used as default configs for all fields at any depth within the <tt>FormPanel</tt>.</p>
+
+		<h3>BasicForm</h3>
+		<p>While <tt>BasicForm</tt> was most often limited to internal use by <tt>FormPanel</tt> in Ext 3, it has been refactored in Ext 4 to make it more flexible and more easily extended. It no longer requires its associated container to provide a &lt;form&gt; element around all the fields, and does not require its container to manually notify the <tt>BasicForm</tt> when adding or removing fields. It is therefore now completely decoupled from <tt>FormPanel</tt>, and can potentially be used to manage form fields within any <tt>Container</tt>.</p>
+	</div>
+	
+	<div class="span-24" id="grid">
+		<h2>Grid</h2>
+		
+		<p>The grid components have been rewritten from the ground up for Ext 4. While this was for good reason and the benefits will be well worth it, unfortunately this is one of the areas in Ext 4 where full backwards compatibility could not be practically maintained. A complete migration guide will be provided to assist with the transition from Ext 3 to 4 grids.</p>
+		
+		<h3>Intelligent Rendering</h3>
+		<p>Ext 3's grid works fantastically well, but takes the "least common denominator" approach to its rich feature support by always generating the full markup needed by every grid feature (which is overly-heavy in most cases). Ext 4 takes a much more intelligent approach to this problem. The default basic grid has very lightweight markup, and only as developers enable different features will the additional feature-specific markup be rendered. This is a huge boost both for page rendering speed and overall grid performance.</p>
+		
+		<h3>Standardized Layout</h3>
+		<p>Along with a smarter rendering pipeline, many portions of the new grid have been made into proper <tt>Components</tt> and integrated into the standard layout management system rather than relying on custom internal markup and CSS. This enables us to unify grid's rendering process with the rest of the framework, while still retaining a pixel-perfect UI experience.</p>
+		<p>One useful example of this is the new <tt>HeaderContainer</tt> class. In Ext 3 column headers were baked into the grid and not very customizable. In Ext 4 the column headers are true <tt>Containers</tt> and now use a standard <tt>HBox</tt> layout, allowing you to do things like provide custom flex values per column.</p>
+		
+		<h3>Feature Support</h3>
+		<p>In Ext 3, it was easy to add new functionality to grids, but there was no single strategy for doing so. Many added features were provided as plugins, but then some were provided via subclassing. This made it very difficult (if not impossible) to combine certain features easily.</p>
+		<p>Ext 4 includes a new grid base class called <tt>Ext.grid.Feature</tt> which provides the basis for creating extremely flexible optional grid features. The underlying templates can now be modified by any <tt>Feature</tt> classes in order to decorate or mutate the markup that the <tt>GridView</tt> generates. Features provide a powerful alternative to subclassing the old <tt>GridView</tt> because it makes it easy to mix and match compatible features.</p>
+		<p>Some examples of the features now available in the Ext 4 grid are:</p>		
+		<ul>
+			<li>RowWrap</li>
+			<li>RowBody</li>
+			<li>Grouping</li>
+			<li>Chunking/Buffering</li>
+		</ul>
+		
+		<h3>Virtual Scrolling</h3>
+		<p>The Ext 4 grid now natively supports buffering its data during rendering, providing a virtual, load-on-demand view of its data. Grids will now easily support hundreds or even thousands of records without paging, which will be a massive improvement over Ext 3's grid capabilities.</p>
+		
+		<h3>Editing Improvements</h3>
+		<p>In Ext 3 you had to use the specialized <tt>EditorGrid</tt> class to provide an editable grid, which limited its flexibility. In Ext 4 there is now an <tt>Editing</tt> plugin that can be applied to any grid instance, making it completely reusable across all grids.</p>
+		<p>As part of the editing improvements, the popular <tt>RowEditor</tt> extension from Ext 3 has been promoted to a first-class and fully-supported framework component in Ext 4.</p>
+		
+		<h3>DataView</h3>
+		<p>The new GridView in Ext 4 extends the standard <tt>DataView</tt> class now. This not only minimizes duplicated code internally, it also makes the new grid even easier to customize. Because it extends <tt>DataView</tt> the new grid is also able to leverage the same selection models as any view, including discontinguous selection via keyboard navigation. The <tt>Home</tt>, <tt>End</tt>, <tt>PageDown</tt> and <tt>PageUp</tt> keys are also fully supported.</p>
+		
+	</div>
+		
+	<div class="span-24" id="panel">
+		<h2>Panel</h2>
+
+		<h3>Docking Support</h3>
+		<p>Panel now uses a panel-specific <tt>ComponentLayout</tt> class to manage a set of items docked to its borders. The Panel's <code>body</code> element is then sized to occupy any remaining space. Any components may be docked to any side of a panel via the new <tt>dockedItems</tt> config property, and docked items must be configured with a <code>dock</code> property to specify which border to dock to. This allows for amazingly flexible Panel layouts now &mdash; things that were impossible in Ext 3 like vertically-docked side toolbars are now a breeze to implement in Ext 4.</p>
+		
+		<h3>Header Improvements</h3>
+		<p>Header is now a first-class <tt>Container</tt> subclass, inheriting capabilities like child component management and layout. Headers may also be configured with a <tt>headerPosition</tt> of 'top', 'right', 'bottom' or 'left' via the new docking support.</p>
+		<p>Tools (the small header buttons that perform actions like minimize, close, etc.) are also now proper <tt>Components</tt> making them even more flexible than they were in Ext 3.</p>
+		
+	</div>
+	
+	<div class="span-24">
+		<h2>Resizer</h2>
+        <p>Ext has had handle-based resizing built-in since the earliest days of the framework, but through Ext 3 it was limited to resizing DOM elements only. Now in Ext 4 any <tt>Component</tt> can be resized via the new <tt>Ext.resizer.Resizer</tt> and its associated components. This is mainly useful when applied to floating components, or components programmatically rendered outside of Ext's Container system.</p>
+        <p>By configuring a component with <tt>resizable:true</tt>, resize handles are automatically added to the Component's edges. By default a proxy element is resized using the mouse, and the Component is resized on mouse up. Behavior of the resizer can be modified by specifying the <code>resizable</code> property as a config object for the <tt>Resizer</tt> class.</p>
+
+        <h2>ComponentDragger</h2>
+        <p>Ext has always had extensive drag-and-drop support, but primarily at the DOM element level. In Ext 4, any <tt>Component</tt> can now easily be made draggable as well via  the new <tt>Ext.util.ComponentDragger</tt> class. This is mainly useful for floating components, or components programmatically rendered outside of Ext's Container system.</p>
+        <p>By configuring a component with <tt>draggable:true</tt>, it automatically becomes draggable with the mouse. Panels that are made draggable by this method (Windows configure themselves as draggable by default) show an empty ghost during the drag operation and the Panel or Window is shown in the new position on mouse up. Behavior of the dragger can be modified by specifying the <tt>draggable</tt> property as a config object for the <tt>ComponentDragger</tt> class.</p>
+
+		<h2>Splitter</h2>
+		<p>Both the <tt>HBox</tt> and <tt>VBox</tt> layouts may contain <tt>Ext.resizer.Splitter</tt> components which are used to manage the size of their adjacent siblings. Minimum and maximum size settings are supported. By default, resizing a flexed item of a box layout sets its size in pixels and deletes the flex value. <strong>One</strong> of the splitter's two adjacent siblings may be configured with <code>maintainFlex:true</code> to preserve its flex value after the resize operation.</p>
+
+		<!--h2>Slider</h2>
+
+		<h3>Single / Multi slider</h3>
+		<p><span class="attn">Needs write up</span></p>
+		
+		<h3>SliderTip</h3>
+		<p><span class="attn">Needs write up</span></p-->
+		
+		<h2>TabPanel</h2>
+		<p>As with many other components in Ext 4, the main pieces that make up a <tt>TabPanel</tt> have now been made into first-class <tt>Components</tt> in Ext 4. The <tt>Tab</tt> itself, just a DOM element in Ext 3, is now a <tt>Button</tt> subclass. The <tt>TabBar</tt> that contains the tabs is now a <tt>Container</tt>. These changes provide much more flexibility over Ext 3.</p>
+		<p>Because tabs are now separate components from the contained child panels that hold the tab content, individual tab panels can now optionally show their own title header bars separately from their tab titles. This was impossible in Ext 3.</p>
+
+		<h2>Toolbar</h2>
+
+		<p>Toolbar is now a first-class <tt>Container</tt>, which will make adding new components and customizing its layout much easier than in Ext 3.</p>
+
+		<!--div class="span-24">
+			<h2>Util</h2>
+			<ul>
+				<li>Screen geometry classes Region and Point available.</li>
+			</ul>
+		</div-->
+	</div>
+	
+	<div class="span-24" id="theming">
+		<h1>Theming</h1>
+		<p>The theming in Ext has always been amazing, but not as easy to customize as it could be. Ext 3 made strides in this area by separating structural and visual stylesheets, but there is still quite a bit of duplication, browser-specific override rules, and many other issues that are simply weaknesses of the CSS language itself.</p>
+		
+		<div class="resource-box">
+			<h3>Resources</h3>
+			<p><a href="http://vimeo.com/19159630" alt="Ext 4 Theming (video)">Ext 4 Theming (video)</a></p>
+			<p><a href="http://www.slideshare.net/senchainc/slides-5971886" alt="Ext 4 Theming (slides)">Ext 4 Theming (slides)</a></p>
+		</div>
+		
+		<h2>Compass &amp; SASS</h2>
+		<p>For Ext 4 we've completely retooled the theming system, switching to <a href="http://compass-style.org/" title="Compass">Compass</a> and <a href="http://sass-lang.com/" title="Sass: Syntactically Awesome Stylesheets">SASS</a> as the primary CSS authoring tools internally. SASS is a superset of standard CSS that adds support for many advanced features:</p>
+		<ul>
+			<li>Nested selectors</li>
+			<li>Variables</li>
+			<li>Mixins</li>
+			<li>Selector inheritance</li>
+			<li>Compiled and easily compressed</li>
+			<li>Ability to completely remove CSS for components not needed by your specific application</li>
+		</ul>
+		
+		<h2>Markup Changes</h2>
+		<p>Ext now supports browser/version-specific markup for most components, which is a great advance from Ext 3.</p>
+		
+	</div>
+
+	<div class="span-24" id="docs">
+		<h1>Documentation</h1>
+		<ul>
+			<li>Support for new class system constructs (requires, mixins, etc.)</li>
+			<li>Support for <tt>@deprected</tt> members</li>
+			<li>History navigation support</li>
+			<li>Embedded examples, videos, etc.</li>
+			<li>Favorite topics</li>
+			<li>Multiple framework / version support</li>
+			<li>Local search</li>
+		</ul>
+		
+	</div>
+	
+	<div class="span-24" id="ft">
+		<p>&copy; 2006-2011 Sencha Inc.</p>
+	</div>
+
+</div>
+</body>
+</html>

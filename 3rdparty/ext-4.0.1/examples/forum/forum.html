@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Sencha Forum Browser</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="forum.css" />
+    <script type="text/javascript" src="../../bootstrap.js"></script>
+    <script type="text/javascript" src="classes/Models.js"></script>
+    <script type="text/javascript" src="classes/ForumList.js"></script>
+    <script type="text/javascript" src="classes/TopicContainer.js"></script>
+    <script type="text/javascript" src="classes/TopicGrid.js"></script>
+    <script type="text/javascript" src="classes/Main.js"></script>
+    <script type="text/javascript">
+        Ext.Loader.setConfig({enabled: true});
+        Ext.Loader.setPath('Ext.ux', '../ux/');
+        Ext.require([
+            'Ext.grid.*',
+            'Ext.tree.*',
+            'Ext.data.*',
+            'Ext.toolbar.*',
+            'Ext.tab.Panel',
+            'Ext.layout.container.Border',
+            'Ext.ux.PreviewPlugin'
+        ]);
+        Ext.onReady(function(){
+            Ext.QuickTips.init();
+            new ForumBrowser.Main();
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

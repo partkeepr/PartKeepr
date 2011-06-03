@@ -106,13 +106,12 @@ class Part {
 					"name" => $this->name,
 					"comment" => $this->comment,
 					"stockLevel" => $this->getStockLevel(),
-					"footprint" => is_object($this->footprint) ? $this->footprint->serialize() : null,
+					"footprint_id" => is_object($this->footprint) ? $this->footprint->getId() : null,
 					"minStockLevel" => $this->minStockLevel,
-					"storageLocation" => is_object($this->storageLocation) ? $this->storageLocation->serialize() : null,
+					"storageLocation_id" => is_object($this->storageLocation) ? $this->storageLocation->getId() : null,
+					"storageLocationName" => is_object($this->storageLocation) ? $this->storageLocation->getName() : null,
 					"manufacturer" => is_object($this->manufacturer) ? $this->manufacturer->serialize() : null,
-					"category" => $this->category->serialize()
-		
-		
+					"category_id" => is_object($this->category) ?  $this->category->getId() : null
 		);
 	}
 }

@@ -9,7 +9,7 @@ use de\RaumZeitLabor\PartDB2\Util\Singleton,
 	de\RaumZeitLabor\PartDB2\Manufacturer\Exceptions\ManufacturerNotFoundException;
 
 class ManufacturerManager extends Singleton {
-	public function getManufacturers ($start = 0, $limit = 10, $sort = "footprint", $dir = "asc", $filter = "") {
+	public function getManufacturers ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 			
 		$qb = PartDB2::getEM()->createQueryBuilder();
 		$qb->select("st.id, st.name")->from("de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer","st");
@@ -42,7 +42,7 @@ class ManufacturerManager extends Singleton {
 		
 		$totalQuery = $totalQueryBuilder->getQuery();
 		
-		return array("manufacturers" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
+		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
 	}
 	
 	public function getManufacturer ($id) {
@@ -60,6 +60,9 @@ class ManufacturerManager extends Singleton {
 		$manufacturer->setName($name);
 		
 		PartDB2::getEM()->persist($manufacturer);
+		PartDB2::getEM()->flush();
+		
+		return $manufacturer;
 	}
 	public function deleteManufacturer ($id) {
 		$manufacturer = $this->getManufacturer($id);

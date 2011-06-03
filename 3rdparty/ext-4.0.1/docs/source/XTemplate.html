@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-XTemplate'>/**
+</span> * @class Ext.XTemplate
+ * @extends Ext.Template
+ * &lt;p&gt;A template class that supports advanced functionality like:&lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+ * &lt;li&gt;Autofilling arrays using templates and sub-templates&lt;/li&gt;
+ * &lt;li&gt;Conditional processing with basic comparison operators&lt;/li&gt;
+ * &lt;li&gt;Basic math function support&lt;/li&gt;
+ * &lt;li&gt;Execute arbitrary inline code with special built-in template variables&lt;/li&gt;
+ * &lt;li&gt;Custom member functions&lt;/li&gt;
+ * &lt;li&gt;Many special tags and built-in operators that aren't defined as part of
+ * the API, but are supported in the templates that can be created&lt;/li&gt;
+ * &lt;/ul&gt;&lt;/div&gt;&lt;/p&gt;
+ * &lt;p&gt;XTemplate provides the templating mechanism built into:&lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+ * &lt;li&gt;{@link Ext.view.View}&lt;/li&gt;
+ * &lt;/ul&gt;&lt;/div&gt;&lt;/p&gt;
+ *
+ * The {@link Ext.Template} describes
+ * the acceptable parameters to pass to the constructor. The following
+ * examples demonstrate all of the supported features.&lt;/p&gt;
+ *
+ * &lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+ *
+ * &lt;li&gt;&lt;b&gt;&lt;u&gt;Sample Data&lt;/u&gt;&lt;/b&gt;
+ * &lt;div class=&quot;sub-desc&quot;&gt;
+ * &lt;p&gt;This is the data object used for reference in each code example:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var data = {
+name: 'Tommy Maintz',
+title: 'Lead Developer',
+company: 'Sencha Inc.',
+email: 'tommy@sencha.com',
+address: '5 Cups Drive',
+city: 'Palo Alto',
+state: 'CA',
+zip: '44102',
+drinks: ['Coffee', 'Soda', 'Water'],
+kids: [{
+        name: 'Joshua',
+        age:3
+    },{
+        name: 'Matthew',
+        age:2
+    },{
+        name: 'Solomon',
+        age:0
+}]
+};
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;/div&gt;
+ * &lt;/li&gt;
+ *
+ *
+ * &lt;li&gt;&lt;b&gt;&lt;u&gt;Auto filling of arrays&lt;/u&gt;&lt;/b&gt;
+ * &lt;div class=&quot;sub-desc&quot;&gt;
+ * &lt;p&gt;The &lt;b&gt;&lt;tt&gt;tpl&lt;/tt&gt;&lt;/b&gt; tag and the &lt;b&gt;&lt;tt&gt;for&lt;/tt&gt;&lt;/b&gt; operator are used
+ * to process the provided data object:
+ * &lt;ul&gt;
+ * &lt;li&gt;If the value specified in &lt;tt&gt;for&lt;/tt&gt; is an array, it will auto-fill,
+ * repeating the template block inside the &lt;tt&gt;tpl&lt;/tt&gt; tag for each item in the
+ * array.&lt;/li&gt;
+ * &lt;li&gt;If &lt;tt&gt;for=&quot;.&quot;&lt;/tt&gt; is specified, the data object provided is examined.&lt;/li&gt;
+ * &lt;li&gt;While processing an array, the special variable &lt;tt&gt;{#}&lt;/tt&gt;
+ * will provide the current array index + 1 (starts at 1, not 0).&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+&amp;lt;tpl &lt;b&gt;for&lt;/b&gt;=&quot;.&quot;&gt;...&amp;lt;/tpl&gt;       // loop through array at root node
+&amp;lt;tpl &lt;b&gt;for&lt;/b&gt;=&quot;foo&quot;&gt;...&amp;lt;/tpl&gt;     // loop through array at foo node
+&amp;lt;tpl &lt;b&gt;for&lt;/b&gt;=&quot;foo.bar&quot;&gt;...&amp;lt;/tpl&gt; // loop through array at foo.bar node
+ &lt;/code&gt;&lt;/pre&gt;
+ * Using the sample data above:
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;Kids: ',
+    '&amp;lt;tpl &lt;b&gt;for&lt;/b&gt;=&quot;.&quot;&gt;',       // process the data.kids node
+        '&amp;lt;p&gt;{#}. {name}&amp;lt;/p&gt;',  // use current array index to autonumber
+    '&amp;lt;/tpl&gt;&amp;lt;/p&gt;'
+);
+tpl.overwrite(panel.body, data.kids); // pass the kids property of the data object
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;p&gt;An example illustrating how the &lt;b&gt;&lt;tt&gt;for&lt;/tt&gt;&lt;/b&gt; property can be leveraged
+ * to access specified members of the provided data object to populate the template:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;Name: {name}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Title: {title}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Company: {company}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Kids: ',
+    '&amp;lt;tpl &lt;b&gt;for=&quot;kids&quot;&lt;/b&gt;&gt;',     // interrogate the kids property within the data
+        '&amp;lt;p&gt;{name}&amp;lt;/p&gt;',
+    '&amp;lt;/tpl&gt;&amp;lt;/p&gt;'
+);
+tpl.overwrite(panel.body, data);  // pass the root node of the data object
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;p&gt;Flat arrays that contain values (and not objects) can be auto-rendered
+ * using the special &lt;b&gt;&lt;tt&gt;{.}&lt;/tt&gt;&lt;/b&gt; variable inside a loop.  This variable
+ * will represent the value of the array at the current index:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;{name}\&amp;#39;s favorite beverages:&amp;lt;/p&gt;',
+    '&amp;lt;tpl for=&quot;drinks&quot;&gt;',
+        '&amp;lt;div&gt; - {.}&amp;lt;/div&gt;',
+    '&amp;lt;/tpl&gt;'
+);
+tpl.overwrite(panel.body, data);
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;p&gt;When processing a sub-template, for example while looping through a child array,
+ * you can access the parent object's members via the &lt;b&gt;&lt;tt&gt;parent&lt;/tt&gt;&lt;/b&gt; object:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;Name: {name}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Kids: ',
+    '&amp;lt;tpl for=&quot;kids&quot;&gt;',
+        '&amp;lt;tpl if=&quot;age &amp;amp;gt; 1&quot;&gt;',
+            '&amp;lt;p&gt;{name}&amp;lt;/p&gt;',
+            '&amp;lt;p&gt;Dad: {&lt;b&gt;parent&lt;/b&gt;.name}&amp;lt;/p&gt;',
+        '&amp;lt;/tpl&gt;',
+    '&amp;lt;/tpl&gt;&amp;lt;/p&gt;'
+);
+tpl.overwrite(panel.body, data);
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;/div&gt;
+ * &lt;/li&gt;
+ *
+ *
+ * &lt;li&gt;&lt;b&gt;&lt;u&gt;Conditional processing with basic comparison operators&lt;/u&gt;&lt;/b&gt;
+ * &lt;div class=&quot;sub-desc&quot;&gt;
+ * &lt;p&gt;The &lt;b&gt;&lt;tt&gt;tpl&lt;/tt&gt;&lt;/b&gt; tag and the &lt;b&gt;&lt;tt&gt;if&lt;/tt&gt;&lt;/b&gt; operator are used
+ * to provide conditional checks for deciding whether or not to render specific
+ * parts of the template. Notes:&lt;div class=&quot;sub-desc&quot;&gt;&lt;ul&gt;
+ * &lt;li&gt;Double quotes must be encoded if used within the conditional&lt;/li&gt;
+ * &lt;li&gt;There is no &lt;tt&gt;else&lt;/tt&gt; operator &amp;mdash; if needed, two opposite
+ * &lt;tt&gt;if&lt;/tt&gt; statements should be used.&lt;/li&gt;
+ * &lt;/ul&gt;&lt;/div&gt;
+ * &lt;pre&gt;&lt;code&gt;
+&amp;lt;tpl if=&quot;age &amp;gt; 1 &amp;amp;&amp;amp; age &amp;lt; 10&quot;&gt;Child&amp;lt;/tpl&gt;
+&amp;lt;tpl if=&quot;age &gt;= 10 &amp;&amp; age &lt; 18&quot;&gt;Teenager&amp;lt;/tpl&gt;
+&amp;lt;tpl &lt;b&gt;if&lt;/b&gt;=&quot;this.isGirl(name)&quot;&gt;...&amp;lt;/tpl&gt;
+&amp;lt;tpl &lt;b&gt;if&lt;/b&gt;=&quot;id==\'download\'&quot;&gt;...&amp;lt;/tpl&gt;
+&amp;lt;tpl &lt;b&gt;if&lt;/b&gt;=&quot;needsIcon&quot;&gt;&amp;lt;img src=&quot;{icon}&quot; class=&quot;{iconCls}&quot;/&gt;&amp;lt;/tpl&gt;
+// no good:
+&amp;lt;tpl if=&quot;name == &quot;Tommy&quot;&quot;&gt;Hello&amp;lt;/tpl&gt;
+// encode &amp;#34; if it is part of the condition, e.g.
+&amp;lt;tpl if=&quot;name == &amp;#38;quot;Tommy&amp;#38;quot;&quot;&gt;Hello&amp;lt;/tpl&gt;
+ * &lt;/code&gt;&lt;/pre&gt;
+ * Using the sample data above:
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;Name: {name}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Kids: ',
+    '&amp;lt;tpl for=&quot;kids&quot;&gt;',
+        '&amp;lt;tpl if=&quot;age &amp;amp;gt; 1&quot;&gt;',
+            '&amp;lt;p&gt;{name}&amp;lt;/p&gt;',
+        '&amp;lt;/tpl&gt;',
+    '&amp;lt;/tpl&gt;&amp;lt;/p&gt;'
+);
+tpl.overwrite(panel.body, data);
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;/div&gt;
+ * &lt;/li&gt;
+ *
+ *
+ * &lt;li&gt;&lt;b&gt;&lt;u&gt;Basic math support&lt;/u&gt;&lt;/b&gt;
+ * &lt;div class=&quot;sub-desc&quot;&gt;
+ * &lt;p&gt;The following basic math operators may be applied directly on numeric
+ * data values:&lt;/p&gt;&lt;pre&gt;
+ * + - * /
+ * &lt;/pre&gt;
+ * For example:
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;Name: {name}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Kids: ',
+    '&amp;lt;tpl for=&quot;kids&quot;&gt;',
+        '&amp;lt;tpl if=&quot;age &amp;amp;gt; 1&quot;&gt;',  // &lt;-- Note that the &amp;gt; is encoded
+            '&amp;lt;p&gt;{#}: {name}&amp;lt;/p&gt;',  // &lt;-- Auto-number each item
+            '&amp;lt;p&gt;In 5 Years: {age+5}&amp;lt;/p&gt;',  // &lt;-- Basic math
+            '&amp;lt;p&gt;Dad: {parent.name}&amp;lt;/p&gt;',
+        '&amp;lt;/tpl&gt;',
+    '&amp;lt;/tpl&gt;&amp;lt;/p&gt;'
+);
+tpl.overwrite(panel.body, data);
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;/div&gt;
+ * &lt;/li&gt;
+ *
+ *
+ * &lt;li&gt;&lt;b&gt;&lt;u&gt;Execute arbitrary inline code with special built-in template variables&lt;/u&gt;&lt;/b&gt;
+ * &lt;div class=&quot;sub-desc&quot;&gt;
+ * &lt;p&gt;Anything between &lt;code&gt;{[ ... ]}&lt;/code&gt; is considered code to be executed
+ * in the scope of the template. There are some special variables available in that code:
+ * &lt;ul&gt;
+ * &lt;li&gt;&lt;b&gt;&lt;tt&gt;values&lt;/tt&gt;&lt;/b&gt;: The values in the current scope. If you are using
+ * scope changing sub-templates, you can change what &lt;tt&gt;values&lt;/tt&gt; is.&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;&lt;tt&gt;parent&lt;/tt&gt;&lt;/b&gt;: The scope (values) of the ancestor template.&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;&lt;tt&gt;xindex&lt;/tt&gt;&lt;/b&gt;: If you are in a looping template, the index of the
+ * loop you are in (1-based).&lt;/li&gt;
+ * &lt;li&gt;&lt;b&gt;&lt;tt&gt;xcount&lt;/tt&gt;&lt;/b&gt;: If you are in a looping template, the total length
+ * of the array you are looping.&lt;/li&gt;
+ * &lt;/ul&gt;
+ * This example demonstrates basic row striping using an inline code block and the
+ * &lt;tt&gt;xindex&lt;/tt&gt; variable:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;Name: {name}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Company: {[values.company.toUpperCase() + &quot;, &quot; + values.title]}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Kids: ',
+    '&amp;lt;tpl for=&quot;kids&quot;&gt;',
+        '&amp;lt;div class=&quot;{[xindex % 2 === 0 ? &quot;even&quot; : &quot;odd&quot;]}&quot;&gt;',
+        '{name}',
+        '&amp;lt;/div&gt;',
+    '&amp;lt;/tpl&gt;&amp;lt;/p&gt;'
+ );
+tpl.overwrite(panel.body, data);
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;/div&gt;
+ * &lt;/li&gt;
+ *
+ * &lt;li&gt;&lt;b&gt;&lt;u&gt;Template member functions&lt;/u&gt;&lt;/b&gt;
+ * &lt;div class=&quot;sub-desc&quot;&gt;
+ * &lt;p&gt;One or more member functions can be specified in a configuration
+ * object passed into the XTemplate constructor for more complex processing:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var tpl = new Ext.XTemplate(
+    '&amp;lt;p&gt;Name: {name}&amp;lt;/p&gt;',
+    '&amp;lt;p&gt;Kids: ',
+    '&amp;lt;tpl for=&quot;kids&quot;&gt;',
+        '&amp;lt;tpl if=&quot;this.isGirl(name)&quot;&gt;',
+            '&amp;lt;p&gt;Girl: {name} - {age}&amp;lt;/p&gt;',
+        '&amp;lt;/tpl&gt;',
+         // use opposite if statement to simulate 'else' processing:
+        '&amp;lt;tpl if=&quot;this.isGirl(name) == false&quot;&gt;',
+            '&amp;lt;p&gt;Boy: {name} - {age}&amp;lt;/p&gt;',
+        '&amp;lt;/tpl&gt;',
+        '&amp;lt;tpl if=&quot;this.isBaby(age)&quot;&gt;',
+            '&amp;lt;p&gt;{name} is a baby!&amp;lt;/p&gt;',
+        '&amp;lt;/tpl&gt;',
+    '&amp;lt;/tpl&gt;&amp;lt;/p&gt;',
+    {
+        // XTemplate configuration:
+        compiled: true,
+        // member functions:
+        isGirl: function(name){
+           return name == 'Sara Grace';
+        },
+        isBaby: function(age){
+           return age &lt; 1;
+        }
+    }
+);
+tpl.overwrite(panel.body, data);
+ &lt;/code&gt;&lt;/pre&gt;
+ * &lt;/div&gt;
+ * &lt;/li&gt;
+ *
+ * &lt;/ul&gt;&lt;/div&gt;
+ *
+ * @param {Mixed} config
+ */
+
+Ext.define('Ext.XTemplate', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.Template',
+
+    statics: {
+<span id='Ext-XTemplate-method-from'>        /**
+</span>         * Creates a template from the passed element's value (&lt;i&gt;display:none&lt;/i&gt; textarea, preferred) or innerHTML.
+         * @param {String/HTMLElement} el A DOM element or its id
+         * @return {Ext.Template} The created template
+         * @static
+         */
+        from: function(el, config) {
+            el = Ext.getDom(el);
+            return new this(el.value || el.innerHTML, config || {});
+        }
+    },
+
+    /* End Definitions */
+
+    argsRe: /&lt;tpl\b[^&gt;]*&gt;((?:(?=([^&lt;]+))\2|&lt;(?!tpl\b[^&gt;]*&gt;))*?)&lt;\/tpl&gt;/,
+    nameRe: /^&lt;tpl\b[^&gt;]*?for=&quot;(.*?)&quot;/,
+    ifRe: /^&lt;tpl\b[^&gt;]*?if=&quot;(.*?)&quot;/,
+    execRe: /^&lt;tpl\b[^&gt;]*?exec=&quot;(.*?)&quot;/,
+    constructor: function() {
+        this.callParent(arguments);
+
+        var me = this,
+            html = me.html,
+            argsRe = me.argsRe,
+            nameRe = me.nameRe,
+            ifRe = me.ifRe,
+            execRe = me.execRe,
+            id = 0,
+            tpls = [],
+            VALUES = 'values',
+            PARENT = 'parent',
+            XINDEX = 'xindex',
+            XCOUNT = 'xcount',
+            RETURN = 'return ',
+            WITHVALUES = 'with(values){ ',
+            m, matchName, matchIf, matchExec, exp, fn, exec, name, i;
+
+        html = ['&lt;tpl&gt;', html, '&lt;/tpl&gt;'].join('');
+
+        while ((m = html.match(argsRe))) {
+            exp = null;
+            fn = null;
+            exec = null;
+            matchName = m[0].match(nameRe);
+            matchIf = m[0].match(ifRe);
+            matchExec = m[0].match(execRe);
+
+            exp = matchIf ? matchIf[1] : null;
+            if (exp) {
+                fn = Ext.functionFactory(VALUES, PARENT, XINDEX, XCOUNT, WITHVALUES + 'try{' + RETURN + Ext.String.htmlDecode(exp) + ';}catch(e){return;}}');
+            }
+
+            exp = matchExec ? matchExec[1] : null;
+            if (exp) {
+                exec = Ext.functionFactory(VALUES, PARENT, XINDEX, XCOUNT, WITHVALUES + Ext.String.htmlDecode(exp) + ';}');
+            }
+
+            name = matchName ? matchName[1] : null;
+            if (name) {
+                if (name === '.') {
+                    name = VALUES;
+                } else if (name === '..') {
+                    name = PARENT;
+                }
+                name = Ext.functionFactory(VALUES, PARENT, 'try{' + WITHVALUES + RETURN + name + ';}}catch(e){return;}');
+            }
+
+            tpls.push({
+                id: id,
+                target: name,
+                exec: exec,
+                test: fn,
+                body: m[1] || ''
+            });
+
+            html = html.replace(m[0], '{xtpl' + id + '}');
+            id = id + 1;
+        }
+
+        for (i = tpls.length - 1; i &gt;= 0; --i) {
+            me.compileTpl(tpls[i]);
+        }
+        me.master = tpls[tpls.length - 1];
+        me.tpls = tpls;
+    },
+
+    // @private
+    applySubTemplate: function(id, values, parent, xindex, xcount) {
+        var me = this, t = me.tpls[id];
+        return t.compiled.call(me, values, parent, xindex, xcount);
+    },
+<span id='Ext-XTemplate-cfg-codeRe'>    /**
+</span>     * @cfg {RegExp} codeRe The regular expression used to match code variables (default: matches &lt;tt&gt;{[expression]}&lt;/tt&gt;).
+     */
+    codeRe: /\{\[((?:\\\]|.|\n)*?)\]\}/g,
+
+    re: /\{([\w-\.\#]+)(?:\:([\w\.]*)(?:\((.*?)?\))?)?(\s?[\+\-\*\/]\s?[\d\.\+\-\*\/\(\)]+)?\}/g,
+
+    // @private
+    compileTpl: function(tpl) {
+        var fm = Ext.util.Format,
+            me = this,
+            useFormat = me.disableFormats !== true,
+            body, bodyReturn, evaluatedFn;
+
+        function fn(m, name, format, args, math) {
+            var v;
+            // name is what is inside the {}
+            // Name begins with xtpl, use a Sub Template
+            if (name.substr(0, 4) == 'xtpl') {
+                return &quot;',this.applySubTemplate(&quot; + name.substr(4) + &quot;, values, parent, xindex, xcount),'&quot;;
+            }
+            // name = &quot;.&quot; - Just use the values object.
+            if (name == '.') {
+                // filter to not include arrays/objects/nulls
+                v = 'Ext.Array.indexOf([&quot;string&quot;, &quot;number&quot;, &quot;boolean&quot;], typeof values) &gt; -1 || Ext.isDate(values) ? values : &quot;&quot;';
+            }
+
+            // name = &quot;#&quot; - Use the xindex
+            else if (name == '#') {
+                v = 'xindex';
+            }
+            else if (name.substr(0, 7) == &quot;parent.&quot;) {
+                v = name;
+            }
+            // name has a . in it - Use object literal notation, starting from values
+            else if (name.indexOf('.') != -1) {
+                v = &quot;values.&quot; + name;
+            }
+
+            // name is a property of values
+            else {
+                v = &quot;values['&quot; + name + &quot;']&quot;;
+            }
+            if (math) {
+                v = '(' + v + math + ')';
+            }
+            if (format &amp;&amp; useFormat) {
+                args = args ? ',' + args : &quot;&quot;;
+                if (format.substr(0, 5) != &quot;this.&quot;) {
+                    format = &quot;fm.&quot; + format + '(';
+                }
+                else {
+                    format = 'this.' + format.substr(5) + '(';
+                }
+            }
+            else {
+                args = '';
+                format = &quot;(&quot; + v + &quot; === undefined ? '' : &quot;;
+            }
+            return &quot;',&quot; + format + v + args + &quot;),'&quot;;
+        }
+
+        function codeFn(m, code) {
+            // Single quotes get escaped when the template is compiled, however we want to undo this when running code.
+            return &quot;',(&quot; + code.replace(me.compileARe, &quot;'&quot;) + &quot;),'&quot;;
+        }
+
+        bodyReturn = tpl.body.replace(me.compileBRe, '\\n').replace(me.compileCRe, &quot;\\'&quot;).replace(me.re, fn).replace(me.codeRe, codeFn);
+        body = &quot;evaluatedFn = function(values, parent, xindex, xcount){return ['&quot; + bodyReturn + &quot;'].join('');};&quot;;
+        eval(body);
+
+        tpl.compiled = function(values, parent, xindex, xcount) {
+            var vs,
+                length,
+                buffer,
+                i;
+
+            if (tpl.test &amp;&amp; !tpl.test.call(me, values, parent, xindex, xcount)) {
+                return '';
+            }
+
+            vs = tpl.target ? tpl.target.call(me, values, parent) : values;
+            if (!vs) {
+               return '';
+            }
+
+            parent = tpl.target ? values : parent;
+            if (tpl.target &amp;&amp; Ext.isArray(vs)) {
+                buffer = [];
+                length = vs.length;
+                if (tpl.exec) {
+                    for (i = 0; i &lt; length; i++) {
+                        buffer[buffer.length] = evaluatedFn.call(me, vs[i], parent, i + 1, length);
+                        tpl.exec.call(me, vs[i], parent, i + 1, length);
+                    }
+                } else {
+                    for (i = 0; i &lt; length; i++) {
+                        buffer[buffer.length] = evaluatedFn.call(me, vs[i], parent, i + 1, length);
+                    }
+                }
+                return buffer.join('');
+            }
+
+            if (tpl.exec) {
+                tpl.exec.call(me, vs, parent, xindex, xcount);
+            }
+            return evaluatedFn.call(me, vs, parent, xindex, xcount);
+        };
+
+        return this;
+    },
+
+<span id='Ext-XTemplate-method-applyTemplate'>    /**
+</span>     * Returns an HTML fragment of this template with the specified values applied.
+     * @param {Object} values The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})
+     * @return {String} The HTML fragment
+     */
+    applyTemplate: function(values) {
+        return this.master.compiled.call(this, values, {}, 1, 1);
+    },
+
+<span id='Ext-XTemplate-method-compile'>    /**
+</span>     * Compile the template to a function for optimized performance.  Recommended if the template will be used frequently.
+     * @return {Function} The compiled function
+     */
+    compile: function() {
+        return this;
+    }
+}, function() {
+<span id='Ext-XTemplate-method-apply'>    /**
+</span>     * Alias for {@link #applyTemplate}
+     * Returns an HTML fragment of this template with the specified values applied.
+     * @param {Object/Array} values The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})
+     * @return {String} The HTML fragment
+     * @member Ext.XTemplate
+     * @method apply
+     */
+    this.createAlias('apply', 'applyTemplate');
+});
+</pre>
+</body>
+</html>

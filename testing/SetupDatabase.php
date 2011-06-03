@@ -80,7 +80,7 @@ $r = mysql_query("SELECT * FROM footprints");
 
 while ($sFootprint = mysql_fetch_assoc($r)) {
 	$footprint = new Footprint();
-	$footprint->setFootprint(stripslashes($sFootprint["name"]));
+	$footprint->setFootprint(convertText($sFootprint["name"]));
 
 	echo " Adding footprint ".$sFootprint["name"]."\r";
 	PartDB2::getEM()->persist($footprint);
@@ -112,7 +112,7 @@ function addCategoryRecursive ($aCategories, $currentId, $parent) {
 		if ($aCategory["parentnode"] == $currentId) {
 			echo "Adding ".sprintf("%40s", $aCategory["name"])."\r";			
 			$oCategory = new Category();
-			$oCategory->setName(stripslashes($aCategory["name"]));
+			$oCategory->setName(convertText($aCategory["name"]));
 			$oCategory->setDescription("");
 			$oCategory->setParent($parent->getId());
 			$category = CategoryManager::getInstance()->addCategory($oCategory);
@@ -131,7 +131,7 @@ $r = mysql_query("SELECT * FROM storeloc");
 
 while ($store = mysql_fetch_assoc($r)) {
 	$oStorageLocation = new StorageLocation();
-	$oStorageLocation->setName(stripslashes($store["name"]));
+	$oStorageLocation->setName(convertText($store["name"]));
 	PartDB2::getEM()->persist($oStorageLocation);
 	echo "Migrating storage location ".sprintf("%-40s", $store["name"])."\r";
 	$newStorageLocations[$store["id"]] = $oStorageLocation;
@@ -143,8 +143,8 @@ $r = mysql_query("SELECT * FROM parts");
 
 while ($part = mysql_fetch_assoc($r)) {
 	$oPart = new Part();
-	$oPart->setName(stripslashes($part["name"]));
-	$oPart->setComment(stripslashes($part["comment"]));
+	$oPart->setName(convertText($part["name"]));
+	$oPart->setComment(convertText($part["comment"]));
 	$oPart->setFootprint($newFootprints[$part["id_footprint"]]);
 	$oPart->setCategory($newCategories[$part["id_category"]]);
 	$oPart->setStorageLocation($newStorageLocations[$part["id_storeloc"]]);
@@ -183,4 +183,11 @@ echo "All done.\n";
 
 apc_clear_cache();
 apc_clear_cache("user");
+
+function convertText ($string) {
+	$string = stripslashes($string);
+	$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+	
+	return $string;
+}
 ?>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-AbstractPlugin'>/**
+</span> * @class Ext.AbstractPlugin
+ * @extends Object
+ *
+ * Plugins are injected 
+ */
+Ext.define('Ext.AbstractPlugin', {
+    disabled: false,
+    
+    constructor: function(config) {
+        //&lt;debug&gt;
+        if (!config.cmp &amp;&amp; Ext.global.console) {
+            Ext.global.console.warn(&quot;Attempted to attach a plugin &quot;);
+        }
+        //&lt;/debug&gt;
+        Ext.apply(this, config);
+    },
+    
+    getCmp: function() {
+        return this.cmp;
+    },
+
+<span id='Ext-AbstractPlugin-method-init'>    /**
+</span>     * The init method is invoked after initComponent has been run for the
+     * component which we are injecting the plugin into.
+     * @method
+     */
+    init: Ext.emptyFn,
+
+<span id='Ext-AbstractPlugin-method-destroy'>    /**
+</span>     * The destroy method is invoked by the owning Component at the time the Component is being destroyed.
+     * Use this method to clean up an resources.
+     * @method
+     */
+    destroy: Ext.emptyFn,
+
+<span id='Ext-AbstractPlugin-method-enable'>    /**
+</span>     * Enable the plugin and set the disabled flag to false.
+     */
+    enable: function() {
+        this.disabled = false;
+    },
+
+<span id='Ext-AbstractPlugin-method-disable'>    /**
+</span>     * Disable the plugin and set the disabled flag to true.
+     */
+    disable: function() {
+        this.disabled = true;
+    }
+});
+</pre>
+</body>
+</html>

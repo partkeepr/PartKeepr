@@ -21,6 +21,13 @@ class StorageLocation {
 		$this->name = $name;
 	}
 	
+	public function getName () {
+		return $this->name;
+	}
+	public function getId () {
+		return $this->id;
+	}
+	
 	public function serialize () {
 		return array("id" => $this->id, "name" => $this->name);
 	}

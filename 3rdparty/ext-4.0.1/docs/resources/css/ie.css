@@ -1,0 +1,5 @@
+.head-band { display: none; }
+.header { border: 0; top: 0; left: 0px; background: url(../images/header.gif) repeat-x; }
+.versions { font-size: 12px; }
+.doc-tab .members .member a.side { background-color: #efefef; }
+.doc-tab .members .member.open a.side { background-color: #D9E8FC; }

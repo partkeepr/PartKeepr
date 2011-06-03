@@ -8,89 +8,105 @@
 		<link rel="icon" href="favicon.ico"/>
 		
 		<!-- Include the ExtJS JavaScript Library -->
-		<script type="text/javascript" src="extjs/adapter/ext/ext-base-debug-w-comments.js"></script>
-		<!-- <script type="text/javascript" src="extjs/adapter/ext/ext-base.js"></script>-->
-		<script type="text/javascript" src="extjs/ext-all-debug-w-comments.js"></script>
+		<script type="text/javascript" src="extjs/bootstrap.js"></script> 
+		<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
 		
-		<script type="text/javascript" src="js/ux/statusbar/StatusBar.js"></script>
+		<script type="text/javascript" src="js/Ext.ux/statusbar/StatusBar.js"></script>
+		<script type="text/javascript" src="js/Ext.ux/SearchField.js"></script>
 		
 		<!-- Include the ExtJS CSS Theme -->
 		<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css"/>
-		<link rel="stylesheet" type="text/css" href="css/jm.css"/>
+		
+		<link rel="stylesheet" type="text/css" href="js/Ext.ux/statusbar/css/statusbar.css"/>
+		
+		<link rel="stylesheet" type="text/css" href="css/PartDB2.css"/>
+
+		<script type="text/javascript" src="js/bugfixes.js"></script>
+		<script type="text/javascript" src="js/Util/i18n.js"></script>		
 		
 		<script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js"></script>
 		
+		<script type="text/javascript" src="js/Dialogs/ExceptionWindow.js"></script>
+		<script type="text/javascript" src="js/Dialogs/FileUploadDialog.js"></script>
+		
 		<script type="text/javascript" src="js/Ext.ux/ClearableComboBox.js"></script>
-		<script type="text/javascript" src="js/Ext.ux/FileUploadField.js"></script>
+		<script type="text/javascript" src="js/Ext.ux/TabCloseMenu.js"></script>
+		
+		<script type="text/javascript" src="js/Components/Widgets/CategoryComboBox.js"></script>
+		<script type="text/javascript" src="js/Components/Widgets/StorageLocationComboBox.js"></script>
+		<script type="text/javascript" src="js/Components/Widgets/FootprintComboBox.js"></script>
+		
+		<script type="text/javascript" src="js/Util/ServiceCall.js"></script>
 		
 		<script type="text/javascript" src="js/org.jerrymouse.util.locale/locale.js"></script>
 		<script type="text/javascript" src="js/org.jerrymouse.util.locale/locales/en_US.js"></script>
 		<script type="text/javascript" src="js/org.jerrymouse.util.locale/locales/de_DE.js"></script>
 		
-		<script type="text/javascript" src="js/org.jerrymouse.components/Statusbar.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.components/Menubar.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.components/statusbar/ConnectionButton.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.components/statusbar/TimeDisplay.js"></script>
+		<script type="text/javascript" src="js/PartDB2.js"></script>
 		
+		<script type="text/javascript" src="js/Models/Footprint.js"></script>
+		<script type="text/javascript" src="js/Models/StorageLocation.js"></script>
+		<script type="text/javascript" src="js/Models/Manufacturer.js"></script>
+		<script type="text/javascript" src="js/Models/ManufacturerICLogo.js"></script>
+		<script type="text/javascript" src="js/Models/Category.js"></script>
+		<script type="text/javascript" src="js/Models/Part.js"></script>
 		
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/quicktips.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/contexthelp.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/window.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/MainWindow.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/button.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/menuitem.js"></script>
+		<script type="text/javascript" src="js/Models/Message.js"></script>
 		
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/form.field.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/searchfield.js"></script>
+		<script type="text/javascript" src="js/Dialogs/Auth/LoginDialog.js"></script>
 		
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/layout.formlayout.js"></script>
-
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/toolbar.button.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.gui.widgets/LanguageChooser.js"></script>
+		<script type="text/javascript" src="js/Components/Statusbar.js"></script>
+		<script type="text/javascript" src="js/Components/MenuBar.js"></script>
+		<script type="text/javascript" src="js/Components/ConnectionButton.js"></script>
+		<script type="text/javascript" src="js/Components/TimeDisplay.js"></script>
+		<script type="text/javascript" src="js/Components/MessageLog.js"></script>
 		
-		<script type="text/javascript" src="js/org.jerrymouse.service/ServiceCall.js"></script>
-		<script type="text/javascript" src="js/org.jerrymouse.service/ServiceCallDataProxy.js"></script>
+		<script type="text/javascript" src="js/Components/Editor/EditorGrid.js"></script>
+		<script type="text/javascript" src="js/Components/Editor/EditorComponent.js"></script>
+		<script type="text/javascript" src="js/Components/Editor/Editor.js"></script>
 		
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/FootPrintManager/FootPrintManagerList.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/FootPrintManager/FootPrintManagerDetails.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/FootPrintManager/FootPrintManagerWindow.js"></script>
+		<script type="text/javascript" src="js/Components/CategoryStore.js"></script>
+		<script type="text/javascript" src="js/Components/CategoryTree.js"></script>
 		
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/StorageLocationManager/StorageLocationManagerWindow.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/StorageLocationManager/StorageLocationListGrid.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/StorageLocationManager/StorageLocationManagerDetails.js"></script>
+		<script type="text/javascript" src="js/Components/Footprint/FootprintGrid.js"></script>
+		<script type="text/javascript" src="js/Components/Footprint/FootprintEditor.js"></script>
+		<script type="text/javascript" src="js/Components/Footprint/FootprintEditorComponent.js"></script>
 		
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/ManufacturerManager/ManufacturerManagerWindow.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/ManufacturerManager/ManufacturerListGrid.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/ManufacturerManager/ManufacturerManagerDetails.js"></script>
+		<script type="text/javascript" src="js/Components/StorageLocation/StorageLocationGrid.js"></script>
+		<script type="text/javascript" src="js/Components/StorageLocation/StorageLocationEditor.js"></script>
+		<script type="text/javascript" src="js/Components/StorageLocation/StorageLocationEditorComponent.js"></script>
 		
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/PartsManager/PartsManagerTree.js"></script>
-		<!-- <script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/PartsManager/FootPrintManagerDetails.js"></script> -->
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/PartsManager/PartsManagerWindow.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/PartsManager/PartsManagerPartDetail.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/PartsManager/PartsManagerListGrid.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/PartsManager/PartsManagerAddPartDialog.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/PartsManager/PartsManagerAddPartForm.js"></script>
+		<script type="text/javascript" src="js/Components/Manufacturer/ManufacturerGrid.js"></script>
+		<script type="text/javascript" src="js/Components/Manufacturer/ManufacturerEditor.js"></script>
+		<script type="text/javascript" src="js/Components/Manufacturer/ManufacturerEditorComponent.js"></script>
 		
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/CategoryEditor/CategoryEditor.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/CategoryEditor/CategoryComboBox.js"></script>
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/CategoryEditor/CategoryWidget.js"></script>
+		<script type="text/javascript" src="js/Components/CategoryEditor/CategoryEditorForm.js"></script>
+		<script type="text/javascript" src="js/Components/CategoryEditor/CategoryEditorWindow.js"></script>
+		<script type="text/javascript" src="js/Components/CategoryEditor/CategoryEditorTree.js"></script>
 		
-		<script type="text/javascript" src="js/de.RaumZeitLabor.PartDB2/Util/UploadWindow.js"></script>
-		
-		<script type="text/javascript" src="js/org.jerrymouse.gui.login/login.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartsManager.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartsGrid.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartEditorWindow.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartEditor.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartDisplay.js"></script>
 		
 		</head>
 <body>
 
 <script type="text/javascript">
-Ext.setLocale('en_US');
+/*
+Ext.onReady(function(){
+	Ext.setLocale('en_US');
+	
+	Ext.QuickTips.init();
+	
+	var mainWindow = new org.jerrymouse.gui.widgets.MainWindow();
+	
+	var o = new org.jerrymouse.gui.login.dialog();
+	o.show();
 
-Ext.QuickTips.init();
-
-var mainWindow = new org.jerrymouse.gui.widgets.MainWindow();
-
-var o = new org.jerrymouse.gui.login.dialog();
-o.show();
+	
+});*/
 
 </script>
 </body>

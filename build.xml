@@ -24,6 +24,7 @@
     
     <target name="clean">
     	<delete dir="reports" />
+    	<delete dir="build" />
     </target>
     
 	<target name="cruise-control" depends="clean,phpmd,jslint,phpcpd,code-coverage,php-documentor">
@@ -34,7 +35,10 @@
 		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
 		<mkdir dir="build/"/>
 		<copy overwrite="false" todir="build/extjs/">
-			<fileset dir="3rdparty/ext-3.3.1/">
+			<fileset dir="3rdparty/ext-4.0.1/">
+				<include name="bootstrap.js"/>
+				<include name="compatibility/ext3-core-compat.js"/>
+				<include name="compatibility/ext3-compat.js"/>
 				<include name="ext-all.js"/>
 				<include name="ext-all-debug.js"/>
 				<include name="ext-all-debug-w-comments.js"/>
@@ -45,10 +49,17 @@
 			</fileset>
 		</copy>
 			
-		<echo>Copying Ext Statusbar (removing features during a major version is stupid, ExtJS guys...)</echo>
-		<copy overwrite="false" todir="build/js/ux/">
-			<fileset dir="3rdparty/ext-3.3.1/examples/ux">
+		<echo>Copying Ext Statusbar</echo>
+		<copy overwrite="false" todir="build/js/Ext.ux/">
+			<fileset dir="3rdparty/ext-4.0.1/examples/ux">
 				<include name="statusbar/**"/>
+			</fileset>
+		</copy>
+		
+		<echo>Copying Ext.tab.TabCloseMenu</echo>
+		<copy overwrite="false" todir="build/js/Ext.ux/">
+			<fileset dir="3rdparty/ext-4.0.1/examples/ux">
+				<include name="TabCloseMenu.js"/>
 			</fileset>
 		</copy>
 		

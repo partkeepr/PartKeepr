@@ -59,6 +59,7 @@ abstract class Image {
 	protected function setType ($type) {
 		switch ($type) {
 			case Image::IMAGE_ICLOGO:
+			case Image::IMAGE_TEMP:
 				$this->type = $type;
 				break;
 			default:

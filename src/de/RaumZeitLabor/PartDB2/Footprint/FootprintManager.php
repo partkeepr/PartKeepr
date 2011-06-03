@@ -3,6 +3,7 @@ namespace de\raumzeitlabor\PartDB2\Footprint;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Util\Singleton,
+	de\RaumZeitLabor\PartDB2\Util\SerializableException,
 	de\RaumZeitLabor\PartDB2\Footprint\Footprint,
 	de\RaumZeitLabor\PartDB2\PartDB2,
 	de\RaumZeitLabor\PartDB2\Footprint\Exceptions\FootprintNotFoundException;
@@ -41,24 +42,62 @@ class FootprintManager extends Singleton {
 		
 		$totalQuery = $totalQueryBuilder->getQuery();
 		
-		return array("footprints" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
+		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
 	}
 	
 	public function addFootprint ($footprint) {
 		$fp = new Footprint();
 		$fp->setFootprint($footprint);
 		
-		PartDB2::getEM()->persist($fp);
+		// @todo Port the UniqueEntityValidator from Symfony2 to here.
+		try {
+			PartDB2::getEM()->persist($fp);
+			PartDB2::getEM()->flush();
+		} catch (\PDOException $e) {
+			if ($e->getCode() == "23000") {
+				$exception = new SerializableException(sprintf(PartDB2::i18n("Footprint %s already exists!"), $footprint));
+				$exception->setDetail(sprintf(PartDB2::i18n("You tried to add the footprint %s, but a footprint with the same name already exists."), $footprint));
+				
+				throw $exception;
+			} else {
+				throw $e;
+			}
+		}
 		
+		return $fp;
 	}
 	
 	public function deleteFootprint ($id) {
 		$footprint = PartDB2::getEM()->find("de\RaumZeitLabor\PartDB2\Footprint\Footprint", $id);
 		
 		if ($footprint) {
-			PartDB2::getEM()->remove($footprint);
+			try {
+				PartDB2::getEM()->remove($footprint);
+				PartDB2::getEM()->flush();	
+			} catch (\PDOException $e) {
+				if ($e->getCode() == "23000") {
+					$exception = new SerializableException(sprintf(PartDB2::i18n("Footprint %s is in use by some parts!"), $footprint->getFootprint()));
+					$exception->setDetail(sprintf(PartDB2::i18n("You tried to delete the footprint %s, but there are parts which use this footprint."), $footprint->getFootprint()));
+				
+					throw $exception;
+				}
+			}
+			
 		} else {
 			throw new FootprintNotFoundException;
+		}
+	}
+	
+	public function getOrCreateFootprint ($footprint) {
+		try {
+			return $this->getFootprint($footprint);
+		} catch (FootprintNotFoundException $e) {
+			$fp = new Footprint();
+			$fp->setFootprint($footprint);
+
+			PartDB2::getEM()->persist($fp);
+			
+			return $fp;
 		}
 	}
 	

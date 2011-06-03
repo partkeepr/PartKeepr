@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Ext JS Migration Demo (3.x Compatibility Mode)</title>
+    <!-- Ext 4.0 -->
+    <link rel="stylesheet" type="text/css" href="../../../../resources/css/ext-all.css" />
+    <!-- Stick to ext-all-debug.js (not bootstrap.js) while migrating. Legacy code will not work with bootstrap! -->
+    <script type="text/javascript" src="../../../../ext-all-debug.js"></script>
+    
+    <!-- Ext 3.x compatibility -->
+    <script type="text/javascript" src="../../ext3-core-compat.js"></script>
+    <script type="text/javascript" src="../../ext3-compat.js"></script>
+    
+    <!-- App-specific -->
+    <link rel="stylesheet" type="text/css" href="../shared/app.css" />
+    <style>
+        /* BEGIN-COMPAT
+         * The tree and grid now share the same base class / markup, so the CSS rule
+         * needed to customize the selected node style must be updated accordingly.
+         * This overrides the default rule from app.css above.
+         */
+        .x-tree-panel .x-grid-row-selected .x-grid-cell-inner {
+            font-weight: bold;
+        }
+        /* END-COMPAT */
+    </style>
+    <script>
+        Ext.ns('Ext.migration');
+        //Ext.Compat.showErrors = true;
+        
+        Ext.onReady(function(){
+            Ext.migration.App.init();
+        });
+    </script>
+    <script type="text/javascript" src="classes/MigrationNavTree.js"></script>
+    <script type="text/javascript" src="classes/MigrationOrdersGrid.js"></script>
+    <script type="text/javascript" src="classes/MigrationOrdersTab.js"></script>
+    <script type="text/javascript" src="classes/MigrationDashboard.js"></script>
+    <script type="text/javascript" src="classes/MigrationOrderWindow.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+</body>
+</html>

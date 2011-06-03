@@ -18,4 +18,8 @@ class ManufacturerICLogo extends Image {
 	public function setManufacturer (Manufacturer $manufacturer) {
 		$this->manufacturer = $manufacturer;
 	}
+	
+	public function serialize () {
+		return array("id" => $this->id, "manufacturer_id" => $this->manufacturer->getId());
+	}
 }

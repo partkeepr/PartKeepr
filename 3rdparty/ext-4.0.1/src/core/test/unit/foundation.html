@@ -1,0 +1,48 @@
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Jasmine Test Runner - Platform Core</title>
+        <link rel="stylesheet" type="text/css" href="lib/resources/reporter.css">
+        <script type="text/javascript" src="lib/src/reporter.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+                Test.SandBox.setup({
+                    includes: [{ type: "js", src: "lib/src/jasmine.js" },
+                               { type: "js", src: "../../src/Ext.js" },
+                               { type: "js", src: "../../src/version/Version.js" },
+                               { type: "js", src: "../../src/lang/String.js" },
+                               { type: "js", src: "../../src/lang/Number.js" },
+                               { type: "js", src: "../../src/lang/Array.js" },
+                               { type: "js", src: "../../src/lang/Object.js" },
+                               { type: "js", src: "../../src/lang/Function.js" },
+                               { type: "js", src: "../../src/lang/Date.js" },
+                               { type: "js", src: "../../src/class/Base.js" },
+                               { type: "js", src: "../../src/class/Class.js" },
+                               { type: "js", src: "../../src/class/ClassManager.js" },
+                               { type: "js", src: "../../src/class/Loader.js" },
+                               { type: "js", src: "../../src/env/Browser.js" },
+                               { type: "js", src: "../../src/env/OS.js" },
+                               { type: "js", src: "resources/BlockLoader.js" },
+                               { type: "js", src: "resources/EventUtils.js" },
+                               { type: "js", src: "spec/Ext.js" },
+                               { type: "js", src: "spec/version/Version.js" },
+                               { type: "js", src: "spec/lang/String.js" },
+                               { type: "js", src: "spec/lang/Function.js" },
+                               { type: "js", src: "spec/lang/Array.js" },
+                               { type: "js", src: "spec/lang/Number.js" },
+                               { type: "js", src: "spec/class/Class.js" },
+                               { type: "js", src: "spec/class/ClassManager.js" }
+                               //{ type: "js", src: "spec/env/Environment.js" }
+                               ]
+                });
+
+        </script>
+    </body>
+</html>

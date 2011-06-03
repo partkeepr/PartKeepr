@@ -1,0 +1,117 @@
+[{
+   title: 'Ext 4 + Core + Platform',
+   tpl: 'tests/ext4.tpl',
+   destination: '../test/unit/index.html',
+   sources: 'sdk.jsb3',
+   srcReplace: ['', '../'],
+   packages: [
+       'Foundation',
+       'Extras',
+       'DOM',
+       'Classes'
+   ],
+   specPaths: [
+      '../../platform/core/test/unit/spec', 
+      '../../platform/test/unit/spec',
+      '../test/unit/spec'
+   ],
+   excludes: ['../../platform/core/test/unit/spec/env/Environment.js'],
+   prepare: {},
+   overrides: {
+       '../../platform/core/src/class/Loader.js' :  '{ type: "js", src: "resources/BlockLoader.js" },\n'
+   }
+},{
+   title: 'Ext 4 Only',
+   tpl: 'tests/ext4.tpl',
+   destination: '../test/unit/ext4.html',
+   sources: 'sdk.jsb3',
+   srcReplace: ['', '../'],
+   packages: [
+       'Foundation',
+       'Extras',
+       'DOM',
+       'Classes'
+   ],
+   specPaths: [
+      '../../extjs/test/unit/spec'
+   ],
+   excludes: [],
+   prepare: {},
+   overrides: {
+       '../../platform/core/src/class/Loader.js' :  '{ type: "js", src: "resources/BlockLoader.js" },\n'
+   }
+},{
+   title: 'Core Only',
+   tpl: 'tests/core.tpl',
+   destination: '../../platform/core/test/unit/index.html',
+   sources: 'sdk.jsb3',
+   srcReplace: [/(platform\/core\/)|(\.\.\/test\/unit\/)/,''],
+   packages: [
+       'Foundation',
+       'Extras',
+       'DOM'
+   ],
+   specPaths: [
+      '../../platform/core/test/unit/spec',
+   ],
+   excludes: ['../../platform/core/test/unit/spec/env/Environment.js'],
+   prepare: {},
+   overrides: {
+       '../../platform/core/src/class/Loader.js' :  '{ type: "js", src: "resources/BlockLoader.js" },\n'
+   }
+},{
+   title: 'Core + Platform',
+   tpl: 'tests/platform.tpl',
+   destination: '../../platform/test/unit/index.html',
+   sources: 'sdk.jsb3',
+   srcReplace: [/(platform\/)|(\.\.\/test\/unit\/)/,''],
+   srcMustMatch: 'platform',
+   packages: [
+       'Foundation',
+       'Extras',
+       'DOM',
+       'Classes'
+   ],
+   specPaths: [
+      '../../platform/core/test/unit/spec', 
+      '../../platform/test/unit/spec'
+   ],
+   excludes: ['../../platform/core/test/unit/spec/env/Environment.js'],
+   prepare: {
+        '../../platform/src/AbstractComponent.js': '{ type: "js", src: "resources/MockUtilAnimate.js" },\n',
+   },
+   overrides: {
+       '../../platform/core/src/class/Loader.js' :  '{ type: "js", src: "resources/BlockLoader.js" },\n',
+        '../../platform/src/AbstractComponent.js': '{ type: "js", src: "resources/MockComponent.js" },\n',
+        '../../platform/src/container/AbstractContainer.js': '{ type: "js", src: "resources/MockContainer.js" },\n',
+        '../../platform/src/panel/AbstractPanel.js': '{ type: "js", src: "resources/MockPanel.js" },\n',
+        '../../platform/src/layout/container/AbstractContainer.js': '{ type: "js", src: "resources/MockContainerLayout.js" },\n'
+   }
+},{
+   title: 'Platform Only',
+   tpl: 'tests/platform.tpl',
+   destination: '../../platform/test/unit/platform.html',
+   sources: 'sdk.jsb3',
+   srcReplace: [/(platform\/)|(\.\.\/test\/unit\/)/,''],
+   srcMustMatch: 'platform',
+   packages: [
+       'Foundation',
+       'Extras',
+       'DOM',
+       'Classes'
+   ],
+   specPaths: [
+      '../../platform/test/unit/spec'
+   ],
+   excludes: ['../../platform/core/test/unit/spec/env/Environment.js'],
+   prepare: {
+        '../../platform/src/AbstractComponent.js': '{ type: "js", src: "resources/MockUtilAnimate.js" },\n',
+   },
+   overrides: {
+       '../../platform/core/src/class/Loader.js' :  '{ type: "js", src: "resources/BlockLoader.js" },\n',
+        '../../platform/src/AbstractComponent.js': '{ type: "js", src: "resources/MockComponent.js" },\n',
+        '../../platform/src/container/AbstractContainer.js': '{ type: "js", src: "resources/MockContainer.js" },\n',
+        '../../platform/src/panel/AbstractPanel.js': '{ type: "js", src: "resources/MockPanel.js" },\n',
+        '../../platform/src/layout/container/AbstractContainer.js': '{ type: "js", src: "resources/MockContainerLayout.js" },\n'
+   }
+}]

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Ext 3 to 4 Migration Guide</title>
+	<link rel="stylesheet" href="resources/css/screen.css" type="text/css" media="screen, projection">
+	<!--link rel="stylesheet" href="resources/css/fancy-type.css" type="text/css" media="screen"-->
+	<link rel="stylesheet" href="resources/css/link-icons.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="resources/css/print.css" type="text/css" media="print"> 
+	<!--[if lt IE 8]>
+		<link rel="stylesheet" href="resources/css/ie.css" type="text/css" media="screen, projection">
+	<![endif]-->
+	<link rel="stylesheet" href="resources/css/ext-guide.css" type="text/css" media="screen, projection">
+</head>
+<body id="migration-guide">
+	
+<div class="container">
+
+	<div class="span-24" id="hd">
+		<img src="resources/images/logo-sencha-sm.png" alt="Sencha" height="50" width ="120" />
+	</div>
+	
+	<div class="span-24">
+		<h1 id="intro">Ext 3 to 4 Migration Guide</h1>
+		<p>This guide contains everything you need to know to migrate an application from Ext 3.x to 4.0. For a general overview of the changes between Ext 3 and 4 see the <a href="index.html">Ext 4 Overview Guide</a>. If you are migrating from a version of Ext prior to 3.0 then it's strongly recommended that you first have a look at these resources:</p>
+		<ul>
+			<li><a href="http://www.sencha.com/learn/Ext_2_to_3_Migration_Guide" title="Ext 2 to 3 Migration Guide">Ext 2 to 3 Migration Guide</a></li>
+			<li><a href="http://www.sencha.com/learn/Ext_1_to_2_Migration_Guide" title="Ext 1 to 2 Migration Guide">Ext 1 to 2 Migration Guide</a></li>
+		</ul>
+		<p id="forum-link">If you find any issues in this document or would like to provide feedback, please visit the <a href="http://www.sencha.com/forum/showthread.php?124015-Ext-3-to-4-Migration" title="Ext 3 to 4 Migration">Ext 3 to 4 Migration</a> thread in the Sencha forums.</p>
+		<p>We have produced a 2-part video tutorial on Ext 3 to 4 migration, including a step-by-step application migration example. View <a href="http://vimeo.com/23027769">Part 1</a> or <a href="http://vimeo.com/23046756">Part 2</a>.</p>
+	</div>
+	
+    <div id="overview-ct" class="span-24">
+		<h1 id="overview">Overview</h1>
+		<p>If you are just starting out with migrating an Ext 3 application to Ext 4, you'll minimize the time and effort required by working through the sections of this guide in the order presented. Here are the main steps involved:</p>
+			<ul>
+				<li><a href="#compat-init">Initialize Compatibility</a> &mdash; It is strongly recommended that you use the provided Ext 3 compatibility file as your starting point for migrating an application. While there are still breaking changes, the compatibility file will allow the vast majority of Ext 3 code to work under Ext 4 and will allow you to upgrade your application piece by piece (or even run under compatibility mode temporarily if needed).</li>
+				<li><a href="#breaking-changes">Fix Breaking Changes</a> &mdash; Unfortunately there are some things that cannot be made automatically backwards-compatible. Once you've worked through this section your application should be back to a functional state and ready for migration. At this stage your application should be able to run under compatibility mode if needed.</li>
+				<li><a href="#migrate">Migrate to Ext 4</a> &mdash; This section outlines the steps for migrating off of the Ext 3 compatibility file. You should be able to work through the main topics in this section one by one, testing the migration steps for each topic as you go until your application is fully Ext 4 ready.</li>
+			</ul>
+	</div>
+    
+    <div class="span-24">
+        <h1 id="compat-init">Initialize Compatibility</h1>
+		<h2>Update Existing Ext Includes</h2>
+		<p>As noted in the Overview Guide, <a href="index.html#adapters">adapters have gone away</a> in Ext 4. Existing adapter file includes (including the default Ext adapter) should simply be removed. Your current include might be for a different adapter, but it will look something like this:</p>
+		<pre><code>
+// Ext 3
+&lt;script type="text/javascript" src="ext/adapter/ext/ext-base.js"&gt;&lt;/script&gt;
+		</code></pre>
+		
+		<p>This include can simply be removed since it is no longer necessary and will not be used. For now you should still be referencing <tt>ext-all-debug.js</tt> as before, just make sure you point to the Ext 4 version. Once you have finished migrating fully to Ext 4 you'll be able to switch to the new bootstrap-based dynamic loading scheme for development, but for legacy code you must still use the single build file (your legacy classes will not yet work with the dynamic loader).</p>
+		
+		<h2>Add the Ext 3 Compatibility Layer</h2>
+		<p>The JavaScript required for Ext 3 compatibility is split into two files, one for Ext Core and one for Ext JS. This enables any site that only uses Ext Core to have a compatibility layer that does not include irrelevant Ext JS framework code. A typical Ext JS application will require both files.</p>
+		<p>To enable Ext 3 compatibility simply include the following lines <strong>after</strong> <tt>ext-all(-debug).js</tt> (again adjusting your paths as needed):</p>
+		<pre><code>
+&lt;script type="text/javascript" src="path/to/ext3-core-compat.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="path/to/ext3-compat.js"&gt;&lt;/script&gt;
+		</code></pre>
+		
+		<h2>Putting it All Together</h2>
+		<p>If you got everything right you should end up with code in your header that looks very similar to this:</p>
+		<pre><code>
+&lt;!-- The default Ext theme, same as Ext 3 --&gt;
+&lt;link rel="stylesheet" type="text/css" href="path/to/resources/css/ext-all.css" /&gt;
+
+&lt;!-- Ext 4 framework --&gt;
+&lt;script type="text/javascript" src="path/to/ext-all-debug.js"&gt;&lt;/script&gt;
+
+&lt;!-- Ext 3 Compatibility (remove after migration is complete) --&gt;
+&lt;script type="text/javascript" src="path/to/ext3-core-compat.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="path/to/ext3-compat.js"&gt;&lt;/script&gt;
+
+&lt;!-- Additional Ext overrides and application-specific includes here --&gt;
+		</code></pre>
+	</div>
+	
+    <div class="span-24">
+        <h1 id="breaking-changes">Fix Breaking Changes</h1>
+		<p>The vast majority of breaking changes have been aliased in the compatibility layer so that existing code should be mostly functional under Ext 4 as-is. For anything that could not be made compatible we've included the following checklist. If you are using the compatibility layer and still hitting runtime errors you'll want to check here first.</p>
+		<p><strong>NOTE</strong>: This section is still in-progress, and so is not 100% complete. If you find any additional breaking changes that are not covered here, please report them in the <a href="http://www.sencha.com/forum/showthread.php?124015-Ext-3-to-4-Migration" title="Ext 3 to 4 Migration">Ext 3 to 4 Migration</a> thread in the Sencha forums.</p>
+		
+		<h2>Ext.lib</h2>
+		<p>In Ext 3, the <tt>Ext.lib</tt> namespace is the internal, underlying foundation of Ext Core. It provides the core interfaces implemented by each third party framework adapter for providing DOM functions, events, Ajax, animation and more, and the implemented versions of the <tt>Ext.lib</tt> interfaces comprise the Ext base adapter. All classes under the <tt>Ext.lib</tt> namespace are considered to be internal to the framework and should not be called directly by code outside of Ext JS.</p>
+		<p> In Ext 4, since adapters are no longer supported, the need for <tt>Ext.lib</tt> as a separate namespace has gone away and its functionality has now been merged into other classes. If you are calling any methods directly on classes in the <tt>Ext.lib</tt> namespace you will have to adjust them as necessary. Since these are considered private classes, we have not gone through as extensive an effort to make them backwards-compatible as we've done for the public Ext JS API (although we have done so where practical). For most people this change will have no direct effect on application code, but we felt it worth noting.</p>
+		
+		<h2>Charts</h2>
+		<p>The charting API has changed drastically from Ext 3.x. The new package is much more powerful and the API is more expressive now in Ext 4, but unfortunately because of the differences it could not be made compatible via the compatibility layer. The best approach for charts is to simply look through the <a href="http://dev.sencha.com/deploy/ext-4.0.0/docs/guide/drawing_and_charting.html" title="Sencha Charts Guide">new API</a> and browse the new <a href="http://www.sencha.com/products/extjs/examples/#sample-3" title="Chart examples">examples</a> and use those to manually upgrade any existing charts you might have. You'll likely find new capabilities in the Ext 4 charts that go beyond what your previous version could do, so this effort will be well worth a little extra time during your upgrade.</p>
+		
+		<h2>Registering Custom XTypes</h2>
+		<p>The new class system is based on string class names internally. In 3.x the ComponentMgr simply cached class definitions by reference for later lookup by xtype. In Ext 4 the underlying mechanisms for class creation, subclassing, reflection, etc. all rely on each class being assigned an explicit class name, and that must be done programmatically. Unfortunately the default syntax for registering types via <tt>Ext.reg</tt> will no longer work, and cannot be automatically aliased for you.</p>
+		<p>The proper fix is to convert all code to use the new Ext 4 class system, defining classes via <tt>Ext.define</tt>. However, this is a significant change that may have a large impact on getting your application up and running quickly. A quicker approach to bootstrapping your app to run under the compatibility layer is to simply edit any existing <tt>Ext.reg</tt> calls you may have to pass a class name string instead of a class reference. For example:</p>
+		<pre><code>
+// Ext 3:
+Ext.reg('mycoolclass', Ext.ux.MyCoolClass);
+
+// Ext 4 (compatibility mode only, optional)
+Ext.reg('mycoolclass', 'Ext.ux.MyCoolClass');
+
+// Ext 4 (proper approach, type is automatically registered)
+Ext.define('Ext.ux.MyCoolClass', {
+	...
+});
+		</code></pre>
+		<p>The <tt>Ext.reg</tt> function has been aliased to the new <tt>Ext.ClassManager.setAlias</tt> function in the compatibility layer, so calling it this way will actually define your class within the new class system as a shortcut to altering your entire class definition. You'll need to do that eventually to take full advantage of the new class system (including defining your dependencies, adding mixins, etc.), but this may prove to be a convenient way just to get your custom classes up and running quickly if you have a lot of them defined.</p>
+		<p><strong>Note</strong>: The same applies to registering plugins via <tt>Ext.preg</tt> also.</p>
+		
+		<h2>Date</h2>
+		<p>All of the native JavaScript Date extensions from Ext 3 have been applied in the compatibility layer, and where possible, appropriate console warnings are also included. Unfortunately there are some static Date properties that could not be aliased as methods, and in those cases console warnings could not be included. Because of that, any code referencing those properties will silently continue to work when running in compatibility mode, but will then break when the compatibility layer is removed. If you follow these guidelines in addition to fixing any console warnings you may receive you should be able to fully migrate any Date-related code without incident.</p>
+		<h3>Static Properties</h3>
+		<p>These property references are simple to fix since they are direct mappings between the native <tt>Date</tt> object and the new <tt>Ext.Date</tt> class. For each of the following properties all you have to do is change the <tt>Date</tt> reference to <tt>Ext.Date</tt>. For example:</p>
+		<pre><code>
+// Ext 3:
+Date.useStrict = true;
+Date.parseFunctions['my-date-format'] = function(){ ... };
+Date.monthNames = ['JanCustom', 'FebCustom', ... ];
+
+// Ext 4:
+Ext.Date.useStrict = true;
+Ext.Date.parseFunctions['my-date-format'] = function(){ ... };
+Ext.Date.monthNames = ['JanCustom', 'FebCustom', ... ];
+		</code></pre>
+		<p>Here is the complete list of static <tt>Date</tt> properties that will need to be prefixed with <tt>Ext.Date</tt>:</p>
+		<table border="0" cellspacing="0" style="width:500px;">
+			<tr>
+				<td>
+					<ul>
+						<li>useStrict</li>
+						<li>parseFunctions</li>
+						<li>formatFunctions</li>
+						<li>defaults</li>
+						<li>dayNames</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>monthNames</li>
+						<li>monthNumbers</li>
+						<li>formatCodes</li>
+						<li>MILLI</li>
+						<li>SECOND</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>MINUTE</li>
+						<li>HOUR</li>
+						<li>DAY</li>
+						<li>MONTH</li>
+						<li>YEAR</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+		
+		<h3>Static Methods</h3>
+		<p>These methods are aliased with console warnings in the compatibility layer so they should be easy to catch during debugging. However since it will likely be most convenient to replace all Date references at one time, we've listed them here for reference.  Like the properties above, these static methods also need be prefixed with <tt>Ext.Date</tt> instead of just <tt>Date</tt>. For example:</p>
+		<pre><code>
+// Ext 3:
+var dt = Date.parseDate("2006-01-15", "Y-m-d");
+
+// Ext 4:
+var dt = Ext.Date.parseDate("2006-01-15", "Y-m-d");
+		</code></pre>
+		<p>Here is the complete list of static <tt>Date</tt> methods that will need to be prefixed with <tt>Ext.Date</tt>:</p>
+		<ul>
+			<li>getShortMonthName</li>
+			<li>getShortDayName</li>
+			<li>getMonthNumber</li>
+			<li>isValid</li>
+			<li>parseDate</li>
+		</ul>
+		
+		<h3>Prototype (Instance) Methods</h3>
+		<p>These methods are also aliased with console warnings, but as above we've listed them here for reference. Since these are instance methods and not static methods (they are called on an <em>instance</em> of a date, not on the Date object directly) the fix is slightly different than above.  In these cases there will not be a static reference to <tt>Date</tt> &mdash; you'll still have to prefix the method call with <tt>Ext.Date</tt> but whatever date instance is being operated on will also have to become the first argument to the method. This is because all methods on the <tt>Ext.Date</tt> class are static, so they aren't aware of the date instance being operated on by default (unlike the previous instance methods, in which the <tt>this</tt> scope inside each method was the date instance itself). For example:</p>
+		<pre><code>
+// Ext 3:
+var myDate = new Date('10/29/2006').add(Date.DAY, 5);
+var isLeap = myDate.isLeapYear();
+var copy   = myDate.clone();
+
+// Ext 4:
+var myDate = Ext.Date.add(new Date('10/29/2006'), Ext.Date.DAY, 5);
+var isLeap = Ext.Date.isLeapYear(myDate);
+var copy   = Ext.Date.clone(myDate);
+		</code></pre>
+		<p>Here is the complete list of <tt>Date</tt> instance methods that will need to be fixed accordingly:</p>
+		<table border="0" cellspacing="0" style="width:500px;">
+			<tr>
+				<td>
+					<ul>
+						<li>format</li>
+						<li>getTimezone</li>
+						<li>getGMTOffset</li>
+						<li>getDayOfYear</li>
+						<li>getWeekOfYear</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>isLeapYear</li>
+						<li>getFirstDayOfMonth</li>
+						<li>getLastDayOfMonth</li>
+						<li>getDaysInMonth</li>
+						<li>getSuffix</li>
+					</ul>
+				</td>
+				<td>
+					<ul>
+						<li>clone</li>
+						<li>isDST</li>
+						<li>clearTime</li>
+						<li>add</li>
+						<li>between</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+		<p>One drawback to transitioning to static methods from instance methods is that we lose the convenient ability to chain multiple date operations together on one line since the date instance returned from each call will not have the next method defined on its prototype. One small tip is to alias <tt>Ext.Date</tt> as a variable if you need to make many calls on it within the same block of code. For example:</p>
+		<pre><code>
+// Ext 3:
+var myDate = new Date('10/29/2006').add(Date.DAY, 5).add(Date.HOUR, 12).format("c");
+
+// Ext 4:
+var Dt = Ext.Date,
+    myDate = Dt.add(new Date('10/29/2006'), Dt.DAY, 5);
+
+myDate = Dt.add(myDate, Dt.HOUR, 12);
+myDate = Dt.format(myDate, "c");
+		</code></pre>
+		<p>While the new syntax is not as concise, it's a necessary trade-off to avoid potentially clashing not only with other JavaScript frameworks but also with future versions of the ECMAScript specification.</p>
+		
+		<h2>Forms</h2>
+		<p>The handling of form processing and submission has changed in Ext 4. Form field value management has been completely decoupled from the DOM, meaning that hidden fields are no longer required to manage values for non-<tt>input</tt>-based fields, and FormPanels no longer wrap their contents in a <tt>&lt;form&gt;</tt> element. Instead values are managed by the component layer and form elements are dynamically constructed at submit time as needed. In general this makes managing forms and field values much simpler and more flexible.</p>
+		<p>In Ext 3 you could render an input with <tt>type="submit"</tt> into a form and allow the default browser submit to post the field values. Because of the changes in Ext 4, all form submission must now go through the Ext forms API, either by using a <tt>FormPanel</tt> or by attaching an <tt>Ext.form.Basic</tt> instance to another Ext container (hidden fields are no longer managed by default since they aren't needed). If you have any Ext fields or forms being processed outside of the forms API they'll have to be updated accordingly. Note that the <tt>Ext.form.Basic.standardSubmit</tt> option and accompanying <tt>StandardSubmit</tt> action class are still fully supported, so you can still perform standard, non-Ajax form submissions. You simply cannot submit Ext form fields outside of the forms API going forward.</p>
+
+		<h2>Component</h2>
+
+		<table class="api" border="0" cellspacing="0">
+			<tr><th class="ext3">3.x</th><th class="ext4">4.0</th><th>Notes</th></tr>
+			<tr class="configs"><td colspan="3">Config Options</td></tr>
+			<tr id="component-applyTo">
+				<td><tt>applyTo</tt></td>
+				<td><tt>renderTo</tt></td>
+				<td>In Ext 4 many components support generating different markup dynamically based on the browser (in Ext 3 the least common denominator markup was always created). This allows optimizing markup size and reducing layout/styling complexity in most cases. However it also means that generically applying a component to markup can no longer be practically supported as the markup will not be consistent between platforms.<br><br>Going forward you should use the standard <tt>renderTo</tt> config (or <tt>render</tt> method) for rendering all components. Note that you may need to include additional config options within your component's init code to implement any portions of the component that were previously defined in the markup (e.g., defining the header for a panel).</td>
+			</tr>
+			<tr class="methods"><td colspan="3">Methods</td></tr>
+			<tr>
+				<td><tt>applyToMarkup</tt></td>
+				<td><tt>render</tt></td>
+				<td>See the comments above for the <tt><a href="#component-applyTo">applyTo</a></tt> config.</td>
+			</tr>
+		</table>
+		
+		<h2>Element</h2>
+
+		<table class="api" border="0" cellspacing="0">
+			<tr><th class="ext3">3.x</th><th class="ext4">4.0</th><th>Notes</th></tr>
+			<tr class="methods"><td colspan="3">Methods</td></tr>
+			<tr>
+				<td><tt>down &lt;&mdash;&gt; child</tt></td>
+				<td><tt>child &lt;&mdash;&gt; down</tt></td>
+				<td>These methods have been reversed so that the meanings now make more sense logically. Child will now areturn only a <em>direct child</em> that matches the selector, while down will now return a matching child <em>at any depth</em>. Unfortunately these cannot be aliased since Ext also uses them internally, and reassigning the old behavior would break Ext. You should search for all instances of these methods and verify their behavior under Ext 4. Note that if you get errors like <tt>this.someEl is undefined</tt> this change should come to mind as something to look for.</td>
+			</tr>
+		</table>
+		
+		<h2>PagingToolbar</h2>
+		<p>A general change to be aware of is that the page indices in PagingToolbar in 3.x were zero-based. In 4.0 paging is now delegated to the underlying store, which uses one-based indexing. Any custom logic related to paging should therefore be reviewed for any impact from this change.</p>
+		<table class="api" border="0" cellspacing="0">
+			<tr><th class="ext3">3.x</th><th class="ext4">4.0</th><th>Notes</th></tr>
+			<tr class="props"><td colspan="3">Properties</td></tr>
+			<tr>
+				<td><tt>cursor</tt></td>
+				<td><tt>store.currentPage</tt></td>
+				<td>Since the PagingToolbar now delegates to the underlying store for management of paging at the data level, it no longer maintains its own pointer to the current page. If you need to know the current page simply access the property on the store that was configured for the PagingToolbar. <strong>NOTE</strong>: <tt>cursor</tt> was previously zero-based, while store's <tt>currentPage</tt> property is one-based, so existing logic may have to change to account for that.</td>
+			</tr>
+			<tr>
+				<td>
+					<tt>afterTextItem</tt><br>
+			        <tt>inputItem</tt><br>
+			        <tt>first</tt><br>
+			        <tt>prev</tt><br>
+			        <tt>next</tt><br>
+			        <tt>last</tt><br>
+			        <tt>refresh</tt>
+				</td>
+				<td>
+					<tt>child('#afterTextItem')</tt><br>
+			        <tt>child('#inputItem')</tt><br>
+			        <tt>child('#first')</tt><br>
+			        <tt>child('#prev')</tt><br>
+			        <tt>child('#next')</tt><br>
+			        <tt>child('#last')</tt><br>
+			        <tt>child('#refresh')</tt>
+				</td>
+				<td>These properties correspond to the buttons and input elements within the PagingToolbar. They are still available, but no longer as explicitly-defined properties. Instead use the new ComponentQuery syntax to access them as needed.</td>
+			</tr>
+			<tr class="props"><td colspan="3">Events</td></tr>
+			<tr>
+				<td><tt>beforechange</tt></td>
+				<td>(see notes)</td>
+				<td>The second param passed with the <tt>beforechange</tt> event in 3.x was a <tt>params</tt> object that contained the <tt>start</tt> and <tt>limit</tt> params to be sent to the store. In 4.0 the PagingToolbar does not manage paging and does not directly track those values. Now the second param passed with <tt>beforechange</tt> is simply the page number that will be loaded on change.</td>
+			</tr>
+			<tr>
+				<td><tt>change</tt></td>
+				<td>(see notes)</td>
+				<td>The second param passed with the <tt>change</tt> event is a <tt>pageData</tt> object. In 3.x it contained properties called: <tt>total</tt>, <tt>activePage</tt> and <tt>pages</tt>. In 4.0, <tt>activaePage</tt> was renamed to <tt>currentPage</tt> and <tt>pages</tt> was renamed to <tt>pageCount</tt> (<tt>total</tt> is unchanged). In 4.0 <tt>pageData</tt> also contains two new properties: <tt>toRecord</tt> and <tt>fromRecord</tt>.</td>
+			</tr>
+		</table>
+		
+		<h2>Panel</h2>
+		<table class="api" border="0" cellspacing="0">
+			<tr><th class="ext3">3.x</th><th class="ext4">4.0</th><th>Notes</th></tr>
+			<tr class="props"><td colspan="3">Properties</td></tr>
+			<tr>
+				<td><tt>header</tt></td>
+				<td><tt>header.getEl()</tt></td>
+				<td>In Ext 3, a panel's <tt>header</tt> property referred to its header <tt>Element</tt>. In Ext 4 it now refers to the new header <tt>Container</tt> (which has a layout, child items, etc.). Unfortunately this cannot be aliased without potentially overwriting valid header objects so any references to Panel.header as an <tt>Element</tt> must be updated manually.</td>
+			</tr>
+		</table>
+		
+		<h2>Store</h2>
+		<table class="api" border="0" cellspacing="0">
+			<tr><th class="ext3">3.x</th><th class="ext4">4.0</th><th>Notes</th></tr>
+			<tr class="props"><td colspan="3">Properties</td></tr>
+			<tr>
+				<td><tt>recordType</tt></td>
+				<td><tt>model</tt></td>
+				<td>In Ext 3, you could use the <tt>recordType</tt> property as a generic record constructor if you had not explicitly defined a named record constructor. In Ext 4 since records are now models, this constructor property is called <tt>model</tt>. For example, you can do something like <tt>var rec = new someStore.model(data);</tt></td>
+			</tr>
+		</table>
+		
+    </div>
+
+    <div class="span-24">
+        <h1 id="migrate">Migrate to Ext 4</h1>
+		<p>Any compatibility changes that could be aliased in the compatibility file will provide browser console messages with details on how to properly resolve the issue. Here are some pointers for best using the compatibility file to move to Ext 4.</p>
+		<p>If you have not already watched the Ext Migration video tutorials, now would be a great time to do so. View <a href="http://vimeo.com/23027769">Part 1</a> or <a href="http://vimeo.com/23046756">Part 2</a>.</p>
+		
+		<h2>Use Firefox + Firebug for debugging</h2>
+		<p>While all modern browsers now support the <tt>console</tt> object and can be used for debugging Ext, there are a couple of reasons to use Firefox and <a href="http://getfirebug.com/" title="Firebug">Firebug</a> specifically to work through compatibility issues:</p>
+		<ul>
+			<li><strong>Stack traces</strong>. While every console can provide stack traces, Firebug does so by default for all errors when the "Show stack trace with errors" option in the Console tab's menu is enabled. Most other consoles require active debugging to view the stack trace.</li>
+			<li><strong>Color-coding</strong>. Firebug color-codes the entire line of console output, and uses different colors depending on the console method called (<tt>info</tt>, <tt>warn</tt>, <tt>error</tt>). This makes it much easier to visually scan your console output since there may be a lot of messages.</li>
+			<li><strong>Error support</strong>. This is the key reason to use Firebug over other consoles. See the section below on the <tt><a href="#compat-showErrors">Ext.Compat.showErrors</a></tt> property for complete details on why this is important.</li>
+		</ul>
+		
+		<h2>Ext.Compat Options</h2>
+		<h3>ignoreInfo</h3>
+		<p>By default the compatibility layer may include a lot of informational issues (via <tt>console.info</tt>). While these are helpful in providing things to look out for during migration, they usually do not indicate specific issues in your code. They are typically general things to watch for or warnings about behavior that may have changed (but did not necessarily break compatibility).</p>
+		<p>It might be helpful to temporarily disable the display of these informational messages while you focus on clearing up warnings and errors, and you can easily do so by simply including this code anywhere after the compatibility files are loaded:</p>
+		<pre><code>
+Ext.Compat.ignoreInfo = true;
+		</code></pre>
+		
+		<h3 id="compat-showErrors">showErrors</h3>
+		<p>By default all compatibility issues are output to the console as warnings (via <tt>console.warn</tt>). This allows you to easily distinguish compatibility warnings from actual runtime errors. However, all you end up with is the message itself with no context about where it originated in code.</p>
+		<p>If you use Firebug, one extremely handy feature it provides (and other browser consoles do not) is that if you call <tt>console.error()</tt> instead of <tt>console.warn()</tt> it also captures the stack trace at the point of execution and displays it as part of the console message. Even better, the stack trace can be expanded and is linked directly to the relevant line of code for each layer in the stack. This means that you can click through each compatibility warning directly to the line of code that raised the warning so you can see what to fix in context. To enable this mode simply include this line of code anywhere after the compatibility files are loaded:</p>
+		<pre><code>
+Ext.Compat.showErrors = true;
+		</code></pre>
+		
+		<h3>silent</h3>
+		<p>If you get to the point where you want to provide your application to end users for testing, but you still require the compatibility layer to be in place, it is very simple to turn off all console messaging while retaining the compatibility functionality by setting this property after the compatibility files are loaded:</p>
+		<pre><code>
+Ext.Compat.silent = true;
+		</code></pre>
+
+	</div>
+	
+	<div class="span-24" id="ft">
+		<p>&copy; 2006-2011 Sencha Inc.</p>
+	</div>
+
+</div>
+</body>
+</html>

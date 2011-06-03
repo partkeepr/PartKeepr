@@ -1,0 +1,3 @@
+Ext.define('Sample.Gun', {
+    
+});

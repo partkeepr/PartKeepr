@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-layout-container-AbstractFit'>/**
+</span> * @class Ext.layout.container.AbstractFit
+ * @extends Ext.layout.container.Container
+ * &lt;p&gt;This is a base class for layouts that contain &lt;b&gt;a single item&lt;/b&gt; that automatically expands to fill the layout's
+ * container.  This class is intended to be extended or created via the &lt;tt&gt;layout:'fit'&lt;/tt&gt; {@link Ext.container.Container#layout}
+ * config, and should generally not need to be created directly via the new keyword.&lt;/p&gt;
+ * &lt;p&gt;FitLayout does not have any direct config options (other than inherited ones).  To fit a panel to a container
+ * using FitLayout, simply set layout:'fit' on the container and add a single panel to it.  If the container has
+ * multiple panels, only the first one will be displayed.  Example usage:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;
+var p = new Ext.panel.Panel({
+    title: 'Fit Layout',
+    layout:'fit',
+    items: {
+        title: 'Inner Panel',
+        html: '&amp;lt;p&amp;gt;This is the inner panel content&amp;lt;/p&amp;gt;',
+        border: false
+    }
+});
+&lt;/code&gt;&lt;/pre&gt;
+ */
+Ext.define('Ext.layout.container.AbstractFit', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.layout.container.Container',
+
+    /* End Definitions */
+
+    itemCls: Ext.baseCSSPrefix + 'fit-item',
+    targetCls: Ext.baseCSSPrefix + 'layout-fit',
+    type: 'fit'
+});</pre>
+</body>
+</html>

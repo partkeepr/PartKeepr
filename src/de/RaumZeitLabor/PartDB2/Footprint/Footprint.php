@@ -17,6 +17,14 @@ class Footprint {
 		$this->footprint = $footprint;
 	}
 	
+	public function getId () {
+		return $this->id;
+	}
+	
+	public function getFootprint () {
+		return $this->footprint;
+	}
+	
 	public function serialize () {
 		return array("id" => $this->id, "footprint" => $this->footprint);
 	}
