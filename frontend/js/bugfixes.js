@@ -54,7 +54,6 @@ Ext.tree.View.override({
 		var node = this.getNode(record);
 		//focusRow
 		if (node) {
-			console.log(this.getEl());
 			node.scrollIntoView(this.getEl());
 		}
 	}

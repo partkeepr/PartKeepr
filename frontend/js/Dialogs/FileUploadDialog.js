@@ -37,7 +37,7 @@ Ext.define('PartDB2.FileUploadDialog', {
     	                    	this.close();
     	                    },this),
     	                    failure: function(form, action) {
-    	                    	console.log(action);
+
     	                    }
     	                });
     	            }

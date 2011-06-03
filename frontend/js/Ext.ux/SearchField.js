@@ -36,7 +36,6 @@ Ext.define('Ext.ux.form.SearchField', {
             proxy.extraParams[me.paramName] = '';
             proxy.extraParams.start = 0;
             store.currentPage = 1;
-            console.log("FOO");
             store.load({ start: 0 });
             me.hasSearch = false;
             
@@ -59,7 +58,6 @@ Ext.define('Ext.ux.form.SearchField', {
         store.currentPage = 1;
         store.load({ start: 0 });
         
-        console.log("FOO");
         me.hasSearch = true;
         me.triggerEl.item(0).setDisplayed('block');
         me.doComponentLayout();

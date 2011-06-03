@@ -45,7 +45,6 @@ Ext.define('PartDB2.Editor', {
 			}]});
 		
 		this.on("dirtychange", function (form, dirty) {
-			console.log(dirty);
 			// @todo Check dirty flag
 			// Waiting for reply on http://www.sencha.com/forum/showthread.php?135142-Ext.form.Basic.loadRecord-causes-form-to-be-dirty&p=607588#post607588
 		});
