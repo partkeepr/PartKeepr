@@ -33,7 +33,18 @@ class PartManager extends Singleton {
 			$qb->setParameter("filter", "%".$filter."%");
 		}
 				
-		$qb->orderBy("p.".$sort, $dir);
+		switch ($sort) {
+			case "storageLocationName":
+				$orderBy  = "st.name";
+				break;
+			case "footprintName":
+				$orderBy = "f.footprint";
+				break;
+			default;
+				$orderBy = "p.".$sort;
+				break;
+		}
+		$qb->orderBy($orderBy, $dir);
 
 		
 		$category = intval($category);
