@@ -20,6 +20,26 @@ class Manufacturer {
 	private $name;
 	
 	/**
+	 * @Column(type="string",nullable=true)
+	 */
+	private $address;
+	
+	/**
+	 * @Column(type="string",nullable=true)
+	 */
+	private $url;
+	
+	/**
+	 * @Column(type="string",nullable=true)
+	 */
+	private $email;
+	
+	/**
+	 * @Column(type="string",nullable=true)
+	 */
+	private $comment;
+	
+	/**
 	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"})
 	 */
 	private $icLogos;
@@ -31,6 +51,42 @@ class Manufacturer {
 		$this->name = $name;
 	}
 	
+	public function getName () {
+		return $this->name;
+	}
+	
+	public function setAddress ($address) {
+		$this->address = $address;
+	}
+	
+	public function getAddress () {
+		return $this->address;
+	}
+	
+	public function setComment ($comment) {
+		$this->comment = $comment;
+	}
+	
+	public function getComment () {
+		return $this->comment;
+	}
+	
+	public function setEmail ($email) {
+		$this->email = $email;
+	}
+	
+	public function getEmail () {
+		return $this->email;
+	}
+	
+	public function setURL ($url) {
+		$this->url = $url;
+	}
+	
+	public function getURL () {
+		return $this->url;
+	}
+	
 	public function getICLogos () {
 		return $this->icLogos;
 	}
@@ -40,7 +96,14 @@ class Manufacturer {
 	}
 	
 	public function serialize () {
-		return array("id" => $this->id, "name" => $this->name);
+		return array(
+			"id" => $this->getId(),
+			"name" => $this->getName(),
+			"url" => $this->getURL(),
+			"address" => $this->getAddress(),
+			"email" => $this->getEmail(),
+			"comment" => $this->getComment()
+		);
 	}
 	
 	public static function loadById ($id) {

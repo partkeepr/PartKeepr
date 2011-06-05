@@ -36,17 +36,30 @@ class ManufacturerService extends Service implements RestfulService {
 	public function create () {
 		$this->requireParameter("name");
 		
-		$manufacturer = ManufacturerManager::getInstance()->addManufacturer($this->getParameter("name"));
+		$manufacturer = new Manufacturer;
+		
+		$this->setManufacturerData($manufacturer);
+		
+		PartDB2::getEM()->persist($manufacturer);
+		PartDB2::getEM()->flush();
 		
 		return array("data" => $manufacturer->serialize());
+	}
+	
+	private function setManufacturerData (Manufacturer $manufacturer) {
+		$manufacturer->setName($this->getParameter("name"));
+		$manufacturer->setComment($this->getParameter("comment", ""));
+		$manufacturer->setAddress($this->getParameter("address", ""));
+		$manufacturer->setURL($this->getParameter("url", ""));
+		$manufacturer->setEmail($this->getParameter("email", ""));
 	}
 	
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
 		$manufacturer = ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"));
-		$manufacturer->setName($this->getParameter("manufacturer"));
-		
+
+		$this->setManufacturerData($manufacturer);
 		PartDB2::getEM()->flush();
 		
 		return array("data" => $manufacturer->serialize());

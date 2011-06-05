@@ -62,7 +62,23 @@ Ext.define('PartDB2.ManufacturerEditor', {
 			xtype: 'textfield',
 			name: 'name',
 			fieldLabel: i18n("Manufacturer Name")
-		}, {
+		},{
+			xtype: 'textarea',
+			name: 'address',
+			fieldLabel: i18n("Address")
+		},{
+			xtype: 'textfield',
+			name: 'url',
+			fieldLabel: i18n("Website")
+		},{
+			xtype: 'textfield',
+			name: 'email',
+			fieldLabel: i18n("Email")
+		},{
+			xtype: 'textarea',
+			name: 'comment',
+			fieldLabel: i18n("Comment")
+		},{
 			xtype: 'fieldcontainer',
 			fieldLabel: i18n("Manufacturer Logos"),
 			items: [{

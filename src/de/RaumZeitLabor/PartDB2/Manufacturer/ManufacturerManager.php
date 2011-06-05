@@ -12,7 +12,7 @@ class ManufacturerManager extends Singleton {
 	public function getManufacturers ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 			
 		$qb = PartDB2::getEM()->createQueryBuilder();
-		$qb->select("st.id, st.name")->from("de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer","st");
+		$qb->select("st.id, st.name, st.url, st.email, st.comment, st.address")->from("de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer","st");
 
 		if ($filter != "") {
 			$qb = $qb->where("st.name LIKE :filter");
