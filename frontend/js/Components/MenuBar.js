@@ -13,6 +13,9 @@ Ext.define('PartDB2.MenuBar', {
 			        },{
 			        	text: i18n('Edit Storage Locations'),
 			        	handler: this.editStorageLocations
+			        },{
+			        	text: i18n('Edit Distributors'),
+			        	handler: this.editDistributors
 			        }]
 		});
 		
@@ -46,6 +49,15 @@ Ext.define('PartDB2.MenuBar', {
 	editFootprints: function () {
 		var j = Ext.create("PartDB2.FootprintEditorComponent", {
 			title: i18n("Footprints"),
+			closable: true
+		});
+		
+		PartDB2.getApplication().addItem(j);
+		j.show();
+	},
+	editDistributors: function () {
+		var j = Ext.create("PartDB2.DistributorEditorComponent", {
+			title: i18n("Distributors"),
 			closable: true
 		});
 		

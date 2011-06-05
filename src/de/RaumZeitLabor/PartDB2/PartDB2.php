@@ -174,6 +174,7 @@ class PartDB2 {
 			'de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation',
 			'de\RaumZeitLabor\PartDB2\Stock\StockEntry',
 			'de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer',
+			'de\RaumZeitLabor\PartDB2\Distributor\Distributor',
 			'de\RaumZeitLabor\PartDB2\Image\Image',
 			'de\RaumZeitLabor\PartDB2\Image\CachedImage',
 			'de\RaumZeitLabor\PartDB2\Image\TempImage',
