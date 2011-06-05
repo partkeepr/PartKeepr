@@ -9,6 +9,7 @@ Ext.define('PartDB2.Editor', {
 	model: null,
 	layout: 'anchor',
 	change: false,
+	autoScroll: true,
     defaults: {
         anchor: '100%',
         labelWidth: 150,
