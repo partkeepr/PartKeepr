@@ -32,6 +32,10 @@ class Request {
     }
     
     public function getService () {
+    	if ($this->controller == "") {
+    		$this->controller = $_REQUEST["service"];
+    	}
+    	
     	$serviceName = $this->controller."Service";
     	$namespace = 'de\RaumZeitLabor\PartDB2\\';
     	$cat = $this->controller . "\\";
