@@ -63,7 +63,8 @@ Ext.define('PartDB2.PartDistributorGrid', {
 		                	editor: {
 		                        xtype:'numberfield',
 		                        allowDecimals: false,
-		                        allowBlank:false
+		                        allowBlank:false,
+		                        minValue: 1
 		                    }
 		                }
 		                ];

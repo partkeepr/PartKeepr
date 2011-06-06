@@ -109,5 +109,12 @@ Ext.define("PartDB2.CategoryComboBox",{
                 picker.el[isAbove ? 'addCls' : 'removeCls'](picker.baseCls + aboveSfx);
             }
         }
+    },
+    getErrors: function(value) {
+    	if (this.getValue() === null) {
+    		return [ i18n("You need to select a category")];
+    	}
+    	
+    	return [];
     }
 });

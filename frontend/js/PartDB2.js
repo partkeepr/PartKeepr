@@ -248,7 +248,6 @@ PartDB2.getBasePath = function () {
 };
 
 PartDB2.serializeRecords = function (records) {
-	console.log(records);
 	var finalData = [];
 	
 	for (var i=0;i<records.length;i++) {

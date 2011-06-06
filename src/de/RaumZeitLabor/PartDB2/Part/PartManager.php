@@ -1,6 +1,7 @@
 <?php
 namespace de\raumzeitlabor\PartDB2\Part;
 use de\RaumZeitLabor\PartDB2\Part\PartDistributor;
+use de\RaumZeitLabor\PartDB2\Part\PartManufacturer;
 
 use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation;
 

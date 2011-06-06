@@ -10,13 +10,16 @@ Ext.define('PartDB2.PartEditor', {
 		var basicEditorFields = [{
 				xtype: 'textfield',
 				name: 'name',
-				fieldLabel: i18n("Name")
+				fieldLabel: i18n("Name"),
+				allowBlank: false
 			},{
 				xtype: 'numberfield',
 				fieldLabel: i18n('Minimum Stock'),
 				allowDecimals: false,
 				allowBlank: false,
-				name: 'minStockLevel'
+				name: 'minStockLevel',
+				value: 0,
+				minValue: 0
 			},{
 				xtype: 'CategoryComboBox',
 				fieldLabel: i18n("Category"),
@@ -24,7 +27,8 @@ Ext.define('PartDB2.PartEditor', {
 			},{
 				xtype: 'StorageLocationComboBox',
 				fieldLabel: i18n("Storage Location"),
-				name: 'storageLocation_id'
+				name: 'storageLocation_id',
+				allowBlank: false
 			},{
 				xtype: 'FootprintComboBox',
 				fieldLabel: i18n("Footprint"),
@@ -51,6 +55,11 @@ Ext.define('PartDB2.PartEditor', {
 				items: [{
 					xtype: 'panel',
 					border: false,
+					layout: 'anchor',
+					defaults: {
+				        anchor: '100%',
+				        labelWidth: 150
+				    },
 					bodyStyle: 'background:#DFE8F6;padding: 10px;',
 					title: i18n("Basic Data"),
 					items: basicEditorFields
@@ -67,6 +76,10 @@ Ext.define('PartDB2.PartEditor', {
 		this.callParent();
 	},
 	onItemSave: function () {
+		if (!this.getForm().isValid()) {
+			return;
+		}
+		
 		var call = new PartDB2.ServiceCall(
     			"Part", 
     			"addOrUpdatePart");
