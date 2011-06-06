@@ -22,9 +22,21 @@
 		<echo msg="       You may now proceed!"/>
 	</target>
     
+    <target name="pre-commit">
+    	<jsllint haltonfailure="true">
+			<fileset dir="frontend">
+				<include name="**/*.js"/>
+			</fileset>
+		</jsllint>
+    </target>
+    
     <target name="clean">
     	<delete dir="reports" />
     	<delete dir="build" />
+    </target>
+    
+    <target name="create-orm-proxies">
+    	<exec command="doctrine orm:generate-proxies" passthru="true"/>
     </target>
     
 	<target name="cruise-control" depends="clean,phpmd,jslint,phpcpd,code-coverage,php-documentor">
@@ -77,6 +89,8 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		
+		<phingcall target="create-orm-proxies"/>
 	</target>
     
 	<target name="build.quick">
