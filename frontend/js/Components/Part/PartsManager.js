@@ -23,9 +23,7 @@ Ext.define('PartDB2.PartManager', {
 			}
 		}, this));
 		
-		//this.editor = Ext.create("PartDB2.PartEditor", { region: 'south', store: this.getStore() });
-		
-		this.detail = Ext.create("PartDB2.PartDisplay", { region: 'east', split: true, width: 300});
+		this.detail = Ext.create("PartDB2.PartDisplay", { hidden: true, region: 'east', split: true, width: 300});
 		this.detail.on("editPart", this.onEditPart, this);
 		this.grid = Ext.create("PartDB2.PartsGrid", { region: 'center', layout: 'fit', store: this.getStore()});
 		
@@ -74,6 +72,7 @@ Ext.define('PartDB2.PartManager', {
 		j.show();
 	},
 	onItemSelect: function (r) {
+		this.detail.show();
 		this.detail.setValues(r);
 	},
 	loadPart: function (id, handler) {
