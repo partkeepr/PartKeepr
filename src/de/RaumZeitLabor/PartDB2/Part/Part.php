@@ -2,7 +2,9 @@
 namespace de\RaumZeitLabor\PartDB2\Part;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\PartDB2;
+use de\RaumZeitLabor\PartDB2\PartDB2,
+	de\RaumZeitLabor\PartDB2\Util\Exceptions\OutOfRangeException;
+
 
 /** @Entity **/
 class Part {
@@ -80,6 +82,13 @@ class Part {
 	}
 	
 	public function setMinStockLevel ($minStockLevel) {
+		$minStockLevel = intval($minStockLevel);
+		
+		if ($minStockLevel < 0) {
+			$exception = new OutOfRangeException(PartDB2::i18n("Minimum Stock Level is out of range"));
+			$exception->setDetail(PartDB2::i18n("The minimum stock level must be 0 or higher"));
+			throw $exception;
+		}
 		$this->minStockLevel = $minStockLevel;
 	}
 	
