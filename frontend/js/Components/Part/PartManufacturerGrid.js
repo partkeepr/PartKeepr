@@ -1,6 +1,7 @@
 Ext.define('PartDB2.PartManufacturerGrid', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.PartManufacturerGrid',
+	border: false,
 	initComponent: function () {
 		this.store = Ext.create("Ext.data.Store", {
 			model: 'PartManufacturer',

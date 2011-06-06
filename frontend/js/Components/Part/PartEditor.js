@@ -52,6 +52,7 @@ Ext.define('PartDB2.PartEditor', {
 		this.items = {
 				xtype: 'tabpanel',
 				border: false,
+				plain: true,
 				items: [{
 					xtype: 'panel',
 					border: false,
