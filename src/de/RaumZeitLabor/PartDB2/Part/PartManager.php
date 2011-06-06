@@ -176,7 +176,7 @@ class PartManager extends Singleton {
 		}
 		
 		if (array_key_exists("partUnit", $aParameters)) {
-			if ($aParameters["partUnit"] === null) {
+			if ($aParameters["partUnit"] === null || $aParameters["partUnit"] === 0) {
 				$part->setPartUnit(null);
 			} else {
 				$part->setPartUnit(PartUnitManager::getInstance()->getPartUnit($aParameters["partUnit"]));
