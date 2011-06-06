@@ -192,6 +192,8 @@ Ext.define('PartDB2.PartsGrid', {
 				this.stockModeButton.setText(this.stockModeAll);
 				this.stockModeButton.setIcon(this.stockModeAllIcon);
 				break;
+			default:
+				break;
 		}
 		
 		var proxy = this.store.getProxy();
