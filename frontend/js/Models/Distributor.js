@@ -6,7 +6,7 @@ PartDB2.Distributor = Ext.define("Distributor", {
 	         {	name: 'url',	type: 'string'},
 	         {	name: 'comment',	type: 'string'},
 	         {	name: 'address',	type: 'string'},
-	         {	name: 'email',	type: 'string'},
+	         {	name: 'email',	type: 'string'}
 	         ],
 	proxy: PartDB2.getRESTProxy("Distributor"),
 	getName: function () {

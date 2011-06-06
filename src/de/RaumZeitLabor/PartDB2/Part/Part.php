@@ -35,9 +35,14 @@ class Part {
 	private $storageLocation;
 	
 	/**
-	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer")
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Part\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
 	 */
-	private $manufacturer;
+	private $manufacturers;
+	
+	/**
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Part\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
+	 */
+	private $distributors;
 	
 	/**
 	 * @Column(type="text")
@@ -60,6 +65,15 @@ class Part {
 	 * @var unknown_type
 	 */
 	private $stockLevels;
+	
+	public function __construct () {
+		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();	
+	}
+	
+	public function getName () {
+		return $this->name;
+	}
 	
 	public function updateStockLevel () {
 		$this->stockLevel = $this->getStockLevel();
@@ -93,6 +107,14 @@ class Part {
 		$this->comment = $comment;
 	}
 	
+	public function getDistributors () {
+		return $this->distributors;
+	}
+	
+	public function getManufacturers () {
+		return $this->manufacturers;
+	}
+	
 	public function getStockLevel () {
 		$query = PartDB2::getEM()->createQuery("SELECT SUM(s.stockLevel) FROM de\RaumZeitLabor\PartDB2\Stock\StockEntry s WHERE s.part = :part");
 		$query->setParameter("part", $this);
@@ -100,7 +122,24 @@ class Part {
 		return $query->getSingleScalarResult();
 		
 	}
+	
+	 public function getId () {
+		return $this->id;
+	}
+	
 	public function serialize () {
+		$aManufacturers = array();
+		
+		foreach ($this->getManufacturers() as $manufacturer) {
+			$aManufacturers[] = $manufacturer->serialize();
+		}
+		
+		$aDistributors = array();
+		
+		foreach ($this->getDistributors() as $distributor) {
+			$aDistributors[] = $distributor->serialize();
+		}
+		
 		return array(
 					"id" => $this->id,
 					"name" => $this->name,
@@ -110,8 +149,10 @@ class Part {
 					"minStockLevel" => $this->minStockLevel,
 					"storageLocation_id" => is_object($this->storageLocation) ? $this->storageLocation->getId() : null,
 					"storageLocationName" => is_object($this->storageLocation) ? $this->storageLocation->getName() : null,
-					"manufacturer" => is_object($this->manufacturer) ? $this->manufacturer->serialize() : null,
-					"category_id" => is_object($this->category) ?  $this->category->getId() : null
+					"category_id" => is_object($this->category) ?  $this->category->getId() : null,
+					"manufacturers" => $aManufacturers,
+					"distributors" => $aDistributors,
+		
 		);
 	}
 }

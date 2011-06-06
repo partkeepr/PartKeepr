@@ -32,6 +32,16 @@ class Distributor {
 	/**
 	 * @Column(type="string",nullable=true)
 	 */
+	private $phone;
+	
+	/**
+	 * @Column(type="string",nullable=true)
+	 */
+	private $fax;
+	
+	/**
+	 * @Column(type="string",nullable=true)
+	 */
 	private $email;
 	
 	/**
@@ -56,6 +66,23 @@ class Distributor {
 	public function getAddress () {
 		return $this->address;
 	}
+	
+	public function setPhone ($phone) {
+		$this->phone = $phone;
+	}
+	
+	public function getPhone () {
+		return $this->phone;
+	}
+	
+	public function setFax ($fax) {
+		$this->fax = $fax;
+	}
+	
+	public function getFax ($fax) {
+		return $this->fax;
+	}
+	
 	
 	public function setComment ($comment) {
 		$this->comment = $comment;

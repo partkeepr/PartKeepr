@@ -21,5 +21,7 @@ Ext.define('PartDB2.PartEditorWindow', {
 		this.editor.getForm().setValues(r);
 		this.editor.rawValues = r;
 		
+		this.editor.partDistributorGrid.getStore().loadData(r.distributors);
+		this.editor.partManufacturerGrid.getStore().loadData(r.manufacturers);
 	}
 });

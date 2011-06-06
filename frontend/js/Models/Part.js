@@ -20,6 +20,7 @@ PartDB2.Part = Ext.define("Part", {
                 { model: 'Footprint', primaryKey: 'id', foreignKey: 'footprint_id'},
                 { model: 'Category', primaryKey: 'id', foreignKey: 'category_id'}
                 ],
+    hasMany: { model: 'PartDistributor', name: 'distributors'},
 	proxy: PartDB2.getRESTProxy("Part"),
 	getName: function () {
 		return this.get("name");

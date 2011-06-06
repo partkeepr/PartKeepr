@@ -6,7 +6,7 @@ PartDB2.Manufacturer = Ext.define("Manufacturer", {
 	         {	name: 'url',	type: 'string'},
 	         {	name: 'comment',	type: 'string'},
 	         {	name: 'address',	type: 'string'},
-	         {	name: 'email',	type: 'string'},
+	         {	name: 'email',	type: 'string'}
 	         ],
 	hasMany: {model: 'ManufacturerICLogo', name: 'iclogos'},
 	proxy: PartDB2.getRESTProxy("Manufacturer"),

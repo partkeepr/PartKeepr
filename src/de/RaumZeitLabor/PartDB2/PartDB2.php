@@ -171,6 +171,8 @@ class PartDB2 {
 			'de\RaumZeitLabor\PartDB2\Footprint\Footprint',
 			'de\RaumZeitLabor\PartDB2\Category\Category',
 			'de\RaumZeitLabor\PartDB2\Part\Part',
+			'de\RaumZeitLabor\PartDB2\Part\PartManufacturer',
+			'de\RaumZeitLabor\PartDB2\Part\PartDistributor',
 			'de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation',
 			'de\RaumZeitLabor\PartDB2\Stock\StockEntry',
 			'de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer',

@@ -4,7 +4,7 @@ Ext.define("PartDB2.CategoryComboBox",{
     requires:["Ext.tree.Panel"],
     selectedValue: null,
     initComponent: function(){
-        var self = this
+        var self = this;
 
         Ext.apply(self,{
             pickerAlign:"tl-bl?",
@@ -61,7 +61,7 @@ Ext.define("PartDB2.CategoryComboBox",{
     },
     setValue: function (val, parent) {
     	if (parent) {
-    		return this.callParent([val]);
+    		this.callParent([val]);
     	}
     	
     	if (!this.picker) { return; }

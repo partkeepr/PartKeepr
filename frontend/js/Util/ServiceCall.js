@@ -141,8 +141,8 @@ Ext.define('PartDB2.ServiceCall', {
         	};
         	
      	
-        	var j = new PartDB2.ExceptionWindow();
-        	j.showException(exception);
+        	var jj = new PartDB2.ExceptionWindow();
+        	jj.showException(exception);
         	
         	
         }

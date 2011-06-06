@@ -1,10 +1,14 @@
 <?php
 namespace de\raumzeitlabor\PartDB2\Part;
+use de\RaumZeitLabor\PartDB2\Part\PartDistributor;
+
 use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation;
 
 use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocationManager;
 
 use de\RaumZeitLabor\PartDB2\Part\Part;
+use de\RaumZeitLabor\PartDB2\Distributor\Distributor;
+use de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer;
 use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
 use de\RaumZeitLabor\PartDB2\Session\SessionManager;
 use de\RaumZeitLabor\PartDB2\Stock\StockEntry;
@@ -131,10 +135,94 @@ class PartManager extends Singleton {
 			$part->setCategory($category->getNode());	
 		}
 		
+		/* Process linked changes */
+		if (array_key_exists("distributorChanges", $aParameters)) {
+			if (is_array($aParameters["distributorChanges"])) {
+				$this->processDistributorChanges($part, $aParameters["distributorChanges"]);
+			}
+		}
+		
+		if (array_key_exists("manufacturerChanges", $aParameters)) {
+			if (is_array($aParameters["manufacturerChanges"])) {
+				$this->processManufacturerChanges($part, $aParameters["manufacturerChanges"]);
+			}
+		}
+		
 		PartDB2::getEM()->persist($part);
 		PartDB2::getEM()->flush();
 		
 	}
+	
+	private function processDistributorChanges (Part $part, Array $data) {
+		if (array_key_exists("updates", $data)) {
+			foreach ($data["updates"] as $record) {
+				foreach ($part->getDistributors() as $partDistributor) {
+					if ($partDistributor->getId() == $record["id"]) {
+						$partDistributor->setOrderNumber($record["orderNumber"]);
+						$partDistributor->setDistributor(Distributor::loadById($record["distributor_id"]));
+						$partDistributor->setPackagingUnit($record["packagingUnit"]);
+					}
+				}
+			}
+		}
+		
+		if (array_key_exists("removals", $data)) {
+			foreach ($data["removals"] as $record) {
+				foreach ($part->getDistributors() as $partDistributor) {
+					if ($partDistributor->getId() == $record["id"]) {
+						PartDB2::getEM()->remove($partDistributor);
+						$part->getDistributors()->removeElement($partDistributor);
+						break;
+					}
+				}
+			}
+		}
+		
+		if (array_key_exists("inserts", $data)) {
+			foreach ($data["inserts"] as $record) {
+				$distributor = new PartDistributor($part, Distributor::loadById($record["distributor_id"]));
+				$distributor->setOrderNumber($record["orderNumber"]);
+				$distributor->setPackagingUnit($record["packagingUnit"]);
+				
+				$part->getDistributors()->add($distributor);
+			}
+		}
+	}
+	
+	private function processManufacturerChanges (Part $part, Array $data) {
+		if (array_key_exists("updates", $data)) {
+			foreach ($data["updates"] as $record) {
+				foreach ($part->getManufacturers() as $partManufacturer) {
+					if ($partManufacturer->getId() == $record["id"]) {
+						$partManufacturer->setPartNumber($record["partNumber"]);
+						$partManufacturer->setManufacturer(Manufacturer::loadById($record["manufacturer_id"]));
+					}
+				}
+			}
+		}
+		
+		if (array_key_exists("removals", $data)) {
+			foreach ($data["removals"] as $record) {
+				foreach ($part->getManufacturers() as $partManufacturer) {
+					if ($partManufacturer->getId() == $record["id"]) {
+						PartDB2::getEM()->remove($partManufacturer);
+						$part->getManufacturers()->removeElement($partManufacturer);
+						break;
+					}
+				}
+			}
+		}
+		
+		if (array_key_exists("inserts", $data)) {
+			foreach ($data["inserts"] as $record) {
+				$manufacturer = new PartManufacturer($part, Manufacturer::loadById($record["manufacturer_id"]));
+				$manufacturer->setPartNumber($record["partNumber"]);
+				
+				$part->getManufacturers()->add($manufacturer);
+			}
+		}
+	}
+	
 	public function deletePart ($id) {
 		$part = PartManager::getInstance()->getPart($id);
 		

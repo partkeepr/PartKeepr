@@ -43,7 +43,6 @@ PartDB2.CategoryTree = Ext.define("CategoryTree", {
 		
 	},
 	buildCategoryTree : function(root, data) {
-		var node;
 		var nodeData = {
 			id : data.id,
 			name : data.name,
@@ -55,9 +54,9 @@ PartDB2.CategoryTree = Ext.define("CategoryTree", {
 			nodeData.allowDrag = false;
 		}
 		
-		if (data.children.length == 0) {
+		//if (data.children.length === 0) {
 			//nodeData.leaf = true;
-		}
+		//}
 		var node = root.appendChild(nodeData);
 		
 		for ( var i = 0; i < data.children.length; i++) {

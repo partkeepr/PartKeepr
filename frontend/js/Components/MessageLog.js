@@ -18,5 +18,5 @@ Ext.define('PartDB2.MessageLog', {
 	    	    sorters: [{
 	                property: 'date',
 	                direction:'DESC'
-	            }],
+	            }]
 });

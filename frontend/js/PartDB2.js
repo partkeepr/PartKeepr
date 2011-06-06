@@ -1,7 +1,7 @@
 Ext.namespace('PartDB2'); 
 		
 Ext.Loader.setPath({
-    'PartDB2': 'js',
+    'PartDB2': 'js'
 });
 
 PartDB2.application = null;
@@ -35,12 +35,32 @@ Ext.application({
     				pageSize: -1,
     				autoLoad: false
     			});
+    	
+    	this.distributorStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'Distributor',
+    				pageSize: -1,
+    				autoLoad: false
+    			});
+    	
+    	this.manufacturerStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'Manufacturer',
+    				pageSize: -1,
+    				autoLoad: false
+    			});
     },
     getStorageLocationStore: function () {
     	return this.storageLocationStore;
     },
     getFootprintStore: function () {
     	return this.footprintStore;
+    },
+    getManufacturerStore: function () {
+    	return this.manufacturerStore;
+    },
+    getDistributorStore: function () {
+    	return this.distributorStore;
     },
     /**
      * Reload all global stores each 100 seconds.
@@ -55,6 +75,8 @@ Ext.application({
     reloadStores: function () {
     	this.storageLocationStore.load();
     	this.footprintStore.load();
+    	this.manufacturerStore.load();
+    	this.distributorStore.load();
     	Ext.defer(PartDB2.getApplication().reloadStores, 100000, this);
     },
     createLayout: function () {
@@ -181,8 +203,8 @@ PartDB2.getRESTProxy = function (service) {
                 	};
                 	
              	
-                	var j = new PartDB2.ExceptionWindow();
-                	j.showException(exception);
+                	var jj = new PartDB2.ExceptionWindow();
+                	jj.showException(exception);
                 	
                 	
                 }
@@ -211,7 +233,8 @@ PartDB2.getSession = function () {
 
 PartDB2.log = function (message) {
 	PartDB2.getApplication().log(message);
-}
+};
+
 /**
  * <p>This static method returns the instance of the application.</p>
  * @return {Object} The application
@@ -222,4 +245,15 @@ PartDB2.getApplication = function () {
 
 PartDB2.getBasePath = function () {
 	return "rest.php";
+};
+
+PartDB2.serializeRecords = function (records) {
+	console.log(records);
+	var finalData = [];
+	
+	for (var i=0;i<records.length;i++) {
+		finalData.push(records[i].data);
+	}
+	
+	return finalData;
 };

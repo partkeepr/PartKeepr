@@ -8,8 +8,8 @@ Ext.define('PartDB2.PartManager', {
 	layout: 'border',
 	initComponent: function () {
 		 this.createStore({
-			 model: 'Part'
-			 , sorters: [{
+			 model: 'Part',
+			 sorters: [{
              property: 'name',
              direction:'ASC'
          }] 

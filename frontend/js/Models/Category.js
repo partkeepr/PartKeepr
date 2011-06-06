@@ -4,7 +4,7 @@ PartDB2.Category = Ext.define("Category", {
 	         {	name: 'id',	type: 'int' },
 	         {	name: 'name',	type: 'string' },
 	         {  name: 'description', type: 'string' },
-	         {  name: 'parent', type: 'int' },
+	         {  name: 'parent', type: 'int' }
 	         ],
     proxy: PartDB2.getRESTProxy("Category"),
     getName: function () {

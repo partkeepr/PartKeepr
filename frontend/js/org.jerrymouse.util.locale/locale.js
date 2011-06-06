@@ -38,11 +38,11 @@ Ext.replaceLocaleTags = function (string) {
 	var regexp = /\$\[(.+?)\]/g;
 	var workingCopy = string;
 	
-	while (result = regexp.exec(string)) {
+	/*while (result = regexp.exec(string)) {
 		if (locales[Ext.jm_locale][result[1]]) {
 			workingCopy = Ext.replaceString(result[0], locales[Ext.jm_locale][result[1]], workingCopy);
 		}
-	}
+	}*/
 	
 	return workingCopy;
 };

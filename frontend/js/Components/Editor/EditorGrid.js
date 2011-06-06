@@ -54,8 +54,9 @@ Ext.define('PartDB2.EditorGrid', {
 			        this.searchField]
 		});
 		Ext.apply(this, {
-			dockedItems: [this.topToolbar
-				,{
+			dockedItems: [
+			    this.topToolbar,
+				{
 	            xtype: 'pagingtoolbar',
 	            store: this.store,
 	            dock: 'bottom',

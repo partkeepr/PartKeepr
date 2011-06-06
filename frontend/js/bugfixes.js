@@ -2,14 +2,14 @@
 Ext.override(Ext.data.reader.Reader,
 {
 	 readRecords: function(data) {
-		 	var data = this.callOverridden(arguments);
+		 	var dt = this.callOverridden(arguments);
 		 	
-		 	if (data.success == false) {
+		 	//if (dt.success === false) {
 		 		//Ext.Msg.alert("Error", data.message);
-		 	}
+		 	//}
 		 	
 		 	
-		 	return data;
+		 	return dt;
 	 }
 
 		});

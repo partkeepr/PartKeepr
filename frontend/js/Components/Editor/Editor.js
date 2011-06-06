@@ -12,17 +12,17 @@ Ext.define('PartDB2.Editor', {
 	autoScroll: true,
     defaults: {
         anchor: '100%',
-        labelWidth: 150,
+        labelWidth: 150
     },
     onFieldChange: function () {
     	return;
     	
     	// @todo Finish implementing the dirty flag later
-    	if (this.change == false) {
+    	/*if (this.change == false) {
     		this.setTitle(this.record.getName() + "*");
     	}
     	
-    	this.change = true;
+    	this.change = true;*/
     },
 	initComponent: function () {
 		this.saveButton = Ext.create("Ext.button.Button", {
@@ -70,7 +70,7 @@ Ext.define('PartDB2.Editor', {
 		this.record = record;
 		this.getForm().loadRecord(this.record);
 		this.show();
-		if (this.record.getName() != "") {
+		if (this.record.getName() !== "") {
 			this.setTitle(this.record.getName());
 		}
 		
@@ -87,7 +87,7 @@ Ext.define('PartDB2.Editor', {
 	onItemSave: function () {
 		if (this.record) {
 			/* Check if this is an in-memory record */
-			if (this.record.phantom == true) {
+			if (this.record.phantom === true) {
 					
 			/* Push form values into the record */
 			this.getForm().updateRecord(this.record);
@@ -129,5 +129,5 @@ Ext.define('PartDB2.Editor', {
 				}
 			}
 		}
-	},
+	}
 });

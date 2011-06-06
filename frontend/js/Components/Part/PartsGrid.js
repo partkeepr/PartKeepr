@@ -6,7 +6,7 @@ Ext.define('PartDB2.PartsGrid', {
 	          {header: i18n("Storage Location"),  dataIndex: 'storageLocationName'},
 	          {header: i18n("Stock"),  dataIndex: 'stockLevel'},
 	          {header: i18n("Min. Stock"),  dataIndex: 'minStockLevel'},
-	          {header: i18n("Footprint"),  dataIndex: 'footprintName'},
+	          {header: i18n("Footprint"),  dataIndex: 'footprintName'}
 	          ],
 	buttonTextMode: 'show',
 	initComponent: function () {

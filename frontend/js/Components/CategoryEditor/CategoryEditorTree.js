@@ -111,7 +111,7 @@ PartDB2.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 	onUpdateRecord: function (record) {
 		var currentRecord = this.getStore().getRootNode().findChild("id", record.get("id"), true);
 		
-		if (currentRecord == null) {
+		if (currentRecord === null) {
 			var parentRecord = this.getStore().getRootNode().findChild("id", record.get("parent"), true);
 			
 			var nodeData = {
@@ -120,7 +120,7 @@ PartDB2.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 					tooltip : record.get("description")
 				};
 			
-			parentRecord.appendChild(nodeData)
+			parentRecord.appendChild(nodeData);
 			
 		} else {
 			currentRecord.set("name", record.get("name"));

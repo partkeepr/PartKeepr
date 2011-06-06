@@ -18,6 +18,10 @@ use de\RaumZeitLabor\PartDB2\Category\CategoryManagerService;
 
 use de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo;
 use de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer;
+use de\RaumZeitLabor\PartDB2\Distributor\Distributor;
+
+use de\RaumZeitLabor\PartDB2\Part\PartDistributor;
+use de\RaumZeitLabor\PartDB2\Part\PartManufacturer;
 
 PartDB2::initialize();
 
@@ -139,34 +143,26 @@ while ($store = mysql_fetch_assoc($r)) {
 
 echo "\n";
 
-$r = mysql_query("SELECT * FROM parts");
-
-while ($part = mysql_fetch_assoc($r)) {
-	$oPart = new Part();
-	$oPart->setName(convertText($part["name"]));
-	$oPart->setComment(convertText($part["comment"]));
-	$oPart->setFootprint($newFootprints[$part["id_footprint"]]);
-	$oPart->setCategory($newCategories[$part["id_category"]]);
-	$oPart->setStorageLocation($newStorageLocations[$part["id_storeloc"]]);
-	$oPart->setMinStockLevel($part["mininstock"]);
-	echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
-	PartDB2::getEM()->persist($oPart);
-	
-	$oStock = new StockEntry($oPart, $part["instock"]);
-	PartDB2::getEM()->persist($oStock);
-
-}
-
-PartDB2::getEM()->flush();
-
 /* Add manufacturers and IC logos */
 $data = \Symfony\Component\Yaml\Yaml::load("../setup/data/manufacturers/manufacturers.yaml");
+
+$aManufacturers = array();
+$aDistributors = array();
 
 foreach ($data as $mfgname => $logos) {
 	$manufacturer = new Manufacturer();
 	$manufacturer->setName($mfgname);
 	
 	PartDB2::getEM()->persist($manufacturer);
+	$aManufacturers[] = $manufacturer;
+	/* Temporary: Add fake distributors */
+	
+	$distributor = new Distributor();
+	$distributor->setName("Distributor ".$mfgname);
+	
+	PartDB2::getEM()->persist($distributor);
+	
+	$aDistributors[] = $distributor;
 	
 	foreach ($logos as $logo) {
 		$mfglogo = new ManufacturerICLogo();
@@ -178,6 +174,42 @@ foreach ($data as $mfgname => $logos) {
 }
 
 PartDB2::getEM()->flush();
+
+$r = mysql_query("SELECT * FROM parts");
+
+while ($part = mysql_fetch_assoc($r)) {
+	$oPart = new Part();
+	$oPart->setName(convertText($part["name"]));
+	$oPart->setComment(convertText($part["comment"]));
+	$oPart->setFootprint($newFootprints[$part["id_footprint"]]);
+	$oPart->setCategory($newCategories[$part["id_category"]]);
+	$oPart->setStorageLocation($newStorageLocations[$part["id_storeloc"]]);
+	$oPart->setMinStockLevel($part["mininstock"]);
+	
+	for ($i=0;$i<rand(0,15);$i++) {
+		$randomManufacturer = rand(0, count($aManufacturers)-1);
+		$oPart->getManufacturers()->add(new PartManufacturer($oPart, $aManufacturers[$randomManufacturer]));
+	}
+	
+	for ($i=0;$i<rand(0,15);$i++) {
+		$randomDistributor = rand(0, count($aDistributors)-1);
+		$oPart->getDistributors()->add(new PartDistributor($oPart, $aDistributors[$randomDistributor]));
+	}
+	echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
+	PartDB2::getEM()->persist($oPart);
+	
+	$oStock = new StockEntry($oPart, $part["instock"]);
+	PartDB2::getEM()->persist($oStock);
+
+}
+
+PartDB2::getEM()->flush();
+
+
+
+
+
+
 
 echo "All done.\n";
 

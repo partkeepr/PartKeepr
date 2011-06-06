@@ -61,7 +61,7 @@ Ext.define('PartDB2.EditorComponent', {
 		
 		
 		//this.editor.editItem(r);
-		var editor = this.createEditor(r.getName());
+		editor = this.createEditor(r.getName());
 		editor.editItem(r);
 		this.editorTabPanel.add(editor).show();
 		
@@ -106,9 +106,7 @@ Ext.define('PartDB2.EditorComponent', {
 						r.destroy();
 						this.store.load();
 					}
-				},
-				this
-				);
+				},this);
 	},
 	// Creates a store. To be called from child's initComponent
 	createStore: function (config) {

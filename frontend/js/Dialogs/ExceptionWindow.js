@@ -71,7 +71,7 @@ Ext.define('PartDB2.ExceptionWindow', {
                 pack: 'center'
             },
             items: [
-                { xtype: 'button', text: 'OK', handler: Ext.bind(function () { this.hide(); }, this) },
+                { xtype: 'button', text: 'OK', handler: Ext.bind(function () { this.hide(); }, this) }
                 //{ xtype: 'button', text: 'Details >>', handler: Ext.bind(function () { this.showDetails(); }, this) }
             ]
         }];

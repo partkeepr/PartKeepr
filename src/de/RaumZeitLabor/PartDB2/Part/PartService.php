@@ -11,7 +11,7 @@ use de\RaumZeitLabor\PartDB2\Part\PartManager,
 	de\RaumZeitLabor\PartDB2\Session\SessionManager;
 
 class PartService extends Service implements RestfulService {
-public function get () {
+	public function get () {
 		if ($this->hasParameter("id")) {
 			return PartManager::getInstance()->getPart($this->getParameter("id"))->serialize();
 		} else {
@@ -35,31 +35,15 @@ public function get () {
 	}
 	
 	public function create () {
-		$this->requireParameter("footprint");
-		
-		$fp = FootprintManager::getInstance()->addFootprint($this->getParameter("footprint"));
-		
-		return array("data" => $fp->serialize());
+		throw new \Exception("Not yet implemented");
 	}
 	
 	public function update () {
-		$this->requireParameter("id");
-		$this->requireParameter("footprint");
-		$footprint = FootprintManager::getInstance()->getFootprint($this->getParameter("id"));
-		$footprint->setFootprint($this->getParameter("footprint"));
-		
-		PartDB2::getEM()->flush();
-		
-		return array("data" => $footprint->serialize());
-		
+		throw new \Exception("Not yet implemented");
 	}
 	
 	public function destroy () {
-		$this->requireParameter("id");
-		
-		FootprintManager::getInstance()->deleteFootprint($this->getParameter("id"));
-		
-		return array("data" => null);
+		throw new \Exception("Not yet implemented");
 	}
 	
 	
@@ -128,15 +112,13 @@ public function get () {
 			$aParameters["quantity"]  = $this->getParameter("quantity");
 		}
 		
-		/*
-		$aParameters["category"] = $this->getParameter("category");
-		$aParameters["name"] = $this->getParameter("name");
-		$aParameters["quantity"] = $this->getParameter("quantity");
-		$aParameters["minstock"] = $this->getParameter("minstock");
-		$aParameters["storagelocation"] = $this->getParameter("storagelocation");
-		$aParameters["footprint"] = $this->getParameter("footprint");
-		$aParameters["comment"] = $this->getParameter("comment");
-		$aParameters["manufacturer"] = $this->getParameter("manufacturer");*/
+		if ($this->hasParameter("distributorChanges")) {
+			$aParameters["distributorChanges"] = $this->getParameter("distributorChanges");
+		}
+		
+		if ($this->hasParameter("manufacturerChanges")) {
+			$aParameters["manufacturerChanges"] = $this->getParameter("manufacturerChanges");
+		}
 		
 		PartManager::getInstance()->addOrUpdatePart($aParameters);
 		

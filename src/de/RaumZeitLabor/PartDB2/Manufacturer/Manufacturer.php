@@ -40,6 +40,16 @@ class Manufacturer {
 	private $comment;
 	
 	/**
+	 * @Column(type="string",nullable=true)
+	 */
+	private $phone;
+	
+	/**
+	 * @Column(type="string",nullable=true)
+	 */
+	private $fax;
+	
+	/**
 	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"})
 	 */
 	private $icLogos;
@@ -53,6 +63,22 @@ class Manufacturer {
 	
 	public function getName () {
 		return $this->name;
+	}
+	
+	public function setPhone ($phone) {
+		$this->phone = $phone;
+	}
+	
+	public function getPhone () {
+		return $this->phone;
+	}
+	
+	public function setFax ($fax) {
+		$this->fax = $fax;
+	}
+	
+	public function getFax ($fax) {
+		return $this->fax;
 	}
 	
 	public function setAddress ($address) {
