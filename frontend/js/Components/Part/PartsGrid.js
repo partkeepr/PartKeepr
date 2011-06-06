@@ -13,13 +13,22 @@ Ext.define('PartDB2.PartsGrid', {
 	categoryScope: 'all',
 	
 	scopeAllText: i18n("All subcategories"),
-	scopeSelectedText: i18n('Only selected category'),
+	scopeSelectedText: i18n('Selected category'),
+	
+	
+	categoryScopeAllIcon: "resources/silkicons/folder_magnify.png",
+	categoryScopeSelectedIcon: "resources/silkicons/folder_go.png",
 	
 	stockMode: "all",
 	stockModeAll: i18n("Any stock level"),
 	stockModeZero: i18n("Stock = 0"),
-	stockModeBelow: i18n("Stock less than minimum stock"),
+	stockModeBelow: i18n("Stock < Min. Stock"),
 	stockModeAvailable: i18n("Stock > 0"),
+	
+	stockModeBelowIcon: 'resources/icons/stock_below.png',
+	stockModeAllIcon: 'resources/icons/stock_any.png',
+	stockModeZeroIcon: 'resources/icons/stock_zero.png',
+	stockModeNonzeroIcon: 'resources/icons/stock_nonzero.png',
 	
 	stockModes: [ "all", "nonzero", "zero", "below" ],
 	
@@ -28,18 +37,22 @@ Ext.define('PartDB2.PartsGrid', {
 		
 		this.categoryScopeButton = Ext.create("Ext.button.Split", {
 			text: this.scopeAllText,
+			icon: this.categoryScopeAllIcon,
 			handler: this.categoryModeButtonHandler,
 			scope: this,
+			width: 140,
 			menu: {
 				items: [
 				        {
 				        	text: this.scopeAllText,
 				        	handler: this.allSubcategoriesHandler,
+				        	icon: this.categoryScopeAllIcon,
 				        	scope: this
 				        },
 				        {
 				        	text: this.scopeSelectedText,
 				        	handler: this.onlySelectedCategoryHandler,
+				        	icon: this.categoryScopeSelectedIcon,
 				        	scope: this
 				        }]
 			}
@@ -47,34 +60,41 @@ Ext.define('PartDB2.PartsGrid', {
 		
 		this.stockModeButton = Ext.create("Ext.button.Split", {
 			text: this.stockModeAll,
+			width: 140,
 			handler: this.stockModeButtonHandler,
+			icon: this.stockModeAllIcon,
 			scope: this,
 			menu: {
 				items: [
 						{
 							text: this.stockModeAll,
 							handler: this.stockModeAllHandler,
+							icon: this.stockModeAllIcon,
 							scope: this
 						},
 						{
 							text: this.stockModeZero,
 							handler: this.stockModeZeroHandler,
+							icon: this.stockModeZeroIcon,
 							scope: this
 						},
 						{
 							text: this.stockModeBelow,
 							handler: this.stockModeBelowHandler,
+							icon: this.stockModeBelowIcon,
 							scope: this
 						},
 						{
 							text: this.stockModeAvailable,
 							handler: this.stockModeAvailableHandler,
+							icon: this.stockModeNonzeroIcon,
 							scope: this
 						}
 				        ]
 			}
 		});
 		
+		this.bottomToolbar.add('-');
 		this.bottomToolbar.add(this.categoryScopeButton);
 		this.bottomToolbar.add(this.stockModeButton);
 		this.setScopeMode("all");
@@ -109,8 +129,10 @@ Ext.define('PartDB2.PartsGrid', {
 		/* Update button text */
 		if (this.categoryScope == "all") {
 			this.categoryScopeButton.setText(this.scopeAllText);
+			this.categoryScopeButton.setIcon(this.categoryScopeAllIcon);
 		} else {
 			this.categoryScopeButton.setText(this.scopeSelectedText);
+			this.categoryScopeButton.setIcon(this.categoryScopeSelectedIcon);
 		}
 		
 		var proxy = this.store.getProxy();
@@ -156,15 +178,19 @@ Ext.define('PartDB2.PartsGrid', {
 		switch (this.stockMode) {
 			case "zero":
 				this.stockModeButton.setText(this.stockModeZero);
+				this.stockModeButton.setIcon(this.stockModeZeroIcon);
 				break;
 			case "nonzero":
 				this.stockModeButton.setText(this.stockModeAvailable);
+				this.stockModeButton.setIcon(this.stockModeNonzeroIcon);
 				break;
 			case "below":
 				this.stockModeButton.setText(this.stockModeBelow);
+				this.stockModeButton.setIcon(this.stockModeBelowIcon);
 				break;
 			case "all":
 				this.stockModeButton.setText(this.stockModeAll);
+				this.stockModeButton.setIcon(this.stockModeAllIcon);
 				break;
 		}
 		
