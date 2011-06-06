@@ -1,0 +1,10 @@
+Misc items which need to be fixed:
+
+
+
+FRONTEND
+========
+
+* Several stores (e.g. distributors, manufacturers etc) are loaded on a timed interval. This is bad; both should be updated more cleverly.
+* User manager missing
+* Add part parameters
