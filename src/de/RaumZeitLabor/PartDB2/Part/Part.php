@@ -95,12 +95,8 @@ class Part {
 		$this->name = $name;
 	}
 	
-	public function setFootprint (\de\RaumZeitLabor\PartDB2\Footprint\Footprint $footprint) {
+	public function setFootprint (\de\RaumZeitLabor\PartDB2\Footprint\Footprint $footprint = null) {
 		$this->footprint = $footprint;
-	}
-	
-	public function setManufacturer (\de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer $manufacturer) {
-		$this->manufacturer = $manufacturer;
 	}
 	
 	public function setComment ($comment) {

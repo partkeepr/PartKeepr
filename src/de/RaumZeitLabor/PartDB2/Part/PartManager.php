@@ -28,7 +28,7 @@ class PartManager extends Singleton {
 		$qb = PartDB2::getEM()->createQueryBuilder();
 		$qb->select("COUNT(p.id)")->from("de\RaumZeitLabor\PartDB2\Part\Part","p")
 		->join("p.storageLocation", "st")
-		->join("p.footprint", "f")
+		->leftJoin("p.footprint", "f")
 		->join("p.category", "c");
 
 		$qb->where("1=1");
@@ -121,8 +121,13 @@ class PartManager extends Singleton {
 		}
 		
 		if (array_key_exists("footprint", $aParameters)) {
-			$footprint = FootprintManager::getInstance()->getOrCreateFootprint($aParameters["footprint"]);
-			$part->setFootprint($footprint);	
+			
+			if ($aParameters["footprint"] === null) {
+				$part->setFootprint(null);	
+			} else {
+				$footprint = FootprintManager::getInstance()->getOrCreateFootprint($aParameters["footprint"]);
+				$part->setFootprint($footprint);
+			}
 		}
 		
 		if (array_key_exists("storagelocation", $aParameters)) {
