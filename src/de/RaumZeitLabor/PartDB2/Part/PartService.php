@@ -30,7 +30,8 @@ class PartService extends Service implements RestfulService {
 			$this->getParameter("sortby", $aSortParams["property"]),
 			$this->getParameter("dir", $aSortParams["direction"]),
 			$this->getParameter("query", ""),
-			$this->getParameter("category", 0));
+			$this->getParameter("category", 0),
+			$this->getParameter("categoryScope", "all"));
 		}
 	}
 	

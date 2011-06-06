@@ -53,17 +53,19 @@ Ext.define('PartDB2.EditorGrid', {
 			        },
 			        this.searchField]
 		});
+		
+		this.bottomToolbar = Ext.create("Ext.toolbar.Paging", {
+			store: this.store,
+			dock: 'bottom',
+			displayInfo: false
+		});
+		
 		Ext.apply(this, {
 			dockedItems: [
 			    this.topToolbar,
-				{
-	            xtype: 'pagingtoolbar',
-	            store: this.store,
-	            dock: 'bottom',
-	            displayInfo: false
-	        }]
-		
-	});
+				this.bottomToolbar
+				]
+		});
 	
 		this.callParent();
 }
