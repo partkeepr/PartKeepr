@@ -49,6 +49,16 @@ Ext.application({
     				pageSize: -1,
     				autoLoad: false
     			});
+    	
+    	this.partUnitStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'PartUnit',
+    				pageSize: -1,
+    				autoLoad: false
+    			});
+    },
+    getPartUnitStore: function () {
+    	return this.partUnitStore;
     },
     getStorageLocationStore: function () {
     	return this.storageLocationStore;
@@ -77,6 +87,7 @@ Ext.application({
     	this.footprintStore.load();
     	this.manufacturerStore.load();
     	this.distributorStore.load();
+    	this.partUnitStore.load();
     	Ext.defer(PartDB2.getApplication().reloadStores, 100000, this);
     },
     createLayout: function () {

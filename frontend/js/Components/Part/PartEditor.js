@@ -21,6 +21,10 @@ Ext.define('PartDB2.PartEditor', {
 				value: 0,
 				minValue: 0
 			},{
+				xtype: 'PartUnitComboBox',
+				fieldLabel: i18n("Part Unit"),
+				name: 'partUnit_id'
+			},{
 				xtype: 'CategoryComboBox',
 				fieldLabel: i18n("Category"),
 				name: 'category_id'

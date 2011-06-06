@@ -32,6 +32,11 @@ class Part {
 	private $footprint;
 	
 	/**
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartDB2\Part\PartUnit")
+	 */
+	private $partUnit;
+	
+	/**
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation")
 	 */
 	private $storageLocation;
@@ -75,6 +80,26 @@ class Part {
 	
 	public function getName () {
 		return $this->name;
+	}
+	
+	/**
+	 * Sets the part unit
+	 * 
+	 * @param PartUnit $partUnit The part unit object to set
+	 * @return nothing
+	 */
+	public function setPartUnit (PartUnit $partUnit = null) {
+		$this->partUnit = $partUnit;
+	}
+	
+	/**
+	 * Returns the part unit
+	 * 
+	 * @param none
+	 * @return PartUnit The part unit object
+	 */
+	public function getPartUnit () {
+		return $this->partUnit;
 	}
 	
 	public function updateStockLevel () {
@@ -155,6 +180,9 @@ class Part {
 					"storageLocation_id" => is_object($this->storageLocation) ? $this->storageLocation->getId() : null,
 					"storageLocationName" => is_object($this->storageLocation) ? $this->storageLocation->getName() : null,
 					"category_id" => is_object($this->category) ?  $this->category->getId() : null,
+					"partUnit_id" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : null,
+					"partUnit_name" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : PartDB2::i18n("Pieces"),
+					"partUnit_shortName" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : "",
 					"manufacturers" => $aManufacturers,
 					"distributors" => $aDistributors,
 		

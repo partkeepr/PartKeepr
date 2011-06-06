@@ -20,6 +20,10 @@ Ext.define('PartDB2.MenuBar', {
 			        	text: i18n('Edit Users'),
 			        	handler: this.editUsers,
 			        	icon: "resources/silkicons/user.png"
+			        },{
+			        	text: i18n('Edit Part Units'),
+			        	handler: this.editPartUnits,
+			        	icon: "resources/silkicons/table.png"
 			        }]
 		});
 		
@@ -71,6 +75,15 @@ Ext.define('PartDB2.MenuBar', {
 	editUsers: function () {
 		var j = Ext.create("PartDB2.UserEditorComponent", {
 			title: i18n("Users"),
+			closable: true
+		});
+		
+		PartDB2.getApplication().addItem(j);
+		j.show();
+	},
+	editPartUnits: function () {
+		var j = Ext.create("PartDB2.PartUnitEditorComponent", {
+			title: i18n("Part Units"),
 			closable: true
 		});
 		

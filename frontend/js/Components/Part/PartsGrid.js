@@ -4,7 +4,7 @@ Ext.define('PartDB2.PartsGrid', {
 	columns: [
 	          {header: i18n("Name"),  dataIndex: 'name', flex: 1},
 	          {header: i18n("Storage Location"),  dataIndex: 'storageLocationName'},
-	          {header: i18n("Stock"),  dataIndex: 'stockLevel'},
+	          {header: i18n("Stock"),  dataIndex: 'stockLevel', xtype:'templatecolumn', tpl:'{stockLevel} {partUnit}'},
 	          {header: i18n("Min. Stock"),  dataIndex: 'minStockLevel'},
 	          {header: i18n("Footprint"),  dataIndex: 'footprintName'}
 	          ],

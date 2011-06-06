@@ -8,6 +8,7 @@ use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation;
 use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocationManager;
 
 use de\RaumZeitLabor\PartDB2\Part\Part;
+use de\RaumZeitLabor\PartDB2\PartUnit\PartUnitManager;
 use de\RaumZeitLabor\PartDB2\Distributor\Distributor;
 use de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer;
 use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
@@ -30,7 +31,8 @@ class PartManager extends Singleton {
 		$qb->select("COUNT(p.id)")->from("de\RaumZeitLabor\PartDB2\Part\Part","p")
 		->join("p.storageLocation", "st")
 		->leftJoin("p.footprint", "f")
-		->join("p.category", "c");
+		->join("p.category", "c")
+		->leftJoin("p.partUnit", "pu");
 
 		$qb->where("1=1");
 		if ($filter != "") {
@@ -87,7 +89,7 @@ class PartManager extends Singleton {
 		
 		
 		
-		$qb->select("p.name, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, st.name as storageLocationName, f.id AS footprint_id, f.footprint AS footprintName, c.id AS category_id, c.name AS categoryName");
+		$qb->select("p.name, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, st.name as storageLocationName, f.id AS footprint_id, f.footprint AS footprintName, c.id AS category_id, c.name AS categoryName, pu.name AS partUnit");
 
 		if ($limit > -1) {
 			$qb->setMaxResults($limit);
@@ -172,6 +174,15 @@ class PartManager extends Singleton {
 				$this->processManufacturerChanges($part, $aParameters["manufacturerChanges"]);
 			}
 		}
+		
+		if (array_key_exists("partUnit", $aParameters)) {
+			if ($aParameters["partUnit"] === null) {
+				$part->setPartUnit(null);
+			} else {
+				$part->setPartUnit(PartUnitManager::getInstance()->getPartUnit($aParameters["partUnit"]));
+			}
+		}
+		
 		
 		PartDB2::getEM()->persist($part);
 		PartDB2::getEM()->flush();

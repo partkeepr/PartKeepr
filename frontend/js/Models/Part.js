@@ -9,6 +9,7 @@ PartDB2.Part = Ext.define("Part", {
 	         {	name: 'manufacturer_id',type: 'int'},
 	         {	name: 'storageLocation_id',type: 'int'},
 	         {	name: 'storageLocationName',type: 'string'},
+	         {	name: 'partUnit',type: 'string'},
 	         {	name: 'name',type: 'string'},
 	         {	name: 'comment',type: 'string'},
 	         {	name: 'stockLevel',type: 'int'},
