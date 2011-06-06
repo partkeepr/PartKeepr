@@ -12,7 +12,7 @@ class User {
 	 */
 	private $id;
 	
-	/** @Column(length=50) */
+	/** @Column(length=50,unique=true) */
 	private $username;
 	
 	/** @Column(length=32) */
@@ -133,6 +133,28 @@ class User {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Returns the ID of this object.
+	 * @param none
+	 * @return int The ID of this object
+	 */
+ 	public function getId () {
+		return $this->id;
+	}
+	
+	/**
+	 * Serializes the user object and returns it as array, suitable
+	 * to process via json_encode.
+	 * @param none
+	 * @return array An array containing the object information
+	 */
+	public function serialize () {
+		return array(
+			"id" => $this->getId(),
+			"username" => $this->getUsername()
+		);
 	}
 	
 }
