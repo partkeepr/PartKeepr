@@ -4,8 +4,7 @@ README
 What is PartDB2?
 ----------------
 
-PartDB2 is a project to manage an inventory of electronic parts. Usually, electronic geeks have a lot of electronic
-components, and have trouble finding them.
+PartDB2 is an electronic part inventory management software. It helps you to keep track of your available parts and assist you with re-ordering parts. PartDB2 is designed for hackerspaces with multiple users, but you can also use it to manage your personal electronic part inventory.
 
 Project Status
 --------------
