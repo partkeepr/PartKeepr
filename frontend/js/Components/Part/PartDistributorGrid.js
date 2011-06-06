@@ -24,6 +24,7 @@ Ext.define('PartDB2.PartDistributorGrid', {
                 disabled: true,
                 itemId: 'delete',
                 scope: this,
+                icon: 'resources/silkicons/lorry_delete.png',
                 handler: this.onDeleteClick
             });
 		
@@ -32,6 +33,7 @@ Ext.define('PartDB2.PartDistributorGrid', {
             items: [{
                 text: 'Add',
                 scope: this,
+                icon: 'resources/silkicons/lorry_add.png',
                 handler: this.onAddClick
             }, this.deleteButton]
         }];

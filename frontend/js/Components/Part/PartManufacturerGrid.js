@@ -24,6 +24,7 @@ Ext.define('PartDB2.PartManufacturerGrid', {
                 disabled: true,
                 itemId: 'delete',
                 scope: this,
+                icon: 'resources/silkicons/building_delete.png',
                 handler: this.onDeleteClick
             });
 		
@@ -32,6 +33,7 @@ Ext.define('PartDB2.PartManufacturerGrid', {
             items: [{
                 text: 'Add',
                 scope: this,
+                icon: 'resources/silkicons/building_add.png',
                 handler: this.onAddClick
             }, this.deleteButton]
         }];
