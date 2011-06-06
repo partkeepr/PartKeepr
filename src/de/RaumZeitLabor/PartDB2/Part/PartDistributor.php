@@ -33,7 +33,9 @@ class PartDistributor {
 	
 	/**
 	 * @Column(type="integer")
-	 * @var unknown_type
+	 * @var integer
+	 * 
+	 * Defines the packaging unit when ordering a part. 
 	 */
 	private $packagingUnit;
 	
@@ -43,8 +45,27 @@ class PartDistributor {
 		$this->setPackagingUnit(1);
 	}
 	
-	public function setPackagingUnit ($unit) {
-		$this->packagingUnit = $unit;
+	/**
+	 * Sets the packaging unit for a specific distributor.
+	 * 
+	 * For example, some distributors only sell resistors in packs of 100, so you can't order just one. We use the
+	 * packagingUnit to calculate how many pieces will be delivered once ordered. So if your stock level falls below
+	 * the minimum (example: you would need to order 10 resistors), we suggest that you only order one resistor pack
+	 * instead of 10.
+	 *   
+	 * @param int $packagingUnit The amount of items in one package
+	 * @throws \de\RaumZeitLabor\PartDB2\Part\OutOfRangeException When the packaging unit is less than 1
+	 */
+	public function setPackagingUnit ($packagingUnit) {
+		$packagingUnit = intval($packagingUnit);
+		
+		if ($packagingUnit < 1) {
+			$exception = new OutOfRangeException(PartDB2::i18n("Packaging Unit is out of range"));
+			$exception->setDetail(PartDB2::i18n("The packaging unit must be 1 or higher"));
+			throw $exception;
+		}
+		
+		$this->packagingUnit = $packagingUnit;
 	}
 	
 	public function getPackagingUnit () {
