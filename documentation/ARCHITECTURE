@@ -1,0 +1,22 @@
+PartDB2 is based on current technologies.
+
+PHP
+===
+
+On the PHP side, we use namespaces as well as the following 3rd-party projects:
+
+* Doctrine2 as ORM
+* ImageMagick for image converting
+
+All functionality is encapsulated in service calls, which are primarly used with the ExtJS frontend, but you can also
+use these calls to implement your own automation / html-only frontend (see below).
+
+JavaScript
+==========
+
+On the frontend side, we use ExtJS as GUI.
+
+HTML-only frontend
+==================
+
+Although we currently don't have a plain HTML frontend, it can be added since we use a service architecture.
