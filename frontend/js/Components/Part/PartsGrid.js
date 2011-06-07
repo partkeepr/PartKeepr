@@ -2,7 +2,7 @@ Ext.define('PartDB2.PartsGrid', {
 	extend: 'PartDB2.EditorGrid',
 	alias: 'widget.PartsGrid',
 	columns: [
-	          {header: i18n("Name"),  dataIndex: 'name', flex: 1},
+	          {header: i18n("Name"),  dataIndex: 'name', flex: 1, renderer: Ext.util.Format.htmlEncode},
 	          {header: i18n("Storage Location"),  dataIndex: 'storageLocationName'},
 	          {header: i18n("Stock"),  dataIndex: 'stockLevel', xtype:'templatecolumn', tpl:'{stockLevel} {partUnit}'},
 	          {header: i18n("Min. Stock"),  dataIndex: 'minStockLevel'},
