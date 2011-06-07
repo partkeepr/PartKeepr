@@ -271,4 +271,14 @@ class PartManager extends Singleton {
 		
 		return $part;
 	}
+	
+	/**
+	 * Returns the overall part count currently existing.
+	 * @return int The amount of parts in the database
+	 */
+	public function getPartCount () {
+		$dql = "SELECT COUNT(p.id) FROM de\RaumZeitLabor\PartDB2\Part\Part p";
+		
+		return PartDB2::getEM()->createQuery($dql)->getSingleScalarResult();
+	}
 }

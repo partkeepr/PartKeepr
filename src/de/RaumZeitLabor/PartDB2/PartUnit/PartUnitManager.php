@@ -85,4 +85,12 @@ class PartUnitManager extends Singleton {
 		
 		PartDB2::getEM()->commit();
 	}
+	
+	public function getUnitCounts () {
+		$dql = 'SELECT SUM(p.stockLevel) AS stockLevel, pu FROM de\RaumZeitLabor\PartDB2\Part\PartUnit pu LEFT JOIN pu.parts p GROUP BY pu.id';
+		
+		$result = PartDB2::getEM()->createQuery($dql)->getResult();
+		
+		return $result;
+	}
 }

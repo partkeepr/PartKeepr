@@ -181,7 +181,9 @@ class PartDB2 {
 			'de\RaumZeitLabor\PartDB2\Image\Image',
 			'de\RaumZeitLabor\PartDB2\Image\CachedImage',
 			'de\RaumZeitLabor\PartDB2\Image\TempImage',
-			'de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo'
+			'de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo',
+			'de\RaumZeitLabor\PartDB2\Statistic\StatisticSnapshot',
+			'de\RaumZeitLabor\PartDB2\Statistic\StatisticSnapshotUnit'
 		);
 	}
 	

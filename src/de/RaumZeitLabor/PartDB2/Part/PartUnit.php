@@ -38,6 +38,12 @@ class PartUnit {
 	private $is_default;
 	
 	/**
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Part\Part",mappedBy="partUnit")
+	 */
+	private $parts;
+	
+	
+	/**
 	 * Creates a new part unit.
 	 * 
 	 * Sets the default to false.

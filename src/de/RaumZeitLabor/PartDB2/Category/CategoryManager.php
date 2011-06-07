@@ -124,4 +124,14 @@ class CategoryManager extends Singleton {
 			throw new CategoryNotFoundException;
 		}
 	}
+
+	/**
+	 * Returns the overall category count currently existing.
+	 * @return int The amount of categories in the database
+	 */
+	public function getCategoryCount () {
+		$dql = "SELECT COUNT(c.id) FROM de\RaumZeitLabor\PartDB2\Category\Category c";
+		
+		return PartDB2::getEM()->createQuery($dql)->getSingleScalarResult();
+	}
 }
