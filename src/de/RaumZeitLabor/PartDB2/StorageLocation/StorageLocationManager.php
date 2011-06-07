@@ -72,15 +72,17 @@ class StorageLocationManager extends Singleton {
 	}
 	
 	public function getOrCreateStorageLocation ($storageLocation) {
-		try {
-			return $this->getStorageLocation($storageLocation);
-		} catch (StorageLocationNotFoundException $e) {
-			$sl = new StorageLocation();
-			$sl->setName($storageLocation);
-			
-			PartDB2::getEM()->persist($sl);
-			
-			return $sl;
+		if (is_int($storageLocation)) {
+			try {
+				return $this->getStorageLocation($storageLocation);
+			} catch (StorageLocationNotFoundException $e) {}	
 		}
+		
+		$sl = new StorageLocation();
+		$sl->setName($storageLocation);
+			
+		PartDB2::getEM()->persist($sl);
+			
+		return $sl;
 	}
 }

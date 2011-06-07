@@ -89,16 +89,18 @@ class FootprintManager extends Singleton {
 	}
 	
 	public function getOrCreateFootprint ($footprint) {
-		try {
-			return $this->getFootprint($footprint);
-		} catch (FootprintNotFoundException $e) {
-			$fp = new Footprint();
-			$fp->setFootprint($footprint);
-
-			PartDB2::getEM()->persist($fp);
-			
-			return $fp;
+		if (is_int($footprint)) {
+			try {
+				return $this->getFootprint($footprint);
+			} catch (FootprintNotFoundException $e) {}
 		}
+		
+		$fp = new Footprint();
+		$fp->setFootprint($footprint);
+
+		PartDB2::getEM()->persist($fp);
+			
+		return $fp;
 	}
 	
 	public function getFootprint ($id) {
