@@ -1,3 +1,6 @@
 /build
-/build
-/build
+/data
+.buildpath
+.externalToolBuilders
+.settings
+.project
