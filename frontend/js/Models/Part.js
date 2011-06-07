@@ -10,6 +10,20 @@ PartDB2.Part = Ext.define("Part", {
 	         {	name: 'storageLocation_id',type: 'int'},
 	         {	name: 'storageLocationName',type: 'string'},
 	         {	name: 'partUnit',type: 'string'},
+	         
+	         /*
+	          * The partUnitDefault would belong into an association. Unless we know how to
+	          * access associations in e.g. a grid, we need to pass it as this one.
+	          */
+	         {
+	        	 name: 'partUnitDefault',
+	        	 type: 'boolean',
+	        	 convert: function (val) {
+	        		 if (val === "true" || val === "1" || val === true)
+	        		 { return true; }
+	        		 else { return false; }
+	        		 }
+	         },
 	         {	name: 'name',type: 'string'},
 	         {	name: 'comment',type: 'string'},
 	         {	name: 'stockLevel',type: 'int'},
