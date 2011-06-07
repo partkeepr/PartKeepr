@@ -39,6 +39,9 @@ PartDB2.CategoryTree = Ext.define("CategoryTree", {
 		
 		this.getStore().sort("name");
 		this.loaded = true;
+		
+		this.getRootNode().expandChildren();
+		
 		this.fireEvent("categoriesLoaded");
 		
 	},
