@@ -200,6 +200,8 @@ Ext.define('PartDB2.PartsGrid', {
 		proxy.extraParams.stockMode = this.stockMode;
 	},
 	setCategory: function (category) {
+		this.currentCategory = category;
+		
 		var proxy = this.store.getProxy();
 		
 		proxy.extraParams.category = category;

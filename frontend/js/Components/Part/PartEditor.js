@@ -1,6 +1,5 @@
 Ext.define('PartDB2.PartEditor', {
 	extend: 'PartDB2.Editor',
-	autoScroll: true,
 	border: false,
 	model: 'PartDB2.Part',
 	mode: 'add',
@@ -60,6 +59,7 @@ Ext.define('PartDB2.PartEditor', {
 				items: [{
 					xtype: 'panel',
 					border: false,
+					autoScroll: true,
 					layout: 'anchor',
 					defaults: {
 				        anchor: '100%',

@@ -48,9 +48,7 @@ Ext.define('PartDB2.EditorGrid', {
 			        	}, this)
 			        },
 			        this.deleteButton,
-			        {
-			        	xtype: 'tbfill'
-			        },
+			        { xtype: 'tbfill' },
 			        this.searchField]
 		});
 		

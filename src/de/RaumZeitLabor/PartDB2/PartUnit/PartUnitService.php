@@ -70,4 +70,12 @@ class PartUnitService extends Service implements RestfulService {
 		
 		return array("data" => null);
 	}
+	
+	public function setDefault () {
+		$this->requireParameter("id");
+		
+		$partUnit = PartUnitManager::getInstance()->setDefaultPartUnit($this->getParameter("id"));
+		
+		return array("data" => null);
+	}
 }

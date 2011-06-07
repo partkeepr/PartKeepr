@@ -3,7 +3,8 @@ PartDB2.PartUnit = Ext.define("PartUnit", {
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
 	         {	name: 'name',	type: 'string'},
-	         {	name: 'shortName',	type: 'string'}
+	         {	name: 'shortName',	type: 'string'},
+	         {	name: 'default',	type: 'bool'}
 	         ],
 	proxy: PartDB2.getRESTProxy("PartUnit"),
 	getName: function () {

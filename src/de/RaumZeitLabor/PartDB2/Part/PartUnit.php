@@ -30,6 +30,23 @@ class PartUnit {
 	private $shortName;
 	
 	/**
+	 * Defines if the unit is default or not.
+	 * 
+	 * @Column(type="boolean")
+	 * @var boolean
+	 */
+	private $is_default;
+	
+	/**
+	 * Creates a new part unit.
+	 * 
+	 * Sets the default to false.
+	 */
+	public function __construct () {
+		$this->setDefault(false);
+	}
+	
+	/**
 	 * Sets the name for this unit
 	 * @param string $name The name for this unit
 	 * @return nothing
@@ -77,6 +94,23 @@ class PartUnit {
 	}
 	
 	/**
+	 * Defines if the unit is default or not.
+	 * @param boolean $default True if the unit is default, false otherwise
+	 */
+	public function setDefault ($default) {
+		$this->is_default = (bool)$default;
+	}
+	
+	/**
+	 * Returns if the unit is default or not
+	 * @param none
+	 * @return boolean True if the unit is default, false for not
+	 */
+	public function getDefault () {
+		return $this->is_default;
+	}
+	
+	/**
 	 * Serializes the object and returns it as array, suitable
 	 * to process via json_encode.
 	 * @param none
@@ -86,7 +120,8 @@ class PartUnit {
 		return array(
 					"id" => $this->getId(),
 					"name" => $this->getName(),
-					"shortName" => $this->getShortName()
+					"shortName" => $this->getShortName(),
+					"default" => $this->getDefault()
 		);
 	}
 }

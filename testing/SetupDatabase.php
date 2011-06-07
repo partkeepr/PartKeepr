@@ -8,7 +8,7 @@ use de\RaumZeitLabor\PartDB2\Auth\User;
 use de\RaumZeitLabor\PartDB2\Footprint\Footprint;
 use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
 use de\RaumZeitLabor\PartDB2\PartDB2;
-
+use de\RaumZeitLabor\PartDB2\Part\PartUnit;
 use de\RaumZeitLabor\PartDB2\Category\Category;
 use de\RaumZeitLabor\PartDB2\Part\Part;
 use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation;
@@ -77,6 +77,14 @@ $newCategories = array();
 
 mysql_connect("localhost", "partdb", "partdb");
 mysql_select_db("partdb");
+
+$partUnit = new PartUnit();
+$partUnit->setName(PartDB2::i18n("Pieces"));
+$partUnit->setShortName(PartDB2::i18n("pcs"));
+$partUnit->setDefault(true);
+
+PartDB2::getEM()->persist($partUnit);
+PartDB2::getEM()->flush();
 
 echo "Creating footprints from SetupData/footprints.php\n";
 
@@ -185,7 +193,7 @@ while ($part = mysql_fetch_assoc($r)) {
 	$oPart->setCategory($newCategories[$part["id_category"]]);
 	$oPart->setStorageLocation($newStorageLocations[$part["id_storeloc"]]);
 	$oPart->setMinStockLevel($part["mininstock"]);
-	
+	$oPart->setPartUnit($partUnit);
 	for ($i=0;$i<rand(0,15);$i++) {
 		$randomManufacturer = rand(0, count($aManufacturers)-1);
 		$oPart->getManufacturers()->add(new PartManufacturer($oPart, $aManufacturers[$randomManufacturer]));

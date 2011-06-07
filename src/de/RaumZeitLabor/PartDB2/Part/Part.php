@@ -75,7 +75,7 @@ class Part {
 	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();	
+		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
 	public function getName () {
@@ -88,7 +88,7 @@ class Part {
 	 * @param PartUnit $partUnit The part unit object to set
 	 * @return nothing
 	 */
-	public function setPartUnit (PartUnit $partUnit = null) {
+	public function setPartUnit (PartUnit $partUnit) {
 		$this->partUnit = $partUnit;
 	}
 	

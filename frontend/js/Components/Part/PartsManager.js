@@ -60,7 +60,15 @@ Ext.define('PartDB2.PartManager', {
 	},
 	onItemAdd: function () {
 		var j = Ext.create("PartDB2.PartEditorWindow");
-		j.applyRecord({});
+		
+		var defaults = {};
+		
+		var defaultPartUnit = PartDB2.getApplication().getPartUnitStore().find("default", true);
+		
+		defaults.partUnit_id = defaultPartUnit;
+		defaults.category_id = this.grid.currentCategory;
+		
+		j.applyRecord(defaults);
 		j.show();
 	},
 	onEditPart: function (id) {

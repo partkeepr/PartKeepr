@@ -12,7 +12,7 @@ class PartUnitManager extends Singleton {
 	public function getPartUnits ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 			
 		$qb = PartDB2::getEM()->createQueryBuilder();
-		$qb->select("st.id, st.name, st.shortName")->from("de\RaumZeitLabor\PartDB2\Part\PartUnit","st");
+		$qb->select("st.id, st.name, st.shortName, st.is_default AS default")->from("de\RaumZeitLabor\PartDB2\Part\PartUnit","st");
 
 		if ($filter != "") {
 			$qb = $qb->where("st.name LIKE :filter");
@@ -29,6 +29,18 @@ class PartUnitManager extends Singleton {
 		$query = $qb->getQuery();
 		
 		$result = $query->getResult();
+		
+		foreach ($result as $key => $row) {
+			foreach ($row as $rowkey => $column) {
+				if ($rowkey == "default") {
+					if ($column == 0) {
+						$result[$key][$rowkey] = false;
+					} else {
+						$result[$key][$rowkey] = true;
+					}
+				}
+			}
+		}
 		
 		$totalQueryBuilder = PartDB2::getEM()->createQueryBuilder();
 		$totalQueryBuilder->select("COUNT(st.id)")->from("de\RaumZeitLabor\PartDB2\Part\PartUnit","st");
@@ -60,5 +72,17 @@ class PartUnitManager extends Singleton {
 		
 		PartDB2::getEM()->remove($partUnit);
 		PartDB2::getEM()->flush();
+	}
+	
+	public function setDefaultPartUnit ($id) {
+		PartDB2::getEM()->beginTransaction();
+		
+		$dql = 'UPDATE de\RaumZeitLabor\PartDB2\Part\PartUnit pu SET pu.is_default = 1 WHERE pu.id = :id';
+		PartDB2::getEM()->createQuery($dql)->setParameter("id", $id)->execute();
+
+		$dql = 'UPDATE de\RaumZeitLabor\PartDB2\Part\PartUnit pu SET pu.is_default = 0 WHERE pu.id != :id';
+		PartDB2::getEM()->createQuery($dql)->setParameter("id", $id)->execute();
+		
+		PartDB2::getEM()->commit();
 	}
 }

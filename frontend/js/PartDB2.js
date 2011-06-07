@@ -87,11 +87,7 @@ Ext.application({
     	this.footprintStore.load();
     	this.manufacturerStore.load();
     	this.distributorStore.load();
-    	this.partUnitStore.load({
-    		callback: function (records, operation, success) {
-    			this.insert(0, { id: null, name: i18n("Pieces"), shortName: i18n("pcs")});
-    		}
-    	});
+    	this.partUnitStore.load();
     	Ext.defer(PartDB2.getApplication().reloadStores, 100000, this);
     },
     createLayout: function () {
