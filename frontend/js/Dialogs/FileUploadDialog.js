@@ -85,7 +85,7 @@ Ext.define('PartDB2.FileUploadDialog', {
         		autoScroll: true,
         		target: this.fileFormatButton.getEl(),
         		closable: true,
-        		html: "FOO"+implode("<br>", PartDB2.getAvailableImageFormats()),
+        		html: implode("<br>", PartDB2.getAvailableImageFormats()),
         		autoHide: false
         	});	
     	}
