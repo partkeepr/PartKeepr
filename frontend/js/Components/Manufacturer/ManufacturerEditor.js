@@ -10,7 +10,7 @@ Ext.define('PartDB2.ManufacturerEditor', {
 		this.tpl = [
 				'<tpl for=".">',
 		            '<div class="thumb-wrap" id="{id}">',
-				    '<div class="thumb"><img src="image.php?type=iclogo&id={id}&w=32&h=32&tmpId={tmp_id}"></div>',
+				    '<div class="thumb"><img src="image.php?type=iclogo&id={id}&w=64&h=64&tmpId={tmp_id}"></div>',
 				    '</div>',
 		        '</tpl>',
 		        '</tpl>',
