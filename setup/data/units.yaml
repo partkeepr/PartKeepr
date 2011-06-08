@@ -1,0 +1,75 @@
+Ohm:
+  symbol: Ω
+  prefixes:
+    - k
+    - m
+    - M
+    - G
+    - T
+Volt:
+  symbol: V
+  prefixes:
+    - m
+    - k
+Hertz:
+  symbol: Hz
+  prefixes:
+    - k
+    - M
+    - G
+    - T
+Newton:
+  symbol: N
+  prefixes:
+    - k
+Pascal:
+  symbol: Pa
+  prefixes:
+    - k
+Joule:
+  symbol: J
+  prefixes:
+    - k
+    - M
+Watt:
+  symbol: W
+  prefixes:
+    - k
+    - M
+    - G
+    - m
+Coulomb:
+  symbol: C
+  prefixes:
+    - k
+Farad:
+  symbol: F
+  prefixes:
+    - m
+    - p
+    - n
+    - μ
+Siemens:
+  symbol: S
+  prefixes:
+    - m
+Weber:
+  symbol: Wb
+Tesla:
+  symbol: T
+Henry:
+  symbol: H
+Celsius:
+  symbol: °C
+Lumen:
+  symbol: lm
+Lux:
+  symbol: lx
+Becquerel:
+  symbol: Bq
+Gray:
+  symbol: Gy
+Sievert:
+  symbol: Sv
+Katal:
+  symbol: kat
