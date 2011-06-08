@@ -70,6 +70,7 @@ Ext.define('PartDB2.PartStockWindow', {
 		
 		this.priceCheckbox = Ext.create("Ext.form.field.Checkbox", {
 			boxLabel: i18n("Price per item"),
+			hideEmptyLabel: false,
 			checked: true
 		});
 		
