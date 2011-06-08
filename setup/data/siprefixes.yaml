@@ -1,0 +1,60 @@
+yotta:
+  symbol: Y
+  power: 24
+zetta:
+  symbol: Z
+  power: 21
+exa:
+  symbol: E
+  power: 18
+peta:
+  symbol: P
+  power: 15
+tera:
+  symbol: T
+  power: 12
+giga:
+  symbol: G
+  power: 9
+mega:
+  symbol: M
+  power: 6
+kilo:
+  symbol: k
+  power: 3
+hecto:
+  symbol: h
+  power: 2
+deca:
+  symbol: da
+  power: 1
+deci:
+  symbol: d
+  power: -1
+centi:
+  symbol: c
+  power: -2
+milli:
+  symbol: m
+  power: -3
+micro:
+  symbol: μ
+  power: -6
+nano:
+  symbol: n
+  power: -9
+pico:
+  symbol: p
+  power: -12
+femto:
+  symbol: f
+  power: -15
+atto:
+  symbol: a
+  power: -18
+zepto:
+  symbol: z
+  power: -21
+yocto:
+  symbol: y
+  power: -24
