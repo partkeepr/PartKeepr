@@ -258,6 +258,29 @@ PartDB2.getBasePath = function () {
 	return "rest.php";
 };
 
+PartDB2.setMaxUploadSize = function (size) {
+	PartDB2.maxUploadSize = size;
+};
+
+PartDB2.getMaxUploadSize = function () {
+	return PartDB2.maxUploadSize;
+};
+
+PartDB2.bytesToSize = function (bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+};
+
+PartDB2.setAvailableImageFormats = function (formats) {
+	PartDB2.imageFormats = formats;
+};
+
+PartDB2.getAvailableImageFormats = function () {
+	return PartDB2.imageFormats;
+};
+
 PartDB2.serializeRecords = function (records) {
 	var finalData = [];
 	

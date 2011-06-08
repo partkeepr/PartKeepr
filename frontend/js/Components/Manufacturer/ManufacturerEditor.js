@@ -110,7 +110,7 @@ Ext.define('PartDB2.ManufacturerEditor', {
 		});
 	},
 	uploadImage: function () {
-		var j = Ext.create("PartDB2.FileUploadDialog");
+		var j = Ext.create("PartDB2.FileUploadDialog", { imageUpload: true });
 		j.on("fileUploaded", Ext.bind(this.onFileUploaded, this));
 		j.show();
 	},

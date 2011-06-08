@@ -31,7 +31,6 @@
 		
 		<script type="text/javascript" src="js/Ext.ux/ClearableComboBox.js"></script>
 		<script type="text/javascript" src="js/Ext.ux/TabCloseMenu.js"></script>
-		<script type="text/javascript" src="js/Ext.ux/Ext.ux.CheckboxValue.js"></script>
 		
 		<script type="text/javascript" src="js/Components/Widgets/CategoryComboBox.js"></script>
 		<script type="text/javascript" src="js/Components/Widgets/StorageLocationComboBox.js"></script>
@@ -119,20 +118,30 @@
 		</head>
 <body>
 
-<script type="text/javascript">
-/*
-Ext.onReady(function(){
-	Ext.setLocale('en_US');
-	
-	Ext.QuickTips.init();
-	
-	var mainWindow = new org.jerrymouse.gui.widgets.MainWindow();
-	
-	var o = new org.jerrymouse.gui.login.dialog();
-	o.show();
+<?php
+// @todo put that somewhere else. This is only a stupid hack.
+function return_bytes ($size_str)
+{
+    switch (substr ($size_str, -1))
+    {
+        case 'M': case 'm': return (int)$size_str * 1048576;
+        case 'K': case 'k': return (int)$size_str * 1024;
+        case 'G': case 'g': return (int)$size_str * 1073741824;
+        default: return $size_str;
+    }
+}
 
-	
-});*/
+$maxPostSize = return_bytes(ini_get("post_max_size"));
+$maxFilesize = return_bytes(ini_get("upload_max_filesize"));
+
+$maxUploadSize = ($maxPostSize < $maxFilesize) ? $maxPostSize : $maxFilesize;
+
+$imagick = new Imagick();
+?>
+<script type="text/javascript">
+
+PartDB2.setMaxUploadSize(<?php echo $maxUploadSize; ?>);
+PartDB2.setAvailableImageFormats(<?php echo json_encode($imagick->queryFormats()); ?>);
 
 </script>
 </body>
