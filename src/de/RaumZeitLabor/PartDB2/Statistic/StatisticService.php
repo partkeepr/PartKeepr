@@ -14,6 +14,10 @@ class StatisticService extends Service {
 			$aData = array();
 			$aData["partCount"] = PartManager::getInstance()->getPartCount();
 			$aData["categoryCount"] = CategoryManager::getInstance()->getCategoryCount();
+			$aData["totalPrice"] = PartManager::getInstance()->getTotalPrice();
+			$aData["averagePrice"] = PartManager::getInstance()->getAveragePrice();
+			$aData["partsWithPrice"] = PartManager::getInstance()->getPartCount(true);
+			$aData["partsWithoutPrice"] = $aData["partCount"] - $aData["partsWithPrice"];
 			
 			$result = PartUnitManager::getInstance()->getUnitCounts();
 	

@@ -57,6 +57,7 @@ class Part {
 	private $comment;
 	
 	/**
+	 * The stock level. Note that this is a cached value.
 	 * @Column(type="integer")
 	 */
 	private $stockLevel = 0;
@@ -65,6 +66,14 @@ class Part {
 	 * @Column(type="integer")
 	 */
 	private $minStockLevel;
+	
+	/**
+	 * The average price for the part. Note that this is a cached value.
+	 * 
+	 * @Column(type="decimal",precision=5, scale=2,nullable=true)
+	 * @var float
+	 */
+	private $averagePrice = null;
 	
 	/**
 	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Stock\StockEntry",mappedBy="part",cascade={"persist", "remove"})
@@ -100,6 +109,10 @@ class Part {
 	 */
 	public function getPartUnit () {
 		return $this->partUnit;
+	}
+	
+	public function setAveragePrice ($price) {
+		$this->averagePrice = $price;
 	}
 	
 	public function updateStockLevel () {

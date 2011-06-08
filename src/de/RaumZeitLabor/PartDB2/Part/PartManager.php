@@ -274,10 +274,35 @@ class PartManager extends Singleton {
 	
 	/**
 	 * Returns the overall part count currently existing.
+	 * @param boolean $withPrice Only consider parts with a price
 	 * @return int The amount of parts in the database
 	 */
-	public function getPartCount () {
+	public function getPartCount ($withPrice = false) {
 		$dql = "SELECT COUNT(p.id) FROM de\RaumZeitLabor\PartDB2\Part\Part p";
+		
+		if ($withPrice === true) {
+			$dql .= " WHERE p.averagePrice IS NOT NULL";
+		}
+		
+		return PartDB2::getEM()->createQuery($dql)->getSingleScalarResult();
+	}
+	
+	/**
+	 * Returns the total price for all parts. Only parts with a price are calculated.
+	 * @return float The total price
+	 */
+	public function getTotalPrice () {
+		$dql = "SELECT SUM(p.averagePrice * p.stockLevel) FROM de\RaumZeitLabor\PartDB2\Part\Part p";
+		
+		return PartDB2::getEM()->createQuery($dql)->getSingleScalarResult();
+	}
+	
+	/**
+	 * Returns the average price for all parts. Only parts with a price are calculated.
+	 * @return float The average price
+	 */
+	public function getAveragePrice () {
+		$dql = "SELECT AVG(p.averagePrice) FROM de\RaumZeitLabor\PartDB2\Part\Part p";
 		
 		return PartDB2::getEM()->createQuery($dql)->getSingleScalarResult();
 	}

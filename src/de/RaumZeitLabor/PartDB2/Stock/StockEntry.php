@@ -116,12 +116,37 @@ class StockEntry {
 	}
 	
 	/**
+	 * Updates the stock leve for a part
 	 * @PostPersist
 	 */
+	public function postPersist () {
+		$this->updateStockLevel();
+		$this->updatePrice();	
+	}
+	
+	
 	public function updateStockLevel () {
-		$query = PartDB2::getEM()->createQuery('UPDATE de\RaumZeitLabor\PartDB2\Part\Part p SET p.stockLevel = p.stockLevel + :val WHERE p = :part');
-		$query->setParameter("val", $this->stockLevel);
+		$query = PartDB2::getEM()->createQuery("SELECT SUM(se.stockLevel) FROM de\RaumZeitLabor\PartDB2\Stock\StockEntry se WHERE se.part = :part");
+		$query->setParameter("part", $this->part);
+		$val = $query->getSingleScalarResult();
+		
+		$query = PartDB2::getEM()->createQuery('UPDATE de\RaumZeitLabor\PartDB2\Part\Part p SET p.stockLevel = :val WHERE p = :part');
+		$query->setParameter("val", $val);
 		$query->setParameter("part", $this->part);
 		$query->execute();
 	} 
+
+	/**
+	 * Updates the average price for a part
+	 */
+	public function updatePrice () {
+		$query = PartDB2::getEM()->createQuery("SELECT SUM(se.price*se.stockLevel)  / SUM(se.stockLevel) FROM de\RaumZeitLabor\PartDB2\Stock\StockEntry se WHERE se.part = :part AND se.stockLevel > 0");
+		$query->setParameter("part", $this->part);
+		$val = $query->getSingleScalarResult();
+		
+		$query = PartDB2::getEM()->createQuery('UPDATE de\RaumZeitLabor\PartDB2\Part\Part p SET p.averagePrice = :val WHERE p = :part');
+		$query->setParameter("val", $val);
+		$query->setParameter("part", $this->part);
+		$query->execute();
+	}
 }
