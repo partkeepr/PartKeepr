@@ -203,10 +203,22 @@ while ($part = mysql_fetch_assoc($r)) {
 		$randomDistributor = rand(0, count($aDistributors)-1);
 		$oPart->getDistributors()->add(new PartDistributor($oPart, $aDistributors[$randomDistributor]));
 	}
-	echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
+	//echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
 	PartDB2::getEM()->persist($oPart);
 	
 	$oStock = new StockEntry($oPart, $part["instock"]);
+	
+	$priceQuery = "SELECT AVG(preis) AS preis FROM preise WHERE part_id = ".$part["id"];
+	
+	$r2 = mysql_query($priceQuery);
+	$res = mysql_fetch_assoc($r2);
+	
+	if ($res) {
+		if ($res["preis"] !== null) {
+			$oStock->setPrice(floatval($res["preis"]));	
+		}
+	}
+	
 	PartDB2::getEM()->persist($oStock);
 
 }

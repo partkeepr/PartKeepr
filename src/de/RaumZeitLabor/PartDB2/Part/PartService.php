@@ -71,6 +71,12 @@ class PartService extends Service implements RestfulService {
 		
 		$stock = new StockEntry($part, intval($this->getParameter("stock")), $user);
 		
+		$price = floatval($this->getParameter("price"));
+		
+		if ($price != 0) {
+			$stock->setPrice($price);
+		}
+		
 		PartDB2::getEM()->persist($stock);
 		PartDB2::getEM()->flush();
 		

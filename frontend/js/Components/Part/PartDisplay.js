@@ -112,43 +112,41 @@ Ext.define('PartDB2.PartDisplay', {
 	 * Prompt the user for the stock level he wishes to add.
 	 */
 	addPartPrompt: function () {
-		Ext.Msg.prompt(i18n("Add stock"), i18n("Amount"), this.addPartHandler, this);
+		var j = new PartDB2.PartStockWindow();
+		j.addStock(this.addPartHandler, this);
 	},
 	/**
 	 * Callback after the "add stock" dialog is complete.
 	 */
-	addPartHandler: function (btn,a,c) {
-		if (btn == "ok") {
+	addPartHandler: function (quantity, price) {
 			var call = new PartDB2.ServiceCall(
 	    			"Part", 
 	    			"addStock");
-			call.setParameter("stock", a);
+			call.setParameter("stock", quantity);
+			call.setParameter("price", price);
 			call.setParameter("part", this.record.get("id"));
-	    	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategories]');
 	    	call.setHandler(Ext.bind(this.reloadPart, this));
 	    	call.doCall();	
-		}
 	},
 	/**
 	 * Prompts the user for the stock level to decrease for the item.
 	 */
 	deletePartPrompt: function () {
-		Ext.Msg.prompt(i18n("Remove Stock"), i18n("Amount"), this.deletePartHandler, this);
+		var j = new PartDB2.PartStockWindow();
+		j.removeStock(this.deletePartHandler, this);
+		//Ext.Msg.prompt(i18n("Remove Stock"), i18n("Amount"), this.deletePartHandler, this);
 	},
 	/**
 	 * Callback after the "delete stock" dialog is complete.
 	 */
-	deletePartHandler: function (btn,a,c) {
-		if (btn == "ok") {
+	deletePartHandler: function (quantity) {
 			var call = new PartDB2.ServiceCall(
 	    			"Part", 
 	    			"deleteStock");
-			call.setParameter("stock", a);
+			call.setParameter("stock", quantity);
 			call.setParameter("part", this.record.get("id"));
-	    	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategories]');
 	    	call.setHandler(Ext.bind(this.reloadPart, this));
 	    	call.doCall();	
-		}
 	},
 	/**
 	 * Reloads the current part
