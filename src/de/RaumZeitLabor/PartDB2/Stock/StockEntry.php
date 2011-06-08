@@ -36,6 +36,12 @@ class StockEntry {
 	 * @var float
 	 */
 	private $price;
+
+	/**
+	 * @Column(type="datetime")
+	 * @var DateTime
+	 */
+	private $dateTime;
 	
 	/**
 	 * Creates a new stock entry. A stock entry tracks how many parts
@@ -50,6 +56,24 @@ class StockEntry {
 		$this->setPart($part);
 		$this->setStockLevel($stockLevel);
 		$this->setUser($user);
+		$this->setDateTime(new \DateTime());
+	}
+	
+	
+	/**
+	 * Sets the date+time
+	 * @param \DateTime $dateTime The date+time
+	 */
+	private function setDateTime (\DateTime $dateTime) {
+		$this->dateTime = $dateTime;	
+	}
+	
+	/**
+	 * Returns the date+time when the record was created.
+	 * @return \DateTime The date+time when the record was created
+	 */
+	public function getDateTime () {
+		return $this->dateTime;
 	}
 	
 	/**
@@ -103,6 +127,22 @@ class StockEntry {
 	 */
 	public function setUser (User $user = null) {
 		$this->user = $user;
+	}
+	
+	/**
+	 * Returns the user for this entry
+	 * @return User the user
+	 */
+	public function getUser () {
+		return $this->user;
+	}
+	
+	/**
+	 * Returns the ID for this entity.
+	 * @return int The ID
+	 */
+	public function getId () {
+		return $this->id;
 	}
 	
 	/**

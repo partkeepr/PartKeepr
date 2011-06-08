@@ -23,7 +23,7 @@ Ext.define('PartDB2.PartManager', {
 			}
 		}, this));
 		
-		this.detail = Ext.create("PartDB2.PartDisplay", { hidden: true, region: 'east', split: true, width: 300});
+		this.detail = Ext.create("PartDB2.PartDisplay", { title: i18n("Part Details") });
 		this.detail.on("editPart", this.onEditPart, this);
 		this.grid = Ext.create("PartDB2.PartsGrid", { region: 'center', layout: 'fit', store: this.getStore()});
 		
@@ -33,7 +33,16 @@ Ext.define('PartDB2.PartManager', {
 		
 		this.detail.on("partChanged", function () { this.grid.getStore().load(); }, this);
 		
-		this.items = [ this.tree, this.grid, this.detail /*this.editor*/ ]; 
+		this.stockLevel = Ext.create("PartDB2.PartStockHistory", { title: "Stock History"});
+		
+		this.detailPanel = Ext.create("Ext.tab.Panel", {
+			hidden: true,
+			region: 'east',
+			split: true,
+			width: 300,
+			items: [ this.detail, this.stockLevel ]
+		});
+		this.items = [ this.tree, this.grid, this.detailPanel /*this.editor*/ ]; 
 		
 		this.callParent();
 	},
@@ -80,8 +89,10 @@ Ext.define('PartDB2.PartManager', {
 		j.show();
 	},
 	onItemSelect: function (r) {
-		this.detail.show();
+		this.detailPanel.setActiveTab(this.detail);
+		this.detailPanel.show();
 		this.detail.setValues(r);
+		this.stockLevel.part = r.get("id");
 	},
 	loadPart: function (id, handler) {
 		var call = new PartDB2.ServiceCall(

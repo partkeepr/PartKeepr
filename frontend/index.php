@@ -57,6 +57,7 @@
 		<script type="text/javascript" src="js/Models/Part.js"></script>
 		<script type="text/javascript" src="js/Models/PartUnit.js"></script>
 		<script type="text/javascript" src="js/Models/PartDistributor.js"></script>
+		<script type="text/javascript" src="js/Models/StockEntry.js"></script>
 		<script type="text/javascript" src="js/Models/PartManufacturer.js"></script>
 		
 		<script type="text/javascript" src="js/Models/Message.js"></script>
@@ -114,6 +115,7 @@
 		<script type="text/javascript" src="js/Components/Part/PartEditor.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartDisplay.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartStockWindow.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartStockHistory.js"></script>
 		
 		</head>
 <body>
