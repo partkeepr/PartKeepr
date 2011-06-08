@@ -42,6 +42,8 @@ Ext.define('PartDB2.PartsGrid', {
 	stockModeZeroIcon: 'resources/icons/stock_zero.png',
 	stockModeNonzeroIcon: 'resources/icons/stock_nonzero.png',
 	
+	partsWithoutPriceText: i18n("Parts without price"),
+	
 	stockModes: [ "all", "nonzero", "zero", "below" ],
 	
 	initComponent: function () {
@@ -106,10 +108,24 @@ Ext.define('PartDB2.PartsGrid', {
 			}
 		});
 		
+		this.priceModeButton = Ext.create("Ext.button.Button", {
+			enableToggle: true,
+			text: this.partsWithoutPriceText,
+			handler: this.priceModeHandler,
+			scope: this
+		});
+		
 		this.bottomToolbar.add('-');
 		this.bottomToolbar.add(this.categoryScopeButton);
 		this.bottomToolbar.add(this.stockModeButton);
+		this.bottomToolbar.add(this.priceModeButton);
 		this.setScopeMode("all");
+	},
+	priceModeHandler: function () {
+		var proxy = this.store.getProxy();
+		proxy.extraParams.withoutPrice = this.priceModeButton.pressed;
+		
+		this.store.load();
 	},
 	categoryModeButtonHandler: function () {
 		if (this.categoryScope == "all") {

@@ -32,7 +32,8 @@ class PartService extends Service implements RestfulService {
 			$this->getParameter("query", ""),
 			$this->getParameter("category", 0),
 			$this->getParameter("categoryScope", "all"),
-			$this->getParameter("stockMode", "all"));
+			$this->getParameter("stockMode", "all"),
+			$this->getParameter("withoutPrice", false));
 		}
 	}
 	
