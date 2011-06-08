@@ -10,6 +10,7 @@ PartDB2.Part = Ext.define("Part", {
 	         {	name: 'storageLocation_id',type: 'int'},
 	         {	name: 'storageLocationName',type: 'string'},
 	         {	name: 'partUnit',type: 'string'},
+	         {	name: 'averagePrice',type: 'float'},
 	         
 	         /*
 	          * The partUnitDefault would belong into an association. Unless we know how to

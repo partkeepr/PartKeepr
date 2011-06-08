@@ -17,6 +17,7 @@ Ext.define('PartDB2.PartsGrid', {
 	        	  }
 	          },
 	          {header: i18n("Min. Stock"),  dataIndex: 'minStockLevel', xtype:'templatecolumn', tpl:'{minStockLevel} {partUnit}'},
+	          {header: i18n("Avg. Price"), dataIndex: 'averagePrice' },
 	          {header: i18n("Footprint"),  dataIndex: 'footprintName'}
 	          ],
 	buttonTextMode: 'show',
