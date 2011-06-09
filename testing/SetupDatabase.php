@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartDB2\Tests;
+declare(encoding = 'UTF-8');
+
 use de\RaumZeitLabor\PartDB2\Unit\Unit;
 
 use de\RaumZeitLabor\PartDB2\SiPrefix\SiPrefix;
@@ -166,7 +168,7 @@ foreach ($data as $prefixName => $data) {
 	$prefix->setPower($data["power"]);
 	$prefix->setSymbol($data["symbol"]);
 	
-	$aSiPrefixes[$data["symbol"]] = $prefix;
+	$aSiPrefixes[] = $prefix;
 	PartDB2::getEM()->persist($prefix);
 	
 }
@@ -175,8 +177,6 @@ PartDB2::getEM()->flush();
 
 /* Add units */
 $data = \Symfony\Component\Yaml\Yaml::load("../setup/data/units.yaml");
-
-print_r($data);
 
 foreach ($data as $unitName => $data) {
 	$unit = new Unit();
@@ -188,7 +188,11 @@ foreach ($data as $unitName => $data) {
 			echo "Obacht ".$unitName." ist falsch\n";
 		}
 		foreach ($data["prefixes"] as $prefix) {
-			$unit->getPrefixes()->add($aSiPrefixes[$prefix]);
+			foreach ($aSiPrefixes as $siPrefix) {
+				if ($siPrefix->getSymbol() == $prefix) {
+					$unit->getPrefixes()->add($siPrefix);		
+				}
+			}
 		}
 	}
 	
