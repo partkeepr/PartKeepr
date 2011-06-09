@@ -18,9 +18,9 @@ Sekunde:
     - m
 Kelvin:
   symbol: K
-Mol
+Mol:
   symbol: mol
-Candela
+Candela:
   symbol: cd
   prefixes:
     - m
