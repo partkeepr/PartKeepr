@@ -36,6 +36,13 @@ Ext.application({
     				autoLoad: false
     			});
     	
+    	this.siPrefixStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'SiPrefix',
+    				pageSize: -1,
+    				autoLoad: true
+    			});
+    	
     	this.distributorStore = Ext.create("Ext.data.Store",
     			{
     				model: 'Distributor',
@@ -71,6 +78,9 @@ Ext.application({
     },
     getDistributorStore: function () {
     	return this.distributorStore;
+    },
+    getSiPrefixStore: function () {
+    	return this.siPrefixStore;
     },
     /**
      * Reload all global stores each 100 seconds.

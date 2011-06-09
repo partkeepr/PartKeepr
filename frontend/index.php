@@ -57,6 +57,8 @@
 		<script type="text/javascript" src="js/Models/Part.js"></script>
 		<script type="text/javascript" src="js/Models/PartUnit.js"></script>
 		<script type="text/javascript" src="js/Models/PartDistributor.js"></script>
+		<script type="text/javascript" src="js/Models/Unit.js"></script>
+		<script type="text/javascript" src="js/Models/SiPrefix.js"></script>
 		<script type="text/javascript" src="js/Models/StockEntry.js"></script>
 		<script type="text/javascript" src="js/Models/PartManufacturer.js"></script>
 		
@@ -104,6 +106,10 @@
 		<script type="text/javascript" src="js/Components/PartUnit/PartUnitEditor.js"></script>
 		<script type="text/javascript" src="js/Components/PartUnit/PartUnitEditorComponent.js"></script>
 		<script type="text/javascript" src="js/Components/PartUnit/PartUnitGrid.js"></script>
+		
+		<script type="text/javascript" src="js/Components/Unit/UnitEditor.js"></script>
+		<script type="text/javascript" src="js/Components/Unit/UnitEditorComponent.js"></script>
+		<script type="text/javascript" src="js/Components/Unit/UnitGrid.js"></script>
 		
 		<script type="text/javascript" src="js/Components/Statistics/CurrentStatisticsDialog.js"></script>
 		

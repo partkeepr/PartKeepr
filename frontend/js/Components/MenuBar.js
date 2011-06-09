@@ -28,6 +28,10 @@ Ext.define('PartDB2.MenuBar', {
 			        	text: i18n("Statistics"),
 			        	handler: this.showStatistics,
 			        	icon: 'resources/silkicons/chart_bar.png'
+			        },{
+			        	text: i18n("Units"),
+			        	handler: this.editUnits,
+			        	icon: 'resources/silkicons/lightbulb.png'
 			        }]
 		});
 		
@@ -47,6 +51,15 @@ Ext.define('PartDB2.MenuBar', {
 	editStorageLocations: function () {
 		var j = Ext.create("PartDB2.StorageLocationEditorComponent", {
 			title: i18n("Storage Locations"),
+			closable: true
+		});
+		
+		PartDB2.getApplication().addItem(j);
+		j.show();
+	},
+	editUnits: function () {
+		var j = Ext.create("PartDB2.UnitEditorComponent", {
+			title: i18n("Units"),
 			closable: true
 		});
 		

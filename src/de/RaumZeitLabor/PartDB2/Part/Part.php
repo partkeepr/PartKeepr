@@ -12,7 +12,7 @@ class Part {
 	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
-	 * @var unknown_type
+	 * @var integer
 	 */
 	private $id;
 	

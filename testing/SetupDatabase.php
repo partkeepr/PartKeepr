@@ -1,5 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartDB2\Tests;
+use de\RaumZeitLabor\PartDB2\Unit\Unit;
+
+use de\RaumZeitLabor\PartDB2\SiPrefix\SiPrefix;
+
 declare(encoding = 'UTF-8');
 
 include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
@@ -150,6 +154,50 @@ while ($store = mysql_fetch_assoc($r)) {
 }
 
 echo "\n";
+
+/* Add Si-Prefixes */
+$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/siprefixes.yaml");
+
+$aSiPrefixes = array();
+
+foreach ($data as $prefixName => $data) {
+	$prefix = new SiPrefix();
+	$prefix->setPrefix($prefixName);
+	$prefix->setPower($data["power"]);
+	$prefix->setSymbol($data["symbol"]);
+	
+	$aSiPrefixes[$data["symbol"]] = $prefix;
+	PartDB2::getEM()->persist($prefix);
+	
+}
+
+PartDB2::getEM()->flush();
+
+/* Add units */
+$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/units.yaml");
+
+print_r($data);
+
+foreach ($data as $unitName => $data) {
+	$unit = new Unit();
+	$unit->setName($unitName);
+	$unit->setSymbol($data["symbol"]);
+	
+	if (array_key_exists("prefixes", $data)) {
+		if (!is_array($data["prefixes"])) {
+			echo "Obacht ".$unitName." ist falsch\n";
+		}
+		foreach ($data["prefixes"] as $prefix) {
+			$unit->getPrefixes()->add($aSiPrefixes[$prefix]);
+		}
+	}
+	
+	PartDB2::getEM()->persist($unit);
+	
+}
+
+PartDB2::getEM()->flush();
+
 
 /* Add manufacturers and IC logos */
 $data = \Symfony\Component\Yaml\Yaml::load("../setup/data/manufacturers/manufacturers.yaml");
