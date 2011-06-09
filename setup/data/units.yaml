@@ -13,7 +13,7 @@ Gramm:
     - k
     - m
 Sekunde:
-  symbol: s	
+  symbol: s
   prefixes:
     - m
 Kelvin:
