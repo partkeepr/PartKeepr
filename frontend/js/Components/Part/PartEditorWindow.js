@@ -39,6 +39,6 @@ Ext.define('PartDB2.PartEditorWindow', {
 		
 		this.editor.partDistributorGrid.getStore().loadData(r.distributors);
 		this.editor.partManufacturerGrid.getStore().loadData(r.manufacturers);
-		this.editor.partParameterGrid.getStore().loadData(r.parameters)
+		this.editor.partParameterGrid.getStore().loadData(r.parameters);
 	}
 });

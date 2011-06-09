@@ -243,6 +243,9 @@ PartDB2::getEM()->flush();
 $r = mysql_query("SELECT * FROM parts");
 
 $aRandomUnitNames = array("Spannung", "Strom", "Leitfähigkeit", "Viskosität", "Nessis");
+
+$fc=0;
+
 while ($part = mysql_fetch_assoc($r)) {
 	$oPart = new Part();
 	$oPart->setName(convertText($part["name"]));
@@ -292,7 +295,13 @@ while ($part = mysql_fetch_assoc($r)) {
 		$oPartParameter->setValue($val);
 		PartDB2::getEM()->persist($oPartParameter);	
 	}
-	
+
+	$fc++;
+
+	if ($fc>100) {
+		PartDB2::getEM()->flush();
+		$fc=0;
+	}
 	
 
 }
