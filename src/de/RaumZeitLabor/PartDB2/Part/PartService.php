@@ -49,7 +49,12 @@ class PartService extends Service implements RestfulService {
 		throw new \Exception("Not yet implemented");
 	}
 	
-	
+	public function getPartParameterNames () {
+		$dql = "SELECT pp.name FROM de\RaumZeitLabor\PartDB2\PartParameter\PartParameter pp GROUP BY pp.name";
+		$query = PartDB2::getEM()->createQuery($dql);
+		
+		return array("data" => $query->getArrayResult());
+	}
 	
 	// Old stuff below
 	public function getParts () {

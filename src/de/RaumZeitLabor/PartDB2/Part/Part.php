@@ -77,10 +77,15 @@ class Part {
 	
 	/**
 	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\Stock\StockEntry",mappedBy="part",cascade={"persist", "remove"})
-	 * Enter description here ...
-	 * @var unknown_type
+	 * @var ArrayCollection
 	 */
 	private $stockLevels;
+	
+	/**
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\PartParameter\PartParameter",mappedBy="part")
+	 * @var ArrayCollection
+	 */
+	private $parameters;
 	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
@@ -158,6 +163,14 @@ class Part {
 		return $this->manufacturers;
 	}
 	
+	/**
+	 * Returns the parameters assigned to this part
+	 * @return array An array of PartParameter objects
+	 */
+	public function getParameters () {
+		return $this->parameters;
+	}
+	
 	public function getStockLevel () {
 		$query = PartDB2::getEM()->createQuery("SELECT SUM(s.stockLevel) FROM de\RaumZeitLabor\PartDB2\Stock\StockEntry s WHERE s.part = :part");
 		$query->setParameter("part", $this);
@@ -183,6 +196,11 @@ class Part {
 			$aDistributors[] = $distributor->serialize();
 		}
 		
+		$aParameters = array();
+		foreach ($this->getParameters() as $parameter) {
+			$aParameters[] = $parameter->serialize();
+		}
+		
 		return array(
 					"id" => $this->id,
 					"name" => $this->name,
@@ -198,6 +216,7 @@ class Part {
 					"partUnit_shortName" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : "",
 					"manufacturers" => $aManufacturers,
 					"distributors" => $aDistributors,
+					"parameters" => $aParameters
 		
 		);
 	}

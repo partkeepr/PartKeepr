@@ -52,6 +52,11 @@ Ext.define('PartDB2.PartEditor', {
 			layout: 'fit'
 		});
 		
+		this.partParameterGrid = Ext.create("PartDB2.PartParameterGrid", {
+			title: i18n("Parameters"),
+			layout: 'fit'
+		});
+		
 		this.items = {
 				xtype: 'tabpanel',
 				border: false,
@@ -70,7 +75,8 @@ Ext.define('PartDB2.PartEditor', {
 					items: basicEditorFields
 				},
 				this.partDistributorGrid,
-				this.partManufacturerGrid
+				this.partManufacturerGrid,
+				this.partParameterGrid
 				]
 		};
 		

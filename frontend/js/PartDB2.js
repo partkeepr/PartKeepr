@@ -63,6 +63,16 @@ Ext.application({
     				pageSize: -1,
     				autoLoad: false
     			});
+    	
+    	this.unitStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'Unit',
+    				pageSize: -1,
+    				autoLoad: false
+    			});
+    },
+    getUnitStore: function () {
+    	return this.unitStore;
     },
     getPartUnitStore: function () {
     	return this.partUnitStore;
@@ -91,6 +101,9 @@ Ext.application({
      *       If the user pulls down the storage location combo box,
      *       reload it.
      *       
+     *       YES, this is becoming nasty. We have now 6 stores, each
+     *       reloading every minute. This NEEDS to be fixed soon!
+     *       
      */
     reloadStores: function () {
     	this.storageLocationStore.load();
@@ -98,6 +111,7 @@ Ext.application({
     	this.manufacturerStore.load();
     	this.distributorStore.load();
     	this.partUnitStore.load();
+    	this.unitStore.load();
     	Ext.defer(PartDB2.getApplication().reloadStores, 100000, this);
     },
     createLayout: function () {

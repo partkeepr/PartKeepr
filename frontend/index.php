@@ -38,6 +38,8 @@
 		<script type="text/javascript" src="js/Components/Widgets/ManufacturerComboBox.js"></script>
 		<script type="text/javascript" src="js/Components/Widgets/DistributorComboBox.js"></script>
 		<script type="text/javascript" src="js/Components/Widgets/PartUnitComboBox.js"></script>
+		<script type="text/javascript" src="js/Components/Widgets/UnitComboBox.js"></script>
+		<script type="text/javascript" src="js/Components/Widgets/PartParameterComboBox.js"></script>
 		
 		<script type="text/javascript" src="js/Util/ServiceCall.js"></script>
 		
@@ -57,6 +59,7 @@
 		<script type="text/javascript" src="js/Models/Part.js"></script>
 		<script type="text/javascript" src="js/Models/PartUnit.js"></script>
 		<script type="text/javascript" src="js/Models/PartDistributor.js"></script>
+		<script type="text/javascript" src="js/Models/PartParameter.js"></script>
 		<script type="text/javascript" src="js/Models/Unit.js"></script>
 		<script type="text/javascript" src="js/Models/SiPrefix.js"></script>
 		<script type="text/javascript" src="js/Models/StockEntry.js"></script>
@@ -115,6 +118,7 @@
 		
 		<script type="text/javascript" src="js/Components/Part/PartsManager.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartsGrid.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartParameterGrid.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartDistributorGrid.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartManufacturerGrid.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartEditorWindow.js"></script>

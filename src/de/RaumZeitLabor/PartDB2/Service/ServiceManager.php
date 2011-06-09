@@ -13,10 +13,14 @@ class ServiceManager {
 		$request = new Request(array('restful' => true));
 		$service = $request->getService();
 		
+		//print_r($request->action);
+		
 		if ($service->hasHeader("call")) {
 			$call = $service->getHeader("call");
 		} elseif (array_key_exists("call", $_REQUEST) && $_REQUEST["call"] != "") {
 			$call = $_REQUEST["call"];
+		} elseif ($request->action != "") {
+			$call = $request->action;
 		} else {
 			switch (strtoupper($request->getMethod())) {
 				case "POST":

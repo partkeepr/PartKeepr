@@ -64,6 +64,10 @@ class PartManufacturer {
 		return $this->id;
 	}
 	
+	/**
+	 * Returns the data of this object in a serialized form.
+	 * @return array The result array
+	 */
 	public function serialize () {
 		return array(
 			"id" => $this->getId(),

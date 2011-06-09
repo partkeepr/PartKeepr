@@ -4,7 +4,7 @@ Ext.define('PartDB2.PartEditorWindow', {
 	width: 500,
 	minWidth: 500,
 	minHeight: 300,
-	height: 320,
+	height: 350,
 	layout: 'fit',
 	title: i18n("Add Part"),
 	initComponent: function () {
@@ -33,7 +33,12 @@ Ext.define('PartDB2.PartEditorWindow', {
 			r.manufacturers = [];
 		}
 		
+		if (!r.parameters) {
+			r.parameters = [];
+		}
+		
 		this.editor.partDistributorGrid.getStore().loadData(r.distributors);
 		this.editor.partManufacturerGrid.getStore().loadData(r.manufacturers);
+		this.editor.partParameterGrid.getStore().loadData(r.parameters)
 	}
 });

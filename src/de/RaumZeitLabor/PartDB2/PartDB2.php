@@ -185,7 +185,8 @@ class PartDB2 {
 			'de\RaumZeitLabor\PartDB2\Statistic\StatisticSnapshot',
 			'de\RaumZeitLabor\PartDB2\Statistic\StatisticSnapshotUnit',
 			'de\RaumZeitLabor\PartDB2\SiPrefix\SiPrefix',
-			'de\RaumZeitLabor\PartDB2\Unit\Unit'
+			'de\RaumZeitLabor\PartDB2\Unit\Unit',
+			'de\RaumZeitLabor\PartDB2\PartParameter\PartParameter'
 		);
 	}
 	

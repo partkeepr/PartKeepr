@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartDB2\Tests;
+use de\RaumZeitLabor\PartDB2\PartParameter\PartParameter;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Unit\Unit;
@@ -178,6 +180,8 @@ PartDB2::getEM()->flush();
 /* Add units */
 $data = \Symfony\Component\Yaml\Yaml::load("../setup/data/units.yaml");
 
+$aUnits = array();
+
 foreach ($data as $unitName => $data) {
 	$unit = new Unit();
 	$unit->setName($unitName);
@@ -197,6 +201,7 @@ foreach ($data as $unitName => $data) {
 	}
 	
 	PartDB2::getEM()->persist($unit);
+	$aUnits[] = $unit;
 	
 }
 
@@ -237,6 +242,7 @@ PartDB2::getEM()->flush();
 
 $r = mysql_query("SELECT * FROM parts");
 
+$aRandomUnitNames = array("Spannung", "Strom", "Leitfähigkeit", "Viskosität", "Nessis");
 while ($part = mysql_fetch_assoc($r)) {
 	$oPart = new Part();
 	$oPart->setName(convertText($part["name"]));
@@ -272,6 +278,22 @@ while ($part = mysql_fetch_assoc($r)) {
 	}
 	
 	PartDB2::getEM()->persist($oStock);
+	
+	/* Add some random parameters */
+	
+	
+	for ($i=0;$i<rand(1,15);$i++) {
+		$val = rand(0,999) * (pow(10,(rand(-20,20))));
+		$oPartParameter = new PartParameter();
+		$oPartParameter->setName($aRandomUnitNames[array_rand($aRandomUnitNames)]);
+		$oPartParameter->setDescription("Testbeschreibung");
+		$oPartParameter->setPart($oPart);
+		$oPartParameter->setUnit($aUnits[array_rand($aUnits)]);
+		$oPartParameter->setValue($val);
+		PartDB2::getEM()->persist($oPartParameter);	
+	}
+	
+	
 
 }
 
