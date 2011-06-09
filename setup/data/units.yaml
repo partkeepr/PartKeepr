@@ -18,9 +18,9 @@ Sekunde:
     - m
 Kelvin:
   symbol: K
-Mol
+Mol:
   symbol: mol
-Candela
+Candela:
   symbol: cd
   prefixes:
     - m
@@ -116,3 +116,8 @@ Sievert:
     - µ
 Katal:
   symbol: kat
+Amperestunde:
+  symbol: Ah
+  prefixes:
+    - m
+    - k
