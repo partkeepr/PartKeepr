@@ -41,6 +41,60 @@ Ext.override(Ext.data.Connection, {
 
 });
 
+Ext.view.AbstractView.override({
+    /**
+     * Changes the data store bound to this view and refreshes it.
+     * @param {Store} store The store to bind to this view
+     */
+    bindStore : function(store, initial) {
+        var me = this;
+
+        if (!initial && me.store) {
+            if (store !== me.store && me.store.autoDestroy) {
+                me.store.destroy();
+            }
+            else {
+                me.mun(me.store, {
+                    scope: me,
+                    datachanged: me.onDataChanged,
+                    add: me.onAdd,
+                    remove: me.onRemove,
+                    update: me.onUpdate,
+                    clear: me.refresh
+                });
+            }
+            if (!store) {
+                if (me.loadMask && me.loadMask.bindStore) {
+                    me.loadMask.bindStore(null);
+                }
+                me.store = null;
+            }
+        }
+        if (store) {
+            store = Ext.data.StoreManager.lookup(store);
+            me.mon(store, {
+                scope: me,
+                datachanged: me.onDataChanged,
+                add: me.onAdd,
+                remove: me.onRemove,
+                update: me.onUpdate,
+                clear: me.refresh
+            });
+            if (me.loadMask && me.loadMask.bindStore) {
+                me.loadMask.bindStore(store);
+            }
+        }
+
+        me.store = store;
+        // Bind the store to our selection model
+        me.getSelectionModel().bind(store);
+
+        if (store && (!initial || store.getCount())) {
+            me.refresh(true);
+        }
+    }
+});
+
 Ext.form.field.ComboBox.override({
 	beforeBlur: function() {
 	    var me = this;
