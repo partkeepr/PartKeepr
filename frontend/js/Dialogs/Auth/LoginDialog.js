@@ -71,6 +71,11 @@ Ext.define('PartDB2.LoginDialog', {
 	onLogin: function (obj) {
 		PartDB2.getApplication().setSession(obj.sessionid);
 		PartDB2.getApplication().setUsername(obj.username);
+		
+		if (!obj.admin) {
+			Ext.getCmp("edit-users").hide();
+		}
+		
 		PartDB2.getApplication().createGlobalStores();
 		
 		PartDB2.getApplication().reloadStores();

@@ -18,6 +18,7 @@ Ext.define('PartDB2.MenuBar', {
 			        	handler: this.editDistributors
 			        },{
 			        	text: i18n('Edit Users'),
+			        	id: 'edit-users',
 			        	handler: this.editUsers,
 			        	icon: "resources/silkicons/user.png"
 			        },{

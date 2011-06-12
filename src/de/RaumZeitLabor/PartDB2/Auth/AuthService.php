@@ -23,7 +23,7 @@ class AuthService extends AnonService {
 			/* Start Session */
 			$session = SessionManager::getInstance()->startSession($authenticatedUser);
 			
-			return array("sessionid" => $session->getSessionID(), "username" => $this->getParameter("username"));
+			return array("sessionid" => $session->getSessionID(), "username" => $this->getParameter("username"), "admin" => $session->getUser()->isAdmin());
 		} else {
 			throw new InvalidLoginDataException();
 		}

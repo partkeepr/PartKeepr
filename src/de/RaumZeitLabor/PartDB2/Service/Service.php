@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartDB2\Service;
+use de\RaumZeitLabor\PartDB2\Session\Session;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Session\SessionManager,
@@ -11,13 +13,16 @@ class Service {
 	public function __construct (Array $params) {
 		$this->params = $params;
 	}
-	public function setSession ($session) {
-		SessionManager::getInstance()->resumeSession($session);
-	}
 	
 	public function mayCall ($call) {
-		/* @todo: Implement permission checking */
-		return true;
+		if (SessionManager::getCurrentSession()->getUser() === null) {
+			return false;
+		} else {
+			/* @todo: Implement permission checking */
+			return true;	
+		}
+		
+		
 	}
 	
 	protected function requireParameter ($name) {

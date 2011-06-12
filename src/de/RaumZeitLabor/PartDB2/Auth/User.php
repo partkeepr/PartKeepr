@@ -18,6 +18,10 @@ class User {
 	/** @Column(length=32) */
 	private $password;
 	
+	/** @Column(type="boolean") */
+	private $admin;
+	
+	
 	/**
 	 * Creates a new user object.
 	 * 
@@ -32,6 +36,8 @@ class User {
 		if ($password !== null) {
 			$this->setPassword($password);
 		}
+		
+		$this->setAdmin(false);
 	}
 	/**
 	 * Sets the username.
@@ -77,6 +83,22 @@ class User {
 	 */
 	public function getUsername () {
 		return $this->username;
+	}
+	
+	/**
+	 * Sets the admin flag
+	 * @param boolean $bAdmin True if the user is an admin, false otherwise
+	 */
+	public function setAdmin ($bAdmin) {
+		$this->admin = (boolean)$bAdmin;
+	}
+	
+	/**
+	 * Returns the admin flag
+	 * @return boolean True if the user is an admin
+	 */
+	public function isAdmin () {
+		return $this->admin;
 	}
 	
 	/**

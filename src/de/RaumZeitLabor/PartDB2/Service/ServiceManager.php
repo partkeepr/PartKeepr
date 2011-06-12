@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartDB2\Service;
+use de\RaumZeitLabor\PartDB2\Session\SessionManager;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartDB2\Service\Exceptions\ServiceException,
@@ -47,18 +49,19 @@ class ServiceManager {
 			
 			$session = null;
 			if ($service->hasHeader("session")) {
-				$session = $service->getHeader("session");
+				$sessionid = $service->getHeader("session");
 			}
 			
 			if (array_key_exists("session", $_REQUEST) && $session === null) {
-				$session = $_REQUEST["session"];
+				$sessionid = $_REQUEST["session"];
 			}
-			if ($session === null)
+			if ($sessionid === null)
 			{
+				$session = SessionManager::getInstance()->startSession();
 				throw new ServiceException("You called a non-anonymous service, but did not pass the 'session' parameter.");
-			}	
-			
-			$service->setSession($session);
+			} else {
+				$session = SessionManager::getInstance()->resumeSession($sessionid);
+			}
 			
 			if (!$service->mayCall($call)) {
 				$allowCall = false;

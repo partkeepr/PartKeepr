@@ -4,12 +4,12 @@ use de\RaumZeitLabor\PartDB2\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\Service\Service;
+use de\RaumZeitLabor\PartDB2\Service\AdminService;
 use de\RaumZeitLabor\PartDB2\PartDB2,
 	de\RaumZeitLabor\PartDB2\Auth\User,
 	de\RaumZeitLabor\PartDB2\Session\SessionManager;
 
-class UserService extends Service implements RestfulService {
+class UserService extends AdminService implements RestfulService {
 		public function get () {
 		if ($this->hasParameter("id")) {
 			return UserManager::getInstance()->getUser($this->getParameter("id"))->serialize();

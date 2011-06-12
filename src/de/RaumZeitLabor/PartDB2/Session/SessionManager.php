@@ -47,6 +47,7 @@ class SessionManager extends Singleton {
 		$query->execute();
 		try {
 			self::$currentSession = $query->getSingleResult();
+			return self::$currentSession;
 		} catch (\Doctrine\ORM\NonUniqueResultException $e) {
 			throw new \Exception("Fatal error: Multiple sessions with id $session found.");
 		} catch (\Doctrine\ORM\NoResultException $e) {
