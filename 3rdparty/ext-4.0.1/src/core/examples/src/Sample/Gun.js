@@ -1,3 +1,0 @@
-Ext.define('Sample.Gun', {
-    
-});

@@ -1,9 +1,0 @@
-[{
-    id: 'node-dashboard',
-    text: 'Dashboard',
-    leaf: true
-},{
-    id: 'node-orders',
-    text: 'Orders',
-    leaf: true
-}]

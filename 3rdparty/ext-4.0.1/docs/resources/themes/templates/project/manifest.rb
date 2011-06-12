@@ -1,1 +1,0 @@
-stylesheet 'ext4.scss'

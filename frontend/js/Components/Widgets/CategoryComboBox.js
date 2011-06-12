@@ -80,9 +80,18 @@ Ext.define("PartDB2.CategoryComboBox",{
     		this.setSelectedValue(r.get("id"));
     		this.setValue(r.get("name"), true);
     		
-    		this.picker.getView().select(r);
-    		this.picker.getView().ensureVisible(r);
+    		if (this.picker.getView().rendered) {
+    			this._selectRecords(r);
+    		} else {
+    			this.picker.getView().on("render", function () { this._selectRecords(r); }, this);
+    		}
+    		
     	}
+    },
+    _selectRecords: function (r) {
+    	this.picker.getView().select(r);
+		this.picker.getView().ensureVisible(r);
+		this.picker.getView().scrollIntoView(r);
     },
     findById: function (id) {
     	return this.picker.getRootNode().findChild("id", id, true);

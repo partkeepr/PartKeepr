@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-AbstractPlugin'>/**
+</span> * @class Ext.AbstractPlugin
+ * @extends Object
+ *
+ * &lt;p&gt;The AbstractPlugin class is the base class from which user-implemented plugins should inherit.&lt;/p&gt;
+ * &lt;p&gt;This class defines the essential API of plugins as used by Components by defining the following methods:&lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;&lt;code&gt;init&lt;/code&gt; : The plugin initialization method which the owning Component calls at Component initialization
+ * time.&lt;div class=&quot;sub-desc&quot;&gt;&lt;p&gt;The Component passes itself as the sole parameter.&lt;/p&gt;&lt;p&gt;Subclasses should set up bidirectional
+ * links between the plugin and its client Component here.&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+ * &lt;li&gt;&lt;code&gt;destroy&lt;/code&gt; : The plugin cleanup method which the owning Component calls at Component destruction time.&lt;div class=&quot;sub-desc&quot;&gt;Use
+ * this method to break links between the plugin and the Component and to free any allocated resources.&lt;/div&gt;&lt;/li&gt;
+ * &lt;li&gt;&lt;code&gt;enable&lt;/code&gt; : The base implementation just sets the plugin's &lt;code&gt;disabled&lt;/code&gt; flag to &lt;code&gt;false&lt;/code&gt;&lt;div class=&quot;sub-desc&quot;&gt;&lt;/div&gt;&lt;/li&gt;
+ * &lt;li&gt;&lt;code&gt;disable&lt;/code&gt; : The base implementation just sets the plugin's &lt;code&gt;disabled&lt;/code&gt; flag to &lt;code&gt;true&lt;/code&gt;&lt;div class=&quot;sub-desc&quot;&gt;&lt;/div&gt;&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+Ext.define('Ext.AbstractPlugin', {
+    disabled: false,
+
+    constructor: function(config) {
+        //&lt;debug&gt;
+        if (!config.cmp &amp;&amp; Ext.global.console) {
+            Ext.global.console.warn(&quot;Attempted to attach a plugin &quot;);
+        }
+        //&lt;/debug&gt;
+        Ext.apply(this, config);
+    },
+
+    getCmp: function() {
+        return this.cmp;
+    },
+
+<span id='Ext-AbstractPlugin-method-init'>    /**
+</span>     * &lt;p&gt;The init method is invoked after {@link Ext.Component#initComponent initComponent} has been run for the client Component.&lt;/p&gt;
+     * &lt;p&gt;The supplied implementation is empty. Subclasses should perform plugin initialization, and set up bidirectional
+     * links between the plugin and its client Component in their own implementation of this method.&lt;/p&gt;
+     * @param {Component} client The client Component which owns this plugin.
+     * @method
+     */
+    init: Ext.emptyFn,
+
+<span id='Ext-AbstractPlugin-method-destroy'>    /**
+</span>     * &lt;p&gt;The destroy method is invoked by the owning Component at the time the Component is being destroyed.&lt;/p&gt;
+     * &lt;p&gt;The supplied implementation is empty. Subclasses should perform plugin cleanup in their own implementation of this method.&lt;/p&gt;
+     * @method
+     */
+    destroy: Ext.emptyFn,
+
+<span id='Ext-AbstractPlugin-method-enable'>    /**
+</span>     * &lt;p&gt;The base implementation just sets the plugin's &lt;code&gt;disabled&lt;/code&gt; flag to &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;
+     * &lt;p&gt;Plugin subclasses which need more complex processing may implement an overriding implementation.&lt;/p&gt;
+     */
+    enable: function() {
+        this.disabled = false;
+    },
+
+<span id='Ext-AbstractPlugin-method-disable'>    /**
+</span>     * &lt;p&gt;The base implementation just sets the plugin's &lt;code&gt;disabled&lt;/code&gt; flag to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+     * &lt;p&gt;Plugin subclasses which need more complex processing may implement an overriding implementation.&lt;/p&gt;
+     */
+    disable: function() {
+        this.disabled = true;
+    }
+});</pre>
+</body>
+</html>

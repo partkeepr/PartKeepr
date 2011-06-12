@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-form-field-Hidden'>/**
+</span> * @class Ext.form.field.Hidden
+ * @extends Ext.form.field.Base
+ * &lt;p&gt;A basic hidden field for storing hidden values in forms that need to be passed in the form submit.&lt;/p&gt;
+ * &lt;p&gt;This creates an actual input element with type=&quot;submit&quot; in the DOM. While its label is
+ * {@link #hideLabel not rendered} by default, it is still a real component and may be sized according to
+ * its owner container's layout.&lt;/p&gt;
+ * &lt;p&gt;Because of this, in most cases it is more convenient and less problematic to simply
+ * {@link Ext.form.action.Action#params pass hidden parameters} directly when
+ * {@link Ext.form.Basic#submit submitting the form}.&lt;/p&gt;
+ * &lt;p&gt;Example:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;new Ext.form.Panel({
+    title: 'My Form',
+    items: [{
+        xtype: 'textfield',
+        fieldLabel: 'Text Field',
+        name: 'text_field',
+        value: 'value from text field'
+    }, {
+        xtype: 'hiddenfield',
+        name: 'hidden_field_1',
+        value: 'value from hidden field'
+    }],
+
+    buttons: [{
+        text: 'Submit',
+        handler: function() {
+            this.up('form').getForm().submit({
+                params: {
+                    hidden_field_2: 'value from submit call'
+                }
+            });
+        }
+    }]
+});&lt;/code&gt;&lt;/pre&gt;
+ * &lt;p&gt;Submitting the above form will result in three values sent to the server:
+ * &lt;code&gt;text_field=value+from+text+field&amp;hidden_field_1=value+from+hidden+field&amp;&lt;br&gt;hidden_field_2=value+from+submit+call&lt;/code&gt;&lt;/p&gt;
+ *
+ */
+Ext.define('Ext.form.field.Hidden', {
+    extend:'Ext.form.field.Base',
+    alias: ['widget.hiddenfield', 'widget.hidden'],
+    alternateClassName: 'Ext.form.Hidden',
+
+    // private
+    inputType : 'hidden',
+    hideLabel: true,
+    
+    initComponent: function(){
+        this.formItemCls += '-hidden';
+        this.callParent();    
+    },
+
+    // These are all private overrides
+    initEvents: Ext.emptyFn,
+    setSize : Ext.emptyFn,
+    setWidth : Ext.emptyFn,
+    setHeight : Ext.emptyFn,
+    setPosition : Ext.emptyFn,
+    setPagePosition : Ext.emptyFn,
+    markInvalid : Ext.emptyFn,
+    clearInvalid : Ext.emptyFn
+});
+</pre>
+</body>
+</html>

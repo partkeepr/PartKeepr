@@ -47,7 +47,7 @@
 		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
 		<mkdir dir="build/"/>
 		<copy overwrite="false" todir="build/extjs/">
-			<fileset dir="3rdparty/ext-4.0.1/">
+			<fileset dir="3rdparty/ext-4.0.2/">
 				<include name="bootstrap.js"/>
 				<include name="compatibility/ext3-core-compat.js"/>
 				<include name="compatibility/ext3-compat.js"/>
@@ -63,14 +63,14 @@
 			
 		<echo>Copying Ext Statusbar</echo>
 		<copy overwrite="false" todir="build/js/Ext.ux/">
-			<fileset dir="3rdparty/ext-4.0.1/examples/ux">
+			<fileset dir="3rdparty/ext-4.0.2/examples/ux">
 				<include name="statusbar/**"/>
 			</fileset>
 		</copy>
 		
 		<echo>Copying Ext.tab.TabCloseMenu</echo>
 		<copy overwrite="false" todir="build/js/Ext.ux/">
-			<fileset dir="3rdparty/ext-4.0.1/examples/ux">
+			<fileset dir="3rdparty/ext-4.0.2/examples/ux">
 				<include name="TabCloseMenu.js"/>
 			</fileset>
 		</copy>
