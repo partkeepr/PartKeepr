@@ -90,6 +90,7 @@ class Part {
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->parameters = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
 	public function getName () {
