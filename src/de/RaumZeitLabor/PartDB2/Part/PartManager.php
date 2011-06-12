@@ -1,5 +1,10 @@
 <?php
 namespace de\raumzeitlabor\PartDB2\Part;
+use de\RaumZeitLabor\PartDB2\PartParameter\PartParameter;
+
+use de\RaumZeitLabor\PartDB2\Unit\Unit;
+use de\RaumZeitLabor\PartDB2\SiPrefix\SiPrefix;
+
 use de\RaumZeitLabor\PartDB2\Part\PartDistributor;
 use de\RaumZeitLabor\PartDB2\Part\PartManufacturer;
 
@@ -179,6 +184,12 @@ class PartManager extends Singleton {
 			}
 		}
 		
+		if (array_key_exists("parameterChanges", $aParameters)) {
+			if (is_array($aParameters["parameterChanges"])) {
+				$this->processParameterChanges($part, $aParameters["parameterChanges"]);
+			}
+		}
+		
 		if (array_key_exists("partUnit", $aParameters)) {
 			if ($aParameters["partUnit"] === null || $aParameters["partUnit"] === 0) {
 				$part->setPartUnit(null);
@@ -193,6 +204,50 @@ class PartManager extends Singleton {
 		
 	}
 	
+	private function processParameterChanges (Part $part, Array $data) {
+		if (array_key_exists("updates", $data)) {
+			foreach ($data["updates"] as $record) {
+				foreach ($part->getParameters() as $partParameter) {
+					if ($partParameter->getId() == $record["id"]) {
+						$partParameter->setName($record["name"]);
+						$partParameter->setDescription($record["description"]);
+						$partParameter->setValue($record["value"]);
+						$partParameter->setSiPrefix(SiPrefix::loadById($record["siprefix_id"]));
+						$partParameter->setUnit(Unit::loadById($record["unit_id"]));
+						break;
+					}
+				}
+			}
+		}
+		
+		if (array_key_exists("removals", $data)) {
+			foreach ($data["removals"] as $record) {
+				foreach ($part->getParameters() as $partParameter) {
+					if ($partParameter->getId() == $record["id"]) {
+						PartDB2::getEM()->remove($partParameter);
+						$part->getParameters()->removeElement($partParameter);
+						break;
+					}
+				}
+			}
+		}
+		
+		if (array_key_exists("inserts", $data)) {
+			foreach ($data["inserts"] as $record) {
+				$partParameter = new PartParameter();
+				$partParameter->setPart($part);
+				
+				$partParameter->setName($record["name"]);
+				$partParameter->setDescription($record["description"]);
+				$partParameter->setValue($record["value"]);
+				$partParameter->setSiPrefix(SiPrefix::loadById($record["siprefix_id"]));
+				$partParameter->setUnit(Unit::loadById($record["unit_id"]));
+				
+				$part->getParameters()->add($distributor);
+			}
+		}
+	}
+	
 	private function processDistributorChanges (Part $part, Array $data) {
 		if (array_key_exists("updates", $data)) {
 			foreach ($data["updates"] as $record) {
@@ -201,6 +256,7 @@ class PartManager extends Singleton {
 						$partDistributor->setOrderNumber($record["orderNumber"]);
 						$partDistributor->setDistributor(Distributor::loadById($record["distributor_id"]));
 						$partDistributor->setPackagingUnit($record["packagingUnit"]);
+						break;
 					}
 				}
 			}
@@ -236,6 +292,7 @@ class PartManager extends Singleton {
 					if ($partManufacturer->getId() == $record["id"]) {
 						$partManufacturer->setPartNumber($record["partNumber"]);
 						$partManufacturer->setManufacturer(Manufacturer::loadById($record["manufacturer_id"]));
+						break;
 					}
 				}
 			}

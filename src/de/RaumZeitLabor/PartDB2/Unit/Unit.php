@@ -100,4 +100,12 @@ class Unit {
 	public function getId () {
 		return $this->id;
 	}
+	
+	/**
+	 * Loads a unit by ID
+	 * @param int $id The ID to load
+	 */
+	public static function loadById ($id) {
+    	return PartDB2::getEM()->find(get_called_class(), $id);
+    }
 }

@@ -28,6 +28,9 @@ hecto:
 deca:
   symbol: da
   power: 1
+"-":
+  symbol: ""
+  power: 0
 deci:
   symbol: d
   power: -1

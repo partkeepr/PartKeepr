@@ -286,13 +286,16 @@ while ($part = mysql_fetch_assoc($r)) {
 	
 	
 	for ($i=0;$i<rand(1,15);$i++) {
-		$val = rand(0,999) * (pow(10,(rand(-20,20))));
+		$val = rand(0,999);
+		$prefix = $aSiPrefixes[array_rand($aSiPrefixes)];
+		
 		$oPartParameter = new PartParameter();
 		$oPartParameter->setName($aRandomUnitNames[array_rand($aRandomUnitNames)]);
 		$oPartParameter->setDescription("Testbeschreibung");
 		$oPartParameter->setPart($oPart);
 		$oPartParameter->setUnit($aUnits[array_rand($aUnits)]);
 		$oPartParameter->setValue($val);
+		$oPartParameter->setSiPrefix($prefix);
 		PartDB2::getEM()->persist($oPartParameter);	
 	}
 

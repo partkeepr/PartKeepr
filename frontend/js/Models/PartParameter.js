@@ -6,7 +6,9 @@ PartDB2.PartParameter = Ext.define("PartParameter", {
 	         {	name: 'name',			type: 'string' },
 	         {	name: 'description',			type: 'string' },
 	         {	name: 'unit_id',			type: 'int' },
-	         {  name: 'value', type: 'float' }
+	         {	name: 'siprefix_id',		type: 'int' },
+	         {  name: 'value', type: 'float' },
+	         {  name: 'prefixedValue' }
 	         ],
 	proxy: PartDB2.getRESTProxy("PartParameter")
 });

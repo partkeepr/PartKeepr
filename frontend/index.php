@@ -40,6 +40,8 @@
 		<script type="text/javascript" src="js/Components/Widgets/PartUnitComboBox.js"></script>
 		<script type="text/javascript" src="js/Components/Widgets/UnitComboBox.js"></script>
 		<script type="text/javascript" src="js/Components/Widgets/PartParameterComboBox.js"></script>
+		<script type="text/javascript" src="js/Components/Widgets/SiUnitField.js"></script>
+		<script type="text/javascript" src="js/Components/Widgets/SiUnitList.js"></script>
 		
 		<script type="text/javascript" src="js/Util/ServiceCall.js"></script>
 		

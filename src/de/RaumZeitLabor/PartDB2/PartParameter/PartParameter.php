@@ -13,7 +13,7 @@ use de\RaumZeitLabor\PartDB2\PartDB2,
  * This object represents a parameter. Each parameter can have an unit (defined by the class "Unit") associated with
  * a numeric value. 
  *  
- * @Entity
+ * @Entity @HasLifecycleCallbacks
  **/
 class PartParameter {
 	/**
@@ -53,11 +53,28 @@ class PartParameter {
 	private $unit;
 	
 	/**
-	 * The value of the unit.
+	 * The value of the unit. Together with the prefix, it becomes the actual value.
+	 * 
+	 * Example: If you have 10µ, the value field will contain "10", the prefix object is linked to the SiPrefix
+	 * representing "µ" and the rawValue field will contain 0.000001
 	 * @Column(type="float")
 	 * @var float
 	 */
 	private $value;
+	
+	/**
+	 * The SiPrefix of the unit
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartDB2\SiPrefix\SiPrefix")
+	 * @var object
+	 */
+	private $siPrefix;
+	
+	/**
+	 * The raw value of the unit.
+	 * @Column(type="float")
+	 * @var float
+	 */
+	private $rawValue;
 	
 	/**
 	 * Sets the name for this parameter
@@ -128,7 +145,9 @@ class PartParameter {
 	 * @param float $value The value to set
 	 */
 	public function setValue ($value) {
-		$this->value = $value;	
+		$this->value = $value;
+
+		$this->recalculateRawValue();
 	}
 	
 	/**
@@ -140,6 +159,24 @@ class PartParameter {
 	}
 	
 	/**
+	 * Sets the si prefix for this parameter
+	 * @param SiPrefix $prefix The prefix to set, or null
+	 */
+	public function setSiPrefix (SiPrefix $prefix = null) {
+		$this->siPrefix = $prefix;
+		
+		$this->recalculateRawValue();
+	}
+
+	/**
+	 * Returns the si prefix for this parameter
+	 * @return SiPrefix the si prefix or null
+	 */
+	public function getSiPrefix () {
+		return $this->siPrefix;
+	}
+	
+	/**
 	 * Returns the ID for this object.
 	 * @param none
 	 * @return int The ID for this object
@@ -147,6 +184,16 @@ class PartParameter {
 	public function getId () {
 		return $this->id;
 	}	
+	
+	private function recalculateRawValue () {
+		if (is_object($this->getSiPrefix())) {
+			$power = $this->getSiPrefix()->getPower();
+		} else {
+			$power = 0;
+		}
+		
+		$this->rawValue = $this->getValue() * pow(10, $power);
+	}
 	
 	/**
 	 * Returns the data of this object in a serialized form.
@@ -159,8 +206,15 @@ class PartParameter {
 			"description" => $this->getDescription(),
 			"value" => $this->getValue(),
 			"part_id" => $this->getPart()->getId(),
+			"siprefix_id" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getId() : null,
+			"prefixedValue" => array(
+				/* We duplicate most data because of strange ExtJS stuff... */
+				"value" => $this->getValue(),
+				"power" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getPower() : 0,
+				"symbol" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getSymbol() : "",
+				"siprefix_id" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getId() : null
+			),
 			"unit_id" => is_object($this->getUnit()) ? $this->getUnit()->getId() : null
-		
 		);
 	}
 }

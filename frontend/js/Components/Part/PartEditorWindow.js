@@ -1,8 +1,8 @@
 Ext.define('PartDB2.PartEditorWindow', {
 	extend: 'Ext.window.Window',
 	constrainHeader: true,
-	width: 500,
-	minWidth: 500,
+	width: 600,
+	minWidth: 600,
 	minHeight: 300,
 	height: 350,
 	layout: 'fit',

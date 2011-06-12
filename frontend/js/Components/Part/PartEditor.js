@@ -113,6 +113,11 @@ Ext.define('PartDB2.PartEditor', {
 				"removals": PartDB2.serializeRecords(this.partManufacturerGrid.getStore().getRemovedRecords())
 			};
 	
+		values.parameterChanges = {
+				"inserts": PartDB2.serializeRecords(this.partParameterGrid.getStore().getNewRecords()),
+				"updates": PartDB2.serializeRecords(this.partParameterGrid.getStore().getUpdatedRecords()),
+				"removals": PartDB2.serializeRecords(this.partParameterGrid.getStore().getRemovedRecords())
+		};
 		call.setParameters(values);
 		call.setHandler(Ext.bind(this.onPartSave, this));
 		call.doCall();

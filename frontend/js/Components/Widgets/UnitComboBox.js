@@ -7,7 +7,7 @@ Ext.define("PartDB2.UnitComboBox",{
     queryMode: 'local',
     triggerAction: 'all',
     forceSelection: true,
-    editable: false,  
+    editable: true,  
     initComponent: function () {
 		this.store = PartDB2.getApplication().getUnitStore();
 		

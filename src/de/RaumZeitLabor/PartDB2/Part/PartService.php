@@ -134,6 +134,10 @@ class PartService extends Service implements RestfulService {
 			$aParameters["manufacturerChanges"] = $this->getParameter("manufacturerChanges");
 		}
 		
+		if ($this->hasParameter("parameterChanges")) {
+			$aParameters["parameterChanges"] = $this->getParameter("parameterChanges");
+		}
+		
 		if ($this->hasParameter("partUnit_id")) {
 			$aParameters["partUnit"] = $this->getParameter("partUnit_id");
 		}

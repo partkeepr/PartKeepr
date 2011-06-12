@@ -10,12 +10,16 @@ Ext.define('PartDB2.PartParameterGrid', {
 				reader: {
 					type: 'json'
 				}
-			}
-			
+			}			
 		});
 		
-		this.editing = Ext.create('Ext.grid.plugin.RowEditing', {
-            clicksToEdit: 1
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1,
+            listeners: {
+            	scope: this,
+            	beforeedit: this.onBeforeEdit,
+            	edit: this.onAfterEdit
+            }
         });
 		
 		this.plugins =  [ this.editing ];
@@ -46,7 +50,10 @@ Ext.define('PartDB2.PartParameterGrid', {
 		                	flex: 0.2,
 		                	editor: {
 		                        xtype:'PartParameterComboBox',
-		                        allowBlank:true
+		                        allowBlank:false,
+		                        lazyRender: true,
+		                        listClass: 'x-combo-list-small',
+		                        selectOnTab: true
 		                    }
 		                },
 		                { 	
@@ -57,6 +64,27 @@ Ext.define('PartDB2.PartParameterGrid', {
 		                        xtype:'textfield',
 		                        allowBlank:true
 		                    }
+		                },
+		                {
+		                	header: i18n("Value"),
+		                	flex: 0.2,
+		                	dataIndex: "prefixedValue",
+		                	renderer: function (val,p,rec) {
+		                		if (!Ext.isObject(val)) { return ""; }
+		                		
+		                		var foundRec = PartDB2.getApplication().getUnitStore().findRecord("id", rec.get("unit_id"));
+		                		
+		                		if (foundRec) {
+		                			return val.value + " "+val.symbol + foundRec.get("symbol");
+		                		} else {
+		                			return val.value + " "+val.symbol;
+		                		}
+		                		
+		                	},
+		                	editor: {
+		                		xtype: 'SiUnitField',
+		                		decimalPrecision: 20
+		                	}
 		                },
 		                {
 		                	header: i18n("Unit"),
@@ -75,65 +103,23 @@ Ext.define('PartDB2.PartParameterGrid', {
 		                        xtype:'UnitComboBox',
 		                        allowBlank:true
 		                    }
-		                },
-		                {
-		                	header: i18n("Value"),
-		                	flex: 0.2,
-		                	dataIndex: "value",
-		                	renderer: function (val,p,rec) {
-		                		/* Convert the value into a "nice" si-prefixed unit */
-		                		
-		                		var foundRec = PartDB2.getApplication().getUnitStore().findRecord("id", rec.get("unit_id"));
-		                		var allowedSiPrefixes = foundRec.prefixes().getRange();
-		                		
-		                		console.log(allowedSiPrefixes.length);
-		                		finalValue = null;
-		                		
-		                		for (var i=0;i<allowedSiPrefixes.length;i++) {
-		                			var test = val / Math.pow(10, allowedSiPrefixes[i].get("power"));
-		                			
-		                			if (test >= 1 && test < 1000) {
-		                				finalValue = test.toPrecision(6) + " "+allowedSiPrefixes[i].get("symbol")+foundRec.get("symbol");
-		                			}
-		                		}
-		                		
-		                		if (finalValue === null) {
-		                			finalValue = val.toPrecision(6) + foundRec.get("symbol"); 
-		                		}
-		                		
-		                		return finalValue;
-		                	},
-		                	editor: {
-		                		xtype: 'numberfield',
-		                		decimalPrecision: 20
-		                	}
 		                }
 		                ];
 		
 		this.callParent();
 		
 		this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
-		this.on("edit", this.onEdit, this);
-	},
-	onEdit: function (data) {
-		/*var id = data.record.get("unit_id");
-		
-		var rec = PartDB2.getApplication().getManufacturerStore().findRecord("id", id);
-		
-		if (rec) {
-			data.record.set("manufacturer_name", rec.get("name"));
-		}*/
 	},
 	onAddClick: function () {
 		this.editing.cancelEdit();
 		
-		/*var rec = new PartDB2.PartManufacturer({
-			packagingUnit: 1
+		var rec = new PartDB2.PartParameter({
+			
 		});
 		
 		this.store.insert(0, rec);
 		
-		this.editing.startEdit(0,0);*/
+		this.editing.startEditByPosition({ row: 0, column: 0});
 	},
 	onDeleteClick: function () {
 		var selection = this.getView().getSelectionModel().getSelection()[0];
@@ -143,5 +129,21 @@ Ext.define('PartDB2.PartParameterGrid', {
 	},
 	onSelectChange: function(selModel, selections){
         this.deleteButton.setDisabled(selections.length === 0);
+    },
+    onBeforeEdit: function (editor, e, o) {
+    	var header = this.headerCt.getHeaderAtIndex(editor.colIdx);
+    	var edit = this.editing.getEditor(editor.record, header);
+    	
+    	if (editor.field == "prefixedValue") {
+    		var unit = PartDB2.getApplication().getUnitStore().getById(editor.record.get("unit_id"));
+    		if (unit) {
+    			edit.field.setStore(unit.prefixes());
+    		}
+    	}
+    },
+    onAfterEdit: function (editor, e) {
+    	console.log(e);
+    	var f = e.record.get("prefixedValue");
+    	e.record.set("siprefix_id", f.siprefix_id);
     }
 });

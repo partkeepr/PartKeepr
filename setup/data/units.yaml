@@ -7,19 +7,26 @@ Meter:
     - c
     - d
     - k
-Gramm:
+    - ""
+Gram:
   symbol: g
   prefixes:
     - k
     - m
-Sekunde:
+    - ""
+Second:
   symbol: s
   prefixes:
     - m
+    - ""
 Kelvin:
   symbol: K
+  prefixes:
+    - ""
 Mol:
   symbol: mol
+  prefixes:
+    - ""
 Candela:
   symbol: cd
   prefixes:
@@ -29,6 +36,7 @@ Ampere:
   prefixes:
     - k
     - m
+    - ""
     - µ
     - n
     - p
@@ -38,33 +46,39 @@ Ohm:
     - k
     - m
     - M
+    - ""
     - G
     - T
 Volt:
   symbol: V
   prefixes:
     - m
+    - ""
     - k
 Hertz:
   symbol: Hz
   prefixes:
     - k
     - M
+    - ""
     - G
     - T
 Newton:
   symbol: N
   prefixes:
     - k
+    - ""
 Pascal:
   symbol: Pa
   prefixes:
     - m
+    - ""
     - k
 Joule:
   symbol: J
   prefixes:
     - m
+    - ""
     - k
     - M
 Watt:
@@ -72,6 +86,7 @@ Watt:
   prefixes:
     - k
     - M
+    - ""
     - G
     - m
     - µ
@@ -79,45 +94,67 @@ Coulomb:
   symbol: C
   prefixes:
     - k
+    - ""
 Farad:
   symbol: F
   prefixes:
     - m
     - p
+    - ""
     - n
     - μ
 Siemens:
   symbol: S
   prefixes:
     - m
+    - ""
 Weber:
   symbol: Wb
+  prefixes:
+    - ""
 Tesla:
   symbol: T
+  prefixes:
+    - ""
 Henry:
   symbol: H
   prefixes:
     - m
     - µ
+    - ""
 Celsius:
   symbol: °C
+  prefixes:
+    - ""
 Lumen:
   symbol: lm
+  prefixes:
+    - ""
 Lux:
   symbol: lx
+  prefixes:
+    - ""
 Becquerel:
   symbol: Bq
+  prefixes:
+    - ""
 Gray:
   symbol: Gy
+  prefixes:
+    - ""
 Sievert:
   symbol: Sv
   prefixes:
     - m
+    - ""
     - µ
 Katal:
   symbol: kat
-Amperestunde:
+  prefixes:
+    - ""
+Ampere Hour:
   symbol: Ah
   prefixes:
     - m
+    - ""
     - k

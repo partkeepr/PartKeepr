@@ -93,6 +93,23 @@ Ext.application({
     	return this.siPrefixStore;
     },
     /**
+     * Converts the Character "micro" (µ, available on german keyboards via AltGr+m) to the Character "Mu" (μ).
+     * 
+     *  The standard for Si-Prefixes defines that the "Mu"-character should be used instead of the "micro" character.
+     *  
+     *  Wikipedia Entry for the "Micro" Si Prefix: http://en.wikipedia.org/wiki/Micro-
+     *  
+     */
+    convertMicroToMu: function (value) {
+    	/**
+    	 * Since the Si-Prefix for "micro" is μ, but keyboard have "µ" on it
+    	 * (note: both chars might look identical, depending on your font), we need
+    	 * to convert "µ" (on the keyboard, Unicode U+00B5) to the Mu (U+03BC).
+    	 */
+    	
+    	return str_replace("µ", "μ", value);
+    },
+    /**
      * Reload all global stores each 100 seconds.
      * 
      * @todo In the future, it would be nice to trigger a specific

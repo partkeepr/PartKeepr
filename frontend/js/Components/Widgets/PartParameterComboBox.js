@@ -4,7 +4,8 @@ Ext.define("PartDB2.PartParameterComboBox",{
     displayField: 'name',
     valueField: 'name',
     autoSelect: false,
-    queryMode: 'remote',
+    allowBlank: false,
+    queryMode: 'local',
     triggerAction: 'all',
     forceSelection: false,
     editable: true,
@@ -22,6 +23,8 @@ Ext.define("PartDB2.PartParameterComboBox",{
     			}
     		}
     	});
+    	
+    	this.store.load();
 		
 		/* Workaround to remember the value when loading */
 		this.store.on("beforeload", function () {
@@ -34,6 +37,12 @@ Ext.define("PartDB2.PartParameterComboBox",{
 		}, this);
 		
 		this.callParent();
+    },
+    getValue: function () {
+    	var j = this.callParent();
+    	
+    	console.log(j);
+    	return j;
     }
 });
 
