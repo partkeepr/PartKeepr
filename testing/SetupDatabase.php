@@ -220,14 +220,6 @@ foreach ($data as $mfgname => $logos) {
 	
 	PartDB2::getEM()->persist($manufacturer);
 	$aManufacturers[] = $manufacturer;
-	/* Temporary: Add fake distributors */
-	
-	$distributor = new Distributor();
-	$distributor->setName("Distributor ".$mfgname);
-	
-	PartDB2::getEM()->persist($distributor);
-	
-	$aDistributors[] = $distributor;
 	
 	foreach ($logos as $logo) {
 		$mfglogo = new ManufacturerICLogo();
@@ -239,6 +231,15 @@ foreach ($data as $mfgname => $logos) {
 }
 
 PartDB2::getEM()->flush();
+
+$r = mysql_query("SELECT * FROM suppliers");
+while ($supplier = mysql_fetch_assoc($r)) {
+	$distributor = new Distributor();
+	$distributor->setName($supplier["name"]);
+	
+	PartDB2::getEM()->persist($distributor);
+	$aDistributors[$supplier["id"]] = $distributor;
+}
 
 $r = mysql_query("SELECT * FROM parts");
 
@@ -260,10 +261,8 @@ while ($part = mysql_fetch_assoc($r)) {
 		$oPart->getManufacturers()->add(new PartManufacturer($oPart, $aManufacturers[$randomManufacturer]));
 	}
 	
-	for ($i=0;$i<rand(0,15);$i++) {
-		$randomDistributor = rand(0, count($aDistributors)-1);
-		$oPart->getDistributors()->add(new PartDistributor($oPart, $aDistributors[$randomDistributor]));
-	}
+	$oPart->getDistributors()->add(new PartDistributor($oPart, $aDistributors[$part["id_supplier"]]));
+	
 	//echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
 	PartDB2::getEM()->persist($oPart);
 	
