@@ -41,6 +41,116 @@ Ext.override(Ext.data.Connection, {
 
 });
 
+Ext.form.field.ComboBox.override({
+	beforeBlur: function() {
+	    var me = this;
+	    me.doQueryTask.cancel();
+	    
+	    me.assertValue();
+	},
+
+	// private
+	assertValue: function() {
+	    var me = this,
+	        value = me.getRawValue(),
+	        rec;
+
+	    if (me.forceSelection) {
+		    if (me.multiSelect) {
+		        // For multiselect, check that the current displayed value matches the current
+		        // selection, if it does not then revert to the most recent selection.
+		        if (value !== me.getDisplayValue()) {
+		            me.setValue(me.lastSelection);
+		        }
+		    } else {
+		        // For single-select, match the displayed value to a record and select it,
+		        // if it does not match a record then revert to the most recent selection.
+		        rec = me.findRecordByDisplay(value);
+		        if (rec) {
+		            me.select(rec);
+		        } else {
+		            me.setValue(me.lastSelection);
+		        }
+		    }
+	    }
+	    me.collapse();
+	},
+	
+	
+	setValue: function(value, doSelect) {
+        var me = this,
+            valueNotFoundText = me.valueNotFoundText,
+            inputEl = me.inputEl,
+            i, len, record,
+            models = [],
+            displayTplData = [],
+            processedValue = [];
+
+        if (me.store.loading) {
+            // Called while the Store is loading. Ensure it is processed by the onLoad method.
+            me.value = value;
+            return me;
+        }
+
+        // This method processes multi-values, so ensure value is an array.
+        value = Ext.Array.from(value);
+
+        // Loop through values
+        for (i = 0, len = value.length; i < len; i++) {
+            record = value[i];
+            if (!record || !record.isModel) {
+                var tmpRecord = me.findRecordByValue(record);
+                
+                record = tmpRecord;
+                
+            }
+            // record found, select it.
+            if (record) {
+                models.push(record);
+                displayTplData.push(record.data);
+                processedValue.push(record.get(me.valueField));
+            }
+            // record was not found, this could happen because
+            // store is not loaded or they set a value not in the store
+            else {
+            	if (!me.forceSelection) {
+            		displayTplData.push(value[i]);
+            	} else {
+                    // if valueNotFoundText is defined, display it, otherwise display nothing for this value
+                    if (Ext.isDefined(valueNotFoundText)) {
+                        displayTplData.push(valueNotFoundText);
+                    }
+            	}
+                processedValue.push(value[i]);
+            }
+        }
+
+        // Set the value of this field. If we are multiselecting, then that is an array.
+        me.value = me.multiSelect ? processedValue : processedValue[0];
+        if (!Ext.isDefined(me.value)) {
+            me.value = null;
+        }
+        me.displayTplData = displayTplData; //store for getDisplayValue method
+        me.lastSelection = me.valueModels = models;
+
+        if (inputEl && me.emptyText && !Ext.isEmpty(value)) {
+            inputEl.removeCls(me.emptyCls);
+        }
+
+        // Calculate raw value from the collection of Model data
+        me.setRawValue(me.getDisplayValue());
+        me.checkChange();
+
+        if (doSelect !== false) {
+            me.syncSelection();
+        }
+        me.applyEmptyText();
+
+        return me;
+    }
+
+});
+
 /**
  * Bugfix for selection on views which aren't bound
  */

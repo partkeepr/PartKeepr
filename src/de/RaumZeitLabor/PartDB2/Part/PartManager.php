@@ -243,7 +243,7 @@ class PartManager extends Singleton {
 				$partParameter->setSiPrefix(SiPrefix::loadById($record["siprefix_id"]));
 				$partParameter->setUnit(Unit::loadById($record["unit_id"]));
 				
-				$part->getParameters()->add($distributor);
+				$part->getParameters()->add($partParameter);
 			}
 		}
 	}

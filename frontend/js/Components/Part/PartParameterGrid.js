@@ -142,8 +142,8 @@ Ext.define('PartDB2.PartParameterGrid', {
     	}
     },
     onAfterEdit: function (editor, e) {
-    	console.log(e);
     	var f = e.record.get("prefixedValue");
     	e.record.set("siprefix_id", f.siprefix_id);
+    	e.record.set("value", f.value);
     }
 });

@@ -153,8 +153,7 @@ Ext.define("PartDB2.SiUnitField",{
     		        '<div class="thumb-wrap">',
     		          '{symbol} {prefix}',
     		        '</div>',
-    		    '</tpl>'
-    		);
+    		    '</tpl>');
     	
     	var tmp = Ext.create('PartDB2.SiUnitList', {
     	    store: this.getStore(),

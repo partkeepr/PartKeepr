@@ -48,8 +48,6 @@ Ext.define('PartDB2.UnitEditor', {
 		var pfxStore = PartDB2.getApplication().getSiPrefixStore();
 		
 		for (var i=0;i<records.length;i++) {
-			console.log(PartDB2.getApplication().getSiPrefixStore().find("id", records[i].get("id")));
-
 			toSelect.push(pfxStore.getAt(pfxStore.find("id", records[i].get("id"))));
 		}
 		

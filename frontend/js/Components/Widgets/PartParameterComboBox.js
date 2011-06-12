@@ -37,12 +37,6 @@ Ext.define("PartDB2.PartParameterComboBox",{
 		}, this);
 		
 		this.callParent();
-    },
-    getValue: function () {
-    	var j = this.callParent();
-    	
-    	console.log(j);
-    	return j;
     }
 });
 
