@@ -56,15 +56,6 @@ Ext.define('PartDB2.PartParameterGrid', {
 		                        selectOnTab: true
 		                    }
 		                },
-		                { 	
-		                	header: i18n("Description"),
-		                	dataIndex: 'description',
-		                	flex: 0.3,
-		                	editor: {
-		                        xtype:'textfield',
-		                        allowBlank:true
-		                    }
-		                },
 		                {
 		                	header: i18n("Value"),
 		                	flex: 0.2,
@@ -101,6 +92,15 @@ Ext.define('PartDB2.PartParameterGrid', {
 		                	},
 		                	editor: {
 		                        xtype:'UnitComboBox',
+		                        allowBlank:true
+		                    }
+		                },
+		                { 	
+		                	header: i18n("Description"),
+		                	dataIndex: 'description',
+		                	flex: 0.3,
+		                	editor: {
+		                        xtype:'textfield',
 		                        allowBlank:true
 		                    }
 		                }
