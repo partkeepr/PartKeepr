@@ -82,7 +82,7 @@ class Part {
 	private $stockLevels;
 	
 	/**
-	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\PartParameter\PartParameter",mappedBy="part")
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartDB2\PartParameter\PartParameter",mappedBy="part",cascade={"persist", "remove"})
 	 * @var ArrayCollection
 	 */
 	private $parameters;
