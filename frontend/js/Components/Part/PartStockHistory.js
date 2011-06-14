@@ -1,4 +1,4 @@
-Ext.define('PartDB2.PartStockHistory', {
+Ext.define('PartKeepr.PartStockHistory', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.PartStockHistory',
 	
@@ -33,7 +33,7 @@ Ext.define('PartDB2.PartStockHistory', {
 	        	  }
 	          }
 	          ],
-    model: 'PartDB2.StockEntry',
+    model: 'PartKeepr.StockEntry',
     initComponent: function () {
     	var config = {
 			autoLoad: false,

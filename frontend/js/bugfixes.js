@@ -27,8 +27,8 @@ Ext.override(Ext.data.Connection, {
 			options.headers = {};
 		}
 		
-		if (PartDB2.getApplication() !== null) {
-			session = PartDB2.getApplication().getSession();
+		if (PartKeepr.getApplication() !== null) {
+			session = PartKeepr.getApplication().getSession();
 			if (session !== null) {
 				options.headers.session = session;
 			}

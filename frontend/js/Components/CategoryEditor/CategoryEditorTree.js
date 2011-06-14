@@ -1,6 +1,6 @@
-PartDB2.CategoryEditorTree = Ext.define("CategoryEditorTree", {
+PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 	alias: 'widget.CategoryEditorTree',
-	extend: 'PartDB2.CategoryTree',
+	extend: 'PartKeepr.CategoryTree',
 	viewConfig: {
     	animate: false,
         plugins: {
@@ -31,7 +31,7 @@ PartDB2.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 		
 		this.getStore().sort("name", "ASC");
 		
-		var call = new PartDB2.ServiceCall("Category", "moveCategory");
+		var call = new PartKeepr.ServiceCall("Category", "moveCategory");
 		call.setLoadMessage(sprintf(i18n("Moving category %s..."), draggedRecord.get("name")));
 		call.setParameter("category", draggedRecord.get("id"));
 		call.setParameter("target", targetRecord.get("id"));
@@ -87,7 +87,7 @@ PartDB2.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 		Ext.Msg.confirm(i18n("Confirm Category Delete"), sprintf(i18n("Do you really wish to delete the category %s?"), this.menu.record.get("name")), this.onCategoryDelete, this);
 	},
 	showCategoryAddDialog: function () {
-		var j = Ext.create("PartDB2.CategoryEditorWindow", {
+		var j = Ext.create("PartKeepr.CategoryEditorWindow", {
 			record: null,
 			parent: this.menu.record.get("id"),
 			listeners: {
@@ -98,7 +98,7 @@ PartDB2.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 		j.show();
 	},
 	showCategoryEditDialog: function () {
-		var j = Ext.create("PartDB2.CategoryEditorWindow", {
+		var j = Ext.create("PartKeepr.CategoryEditorWindow", {
 			record: this.menu.record,
 			parent: null,
 			listeners: {
@@ -131,7 +131,7 @@ PartDB2.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 	},
 	onCategoryDelete: function (btn) {
 		if (btn == "yes") {
-			var call = new PartDB2.ServiceCall("Category", "deleteCategory");
+			var call = new PartKeepr.ServiceCall("Category", "deleteCategory");
 			call.setLoadMessage(sprintf(i18n("Deleting category %s..."), this.menu.record.get("name")));
 			call.setParameter("id", this.menu.record.get("id"));
 			call.setHandler(Ext.bind(this.onCategoryDeleted, this));

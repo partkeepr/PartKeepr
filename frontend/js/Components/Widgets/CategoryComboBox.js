@@ -1,4 +1,4 @@
-Ext.define("PartDB2.CategoryComboBox",{
+Ext.define("PartKeepr.CategoryComboBox",{
     extend:"Ext.form.field.Picker",
     alias: 'widget.CategoryComboBox',
     requires:["Ext.tree.Panel"],
@@ -20,7 +20,7 @@ Ext.define("PartDB2.CategoryComboBox",{
     createPicker: function(){
         var self = this;
 
-        self.picker = new PartDB2.CategoryTree({
+        self.picker = new PartKeepr.CategoryTree({
             height:290,
             floating: true,
             focusOnToFront: false,

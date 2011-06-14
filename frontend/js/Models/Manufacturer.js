@@ -1,4 +1,4 @@
-PartDB2.Manufacturer = Ext.define("Manufacturer", {
+PartKeepr.Manufacturer = Ext.define("Manufacturer", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -9,7 +9,7 @@ PartDB2.Manufacturer = Ext.define("Manufacturer", {
 	         {	name: 'email',	type: 'string'}
 	         ],
 	hasMany: {model: 'ManufacturerICLogo', name: 'iclogos'},
-	proxy: PartDB2.getRESTProxy("Manufacturer"),
+	proxy: PartKeepr.getRESTProxy("Manufacturer"),
 	getName: function () {
 		return this.get("name");
 	}

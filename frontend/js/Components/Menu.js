@@ -1,4 +1,4 @@
-Ext.define('PartDB2.Menu', {
+Ext.define('PartKeepr.Menu', {
 	extend: 'Ext.toolbar.Toolbar',
 	items: [{
 		

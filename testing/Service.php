@@ -1,17 +1,17 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Tests;
+namespace de\RaumZeitLabor\PartKeepr\Tests;
 declare(encoding = 'UTF-8');
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartDB2\Auth\User;
-use de\RaumZeitLabor\PartDB2\PartDB2;
-use de\RaumZeitLabor\PartDB2\Util\SerializableException;
-use de\RaumZeitLabor\PartDB2\Auth\UserManager;
-use de\RaumZeitLabor\PartDB2\Session\SessionManager;
-use de\RaumZeitLabor\PartDB2\Service\ServiceManager;
+use de\RaumZeitLabor\PartKeepr\Auth\User;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Util\SerializableException;
+use de\RaumZeitLabor\PartKeepr\Auth\UserManager;
+use de\RaumZeitLabor\PartKeepr\Session\SessionManager;
+use de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
 
-PartDB2::initialize();
+PartKeepr::initialize();
 
 /*class User {
 	public $username;
@@ -40,7 +40,7 @@ $server->handle();*/
 
 
 $callStruct = array(
-	"service" 	=> "de.RaumZeitLabor.PartDB2.Auth.AuthManagerService",
+	"service" 	=> "de.RaumZeitLabor.PartKeepr.Auth.AuthManagerService",
 	"call"		=> "login",
 	"parameters"	=> array(
 		"username" => "2test",
@@ -54,5 +54,5 @@ ServiceManager::call($callStruct);
 
 
 
-PartDB2::getEM()->flush();
+PartKeepr::getEM()->flush();
 ?>

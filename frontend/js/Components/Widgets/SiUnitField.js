@@ -11,7 +11,7 @@
  * }
  * 
  */
-Ext.define("PartDB2.SiUnitField",{
+Ext.define("PartKeepr.SiUnitField",{
     extend:"Ext.form.field.Picker",
     alias: 'widget.SiUnitField',
     
@@ -98,7 +98,7 @@ Ext.define("PartDB2.SiUnitField",{
         if (me.disableKeyFilter !== true) {
             allowed = me.baseChars + '';
             
-            var store = PartDB2.getApplication().getSiPrefixStore();
+            var store = PartKeepr.getApplication().getSiPrefixStore();
         	
         	for (var i=0;i<store.count();i++) {
         		allowed += store.getAt(i).get("symbol");
@@ -138,7 +138,7 @@ Ext.define("PartDB2.SiUnitField",{
     		return this.store;
     	}
     	
-    	return PartDB2.getApplication().getSiPrefixStore();
+    	return PartKeepr.getApplication().getSiPrefixStore();
     },
     setStore: function (store) {
     	if (this.picker) {
@@ -155,7 +155,7 @@ Ext.define("PartDB2.SiUnitField",{
     		        '</div>',
     		    '</tpl>');
     	
-    	var tmp = Ext.create('PartDB2.SiUnitList', {
+    	var tmp = Ext.create('PartKeepr.SiUnitList', {
     	    store: this.getStore(),
     	    singleSelect: true,
     	    ownerCt: this.ownerCt,
@@ -339,7 +339,7 @@ Ext.define("PartDB2.SiUnitField",{
         }
     },
     findSiPrefix: function (value) {
-    	var store = PartDB2.getApplication().getSiPrefixStore();
+    	var store = PartKeepr.getApplication().getSiPrefixStore();
     	var symbol;
     	
     	for (var i=0;i<store.count();i++) {
@@ -364,7 +364,7 @@ Ext.define("PartDB2.SiUnitField",{
     },
     setValue: function (v) {
     	if (Ext.isObject(v)) {
-    		this.siPrefix = PartDB2.getApplication().getSiPrefixStore().getById(v.siprefix_id);
+    		this.siPrefix = PartKeepr.getApplication().getSiPrefixStore().getById(v.siprefix_id);
     	
     		return this.callParent([v.value]);
     	} else {
@@ -374,7 +374,7 @@ Ext.define("PartDB2.SiUnitField",{
     processRawValue: function (value) {
     	var prefix;
     	
-    	value = PartDB2.getApplication().convertMicroToMu(value);
+    	value = PartKeepr.getApplication().convertMicroToMu(value);
     	
         var siPrefix = this.findSiPrefix(value);
 

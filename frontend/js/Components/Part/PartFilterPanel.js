@@ -1,4 +1,4 @@
-Ext.define('PartDB2.PartFilterPanel', {
+Ext.define('PartKeepr.PartFilterPanel', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.PartFilterPanel',
 	bodyPadding: '10px',
@@ -88,7 +88,7 @@ Ext.define('PartDB2.PartFilterPanel', {
 	createFilterFields: function () {
 		
 		// Create the storage location filter field
-		this.storageLocationFilter = Ext.create("PartDB2.StorageLocationComboBox", {
+		this.storageLocationFilter = Ext.create("PartKeepr.StorageLocationComboBox", {
 			fieldLabel: i18n("Storage Location"),
 			forceSelection: true
 		});

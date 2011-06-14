@@ -1,10 +1,10 @@
-Ext.define('PartDB2.CategoryEditorWindow', {
+Ext.define('PartKeepr.CategoryEditorWindow', {
 	extend: 'Ext.window.Window',
 	border: false,
 	width: 400,
 	initComponent: function () {
 		
-		this.form = Ext.create("PartDB2.CategoryEditorForm");
+		this.form = Ext.create("PartKeepr.CategoryEditorForm");
 		
 		this.buttons = [{
 			text: i18n("Save"),
@@ -20,7 +20,7 @@ Ext.define('PartDB2.CategoryEditorWindow', {
 		
 		this.callParent();
 		
-		this.proxyRecord = Ext.create("PartDB2.Category");
+		this.proxyRecord = Ext.create("PartKeepr.Category");
 		
 		if (this.record) {
 			this.proxyRecord.set("name", this.record.get("name"));

@@ -1,13 +1,13 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Cronjobs;
+namespace de\RaumZeitLabor\PartKeepr\Cronjobs;
 
 declare(encoding = 'UTF-8');
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartDB2\PartDB2;
-use de\RaumZeitLabor\PartDB2\Statistic\StatisticSnapshotManager;
-PartDB2::initialize();
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotManager;
+PartKeepr::initialize();
 
 
 

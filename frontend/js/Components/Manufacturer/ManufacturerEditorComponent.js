@@ -1,8 +1,8 @@
-Ext.define('PartDB2.ManufacturerEditorComponent', {
-	extend: 'PartDB2.EditorComponent',
+Ext.define('PartKeepr.ManufacturerEditorComponent', {
+	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.ManufacturerEditorComponent',
-	gridClass: 'PartDB2.ManufacturerGrid',
-	editorClass: 'PartDB2.ManufacturerEditor',
+	gridClass: 'PartKeepr.ManufacturerGrid',
+	editorClass: 'PartKeepr.ManufacturerEditor',
 	newItemText: i18n("New Manufacturer"),
 	initComponent: function () {
 		this.createStore({

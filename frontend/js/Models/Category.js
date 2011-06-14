@@ -1,4 +1,4 @@
-PartDB2.Category = Ext.define("Category", {
+PartKeepr.Category = Ext.define("Category", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	name: 'id',	type: 'int' },
@@ -6,7 +6,7 @@ PartDB2.Category = Ext.define("Category", {
 	         {  name: 'description', type: 'string' },
 	         {  name: 'parent', type: 'int' }
 	         ],
-    proxy: PartDB2.getRESTProxy("Category"),
+    proxy: PartKeepr.getRESTProxy("Category"),
     getName: function () {
     	return this.get("name");
     }

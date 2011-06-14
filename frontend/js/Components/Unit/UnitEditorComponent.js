@@ -1,8 +1,8 @@
-Ext.define('PartDB2.UnitEditorComponent', {
-	extend: 'PartDB2.EditorComponent',
+Ext.define('PartKeepr.UnitEditorComponent', {
+	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.UnitEditorComponent',
-	gridClass: 'PartDB2.UnitGrid',
-	editorClass: 'PartDB2.UnitEditor',
+	gridClass: 'PartKeepr.UnitGrid',
+	editorClass: 'PartKeepr.UnitEditor',
 	newItemText: i18n("New Unit"),
 	deleteMessage: i18n("Do you really wish to delete the unit'%s'?"),
 	deleteTitle: i18n("Delete Unit"),

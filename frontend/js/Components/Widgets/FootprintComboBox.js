@@ -1,4 +1,4 @@
-Ext.define("PartDB2.FootprintComboBox",{
+Ext.define("PartKeepr.FootprintComboBox",{
     extend:"Ext.form.field.ComboBox",
     alias: 'widget.FootprintComboBox',
     displayField: 'footprint',
@@ -8,7 +8,7 @@ Ext.define("PartDB2.FootprintComboBox",{
     triggerAction: 'all',
   
     initComponent: function () {
-		this.store = PartDB2.getApplication().getFootprintStore();
+		this.store = PartKeepr.getApplication().getFootprintStore();
 		
 		/* Workaround to remember the value when loading */
 		this.store.on("beforeload", function () {

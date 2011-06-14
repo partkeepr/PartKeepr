@@ -1,4 +1,4 @@
-Ext.define('PartDB2.ServiceCall', {
+Ext.define('PartKeepr.ServiceCall', {
 	extend: 'Ext.util.Observable',
 	
 	service: null,
@@ -48,7 +48,7 @@ Ext.define('PartDB2.ServiceCall', {
 	},
 	doCall: function () {
 		/* Update the status bar to indicate that the call is in progress. */
-		PartDB2.getApplication().getStatusbar().startLoad(this.loadMessage);
+		PartKeepr.getApplication().getStatusbar().startLoad(this.loadMessage);
 		
 		var callDefinition = Ext.encode(this.parameters);
 		
@@ -58,11 +58,11 @@ Ext.define('PartDB2.ServiceCall', {
 		};
 		
 		if (!this.anonymous) {
-			headers.session = PartDB2.getApplication().getSession();
+			headers.session = PartKeepr.getApplication().getSession();
 		}
 		
 		Ext.Ajax.request({
-			url: PartDB2.getBasePath() + '/' + this.service + "/"+this.call,
+			url: PartKeepr.getBasePath() + '/' + this.service + "/"+this.call,
 			success: Ext.bind(this.onSuccess, this),
 			failure: Ext.bind(this.onError, this),
 			method: "POST",
@@ -71,7 +71,7 @@ Ext.define('PartDB2.ServiceCall', {
 		});
 	},
 	onSuccess: function (responseObj) {
-		PartDB2.getApplication().getStatusbar().endLoad();
+		PartKeepr.getApplication().getStatusbar().endLoad();
 		
 		try {
 			var response = Ext.decode(responseObj.responseText);	
@@ -84,7 +84,7 @@ Ext.define('PartDB2.ServiceCall', {
         	};
         	
      	
-        	var j = new PartDB2.ExceptionWindow();
+        	var j = new PartKeepr.ExceptionWindow();
         	j.showException(exception);
         	return;
 		}
@@ -93,7 +93,7 @@ Ext.define('PartDB2.ServiceCall', {
 		/* Check the status */
 		if (response.status == "error") {
 			this.displayError(response.exception);
-			PartDB2.getApplication().getStatusbar().setStatus({
+			PartKeepr.getApplication().getStatusbar().setStatus({
 				text: this.getErrorMessage(response.exception),
 				iconCls: 'x-status-error',
 				clear: {
@@ -107,7 +107,7 @@ Ext.define('PartDB2.ServiceCall', {
 		/* Check the status */
 		if (response.status == "systemerror") {
 			this.displaySystemError(response);
-			PartDB2.getApplication().getStatusbar().setStatus({
+			PartKeepr.getApplication().getStatusbar().setStatus({
 				text: this.getErrorMessage(response),
 				iconCls: 'x-status-error',
 				clear: {
@@ -130,7 +130,7 @@ Ext.define('PartDB2.ServiceCall', {
 		try {
             var data = Ext.decode(response.responseText);
             
-        	var j = new PartDB2.ExceptionWindow();
+        	var j = new PartKeepr.ExceptionWindow();
         	j.showException(data.exception);
         } catch (ex) {
         	var exception = {
@@ -141,13 +141,13 @@ Ext.define('PartDB2.ServiceCall', {
         	};
         	
      	
-        	var jj = new PartDB2.ExceptionWindow();
+        	var jj = new PartKeepr.ExceptionWindow();
         	jj.showException(exception);
         	
         	
         }
         
-		PartDB2.getApplication().getStatusbar().endLoad();
+		PartKeepr.getApplication().getStatusbar().endLoad();
 	},
 	displayError: function (obj) {
 		

@@ -1,18 +1,18 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Tests;
+namespace de\RaumZeitLabor\PartKeepr\Tests;
 declare(encoding = 'UTF-8');
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartDB2\Auth\User;
-use de\RaumZeitLabor\PartDB2\Footprint\Footprint;
-use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
-use de\RaumZeitLabor\PartDB2\Category\Category;
-use de\RaumZeitLabor\PartDB2\Category\CategoryManager;
-use de\RaumZeitLabor\PartDB2\PartDB2;
-use de\RaumZeitLabor\PartDB2\Part\Part;
+use de\RaumZeitLabor\PartKeepr\Auth\User;
+use de\RaumZeitLabor\PartKeepr\Footprint\Footprint;
+use de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager;
+use de\RaumZeitLabor\PartKeepr\Category\Category;
+use de\RaumZeitLabor\PartKeepr\Category\CategoryManager;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Part\Part;
 
-PartDB2::initialize();
+PartKeepr::initialize();
 
 $category = CategoryManager::getInstance()->getCategory(2);
 $footprint = FootprintManager::getInstance()->getFootprint(2);
@@ -23,5 +23,5 @@ $part->setCategory($category->getNode());
 $part->setName("Tolles Bauteil");
 $part->setComment("0815 zeugs");
 
-PartDB2::getEM()->persist($part);
-PartDB2::getEM()->flush();
+PartKeepr::getEM()->persist($part);
+PartKeepr::getEM()->flush();

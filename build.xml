@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="partdb2" default="test-setup">
+<project name="partkeepr" default="test-setup">
 	<target name="test-setup" >
 		<echo msg="Testing the installation..." />
         

@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<title>PartDB2</title>
+		<title>PartKeepr</title>
 		
 		<link rel="icon" href="favicon.ico"/>
 		
@@ -19,7 +19,7 @@
 		
 		<link rel="stylesheet" type="text/css" href="js/Ext.ux/statusbar/css/statusbar.css"/>
 		
-		<link rel="stylesheet" type="text/css" href="css/PartDB2.css"/>
+		<link rel="stylesheet" type="text/css" href="css/PartKeepr.css"/>
 
 		<script type="text/javascript" src="js/bugfixes.js"></script>
 		<script type="text/javascript" src="js/Util/i18n.js"></script>		
@@ -49,7 +49,7 @@
 		<script type="text/javascript" src="js/org.jerrymouse.util.locale/locales/en_US.js"></script>
 		<script type="text/javascript" src="js/org.jerrymouse.util.locale/locales/de_DE.js"></script>
 		
-		<script type="text/javascript" src="js/PartDB2.js"></script>
+		<script type="text/javascript" src="js/PartKeepr.js"></script>
 		
 		<script type="text/javascript" src="js/Models/Footprint.js"></script>
 		<script type="text/javascript" src="js/Models/StorageLocation.js"></script>
@@ -155,8 +155,8 @@ $imagick = new Imagick();
 ?>
 <script type="text/javascript">
 
-PartDB2.setMaxUploadSize(<?php echo $maxUploadSize; ?>);
-PartDB2.setAvailableImageFormats(<?php echo json_encode($imagick->queryFormats()); ?>);
+PartKeepr.setMaxUploadSize(<?php echo $maxUploadSize; ?>);
+PartKeepr.setAvailableImageFormats(<?php echo json_encode($imagick->queryFormats()); ?>);
 
 </script>
 </body>

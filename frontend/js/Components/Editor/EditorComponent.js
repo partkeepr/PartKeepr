@@ -1,12 +1,12 @@
 /**
- * @class PartDB2.EditorComponent
+ * @class PartKeepr.EditorComponent
  * <p>The EditorComponent encapsulates an editing workflow. In general, we have four actions
  * for each object: create, update, delete, view. These actions stay exactly the same for each
  * distinct object.</p>
  * <p>The EditorComponent is a border layout, which has a grid and a form.</p>
  * @todo Document the editor system a bit better 
  */
-Ext.define('PartDB2.EditorComponent', {
+Ext.define('PartKeepr.EditorComponent', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.EditorComponent',
 	layout: 'border',

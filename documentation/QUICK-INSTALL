@@ -1,4 +1,4 @@
-PartDB2 Quick Installation Guide
+PartKeepr Quick Installation Guide
 ================================
 
 BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING! BIG FAT WARNING! 
@@ -62,7 +62,7 @@ phing test-setup
 Install the database and test data
 ----------------------------------
 
-Create the user partdb2, password partdb2 with access to the partdb2 database 
+Create the user partkeepr, password partkeepr with access to the partkeepr database 
 in mysql (e.g. with phpmyadmin).
 
 Then execute the file testing/SetupDatabase.php from the command line.

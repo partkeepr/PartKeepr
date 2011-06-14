@@ -1,16 +1,16 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Frontend;
-use de\RaumZeitLabor\PartDB2\Image\TempImage;
+namespace de\RaumZeitLabor\PartKeepr\Frontend;
+use de\RaumZeitLabor\PartKeepr\Image\TempImage;
 
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\PartDB2;
-use de\RaumZeitLabor\PartDB2\Image\Image;
-use de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Image\Image;
+use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-PartDB2::initialize("");
+PartKeepr::initialize("");
 
 $type = $_REQUEST["type"];
 $id = $_REQUEST["id"];

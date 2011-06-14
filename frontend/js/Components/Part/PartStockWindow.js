@@ -3,7 +3,7 @@
  * for a specific part. Logic and service calls are not contained in this window,
  * and need to be implemented from the caller.
  */
-Ext.define('PartDB2.PartStockWindow', {
+Ext.define('PartKeepr.PartStockWindow', {
 	extend: 'Ext.window.Window',
 	
 	// Configurations

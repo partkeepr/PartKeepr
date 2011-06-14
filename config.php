@@ -1,13 +1,13 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2;
+namespace de\RaumZeitLabor\PartKeepr;
 
-use de\RaumZeitLabor\PartDB2\Util\Configuration;
+use de\RaumZeitLabor\PartKeepr\Util\Configuration;
 
-Configuration::setOption("partdb2.database.username", "partdb2");
-Configuration::setOption("partdb2.database.password", "partdb2");
-Configuration::setOption("partdb2.database.hostname", "localhost");
-Configuration::setOption("partdb2.database.dbname", "partdb2");
-Configuration::setOption("partdb2.database.driver", "pdo_mysql");
+Configuration::setOption("partkeepr.database.username", "partkeepr");
+Configuration::setOption("partkeepr.database.password", "partkeepr");
+Configuration::setOption("partkeepr.database.hostname", "localhost");
+Configuration::setOption("partkeepr.database.dbname", "partkeepr");
+Configuration::setOption("partkeepr.database.driver", "pdo_mysql");
 
-Configuration::setOption("partdb2.images.path", __DIR__."/data/images/");
-Configuration::setOption("partdb2.images.cache", Configuration::getOption("partdb2.images.path")."cache/");
+Configuration::setOption("partkeepr.images.path", __DIR__."/data/images/");
+Configuration::setOption("partkeepr.images.cache", Configuration::getOption("partkeepr.images.path")."cache/");

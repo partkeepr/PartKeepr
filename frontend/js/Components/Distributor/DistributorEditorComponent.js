@@ -1,8 +1,8 @@
-Ext.define('PartDB2.DistributorEditorComponent', {
-	extend: 'PartDB2.EditorComponent',
+Ext.define('PartKeepr.DistributorEditorComponent', {
+	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.DistributorEditorComponent',
-	gridClass: 'PartDB2.DistributorGrid',
-	editorClass: 'PartDB2.DistributorEditor',
+	gridClass: 'PartKeepr.DistributorGrid',
+	editorClass: 'PartKeepr.DistributorEditor',
 	newItemText: i18n("New Distributor"),
 	initComponent: function () {
 		this.createStore({

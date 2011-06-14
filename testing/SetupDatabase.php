@@ -1,37 +1,37 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Tests;
-use de\RaumZeitLabor\PartDB2\PartParameter\PartParameter;
+namespace de\RaumZeitLabor\PartKeepr\Tests;
+use de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter;
 
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\Unit\Unit;
+use de\RaumZeitLabor\PartKeepr\Unit\Unit;
 
-use de\RaumZeitLabor\PartDB2\SiPrefix\SiPrefix;
+use de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix;
 
 declare(encoding = 'UTF-8');
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartDB2\Auth\User;
-use de\RaumZeitLabor\PartDB2\Footprint\Footprint;
-use de\RaumZeitLabor\PartDB2\Footprint\FootprintManager;
-use de\RaumZeitLabor\PartDB2\PartDB2;
-use de\RaumZeitLabor\PartDB2\Part\PartUnit;
-use de\RaumZeitLabor\PartDB2\Category\Category;
-use de\RaumZeitLabor\PartDB2\Part\Part;
-use de\RaumZeitLabor\PartDB2\StorageLocation\StorageLocation;
-use de\RaumZeitLabor\PartDB2\Stock\StockEntry;
-use de\RaumZeitLabor\PartDB2\Category\CategoryManager;
-use de\RaumZeitLabor\PartDB2\Category\CategoryManagerService;
+use de\RaumZeitLabor\PartKeepr\Auth\User;
+use de\RaumZeitLabor\PartKeepr\Footprint\Footprint;
+use de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Part\PartUnit;
+use de\RaumZeitLabor\PartKeepr\Category\Category;
+use de\RaumZeitLabor\PartKeepr\Part\Part;
+use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation;
+use de\RaumZeitLabor\PartKeepr\Stock\StockEntry;
+use de\RaumZeitLabor\PartKeepr\Category\CategoryManager;
+use de\RaumZeitLabor\PartKeepr\Category\CategoryManagerService;
 
-use de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo;
-use de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer;
-use de\RaumZeitLabor\PartDB2\Distributor\Distributor;
+use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
+use de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
+use de\RaumZeitLabor\PartKeepr\Distributor\Distributor;
 
-use de\RaumZeitLabor\PartDB2\Part\PartDistributor;
-use de\RaumZeitLabor\PartDB2\Part\PartManufacturer;
+use de\RaumZeitLabor\PartKeepr\Part\PartDistributor;
+use de\RaumZeitLabor\PartKeepr\Part\PartManufacturer;
 
-PartDB2::initialize();
+PartKeepr::initialize();
 
 
 echo "=)))==========================================\n";
@@ -64,9 +64,9 @@ echo "Performing actions...\n";
 chmod("../src/Proxies", 0777);
 chmod("../data/images", 0777);
 
-$tool = new \Doctrine\ORM\Tools\SchemaTool(PartDB2::getEM());
+$tool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
 
-$classes = PartDB2::getClassMetaData();
+$classes = PartKeepr::getClassMetaData();
 
 $tool->dropDatabase($classes);
 $tool->createSchema($classes);
@@ -76,7 +76,7 @@ $user = new User();
 $user->setUsername("test");
 $user->setPassword("test");
 
-PartDB2::getEM()->persist($user);
+PartKeepr::getEM()->persist($user);
 
 /* Create footprints */
 
@@ -87,12 +87,12 @@ mysql_connect("localhost", "partdb", "partdb");
 mysql_select_db("partdb");
 
 $partUnit = new PartUnit();
-$partUnit->setName(PartDB2::i18n("Pieces"));
-$partUnit->setShortName(PartDB2::i18n("pcs"));
+$partUnit->setName(PartKeepr::i18n("Pieces"));
+$partUnit->setShortName(PartKeepr::i18n("pcs"));
 $partUnit->setDefault(true);
 
-PartDB2::getEM()->persist($partUnit);
-PartDB2::getEM()->flush();
+PartKeepr::getEM()->persist($partUnit);
+PartKeepr::getEM()->flush();
 
 echo "Creating footprints from SetupData/footprints.php\n";
 
@@ -103,7 +103,7 @@ while ($sFootprint = mysql_fetch_assoc($r)) {
 	$footprint->setFootprint(convertText($sFootprint["name"]));
 
 	echo " Adding footprint ".$sFootprint["name"]."\r";
-	PartDB2::getEM()->persist($footprint);
+	PartKeepr::getEM()->persist($footprint);
 	
 	$newFootprints[$sFootprint["id"]] = $footprint;
 }
@@ -152,7 +152,7 @@ $r = mysql_query("SELECT * FROM storeloc");
 while ($store = mysql_fetch_assoc($r)) {
 	$oStorageLocation = new StorageLocation();
 	$oStorageLocation->setName(convertText($store["name"]));
-	PartDB2::getEM()->persist($oStorageLocation);
+	PartKeepr::getEM()->persist($oStorageLocation);
 	echo "Migrating storage location ".sprintf("%-40s", $store["name"])."\r";
 	$newStorageLocations[$store["id"]] = $oStorageLocation;
 }
@@ -171,11 +171,11 @@ foreach ($data as $prefixName => $data) {
 	$prefix->setSymbol($data["symbol"]);
 	
 	$aSiPrefixes[] = $prefix;
-	PartDB2::getEM()->persist($prefix);
+	PartKeepr::getEM()->persist($prefix);
 	
 }
 
-PartDB2::getEM()->flush();
+PartKeepr::getEM()->flush();
 
 /* Add units */
 $data = \Symfony\Component\Yaml\Yaml::load("../setup/data/units.yaml");
@@ -200,12 +200,12 @@ foreach ($data as $unitName => $data) {
 		}
 	}
 	
-	PartDB2::getEM()->persist($unit);
+	PartKeepr::getEM()->persist($unit);
 	$aUnits[] = $unit;
 	
 }
 
-PartDB2::getEM()->flush();
+PartKeepr::getEM()->flush();
 
 
 /* Add manufacturers and IC logos */
@@ -218,7 +218,7 @@ foreach ($data as $mfgname => $logos) {
 	$manufacturer = new Manufacturer();
 	$manufacturer->setName($mfgname);
 	
-	PartDB2::getEM()->persist($manufacturer);
+	PartKeepr::getEM()->persist($manufacturer);
 	$aManufacturers[] = $manufacturer;
 	
 	foreach ($logos as $logo) {
@@ -226,18 +226,18 @@ foreach ($data as $mfgname => $logos) {
 		$mfglogo->setManufacturer($manufacturer);
 		$mfglogo->replace("../setup/data/manufacturers/images/".$logo);
 		
-		PartDB2::getEM()->persist($mfglogo);
+		PartKeepr::getEM()->persist($mfglogo);
 	}
 }
 
-PartDB2::getEM()->flush();
+PartKeepr::getEM()->flush();
 
 $r = mysql_query("SELECT * FROM suppliers");
 while ($supplier = mysql_fetch_assoc($r)) {
 	$distributor = new Distributor();
 	$distributor->setName($supplier["name"]);
 	
-	PartDB2::getEM()->persist($distributor);
+	PartKeepr::getEM()->persist($distributor);
 	$aDistributors[$supplier["id"]] = $distributor;
 }
 
@@ -264,7 +264,7 @@ while ($part = mysql_fetch_assoc($r)) {
 	$oPart->getDistributors()->add(new PartDistributor($oPart, $aDistributors[$part["id_supplier"]]));
 	
 	//echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
-	PartDB2::getEM()->persist($oPart);
+	PartKeepr::getEM()->persist($oPart);
 	
 	$oStock = new StockEntry($oPart, $part["instock"]);
 	
@@ -279,7 +279,7 @@ while ($part = mysql_fetch_assoc($r)) {
 		}
 	}
 	
-	PartDB2::getEM()->persist($oStock);
+	PartKeepr::getEM()->persist($oStock);
 	
 	/* Add some random parameters */
 	
@@ -295,20 +295,20 @@ while ($part = mysql_fetch_assoc($r)) {
 		$oPartParameter->setUnit($aUnits[array_rand($aUnits)]);
 		$oPartParameter->setValue($val);
 		$oPartParameter->setSiPrefix($prefix);
-		PartDB2::getEM()->persist($oPartParameter);	
+		PartKeepr::getEM()->persist($oPartParameter);	
 	}
 
 	$fc++;
 
 	if ($fc>100) {
-		PartDB2::getEM()->flush();
+		PartKeepr::getEM()->flush();
 		$fc=0;
 	}
 	
 
 }
 
-PartDB2::getEM()->flush();
+PartKeepr::getEM()->flush();
 
 
 

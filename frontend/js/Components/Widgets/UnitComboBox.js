@@ -1,4 +1,4 @@
-Ext.define("PartDB2.UnitComboBox",{
+Ext.define("PartKeepr.UnitComboBox",{
     extend:"Ext.form.field.ComboBox",
     alias: 'widget.UnitComboBox',
     displayField: 'name',
@@ -9,7 +9,7 @@ Ext.define("PartDB2.UnitComboBox",{
     forceSelection: true,
     editable: true,  
     initComponent: function () {
-		this.store = PartDB2.getApplication().getUnitStore();
+		this.store = PartKeepr.getApplication().getUnitStore();
 		
 		/* Workaround to remember the value when loading */
 		this.store.on("beforeload", function () {

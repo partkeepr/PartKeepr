@@ -1,8 +1,8 @@
 <?php 
-namespace de\RaumZeitLabor\PartDB2\Tests\Auth;
+namespace de\RaumZeitLabor\PartKeepr\Tests\Auth;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\Auth\User;
+use de\RaumZeitLabor\PartKeepr\Auth\User;
 
 class UserTest extends \PHPUnit_Framework_TestCase {
 	public function testBasics () {

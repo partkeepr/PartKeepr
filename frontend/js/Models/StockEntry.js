@@ -1,4 +1,4 @@
-PartDB2.StockEntry = Ext.define("StockEntry", {
+PartKeepr.StockEntry = Ext.define("StockEntry", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -8,5 +8,5 @@ PartDB2.StockEntry = Ext.define("StockEntry", {
 	         {	name: 'direction',	type: 'string'},
 	         {	name: 'price',	type: 'float'}
 	         ],
-	proxy: PartDB2.getRESTProxy("Stock")
+	proxy: PartKeepr.getRESTProxy("Stock")
 });

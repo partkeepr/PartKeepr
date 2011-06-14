@@ -2,8 +2,8 @@
  * This class is the main part list grid.
  * 
  */
-Ext.define('PartDB2.PartsGrid', {
-	extend: 'PartDB2.EditorGrid',
+Ext.define('PartKeepr.PartsGrid', {
+	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.PartsGrid',
 	
 	// We want to display the texts for the add/delete buttons
@@ -18,7 +18,7 @@ Ext.define('PartDB2.PartsGrid', {
 		this.callParent();
 		
 		// Create the filter panel
-		this.filterPanel = Ext.create("PartDB2.PartFilterPanel", {
+		this.filterPanel = Ext.create("PartKeepr.PartFilterPanel", {
 			dock: 'bottom',
 			title: i18n("Filter"),
 			height: 200,

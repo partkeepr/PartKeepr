@@ -1,8 +1,8 @@
-Ext.define('PartDB2.FootprintEditorComponent', {
-	extend: 'PartDB2.EditorComponent',
+Ext.define('PartKeepr.FootprintEditorComponent', {
+	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.FootprintEditorComponent',
-	gridClass: 'PartDB2.FootprintGrid',
-	editorClass: 'PartDB2.FootprintEditor',
+	gridClass: 'PartKeepr.FootprintGrid',
+	editorClass: 'PartKeepr.FootprintEditor',
 	newItemText: i18n("New Footprint"),
 	initComponent: function () {
 		this.createStore({

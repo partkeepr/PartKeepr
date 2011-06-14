@@ -6,7 +6,7 @@
  * - Search field
  * - Paging Toolbar
  */
-Ext.define('PartDB2.EditorGrid', {
+Ext.define('PartKeepr.EditorGrid', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.EditorGrid',
 	

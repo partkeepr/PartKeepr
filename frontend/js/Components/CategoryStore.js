@@ -1,4 +1,4 @@
-PartDB2.CategoryTreeStore = Ext.define("CategoryTreeStore",
+PartKeepr.CategoryTreeStore = Ext.define("CategoryTreeStore",
 {
 	extend: "Ext.data.TreeStore",
     model: 'Category',
@@ -20,7 +20,7 @@ PartDB2.CategoryTreeStore = Ext.define("CategoryTreeStore",
         expanded: true
     },
     constructor: function () {
-    	this.proxy.extraParams.session = PartDB2.getSession();
+    	this.proxy.extraParams.session = PartKeepr.getSession();
     	
     	this.callParent();
     },

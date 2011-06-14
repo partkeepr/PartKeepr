@@ -1,5 +1,5 @@
-Ext.define('PartDB2.PartUnitEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.PartUnitEditor', {
+	extend: 'PartKeepr.Editor',
 	alias: 'widget.PartUnitEditor',
 	items: [{
 		xtype: 'textfield',
@@ -11,5 +11,5 @@ Ext.define('PartDB2.PartUnitEditor', {
 		fieldLabel: i18n("Short Name")
 	}],
 	saveText: i18n("Save Part Unit"),
-	model: 'PartDB2.PartUnit'
+	model: 'PartKeepr.PartUnit'
 });

@@ -1,4 +1,4 @@
-Ext.define('PartDB2.CurrentStatisticsDialog', {
+Ext.define('PartKeepr.CurrentStatisticsDialog', {
 	extend: 'Ext.window.Window',
 	width: 400,
 	height: 250,
@@ -79,7 +79,7 @@ Ext.define('PartDB2.CurrentStatisticsDialog', {
 		this.loadStats();
 	},
 	loadStats: function () {
-		var call = new PartDB2.ServiceCall(
+		var call = new PartKeepr.ServiceCall(
     			"Statistic", 
     			"getCurrentStats");
 		

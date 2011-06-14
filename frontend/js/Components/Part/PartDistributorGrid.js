@@ -1,4 +1,4 @@
-Ext.define('PartDB2.PartDistributorGrid', {
+Ext.define('PartKeepr.PartDistributorGrid', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.PartDistributorGrid',
 	border: false,
@@ -80,7 +80,7 @@ Ext.define('PartDB2.PartDistributorGrid', {
 	onEdit: function (data) {
 		var id = data.record.get("distributor_id");
 		
-		var rec = PartDB2.getApplication().getDistributorStore().findRecord("id", id);
+		var rec = PartKeepr.getApplication().getDistributorStore().findRecord("id", id);
 		
 		if (rec) {
 			data.record.set("distributor_name", rec.get("name"));
@@ -89,7 +89,7 @@ Ext.define('PartDB2.PartDistributorGrid', {
 	onAddClick: function () {
 		this.editing.cancelEdit();
 		
-		var rec = new PartDB2.PartDistributor({
+		var rec = new PartKeepr.PartDistributor({
 			packagingUnit: 1
 		});
 		

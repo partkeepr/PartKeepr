@@ -1,8 +1,8 @@
-Ext.define('PartDB2.UserEditorComponent', {
-	extend: 'PartDB2.EditorComponent',
+Ext.define('PartKeepr.UserEditorComponent', {
+	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.UserEditorComponent',
-	gridClass: 'PartDB2.UserGrid',
-	editorClass: 'PartDB2.UserEditor',
+	gridClass: 'PartKeepr.UserGrid',
+	editorClass: 'PartKeepr.UserEditor',
 	newItemText: i18n("New User"),
 	deleteMessage: i18n("Do you really wish to delete the user '%s'?"),
 	deleteTitle: i18n("Delete User"),

@@ -1,4 +1,4 @@
-PartDB2.SiPrefix = Ext.define("SiPrefix", {
+PartKeepr.SiPrefix = Ext.define("SiPrefix", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id', type: 'int' },
@@ -6,5 +6,5 @@ PartDB2.SiPrefix = Ext.define("SiPrefix", {
 	         {	name: 'symbol',	type: 'string'},
 	         {	name: 'power',	type: 'int'}
 	         ],
-	proxy: PartDB2.getRESTProxy("SiPrefix")
+	proxy: PartKeepr.getRESTProxy("SiPrefix")
 });

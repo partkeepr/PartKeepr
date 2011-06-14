@@ -1,8 +1,8 @@
 /**
- * @class PartDB2.PartDisplay
+ * @class PartKeepr.PartDisplay
  * <p>This component displays information about a specific part.</p>
  */
-Ext.define('PartDB2.PartDisplay', {
+Ext.define('PartKeepr.PartDisplay', {
 	extend: 'Ext.panel.Panel',
 	bodyCls: 'partdisplay',
 	
@@ -112,14 +112,14 @@ Ext.define('PartDB2.PartDisplay', {
 	 * Prompt the user for the stock level he wishes to add.
 	 */
 	addPartPrompt: function () {
-		var j = new PartDB2.PartStockWindow();
+		var j = new PartKeepr.PartStockWindow();
 		j.addStock(this.addPartHandler, this);
 	},
 	/**
 	 * Callback after the "add stock" dialog is complete.
 	 */
 	addPartHandler: function (quantity, price) {
-			var call = new PartDB2.ServiceCall(
+			var call = new PartKeepr.ServiceCall(
 	    			"Part", 
 	    			"addStock");
 			call.setParameter("stock", quantity);
@@ -132,7 +132,7 @@ Ext.define('PartDB2.PartDisplay', {
 	 * Prompts the user for the stock level to decrease for the item.
 	 */
 	deletePartPrompt: function () {
-		var j = new PartDB2.PartStockWindow();
+		var j = new PartKeepr.PartStockWindow();
 		j.removeStock(this.deletePartHandler, this);
 		//Ext.Msg.prompt(i18n("Remove Stock"), i18n("Amount"), this.deletePartHandler, this);
 	},
@@ -140,7 +140,7 @@ Ext.define('PartDB2.PartDisplay', {
 	 * Callback after the "delete stock" dialog is complete.
 	 */
 	deletePartHandler: function (quantity) {
-			var call = new PartDB2.ServiceCall(
+			var call = new PartKeepr.ServiceCall(
 	    			"Part", 
 	    			"deleteStock");
 			call.setParameter("stock", quantity);
@@ -158,11 +158,11 @@ Ext.define('PartDB2.PartDisplay', {
 	 * Load the part from the database.
 	 */
 	loadPart: function (id) {
-		var call = new PartDB2.ServiceCall(
+		var call = new PartKeepr.ServiceCall(
     			"Part", 
     			"getPart");
 		call.setParameter("part", id);
-    	call.setLoadMessage('$[de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategories]');
+    	call.setLoadMessage('$[de.RaumZeitLabor.PartKeepr.CategoryEditor.loadCategories]');
     	call.setHandler(Ext.bind(this.onPartLoaded, this));
     	call.doCall();
 	},

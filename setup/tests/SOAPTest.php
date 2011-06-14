@@ -1,5 +1,5 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\setup\tests;
+namespace de\RaumZeitLabor\PartKeepr\setup\tests;
 declare(encoding = 'UTF-8');
 
 class SOAPTest extends \PHPUnit_Framework_TestCase {

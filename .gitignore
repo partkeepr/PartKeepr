@@ -4,3 +4,4 @@
 .externalToolBuilders
 .settings
 .project
+/tests/reports

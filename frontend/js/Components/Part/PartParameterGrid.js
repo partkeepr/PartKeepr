@@ -1,4 +1,4 @@
-Ext.define('PartDB2.PartParameterGrid', {
+Ext.define('PartKeepr.PartParameterGrid', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.PartParameterGrid',
 	border: false,
@@ -63,7 +63,7 @@ Ext.define('PartDB2.PartParameterGrid', {
 		                	renderer: function (val,p,rec) {
 		                		if (!Ext.isObject(val)) { return ""; }
 		                		
-		                		var foundRec = PartDB2.getApplication().getUnitStore().findRecord("id", rec.get("unit_id"));
+		                		var foundRec = PartKeepr.getApplication().getUnitStore().findRecord("id", rec.get("unit_id"));
 		                		
 		                		if (foundRec) {
 		                			return val.value + " "+val.symbol + foundRec.get("symbol");
@@ -82,7 +82,7 @@ Ext.define('PartDB2.PartParameterGrid', {
 		                	flex: 0.2,
 		                	dataIndex: 'unit_id',
 		                	renderer: function (val,p,rec) {
-		                		var foundRec = PartDB2.getApplication().getUnitStore().findRecord("id", val);
+		                		var foundRec = PartKeepr.getApplication().getUnitStore().findRecord("id", val);
 		                		
 		                		if (foundRec) {
 		                			return foundRec.get("name");
@@ -113,7 +113,7 @@ Ext.define('PartDB2.PartParameterGrid', {
 	onAddClick: function () {
 		this.editing.cancelEdit();
 		
-		var rec = new PartDB2.PartParameter({
+		var rec = new PartKeepr.PartParameter({
 			
 		});
 		
@@ -135,7 +135,7 @@ Ext.define('PartDB2.PartParameterGrid', {
     	var edit = this.editing.getEditor(editor.record, header);
     	
     	if (editor.field == "prefixedValue") {
-    		var unit = PartDB2.getApplication().getUnitStore().getById(editor.record.get("unit_id"));
+    		var unit = PartKeepr.getApplication().getUnitStore().getById(editor.record.get("unit_id"));
     		if (unit) {
     			edit.field.setStore(unit.prefixes());
     		}

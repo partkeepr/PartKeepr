@@ -1,5 +1,5 @@
-Ext.define('PartDB2.UnitGrid', {
-	extend: 'PartDB2.EditorGrid',
+Ext.define('PartKeepr.UnitGrid', {
+	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.UnitGrid',
 	columns: [
 	          {header: i18n("Unit"),  dataIndex: 'name', flex: 1},

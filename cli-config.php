@@ -1,14 +1,14 @@
 <?php
-use de\RaumZeitLabor\PartDB2\Service\ServiceManager;
-use de\RaumZeitLabor\PartDB2\PartDB2;
+use de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
 use Doctrine\Common\ClassLoader;
 
-include("src/de/RaumZeitLabor/PartDB2/PartDB2.php");
-PartDB2::initialize("");
+include("src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+PartKeepr::initialize("");
 
-$em = PartDB2::getEM();
+$em = PartKeepr::getEM();
 
-$classes = PartDB2::getEntityClasses();
+$classes = PartKeepr::getEntityClasses();
 
 
 $helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(

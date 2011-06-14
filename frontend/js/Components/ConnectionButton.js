@@ -1,4 +1,4 @@
-Ext.define('PartDB2.ConnectionButton', {
+Ext.define('PartKeepr.ConnectionButton', {
 	extend: 'Ext.Button',
 	connectedIcon: 'resources/silkicons/connect.png',
 	disconnectedIcon: 'resources/silkicons/disconnect.png',

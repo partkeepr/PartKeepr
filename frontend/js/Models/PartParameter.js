@@ -1,4 +1,4 @@
-PartDB2.PartParameter = Ext.define("PartParameter", {
+PartKeepr.PartParameter = Ext.define("PartParameter", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -10,5 +10,5 @@ PartDB2.PartParameter = Ext.define("PartParameter", {
 	         {  name: 'value', type: 'float' },
 	         {  name: 'prefixedValue' }
 	         ],
-	proxy: PartDB2.getRESTProxy("PartParameter")
+	proxy: PartKeepr.getRESTProxy("PartParameter")
 });

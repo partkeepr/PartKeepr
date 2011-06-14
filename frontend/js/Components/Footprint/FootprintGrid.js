@@ -1,5 +1,5 @@
-Ext.define('PartDB2.FootprintGrid', {
-	extend: 'PartDB2.EditorGrid',
+Ext.define('PartKeepr.FootprintGrid', {
+	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.FootprintGrid',
 	columns: [
 	          {header: i18n("Footprint"),  dataIndex: 'footprint', flex: 1}

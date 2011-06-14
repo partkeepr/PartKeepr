@@ -1,4 +1,4 @@
-Ext.define("PartDB2.ManufacturerComboBox",{
+Ext.define("PartKeepr.ManufacturerComboBox",{
     extend:"Ext.form.field.ComboBox",
     alias: 'widget.ManufacturerComboBox',
     displayField: 'name',
@@ -9,7 +9,7 @@ Ext.define("PartDB2.ManufacturerComboBox",{
     forceSelection: true,
     editable: false,
     initComponent: function () {
-		this.store = PartDB2.getApplication().getManufacturerStore();
+		this.store = PartKeepr.getApplication().getManufacturerStore();
 		
 		/* Workaround to remember the value when loading */
 		this.store.on("beforeload", function () {

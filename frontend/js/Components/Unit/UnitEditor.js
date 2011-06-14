@@ -1,8 +1,8 @@
-Ext.define('PartDB2.UnitEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.UnitEditor', {
+	extend: 'PartKeepr.Editor',
 	alias: 'widget.UnitEditor',
 	saveText: i18n("Save Unit"),
-	model: 'PartDB2.Unit',
+	model: 'PartKeepr.Unit',
 	initComponent: function () {
 		
 		var sm = Ext.create('Ext.selection.CheckboxModel',{
@@ -10,7 +10,7 @@ Ext.define('PartDB2.UnitEditor', {
 		});
 		
 		this.gridPanel = Ext.create("Ext.grid.Panel", {
-			store: PartDB2.getApplication().getSiPrefixStore(),
+			store: PartKeepr.getApplication().getSiPrefixStore(),
 			selModel: sm,
 			columnLines: true,
 			columns: [
@@ -45,7 +45,7 @@ Ext.define('PartDB2.UnitEditor', {
 		var records = this.record.prefixes().getRange();
 		
 		var toSelect = [];
-		var pfxStore = PartDB2.getApplication().getSiPrefixStore();
+		var pfxStore = PartKeepr.getApplication().getSiPrefixStore();
 		
 		for (var i=0;i<records.length;i++) {
 			toSelect.push(pfxStore.getAt(pfxStore.find("id", records[i].get("id"))));
@@ -62,7 +62,7 @@ Ext.define('PartDB2.UnitEditor', {
 			records.push(selection[i].get("id"));
 		}
 		
-		var call = new PartDB2.ServiceCall("Unit", "setUnitPrefixes");
+		var call = new PartKeepr.ServiceCall("Unit", "setUnitPrefixes");
 		call.setParameter("prefixes", records);
 		call.setParameter("id", this.record.get("id"));
 		call.doCall();

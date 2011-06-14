@@ -1,4 +1,4 @@
-Ext.define("PartDB2.StorageLocationComboBox",{
+Ext.define("PartKeepr.StorageLocationComboBox",{
     extend:"Ext.form.field.ComboBox",
     alias: 'widget.StorageLocationComboBox',
     displayField: 'name',
@@ -8,7 +8,7 @@ Ext.define("PartDB2.StorageLocationComboBox",{
     triggerAction: 'all',
   
     initComponent: function () {
-		this.store = PartDB2.getApplication().getStorageLocationStore();
+		this.store = PartKeepr.getApplication().getStorageLocationStore();
 		
 		/* Workaround to remember the value when loading */
 		this.store.on("beforeload", function () {

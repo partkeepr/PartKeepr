@@ -1,5 +1,5 @@
-Ext.define('PartDB2.StorageLocationGrid', {
-	extend: 'PartDB2.EditorGrid',
+Ext.define('PartKeepr.StorageLocationGrid', {
+	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.StorageLocationGrid',
 	columns: [
 	          {header: i18n("Storage Location"),  dataIndex: 'name', flex: 1}

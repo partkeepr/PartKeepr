@@ -1,10 +1,10 @@
 README
 ======
 
-What is PartDB2?
+What is PartKeepr?
 ----------------
 
-PartDB2 is an electronic part inventory management software. It helps you to keep track of your available parts and assist you with re-ordering parts. PartDB2 is designed for hackerspaces with multiple users, but you can also use it to manage your personal electronic part inventory.
+PartKeepr is an electronic part inventory management software. It helps you to keep track of your available parts and assist you with re-ordering parts. PartKeepr is designed for hackerspaces with multiple users, but you can also use it to manage your personal electronic part inventory.
 
 Project Status
 --------------
@@ -16,13 +16,13 @@ you get the point.
 Demo Site
 ---------
 
-To test everything which has been written so far, please visit http://partdb2.felicitus.org for a demo which is built
+To test everything which has been written so far, please visit http://partkeepr.felicitus.org for a demo which is built
 from the git sources once an hour.
 
 Requirements
 ------------
 
-PartDB2 needs:
+PartKeepr needs:
 
 * PHP 5.3.2 and up
 * APC (see http://www.php.net/manual/en/apc.installation.php how to install it)
@@ -35,4 +35,4 @@ PartDB2 needs:
 Installation
 ------------
 
-Since this project is work-in-progress, please refer to the INSTALL document on how to install PartDB2.
+Since this project is work-in-progress, please refer to the INSTALL document on how to install PartKeepr.

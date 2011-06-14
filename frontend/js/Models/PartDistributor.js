@@ -1,4 +1,4 @@
-PartDB2.PartDistributor = Ext.define("PartDistributor", {
+PartKeepr.PartDistributor = Ext.define("PartDistributor", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -11,5 +11,5 @@ PartDB2.PartDistributor = Ext.define("PartDistributor", {
 	         ],
 	belongsTo: { type: 'belongsTo', model: 'Part', primaryKey: 'id', foreignKey: 'part_id'},
 	belongsTo: { type: 'belongsTo', model: 'Distributor', primaryKey: 'id', foreignKey: 'distributor_id'},
-	proxy: PartDB2.getRESTProxy("PartDistributor")
+	proxy: PartKeepr.getRESTProxy("PartDistributor")
 });

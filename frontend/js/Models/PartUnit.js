@@ -1,4 +1,4 @@
-PartDB2.PartUnit = Ext.define("PartUnit", {
+PartKeepr.PartUnit = Ext.define("PartUnit", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -6,7 +6,7 @@ PartDB2.PartUnit = Ext.define("PartUnit", {
 	         {	name: 'shortName',	type: 'string'},
 	         {	name: 'default',	type: 'bool'}
 	         ],
-	proxy: PartDB2.getRESTProxy("PartUnit"),
+	proxy: PartKeepr.getRESTProxy("PartUnit"),
 	getName: function () {
 		return this.get("name");
 	}

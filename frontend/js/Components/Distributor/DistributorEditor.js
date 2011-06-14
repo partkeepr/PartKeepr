@@ -1,5 +1,5 @@
-Ext.define('PartDB2.DistributorEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.DistributorEditor', {
+	extend: 'PartKeepr.Editor',
 	alias: 'widget.DistributorEditor',
 	items: [{
 		xtype: 'textfield',
@@ -23,5 +23,5 @@ Ext.define('PartDB2.DistributorEditor', {
 		fieldLabel: i18n("Comment")
 	}],
 	saveText: i18n("Save Distributor"),
-	model: 'PartDB2.Distributor'
+	model: 'PartKeepr.Distributor'
 });

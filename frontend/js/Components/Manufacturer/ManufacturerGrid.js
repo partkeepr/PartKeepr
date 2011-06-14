@@ -1,5 +1,5 @@
-Ext.define('PartDB2.ManufacturerGrid', {
-	extend: 'PartDB2.EditorGrid',
+Ext.define('PartKeepr.ManufacturerGrid', {
+	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.ManufacturerGrid',
 	columns: [
 	          {header: i18n("Manufacturer"),  dataIndex: 'name', flex: 1}

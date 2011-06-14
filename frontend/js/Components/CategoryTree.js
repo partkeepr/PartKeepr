@@ -1,4 +1,4 @@
-PartDB2.CategoryTree = Ext.define("CategoryTree", {
+PartKeepr.CategoryTree = Ext.define("CategoryTree", {
 	alias: 'widget.CategoryTree',
 	extend: 'Ext.tree.Panel',
 	displayField: 'name',
@@ -27,7 +27,7 @@ PartDB2.CategoryTree = Ext.define("CategoryTree", {
 		this.loadCategories();
 	},
 	loadCategories: function () {
-		var call = new PartDB2.ServiceCall("Category", "getAllCategories");
+		var call = new PartKeepr.ServiceCall("Category", "getAllCategories");
 		call.setLoadMessage(i18n("Loading categories..."));
 		call.setHandler(Ext.bind(this.onCategoriesLoaded, this));
 		call.doCall();

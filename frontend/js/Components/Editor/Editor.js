@@ -1,4 +1,4 @@
-Ext.define('PartDB2.Editor', {
+Ext.define('PartKeepr.Editor', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.Editor',
 	trackResetOnLoad: true,

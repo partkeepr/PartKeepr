@@ -1,6 +1,6 @@
-Ext.define('PartDB2.LoginDialog', {
+Ext.define('PartKeepr.LoginDialog', {
 	extend: 'Ext.Window',
-	title: i18n("PartDB2: Login"),
+	title: i18n("PartKeepr: Login"),
 	loginField: null,
 	
 	width: 400,
@@ -59,7 +59,7 @@ Ext.define('PartDB2.LoginDialog', {
 		this.callParent(arguments);
 	},
 	login: function () {
-		var call = new PartDB2.ServiceCall("Auth", "login");
+		var call = new PartKeepr.ServiceCall("Auth", "login");
 		
 		call.setParameter("username", this.loginField.getValue());
 		call.setParameter("password", md5(this.passwordField.getValue()));
@@ -69,26 +69,26 @@ Ext.define('PartDB2.LoginDialog', {
 		call.doCall();
 	},
 	onLogin: function (obj) {
-		PartDB2.getApplication().setSession(obj.sessionid);
-		PartDB2.getApplication().setUsername(obj.username);
+		PartKeepr.getApplication().setSession(obj.sessionid);
+		PartKeepr.getApplication().setUsername(obj.username);
 		
 		if (!obj.admin) {
 			Ext.getCmp("edit-users").hide();
 		}
 		
-		PartDB2.getApplication().createGlobalStores();
+		PartKeepr.getApplication().createGlobalStores();
 		
-		PartDB2.getApplication().reloadStores();
+		PartKeepr.getApplication().reloadStores();
 		
-		var j = Ext.create("PartDB2.PartManager", {
+		var j = Ext.create("PartKeepr.PartManager", {
 			title: i18n("Part Manager"),
 			closable: false
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 		
-		PartDB2.log(i18n("Logged in as")+" "+obj.username);
+		PartKeepr.log(i18n("Logged in as")+" "+obj.username);
 		this.close();
 		
 	}

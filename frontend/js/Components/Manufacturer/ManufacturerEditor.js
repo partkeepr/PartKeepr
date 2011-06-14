@@ -1,8 +1,8 @@
-Ext.define('PartDB2.ManufacturerEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.ManufacturerEditor', {
+	extend: 'PartKeepr.Editor',
 	alias: 'widget.ManufacturerEditor',
 	saveText: i18n("Save Manufacturer"),
-	model: 'PartDB2.Manufacturer',
+	model: 'PartKeepr.Manufacturer',
 	labelWidth: 150,
 	initComponent: function () {
 		this.on("startEdit", Ext.bind(this.onEditStart, this));
@@ -110,7 +110,7 @@ Ext.define('PartDB2.ManufacturerEditor', {
 		});
 	},
 	uploadImage: function () {
-		var j = Ext.create("PartDB2.FileUploadDialog", { imageUpload: true });
+		var j = Ext.create("PartKeepr.FileUploadDialog", { imageUpload: true });
 		j.on("fileUploaded", Ext.bind(this.onFileUploaded, this));
 		j.show();
 	},

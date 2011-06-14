@@ -1,4 +1,4 @@
-Ext.define('PartDB2.FileUploadDialog', {
+Ext.define('PartKeepr.FileUploadDialog', {
     extend: 'Ext.window.Window',
     
     title: i18n("File Upload"),
@@ -19,7 +19,7 @@ Ext.define('PartDB2.FileUploadDialog', {
     	        				url: 'rest.php/TempImage',
     	        				params: {
     	        				call: "upload",
-    	                    	session: PartDB2.getApplication().getSession()
+    	                    	session: PartKeepr.getApplication().getSession()
     	                    },
     	                    success: Ext.bind(function(fp, o) {
     	                    	this.fireEvent("fileUploaded", o.result.response.id);
@@ -62,7 +62,7 @@ Ext.define('PartDB2.FileUploadDialog', {
     	        anchor: '100%',
     	        buttonText: this.uploadButtonText
     	    },{
-    	    	html: sprintf(i18n("Maximum upload size: %s"), PartDB2.bytesToSize(PartDB2.getMaxUploadSize())),
+    	    	html: sprintf(i18n("Maximum upload size: %s"), PartKeepr.bytesToSize(PartKeepr.getMaxUploadSize())),
     	    	border: false
     	    }],
 
@@ -85,7 +85,7 @@ Ext.define('PartDB2.FileUploadDialog', {
         		autoScroll: true,
         		target: this.fileFormatButton.getEl(),
         		closable: true,
-        		html: implode("<br>", PartDB2.getAvailableImageFormats()),
+        		html: implode("<br>", PartKeepr.getAvailableImageFormats()),
         		autoHide: false
         	});	
     	}

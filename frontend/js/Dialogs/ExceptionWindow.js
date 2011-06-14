@@ -1,4 +1,4 @@
-Ext.define('PartDB2.ExceptionWindow', {
+Ext.define('PartKeepr.ExceptionWindow', {
     extend: 'Ext.window.Window',
     autoScroll: true,
     resizable: true,

@@ -1,5 +1,5 @@
-Ext.define('PartDB2.StorageLocationEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.StorageLocationEditor', {
+	extend: 'PartKeepr.Editor',
 	alias: 'widget.StorageLocationEditor',
 	items: [{
 		xtype: 'textfield',
@@ -7,5 +7,5 @@ Ext.define('PartDB2.StorageLocationEditor', {
 		fieldLabel: i18n("Storage Location")
 	}],
 	saveText: i18n("Save Storage Location"),
-	model: 'PartDB2.StorageLocation'
+	model: 'PartKeepr.StorageLocation'
 });

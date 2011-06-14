@@ -1,4 +1,4 @@
-Ext.define('PartDB2.TimeDisplay', {
+Ext.define('PartKeepr.TimeDisplay', {
 	extend: 'Ext.Toolbar.TextItem',
 	el: null,
 	dt: null,

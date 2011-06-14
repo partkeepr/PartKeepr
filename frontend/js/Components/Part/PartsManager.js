@@ -1,10 +1,10 @@
 /**
- * @class PartDB2.PartManager
+ * @class PartKeepr.PartManager
  * @todo Document the editor system a bit better 
  * 
  * The part manager encapsulates the category tree, the part display grid and the part detail view.
  */
-Ext.define('PartDB2.PartManager', {
+Ext.define('PartKeepr.PartManager', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.PartManager',
 	layout: 'border',
@@ -22,7 +22,7 @@ Ext.define('PartDB2.PartManager', {
 		 });
 		
 		// Create the tree
-		this.tree = Ext.create("PartDB2.CategoryEditorTree", {
+		this.tree = Ext.create("PartKeepr.CategoryEditorTree", {
 			region: 'west',
 			split: true,
 			width: 300,			// @todo Make this configurable
@@ -37,11 +37,11 @@ Ext.define('PartDB2.PartManager', {
 		}, this));
 		
 		// Create the detail panel
-		this.detail = Ext.create("PartDB2.PartDisplay", { title: i18n("Part Details") });
+		this.detail = Ext.create("PartKeepr.PartDisplay", { title: i18n("Part Details") });
 		this.detail.on("editPart", this.onEditPart, this);
 		
 		// Create the grid
-		this.grid = Ext.create("PartDB2.PartsGrid", { region: 'center', layout: 'fit', store: this.getStore()});
+		this.grid = Ext.create("PartKeepr.PartsGrid", { region: 'center', layout: 'fit', store: this.getStore()});
 		
 		// Create the grid listeners
 		this.grid.on("itemSelect", this.onItemSelect, this);
@@ -52,7 +52,7 @@ Ext.define('PartDB2.PartManager', {
 		this.detail.on("partChanged", function () { this.grid.getStore().load(); }, this);
 		
 		// Create the stock level panel
-		this.stockLevel = Ext.create("PartDB2.PartStockHistory", { title: "Stock History"});
+		this.stockLevel = Ext.create("PartKeepr.PartStockHistory", { title: "Stock History"});
 		
 		this.detailPanel = Ext.create("Ext.tab.Panel", {
 			hidden: true,
@@ -88,7 +88,7 @@ Ext.define('PartDB2.PartManager', {
 		var r = this.grid.getSelectionModel().getLastSelected();
 		
 		if (btn == "yes") {
-			var call = new PartDB2.ServiceCall(
+			var call = new PartKeepr.ServiceCall(
 					"Part", 
 					"deletePart");
 			
@@ -104,11 +104,11 @@ Ext.define('PartDB2.PartManager', {
      * Creates a new, empty part editor window
      */
 	onItemAdd: function () {
-		var j = Ext.create("PartDB2.PartEditorWindow");
+		var j = Ext.create("PartKeepr.PartEditorWindow");
 		
 		var defaults = {};
 		
-		var defaultPartUnit = PartDB2.getApplication().getPartUnitStore().find("default", true);
+		var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().find("default", true);
 		
 		defaults.partUnit_id = defaultPartUnit;
 		defaults.category_id = this.grid.currentCategory;
@@ -126,7 +126,7 @@ Ext.define('PartDB2.PartManager', {
      * Called when a part was loaded. Displays the part in the editor window.
      */
 	onPartLoaded: function (f,g) {
-		var j = Ext.create("PartDB2.PartEditorWindow");
+		var j = Ext.create("PartKeepr.PartEditorWindow");
 		j.applyRecord(f);
 		j.show();
 	},
@@ -145,7 +145,7 @@ Ext.define('PartDB2.PartManager', {
      * @param {Function} handler The callback to call when the part was loaded
      */
 	loadPart: function (id, handler) {
-		var call = new PartDB2.ServiceCall(
+		var call = new PartKeepr.ServiceCall(
     			"Part", 
     			"getPart");
 		call.setParameter("part", id);

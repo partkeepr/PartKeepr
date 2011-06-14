@@ -1,4 +1,4 @@
-PartDB2.Distributor = Ext.define("Distributor", {
+PartKeepr.Distributor = Ext.define("Distributor", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -8,7 +8,7 @@ PartDB2.Distributor = Ext.define("Distributor", {
 	         {	name: 'address',	type: 'string'},
 	         {	name: 'email',	type: 'string'}
 	         ],
-	proxy: PartDB2.getRESTProxy("Distributor"),
+	proxy: PartKeepr.getRESTProxy("Distributor"),
 	getName: function () {
 		return this.get("name");
 	}

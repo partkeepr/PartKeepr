@@ -1,4 +1,4 @@
-Ext.define("PartDB2.PartParameterComboBox",{
+Ext.define("PartKeepr.PartParameterComboBox",{
     extend:"Ext.form.field.ComboBox",
     alias: 'widget.PartParameterComboBox',
     displayField: 'name',
@@ -10,13 +10,13 @@ Ext.define("PartDB2.PartParameterComboBox",{
     forceSelection: false,
     editable: true,
     initComponent: function () {
-		//this.store = PartDB2.getApplication().getPartUnitStore();
+		//this.store = PartKeepr.getApplication().getPartUnitStore();
     	
     	this.store = Ext.create("Ext.data.Store", {
     		fields: [{ name: 'name' }],
     		proxy: {
     			type: 'ajax',
-    			url: PartDB2.getBasePath() + "/Part/getPartParameterNames",
+    			url: PartKeepr.getBasePath() + "/Part/getPartParameterNames",
     			reader: {
     				type: 'json',
     				root: 'response.data'

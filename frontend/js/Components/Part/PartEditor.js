@@ -1,7 +1,7 @@
-Ext.define('PartDB2.PartEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.PartEditor', {
+	extend: 'PartKeepr.Editor',
 	border: false,
-	model: 'PartDB2.Part',
+	model: 'PartKeepr.Part',
 	mode: 'add',
 	layout: 'fit',
 	bodyStyle: 'background:#DFE8F6;',
@@ -42,17 +42,17 @@ Ext.define('PartDB2.PartEditor', {
 				name: 'comment'
 			}];
 		
-		this.partDistributorGrid = Ext.create("PartDB2.PartDistributorGrid", {
+		this.partDistributorGrid = Ext.create("PartKeepr.PartDistributorGrid", {
 			title: i18n("Distributors"),
 			layout: 'fit'
 		});
 		
-		this.partManufacturerGrid = Ext.create("PartDB2.PartManufacturerGrid", {
+		this.partManufacturerGrid = Ext.create("PartKeepr.PartManufacturerGrid", {
 			title: i18n("Manufacturers"),
 			layout: 'fit'
 		});
 		
-		this.partParameterGrid = Ext.create("PartDB2.PartParameterGrid", {
+		this.partParameterGrid = Ext.create("PartKeepr.PartParameterGrid", {
 			title: i18n("Parameters"),
 			layout: 'fit'
 		});
@@ -91,7 +91,7 @@ Ext.define('PartDB2.PartEditor', {
 			return;
 		}
 		
-		var call = new PartDB2.ServiceCall(
+		var call = new PartKeepr.ServiceCall(
     			"Part", 
     			"addOrUpdatePart");
 		
@@ -102,21 +102,21 @@ Ext.define('PartDB2.PartEditor', {
 		var values = this.getForm().getFieldValues();
 		
 		values.distributorChanges = {
-			"inserts": PartDB2.serializeRecords(this.partDistributorGrid.getStore().getNewRecords()),
-			"updates": PartDB2.serializeRecords(this.partDistributorGrid.getStore().getUpdatedRecords()),
-			"removals": PartDB2.serializeRecords(this.partDistributorGrid.getStore().getRemovedRecords())
+			"inserts": PartKeepr.serializeRecords(this.partDistributorGrid.getStore().getNewRecords()),
+			"updates": PartKeepr.serializeRecords(this.partDistributorGrid.getStore().getUpdatedRecords()),
+			"removals": PartKeepr.serializeRecords(this.partDistributorGrid.getStore().getRemovedRecords())
 		};
 		
 		values.manufacturerChanges = {
-				"inserts": PartDB2.serializeRecords(this.partManufacturerGrid.getStore().getNewRecords()),
-				"updates": PartDB2.serializeRecords(this.partManufacturerGrid.getStore().getUpdatedRecords()),
-				"removals": PartDB2.serializeRecords(this.partManufacturerGrid.getStore().getRemovedRecords())
+				"inserts": PartKeepr.serializeRecords(this.partManufacturerGrid.getStore().getNewRecords()),
+				"updates": PartKeepr.serializeRecords(this.partManufacturerGrid.getStore().getUpdatedRecords()),
+				"removals": PartKeepr.serializeRecords(this.partManufacturerGrid.getStore().getRemovedRecords())
 			};
 	
 		values.parameterChanges = {
-				"inserts": PartDB2.serializeRecords(this.partParameterGrid.getStore().getNewRecords()),
-				"updates": PartDB2.serializeRecords(this.partParameterGrid.getStore().getUpdatedRecords()),
-				"removals": PartDB2.serializeRecords(this.partParameterGrid.getStore().getRemovedRecords())
+				"inserts": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getNewRecords()),
+				"updates": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getUpdatedRecords()),
+				"removals": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getRemovedRecords())
 		};
 		call.setParameters(values);
 		call.setHandler(Ext.bind(this.onPartSave, this));

@@ -1,4 +1,4 @@
-Ext.define('PartDB2.Statusbar', {
+Ext.define('PartKeepr.Statusbar', {
 	extend: 'Ext.ux.StatusBar',
 	
 	defaultText: i18n("Ready."),
@@ -7,8 +7,8 @@ Ext.define('PartDB2.Statusbar', {
 	autoClear: 3000,
 	initComponent: function () {
 		
-		this.connectionButton = new PartDB2.ConnectionButton();
-		this.timeDisplay = new PartDB2.TimeDisplay();
+		this.connectionButton = new PartKeepr.ConnectionButton();
+		this.timeDisplay = new PartKeepr.TimeDisplay();
 		this.currentUserDisplay = Ext.create("Ext.toolbar.TextItem");
 		
 		this.currentUserDisplay.setText(i18n("Not logged in"));
@@ -17,7 +17,7 @@ Ext.define('PartDB2.Statusbar', {
 			icon: 'resources/silkicons/application_osx_terminal.png',
 			cls: 'x-btn-icon',
 			handler: function () {
-				PartDB2.getApplication().toggleMessageLog();
+				PartKeepr.getApplication().toggleMessageLog();
 			}
 		});
 		

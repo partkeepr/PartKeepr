@@ -1,10 +1,10 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Tests\Auth;
+namespace de\RaumZeitLabor\PartKeepr\Tests\Auth;
 
-use de\RaumZeitLabor\PartDB2\Auth\UserManager,
-	de\RaumZeitLabor\PartDB2\Auth\User,
-	de\RaumZeitLabor\PartDB2\Auth\Exceptions\UserAlreadyExistsException,
-	de\RaumZeitLabor\PartDB2\PartDB2;
+use de\RaumZeitLabor\PartKeepr\Auth\UserManager,
+	de\RaumZeitLabor\PartKeepr\Auth\User,
+	de\RaumZeitLabor\PartKeepr\Auth\Exceptions\UserAlreadyExistsException,
+	de\RaumZeitLabor\PartKeepr\PartKeepr;
 
 class UserManagerTest extends \PHPUnit_Framework_TestCase {
 	
@@ -25,7 +25,7 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->userManager->createUser($user);
 		
-		$this->setExpectedException("de\RaumZeitLabor\PartDB2\Auth\Exceptions\UserAlreadyExistsException");
+		$this->setExpectedException("de\RaumZeitLabor\PartKeepr\Auth\Exceptions\UserAlreadyExistsException");
 		$this->userManager->createUser($user);
 		
 	}
@@ -35,7 +35,7 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase {
 		$user = new User;
 		$user->setUsername("foobar");
 		
-		$this->setExpectedException("de\RaumZeitLabor\PartDB2\Auth\Exceptions\UserDoesNotExistException");
+		$this->setExpectedException("de\RaumZeitLabor\PartKeepr\Auth\Exceptions\UserDoesNotExistException");
 		$this->userManager->deleteUser($user);
 		
 		$user = new User;
@@ -49,14 +49,14 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase {
 		$user->setPassword("test");
 		
 		$this->userManager->createUser($user);
-		PartDB2::getEM()->flush();
+		PartKeepr::getEM()->flush();
 		
 		$user2 = new User;
 		$user2->setRawUsername("2test");
 		$user2->setPassword("test");
 		
 		/* User shouldn't be able to login, even if we cut numbers and special chars from usernames */
-		$this->setExpectedException("de\RaumZeitLabor\PartDB2\Auth\Exceptions\InvalidLoginDataException");
+		$this->setExpectedException("de\RaumZeitLabor\PartKeepr\Auth\Exceptions\InvalidLoginDataException");
 		$this->userManager->authenticate($user2);
 		
 	}

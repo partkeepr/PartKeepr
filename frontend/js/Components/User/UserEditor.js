@@ -1,5 +1,5 @@
-Ext.define('PartDB2.UserEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.UserEditor', {
+	extend: 'PartKeepr.Editor',
 	alias: 'widget.UserEditor',
 	items: [{
 		xtype: 'textfield',
@@ -12,5 +12,5 @@ Ext.define('PartDB2.UserEditor', {
 		fieldLabel: i18n("Password")
 	}],
 	saveText: i18n("Save User"),
-	model: 'PartDB2.User'
+	model: 'PartKeepr.User'
 });

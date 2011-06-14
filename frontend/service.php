@@ -1,13 +1,13 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Frontend;
+namespace de\RaumZeitLabor\PartKeepr\Frontend;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\Service\ServiceManager;
-use de\RaumZeitLabor\PartDB2\PartDB2;
+use de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-PartDB2::initialize("");
+PartKeepr::initialize("");
 
 try {
 	$request = $_REQUEST;
@@ -19,7 +19,7 @@ try {
 	
 	echo json_encode($response);
 	
-} catch (de\RaumZeitLabor\PartDB2\Util\SerializableException $e) {
+} catch (de\RaumZeitLabor\PartKeepr\Util\SerializableException $e) {
 	$response = array();
 	$response["status"] = "error";
 	$response["exception"] = $e->serialize();

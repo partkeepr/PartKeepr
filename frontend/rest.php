@@ -1,12 +1,12 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Frontend;
+namespace de\RaumZeitLabor\PartKeepr\Frontend;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\PartDB2, 
-	de\RaumZeitLabor\PartDB2\Service\ServiceManager;
+use de\RaumZeitLabor\PartKeepr\PartKeepr, 
+	de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
-PartDB2::initialize("");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+PartKeepr::initialize("");
 
 /**
  * This script dispatches the request to the ServiceManager.
@@ -35,7 +35,7 @@ PartDB2::initialize("");
  * rest.php/Part
  * 
  * /Part specifies that you wish to call the Part service. The service manager automatically extends the short "Part"
- * name to the class de\RaumZeitLabor\PartDB2\Part\PartService.
+ * name to the class de\RaumZeitLabor\PartKeepr\Part\PartService.
  * 
  * REST
  * ====
@@ -52,7 +52,7 @@ try {
 	
 	echo json_encode($response);
 	
-} catch (\de\RaumZeitLabor\PartDB2\Util\SerializableException $e) {
+} catch (\de\RaumZeitLabor\PartKeepr\Util\SerializableException $e) {
 	header('HTTP/1.0 400 Exception', false, 400);
 	$response = array();
 	$response["status"] = "error";

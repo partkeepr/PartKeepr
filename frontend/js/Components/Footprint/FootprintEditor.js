@@ -1,5 +1,5 @@
-Ext.define('PartDB2.FootprintEditor', {
-	extend: 'PartDB2.Editor',
+Ext.define('PartKeepr.FootprintEditor', {
+	extend: 'PartKeepr.Editor',
 	alias: 'widget.FootprintEditor',
 	items: [{
 		xtype: 'textfield',
@@ -7,5 +7,5 @@ Ext.define('PartDB2.FootprintEditor', {
 		fieldLabel: i18n("Footprint")
 	}],
 	saveText: i18n("Save Footprint"),
-	model: 'PartDB2.Footprint'
+	model: 'PartKeepr.Footprint'
 });

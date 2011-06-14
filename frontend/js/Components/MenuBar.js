@@ -1,4 +1,4 @@
-Ext.define('PartDB2.MenuBar', {
+Ext.define('PartKeepr.MenuBar', {
 	extend: 'Ext.toolbar.Toolbar',
 	initComponent: function () {
 		
@@ -46,70 +46,70 @@ Ext.define('PartDB2.MenuBar', {
 		this.callParent();
 	},
 	showStatistics: function () {
-		var j = Ext.create("PartDB2.CurrentStatisticsDialog");
+		var j = Ext.create("PartKeepr.CurrentStatisticsDialog");
 		j.show();
 	},
 	editStorageLocations: function () {
-		var j = Ext.create("PartDB2.StorageLocationEditorComponent", {
+		var j = Ext.create("PartKeepr.StorageLocationEditorComponent", {
 			title: i18n("Storage Locations"),
 			closable: true
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
 	editUnits: function () {
-		var j = Ext.create("PartDB2.UnitEditorComponent", {
+		var j = Ext.create("PartKeepr.UnitEditorComponent", {
 			title: i18n("Units"),
 			closable: true
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
 	editManufacturers: function () {
-		var j = Ext.create("PartDB2.ManufacturerEditorComponent", {
+		var j = Ext.create("PartKeepr.ManufacturerEditorComponent", {
 			title: i18n("Manufacturers"),
 			closable: true
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
 	editFootprints: function () {
-		var j = Ext.create("PartDB2.FootprintEditorComponent", {
+		var j = Ext.create("PartKeepr.FootprintEditorComponent", {
 			title: i18n("Footprints"),
 			closable: true
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
 	editDistributors: function () {
-		var j = Ext.create("PartDB2.DistributorEditorComponent", {
+		var j = Ext.create("PartKeepr.DistributorEditorComponent", {
 			title: i18n("Distributors"),
 			closable: true
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
 	editUsers: function () {
-		var j = Ext.create("PartDB2.UserEditorComponent", {
+		var j = Ext.create("PartKeepr.UserEditorComponent", {
 			title: i18n("Users"),
 			closable: true
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
 	editPartUnits: function () {
-		var j = Ext.create("PartDB2.PartUnitEditorComponent", {
+		var j = Ext.create("PartKeepr.PartUnitEditorComponent", {
 			title: i18n("Part Units"),
 			closable: true
 		});
 		
-		PartDB2.getApplication().addItem(j);
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	}
 });

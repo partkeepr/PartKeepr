@@ -1,12 +1,12 @@
 <?php
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartDB2\PartDB2;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
 
 //include("/usr/share/php/Doctrine/Symfony/Component/Yaml/Yaml.php");
 //include("/usr/share/php/Doctrine/Symfony/Component/Yaml/Dumper.php");
 //include("/usr/share/php/Doctrine/Symfony/Component/Yaml/Inline.php");
-PartDB2::initialize();
+PartKeepr::initialize();
 
 $dom = new DOMDocument();
 $dom->loadHTMLFile("manufacturers.html");

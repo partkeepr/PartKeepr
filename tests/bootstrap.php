@@ -1,15 +1,15 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Tests;
+namespace de\RaumZeitLabor\PartKeepr\Tests;
 declare(encoding = 'UTF-8');
 
-use de\raumzeitlabor\PartDB2\PartDB2;
+use de\raumzeitlabor\PartKeepr\PartKeepr;
 
-include(dirname(__DIR__). "/src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include(dirname(__DIR__). "/src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-PartDB2::initialize("test");
+PartKeepr::initialize("test");
 
-$tool = new \Doctrine\ORM\Tools\SchemaTool(PartDB2::getEM());
-$classes = PartDB2::getClassMetaData();
+$tool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
+$classes = PartKeepr::getClassMetaData();
 
 $tool->dropSchema($classes);
 $tool->createSchema($classes);

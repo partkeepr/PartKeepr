@@ -1,4 +1,4 @@
-Ext.define('PartDB2.PartEditorWindow', {
+Ext.define('PartKeepr.PartEditorWindow', {
 	extend: 'Ext.window.Window',
 	constrainHeader: true,
 	width: 600,
@@ -8,7 +8,7 @@ Ext.define('PartDB2.PartEditorWindow', {
 	layout: 'fit',
 	title: i18n("Add Part"),
 	initComponent: function () {
-		this.editor = Ext.create("PartDB2.PartEditor", {
+		this.editor = Ext.create("PartKeepr.PartEditor", {
 			border: false
 		});
 		this.items = [ this.editor ];

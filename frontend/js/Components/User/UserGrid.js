@@ -1,5 +1,5 @@
-Ext.define('PartDB2.UserGrid', {
-	extend: 'PartDB2.EditorGrid',
+Ext.define('PartKeepr.UserGrid', {
+	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.UserGrid',
 	columns: [
 	          {header: i18n("User"),  dataIndex: 'username', flex: 1}

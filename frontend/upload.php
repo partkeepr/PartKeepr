@@ -1,15 +1,15 @@
 <?php
-namespace de\RaumZeitLabor\PartDB2\Frontend;
+namespace de\RaumZeitLabor\PartKeepr\Frontend;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartDB2\PartDB2;
-use de\RaumZeitLabor\PartDB2\Image\Image;
-use de\RaumZeitLabor\PartDB2\Manufacturer\ManufacturerICLogo;
-use de\RaumZeitLabor\PartDB2\Manufacturer\Manufacturer;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Image\Image;
+use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
+use de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
 
-include("../src/de/RaumZeitLabor/PartDB2/PartDB2.php");
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-PartDB2::initialize("");
+PartKeepr::initialize("");
 
 $keys = array_keys($_FILES);
 
@@ -25,8 +25,8 @@ switch ($_REQUEST["uploadMode"]) {
 				$image = new ManufacturerICLogo();
 				$image->setManufacturer($manufacturer);
 				$image->replace($file);
-				PartDB2::getEM()->persist($image);
-				PartDB2::getEM()->flush();
+				PartKeepr::getEM()->persist($image);
+				PartKeepr::getEM()->flush();
 		}
 		
 		break;

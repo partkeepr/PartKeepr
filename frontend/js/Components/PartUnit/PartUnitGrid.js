@@ -1,5 +1,5 @@
-Ext.define('PartDB2.PartUnitGrid', {
-	extend: 'PartDB2.EditorGrid',
+Ext.define('PartKeepr.PartUnitGrid', {
+	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.PartUnitGrid',
 	columns: [
 	          {header: i18n("Part Unit"),  dataIndex: 'name', flex: 1},
@@ -33,7 +33,7 @@ Ext.define('PartDB2.PartUnitGrid', {
     onDefaultClick: function () {
     	var r = this.getSelectionModel().getLastSelected();
     	
-    	var call = new PartDB2.ServiceCall(
+    	var call = new PartKeepr.ServiceCall(
     			"PartUnit", 
     			"setDefault");
     	

@@ -1,4 +1,4 @@
-Ext.define('PartDB2.PartManufacturerGrid', {
+Ext.define('PartKeepr.PartManufacturerGrid', {
 	extend: 'Ext.grid.Panel',
 	alias: 'widget.PartManufacturerGrid',
 	border: false,
@@ -70,7 +70,7 @@ Ext.define('PartDB2.PartManufacturerGrid', {
 	onEdit: function (data) {
 		var id = data.record.get("manufacturer_id");
 		
-		var rec = PartDB2.getApplication().getManufacturerStore().findRecord("id", id);
+		var rec = PartKeepr.getApplication().getManufacturerStore().findRecord("id", id);
 		
 		if (rec) {
 			data.record.set("manufacturer_name", rec.get("name"));
@@ -79,7 +79,7 @@ Ext.define('PartDB2.PartManufacturerGrid', {
 	onAddClick: function () {
 		this.editing.cancelEdit();
 		
-		var rec = new PartDB2.PartManufacturer({
+		var rec = new PartKeepr.PartManufacturer({
 			packagingUnit: 1
 		});
 		

@@ -1,4 +1,4 @@
-Ext.define('PartDB2.MessageLog', {
+Ext.define('PartKeepr.MessageLog', {
 	extend: 'Ext.grid.Panel',
 	store: {
 		model: "Message"

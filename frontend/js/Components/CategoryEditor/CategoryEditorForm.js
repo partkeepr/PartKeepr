@@ -1,4 +1,4 @@
-Ext.define('PartDB2.CategoryEditorForm', {
+Ext.define('PartKeepr.CategoryEditorForm', {
 	extend: 'Ext.form.Panel',
 	layout: 'anchor',
 	border: false,

@@ -1,4 +1,4 @@
-Ext.define('PartDB2.SiUnitList', {
+Ext.define('PartKeepr.SiUnitList', {
     extend: 'Ext.view.BoundList',
     alias: 'widget.siunitlist',
     getInnerTpl: function(displayField) {

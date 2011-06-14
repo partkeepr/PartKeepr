@@ -28,29 +28,29 @@ locales.de_DE = {
 		/* Status Bar */
 		"org.jerrymouse.components.Statusbar.Ready": "Bereit.",
 	
-		"de.RaumZeitLabor.PartDB2.save": "Speichern",
-		"de.RaumZeitLabor.PartDB2.cancel": "Abbrechen",
+		"de.RaumZeitLabor.PartKeepr.save": "Speichern",
+		"de.RaumZeitLabor.PartKeepr.cancel": "Abbrechen",
 
 		/* Footprints */
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.manage": "Footprints verwalten",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.add": "Footprint erzeugen",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.delete": "Footprint löschen",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.reload": "Footprints neu laden",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.loading": "Footprints werden geladen...",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.footprint": "Footprint",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.addFootprintDialogTitle": "Footprint erzeugen",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.addFootprintDialogMessage":"Name des Footprints:",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.addFootprint": "Footprint wird erzeugt...",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.deleteFootprintDialogTitle": "Footprint löschen",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.deleteFootprintDialogMessage":"Den Footprint %s wirklich löschen?",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.deleteFootprint": "Footprint wird gelöscht...",
-		"de.RaumZeitLabor.PartDB2.FootPrintManager.loadFootprint": "Footprint wird geladen...",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.manage": "Footprints verwalten",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.add": "Footprint erzeugen",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.delete": "Footprint löschen",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.reload": "Footprints neu laden",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.loading": "Footprints werden geladen...",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.footprint": "Footprint",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.addFootprintDialogTitle": "Footprint erzeugen",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.addFootprintDialogMessage":"Name des Footprints:",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.addFootprint": "Footprint wird erzeugt...",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.deleteFootprintDialogTitle": "Footprint löschen",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.deleteFootprintDialogMessage":"Den Footprint %s wirklich löschen?",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.deleteFootprint": "Footprint wird gelöscht...",
+		"de.RaumZeitLabor.PartKeepr.FootPrintManager.loadFootprint": "Footprint wird geladen...",
 		
 		/* Category Editor */
-		"de.RaumZeitLabor.PartDB2.CategoryEditor.categoryName": "Kategoriename",
-		"de.RaumZeitLabor.PartDB2.CategoryEditor.categoryDescription": "Beschreibung",
-		"de.RaumZeitLabor.PartDB2.CategoryEditor.parentCategory": "Übergeordnete Kategorie",
-		"de.RaumZeitLabor.PartDB2.CategoryEditor.loadCategor": "Kategorie wird geladen...",
-		"de.RaumZeitLabor.PartDB2.CategoryEditor.saveCategory": "Kategorie wird gespeichert..."
+		"de.RaumZeitLabor.PartKeepr.CategoryEditor.categoryName": "Kategoriename",
+		"de.RaumZeitLabor.PartKeepr.CategoryEditor.categoryDescription": "Beschreibung",
+		"de.RaumZeitLabor.PartKeepr.CategoryEditor.parentCategory": "Übergeordnete Kategorie",
+		"de.RaumZeitLabor.PartKeepr.CategoryEditor.loadCategor": "Kategorie wird geladen...",
+		"de.RaumZeitLabor.PartKeepr.CategoryEditor.saveCategory": "Kategorie wird gespeichert..."
 		
 };
