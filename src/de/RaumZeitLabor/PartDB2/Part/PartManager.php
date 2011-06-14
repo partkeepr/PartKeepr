@@ -30,7 +30,7 @@ use de\RaumZeitLabor\PartDB2\Util\Singleton,
 	de\RaumZeitLabor\PartDB2\Footprint\Exceptions\FootprintNotFoundException;
 
 class PartManager extends Singleton {
-	public function getParts ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "", $category = 0, $categoryScope = "all", $stockMode = "all", $withoutPrice = false) {
+	public function getParts ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "", $category = 0, $categoryScope = "all", $stockMode = "all", $withoutPrice = false, $storageLocation = "") {
 		
 		$qb = PartDB2::getEM()->createQueryBuilder();
 		$qb->select("COUNT(p.id)")->from("de\RaumZeitLabor\PartDB2\Part\Part","p")
@@ -43,6 +43,11 @@ class PartManager extends Singleton {
 		if ($filter != "") {
 			$qb = $qb->where("p.name LIKE :filter");
 			$qb->setParameter("filter", "%".$filter."%");
+		}
+		
+		if ($storageLocation != "") {
+			$qb->andWhere("st.name = :storageLocation");
+			$qb->setParameter("storageLocation", $storageLocation);
 		}
 				
 		switch ($sort) {

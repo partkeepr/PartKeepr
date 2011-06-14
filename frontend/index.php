@@ -125,6 +125,7 @@
 		<script type="text/javascript" src="js/Components/Part/PartManufacturerGrid.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartEditorWindow.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartEditor.js"></script>
+		<script type="text/javascript" src="js/Components/Part/PartFilterPanel.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartDisplay.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartStockWindow.js"></script>
 		<script type="text/javascript" src="js/Components/Part/PartStockHistory.js"></script>
