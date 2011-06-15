@@ -36,3 +36,9 @@ Installation
 ------------
 
 Since this project is work-in-progress, please refer to the INSTALL document on how to install PartKeepr.
+
+Thanks
+------
+
+A very big "thank you" goes out to Georgyo of NYC resistor - although he claimed that he isn't creative, he invented
+the name "PartKeepr" which eventually became the project's name.
