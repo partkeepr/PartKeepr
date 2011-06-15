@@ -3,39 +3,14 @@ namespace de\RaumZeitLabor\PartKeepr\Image;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile,
 	de\RaumZeitLabor\PartKeepr\Util\Configuration,
 	de\RaumZeitLabor\PartKeepr\Image\Exceptions\InvalidImageTypeException;
 
 /**
  * @MappedSuperclass
  */
-abstract class Image {
-	/**
-	 * Specifies the ID of the image.
-	 *
-	 * @var integer
-	 * @Id
-	 * @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 **/
-	protected $id;
-	
-	/**
-	 * Specifies the type of the image.
-	 *
-	 * @var string
-	 * @Column(type="string")
-	 **/
-	private $type;
-	
-	/**
-	 * The unique filename of the image
-	 * 
-	 * @var string
-	 * @Column(type="string")
-	 */
-	private $filename;
-	
+abstract class Image extends UploadedFile {
 	const IMAGE_ICLOGO = "iclogo";
 	const IMAGE_TEMP = "temp";
 	
@@ -45,8 +20,8 @@ abstract class Image {
 	 * @param string $type	The type for the image, one of the IMAGE_ constants.
 	 */
 	public function __construct ($type) {
+		parent::__construct();
 		$this->setType($type);
-		$this->filename = PartKeepr::createGUIDv4();
 	}
 	
 	/**
@@ -60,7 +35,7 @@ abstract class Image {
 		switch ($type) {
 			case Image::IMAGE_ICLOGO:
 			case Image::IMAGE_TEMP:
-				$this->type = $type;
+				parent::setType($type);
 				break;
 			default:
 				throw new InvalidImageTypeException($type);
@@ -77,9 +52,7 @@ abstract class Image {
 	 * @param string $path	The path to the original image
 	 */
 	public function replace ($path) {
-		$this->ensureImagePathExists();
-		
-		copy($path, $this->getImageFilename());	
+		parent::replace($path);
 		
 		CachedImage::invalidate($this);
 	}
@@ -91,30 +64,8 @@ abstract class Image {
 	 * @param none
 	 * @return string The full image filename including path.
 	 */
-	public function getImageFilename () {
-		return $this->getImagePath().$this->filename.".png";
-	}
-	
-	public function getImageFilenameWithoutSuffix () {
-		return $this->filename;
-	}
-	
-	/**
-	 * Returns the ID of the image.
-	 * @param none
-	 * @return integer The ID of the image
-	 */
-	public function getId () {
-		return $this->id;
-	}
-	
-	/**
-	 * Returns the type of the image
-	 * @param none
-	 * @return string The type of the image
-	 */
-	public function getType () {
-		return $this->type;
+	public function getFilename () {
+		return $this->getFilePath().$this->getPlainFilename().".png";
 	}
 	
 	/**
@@ -124,35 +75,27 @@ abstract class Image {
 	 * @param none
 	 * @return string The path to the image
 	 */
-	public function getImagePath () {
+	public function getFilePath () {
 		return Configuration::getOption("partkeepr.images.path").$this->getType()."/";
 	}
 	
 	/**
-	 * Ensures that the image path exists. This function
-	 * is called every time an image is processed.
-	 * It is maybe a bit overhead, but saves headaches later when
-	 * introducing new types.
-	 * 
-	 * @param none
-	 * @return nothing
-	 */
-	public function ensureImagePathExists () {
-		if (!is_dir($this->getImagePath())) {
-			mkdir($this->getImagePath(), 0777, true);	
-		}
-	}
-	
+	 * Scales the image to a specific width and height
+	 *
+	 * @param int $w The width
+	 * @param int $h The height
+	 * @return string The path to the scaled file
+	 */	
 	public function scaleTo ($w, $h) {
 		$this->ensureCachedirExists();
 		
-		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getImageFilename().$w."x".$h).".png";
+		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h).".png";
 		
 		if (file_exists($outputFile)) {
 			return $outputFile;
 		}
 		$image = new \Imagick();
-		$image->readImage($this->getImageFilename());
+		$image->readImage($this->getFilename());
 		$image->adaptiveResizeImage($w, $h);
 		$image->writeImage($outputFile);
 		
@@ -162,16 +105,26 @@ abstract class Image {
 		return $outputFile;
 	}
 	
+	/**
+	 * Scales the image to fit exactly within the given size.
+	 * 
+	 * This method ensures that no blank space is in the output image,
+	 * and that the output image is exactly the width and height specified.
+	 *
+	 * @param int $w The width
+	 * @param int $h The height
+	 * @return string The path to the scaled file
+	*/
 	public function fitWithinExact ($w, $h) {
 		$this->ensureCachedirExists();
 		
-		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getImageFilename().$w."x".$h."fwe").".png";
+		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h."fwe").".png";
 		
 		if (file_exists($outputFile)) {
 			return $outputFile;
 		}
 		$image = new \Imagick();
-		$image->readImage($this->getImageFilename());
+		$image->readImage($this->getFilename());
 		
 		$sourceAspectRatio = $image->getImageWidth() / $image->getImageHeight();
 		$targetAspectRatio = $w / $h;
@@ -198,16 +151,23 @@ abstract class Image {
 		return $outputFile;
 	}
 	
+	/**
+	 * Scales the image to fit within the given size.
+	 *
+	 * @param int $w The width
+	 * @param int $h The height
+	 * @return string The path to the scaled file
+	 */
 	public function fitWithin ($w, $h) {
 		$this->ensureCachedirExists();
 		
-		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getImageFilename().$w."x".$h."fw").".png";
+		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h."fw").".png";
 		
 		if (file_exists($outputFile)) {
 			return $outputFile;
 		}
 		$image = new \Imagick();
-		$image->readImage($this->getImageFilename());
+		$image->readImage($this->getFilename());
 		
 		$sourceAspectRatio = $image->getImageWidth() / $image->getImageHeight();
 		$targetAspectRatio = $w / $h;
@@ -229,13 +189,13 @@ abstract class Image {
 		return $outputFile;
 	}
 	
+	/**
+	 * Ensures that the image cache dir exists.
+	 */
 	public function ensureCachedirExists () {
-	if (!is_dir(Configuration::getOption("partkeepr.images.cache"))) {
+		if (!is_dir(Configuration::getOption("partkeepr.images.cache"))) {
 			mkdir(Configuration::getOption("partkeepr.images.cache"), 0777, true);	
 		}
 	}
 	
-	public static function loadById ($id) {
-    	return PartKeepr::getEM()->find(get_called_class(), $id);
-    }
 }

@@ -9,5 +9,6 @@ Configuration::setOption("partkeepr.database.hostname", "localhost");
 Configuration::setOption("partkeepr.database.dbname", "partkeepr");
 Configuration::setOption("partkeepr.database.driver", "pdo_mysql");
 
+Configuration::setOption("partkeepr.files.path", __DIR__."/data/files/");
 Configuration::setOption("partkeepr.images.path", __DIR__."/data/images/");
 Configuration::setOption("partkeepr.images.cache", Configuration::getOption("partkeepr.images.path")."cache/");
