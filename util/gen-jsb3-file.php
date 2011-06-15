@@ -41,6 +41,7 @@ exec($call, $output);
 
 /* Add Ext.ux'es from the ExtJS distribution */
 $output[] = $extjspath . "/examples/ux/statusbar/StatusBar.js";
+$output[] = $extjspath . "/examples/ux/TabCloseMenu.js";
 
 // Spit out the number of JS files we've found
 echo "Found ".count($output)." JavaScript files\n\n";
