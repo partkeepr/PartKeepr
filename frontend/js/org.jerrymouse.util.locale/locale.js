@@ -12,6 +12,19 @@
  *
  */
 
+Ext.locales = {
+		de_DE: {
+			"flag": "de",
+			"name": "Deutsch (Deutschland)",
+			"dateformat": "d.m.Y H:i:s T"
+		},
+		en_US: {
+			"flag": "us",
+			"name": "English (USA)",
+			"dateformat": "n/j/Y H:i:s T"
+		}
+};
+
 Ext.setLocale = function (locale) {
 	Ext.jm_locale = locale;
 };
@@ -21,26 +34,9 @@ Ext.getLocale = function () {
 };
 
 Ext.getLocaleFlag = function () {
-	return locales[Ext.jm_locale].flag;
+	return Ext.locales[Ext.jm_locale].flag;
 };
 
 Ext.getDateFormat = function () {
-	return locales[Ext.jm_locale].dateformat;
-};
-
-Ext.replaceLocaleTags = function (string) {
-	var regexp = /\$\[(.+?)\]/g;
-	var workingCopy = string;
-	
-	/*while (result = regexp.exec(string)) {
-		if (locales[Ext.jm_locale][result[1]]) {
-			workingCopy = Ext.replaceString(result[0], locales[Ext.jm_locale][result[1]], workingCopy);
-		}
-	}*/
-	
-	return workingCopy;
-};
-
-Ext.replaceString = function (search, replace, subject) {
-    return subject.split(search).join(replace);
+	return Ext.locales[Ext.jm_locale].dateformat;
 };
