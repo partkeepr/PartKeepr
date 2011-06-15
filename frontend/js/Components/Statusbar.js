@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.Statusbar', {
-	extend: 'Ext.ux.StatusBar',
+	extend: 'Ext.ux.statusbar.StatusBar',
 	
 	defaultText: i18n("Ready."),
 	defaultIconCls: 'x-status-valid',

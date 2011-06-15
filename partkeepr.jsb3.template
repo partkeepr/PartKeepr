@@ -1,0 +1,27 @@
+{
+	"projectName": "PartKeepr",
+    "packages": [{
+    		"name": "PartKeepr",
+            "id": "partkeepr",
+            "files": [
+				{{FILES}}
+			]
+		}],
+	"builds": [
+		{
+            "name": "All",
+            "target": "partkeepr.js",
+            "compress": true,
+            "packages": [
+                "partkeepr"
+            ]
+        },
+        {
+            "name": "Debug",
+            "target": "partkeepr-debug.js",
+            "compress": false,
+            "packages": [
+                "partkeepr"
+            ]
+        }]
+}
