@@ -2,7 +2,7 @@
 namespace de\RaumZeitLabor\PartKeepr\Auth;
 declare(encoding = 'UTF-8');
 
-/** @Entity */
+/** @Entity @Table(name="`User`") */
 
 class User {
 	/**
