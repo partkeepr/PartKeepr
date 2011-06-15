@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="partkeepr" default="test-setup">
-	<target name="test-setup" >
-		<echo msg="Testing the installation..." />
-        
-		<phpunit haltonfailure="true" codecoverage="false" printsummary="true">
-			<batchtest>
-				<fileset dir="setup/tests/">
-					<include name="*Test.php" />
-				</fileset>
-			</batchtest>
-			<formatter type="plain" usefile="false" />
-		</phpunit>
-		
-		<echo msg=""/>
-        
-		<echo msg="       ***************************"/>
-		<echo msg="       Setup Test Complete"/>
-		<echo msg="       ***************************"/>
-		<echo msg=""/>
-		<echo msg="       No errors were found."/>
-		<echo msg="       You may now proceed!"/>
-	</target>
-    
+	<property file="build.properties"  />
+	
     <target name="pre-commit">
     	<jsllint haltonfailure="true">
 			<fileset dir="frontend">
@@ -30,24 +10,23 @@
 		</jsllint>
     </target>
     
+    <!-- Cleans the output directories -->
     <target name="clean">
     	<delete dir="reports" />
     	<delete dir="build" />
     </target>
     
+    <!--  Re-generates the proxies needed by Doctrine2 -->
     <target name="create-orm-proxies">
     	<exec command="doctrine orm:generate-proxies" passthru="true"/>
     </target>
     
-	<target name="cruise-control" depends="clean,phpmd,jslint,phpcpd,code-coverage,php-documentor">
-			
-	</target>
- 
+    <!-- Builds the frontend, regenerates the proxies and minifies the JS -->
 	<target name="build">
 		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
 		<mkdir dir="build/"/>
 		<copy overwrite="false" todir="build/extjs/">
-			<fileset dir="3rdparty/ext-4.0.2/">
+			<fileset dir="${extjs.path}">
 				<include name="bootstrap.js"/>
 				<include name="compatibility/ext3-core-compat.js"/>
 				<include name="compatibility/ext3-compat.js"/>
@@ -63,14 +42,14 @@
 			
 		<echo>Copying Ext Statusbar</echo>
 		<copy overwrite="false" todir="build/js/Ext.ux/">
-			<fileset dir="3rdparty/ext-4.0.2/examples/ux">
+			<fileset dir="${extjs.path}/examples/ux">
 				<include name="statusbar/**"/>
 			</fileset>
 		</copy>
 		
 		<echo>Copying Ext.tab.TabCloseMenu</echo>
 		<copy overwrite="false" todir="build/js/Ext.ux/">
-			<fileset dir="3rdparty/ext-4.0.2/examples/ux">
+			<fileset dir="${extjs.path}/examples/ux">
 				<include name="TabCloseMenu.js"/>
 			</fileset>
 		</copy>
@@ -91,22 +70,16 @@
 		</copy>
 		
 		<phingcall target="create-orm-proxies"/>
+		
+		<phingcall target="jsbuilder"/>
 	</target>
     
-	<target name="build.quick">
-    		
-		<echo>Copying JS frontend</echo>
-		<copy overwrite="true" todir="build/">
-			<fileset dir="frontend">
-				<include name="js/**"/>
-				<include name="css/**"/>
-				<include name="index.html"/>
-				<include name="service.php"/>
-				<include name="image.php"/>
-				<include name="upload.php"/>
-			</fileset>
-		</copy>
-	</target>
+    
+    <!-- Builds the jsb3 file and build the minified JS files -->
+    <target name="jsbuilder">
+    	<exec command="php util/gen-jsb3-file.php ./frontend/ ${extjs.path}"/>
+    	<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/partkeepr.jsb3 --deployDir ${project.basedir}/build/js" passthru="true"/>
+    </target>
     
 	<!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->
 	<target name="jslint">
@@ -198,5 +171,31 @@
 		
 		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
 		
+	</target>
+	
+	<target name="test-setup" >
+		<echo msg="Testing the installation..." />
+        
+		<phpunit haltonfailure="true" codecoverage="false" printsummary="true">
+			<batchtest>
+				<fileset dir="setup/tests/">
+					<include name="*Test.php" />
+				</fileset>
+			</batchtest>
+			<formatter type="plain" usefile="false" />
+		</phpunit>
+		
+		<echo msg=""/>
+        
+		<echo msg="       ***************************"/>
+		<echo msg="       Setup Test Complete"/>
+		<echo msg="       ***************************"/>
+		<echo msg=""/>
+		<echo msg="       No errors were found."/>
+		<echo msg="       You may now proceed!"/>
+	</target>
+	
+	<target name="cruise-control" depends="clean,phpmd,jslint,phpcpd,code-coverage,php-documentor">
+			
 	</target>
 </project>

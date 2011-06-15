@@ -1,4 +1,4 @@
-PartKeepr.CategoryTree = Ext.define("CategoryTree", {
+Ext.define("PartKeepr.CategoryTree", {
 	alias: 'widget.CategoryTree',
 	extend: 'Ext.tree.Panel',
 	displayField: 'name',

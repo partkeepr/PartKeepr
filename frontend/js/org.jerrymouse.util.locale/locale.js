@@ -14,12 +14,6 @@
 
 Ext.setLocale = function (locale) {
 	Ext.jm_locale = locale;
-	
-	Ext.ComponentMgr.all.each( function (item) {
-		if (item.onLocaleChange) {
-			item.onLocaleChange(item);
-		}
-	});
 };
 
 Ext.getLocale = function () {
