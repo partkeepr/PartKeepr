@@ -8,7 +8,7 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 		this.createStore({
 			model: "Footprint",
 			sorters: [{
-	              property: 'footprint',
+	              property: 'name',
 	              direction:'ASC'
 	          }]
 		});
