@@ -56,7 +56,6 @@ Ext.define('PartKeepr.AttachmentGrid', {
 		
 		this.columns = [
 		                {
-		                	header: "",
 		                	dataIndex: 'extension',
 		                	width: 30,
 		                	renderer: function (val) {
