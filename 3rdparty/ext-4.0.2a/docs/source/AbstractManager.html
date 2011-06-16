@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-AbstractManager'>/**
+</span> * @class Ext.AbstractManager
+ * @extends Object
+ * Base Manager class
+ */
+Ext.define('Ext.AbstractManager', {
+
+    /* Begin Definitions */
+
+    requires: ['Ext.util.HashMap'],
+
+    /* End Definitions */
+
+    typeName: 'type',
+
+    constructor: function(config) {
+        Ext.apply(this, config || {});
+
+<span id='Ext-AbstractManager-property-all'>        /**
+</span>         * Contains all of the items currently managed
+         * @property all
+         * @type Ext.util.MixedCollection
+         */
+        this.all = Ext.create('Ext.util.HashMap');
+
+        this.types = {};
+    },
+
+<span id='Ext-AbstractManager-method-get'>    /**
+</span>     * Returns an item by id.
+     * For additional details see {@link Ext.util.HashMap#get}.
+     * @param {String} id The id of the item
+     * @return {Mixed} The item, &lt;code&gt;undefined&lt;/code&gt; if not found.
+     */
+    get : function(id) {
+        return this.all.get(id);
+    },
+
+<span id='Ext-AbstractManager-method-register'>    /**
+</span>     * Registers an item to be managed
+     * @param {Mixed} item The item to register
+     */
+    register: function(item) {
+        this.all.add(item);
+    },
+
+<span id='Ext-AbstractManager-method-unregister'>    /**
+</span>     * Unregisters an item by removing it from this manager
+     * @param {Mixed} item The item to unregister
+     */
+    unregister: function(item) {
+        this.all.remove(item);
+    },
+
+<span id='Ext-AbstractManager-method-registerType'>    /**
+</span>     * &lt;p&gt;Registers a new item constructor, keyed by a type key.
+     * @param {String} type The mnemonic string by which the class may be looked up.
+     * @param {Constructor} cls The new instance class.
+     */
+    registerType : function(type, cls) {
+        this.types[type] = cls;
+        cls[this.typeName] = type;
+    },
+
+<span id='Ext-AbstractManager-method-isRegistered'>    /**
+</span>     * Checks if an item type is registered.
+     * @param {String} type The mnemonic string by which the class may be looked up
+     * @return {Boolean} Whether the type is registered.
+     */
+    isRegistered : function(type){
+        return this.types[type] !== undefined;
+    },
+
+<span id='Ext-AbstractManager-method-create'>    /**
+</span>     * Creates and returns an instance of whatever this manager manages, based on the supplied type and config object
+     * @param {Object} config The config object
+     * @param {String} defaultType If no type is discovered in the config object, we fall back to this type
+     * @return {Mixed} The instance of whatever this manager is managing
+     */
+    create: function(config, defaultType) {
+        var type        = config[this.typeName] || config.type || defaultType,
+            Constructor = this.types[type];
+
+        //&lt;debug&gt;
+        if (Constructor == undefined) {
+            Ext.Error.raise(&quot;The '&quot; + type + &quot;' type has not been registered with this manager&quot;);
+        }
+        //&lt;/debug&gt;
+
+        return new Constructor(config);
+    },
+
+<span id='Ext-AbstractManager-method-onAvailable'>    /**
+</span>     * Registers a function that will be called when an item with the specified id is added to the manager. This will happen on instantiation.
+     * @param {String} id The item id
+     * @param {Function} fn The callback function. Called with a single parameter, the item.
+     * @param {Object} scope The scope (&lt;code&gt;this&lt;/code&gt; reference) in which the callback is executed. Defaults to the item.
+     */
+    onAvailable : function(id, fn, scope){
+        var all = this.all,
+            item;
+        
+        if (all.containsKey(id)) {
+            item = all.get(id);
+            fn.call(scope || item, item);
+        } else {
+            all.on('add', function(map, key, item){
+                if (key == id) {
+                    fn.call(scope || item, item);
+                    all.un('add', fn, scope);
+                }
+            });
+        }
+    },
+    
+<span id='Ext-AbstractManager-method-each'>    /**
+</span>     * Executes the specified function once for each item in the collection.
+     * Returning false from the function will cease iteration.
+     * 
+     * The paramaters passed to the function are:
+     * &lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+     * &lt;li&gt;&lt;b&gt;key&lt;/b&gt; : String&lt;p class=&quot;sub-desc&quot;&gt;The key of the item&lt;/p&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;value&lt;/b&gt; : Number&lt;p class=&quot;sub-desc&quot;&gt;The value of the item&lt;/p&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;length&lt;/b&gt; : Number&lt;p class=&quot;sub-desc&quot;&gt;The total number of items in the collection&lt;/p&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;
+     * @param {Object} fn The function to execute.
+     * @param {Object} scope The scope to execute in. Defaults to &lt;tt&gt;this&lt;/tt&gt;.
+     */
+    each: function(fn, scope){
+        this.all.each(fn, scope || this);    
+    },
+    
+<span id='Ext-AbstractManager-method-getCount'>    /**
+</span>     * Gets the number of items in the collection.
+     * @return {Number} The number of items in the collection.
+     */
+    getCount: function(){
+        return this.all.getCount();
+    }
+});
+</pre>
+</body>
+</html>

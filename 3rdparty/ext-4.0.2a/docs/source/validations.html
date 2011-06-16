@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-data-validations'>/**
+</span> * @author Ed Spencer
+ * @class Ext.data.validations
+ * @extends Object
+ * 
+ * &lt;p&gt;This singleton contains a set of validation functions that can be used to validate any type
+ * of data. They are most often used in {@link Ext.data.Model Models}, where they are automatically
+ * set up and executed.&lt;/p&gt;
+ */
+Ext.define('Ext.data.validations', {
+    singleton: true,
+    
+<span id='Ext-data-validations-property-presenceMessage'>    /**
+</span>     * The default error message used when a presence validation fails
+     * @property presenceMessage
+     * @type String
+     */
+    presenceMessage: 'must be present',
+    
+<span id='Ext-data-validations-property-lengthMessage'>    /**
+</span>     * The default error message used when a length validation fails
+     * @property lengthMessage
+     * @type String
+     */
+    lengthMessage: 'is the wrong length',
+    
+<span id='Ext-data-validations-property-formatMessage'>    /**
+</span>     * The default error message used when a format validation fails
+     * @property formatMessage
+     * @type Boolean
+     */
+    formatMessage: 'is the wrong format',
+    
+<span id='Ext-data-validations-property-inclusionMessage'>    /**
+</span>     * The default error message used when an inclusion validation fails
+     * @property inclusionMessage
+     * @type String
+     */
+    inclusionMessage: 'is not included in the list of acceptable values',
+    
+<span id='Ext-data-validations-property-exclusionMessage'>    /**
+</span>     * The default error message used when an exclusion validation fails
+     * @property exclusionMessage
+     * @type String
+     */
+    exclusionMessage: 'is not an acceptable value',
+    
+<span id='Ext-data-validations-method-presence'>    /**
+</span>     * Validates that the given value is present
+     * @param {Object} config Optional config object
+     * @param {Mixed} value The value to validate
+     * @return {Boolean} True if validation passed
+     */
+    presence: function(config, value) {
+        if (value === undefined) {
+            value = config;
+        }
+        
+        return !!value;
+    },
+    
+<span id='Ext-data-validations-method-length'>    /**
+</span>     * Returns true if the given value is between the configured min and max values
+     * @param {Object} config Optional config object
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value passes validation
+     */
+    length: function(config, value) {
+        if (value === undefined) {
+            return false;
+        }
+        
+        var length = value.length,
+            min    = config.min,
+            max    = config.max;
+        
+        if ((min &amp;&amp; length &lt; min) || (max &amp;&amp; length &gt; max)) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+    
+<span id='Ext-data-validations-method-format'>    /**
+</span>     * Returns true if the given value passes validation against the configured {@link #matcher} regex
+     * @param {Object} config Optional config object
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value passes the format validation
+     */
+    format: function(config, value) {
+        return !!(config.matcher &amp;&amp; config.matcher.test(value));
+    },
+    
+<span id='Ext-data-validations-method-inclusion'>    /**
+</span>     * Validates that the given value is present in the configured {@link #list}
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value is present in the list
+     */
+    inclusion: function(config, value) {
+        return config.list &amp;&amp; Ext.Array.indexOf(config.list,value) != -1;
+    },
+    
+<span id='Ext-data-validations-method-exclusion'>    /**
+</span>     * Validates that the given value is present in the configured {@link #list}
+     * @param {Object} config Optional config object
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value is not present in the list
+     */
+    exclusion: function(config, value) {
+        return config.list &amp;&amp; Ext.Array.indexOf(config.list,value) == -1;
+    }
+});</pre>
+</body>
+</html>

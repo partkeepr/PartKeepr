@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-tree-ViewDDPlugin'>/**
+</span> * @class Ext.tree.ViewDDPlugin
+ * @extends Ext.AbstractPlugin
+ * &lt;p&gt;This plugin provides drag and/or drop functionality for a TreeView.&lt;/p&gt;
+ * &lt;p&gt;It creates a specialized instance of {@link Ext.dd.DragZone DragZone} which knows how to drag out of a {@link Ext.tree.View TreeView}
+ * and loads the data object which is passed to a cooperating {@link Ext.dd.DragZone DragZone}'s methods with the following properties:&lt;ul&gt;
+ * &lt;li&gt;copy : Boolean
+ *  &lt;div class=&quot;sub-desc&quot;&gt;The value of the TreeView's &lt;code&gt;copy&lt;/code&gt; property, or &lt;code&gt;true&lt;/code&gt; if the TreeView was configured
+ *  with &lt;code&gt;allowCopy: true&lt;/code&gt; &lt;u&gt;and&lt;/u&gt; the control key was pressed when the drag operation was begun.&lt;/div&gt;&lt;/li&gt;
+ * &lt;li&gt;view : TreeView
+ *  &lt;div class=&quot;sub-desc&quot;&gt;The source TreeView from which the drag originated.&lt;/div&gt;&lt;/li&gt;
+ * &lt;li&gt;ddel : HtmlElement
+ *  &lt;div class=&quot;sub-desc&quot;&gt;The drag proxy element which moves with the mouse&lt;/div&gt;&lt;/li&gt;
+ * &lt;li&gt;item : HtmlElement
+ *  &lt;div class=&quot;sub-desc&quot;&gt;The TreeView node upon which the mousedown event was registered.&lt;/div&gt;&lt;/li&gt;
+ * &lt;li&gt;records : Array
+ *  &lt;div class=&quot;sub-desc&quot;&gt;An Array of {@link Ext.data.Model Model}s representing the selected data being dragged from the source TreeView.&lt;/div&gt;&lt;/li&gt;
+ * &lt;/ul&gt;&lt;/p&gt;
+ * &lt;p&gt;It also creates a specialized instance of {@link Ext.dd.DropZone} which cooperates with other DropZones which are members of the same
+ * ddGroup which processes such data objects.&lt;/p&gt;
+ * &lt;p&gt;Adding this plugin to a view means that two new events may be fired from the client TreeView, &lt;code&gt;{@link #event-beforedrop beforedrop}&lt;/code&gt; and
+ * &lt;code&gt;{@link #event-drop drop}&lt;/code&gt;&lt;/p&gt;
+ */
+Ext.define('Ext.tree.plugin.TreeViewDragDrop', {
+    extend: 'Ext.AbstractPlugin',
+    alias: 'plugin.treeviewdragdrop',
+
+    uses: [
+        'Ext.tree.ViewDragZone',
+        'Ext.tree.ViewDropZone'
+    ],
+
+<span id='Ext-tree-ViewDDPlugin-event-beforedrop'>    /**
+</span>     * @event beforedrop
+     * &lt;p&gt;&lt;b&gt;This event is fired through the TreeView. Add listeners to the TreeView object&lt;/b&gt;&lt;/p&gt;
+     * &lt;p&gt;Fired when a drop gesture has been triggered by a mouseup event in a valid drop position in the TreeView.
+     * @param {HtmlElement} node The TreeView node &lt;b&gt;if any&lt;/b&gt; over which the mouse was positioned.&lt;/p&gt;
+     * &lt;p&gt;Returning &lt;code&gt;false&lt;/code&gt; to this event signals that the drop gesture was invalid, and if the drag proxy
+     * will animate back to the point from which the drag began.&lt;/p&gt;
+     * &lt;p&gt;Returning &lt;code&gt;0&lt;/code&gt; To this event signals that the data transfer operation should not take place, but
+     * that the gesture was valid, and that the repair operation should not take place.&lt;/p&gt;
+     * &lt;p&gt;Any other return value continues with the data transfer operation.&lt;/p&gt;
+     * @param {Object} data The data object gathered at mousedown time by the cooperating {@link Ext.dd.DragZone DragZone}'s
+     * {@link Ext.dd.DragZone#getDragData getDragData} method it contains the following properties:&lt;ul&gt;
+     * &lt;li&gt;copy : Boolean
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The value of the TreeView's &lt;code&gt;copy&lt;/code&gt; property, or &lt;code&gt;true&lt;/code&gt; if the TreeView was configured
+     *  with &lt;code&gt;allowCopy: true&lt;/code&gt; and the control key was pressed when the drag operation was begun&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;view : TreeView
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The source TreeView from which the drag originated.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;ddel : HtmlElement
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The drag proxy element which moves with the mouse&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;item : HtmlElement
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The TreeView node upon which the mousedown event was registered.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;records : Array
+     *  &lt;div class=&quot;sub-desc&quot;&gt;An Array of {@link Ext.data.Model Model}s representing the selected data being dragged from the source TreeView.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;
+     * @param {Ext.data.Model} overModel The Model over which the drop gesture took place.
+     * @param {String} dropPosition &lt;code&gt;&quot;before&quot;&lt;/code&gt;, &lt;code&gt;&quot;after&quot;&lt;/code&gt; or &lt;code&gt;&quot;append&quot;&lt;/code&gt; depending on whether the mouse is above or below the midline of the node,
+     * or the node is a branch node which accepts new child nodes.
+     * @param {Function} dropFunction &lt;p&gt;A function to call to complete the data transfer operation and either move or copy Model instances from the source
+     * View's Store to the destination View's Store.&lt;/p&gt;
+     * &lt;p&gt;This is useful when you want to perform some kind of asynchronous processing before confirming
+     * the drop, such as an {@link Ext.window.MessageBox#confirm confirm} call, or an Ajax request.&lt;/p&gt;
+     * &lt;p&gt;Return &lt;code&gt;0&lt;/code&gt; from this event handler, and call the &lt;code&gt;dropFunction&lt;/code&gt; at any time to perform the data transfer.&lt;/p&gt;
+     */
+
+<span id='Ext-tree-ViewDDPlugin-event-drop'>    /**
+</span>     * @event drop
+     * &lt;b&gt;This event is fired through the TreeView. Add listeners to the TreeView object&lt;/b&gt;
+     * Fired when a drop operation has been completed and the data has been moved or copied.
+     * @param {HtmlElement} node The TreeView node &lt;b&gt;if any&lt;/b&gt; over which the mouse was positioned.
+     * @param {Object} data The data object gathered at mousedown time by the cooperating {@link Ext.dd.DragZone DragZone}'s
+     * {@link Ext.dd.DragZone#getDragData getDragData} method it contains the following properties:&lt;ul&gt;
+     * &lt;li&gt;copy : Boolean
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The value of the TreeView's &lt;code&gt;copy&lt;/code&gt; property, or &lt;code&gt;true&lt;/code&gt; if the TreeView was configured
+     *  with &lt;code&gt;allowCopy: true&lt;/code&gt; and the control key was pressed when the drag operation was begun&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;view : TreeView
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The source TreeView from which the drag originated.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;ddel : HtmlElement
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The drag proxy element which moves with the mouse&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;item : HtmlElement
+     *  &lt;div class=&quot;sub-desc&quot;&gt;The TreeView node upon which the mousedown event was registered.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;records : Array
+     *  &lt;div class=&quot;sub-desc&quot;&gt;An Array of {@link Ext.data.Model Model}s representing the selected data being dragged from the source TreeView.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;
+     * @param {Ext.data.Model} overModel The Model over which the drop gesture took place.
+     * @param {String} dropPosition &lt;code&gt;&quot;before&quot;&lt;/code&gt;, &lt;code&gt;&quot;after&quot;&lt;/code&gt; or &lt;code&gt;&quot;append&quot;&lt;/code&gt; depending on whether the mouse is above or below the midline of the node,
+     * or the node is a branch node which accepts new child nodes.
+     */
+
+    dragText : '{0} selected node{1}',
+
+<span id='Ext-tree-ViewDDPlugin-cfg-allowParentInsert'>    /**
+</span>     * @cfg {Boolean} allowParentInsert
+     * Allow inserting a dragged node between an expanded parent node and its first child that will become a
+     * sibling of the parent when dropped (defaults to false)
+     */
+    allowParentInserts: false,
+
+<span id='Ext-tree-ViewDDPlugin-cfg-allowContainerDrop'>    /**
+</span>     * @cfg {String} allowContainerDrop
+     * True if drops on the tree container (outside of a specific tree node) are allowed (defaults to false)
+     */
+    allowContainerDrops: false,
+
+<span id='Ext-tree-ViewDDPlugin-cfg-appendOnly'>    /**
+</span>     * @cfg {String} appendOnly
+     * True if the tree should only allow append drops (use for trees which are sorted, defaults to false)
+     */
+    appendOnly: false,
+
+<span id='Ext-tree-ViewDDPlugin-cfg-ddGroup'>    /**
+</span>     * @cfg {String} ddGroup
+     * A named drag drop group to which this object belongs.  If a group is specified, then both the DragZones and DropZone
+     * used by this plugin will only interact with other drag drop objects in the same group (defaults to 'TreeDD').
+     */
+    ddGroup : &quot;TreeDD&quot;,
+
+<span id='Ext-tree-ViewDDPlugin-cfg-dragGroup'>    /**
+</span>     * @cfg {String} dragGroup
+     * &lt;p&gt;The ddGroup to which the DragZone will belong.&lt;/p&gt;
+     * &lt;p&gt;This defines which other DropZones the DragZone will interact with. Drag/DropZones only interact with other Drag/DropZones
+     * which are members of the same ddGroup.&lt;/p&gt;
+     */
+
+<span id='Ext-tree-ViewDDPlugin-cfg-dropGroup'>    /**
+</span>     * @cfg {String} dropGroup
+     * &lt;p&gt;The ddGroup to which the DropZone will belong.&lt;/p&gt;
+     * &lt;p&gt;This defines which other DragZones the DropZone will interact with. Drag/DropZones only interact with other Drag/DropZones
+     * which are members of the same ddGroup.&lt;/p&gt;
+     */
+
+<span id='Ext-tree-ViewDDPlugin-cfg-expandDelay'>    /**
+</span>     * @cfg {String} expandDelay
+     * The delay in milliseconds to wait before expanding a target tree node while dragging a droppable node
+     * over the target (defaults to 1000)
+     */
+    expandDelay : 1000,
+
+<span id='Ext-tree-ViewDDPlugin-cfg-enableDrop'>    /**
+</span>     * @cfg {Boolean} enableDrop
+     * &lt;p&gt;Defaults to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+     * &lt;p&gt;Set to &lt;code&gt;false&lt;/code&gt; to disallow the View from accepting drop gestures&lt;/p&gt;
+     */
+    enableDrop: true,
+
+<span id='Ext-tree-ViewDDPlugin-cfg-enableDrag'>    /**
+</span>     * @cfg {Boolean} enableDrag
+     * &lt;p&gt;Defaults to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+     * &lt;p&gt;Set to &lt;code&gt;false&lt;/code&gt; to disallow dragging items from the View &lt;/p&gt;
+     */
+    enableDrag: true,
+    
+<span id='Ext-tree-ViewDDPlugin-cfg-nodeHighlightColor'>    /**
+</span>     * @cfg {String} nodeHighlightColor The color to use when visually highlighting the dragged
+     * or dropped node (defaults to 'c3daf9' - light blue). The color must be a 6 digit hex value, without
+     * a preceding '#'. See also {@link #nodeHighlightOnDrop} and {@link #nodeHighlightOnRepair}.
+     */
+    nodeHighlightColor: 'c3daf9',
+    
+<span id='Ext-tree-ViewDDPlugin-cfg-nodeHighlightOnDrop'>    /**
+</span>     * @cfg {Boolean} nodeHighlightOnDrop Whether or not to highlight any nodes after they are
+     * successfully dropped on their target. Defaults to the value of `Ext.enableFx`.
+     * See also {@link #nodeHighlightColor} and {@link #nodeHighlightOnRepair}.
+     * @markdown
+     */
+    nodeHighlightOnDrop: Ext.enableFx,
+    
+<span id='Ext-tree-ViewDDPlugin-cfg-nodeHighlightOnRepair'>    /**
+</span>     * @cfg {Boolean} nodeHighlightOnRepair Whether or not to highlight any nodes after they are
+     * repaired from an unsuccessful drag/drop. Defaults to the value of `Ext.enableFx`.
+     * See also {@link #nodeHighlightColor} and {@link #nodeHighlightOnDrop}.
+     * @markdown
+     */
+    nodeHighlightOnRepair: Ext.enableFx,
+
+    init : function(view) {
+        view.on('render', this.onViewRender, this, {single: true});
+    },
+
+<span id='Ext-tree-ViewDDPlugin-method-destroy'>    /**
+</span>     * @private
+     * AbstractComponent calls destroy on all its plugins at destroy time.
+     */
+    destroy: function() {
+        Ext.destroy(this.dragZone, this.dropZone);
+    },
+
+    onViewRender : function(view) {
+        var me = this;
+
+        if (me.enableDrag) {
+            me.dragZone = Ext.create('Ext.tree.ViewDragZone', {
+                view: view,
+                ddGroup: me.dragGroup || me.ddGroup,
+                dragText: me.dragText,
+                repairHighlightColor: me.nodeHighlightColor,
+                repairHighlight: me.nodeHighlightOnRepair
+            });
+        }
+
+        if (me.enableDrop) {
+            me.dropZone = Ext.create('Ext.tree.ViewDropZone', {
+                view: view,
+                ddGroup: me.dropGroup || me.ddGroup,
+                allowContainerDrops: me.allowContainerDrops,
+                appendOnly: me.appendOnly,
+                allowParentInserts: me.allowParentInserts,
+                expandDelay: me.expandDelay,
+                dropHighlightColor: me.nodeHighlightColor,
+                dropHighlight: me.nodeHighlightOnDrop
+            });
+        }
+    }
+});</pre>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-column-Action'>/**
+</span> * @class Ext.grid.column.Action
+ * @extends Ext.grid.column.Column
+ * &lt;p&gt;A Grid header type which renders an icon, or a series of icons in a grid cell, and offers a scoped click
+ * handler for each icon.&lt;/p&gt;
+ *
+ * {@img Ext.grid.column.Action/Ext.grid.column.Action.png Ext.grid.column.Action grid column}
+ *  
+ * ## Code
+ *     Ext.create('Ext.data.Store', {
+ *         storeId:'employeeStore',
+ *         fields:['firstname', 'lastname', 'senority', 'dep', 'hired'],
+ *         data:[
+ *             {firstname:&quot;Michael&quot;, lastname:&quot;Scott&quot;},
+ *             {firstname:&quot;Dwight&quot;, lastname:&quot;Schrute&quot;},
+ *             {firstname:&quot;Jim&quot;, lastname:&quot;Halpert&quot;},
+ *             {firstname:&quot;Kevin&quot;, lastname:&quot;Malone&quot;},
+ *             {firstname:&quot;Angela&quot;, lastname:&quot;Martin&quot;}                        
+ *         ]
+ *     });
+ *     
+ *     Ext.create('Ext.grid.Panel', {
+ *         title: 'Action Column Demo',
+ *         store: Ext.data.StoreManager.lookup('employeeStore'),
+ *         columns: [
+ *             {text: 'First Name',  dataIndex:'firstname'},
+ *             {text: 'Last Name',  dataIndex:'lastname'},
+ *             {
+ *                 xtype:'actioncolumn', 
+ *                 width:50,
+ *                 items: [{
+ *                     icon: 'images/edit.png',  // Use a URL in the icon config
+ *                     tooltip: 'Edit',
+ *                     handler: function(grid, rowIndex, colIndex) {
+ *                         var rec = grid.getStore().getAt(rowIndex);
+ *                         alert(&quot;Edit &quot; + rec.get('firstname'));
+ *                     }
+ *                 },{
+ *                     icon: 'images/delete.png',
+ *                     tooltip: 'Delete',
+ *                     handler: function(grid, rowIndex, colIndex) {
+ *                         var rec = grid.getStore().getAt(rowIndex);
+ *                         alert(&quot;Terminate &quot; + rec.get('firstname'));
+ *                     }                
+ *                 }]
+ *             }
+ *         ],
+ *         width: 250,
+ *         renderTo: Ext.getBody()
+ *     });
+ * &lt;p&gt;The action column can be at any index in the columns array, and a grid can have any number of
+ * action columns. &lt;/p&gt;
+ */
+Ext.define('Ext.grid.column.Action', {
+    extend: 'Ext.grid.column.Column',
+    alias: ['widget.actioncolumn'],
+    alternateClassName: 'Ext.grid.ActionColumn',
+
+<span id='Ext-grid-column-Action-cfg-icon'>    /**
+</span>     * @cfg {String} icon
+     * The URL of an image to display as the clickable element in the column. 
+     * Optional - defaults to &lt;code&gt;{@link Ext#BLANK_IMAGE_URL Ext.BLANK_IMAGE_URL}&lt;/code&gt;.
+     */
+<span id='Ext-grid-column-Action-cfg-iconCls'>    /**
+</span>     * @cfg {String} iconCls
+     * A CSS class to apply to the icon image. To determine the class dynamically, configure the Column with a &lt;code&gt;{@link #getClass}&lt;/code&gt; function.
+     */
+<span id='Ext-grid-column-Action-cfg-handler'>    /**
+</span>     * @cfg {Function} handler A function called when the icon is clicked.
+     * The handler is passed the following parameters:&lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+     * &lt;li&gt;&lt;code&gt;view&lt;/code&gt; : TableView&lt;div class=&quot;sub-desc&quot;&gt;The owning TableView.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;rowIndex&lt;/code&gt; : Number&lt;div class=&quot;sub-desc&quot;&gt;The row index clicked on.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;colIndex&lt;/code&gt; : Number&lt;div class=&quot;sub-desc&quot;&gt;The column index clicked on.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;item&lt;/code&gt; : Object&lt;div class=&quot;sub-desc&quot;&gt;The clicked item (or this Column if multiple 
+     * {@link #items} were not configured).&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;e&lt;/code&gt; : Event&lt;div class=&quot;sub-desc&quot;&gt;The click event.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;
+     */
+<span id='Ext-grid-column-Action-cfg-scope'>    /**
+</span>     * @cfg {Object} scope The scope (&lt;tt&gt;&lt;b&gt;this&lt;/b&gt;&lt;/tt&gt; reference) in which the &lt;code&gt;{@link #handler}&lt;/code&gt;
+     * and &lt;code&gt;{@link #getClass}&lt;/code&gt; fuctions are executed. Defaults to this Column.
+     */
+<span id='Ext-grid-column-Action-cfg-tooltip'>    /**
+</span>     * @cfg {String} tooltip A tooltip message to be displayed on hover. {@link Ext.tip.QuickTipManager#init Ext.tip.QuickTipManager} must have 
+     * been initialized.
+     */
+<span id='Ext-grid-column-Action-cfg-stopSelection'>    /**
+</span>     * @cfg {Boolean} stopSelection Defaults to &lt;code&gt;true&lt;/code&gt;. Prevent grid &lt;i&gt;row&lt;/i&gt; selection upon mousedown.
+     */
+<span id='Ext-grid-column-Action-cfg-getClass'>    /**
+</span>     * @cfg {Function} getClass A function which returns the CSS class to apply to the icon image.
+     * The function is passed the following parameters:&lt;ul&gt;
+     *     &lt;li&gt;&lt;b&gt;v&lt;/b&gt; : Object&lt;p class=&quot;sub-desc&quot;&gt;The value of the column's configured field (if any).&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;metadata&lt;/b&gt; : Object&lt;p class=&quot;sub-desc&quot;&gt;An object in which you may set the following attributes:&lt;ul&gt;
+     *         &lt;li&gt;&lt;b&gt;css&lt;/b&gt; : String&lt;p class=&quot;sub-desc&quot;&gt;A CSS class name to add to the cell's TD element.&lt;/p&gt;&lt;/li&gt;
+     *         &lt;li&gt;&lt;b&gt;attr&lt;/b&gt; : String&lt;p class=&quot;sub-desc&quot;&gt;An HTML attribute definition string to apply to the data container element &lt;i&gt;within&lt;/i&gt; the table cell
+     *         (e.g. 'style=&quot;color:red;&quot;').&lt;/p&gt;&lt;/li&gt;
+     *     &lt;/ul&gt;&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;r&lt;/b&gt; : Ext.data.Record&lt;p class=&quot;sub-desc&quot;&gt;The Record providing the data.&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;rowIndex&lt;/b&gt; : Number&lt;p class=&quot;sub-desc&quot;&gt;The row index..&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;colIndex&lt;/b&gt; : Number&lt;p class=&quot;sub-desc&quot;&gt;The column index.&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;store&lt;/b&gt; : Ext.data.Store&lt;p class=&quot;sub-desc&quot;&gt;The Store which is providing the data Model.&lt;/p&gt;&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+<span id='Ext-grid-column-Action-cfg-items'>    /**
+</span>     * @cfg {Array} items An Array which may contain multiple icon definitions, each element of which may contain:
+     * &lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+     * &lt;li&gt;&lt;code&gt;icon&lt;/code&gt; : String&lt;div class=&quot;sub-desc&quot;&gt;The url of an image to display as the clickable element 
+     * in the column.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;iconCls&lt;/code&gt; : String&lt;div class=&quot;sub-desc&quot;&gt;A CSS class to apply to the icon image.
+     * To determine the class dynamically, configure the item with a &lt;code&gt;getClass&lt;/code&gt; function.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;getClass&lt;/code&gt; : Function&lt;div class=&quot;sub-desc&quot;&gt;A function which returns the CSS class to apply to the icon image.
+     * The function is passed the following parameters:&lt;ul&gt;
+     *     &lt;li&gt;&lt;b&gt;v&lt;/b&gt; : Object&lt;p class=&quot;sub-desc&quot;&gt;The value of the column's configured field (if any).&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;metadata&lt;/b&gt; : Object&lt;p class=&quot;sub-desc&quot;&gt;An object in which you may set the following attributes:&lt;ul&gt;
+     *         &lt;li&gt;&lt;b&gt;css&lt;/b&gt; : String&lt;p class=&quot;sub-desc&quot;&gt;A CSS class name to add to the cell's TD element.&lt;/p&gt;&lt;/li&gt;
+     *         &lt;li&gt;&lt;b&gt;attr&lt;/b&gt; : String&lt;p class=&quot;sub-desc&quot;&gt;An HTML attribute definition string to apply to the data container element &lt;i&gt;within&lt;/i&gt; the table cell
+     *         (e.g. 'style=&quot;color:red;&quot;').&lt;/p&gt;&lt;/li&gt;
+     *     &lt;/ul&gt;&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;r&lt;/b&gt; : Ext.data.Record&lt;p class=&quot;sub-desc&quot;&gt;The Record providing the data.&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;rowIndex&lt;/b&gt; : Number&lt;p class=&quot;sub-desc&quot;&gt;The row index..&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;colIndex&lt;/b&gt; : Number&lt;p class=&quot;sub-desc&quot;&gt;The column index.&lt;/p&gt;&lt;/li&gt;
+     *     &lt;li&gt;&lt;b&gt;store&lt;/b&gt; : Ext.data.Store&lt;p class=&quot;sub-desc&quot;&gt;The Store which is providing the data Model.&lt;/p&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;handler&lt;/code&gt; : Function&lt;div class=&quot;sub-desc&quot;&gt;A function called when the icon is clicked.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;scope&lt;/code&gt; : Scope&lt;div class=&quot;sub-desc&quot;&gt;The scope (&lt;code&gt;&lt;b&gt;this&lt;/b&gt;&lt;/code&gt; reference) in which the 
+     * &lt;code&gt;handler&lt;/code&gt; and &lt;code&gt;getClass&lt;/code&gt; functions are executed. Fallback defaults are this Column's
+     * configured scope, then this Column.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;tooltip&lt;/code&gt; : String&lt;div class=&quot;sub-desc&quot;&gt;A tooltip message to be displayed on hover. 
+     * {@link Ext.tip.QuickTipManager#init Ext.tip.QuickTipManager} must have been initialized.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;
+     */
+    header: '&amp;#160;',
+
+    actionIdRe: /x-action-col-(\d+)/,
+
+<span id='Ext-grid-column-Action-cfg-altText'>    /**
+</span>     * @cfg {String} altText The alt text to use for the image element. Defaults to &lt;tt&gt;''&lt;/tt&gt;.
+     */
+    altText: '',
+    
+    sortable: false,
+
+    constructor: function(config) {
+        var me = this,
+            cfg = Ext.apply({}, config),
+            items = cfg.items || [me],
+            l = items.length,
+            i,
+            item;
+
+        // This is a Container. Delete the items config to be reinstated after construction.
+        delete cfg.items;
+        me.callParent([cfg]);
+
+        // Items is an array property of ActionColumns
+        me.items = items;
+
+//      Renderer closure iterates through items creating an &lt;img&gt; element for each and tagging with an identifying 
+//      class name x-action-col-{n}
+        me.renderer = function(v, meta) {
+//          Allow a configured renderer to create initial value (And set the other values in the &quot;metadata&quot; argument!)
+            v = Ext.isFunction(cfg.renderer) ? cfg.renderer.apply(this, arguments)||'' : '';
+
+            meta.tdCls += ' ' + Ext.baseCSSPrefix + 'action-col-cell';
+            for (i = 0; i &lt; l; i++) {
+                item = items[i];
+                v += '&lt;img alt=&quot;' + (item.altText || me.altText) + '&quot; src=&quot;' + (item.icon || Ext.BLANK_IMAGE_URL) +
+                    '&quot; class=&quot;' + Ext.baseCSSPrefix + 'action-col-icon ' + Ext.baseCSSPrefix + 'action-col-' + String(i) + ' ' +  (item.iconCls || '') + 
+                    ' ' + (Ext.isFunction(item.getClass) ? item.getClass.apply(item.scope||me.scope||me, arguments) : (me.iconCls || '')) + '&quot;' +
+                    ((item.tooltip) ? ' data-qtip=&quot;' + item.tooltip + '&quot;' : '') + ' /&gt;';
+            }
+            return v;
+        };
+    },
+
+    destroy: function() {
+        delete this.items;
+        delete this.renderer;
+        return this.callParent(arguments);
+    },
+
+<span id='Ext-grid-column-Action-method-processEvent'>    /**
+</span>     * @private
+     * Process and refire events routed from the GridView's processEvent method.
+     * Also fires any configured click handlers. By default, cancels the mousedown event to prevent selection.
+     * Returns the event handler's status to allow canceling of GridView's bubbling process.
+     */
+    processEvent : function(type, view, cell, recordIndex, cellIndex, e){
+        var me = this,
+            match = e.getTarget().className.match(me.actionIdRe),
+            item, fn;
+        if (match) {
+            item = me.items[parseInt(match[1], 10)];
+            if (item) {
+                if (type == 'click') {
+                    fn = item.handler || me.handler;
+                    if (fn) {
+                        fn.call(item.scope || me.scope || me, view, recordIndex, cellIndex, item, e);
+                    }
+                } else if (type == 'mousedown' &amp;&amp; item.stopSelection !== false) {
+                    return false;
+                }
+            }
+        }
+        return me.callParent(arguments);
+    },
+
+    cascade: function(fn, scope) {
+        fn.call(scope||this, this);
+    },
+
+    // Private override because this cannot function as a Container, and it has an items property which is an Array, NOT a MixedCollection.
+    getRefItems: function() {
+        return [];
+    }
+});</pre>
+</body>
+</html>

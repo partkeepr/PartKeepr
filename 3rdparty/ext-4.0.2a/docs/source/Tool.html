@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-panel-Tool'>/**
+</span> * @class Ext.panel.Tool
+ * @extends Ext.Component
+
+This class is used to display small visual icons in the header of a panel. There are a set of
+25 icons that can be specified by using the {@link #type} config. The {@link #handler} config
+can be used to provide a function that will respond to any click events. In general, this class
+will not be instantiated directly, rather it will be created by specifying the {@link Ext.panel.Panel#tools}
+configuration on the Panel itself.
+
+__Example Usage__
+
+    Ext.create('Ext.panel.Panel', {
+       width: 200,
+       height: 200,
+       renderTo: document.body,
+       title: 'A Panel',
+       tools: [{
+           type: 'help',
+           handler: function(){
+               // show help here
+           }
+       }, {
+           itemId: 'refresh',
+           type: 'refresh',
+           hidden: true,
+           handler: function(){
+               // do refresh
+           }
+       }, {
+           type: 'search',
+           handler: function(event, target, owner, tool){
+               // do search
+               owner.child('#refresh').show();
+           }
+       }]
+    });
+
+ * @markdown
+ */
+Ext.define('Ext.panel.Tool', {
+    extend: 'Ext.Component',
+    requires: ['Ext.tip.QuickTipManager'],
+    alias: 'widget.tool',
+
+    baseCls: Ext.baseCSSPrefix + 'tool',
+    disabledCls: Ext.baseCSSPrefix + 'tool-disabled',
+    toolPressedCls: Ext.baseCSSPrefix + 'tool-pressed',
+    toolOverCls: Ext.baseCSSPrefix + 'tool-over',
+    ariaRole: 'button',
+    renderTpl: ['&lt;img src=&quot;{blank}&quot; class=&quot;{baseCls}-{type}&quot; role=&quot;presentation&quot;/&gt;'],
+    
+<span id='Ext-panel-Tool-cfg-handler'>    /**
+</span>     * @cfg {Function} handler
+     * A function to execute when the tool is clicked.
+     * Arguments passed are:
+     * &lt;ul&gt;
+     * &lt;li&gt;&lt;b&gt;event&lt;/b&gt; : Ext.EventObject&lt;div class=&quot;sub-desc&quot;&gt;The click event.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;toolEl&lt;/b&gt; : Ext.core.Element&lt;div class=&quot;sub-desc&quot;&gt;The tool Element.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;panel&lt;/b&gt; : Ext.panel.Panel&lt;div class=&quot;sub-desc&quot;&gt;The host Panel&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;b&gt;tool&lt;/b&gt; : Ext.panel.Tool&lt;div class=&quot;sub-desc&quot;&gt;The tool object&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+    
+<span id='Ext-panel-Tool-cfg-scope'>    /**
+</span>     * @cfg {Object} scope
+     * The scope to execute the {@link #handler} function. Defaults to the tool.
+     */
+    
+<span id='Ext-panel-Tool-cfg-type'>    /**
+</span>     * @cfg {String} type
+     * The type of tool to render. The following types are available:
+     * &lt;ul&gt;
+     * &lt;li&gt;close&lt;/li&gt;
+     * &lt;li&gt;collapse&lt;/li&gt;
+     * &lt;li&gt;down&lt;/li&gt;
+     * &lt;li&gt;expand&lt;/li&gt;
+     * &lt;li&gt;gear&lt;/li&gt;
+     * &lt;li&gt;help&lt;/li&gt;
+     * &lt;li&gt;left&lt;/li&gt;
+     * &lt;li&gt;maximize&lt;/li&gt;
+     * &lt;li&gt;minimize&lt;/li&gt;
+     * &lt;li&gt;minus&lt;/li&gt;
+     * &lt;li&gt;move&lt;/li&gt;
+     * &lt;li&gt;next&lt;/li&gt;
+     * &lt;li&gt;pin&lt;/li&gt;
+     * &lt;li&gt;plus&lt;/li&gt;
+     * &lt;li&gt;prev&lt;/li&gt;
+     * &lt;li&gt;print&lt;/li&gt;
+     * &lt;li&gt;refresh&lt;/li&gt;
+     * &lt;li&gt;resize&lt;/li&gt;
+     * &lt;li&gt;restore&lt;/li&gt;
+     * &lt;li&gt;right&lt;/li&gt;
+     * &lt;li&gt;save&lt;/li&gt;
+     * &lt;li&gt;search&lt;/li&gt;
+     * &lt;li&gt;toggle&lt;/li&gt;
+     * &lt;li&gt;unpin&lt;/li&gt;
+     * &lt;li&gt;up&lt;/li&gt;
+     * &lt;/ul&gt;
+     */
+    
+<span id='Ext-panel-Tool-cfg-tooltip'>    /**
+</span>     * @cfg {String/Object} tooltip 
+     * The tooltip for the tool - can be a string to be used as innerHTML (html tags are accepted) or QuickTips config object
+     */
+    
+<span id='Ext-panel-Tool-cfg-stopEvent'>    /**
+</span>     * @cfg {Boolean} stopEvent
+     * Defaults to true. Specify as false to allow click event to propagate.
+     */
+    stopEvent: true,
+
+    initComponent: function() {
+        var me = this;
+        me.addEvents(
+<span id='Ext-panel-Tool-event-click'>            /**
+</span>             * @event click
+             * Fires when the tool is clicked
+             * @param {Ext.panel.Tool} this
+             * @param {Ext.EventObject} e The event object
+             */
+            'click'
+        );
+        
+        //&lt;debug&gt;
+        var types = [
+            'close', 
+            'collapse', 
+            'down', 
+            'expand', 
+            'gear', 
+            'help', 
+            'left', 
+            'maximize', 
+            'minimize', 
+            'minus', 
+            'move', 
+            'next', 
+            'pin', 
+            'plus', 
+            'prev', 
+            'print', 
+            'refresh', 
+            'resize', 
+            'restore', 
+            'right', 
+            'save', 
+            'search', 
+            'toggle',
+            'unpin', 
+            'up'
+        ];
+        
+        if (me.id &amp;&amp; Ext.Array.indexOf(types, me.id) &gt; -1 &amp;&amp; Ext.global.console) {
+            Ext.global.console.warn('When specifying a tool you should use the type option, the id can conflict now that tool is a Component');
+        }
+        //&lt;/debug&gt;
+        
+        me.type = me.type || me.id;
+
+        Ext.applyIf(me.renderData, {
+            baseCls: me.baseCls,
+            blank: Ext.BLANK_IMAGE_URL,
+            type: me.type
+        });
+        me.renderSelectors.toolEl = '.' + me.baseCls + '-' + me.type;
+        me.callParent();
+    },
+
+    // inherit docs
+    afterRender: function() {
+        var me = this;
+        me.callParent(arguments);
+        if (me.qtip) {
+            if (Ext.isObject(me.qtip)) {
+                Ext.tip.QuickTipManager.register(Ext.apply({
+                    target: me.id
+                }, me.qtip));
+            }
+            else {
+                me.toolEl.dom.qtip = me.qtip;
+            }
+        }
+
+        me.mon(me.toolEl, {
+            click: me.onClick,
+            mousedown: me.onMouseDown,
+            mouseover: me.onMouseOver,
+            mouseout: me.onMouseOut,
+            scope: me
+        });
+    },
+
+<span id='Ext-panel-Tool-method-setType'>    /**
+</span>     * Set the type of the tool. Allows the icon to be changed.
+     * @param {String} type The new type. See the {@link #type} config.
+     * @return {Ext.panel.Tool} this
+     */
+    setType: function(type) {
+        var me = this;
+        
+        me.type = type;
+        if (me.rendered) {
+            me.toolEl.dom.className = me.baseCls + '-' + type;
+        }
+        return me;
+    },
+
+<span id='Ext-panel-Tool-method-bindTo'>    /**
+</span>     * Binds this tool to a component.
+     * @private
+     * @param {Ext.Component} component The component
+     */
+    bindTo: function(component) {
+        this.owner = component;
+    },
+
+<span id='Ext-panel-Tool-method-onClick'>    /**
+</span>     * Fired when the tool element is clicked
+     * @private
+     * @param {Ext.EventObject} e
+     * @param {HTMLElement} target The target element
+     */
+    onClick: function(e, target) {
+        var me = this,
+            owner;
+            
+        if (me.disabled) {
+            return false;
+        }
+        owner = me.owner || me.ownerCt;
+
+        //remove the pressed + over class
+        me.el.removeCls(me.toolPressedCls);
+        me.el.removeCls(me.toolOverCls);
+
+        if (me.stopEvent !== false) {
+            e.stopEvent();
+        }
+
+        Ext.callback(me.handler, me.scope || me, [e, target, owner, me]);
+        me.fireEvent('click', me, e);
+        return true;
+    },
+    
+    // inherit docs
+    onDestroy: function(){
+        if (Ext.isObject(this.tooltip)) {
+            Ext.tip.QuickTipManager.unregister(this.id);
+        }    
+        this.callParent();
+    },
+
+<span id='Ext-panel-Tool-method-onMouseDown'>    /**
+</span>     * Called then the user pressing their mouse button down on a tool
+     * Adds the press class ({@link #toolPressedCls})
+     * @private
+     */
+    onMouseDown: function() {
+        if (this.disabled) {
+            return false;
+        }
+
+        this.el.addCls(this.toolPressedCls);
+    },
+
+<span id='Ext-panel-Tool-method-onMouseOver'>    /**
+</span>     * Called when the user rolls over a tool
+     * Adds the over class ({@link #toolOverCls})
+     * @private
+     */
+    onMouseOver: function() {
+        if (this.disabled) {
+            return false;
+        }
+        this.el.addCls(this.toolOverCls);
+    },
+
+<span id='Ext-panel-Tool-method-onMouseOut'>    /**
+</span>     * Called when the user rolls out from a tool.
+     * Removes the over class ({@link #toolOverCls})
+     * @private
+     */
+    onMouseOut: function() {
+        this.el.removeCls(this.toolOverCls);
+    }
+});</pre>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Ext.data.JsonP.layouts_and_containers({
+  "guide": "<h1>Layouts and Containers</h1>\n\n<hr />\n\n<p>The layout system is one of the most powerful parts of <a href=\"#/api/Ext\" rel=\"Ext\" class=\"docClass\">Ext</a> JS. It handles the sizing and positioning of every component in your application and keeps everything in the right place while your user gets their work done.</p>\n\n<p>In <a href=\"#/api/Ext\" rel=\"Ext\" class=\"docClass\">Ext</a> JS 4 we have the best performance and flexibility compared to previous versions, as well as brand new layouts like DockLayout.</p>\n\n<iframe src=\"http://player.vimeo.com/video/17917111?byline=0\" width=\"500\" height=\"281\" frameborder=\"0\"></iframe>\n\n"
+});

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-chart-Navigation'>/**
+</span> * @class Ext.chart.Navigation
+ *
+ * Handles panning and zooming capabilities.
+ * 
+ * Used as mixin by Ext.chart.Chart.
+ */
+Ext.define('Ext.chart.Navigation', {
+
+    constructor: function() {
+        this.originalStore = this.store;
+    },
+    
+    //filters the store to the specified interval(s)
+    setZoom: function(zoomConfig) {
+        var me = this,
+            store = me.substore || me.store,
+            bbox = me.chartBBox,
+            len = store.getCount(),
+            from = (zoomConfig.x / bbox.width * len) &gt;&gt; 0,
+            to = Math.ceil(((zoomConfig.x + zoomConfig.width) / bbox.width * len)),
+            recFieldsLen, recFields = [], curField, json = [], obj;
+        
+        store.each(function(rec, i) {
+            if (i &lt; from || i &gt; to) {
+                return;
+            }
+            obj = {};
+            //get all record field names in a simple array
+            if (!recFields.length) {
+                rec.fields.each(function(f) {
+                    recFields.push(f.name);
+                });
+                recFieldsLen = recFields.length;
+            }
+            //append record values to an aggregation record
+            for (i = 0; i &lt; recFieldsLen; i++) {
+                curField = recFields[i];
+                obj[curField] = rec.get(curField);
+            }
+            json.push(obj);
+        });
+        me.store = me.substore = Ext.create('Ext.data.JsonStore', {
+            fields: recFields,
+            data: json
+        });
+        me.redraw(true);
+    },
+
+    restoreZoom: function() {
+        this.store = this.substore = this.originalStore;
+        this.redraw(true);
+    }
+    
+});</pre>
+</body>
+</html>
