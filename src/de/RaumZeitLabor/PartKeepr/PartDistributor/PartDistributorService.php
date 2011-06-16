@@ -62,7 +62,7 @@ class PartDistributorService extends Service implements RestfulService {
 		$manufacturer = Manufacturer::loadById($this->getParameter("manufacturer_id"));
 		
 		$image->setManufacturer($manufacturer);
-		$image->replace($tmpImage->getImageFilename());
+		$image->replace($tmpImage->getFilename());
 		PartKeepr::getEM()->persist($image);
 		PartKeepr::getEM()->flush();
 		

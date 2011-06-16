@@ -71,7 +71,8 @@ class ManufacturerICLogoService extends Service implements RestfulService {
 		$manufacturer = Manufacturer::loadById($this->getParameter("manufacturer_id"));
 		
 		$image->setManufacturer($manufacturer);
-		$image->replace($tmpImage->getImageFilename());
+		$image->replace($tmpImage->getFilename());
+		$image->setOriginalFilename($tmpImage->getOriginalFilename());
 		PartKeepr::getEM()->persist($image);
 		PartKeepr::getEM()->flush();
 		

@@ -9,4 +9,8 @@ declare(encoding = 'UTF-8');
  * @Entity
  */
 class TempUploadedFile extends UploadedFile {
+	public function __construct () {
+		parent::__construct();
+		$this->setType("Temporary");
+	}
 }

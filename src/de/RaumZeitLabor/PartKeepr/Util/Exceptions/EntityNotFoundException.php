@@ -2,7 +2,8 @@
 namespace de\RaumZeitLabor\PartKeepr\Util\Exceptions;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartKeepr\Util\SerializableException;
+use de\RaumZeitLabor\PartKeepr\Util\SerializableException,
+	de\RaumZeitLabor\PartKeepr\PartKeepr;
 
 /**
  * Thrown when an entity via loadById() was not found.

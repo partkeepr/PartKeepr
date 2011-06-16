@@ -1,5 +1,7 @@
 <?php
 namespace de\raumzeitlabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile;
+
 use de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter;
 
 use de\RaumZeitLabor\PartKeepr\Unit\Unit;
@@ -198,6 +200,12 @@ class PartManager extends Singleton {
 			}
 		}
 		
+		if (array_key_exists("attachmentChanges", $aParameters)) {
+			if (is_array($aParameters["attachmentChanges"])) {
+				$this->processAttachmentChanges($part, $aParameters["attachmentChanges"]);
+			}
+		}
+		
 		if (array_key_exists("partUnit", $aParameters)) {
 			if ($aParameters["partUnit"] === null || $aParameters["partUnit"] === 0) {
 				$part->setPartUnit(null);
@@ -324,6 +332,46 @@ class PartManager extends Singleton {
 				$manufacturer->setPartNumber($record["partNumber"]);
 				
 				$part->getManufacturers()->add($manufacturer);
+			}
+		}
+	}
+	
+	private function processAttachmentChanges (Part $part, Array $data) {
+		if (array_key_exists("updates", $data)) {
+			foreach ($data["updates"] as $record) {
+				foreach ($part->getAttachments() as $partAttachment) {
+					if ($partAttachment->getId() == $record["id"]) {
+						$partAttachment->setDescription($record["description"]);
+						break;
+					}
+				}
+			}
+		}
+	
+		if (array_key_exists("removals", $data)) {
+			foreach ($data["removals"] as $record) {
+				foreach ($part->getAttachments() as $partAttachment) {
+					if ($partAttachment->getId() == $record["id"]) {
+						PartKeepr::getEM()->remove($partAttachment);
+						$part->getAttachments()->removeElement($partAttachment);
+						break;
+					}
+				}
+			}
+		}
+	
+		if (array_key_exists("inserts", $data)) {
+			foreach ($data["inserts"] as $record) {
+				$attachment = new PartAttachment();
+				$attachment->setPart($part);
+				$attachment->setDescription($record["description"]); 
+				
+				$file = TempUploadedFile::loadById($record["tmp_id"]);
+				
+				$attachment->replace($file->getFilename());
+				$attachment->setOriginalFilename($file->getOriginalFilename());
+	
+				$part->getAttachments()->add($attachment);
 			}
 		}
 	}

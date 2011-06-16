@@ -178,6 +178,8 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\Part\PartUnit',
 			'de\RaumZeitLabor\PartKeepr\Part\PartManufacturer',
 			'de\RaumZeitLabor\PartKeepr\Part\PartDistributor',
+			'de\RaumZeitLabor\PartKeepr\Part\PartImage',
+			'de\RaumZeitLabor\PartKeepr\Part\PartAttachment',
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation',
 			'de\RaumZeitLabor\PartKeepr\Stock\StockEntry',
 			'de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer',

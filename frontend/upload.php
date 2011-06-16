@@ -14,6 +14,7 @@ PartKeepr::initialize("");
 $keys = array_keys($_FILES);
 
 $file = $_FILES[$keys[0]]["tmp_name"];
+$filename = $_FILES[$keys[0]]["name"];
 
 switch ($_REQUEST["uploadMode"]) {
 	case "image":
@@ -25,6 +26,7 @@ switch ($_REQUEST["uploadMode"]) {
 				$image = new ManufacturerICLogo();
 				$image->setManufacturer($manufacturer);
 				$image->replace($file);
+				$image->setOriginalFilename(basename($filename));
 				PartKeepr::getEM()->persist($image);
 				PartKeepr::getEM()->flush();
 		}

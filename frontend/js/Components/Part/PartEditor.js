@@ -57,6 +57,11 @@ Ext.define('PartKeepr.PartEditor', {
 			layout: 'fit'
 		});
 		
+		this.partAttachmentGrid = Ext.create("PartKeepr.PartAttachmentGrid", {
+			title: i18n("Attachments"),
+			layout: 'fit'
+		});
+		
 		this.items = {
 				xtype: 'tabpanel',
 				border: false,
@@ -76,7 +81,8 @@ Ext.define('PartKeepr.PartEditor', {
 				},
 				this.partDistributorGrid,
 				this.partManufacturerGrid,
-				this.partParameterGrid
+				this.partParameterGrid,
+				this.partAttachmentGrid
 				]
 		};
 		
@@ -118,6 +124,13 @@ Ext.define('PartKeepr.PartEditor', {
 				"updates": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getUpdatedRecords()),
 				"removals": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getRemovedRecords())
 		};
+		
+		values.attachmentChanges = {
+				"inserts": PartKeepr.serializeRecords(this.partAttachmentGrid.getStore().getNewRecords()),
+				"updates": PartKeepr.serializeRecords(this.partAttachmentGrid.getStore().getUpdatedRecords()),
+				"removals": PartKeepr.serializeRecords(this.partAttachmentGrid.getStore().getRemovedRecords())
+		};
+		
 		call.setParameters(values);
 		call.setHandler(Ext.bind(this.onPartSave, this));
 		call.doCall();

@@ -13,6 +13,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 abstract class Image extends UploadedFile {
 	const IMAGE_ICLOGO = "iclogo";
 	const IMAGE_TEMP = "temp";
+	const IMAGE_PART = "part";
 	
 	/**
 	 * Constructs a new image object.
@@ -35,6 +36,7 @@ abstract class Image extends UploadedFile {
 		switch ($type) {
 			case Image::IMAGE_ICLOGO:
 			case Image::IMAGE_TEMP:
+			case Image::IMAGE_PART:
 				parent::setType($type);
 				break;
 			default:
