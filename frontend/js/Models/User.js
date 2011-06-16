@@ -5,7 +5,7 @@ PartKeepr.User = Ext.define("User", {
 	         {	name: 'username',	type: 'string'}
 	         ],
 	proxy: PartKeepr.getRESTProxy("User"),
-	getName: function () {
+	getRecordName: function () {
 		return this.get("username");
 	}
 });

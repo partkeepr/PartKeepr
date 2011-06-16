@@ -19,7 +19,7 @@ Ext.define('PartKeepr.Editor', {
     	
     	// @todo Finish implementing the dirty flag later
     	/*if (this.change == false) {
-    		this.setTitle(this.record.getName() + "*");
+    		this.setTitle(this.record.getRecordName() + "*");
     	}
     	
     	this.change = true;*/
@@ -70,8 +70,8 @@ Ext.define('PartKeepr.Editor', {
 		this.record = record;
 		this.getForm().loadRecord(this.record);
 		this.show();
-		if (this.record.getName() !== "") {
-			this.setTitle(this.record.getName());
+		if (this.record.getRecordName() !== "") {
+			this.setTitle(this.record.getRecordName());
 		}
 		
 		this.change = false;

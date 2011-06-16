@@ -7,7 +7,7 @@ PartKeepr.Category = Ext.define("Category", {
 	         {  name: 'parent', type: 'int' }
 	         ],
     proxy: PartKeepr.getRESTProxy("Category"),
-    getName: function () {
+    getRecordName: function () {
     	return this.get("name");
     }
 });

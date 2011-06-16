@@ -5,7 +5,7 @@ PartKeepr.Footprint = Ext.define("Footprint", {
 	         {	name: 'name',	type: 'string'}
 	         ],
 	proxy: PartKeepr.getRESTProxy("Footprint"),
-	getName: function () {
+	getRecordName: function () {
 		return this.get("name");
 	}
 });

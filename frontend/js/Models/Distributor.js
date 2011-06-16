@@ -9,7 +9,7 @@ PartKeepr.Distributor = Ext.define("Distributor", {
 	         {	name: 'email',	type: 'string'}
 	         ],
 	proxy: PartKeepr.getRESTProxy("Distributor"),
-	getName: function () {
+	getRecordName: function () {
 		return this.get("name");
 	}
 });
