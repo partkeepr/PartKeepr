@@ -22,7 +22,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	        		
     	        		var values = form.getValues();
     	        		
-    	        		if (this.fileField.getValue() == "" && this.urlField.getValue() == "") {
+    	        		if (this.fileField.getValue() === "" && this.urlField.getValue() === "") {
     	        			Ext.Msg.alert(i18n("Error"), i18n("Please select a file to upload or enter an URL"));
     	        			return;
     	        		}

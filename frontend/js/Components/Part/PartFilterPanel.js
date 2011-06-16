@@ -14,7 +14,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 				xtype: 'container',
             	anchor: '100%',
             	layout: 'anchor',
-            	columnWidth: .5,
+            	columnWidth: 0.5,
             	items: [
             	        this.storageLocationFilter,
             	        this.categoryFilter,
@@ -26,7 +26,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.rightColumn = {
 				xtype: 'container',
             	anchor: '100%',
-            	columnWidth: .5,
+            	columnWidth: 0.5,
             	layout: 'anchor',
             	items: [
             	        this.stockFilter

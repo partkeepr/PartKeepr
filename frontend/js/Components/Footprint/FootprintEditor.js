@@ -32,5 +32,5 @@ Ext.define('PartKeepr.FootprintEditor', {
 		this.callParent();
 		
 		this.attachmentGrid.getStore().sync();
-	},
+	}
 });
