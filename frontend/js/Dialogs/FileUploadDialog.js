@@ -4,12 +4,12 @@ Ext.define('PartKeepr.FileUploadDialog', {
     title: i18n("File Upload"),
     fileFieldLabel: i18n("File"),
     uploadButtonText: i18n('Select File...'),
-    uploadURL: "rest.php/TempFile",
+    uploadURL: PartKeepr.getBasePath()+"/TempFile",
     modal: true,
     initComponent: function () {
     	
     	if (this.imageUpload) {
-    		this.uploadURL = "rest.php/TempImage";
+    		this.uploadURL = PartKeepr.getBasePath()+"/TempImage";
     	}
     	
     	this.addEvents("fileUploaded");

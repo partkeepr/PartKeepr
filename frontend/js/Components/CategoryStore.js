@@ -4,7 +4,7 @@ PartKeepr.CategoryTreeStore = Ext.define("CategoryTreeStore",
     model: 'Category',
     proxy: {
         type: 'ajax',
-        url: 'rest.php/Category',
+        url: PartKeepr.getBasePath()+'/Category',
         method: 'POST',
         extraParams: {
         	call: 'getCategories'
