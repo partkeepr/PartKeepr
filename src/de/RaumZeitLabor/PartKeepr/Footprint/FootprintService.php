@@ -8,6 +8,10 @@ use de\RaumZeitLabor\PartKeepr\Service\Service,
 	de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager;
 
 class FootprintService extends Service implements RestfulService {
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::get()
+	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
 			return FootprintManager::getInstance()->getFootprint($this->getParameter("id"))->serialize();
@@ -18,7 +22,7 @@ class FootprintService extends Service implements RestfulService {
 				$aSortParams = $tmp[0];
 			} else {
 				$aSortParams = array(
-					"property" => "footprint",
+					"property" => "name",
 					"direction" => "ASC");
 			}
 			return FootprintManager::getInstance()->getFootprints(
@@ -30,6 +34,10 @@ class FootprintService extends Service implements RestfulService {
 		}
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
+	 */
 	public function create () {
 		$this->requireParameter("footprint");
 		
@@ -38,11 +46,15 @@ class FootprintService extends Service implements RestfulService {
 		return array("data" => $fp->serialize());
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
+	 */
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("footprint");
 		$footprint = FootprintManager::getInstance()->getFootprint($this->getParameter("id"));
-		$footprint->setFootprint($this->getParameter("footprint"));
+		$footprint->setName($this->getParameter("footprint"));
 		
 		PartKeepr::getEM()->flush();
 		
@@ -50,6 +62,10 @@ class FootprintService extends Service implements RestfulService {
 		
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::destroy()
+	 */
 	public function destroy () {
 		$this->requireParameter("id");
 		
@@ -58,45 +74,4 @@ class FootprintService extends Service implements RestfulService {
 		return array("data" => null);
 	}
 	
-	/* Old stuff below */
-	public function getFootprints () {
-		return FootprintManager::getInstance()->getFootprints(
-			$this->getParameter("start", 0),
-			$this->getParameter("limit", 10),
-			$this->getParameter("sortby", "footprint"),
-			$this->getParameter("dir", "asc"),
-			$this->getParameter("filter", ""));
-	}
-
-	public function addFootprint () {
-		$this->requireParameter("footprint");
-		
-		
-	}
-	
-	public function deleteFootprint () {
-		$this->requireParameter("id");
-		
-		FootprintManager::getInstance()->deleteFootprint($this->getParameter("id"));
-	}
-	
-	public function getFootprint () {
-		$this->requireParameter("id");
-		
-		return $this->get($this->getParameter("id"));
-	}
-	
-	public function saveFootprint () {
-		$this->requireParameter("id");
-		$this->requireParameter("footprint");
-		
-		$footprint = FootprintManager::getInstance()->getFootprint($this->getParameter("id"));
-		
-		$footprint->setFootprint($this->getParameter("footprint"));
-		
-		PartKeepr::getEM()->flush();
-		
-		return $footprint->serialize();
-	}
 }
-?>

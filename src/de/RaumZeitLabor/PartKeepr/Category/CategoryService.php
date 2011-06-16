@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Category;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Service;
@@ -9,6 +11,10 @@ use DoctrineExtensions\NestedSet\NodeWrapper;
 
 class CategoryService extends Service {
 
+	/**
+	 * Returns all categories found in the system.
+	 * @return array A serialized tree
+	 */
 	public function getCategories () {
 		$categories = CategoryManager::getInstance()->getAllCategories(
 			$this->getParameter("parent", 0));
@@ -16,6 +22,9 @@ class CategoryService extends Service {
 		return $this->serializeTree($categories);
 	}
 	
+	/**
+	 * Moves the given category from one to another category.
+	 */
 	public function moveCategory () {
 		$this->requireParameter("category");
 		$this->requireParameter("target");
@@ -30,7 +39,10 @@ class CategoryService extends Service {
 			
 		}
 	}
-	
+
+	/**
+	 * Deletes the given category.
+	 */
 	public function deleteCategory () {
 		$this->requireParameter("id");
 		
@@ -39,6 +51,9 @@ class CategoryService extends Service {
 		return array("id" => $this->getParameter("id"));
 	}
 	
+	/**
+	* Updates the given category.
+	*/
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
@@ -48,7 +63,7 @@ class CategoryService extends Service {
 		$category->getNode()->setName($this->getParameter("name"));
 		$category->getNode()->setDescription($this->getParameter("description", ""));
 		
-		CategoryManager::getInstance()->saveCategory($category->getNode());
+		PartKeepr::getEM()->persist($category->getNode());
 		
 		return array("data" => $this->serializeCategory($category));
 	}
@@ -66,17 +81,6 @@ class CategoryService extends Service {
 		
 		return array("data" => $this->serializeCategory($category));
 	}
-
-	// Old stuff below
-	
-	public function getCategory () {
-		$this->requireParameter("id");
-		
-		$category = CategoryManager::getInstance()->getCategory($this->getParameter("id"));
-		
-		return $this->serializeCategory($category);
-		
-	}
 	
 	private function serializeCategory ($category) {
 		$data = $category->getNode()->serialize();
@@ -89,10 +93,18 @@ class CategoryService extends Service {
 		return $data;
 	}
 	
+	/**
+	 * Returns all categories
+	 */
 	public function getAllCategories () {
 		return $this->serializeTree(CategoryManager::getInstance()->getAllCategories());
 	}
 	
+	/**
+	 * Serializes the given NodeWrapper as array including all children.
+	 * @param NodeWrapper $node The category nodewrapper to serialize
+	 * @throws \Exception
+	 */
 	public function serializeTree (NodeWrapper $node = null) {
 		if ($node == null) {
 			throw new \Exception("Node must not be null!");

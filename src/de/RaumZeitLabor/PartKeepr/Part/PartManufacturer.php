@@ -1,19 +1,16 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable;
+
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
 
 /** @Entity **/
-class PartManufacturer {
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var unknown_type
-	 */
-	private $id;
-	
+class PartManufacturer extends BaseEntity implements Serializable {
 	/**
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Part\Part") 
 	 */
@@ -58,10 +55,6 @@ class PartManufacturer {
 	
 	public function getPartNumber () {
 		return $this->partNumber;
-	}
-	
-	public function getId () {
-		return $this->id;
 	}
 	
 	/**

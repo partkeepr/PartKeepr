@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Unit;
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
@@ -12,14 +14,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
  *  
  * @Entity
  **/
-class Unit {
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var integer
-	 */
-	private $id;
-	
+class Unit extends BaseEntity {
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
 	 * @Column(type="string")
@@ -91,21 +86,4 @@ class Unit {
 	public function getPrefixes () {
 		return $this->prefixes;
 	}
-	
-	/**
-	 * Returns the ID for this object.
-	 * @param none
-	 * @return int The ID for this object
-	 */
-	public function getId () {
-		return $this->id;
-	}
-	
-	/**
-	 * Loads a unit by ID
-	 * @param int $id The ID to load
-	 */
-	public static function loadById ($id) {
-    	return PartKeepr::getEM()->find(get_called_class(), $id);
-    }
 }

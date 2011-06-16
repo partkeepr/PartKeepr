@@ -1,126 +1,203 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Manufacturer;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable;
+
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
 
-/** @Entity **/
-class Manufacturer {
-	
+/**
+ * Represents a manufacturer
+ * @Entity **/
+class Manufacturer extends BaseEntity implements Serializable {
 	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var unknown_type
-	 */
-	private $id;
-	
-	/**
+	 * The name of the manufacturer
 	 * @Column(type="string",unique=true)
+	 * @var string
 	 */
 	private $name;
 	
 	/**
-	 * @Column(type="string",nullable=true)
+	 * The address of the manufacturer
+	 * @Column(type="text",nullable=true)
+	 * @var string
 	 */
 	private $address;
 	
 	/**
+	 * The URL
 	 * @Column(type="string",nullable=true)
+	 * @var string
 	 */
 	private $url;
 	
 	/**
+	 * The email
 	 * @Column(type="string",nullable=true)
+	 * @var string
 	 */
 	private $email;
 	
 	/**
-	 * @Column(type="string",nullable=true)
+	 * The comment
+	 * @Column(type="text",nullable=true)
+	 * @var string
 	 */
 	private $comment;
 	
 	/**
+	 * The phone number
 	 * @Column(type="string",nullable=true)
+	 * @var string
 	 */
 	private $phone;
 	
 	/**
+	 * The fax number
 	 * @Column(type="string",nullable=true)
+	 * @var string
 	 */
 	private $fax;
 	
 	/**
+	 * All ic logos of this manufacturer
 	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"})
 	 */
 	private $icLogos;
 	
+	/**
+	 * Creates a new manufacturer instance
+	 */
 	public function __construct () {
 		$this->icLogos = new \Doctrine\Common\Collections\ArrayCollection();
 	}
+	
+	/**
+	 * Sets the name
+	 * @param string $name The name
+	 */
 	public function setName ($name) {
 		$this->name = $name;
 	}
 	
+	/**
+	 * Returns the name
+	 * @return string The name
+	 */
 	public function getName () {
 		return $this->name;
 	}
 	
+	/**
+	 * Sets the phone number
+	 * @param string $phone The phone number
+	 */
 	public function setPhone ($phone) {
 		$this->phone = $phone;
 	}
 	
+	/**
+	 * Returns the phone number
+	 * @return string The phone number
+	 */
 	public function getPhone () {
 		return $this->phone;
 	}
 	
+	/**
+	 * Sets the fax number
+	 * @param string $fax The fax number
+	 */
 	public function setFax ($fax) {
 		$this->fax = $fax;
 	}
 	
-	public function getFax ($fax) {
+	/**
+	 * Returns the fax number
+	 * @return string The fax number
+	 */
+	public function getFax () {
 		return $this->fax;
 	}
 	
+	/**
+	 * Sets the address
+	 * @param string $address The address
+	 */
 	public function setAddress ($address) {
 		$this->address = $address;
 	}
 	
+	/**
+	 * Returns the address
+	 * @return string The address
+	 */
 	public function getAddress () {
 		return $this->address;
 	}
 	
+	/**
+	 * Sets the comment
+	 * @param string $comment The comment
+	 */
 	public function setComment ($comment) {
 		$this->comment = $comment;
 	}
 	
+	/**
+	 * Returns the comment
+	 * @return string The comment
+	 */
 	public function getComment () {
 		return $this->comment;
 	}
 	
+	/**
+	 * Sets the email
+	 * @param string $email The email
+	 */
 	public function setEmail ($email) {
 		$this->email = $email;
 	}
 	
+	/**
+	 * Returns the email
+	 * @return string The email
+	 */
 	public function getEmail () {
 		return $this->email;
 	}
 	
+	/**
+	 * Sets the URL
+	 * @param string $url The URL
+	 */
 	public function setURL ($url) {
 		$this->url = $url;
 	}
 	
+	/**
+	 * Returns the URL
+	 * @return string The url
+	 */
 	public function getURL () {
 		return $this->url;
 	}
 	
+	/**
+	 * Returns the ic logos
+	 * @return ArrayCollection The array with all ic logos
+	 */
 	public function getICLogos () {
 		return $this->icLogos;
 	}
 	
-	public function getId () {
-		return $this->id;
-	}
-	
+	/**
+	 * Returns this manufacturer in serialized form
+	 * @return array The serialized manufacturer
+	 */
 	public function serialize () {
 		return array(
 			"id" => $this->getId(),
@@ -131,8 +208,4 @@ class Manufacturer {
 			"comment" => $this->getComment()
 		);
 	}
-	
-	public static function loadById ($id) {
-    	return PartKeepr::getEM()->find(get_called_class(), $id);
-    }
 }

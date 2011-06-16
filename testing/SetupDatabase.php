@@ -100,7 +100,7 @@ $r = mysql_query("SELECT * FROM footprints");
 
 while ($sFootprint = mysql_fetch_assoc($r)) {
 	$footprint = new Footprint();
-	$footprint->setFootprint(convertText($sFootprint["name"]));
+	$footprint->setName(convertText($sFootprint["name"]));
 
 	echo " Adding footprint ".$sFootprint["name"]."\r";
 	PartKeepr::getEM()->persist($footprint);

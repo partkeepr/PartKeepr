@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\UploadedFile;
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
@@ -8,17 +10,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 /**
  * @MappedSuperclass
  */
-abstract class UploadedFile {
-	/**
-	 * Specifies the ID of the file.
-	 *
-	 * @var integer
-	 * @Id
-	 * @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 **/
-	protected $id;
-	
+abstract class UploadedFile extends BaseEntity {
 	/**
 	 * Specifies the type of the file.
 	 *
@@ -80,15 +72,6 @@ abstract class UploadedFile {
 		
 		$this->ensureFilePathExists();
 		copy($path, $this->getFilename());
-	}
-	
-	/**
-	 * Returns the ID of the file.
-	 * @param none
-	 * @return integer The ID of the file
-	 */
-	public function getId () {
-		return $this->id;
 	}
 	
 	/**
@@ -170,14 +153,5 @@ abstract class UploadedFile {
 		if (!is_dir($this->getFilePath())) {
 			mkdir($this->getFilePath(), 0777, true);
 		}
-	}
-	
-	/**
-	 * Loads the file by id.
-	 * @return int The id of the file
-	 * @param unknown_type $id
-	 */
-	public static function loadById ($id) {
-		return PartKeepr::getEM()->find(get_called_class(), $id);
 	}
 }

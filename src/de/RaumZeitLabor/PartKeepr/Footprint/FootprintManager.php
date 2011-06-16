@@ -1,21 +1,31 @@
 <?php
 namespace de\raumzeitlabor\PartKeepr\Footprint;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Util\SerializableException,
 	de\RaumZeitLabor\PartKeepr\Footprint\Footprint,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Footprint\Exceptions\FootprintNotFoundException;
+	de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotFoundException;
 
 class FootprintManager extends Singleton {
-	public function getFootprints ($start = 0, $limit = 10, $sort = "footprint", $dir = "asc", $filter = "") {
+	/**
+	* Returns a list of footprints.
+	*
+	* @param int $start Start of the list, default 0
+	* @param int $limit Number of users to list, default 10
+	* @param string $sort The field to sort by, default "name"
+	* @param string $dir The direction to sort (ASC or DESC), default ASC
+	* @param string $filter A string to filter the footprint's name by, default empty
+	*/
+	public function getFootprints ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 		
 		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select("f.id, f.footprint")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f");
+		$qb->select("f.id, f.name")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f");
 
 		if ($filter != "") {
-			$qb = $qb->where("f.footprint LIKE :filter");
+			$qb = $qb->where("f.name LIKE :filter");
 			$qb->setParameter("filter", "%".$filter."%");
 		}
 				
@@ -36,7 +46,7 @@ class FootprintManager extends Singleton {
 		
 		
 		if ($filter != "") {
-			$totalQueryBuilder = $totalQueryBuilder->where("f.footprint LIKE :filter");
+			$totalQueryBuilder = $totalQueryBuilder->where("f.name LIKE :filter");
 			$totalQueryBuilder->setParameter("filter", "%".$filter."%");
 		}
 		
@@ -45,9 +55,16 @@ class FootprintManager extends Singleton {
 		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
 	}
 	
-	public function addFootprint ($footprint) {
+	/**
+	 * Creates a new footprint
+	 * 
+	 * @param string $footprint The footprint's name
+	 * @throws \de\RaumZeitLabor\PartKeepr\Util\SerializableException
+	 * @throws PDOException
+	 */
+	public function addFootprint ($name) {
 		$fp = new Footprint();
-		$fp->setFootprint($footprint);
+		$fp->setName($name);
 		
 		// @todo Port the UniqueEntityValidator from Symfony2 to here.
 		try {
@@ -67,49 +84,54 @@ class FootprintManager extends Singleton {
 		return $fp;
 	}
 	
+	/**
+	 * Deletes the footprint with the given id.
+	 * 
+	 * @param int $id The footprint id to delete
+	 * @throws \de\RaumZeitLabor\PartKeepr\Util\SerializableException
+	 */
 	public function deleteFootprint ($id) {
-		$footprint = PartKeepr::getEM()->find("de\RaumZeitLabor\PartKeepr\Footprint\Footprint", $id);
+		$footprint = Footprint::loadById($id);
 		
-		if ($footprint) {
-			try {
-				PartKeepr::getEM()->remove($footprint);
-				PartKeepr::getEM()->flush();	
-			} catch (\PDOException $e) {
-				if ($e->getCode() == "23000") {
-					$exception = new SerializableException(sprintf(PartKeepr::i18n("Footprint %s is in use by some parts!"), $footprint->getFootprint()));
-					$exception->setDetail(sprintf(PartKeepr::i18n("You tried to delete the footprint %s, but there are parts which use this footprint."), $footprint->getFootprint()));
-				
-					throw $exception;
-				}
-			}
+		try {
+			PartKeepr::getEM()->remove($footprint);
+			PartKeepr::getEM()->flush();	
+		} catch (\PDOException $e) {
+			if ($e->getCode() == "23000") {
+				$exception = new SerializableException(sprintf(PartKeepr::i18n("Footprint %s is in use by some parts!"), $footprint->getName()));
+				$exception->setDetail(sprintf(PartKeepr::i18n("You tried to delete the footprint %s, but there are parts which use this footprint."), $footprint->getName()));
 			
-		} else {
-			throw new FootprintNotFoundException;
+				throw $exception;
+			}
 		}
 	}
 	
+	/**
+	 * Finds or creates a footprint by name.
+	 * 
+	 * @param mixed $footprint Either the ID or the footprint's name to find
+	 */
 	public function getOrCreateFootprint ($footprint) {
 		if (is_int($footprint)) {
 			try {
-				return $this->getFootprint($footprint);
-			} catch (FootprintNotFoundException $e) {}
+				Footprint::loadById($footprint);
+			} catch (EntityNotFoundException $e) {}
+		} else {
+			$dql = "SELECT f FROM de\RaumZeitLabor\PartKeepr\Footprint\Footprint f WHERE f.name = :name";
+			$query = PartKeepr::getEM()->createQuery($dql);
+			$query->setParameter("name", $footprint);
+			
+			try {
+				$footprint = $query->getSingleResult();
+				return $footprint;
+			} catch (\Exception $e) {}
 		}
 		
 		$fp = new Footprint();
-		$fp->setFootprint($footprint);
+		$fp->setName($footprint);
 
 		PartKeepr::getEM()->persist($fp);
 			
 		return $fp;
-	}
-	
-	public function getFootprint ($id) {
-		$footprint = PartKeepr::getEM()->find("de\RaumZeitLabor\PartKeepr\Footprint\Footprint", $id);
-		
-	if ($footprint) {
-			return $footprint;
-		} else {
-			throw new FootprintNotFoundException;
-		}
 	}
 }

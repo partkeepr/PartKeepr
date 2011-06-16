@@ -11,7 +11,11 @@ use de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class ManufacturerService extends Service implements RestfulService {
-		public function get () {
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::get()
+	 */
+	public function get () {
 		if ($this->hasParameter("id")) {
 			return ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"))->serialize();
 		} else {
@@ -33,6 +37,10 @@ class ManufacturerService extends Service implements RestfulService {
 		}
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
+	 */
 	public function create () {
 		$this->requireParameter("name");
 		
@@ -46,6 +54,10 @@ class ManufacturerService extends Service implements RestfulService {
 		return array("data" => $manufacturer->serialize());
 	}
 	
+	/**
+	* Sets the data for the manufacturer.
+	* @param Manufacturer $manufacturer The manufacturer to process
+	*/
 	private function setManufacturerData (Manufacturer $manufacturer) {
 		$manufacturer->setName($this->getParameter("name"));
 		$manufacturer->setComment($this->getParameter("comment", ""));
@@ -54,6 +66,10 @@ class ManufacturerService extends Service implements RestfulService {
 		$manufacturer->setEmail($this->getParameter("email", ""));
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
+	 */
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
@@ -66,76 +82,15 @@ class ManufacturerService extends Service implements RestfulService {
 		
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::destroy()
+	 */
 	public function destroy () {
 		$this->requireParameter("id");
 		
 		ManufacturerManager::getInstance()->deleteManufacturer($this->getParameter("id"));
 		
 		return array("data" => null);
-	}
-	
-	
-	// Old stuff below
-	public function getManufacturers() {
-		return ManufacturerManager::getInstance()->getManufacturers(
-			$this->getParameter("start", 0),
-			$this->getParameter("limit", 10),
-			$this->getParameter("sortby", "name"),
-			$this->getParameter("dir", "asc"),
-			$this->getParameter("filter", ""));
-	}
-
-	public function addManufacturer () {
-		$this->requireParameter("name");
-		
-		ManufacturerManager::getInstance()->addManufacturer($this->getParameter("name"));
-	}
-	
-	public function deleteManufacturer () {
-		$this->requireParameter("id");
-		
-		ManufacturerManager::getInstance()->deleteManufacturer($this->getParameter("id"));
-	}
-	
-	public function deleteManufacturerLogo () {
-		$this->requireParameter("id");
-		
-		$logo = ManufacturerICLogo::loadById($this->getParameter("id"));
-		
-		PartKeepr::getEM()->remove($logo);
-		PartKeepr::getEM()->flush();
-	}
-	
-	public function getManufacturerLogos () {
-		$this->requireParameter("id");
-		$manufacturer = ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"));
-		
-		$aData = array();
-		
-		foreach ($manufacturer->getICLogos() as $logo) {
-			$aData[] = array("id" => $logo->getId());
-		}
-		
-		return array("logos" => $aData);
-			
-	}
-	
-	public function getManufacturer () {
-		$this->requireParameter("id");
-		
-		return ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"))->serialize();
-	}
-	
-	public function saveManufacturer () {
-		$this->requireParameter("id");
-		$this->requireParameter("name");
-		
-		$Manufacturer = ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"));
-		
-		$Manufacturer->setName($this->getParameter("name"));
-		
-		PartKeepr::getEM()->flush();
-		
-		return $Manufacturer->serialize();
 	}
 }
