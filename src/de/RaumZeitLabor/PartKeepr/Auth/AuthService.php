@@ -3,11 +3,17 @@ namespace de\raumzeitlabor\PartKeepr\Auth;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\AnonService,
-	de\RaumZeitLabor\PartKeepr\Auth\User,
-	de\RaumZeitLabor\PartKeepr\Auth\UserManager,
+	de\RaumZeitLabor\PartKeepr\User\User,
+	de\RaumZeitLabor\PartKeepr\User\UserManager,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class AuthService extends AnonService {
+	/**
+	 * Logs in the given user. If the login was successful,
+	 * a session is automatically started.
+	 * 
+	 * @throws InvalidLoginDataException
+	 */
 	public function login () {
 		$this->requireParameter("username");
 		$this->requireParameter("password");
@@ -30,7 +36,4 @@ class AuthService extends AnonService {
 		
 	
 	}	
-	
-	
 }
-?>

@@ -170,7 +170,7 @@ class PartKeepr {
 	 */
 	public static function getEntityClasses () {
 		return array(
-			'de\RaumZeitLabor\PartKeepr\Auth\User',
+			'de\RaumZeitLabor\PartKeepr\User\User',
 			'de\RaumZeitLabor\PartKeepr\Session\Session',
 			'de\RaumZeitLabor\PartKeepr\Footprint\Footprint',
 			'de\RaumZeitLabor\PartKeepr\Category\Category',

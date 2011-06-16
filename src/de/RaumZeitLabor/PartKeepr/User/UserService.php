@@ -6,11 +6,20 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\AdminService;
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Auth\User,
+	de\RaumZeitLabor\PartKeepr\User\User,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class UserService extends AdminService implements RestfulService {
-		public function get () {
+	
+	/**
+	 * Implements the get() call for the RestfulService.
+	 * 
+	 * If the "id" parameter is passed, try to return the user by id. If not,
+	 * return a list.
+	 * 
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::get()
+	 */
+	public function get () {
 		if ($this->hasParameter("id")) {
 			return UserManager::getInstance()->getUser($this->getParameter("id"))->serialize();
 		} else {
@@ -32,6 +41,11 @@ class UserService extends AdminService implements RestfulService {
 		}
 	}
 	
+	/**
+	 * Creates a new user.
+	 * 
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
+	 */
 	public function create () {
 		$this->requireParameter("username");
 		
@@ -39,12 +53,15 @@ class UserService extends AdminService implements RestfulService {
 		
 		$this->setUserData($user);
 		
-		PartKeepr::getEM()->persist($user);
-		PartKeepr::getEM()->flush();
+		UserManager::getInstance()->createUser($user);
 		
 		return array("data" => $user->serialize());
 	}
 	
+	/**
+	 * Sets the data for this user. Used by update() and create().
+	 * @param User $user The user object
+	 */
 	private function setUserData (User $user) {
 		$user->setUsername($this->getParameter("username"));
 		
@@ -55,6 +72,10 @@ class UserService extends AdminService implements RestfulService {
 		}
 	}
 	
+	/**
+	 * Updates the user informations.
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
+	 */
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("username");
@@ -67,6 +88,10 @@ class UserService extends AdminService implements RestfulService {
 		
 	}
 	
+	/**
+	 * Deletes the user from the database.
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::destroy()
+	 */
 	public function destroy () {
 		$this->requireParameter("id");
 		

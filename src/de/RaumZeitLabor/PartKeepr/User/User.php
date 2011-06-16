@@ -1,17 +1,11 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Auth;
+namespace de\RaumZeitLabor\PartKeepr\User;
 declare(encoding = 'UTF-8');
 
-/** @Entity @Table(name="PartKeeprUser") */
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
-class User {
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var unknown_type
-	 */
-	private $id;
-	
+/** @Entity @Table(name="PartKeeprUser") */
+class User extends BaseEntity {
 	/** @Column(length=50,unique=true) */
 	private $username;
 	
@@ -52,11 +46,6 @@ class User {
 	 */
 	public function setUsername ($username) {
 		$username = strtolower($username);
-		
-		
-		preg_match_all("/[a-z\s]+/", $username, $out);
-		$username = implode('', $out[0]);
-		
 		$username = str_replace(" ", "_", $username);
 		
 		$this->username = $username;
@@ -158,15 +147,6 @@ class User {
 	}
 	
 	/**
-	 * Returns the ID of this object.
-	 * @param none
-	 * @return int The ID of this object
-	 */
- 	public function getId () {
-		return $this->id;
-	}
-	
-	/**
 	 * Serializes the user object and returns it as array, suitable
 	 * to process via json_encode.
 	 * @param none
@@ -178,6 +158,4 @@ class User {
 			"username" => $this->getUsername()
 		);
 	}
-	
 }
-?>

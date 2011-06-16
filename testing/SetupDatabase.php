@@ -12,7 +12,7 @@ declare(encoding = 'UTF-8');
 
 include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartKeepr\Auth\User;
+use de\RaumZeitLabor\PartKeepr\User\User;
 use de\RaumZeitLabor\PartKeepr\Footprint\Footprint;
 use de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager;
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
@@ -75,7 +75,7 @@ $tool->createSchema($classes);
 $user = new User();
 $user->setUsername("test");
 $user->setPassword("test");
-
+$user->setAdmin(true);
 PartKeepr::getEM()->persist($user);
 
 /* Create footprints */

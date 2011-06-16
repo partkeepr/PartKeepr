@@ -2,7 +2,7 @@
 namespace de\RaumZeitLabor\PartKeepr\Session;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartKeepr\Auth\User;
+use de\RaumZeitLabor\PartKeepr\User\User;
 
 /** @Entity */
 class Session {
@@ -16,7 +16,7 @@ class Session {
 	private $sessionid;
 	
 	/**
-	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Auth\User")
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\User\User")
      */
 	private $user;
 	
