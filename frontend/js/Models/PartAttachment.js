@@ -1,4 +1,4 @@
-PartKeepr.PartDistributor = Ext.define("PartAttachment", {
+PartKeepr.PartAttachment = Ext.define("PartAttachment", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
