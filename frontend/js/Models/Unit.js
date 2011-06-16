@@ -7,7 +7,7 @@ PartKeepr.Unit = Ext.define("Unit", {
 	         ],
     hasMany: { model: 'SiPrefix', name: 'prefixes'},
 	proxy: PartKeepr.getRESTProxy("Unit"),
-	getName: function () {
+	getRecordName: function () {
 		return this.get("name");
 	}
 });

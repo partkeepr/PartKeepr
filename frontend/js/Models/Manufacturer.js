@@ -10,7 +10,7 @@ PartKeepr.Manufacturer = Ext.define("Manufacturer", {
 	         ],
 	hasMany: {model: 'ManufacturerICLogo', name: 'iclogos'},
 	proxy: PartKeepr.getRESTProxy("Manufacturer"),
-	getName: function () {
+	getRecordName: function () {
 		return this.get("name");
 	}
 });
