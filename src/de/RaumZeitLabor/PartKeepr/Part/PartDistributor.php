@@ -1,19 +1,18 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable;
+
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Distributor\Distributor;
 
-/** @Entity **/
-class PartDistributor {
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var unknown_type
-	 */
-	private $id;
-	
+/** 
+ * This class represents the link between a part and a distributor.
+ * @Entity **/
+class PartDistributor extends BaseEntity implements Serializable {
 	/**
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Part\Part") 
 	 */
@@ -25,20 +24,27 @@ class PartDistributor {
 	private $distributor;
 	
 	/**
+	 * The order number for the part and distributor
 	 * @Column(type="string",nullable=true)
-	 * Enter description here ...
-	 * @var unknown_type
+	 * @var string
 	 */
 	private $orderNumber;
 	
 	/**
+	 * Defines the packaging unit when ordering a part. Some items can't be ordered in a quantity of just one at
+	 * certain manufacturers.
+	 * 
 	 * @Column(type="integer")
 	 * @var integer
-	 * 
-	 * Defines the packaging unit when ordering a part. 
 	 */
 	private $packagingUnit;
 	
+	/**
+	 * Cretes a new part->distributor link. Initializes the packaging unit with a quantity of "1".
+	 * 
+	 * @param Part $part The part
+	 * @param Distributor $distributor The distributor
+	 */
 	public function __construct (Part $part, Distributor $distributor) {
 		$this->setPart($part);
 		$this->setDistributor($distributor);
@@ -68,38 +74,66 @@ class PartDistributor {
 		$this->packagingUnit = $packagingUnit;
 	}
 	
+	/**
+	 * Returns the packaging unit
+	 * @return int The packaging unit
+	 */
 	public function getPackagingUnit () {
 		return $this->packagingUnit;
 	}
 	
+	/**
+	 * Sets the part
+	 * @param Part $part The part
+	 */
 	public function setPart (Part $part) {
 		$this->part = $part;
 	}
 	
+	/**
+	 * Returns the part
+	 * @return Part The part
+	 */
 	public function getPart () {
 		return $this->part;
 	}
 	
+	/**
+	 * Sets the distributor
+	 * @param Distributor $distributor The distributor
+	 */
 	public function setDistributor (Distributor $distributor) {
 		$this->distributor = $distributor;
 	}
 	
+	/**
+	 * Returns the distributor
+	 * @return Distributor The distributor
+	 */
 	public function getDistributor () {
 		return $this->distributor;
 	}
 	
+	/**
+	 * Sets the order number
+	 * @param string $orderNumber The order number
+	 */
 	public function setOrderNumber ($orderNumber) {
 		$this->orderNumber = $orderNumber;
 	}
 	
+	/**
+	 * Returns the order number
+	 * @return string The order number
+	 */
 	public function getOrderNumber () {
 		return $this->orderNumber;
 	}
-	
-	public function getId () {
-		return $this->id;
-	}
-	
+
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
+	 */
 	public function serialize () {
 		return array(
 			"id" => $this->getId(),

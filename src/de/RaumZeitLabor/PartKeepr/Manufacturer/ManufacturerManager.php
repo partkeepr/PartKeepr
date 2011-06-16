@@ -9,6 +9,15 @@ use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\Exceptions\ManufacturerNotFoundException;
 
 class ManufacturerManager extends Singleton {
+	/**
+	 * Returns a list of manufacturers.
+	 *
+	 * @param int $start Start of the list, default 0
+	 * @param int $limit Number of users to list, default 10
+	 * @param string $sort The field to sort by, default "name"
+	 * @param string $dir The direction to sort (ASC or DESC), default ASC
+	 * @param string $filter A string to filter the manufacturer's name by, default empty
+	 */
 	public function getManufacturers ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 			
 		$qb = PartKeepr::getEM()->createQueryBuilder();
@@ -45,16 +54,10 @@ class ManufacturerManager extends Singleton {
 		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
 	}
 	
-	public function getManufacturer ($id) {
-		$manufacturer = PartKeepr::getEM()->find("de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer", $id);
-		
-		if ($manufacturer) {
-			return $manufacturer;
-		} else {
-			throw new ManufacturerNotFoundException();
-		}
-	}
-	
+	/**
+	 * Adds a new manufacturer by name
+	 * @param string $name The manufacturer name
+	 */
 	public function addManufacturer ($name) {
 		$manufacturer = new Manufacturer();
 		$manufacturer->setName($name);
@@ -64,8 +67,20 @@ class ManufacturerManager extends Singleton {
 		
 		return $manufacturer;
 	}
+	
+	/**
+	 * Loads a manufacturer by id
+	 * @param int $id The manufacturer id
+	 */
+	public function getManufacturer ($id) {
+		return Manufacturer::loadById($id);
+	}
+	/**
+	 * Deletes the manufacturer by id
+	 * @param int $id The manufacturer's id
+	 */
 	public function deleteManufacturer ($id) {
-		$manufacturer = $this->getManufacturer($id);
+		$manufacturer = Manufacturer::loadById($id);
 		
 		PartKeepr::getEM()->remove($manufacturer);
 		PartKeepr::getEM()->flush();

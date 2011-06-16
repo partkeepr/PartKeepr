@@ -1,5 +1,5 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Image;
+namespace de\RaumZeitLabor\PartKeepr\TempImage;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Image\Exceptions\InvalidImageTypeException,

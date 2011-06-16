@@ -184,7 +184,7 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\Distributor\Distributor',
 			'de\RaumZeitLabor\PartKeepr\Image\Image',
 			'de\RaumZeitLabor\PartKeepr\Image\CachedImage',
-			'de\RaumZeitLabor\PartKeepr\Image\TempImage',
+			'de\RaumZeitLabor\PartKeepr\TempImage\TempImage',
 			'de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo',
 			'de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshot',
 			'de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotUnit',

@@ -2,7 +2,7 @@
 namespace de\RaumZeitLabor\PartKeepr\ManufacturerICLogo;
 use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 
-use de\RaumZeitLabor\PartKeepr\Image\TempImage;
+use de\RaumZeitLabor\PartKeepr\TempImage\TempImage;
 
 use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
@@ -14,7 +14,11 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class ManufacturerICLogoService extends Service implements RestfulService {
-		public function get () {
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::get()
+	 */
+	public function get () {
 		if ($this->hasParameter("id")) {
 			return ManufacturerICLogoManager::getInstance()->getManufacturerICLogo($this->getParameter("id"))->serialize();
 		} else {
@@ -52,6 +56,10 @@ class ManufacturerICLogoService extends Service implements RestfulService {
 		}
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
+	 */
 	public function create () {
 		$this->requireParameter("tmp_id");
 		$this->requireParameter("manufacturer_id");
@@ -70,10 +78,18 @@ class ManufacturerICLogoService extends Service implements RestfulService {
 		return $image->serialize();
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
+	 */
 	public function update () {
 
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::destroy()
+	 */
 	public function destroy () {
 		$this->requireParameter("id");
 

@@ -2,8 +2,6 @@
 namespace de\RaumZeitLabor\PartKeepr\ManufacturerICLogo;
 use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 
-use de\RaumZeitLabor\PartKeepr\Image\TempImage;
-
 use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
@@ -43,6 +41,7 @@ class PartDistributorService extends Service implements RestfulService {
 					}
 				}
 			}
+			// @todo This seems wrong?!?
 			return ManufacturerICLogoManager::getInstance()->getManufacturerICLogos(
 			$this->getParameter("start", $this->getParameter("start", 0)),
 			$this->getParameter("limit", $this->getParameter("limit", 25)),

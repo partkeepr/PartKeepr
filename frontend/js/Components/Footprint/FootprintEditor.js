@@ -3,7 +3,7 @@ Ext.define('PartKeepr.FootprintEditor', {
 	alias: 'widget.FootprintEditor',
 	items: [{
 		xtype: 'textfield',
-		name: 'footprint',
+		name: 'name',
 		fieldLabel: i18n("Footprint")
 	}],
 	saveText: i18n("Save Footprint"),

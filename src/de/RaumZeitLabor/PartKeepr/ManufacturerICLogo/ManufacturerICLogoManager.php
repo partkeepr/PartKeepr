@@ -8,6 +8,15 @@ use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\Exceptions\ManufacturerNotFoundException;
 
 class ManufacturerICLogoManager extends Singleton {
+	/**
+	 * Returns a list of manufacturer ic logos.
+	 *
+	 * @param int $start Start of the list, default 0
+	 * @param int $limit Number of users to list, default 10
+	 * @param string $sort The field to sort by, default "name"
+	 * @param string $dir The direction to sort (ASC or DESC), default ASC
+	 * @param string $filter The manufacturer id
+	 */
 	public function getManufacturerICLogos ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 			
 		$qb = PartKeepr::getEM()->createQueryBuilder();
@@ -46,29 +55,12 @@ class ManufacturerICLogoManager extends Singleton {
 		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
 	}
 	
+	/**
+	 * Returns a manufacturer ic logo by id
+	 * @param int $id The manufacturer ic logo id
+	 */
 	public function getManufacturerICLogo ($id) {
-		$manufacturer = PartKeepr::getEM()->find("de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo", $id);
-		
-		if ($manufacturer) {
-			return $manufacturer;
-		} else {
-			throw new ManufacturerNotFoundException();
-		}
+		return ManufacturerICLogo::loadById($id);
 	}
-	
-	public function addManufacturerICLogo ($name) {
-		$manufacturer = new ManufacturerICLogo();
-		$manufacturer->setName($name);
-		
-		PartKeepr::getEM()->persist($manufacturer);
-		PartKeepr::getEM()->flush();
-		
-		return $manufacturer;
-	}
-	public function deleteManufacturer ($id) {
-		$manufacturer = $this->getManufacturer($id);
-		
-		PartKeepr::getEM()->remove($manufacturer);
-		PartKeepr::getEM()->flush();
-	}
+
 }

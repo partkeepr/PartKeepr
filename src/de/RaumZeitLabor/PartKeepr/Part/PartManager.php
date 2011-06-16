@@ -26,10 +26,14 @@ use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Footprint\Footprint,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Category\CategoryManager,
-	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerManager,
-	de\RaumZeitLabor\PartKeepr\Footprint\Exceptions\FootprintNotFoundException;
+	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerManager;
 
 class PartManager extends Singleton {
+	/**
+	 * Returns a list of parts.
+	 *
+	 * @todo The parameter list. We need to invent something so that we don't have like 20 parameters for this method.
+	 */
 	public function getParts ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "", $category = 0, $categoryScope = "all", $stockMode = "all", $withoutPrice = false, $storageLocation = "") {
 		
 		$qb = PartKeepr::getEM()->createQueryBuilder();
@@ -55,7 +59,7 @@ class PartManager extends Singleton {
 				$orderBy  = "st.name";
 				break;
 			case "footprintName":
-				$orderBy = "f.footprint";
+				$orderBy = "f.name";
 				break;
 			default;
 				$orderBy = "p.".$sort;
@@ -102,7 +106,7 @@ class PartManager extends Singleton {
 		
 		
 		
-		$qb->select("p.averagePrice, p.name, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, st.name as storageLocationName, f.id AS footprint_id, f.footprint AS footprintName, c.id AS category_id, c.name AS categoryName, pu.name AS partUnit, pu.is_default AS partUnitDefault");
+		$qb->select("p.averagePrice, p.name, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, st.name as storageLocationName, f.id AS footprint_id, f.name AS footprintName, c.id AS category_id, c.name AS categoryName, pu.name AS partUnit, pu.is_default AS partUnitDefault");
 		$qb->orderBy($orderBy, $dir);
 		if ($limit > -1) {
 			$qb->setMaxResults($limit);

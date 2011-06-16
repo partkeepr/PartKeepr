@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\SiPrefix;
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
@@ -7,14 +9,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 
 
 /** @Entity **/
-class SiPrefix {
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var integer
-	 */
-	private $id;
-	
+class SiPrefix extends BaseEntity {
 	/**
 	 * The prefix of the Si-Prefix (e.g. yotta, deca, deci, centi)
 	 * @Column(type="string")
@@ -85,15 +80,6 @@ class SiPrefix {
 	}
 	
 	/**
-	 * Returns the ID for this object.
-	 * @param none
-	 * @return int The ID for this object
-	 */
-	public function getId () {
-		return $this->id;
-	}
-	
-	/**
 	 * Serializes the object into an array format.
 	 * @return array the object in serialized format.
 	 */
@@ -104,12 +90,4 @@ class SiPrefix {
 			"prefix" => $this->getPrefix(),
 			"power" => $this->getPower());
 	}
-	
-	/**
-	 * Loads a prefix by ID
-	 * @param int $id The ID to load
-	 */
-	public static function loadById ($id) {
-    	return PartKeepr::getEM()->find(get_called_class(), $id);
-    }
 }
