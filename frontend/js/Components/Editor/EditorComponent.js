@@ -61,7 +61,7 @@ Ext.define('PartKeepr.EditorComponent', {
 		
 		
 		//this.editor.editItem(r);
-		editor = this.createEditor(r.getName());
+		editor = this.createEditor(r.getRecordName());
 		editor.editItem(r);
 		this.editorTabPanel.add(editor).show();
 		
@@ -94,7 +94,7 @@ Ext.define('PartKeepr.EditorComponent', {
 		
 		Ext.Msg.confirm(
 				this.deleteTitle,
-				sprintf(this.deleteMessage, r.getName()),
+				sprintf(this.deleteMessage, r.getRecordName()),
 				function (but) {
 					if (but == "yes") {
 						var editor = this.findEditor(r.get("id"));

@@ -173,6 +173,7 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\User\User',
 			'de\RaumZeitLabor\PartKeepr\Session\Session',
 			'de\RaumZeitLabor\PartKeepr\Footprint\Footprint',
+			'de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment',
 			'de\RaumZeitLabor\PartKeepr\Category\Category',
 			'de\RaumZeitLabor\PartKeepr\Part\Part',
 			'de\RaumZeitLabor\PartKeepr\Part\PartUnit',

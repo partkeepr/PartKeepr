@@ -5,7 +5,7 @@ PartKeepr.StorageLocation = Ext.define("StorageLocation", {
 	         {	name: 'name',	type: 'string'}
 	         ],
 	proxy: PartKeepr.getRESTProxy("StorageLocation"),
-	getName: function () {
+	getRecordName: function () {
 		return this.get("name");
 	}
 });

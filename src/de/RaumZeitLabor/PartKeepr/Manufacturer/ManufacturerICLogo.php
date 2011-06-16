@@ -47,6 +47,6 @@ class ManufacturerICLogo extends Image implements Serializable {
 	 * @return array The serialized ic logo
 	 */
 	public function serialize () {
-		return array("id" => $this->getId(), "manufacturer_id" => $this->getMenufacturer()->getId());
+		return array("id" => $this->getId(), "manufacturer_id" => $this->getManufacturer()->getId());
 	}
 }

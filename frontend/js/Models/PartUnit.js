@@ -7,7 +7,7 @@ PartKeepr.PartUnit = Ext.define("PartUnit", {
 	         {	name: 'default',	type: 'bool'}
 	         ],
 	proxy: PartKeepr.getRESTProxy("PartUnit"),
-	getName: function () {
+	getRecordName: function () {
 		return this.get("name");
 	}
 });

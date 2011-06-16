@@ -1,5 +1,5 @@
 <?php
-namespace de\raumzeitlabor\PartKeepr\Part;
+namespace de\RaumZeitLabor\PartKeepr\Part;
 use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
@@ -8,6 +8,7 @@ use de\RaumZeitLabor\PartKeepr\Service\Service;
 use de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Category\Category,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class PartService extends Service implements RestfulService {
@@ -57,6 +58,28 @@ class PartService extends Service implements RestfulService {
 		return array("data" => $query->getArrayResult());
 	}
 	
+	public function movePart () {
+		$this->requireParameter("targetCategory");
+		
+		if ($this->getParameter("parts", false) !== false) {
+			/* We are moving multiple parts */
+			foreach ($this->getParameter("parts") as $part) {
+				$part = Part::loadById($part);
+				$category = Category::loadById($this->getParameter("targetCategory"));
+					
+				$part->setCategory($category);
+			}
+		} else {
+			$part = Part::loadById($this->getParameter("part"));
+			$category = Category::loadById($this->getParameter("targetCategory"));
+			
+			$part->setCategory($category);
+				
+		}
+		
+		
+		PartKeepr::getEM()->flush();
+	}
 	// Old stuff below
 	public function getParts () {
 		$aParameters = array(

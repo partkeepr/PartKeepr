@@ -37,8 +37,5 @@ PartKeepr.Part = Ext.define("Part", {
                 { model: 'Category', primaryKey: 'id', foreignKey: 'category_id'}
                 ],
     hasMany: { model: 'PartDistributor', name: 'distributors'},
-	proxy: PartKeepr.getRESTProxy("Part"),
-	getName: function () {
-		return this.get("name");
-	}
+	proxy: PartKeepr.getRESTProxy("Part")
 });
