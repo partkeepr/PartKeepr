@@ -135,8 +135,8 @@ Ext.define('PartKeepr.PartAttachmentGrid', {
     	
     	new Ext.Window({
     	    title : i18n("Display File"),
-    	    width : 300,
-    	    height: 300,
+    	    width : 640,
+    	    height: 600,
     	    maximizable: true,
     	    constrain: true,
     	    layout : 'fit',
