@@ -19,6 +19,15 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	        	text: i18n('Upload'),
     	        	handler: Ext.bind(function() {
     	        		var form = this.form.getForm();
+    	        		
+    	        		var values = form.getValues();
+    	        		
+    	        		if (this.fileField.getValue() == "" && this.urlField.getValue() == "") {
+    	        			Ext.Msg.alert(i18n("Error"), i18n("Please select a file to upload or enter an URL"));
+    	        			return;
+    	        		}
+    	        		
+    	        		
     	        		if(form.isValid()){
     	        			form.submit({
     	        				url: this.uploadURL,
@@ -37,6 +46,13 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	        }, this)
     	    });
     	
+    	this.urlField = Ext.create("Ext.form.field.Text", {
+    		fieldLabel: i18n("URL"),
+    		labelWidth: 50,
+    		name: "url",
+    		anchor: '100%'
+    	});
+    	
     	this.tbButtons = [ this.uploadButton ];
     	
     	if (this.imageUpload) {
@@ -54,23 +70,32 @@ Ext.define('PartKeepr.FileUploadDialog', {
     		this.tbButtons.push(this.fileFormatButton);
     	}
     	
-    	this.form = Ext.create('Ext.form.Panel', {
-    	    width: 400,
-    	    bodyPadding: 10,
-    	    border: false,
-    	    items: [{
+    	this.fileField = Ext.create("Ext.form.field.File",{
     	        xtype: 'filefield',
     	        name: 'userfile',
     	        fieldLabel: this.fileFieldLabel,
     	        labelWidth: 50,
     	        msgTarget: 'side',
-    	        allowBlank: false,
     	        anchor: '100%',
     	        buttonText: this.uploadButtonText
-    	    },{
+    	    });
+    	
+    	this.form = Ext.create('Ext.form.Panel', {
+    	    width: 400,
+    	    bodyPadding: 10,
+    	    border: false,
+    	    items: [{
+    	    	html: i18n("Select a file to upload or enter an URL to load the file from"),
+    	    	border: false,
+    	    	style: "margin-bottom: 20px;"
+    	    },
+    	    this.fileField,
+    	    {
     	    	html: sprintf(i18n("Maximum upload size: %s"), PartKeepr.bytesToSize(PartKeepr.getMaxUploadSize())),
+    	    	style: 'margin-bottom: 10px;',
     	    	border: false
-    	    }],
+    	    },
+    	    this.urlField],
 
     	    buttons: this.tbButtons
     	});
