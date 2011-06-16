@@ -59,10 +59,11 @@ if (!($_SERVER["argc"] == 2 && $_SERVER["argv"][1] == "--yes")) {
 
 echo "Performing actions...\n";
 
-mkdir("../src/Proxies");
-mkdir("../data");
-mkdir("../data/images");
+@mkdir("../src/Proxies");
+@mkdir("../data");
+@mkdir("../data/images");
 chmod("../data/images", 0777);
+chmod("../data/files", 0777);
 
 $tool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
 

@@ -45,5 +45,5 @@ $fp = fopen($file, "rb");
 fpassthru($fp);
 fclose($fp);
 
-Netraver::getEM()->flush();
+PartKeepr::getEM()->flush();
 exit();
