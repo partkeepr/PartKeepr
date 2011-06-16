@@ -3,7 +3,7 @@ namespace de\RaumZeitLabor\PartKeepr\Stock;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Part\Part;
-use de\RaumZeitLabor\PartKeepr\Auth\User;
+use de\RaumZeitLabor\PartKeepr\User\User;
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
 
 /** @Entity @HasLifecycleCallbacks **/
@@ -27,7 +27,7 @@ class StockEntry {
 	private $part;
 	
 	/**
-	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Auth\User")
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\User\User")
 	 */
 	private $user;
 	
