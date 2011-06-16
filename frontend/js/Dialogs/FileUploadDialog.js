@@ -4,8 +4,13 @@ Ext.define('PartKeepr.FileUploadDialog', {
     title: i18n("File Upload"),
     fileFieldLabel: i18n("File"),
     uploadButtonText: i18n('Select File...'),
-    
+    uploadURL: "rest.php/TempFile",
+    modal: true,
     initComponent: function () {
+    	
+    	if (this.imageUpload) {
+    		this.uploadURL = "rest.php/TempImage";
+    	}
     	
     	this.addEvents("fileUploaded");
     	
@@ -16,13 +21,13 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	        		var form = this.form.getForm();
     	        		if(form.isValid()){
     	        			form.submit({
-    	        				url: 'rest.php/TempImage',
+    	        				url: this.uploadURL,
     	        				params: {
     	        				call: "upload",
     	                    	session: PartKeepr.getApplication().getSession()
     	                    },
     	                    success: Ext.bind(function(fp, o) {
-    	                    	this.fireEvent("fileUploaded", o.result.response.id);
+    	                    	this.fireEvent("fileUploaded", o.result.response);
     	                    	this.close();
     	                    },this),
     	                    failure: function(form, action) {
@@ -35,6 +40,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	this.tbButtons = [ this.uploadButton ];
     	
     	if (this.imageUpload) {
+    		
     		this.title = i18n("Image Upload");
     		this.fileFieldLabel = i18n("Image");
     		this.uploadButtonText = i18n("Select Image...");

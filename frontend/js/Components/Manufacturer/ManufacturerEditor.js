@@ -102,10 +102,10 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		
 		this.iclogoGrid.getStore().sync();
 	},
-	onFileUploaded: function (id) {
+	onFileUploaded: function (response) {
 		this.iclogoGrid.getStore().add({
 			type: 'tmp',
-			tmp_id: id,
+			tmp_id: response.id,
 			manufacturer_id: this.record.get("id") 
 		});
 	},
