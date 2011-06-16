@@ -45,6 +45,7 @@ Ext.define('PartKeepr.PartManager', {
 		
 		// Create the grid listeners
 		this.grid.on("itemSelect", this.onItemSelect, this);
+		this.grid.on("itemDeselect", this.onItemSelect, this);
 		this.grid.on("itemAdd", this.onItemAdd, this);
 		this.grid.on("itemDelete", this.onItemDelete, this);
 		
@@ -133,11 +134,18 @@ Ext.define('PartKeepr.PartManager', {
 	/**
      * Called when a part was selected in the grid. Displays the details for this part.
      */
-	onItemSelect: function (r) {
-		this.detailPanel.setActiveTab(this.detail);
-		this.detailPanel.show();
-		this.detail.setValues(r);
-		this.stockLevel.part = r.get("id");
+	onItemSelect: function () {
+		if (this.grid.getSelectionModel().getCount() > 1) {
+			this.detailPanel.hide();
+		} else {
+			var r = this.grid.getSelectionModel().getLastSelected();
+			
+			this.detailPanel.setActiveTab(this.detail);
+			this.detailPanel.show();
+			this.detail.setValues(r);
+			this.stockLevel.part = r.get("id");	
+		}
+		
 	},
 	/**
      * Triggers loading of a part 

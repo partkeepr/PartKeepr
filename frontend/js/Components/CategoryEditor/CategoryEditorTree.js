@@ -4,7 +4,8 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 	viewConfig: {
     	animate: false,
         plugins: {
-            ptype: 'treeviewdragdrop'
+            ptype: 'treeviewdragdrop',
+            ddGroup: 'CategoryTree'
         }
 	},
 	initComponent: function () {
@@ -12,30 +13,67 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 		this.callParent();
 		
 		this.getView().on("drop", Ext.bind(this.onCategoryDrop, this));
+		this.getView().on("beforedrop", this.onBeforeDrop, this);
 		this.getView().on("itemcontextmenu", Ext.bind(this.onItemContextMenu, this));
 		
 		this.createMenu();
 	},
-	onCategoryDrop: function (node, data, model, pos) {
+	onBeforeDrop: function (node, data, overModel, dropPosition, dropFunction, options) {
 		var draggedRecord = data.records[0];
-		
 		var droppedOn = this.getView().getRecord(node);
-		
-		var targetRecord;
-		
-		if (pos == "after" || pos == "before") {
-			targetRecord = droppedOn.parentNode;
-		} else {
-			targetRecord = droppedOn;
+
+		if (draggedRecord.modelName == "Part") {
+			/* Move Part */
+			var call = new PartKeepr.ServiceCall("Part", "movePart");
+			
+			if (data.records.length > 1) {
+				var sources = [];
+			
+				for (var i=0;i<data.records.length;i++) {
+					sources.push(data.records[i].get("id"));
+				}
+				
+				call.setParameter("parts", sources);
+			} else {
+				call.setParameter("part", draggedRecord.get("id"));
+			}
+
+			call.setParameter("targetCategory", droppedOn.get("id"));
+			call.setHandler(function () {
+				data.view.store.load();
+			});
+			call.doCall();
+			
+			return false;
 		}
 		
-		this.getStore().sort("name", "ASC");
+	},
+	onCategoryDrop: function (node, data, model, pos) {
+		var draggedRecord = data.records[0];
+		var droppedOn = this.getView().getRecord(node);
 		
-		var call = new PartKeepr.ServiceCall("Category", "moveCategory");
-		call.setLoadMessage(sprintf(i18n("Moving category %s..."), draggedRecord.get("name")));
-		call.setParameter("category", draggedRecord.get("id"));
-		call.setParameter("target", targetRecord.get("id"));
-		call.doCall();
+		if (draggedRecord.modelName == "Part") {
+			return;
+		} else {
+			/* Must be a category */
+			
+			var targetRecord;
+			
+			if (pos == "after" || pos == "before") {
+				targetRecord = droppedOn.parentNode;
+			} else {
+				targetRecord = droppedOn;
+			}
+			
+			this.getStore().sort("name", "ASC");
+			
+			var call = new PartKeepr.ServiceCall("Category", "moveCategory");
+			call.setLoadMessage(sprintf(i18n("Moving category %s..."), draggedRecord.get("name")));
+			call.setParameter("category", draggedRecord.get("id"));
+			call.setParameter("target", targetRecord.get("id"));
+			call.doCall();
+		}
+		
 	},
 
 	onItemContextMenu: function (view, record, item, index, event) {
