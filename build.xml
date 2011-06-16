@@ -14,6 +14,7 @@
     <target name="clean">
     	<delete dir="reports" />
     	<delete dir="build" />
+    	<delete dir="data" />
     </target>
     
     <!--  Re-generates the proxies needed by Doctrine2 -->
