@@ -1,7 +1,7 @@
 Ext.define("PartKeepr.FootprintComboBox",{
     extend:"Ext.form.field.ComboBox",
     alias: 'widget.FootprintComboBox',
-    displayField: 'footprint',
+    displayField: 'name',
     valueField: 'id',
     autoSelect: true,
     queryMode: 'local',
