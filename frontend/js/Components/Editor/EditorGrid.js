@@ -58,15 +58,25 @@ Ext.define('PartKeepr.EditorGrid', {
 		
 		this.getSelectionModel().on("select", 
 				Ext.bind(function (rsm, r, i) {
-					this.deleteButton.enable();
+					if (this.getSelectionModel().getCount() == 1) {
+						this.deleteButton.enable();
+					} else {
+						this.deleteButton.disable();
+					}
+					
 					this.fireEvent("itemSelect", r);
 				},
 				this));
 		
 		this.getSelectionModel().on("deselect", 
 				Ext.bind(function (rsm, r, i) {
+					if (this.getSelectionModel().getCount() == 1) {
+						this.deleteButton.enable();
+					} else {
 						this.deleteButton.disable();
-						this.fireEvent("itemDeselect", r);
+					}
+					
+					this.fireEvent("itemDeselect", r);
 				}, this));
 
 		this.deleteButton = Ext.create("Ext.button.Button", {

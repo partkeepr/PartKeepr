@@ -9,6 +9,16 @@ Ext.define('PartKeepr.PartsGrid', {
 	// We want to display the texts for the add/delete buttons
 	buttonTextMode: 'show',
 	
+	viewConfig: {
+        plugins: {
+            ddGroup: 'CategoryTree',
+            ptype: 'gridviewdragdrop',
+            enableDrop: false
+        }
+    },
+    enableDragDrop   : true,
+    stripeRows       : true,
+    multiSelect		 : true,
 	initComponent: function () {
 		
 		// Create the columns
