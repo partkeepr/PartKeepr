@@ -135,7 +135,6 @@ Ext.define('PartKeepr.AttachmentGrid', {
     	} else {
     		mySrc += "id=" + record.get("id");
     	}
-    	console.log(mySrc);
     	
     	new Ext.Window({
     	    title : i18n("Display File"),
