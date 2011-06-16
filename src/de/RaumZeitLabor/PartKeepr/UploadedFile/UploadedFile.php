@@ -43,6 +43,13 @@ abstract class UploadedFile {
 	private $mimetype;
 	
 	/**
+	 * The size of the uploaded file
+	 * @Column(type="integer")
+	 * @var integer
+	 */
+	private $size;
+	
+	/**
 	 * Constructs a new file object.
 	 *
 	 */
@@ -64,9 +71,12 @@ abstract class UploadedFile {
 	 * @param string $path	The path to the original file
 	 */
 	public function replace ($path) {
+		// Parse the file's mimetype
 		$finfo = new \finfo(FILEINFO_MIME);
-		
 		$this->mimetype = $finfo->file($path, FILEINFO_MIME_TYPE);
+		
+		// Get the file size
+		$this->size = filesize($path);
 		
 		$this->ensureFilePathExists();
 		copy($path, $this->getFilename());
@@ -79,6 +89,14 @@ abstract class UploadedFile {
 	 */
 	public function getId () {
 		return $this->id;
+	}
+	
+	/**
+	 * Returns the size of this file
+	 * @return integer The size in bytes
+	 */
+	public function getSize () {
+		return $this->size;
 	}
 	
 	/**
