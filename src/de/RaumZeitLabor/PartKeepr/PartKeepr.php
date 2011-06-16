@@ -83,6 +83,7 @@ class PartKeepr {
 		}
 		
 	}
+	
 	/**
 	 * Initializes the doctrine framework and
 	 * sets all required configuration options.
@@ -115,25 +116,21 @@ class PartKeepr {
 
 		$config->setQueryCacheImpl($cache);
 		
-		//$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
-		//$config->setSQLLogger($logger);
-		
-		/* @todo what's up with this proxy stuff? */
-		// Proxy configuration
 		$config->setProxyDir(dirname(dirname(dirname(__DIR__))) . '/Proxies');
 		$config->setProxyNamespace('Proxies');
 		$config->setEntityNamespaces(self::getEntityClasses());
 		$config->setAutoGenerateProxyClasses(false);
 		
-		$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
-        //$config->setSQLLogger($logger);
+		if (PartKeeprConfiguration::getOption("partkeepr.database.echo_sql_log", false) === true) {
+			$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
+			$config->setSQLLogger($logger);
+		}
 		
 		self::$entityManager = EntityManager::create($connectionOptions, $config);
 	}
 	
 	/**
 	 * Returns the EntityManager. Shortcut for getEntityManager().
-	 * @param none
 	 * @return Doctrine\ORM\EntityManager The EntityManager
 	 */
 	public static function getEM () {
@@ -142,7 +139,6 @@ class PartKeepr {
 
 	/**
 	 * Returns the EntityManager.
-	 * @param none
 	 * @return Doctrine\ORM\EntityManager The EntityManager
 	 */
 	public static function getEntityManager () {
@@ -152,6 +148,10 @@ class PartKeepr {
 		return self::$entityManager;
 	}
 	
+	/**
+	 * Returns the class metadata for all entity classes
+	 * @return array an array of class metadata objects
+	 */
 	public static function getClassMetaData () {
 		$classes = self::getEntityClasses();
 
@@ -164,6 +164,10 @@ class PartKeepr {
 		return $aClasses;
 	}
 	
+	/**
+	 * Returns a list of all classes we use for entities.
+	 * @return array An array of strings with all class names
+	 */
 	public static function getEntityClasses () {
 		return array(
 			'de\RaumZeitLabor\PartKeepr\Auth\User',
@@ -186,7 +190,8 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotUnit',
 			'de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix',
 			'de\RaumZeitLabor\PartKeepr\Unit\Unit',
-			'de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter'
+			'de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter',
+			'de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile'
 		);
 	}
 	
@@ -197,6 +202,10 @@ class PartKeepr {
 		return $string;
 	}
 	
+	/**
+	 * Returns a new GUID.
+	 * @return string The new GUID
+	 */
 	public static function createGUIDv4() {
 	    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 	
