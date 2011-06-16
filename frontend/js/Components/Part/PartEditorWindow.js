@@ -4,7 +4,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	width: 600,
 	minWidth: 600,
 	minHeight: 300,
-	height: 350,
+	height: 450,
 	layout: 'fit',
 	title: i18n("Add Part"),
 	initComponent: function () {
@@ -40,5 +40,6 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		this.editor.partDistributorGrid.getStore().loadData(r.distributors);
 		this.editor.partManufacturerGrid.getStore().loadData(r.manufacturers);
 		this.editor.partParameterGrid.getStore().loadData(r.parameters);
+		this.editor.partAttachmentGrid.getStore().loadData(r.attachments);
 	}
 });

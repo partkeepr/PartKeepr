@@ -1,6 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Tests;
 use de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter;
+use de\RaumZeitLabor\PartKeepr\Part\PartAttachment;
 
 declare(encoding = 'UTF-8');
 
@@ -58,10 +59,9 @@ if (!($_SERVER["argc"] == 2 && $_SERVER["argv"][1] == "--yes")) {
 
 echo "Performing actions...\n";
 
-@mkdir("../src/Proxies");
-@mkdir("../data");
-@mkdir("../data/images");
-chmod("../src/Proxies", 0777);
+mkdir("../src/Proxies");
+mkdir("../data");
+mkdir("../data/images");
 chmod("../data/images", 0777);
 
 $tool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
@@ -225,6 +225,7 @@ foreach ($data as $mfgname => $logos) {
 		$mfglogo = new ManufacturerICLogo();
 		$mfglogo->setManufacturer($manufacturer);
 		$mfglogo->replace("../setup/data/manufacturers/images/".$logo);
+		$mfglogo->setOriginalFilename($logo);
 		
 		PartKeepr::getEM()->persist($mfglogo);
 	}
@@ -264,6 +265,20 @@ while ($part = mysql_fetch_assoc($r)) {
 	$oPart->getDistributors()->add(new PartDistributor($oPart, $aDistributors[$part["id_supplier"]]));
 	
 	//echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
+	
+	/* Add existing datasheets */
+	$datasheetQuery = "SELECT datasheeturl FROM datasheets WHERE part_id = ".$part["id"];
+	$r3 = mysql_query($datasheetQuery);
+	while ($res = mysql_fetch_assoc($r3)) {
+			$attachment = new PartAttachment();
+			$attachment->setPart($oPart);
+			$attachment->replaceFromURL($res["datasheeturl"]);
+			$attachment->setDescription(PartKeepr::i18n("Datasheet"));
+			$oPart->getAttachments()->add($attachment);
+
+		
+	}
+	
 	PartKeepr::getEM()->persist($oPart);
 	
 	$oStock = new StockEntry($oPart, $part["instock"]);
@@ -282,8 +297,6 @@ while ($part = mysql_fetch_assoc($r)) {
 	PartKeepr::getEM()->persist($oStock);
 	
 	/* Add some random parameters */
-	
-	
 	for ($i=0;$i<rand(1,15);$i++) {
 		$val = rand(0,999);
 		$prefix = $aSiPrefixes[array_rand($aSiPrefixes)];

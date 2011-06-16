@@ -65,6 +65,20 @@ class Part extends BaseEntity implements Serializable {
 	private $distributors;
 	
 	/**
+	 * Holds the part images
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Part\PartImage",mappedBy="part",cascade={"persist", "remove"})
+	 * @var PartImage
+	 */
+	private $images;
+	
+	/**
+	* Holds the part attachments
+	* @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Part\PartAttachment",mappedBy="part",cascade={"persist", "remove"})
+	* @var PartAttachment
+	*/
+	private $attachments;
+	
+	/**
 	 * The comment for this part
 	 * @Column(type="text")
 	 */
@@ -114,6 +128,8 @@ class Part extends BaseEntity implements Serializable {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->parameters = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->images = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
 	/**
@@ -236,6 +252,22 @@ class Part extends BaseEntity implements Serializable {
 	}
 	
 	/**
+	 * Returns the part images array
+	 * @return ArrayCollection the part images
+	 */
+	public function getImages () {
+		return $this->images;
+	}
+	
+	/**
+	 * Returns the part attachments array
+	 * @return ArrayCollection the part attachments
+	 */
+	public function getAttachments () {
+		return $this->attachments;
+	}
+	
+	/**
 	 * Returns the manufacturers array
 	 * @return ArrayCollection the manufactuers
 	 */
@@ -285,6 +317,16 @@ class Part extends BaseEntity implements Serializable {
 			$aParameters[] = $parameter->serialize();
 		}
 		
+		$aImages = array();
+		foreach ($this->getImages() as $image) {
+			$aImages[] = $image->serialize();
+		}
+		
+		$aAttachments = array();
+		foreach ($this->getAttachments() as $attachment) {
+			$aAttachments[] = $attachment->serialize();
+		}
+		
 		return array(
 					"id" => $this->getId(),
 					"name" => $this->getName(),
@@ -300,6 +342,8 @@ class Part extends BaseEntity implements Serializable {
 					"partUnit_shortName" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : "",
 					"manufacturers" => $aManufacturers,
 					"distributors" => $aDistributors,
+					"images" => $aImages,
+					"attachments" => $aAttachments,
 					"parameters" => $aParameters
 		
 		);

@@ -112,20 +112,19 @@ class FootprintManager extends Singleton {
 	 * @param mixed $footprint Either the ID or the footprint's name to find
 	 */
 	public function getOrCreateFootprint ($footprint) {
-		if (is_int($footprint)) {
-			try {
-				Footprint::loadById($footprint);
-			} catch (EntityNotFoundException $e) {}
-		} else {
-			$dql = "SELECT f FROM de\RaumZeitLabor\PartKeepr\Footprint\Footprint f WHERE f.name = :name";
-			$query = PartKeepr::getEM()->createQuery($dql);
-			$query->setParameter("name", $footprint);
+		try {
+			$footprint = Footprint::loadById($footprint);
+			return $footprint;
+		} catch (EntityNotFoundException $e) {}
+
+		$dql = "SELECT f FROM de\RaumZeitLabor\PartKeepr\Footprint\Footprint f WHERE f.name = :name";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("name", $footprint);
 			
-			try {
-				$footprint = $query->getSingleResult();
-				return $footprint;
-			} catch (\Exception $e) {}
-		}
+		try {
+			$footprint = $query->getSingleResult();
+			return $footprint;
+		} catch (\Exception $e) {}
 		
 		$fp = new Footprint();
 		$fp->setName($footprint);
