@@ -22,7 +22,7 @@ class FootprintManager extends Singleton {
 	public function getFootprints ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 		
 		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select("f.id, f.name")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f");
+		$qb->select("f.id, f.name, f.description")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f");
 
 		if ($filter != "") {
 			$qb = $qb->where("f.name LIKE :filter");

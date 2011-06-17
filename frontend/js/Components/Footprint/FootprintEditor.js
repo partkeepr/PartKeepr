@@ -14,7 +14,11 @@ Ext.define('PartKeepr.FootprintEditor', {
 		this.items = [{
 			xtype: 'textfield',
 			name: 'name',
-			fieldLabel: i18n("Footprint")
+			fieldLabel: i18n("Name")
+		}, {
+			xtype: 'textarea',
+			name: 'description',
+			fieldLabel: i18n("Description")
 		}, {
 			xtype: 'fieldcontainer',
 			fieldLabel: i18n("Attachments"),

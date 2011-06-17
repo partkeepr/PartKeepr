@@ -17,6 +17,13 @@ class Footprint extends BaseEntity implements Serializable {
 	private $name;
 	
 	/**
+	 * Holds the footprint description
+	 * @Column(type="text",nullable=true)
+	 * @var string
+	 */
+	private $description;
+	
+	/**
 	* Holds the footprint attachments
 	* @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment",mappedBy="part",cascade={"persist", "remove"})
 	* @var FootprintAttachment
@@ -47,6 +54,21 @@ class Footprint extends BaseEntity implements Serializable {
 		return $this->name;
 	}
 	
+	/**
+	 * Sets the description of this footprint
+	 * @param string $description The description
+	 */
+	public function setDescription ($description) {
+		$this->description = $description;
+	}
+	
+	/**
+	 * Returns the description of this footprint
+	 * @return string The description
+	 */
+	public function getDescription () {
+		return $this->description;
+	}
 	
 	/**
 	 * Returns the attachments for this footprint
@@ -66,6 +88,6 @@ class Footprint extends BaseEntity implements Serializable {
 			$aAttachments[] = $attachment->serialize();
 		}
 		
-		return array("id" => $this->getId(), "name" => $this->getName(), "attachments" => $aAttachments);
+		return array("id" => $this->getId(), "name" => $this->getName(), "description" => $this->getDescription(), "attachments" => $aAttachments);
 	}
 }

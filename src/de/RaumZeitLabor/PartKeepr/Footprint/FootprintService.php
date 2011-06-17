@@ -55,6 +55,7 @@ class FootprintService extends Service implements RestfulService {
 		$this->requireParameter("footprint");
 		$footprint = FootprintManager::getInstance()->getFootprint($this->getParameter("id"));
 		$footprint->setName($this->getParameter("footprint"));
+		$footprint->setDescription($this->getParameter("description"));
 		
 		PartKeepr::getEM()->flush();
 		
