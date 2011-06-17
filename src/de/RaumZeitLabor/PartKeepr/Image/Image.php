@@ -14,6 +14,7 @@ abstract class Image extends UploadedFile {
 	const IMAGE_ICLOGO = "iclogo";
 	const IMAGE_TEMP = "temp";
 	const IMAGE_PART = "part";
+	const IMAGE_FOOTPRINT = "footprint";
 	
 	/**
 	 * Constructs a new image object.
@@ -37,6 +38,7 @@ abstract class Image extends UploadedFile {
 			case Image::IMAGE_ICLOGO:
 			case Image::IMAGE_TEMP:
 			case Image::IMAGE_PART:
+			case Image::IMAGE_FOOTPRINT:
 				parent::setType($type);
 				break;
 			default:
@@ -154,16 +156,23 @@ abstract class Image extends UploadedFile {
 	}
 	
 	/**
-	 * Scales the image to fit within the given size.
+	 * Scales the image to fit within the given size. 
 	 *
 	 * @param int $w The width
 	 * @param int $h The height
+	 * @param boolean $padding If true, pad the output image to the given size (transparent background).
 	 * @return string The path to the scaled file
 	 */
-	public function fitWithin ($w, $h) {
+	public function fitWithin ($w, $h, $padding = false) {
 		$this->ensureCachedirExists();
 		
-		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h."fw").".png";
+		if ($padding) {
+			$pd = "p";
+		} else {
+			$pd = "";
+		}
+		
+		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h."fw".$pd).".png";
 		
 		if (file_exists($outputFile)) {
 			return $outputFile;
@@ -177,10 +186,22 @@ abstract class Image extends UploadedFile {
 		$filter = \Imagick::FILTER_UNDEFINED;
 		$blur = 1;
 		
+		$targetHeight = $h;
+		$targetWidth = $w;
+		
 		if ($sourceAspectRatio < $targetAspectRatio) {
+			$targetWidth = $h * $sourceAspectRatio;
 			$image->resizeImage($h * $sourceAspectRatio, $h, $filter, $blur);	
 		} else {
+			$targetHeight = $w / $sourceAspectRatio;
 			$image->resizeImage($w, $w / $sourceAspectRatio, $filter, $blur);
+		}
+		
+		if ($padding) {
+			$posX = intval(($w - $targetWidth) / 2);
+			$posY = intval(($h - $targetHeight) / 2);
+			
+			$image->extentImage($w, $h,-$posX, -$posY);
 		}
 		
 		$image->writeImage($outputFile);
@@ -189,6 +210,17 @@ abstract class Image extends UploadedFile {
 		PartKeepr::getEM()->persist($cachedImage);
 		
 		return $outputFile;
+	}
+	
+	/**
+	 * Convinience method for fitWithin. Automatically pads the image. 
+	 *
+	 * @param int $w The width
+	 * @param int $h The height
+	 * @return string The path to the scaled file
+	 */
+	public function fitWithinPadding ($w, $h) {
+		return $this->fitWithin($w, $h, true);
 	}
 	
 	/**

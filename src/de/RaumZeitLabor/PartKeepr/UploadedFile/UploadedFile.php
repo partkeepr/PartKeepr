@@ -95,6 +95,8 @@ abstract class UploadedFile extends BaseEntity {
 		
 		$this->ensureFilePathExists();
 		copy($path, $this->getFilename());
+		
+		$this->setOriginalFilename(basename($path));
 	}
 	
 	/**
