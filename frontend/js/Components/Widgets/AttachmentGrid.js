@@ -38,6 +38,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
 			text: i18n("View"),
 			handler: this.onViewClick,
 			scope: this,
+			icon: 'resources/silkicons/zoom.png',
 			disabled: true
 		});
 		
