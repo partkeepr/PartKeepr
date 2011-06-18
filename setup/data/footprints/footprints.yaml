@@ -99,23 +99,44 @@ PBGA-400:
 PBGA-484:
   description: 484-Ball Plastic Ball Grid Array
   category: BGA
-  images: BGA/PBGA-484.png
+  image: BGA/PBGA-484.png
   attachments:
     - url: http://www.analog.com/static/imported-files/packages/3235251121324624786157688555B484.pdf
       description: Outline
 PBGA-625:
   description: 625-Ball Plastic Ball Grid Array
   category: BGA
-  images: BGA/PBGA-625.png
+  image: BGA/PBGA-625.png
   attachments:
     - url: http://www.analog.com/static/imported-files/packages/45005548173527848192875606315B625.pdf
       description: Outline
 PBGA-676:
   description: 676-Ball Plastic Ball Grid Array
   category: BGA
-  images: BGA/PBGA-676.png
+  image: BGA/PBGA-676.png
   attachments:
     - url: http://www.analog.com/static/imported-files/packages/B_676.pdf
+      description: Outline
+SBGA-256:
+  description: 256-Ball Ball Grid Array, Thermally Enhanced
+  category: BGA
+  image: BGA/SBGA-256.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/287254833BP_256.pdf
+      description: Outline
+SBGA-304:
+  description: 304-Ball Ball Grid Array, Thermally Enhanced
+  category: BGA
+  image: BGA/SBGA-304.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/3733895948083BP_304.pdf
+      description: Outline
+SBGA-432:
+  description: 432-Ball Ball Grid Array, Thermally Enhanced
+  category: BGA
+  image: BGA/SBGA-432.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/99289205BP_432.pdf
       description: Outline
 
 SOIC-N-EP-8:
