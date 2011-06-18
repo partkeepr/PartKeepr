@@ -24,9 +24,16 @@ class Footprint extends BaseEntity implements Serializable {
 	private $description;
 	
 	/**
-	* Holds the footprint attachments
-	* @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment",mappedBy="part",cascade={"persist", "remove"})
-	* @var FootprintAttachment
+	 * Holds the footprint image
+	 * @OneToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage",mappedBy="footprint",cascade={"persist", "remove"})
+	 * @var FootprintImage
+	 */
+	private $image;
+	
+	/**
+	 * Holds the footprint attachments
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment",mappedBy="footprint",cascade={"persist", "remove"})
+	 * @var FootprintAttachment
 	*/
 	private $attachments;
 	
@@ -71,6 +78,22 @@ class Footprint extends BaseEntity implements Serializable {
 	}
 	
 	/**
+	 * Sets the footprint image
+	 * @param FootprintImage $image The footprint image
+	 */
+	public function setImage (FootprintImage $image) {
+		$this->image = $image;
+	}
+	
+	/**
+	 * Returns the footprint image
+	 * @return FootprintImage The footprint image
+	 */
+	public function getImage () {
+		return $this->image;
+	}
+	
+	/**
 	 * Returns the attachments for this footprint
 	 * @return ArrayCollection The attachments
 	 */
@@ -83,11 +106,11 @@ class Footprint extends BaseEntity implements Serializable {
 	 * @return array the serialized footprint
 	 */
 	public function serialize () {
-		$aAttachments = array();
-		foreach ($this->getAttachments() as $attachment) {
-			$aAttachments[] = $attachment->serialize();
-		}
-		
-		return array("id" => $this->getId(), "name" => $this->getName(), "description" => $this->getDescription(), "attachments" => $aAttachments);
+		return array(
+			"id" => $this->getId(),
+			"name" => $this->getName(),
+			"description" => $this->getDescription(),
+			"image" => is_object($this->getImage()) ? $this->getImage()->serialize() : null
+		);
 	}
 }

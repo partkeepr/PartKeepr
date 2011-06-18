@@ -1,5 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Tests;
+use de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment;
+
+use de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage;
+
 use de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter;
 use de\RaumZeitLabor\PartKeepr\Part\PartAttachment;
 
@@ -96,6 +100,53 @@ PartKeepr::getEM()->persist($partUnit);
 PartKeepr::getEM()->flush();
 
 echo "Creating footprints from SetupData/footprints.php\n";
+
+/* Import pre-defined footprints */
+$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/footprints/footprints.yaml");
+
+print_r($data);
+
+foreach ($data as $footprintName => $footprintData) {
+	$footprint = new Footprint();
+	$footprint->setName($footprintName);
+	
+	if (array_key_exists("description", $footprintData)) {
+		$footprint->setDescription($footprintData["description"]);
+	}
+	
+	if (array_key_exists("category", $footprintData)) {
+		// @todo add category
+	}
+	
+	if (array_key_exists("image", $footprintData)) {
+		$footprintImage = new FootprintImage();
+		$footprintImage->setFootprint($footprint);
+		$footprintImage->replace("../setup/data/footprints/" . $footprintData["image"]);
+		
+		$footprint->setImage($footprintImage);
+	}
+	
+	if (array_key_exists("attachments", $footprintData) && is_array($footprintData["attachments"])) {
+		foreach ($footprintData["attachments"] as $attachment) {
+			if (array_key_exists("url", $attachment)) {
+				$footprintAttachment = new FootprintAttachment();
+				$footprintAttachment->setFootprint($footprint);
+				$footprintAttachment->replaceFromURL($attachment["url"]);
+
+				if (array_key_exists("description", $attachment)) {
+					$footprintAttachment->setDescription($attachment["description"]);
+				}
+				
+				$footprint->getAttachments()->add($footprintAttachment);
+			}
+			
+		}
+	}
+	
+	PartKeepr::getEM()->persist($footprint);
+}
+
+PartKeepr::getEM()->flush();
 
 $r = mysql_query("SELECT * FROM footprints");
 

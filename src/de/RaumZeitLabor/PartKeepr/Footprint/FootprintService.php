@@ -1,5 +1,7 @@
 <?php
-namespace de\raumzeitlabor\PartKeepr\Footprint;
+namespace de\RaumZeitLabor\PartKeepr\Footprint;
+use de\RaumZeitLabor\PartKeepr\TempImage\TempImage;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Service,
@@ -39,10 +41,23 @@ class FootprintService extends Service implements RestfulService {
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
 	 */
 	public function create () {
-		$this->requireParameter("footprint");
+		$this->requireParameter("name");
 		
-		$fp = FootprintManager::getInstance()->addFootprint($this->getParameter("footprint"));
+		$fp = FootprintManager::getInstance()->addFootprint($this->getParameter("name"));
+		$fp->setDescription($this->getParameter("description"));
 		
+		if ($this->getParameter("image_id", false) !== false) {
+			if (strpos($this->getParameter("image_id"), "TMP:") !== false) {
+				$tmpImage = TempImage::loadById(str_replace("TMP:", "", $this->getParameter("image_id")));
+				$image = new FootprintImage();
+				$image->replace($tmpImage->getFilename());
+				$image->setOriginalFilename($tmpImage->getOriginalFilename());
+			
+				$fp->setImage($image);
+				$image->setFootprint($fp);
+			}
+			
+		}
 		return array("data" => $fp->serialize());
 	}
 	
@@ -52,10 +67,28 @@ class FootprintService extends Service implements RestfulService {
 	 */
 	public function update () {
 		$this->requireParameter("id");
-		$this->requireParameter("footprint");
-		$footprint = FootprintManager::getInstance()->getFootprint($this->getParameter("id"));
-		$footprint->setName($this->getParameter("footprint"));
+		$this->requireParameter("name");
+		$footprint = Footprint::loadById($this->getParameter("id"));
+		$footprint->setName($this->getParameter("name"));
 		$footprint->setDescription($this->getParameter("description"));
+		
+		if ($this->getParameter("image_id", false) !== false) {
+			if (strpos($this->getParameter("image_id"), "TMP:") !== false) {
+				$tmpImage = TempImage::loadById(str_replace("TMP:", "", $this->getParameter("image_id")));
+				
+				$image= $footprint->getImage();
+				
+				if ($image === null) {
+					$image = new FootprintImage();	
+				}
+				
+				$image->replace($tmpImage->getFilename());
+				$image->setOriginalFilename($tmpImage->getOriginalFilename());
+				$image->setFootprint($footprint);
+				
+				$footprint->setImage($image);	
+			}
+		}
 		
 		PartKeepr::getEM()->flush();
 		

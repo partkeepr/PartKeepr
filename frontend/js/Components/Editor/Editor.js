@@ -50,7 +50,7 @@ Ext.define('PartKeepr.Editor', {
 			// Waiting for reply on http://www.sencha.com/forum/showthread.php?135142-Ext.form.Basic.loadRecord-causes-form-to-be-dirty&p=607588#post607588
 		});
 		
-		this.addEvents("editorClose", "startEdit");
+		this.addEvents("editorClose", "startEdit", "itemSaved");
 		
 		this.defaults.listeners = {
         	"change": Ext.bind(this.onFieldChange, this)
@@ -96,6 +96,7 @@ Ext.define('PartKeepr.Editor', {
 			this.record.save({
 				success: function (record) {
 					this.record = record;
+					this.fireEvent("itemSaved", record);
 							
 					// Reload the store
 					this.store.load({
@@ -127,7 +128,10 @@ Ext.define('PartKeepr.Editor', {
 					// Sync via the store
 					this.store.sync();
 				}
+				
+				this.fireEvent("itemSaved", this.record);
 			}
 		}
+		
 	}
 });

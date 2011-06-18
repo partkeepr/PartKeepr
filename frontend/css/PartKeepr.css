@@ -62,3 +62,7 @@ td.o {
 td.o2 {
 	background-color: #bbbbbb;	
 }
+
+.remoteimagefield {
+	border: 1px solid black;
+}

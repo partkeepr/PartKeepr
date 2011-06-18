@@ -22,7 +22,8 @@ class FootprintManager extends Singleton {
 	public function getFootprints ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 		
 		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select("f.id, f.name, f.description")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f");
+		$qb->select("f.id, f.name, f.description, im.id AS image_id")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f")
+			->leftJoin("f.image", "im");
 
 		if ($filter != "") {
 			$qb = $qb->where("f.name LIKE :filter");
@@ -41,7 +42,7 @@ class FootprintManager extends Singleton {
 		$result = $query->getResult();
 		
 		$totalQueryBuilder = PartKeepr::getEM()->createQueryBuilder();
-		$totalQueryBuilder->select("COUNT(f.id)")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f");
+		$totalQueryBuilder->select("COUNT(f.id)")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f")->leftJoin("f.image", "im");
 		
 		
 		
@@ -72,8 +73,8 @@ class FootprintManager extends Singleton {
 			PartKeepr::getEM()->flush();
 		} catch (\PDOException $e) {
 			if ($e->getCode() == "23000") {
-				$exception = new SerializableException(sprintf(PartKeepr::i18n("Footprint %s already exists!"), $footprint));
-				$exception->setDetail(sprintf(PartKeepr::i18n("You tried to add the footprint %s, but a footprint with the same name already exists."), $footprint));
+				$exception = new SerializableException(sprintf(PartKeepr::i18n("Footprint %s already exists!"), $name));
+				$exception->setDetail(sprintf(PartKeepr::i18n("You tried to add the footprint %s, but a footprint with the same name already exists."), $name));
 				
 				throw $exception;
 			} else {

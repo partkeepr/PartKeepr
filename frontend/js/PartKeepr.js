@@ -299,6 +299,10 @@ PartKeepr.getBasePath = function () {
 	return "rest.php";
 };
 
+PartKeepr.getImagePath = function () {
+	return "image.php";
+};
+
 PartKeepr.setMaxUploadSize = function (size) {
 	PartKeepr.maxUploadSize = size;
 };

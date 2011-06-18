@@ -1,0 +1,126 @@
+CBGA-32:
+  description: 32-Lead Ceramic Ball Grid Array
+  image: BGA/CBGA-32.png
+  category: BGA
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/6438543BG_32_3.pdf
+      description: Outline
+FCBGA-576:
+  description: 576-Ball Ball Grid Array, Thermally Enhanced
+  image: BGA/FCBGA-576.png
+  category: BGA
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/3130038348142876336BP_576.pdf
+      description: Outline
+PBGA-119:
+  description: 119-Ball Plastic Ball Grid Array
+  image: BGA/PBGA-119.png
+  category: BGA
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/41287574715699B_119.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/37136694b_119.pdf
+      description: Footprint
+PBGA-169:
+  description: 169-Ball Plastic Ball Grid Array
+  image: BGA/PBGA-169.png
+  category: BGA
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/4508238598123917727B_169.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/42256861b_169.pdf
+      description: Footprint
+PBGA-225:
+  description: 225-Ball Plastic a Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-225.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/PKG_PDF/BGA%20(B)/B_225_2.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/footprints/BGA%20(B)/B-225-2.pdf
+      description: Footprint
+PBGA-260:
+  description: 260-Ball Plastic Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-260.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/4532729474093B_260.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/655582610b_260.pdf
+      description: Footprint
+PBGA-297:
+  description: 297-Ball Plastic Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-297.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/251630103B_297.pdf
+      description: Outline
+PBGA-304:
+  description: 304-Lead Plastic Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-304.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/3641645393185830319B_304.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/174089929b_304.pdf
+      description: Footprint
+PBGA-316:
+  description: 316-Lead Plastic Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-316.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/61868185924959B_316.pdf
+      description: Outline
+PBGA-324:
+  description: 324-Ball Plastic Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-324.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/454473177139443477109483B_324.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/17779623b_324.pdf
+      description: Footprint
+PBGA-385:
+  description: 385-Lead Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-385.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/45557425288079B_385.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/804295803b_385.pdf
+      description: Footprint
+PBGA-400:
+  description: 400-Ball Plastic Ball Grid Array
+  category: BGA
+  image: BGA/PBGA-400.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/349373926B_400.pdf
+      description: Outline
+PBGA-484:
+  description: 484-Ball Plastic Ball Grid Array
+  category: BGA
+  images: BGA/PBGA-484.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/3235251121324624786157688555B484.pdf
+      description: Outline
+PBGA-625:
+  description: 625-Ball Plastic Ball Grid Array
+  category: BGA
+  images: BGA/PBGA-625.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/45005548173527848192875606315B625.pdf
+      description: Outline
+PBGA-676:
+  description: 676-Ball Plastic Ball Grid Array
+  category: BGA
+  images: BGA/PBGA-676.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/B_676.pdf
+      description: Outline
+
+SOIC-N-EP-8:
+  description: 8-Lead Standard Small Outline Package, with Expose Pad
+  attachments:
+    - http://www.analog.com/static/imported-files/packages/PKG_PDF/SOIC_ED(RD)/RD_8_1.pdf
+
+  

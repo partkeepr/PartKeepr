@@ -172,29 +172,40 @@ class PartKeepr {
 		return array(
 			'de\RaumZeitLabor\PartKeepr\User\User',
 			'de\RaumZeitLabor\PartKeepr\Session\Session',
+		
 			'de\RaumZeitLabor\PartKeepr\Footprint\Footprint',
+			'de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage',
 			'de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment',
+		
 			'de\RaumZeitLabor\PartKeepr\Category\Category',
+		
 			'de\RaumZeitLabor\PartKeepr\Part\Part',
 			'de\RaumZeitLabor\PartKeepr\Part\PartUnit',
 			'de\RaumZeitLabor\PartKeepr\Part\PartManufacturer',
 			'de\RaumZeitLabor\PartKeepr\Part\PartDistributor',
 			'de\RaumZeitLabor\PartKeepr\Part\PartImage',
 			'de\RaumZeitLabor\PartKeepr\Part\PartAttachment',
+		
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation',
+		
 			'de\RaumZeitLabor\PartKeepr\Stock\StockEntry',
+		
 			'de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer',
+			'de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo',
+			
 			'de\RaumZeitLabor\PartKeepr\Distributor\Distributor',
+			
 			'de\RaumZeitLabor\PartKeepr\Image\Image',
 			'de\RaumZeitLabor\PartKeepr\Image\CachedImage',
 			'de\RaumZeitLabor\PartKeepr\TempImage\TempImage',
-			'de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo',
+			
+			'de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile',
+			
 			'de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshot',
 			'de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotUnit',
 			'de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix',
 			'de\RaumZeitLabor\PartKeepr\Unit\Unit',
-			'de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter',
-			'de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile'
+			'de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter'
 		);
 	}
 	
