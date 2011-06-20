@@ -133,7 +133,7 @@ class Footprint extends BaseEntity implements Serializable {
 			"id" => $this->getId(),
 			"name" => $this->getName(),
 			"description" => $this->getDescription(),
-			"image" => is_object($this->getImage()) ? $this->getImage()->serialize() : null,
+			"image_id" => is_object($this->getImage()) ? $this->getImage()->getId() : null,
 			"category" => is_object($this->getCategory()) ? $this->getCategory()->getId() : null,
 			"attachments" => $this->serializeChildren($this->getAttachments())
 		);
