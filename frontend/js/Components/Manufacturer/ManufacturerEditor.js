@@ -2,7 +2,6 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 	extend: 'PartKeepr.Editor',
 	alias: 'widget.ManufacturerEditor',
 	saveText: i18n("Save Manufacturer"),
-	model: 'PartKeepr.Manufacturer',
 	labelWidth: 150,
 	initComponent: function () {
 		this.on("startEdit", Ext.bind(this.onEditStart, this));
@@ -122,7 +121,6 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 	},
 	onEditStart: function () {
 		var store = this.record.iclogos();
-		store.load();
 		this.iclogoGrid.bindStore(store);
 	}
 });

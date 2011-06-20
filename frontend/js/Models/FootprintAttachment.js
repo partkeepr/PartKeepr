@@ -1,4 +1,4 @@
-PartKeepr.FootprintAttachment = Ext.define("FootprintAttachment", {
+Ext.define("PartKeepr.FootprintAttachment", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',		type: 'int' },
@@ -10,6 +10,6 @@ PartKeepr.FootprintAttachment = Ext.define("FootprintAttachment", {
 	         {	name: 'size',				type: 'string' },
 	         {	name: 'tmp_id',				type: 'int' }
 	         ],
-	belongsTo: { type: 'belongsTo', model: 'Footprint', primaryKey: 'id', foreignKey: 'footprint_id'},
+	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Footprint', primaryKey: 'id', foreignKey: 'footprint_id'},
 	proxy: PartKeepr.getRESTProxy("FootprintAttachment")
 });

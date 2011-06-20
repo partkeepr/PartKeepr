@@ -22,8 +22,9 @@ class FootprintManager extends Singleton {
 	public function getFootprints ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 		
 		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select("f.id, f.name, f.description, im.id AS image_id")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f")
-			->leftJoin("f.image", "im");
+		$qb->select("f.id, f.name, f.description, im.id AS image_id, ca.id AS category")->from("de\RaumZeitLabor\PartKeepr\Footprint\Footprint","f")
+			->leftJoin("f.image", "im")
+			->leftJoin("f.category", "ca");
 
 		if ($filter != "") {
 			$qb = $qb->where("f.name LIKE :filter");
@@ -105,6 +106,14 @@ class FootprintManager extends Singleton {
 				throw $exception;
 			}
 		}
+	}
+	
+	/**
+	 * Loads a footprint by id
+	 * @param int $id The footprint id
+	 */
+	public function getFootprint ($id) {
+		return Footprint::loadById($id);
 	}
 	
 	/**

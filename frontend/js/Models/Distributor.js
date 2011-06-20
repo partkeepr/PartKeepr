@@ -1,4 +1,4 @@
-PartKeepr.Distributor = Ext.define("Distributor", {
+Ext.define("PartKeepr.Distributor", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },

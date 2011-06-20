@@ -17,7 +17,7 @@ class ManufacturerService extends Service implements RestfulService {
 	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
-			return ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"))->serialize();
+			return array("data" => ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"))->serialize());
 		} else {
 			if ($this->hasParameter("sort")) {
 				$tmp = json_decode($this->getParameter("sort"), true);

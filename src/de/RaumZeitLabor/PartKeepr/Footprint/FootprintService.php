@@ -1,6 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Footprint;
 use de\RaumZeitLabor\PartKeepr\TempImage\TempImage;
+use de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory;
 
 declare(encoding = 'UTF-8');
 
@@ -16,7 +17,7 @@ class FootprintService extends Service implements RestfulService {
 	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
-			return FootprintManager::getInstance()->getFootprint($this->getParameter("id"))->serialize();
+			return array("data" => FootprintManager::getInstance()->getFootprint($this->getParameter("id"))->serialize());
 		} else {
 			if ($this->hasParameter("sort")) {
 				$tmp = json_decode($this->getParameter("sort"), true);
@@ -58,6 +59,12 @@ class FootprintService extends Service implements RestfulService {
 			}
 			
 		}
+		
+		try {
+			$footprintCategory = FootprintCategory::loadById($this->getParameter("category"));
+			$fp->setCategory($footprintCategory);	
+		} catch (\Exception $e) {}
+		
 		return array("data" => $fp->serialize());
 	}
 	
@@ -90,6 +97,11 @@ class FootprintService extends Service implements RestfulService {
 			}
 		}
 		
+		try {
+			$footprintCategory = FootprintCategory::loadById($this->getParameter("category"));
+			$fp->setCategory($footprintCategory);	
+		} catch (\Exception $e) {}
+		
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $footprint->serialize());
@@ -106,6 +118,18 @@ class FootprintService extends Service implements RestfulService {
 		FootprintManager::getInstance()->deleteFootprint($this->getParameter("id"));
 		
 		return array("data" => null);
+	}
+	
+	public function moveFootprint () {
+		$this->requireParameter("targetCategory");
+		$this->requireParameter("id");
+		
+		$footprint = Footprint::loadById($this->getParameter("id"));
+		$category = FootprintCategory::loadById($this->getParameter("targetCategory"));
+			
+		$footprint->setCategory($category);
+				
+		PartKeepr::getEM()->flush();
 	}
 	
 }

@@ -1,14 +1,22 @@
-PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
+Ext.define("PartKeepr.CategoryEditorTree", {
 	alias: 'widget.CategoryEditorTree',
 	extend: 'PartKeepr.CategoryTree',
-	viewConfig: {
-    	animate: false,
-        plugins: {
-            ptype: 'treeviewdragdrop',
-            ddGroup: 'CategoryTree'
-        }
-	},
+	ddGroup: null,
+	categoryModel: null,
+	categoryService: null,
 	initComponent: function () {
+		if (this.ddGroup !== null) {
+			Ext.apply(this, { 
+				viewConfig: {
+					animate: false,
+					plugins: {
+						ptype: 'treeviewdragdrop',
+						ddGroup: this.ddGroup
+					}
+				}});	
+		}
+		
+		this.createToolbar();
 		
 		this.callParent();
 		
@@ -17,42 +25,16 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 		this.getView().on("itemcontextmenu", Ext.bind(this.onItemContextMenu, this));
 		
 		this.createMenu();
+		
 	},
-	onBeforeDrop: function (node, data, overModel, dropPosition, dropFunction, options) {
-		var draggedRecord = data.records[0];
-		var droppedOn = this.getView().getRecord(node);
-
-		if (draggedRecord.modelName == "Part") {
-			/* Move Part */
-			var call = new PartKeepr.ServiceCall("Part", "movePart");
-			
-			if (data.records.length > 1) {
-				var sources = [];
-			
-				for (var i=0;i<data.records.length;i++) {
-					sources.push(data.records[i].get("id"));
-				}
-				
-				call.setParameter("parts", sources);
-			} else {
-				call.setParameter("part", draggedRecord.get("id"));
-			}
-
-			call.setParameter("targetCategory", droppedOn.get("id"));
-			call.setHandler(function () {
-				data.view.store.load();
-			});
-			call.doCall();
-			
-			return false;
-		}
+	onBeforeDrop: function () {
 		
 	},
 	onCategoryDrop: function (node, data, model, pos) {
 		var draggedRecord = data.records[0];
 		var droppedOn = this.getView().getRecord(node);
 		
-		if (draggedRecord.modelName == "Part") {
+		if (!draggedRecord.isCategory) {
 			return;
 		} else {
 			/* Must be a category */
@@ -67,7 +49,7 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 			
 			this.getStore().sort("name", "ASC");
 			
-			var call = new PartKeepr.ServiceCall("Category", "moveCategory");
+			var call = new PartKeepr.ServiceCall(this.categoryService, "moveCategory");
 			call.setLoadMessage(sprintf(i18n("Moving category %s..."), draggedRecord.get("name")));
 			call.setParameter("category", draggedRecord.get("id"));
 			call.setParameter("target", targetRecord.get("id"));
@@ -77,6 +59,7 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 	},
 
 	onItemContextMenu: function (view, record, item, index, event) {
+		if (!record.isCategory) { return; }
 		var menu = this.menu;
 		event.stopEvent();
 		
@@ -121,12 +104,54 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
                 ]
         });
 	},
+	createToolbar: function () {
+		this.toolbarExpandButton = Ext.create("Ext.button.Button", {
+			icon: 'resources/silkicons/bullet_toggle_plus.png',
+			tooltip: i18n("Expand All"),
+			handler: this._onExpandClick,
+			scope: this
+		});
+		
+		this.toolbarCollapseButton = Ext.create("Ext.button.Button", {
+			icon: 'resources/silkicons/bullet_toggle_minus.png',
+			tooltip: i18n("Collapse All"),
+			handler: this._onCollapseClick,
+			scope: this
+		});
+		
+		this.toolbarReloadButton = Ext.create("Ext.button.Button", {
+			icon: 'resources/silkicons/arrow_refresh.png',
+			tooltip: i18n("Reload"),
+			handler: this._onReloadClick,
+			scope: this
+		});
+		
+		this.toolbar = Ext.create("Ext.toolbar.Toolbar", {
+			enableOverflow: true,
+			dock: 'top',
+			items: [ this.toolbarExpandButton, this.toolbarCollapseButton, this.toolbarReloadButton ]
+		});
+		
+		Ext.apply(this, {
+			dockedItems: [ this.toolbar ]
+		});
+	},
+	_onReloadClick: function () {
+		this.loadCategories();
+	},
+	_onExpandClick: function () {
+		this.getRootNode().firstChild.expand(true);
+	},
+	_onCollapseClick: function () {
+		this.getRootNode().firstChild.collapse(true);
+	},
 	confirmCategoryDelete: function () {
 		Ext.Msg.confirm(i18n("Confirm Category Delete"), sprintf(i18n("Do you really wish to delete the category %s?"), this.menu.record.get("name")), this.onCategoryDelete, this);
 	},
 	showCategoryAddDialog: function () {
 		var j = Ext.create("PartKeepr.CategoryEditorWindow", {
 			record: null,
+			categoryModel: this.categoryModel,
 			parent: this.menu.record.get("id"),
 			listeners: {
 				save: Ext.bind(this.onUpdateRecord, this)
@@ -139,6 +164,7 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 		var j = Ext.create("PartKeepr.CategoryEditorWindow", {
 			record: this.menu.record,
 			parent: null,
+			categoryModel: this.categoryModel,
 			listeners: {
 				save: Ext.bind(this.onUpdateRecord, this)
 			}
@@ -169,7 +195,7 @@ PartKeepr.CategoryEditorTree = Ext.define("CategoryEditorTree", {
 	},
 	onCategoryDelete: function (btn) {
 		if (btn == "yes") {
-			var call = new PartKeepr.ServiceCall("Category", "deleteCategory");
+			var call = new PartKeepr.ServiceCall(this.categoryService, "deleteCategory");
 			call.setLoadMessage(sprintf(i18n("Deleting category %s..."), this.menu.record.get("name")));
 			call.setParameter("id", this.menu.record.get("id"));
 			call.setHandler(Ext.bind(this.onCategoryDeleted, this));

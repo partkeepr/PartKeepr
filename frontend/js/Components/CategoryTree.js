@@ -1,6 +1,8 @@
 Ext.define("PartKeepr.CategoryTree", {
 	alias: 'widget.CategoryTree',
 	extend: 'Ext.tree.Panel',
+	categoryService: null,
+	categoryModel: null,
 	displayField: 'name',
 	sorters: [{
         property: 'name',
@@ -17,7 +19,8 @@ Ext.define("PartKeepr.CategoryTree", {
 				id: "src",
 				name: "Foo"
 			},
-			remoteSort: false
+			remoteSort: false,
+			folderSort: true
 		});
 		
 		this.callParent();
@@ -27,43 +30,79 @@ Ext.define("PartKeepr.CategoryTree", {
 		this.loadCategories();
 	},
 	loadCategories: function () {
-		var call = new PartKeepr.ServiceCall("Category", "getAllCategories");
+		var call = new PartKeepr.ServiceCall(this.categoryService, "getAllCategories");
 		call.setLoadMessage(i18n("Loading categories..."));
-		call.setHandler(Ext.bind(this.onCategoriesLoaded, this));
+		call.setHandler(Ext.bind(this._onCategoriesLoaded, this));
 		call.doCall();
 	},
-	onCategoriesLoaded: function (result) {
-		this.getRootNode().removeAll(true);
+	_onCategoriesLoaded: function (result) {
+		/* Store expand/collapse state for all nodes */
+		var expandedNodes = this.getExpandedNodes(this.getRootNode());
 		
-		this.buildCategoryTree(this.getRootNode(), result);
+		this.getRootNode().removeAll();
 		
-		this.getStore().sort("name");
+		this.buildCategoryTree(this.getRootNode(), result, expandedNodes);
+		
 		this.loaded = true;
 		
 		this.getRootNode().expandChildren();
 		
-		this.fireEvent("categoriesLoaded");
+		this.getStore().sort("name", "ASC");
 		
+		this.fireEvent("categoriesLoaded");
 	},
-	buildCategoryTree : function(root, data) {
+	getExpandedNodes: function (node) {
+		var ret = [];
+		if (node.get("expanded") === true) {
+			ret.push(node.get("id"));
+		}
+		
+		for (var i=0;i<node.childNodes.length;i++) {
+			ret = ret.concat(this.getExpandedNodes(node.childNodes[i]));
+		}
+		return ret;
+	},
+	buildCategoryTree : function(root, data, expandedNodes) {
 		var nodeData = {
-			id : data.id,
+			id :  data.id,
 			name : data.name,
 			tooltip : data.description
 		};
+		
+		if (Ext.Array.contains(expandedNodes, data.id)) {
+			Ext.apply(nodeData, {
+				expanded: true
+			});
+		}
 		
 		// Hack to prevent our virtual root node from being dragged
 		if (data.id == 1) {
 			nodeData.allowDrag = false;
 		}
 		
-		//if (data.children.length === 0) {
-			//nodeData.leaf = true;
-		//}
-		var node = root.appendChild(nodeData);
+		/* We'd like to set leaf here. For some reason, the tree
+		 * is stupid.
+		 * 
+		 * If the node is a leaf, it's not possible to append children. I would
+		 * have expected that the "leaf" flag is cleared when a child is appended.
+		 * 
+		 * If the node is not a leaf, the node should (in theory) use the children
+		 * count. However, it doesn't do that in our case and always shows the "expand"
+		 * button unless clicked once.
+		 */
+		
+		/*if (data.children.length === 0) {
+			nodeData.leaf = true;
+		} else {
+			nodeData.leaf = false;
+		}*/
+		
+		nodeData.leaf = false;
+		
+		var node = root.appendChild(Ext.create(this.categoryModel, nodeData));
 		
 		for ( var i = 0; i < data.children.length; i++) {
-			this.buildCategoryTree(node, data.children[i]);
+			this.buildCategoryTree(node, data.children[i], expandedNodes);
 		}
 	}
 });

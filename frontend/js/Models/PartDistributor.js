@@ -1,4 +1,4 @@
-PartKeepr.PartDistributor = Ext.define("PartDistributor", {
+Ext.define("PartKeepr.PartDistributor", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -9,7 +9,7 @@ PartKeepr.PartDistributor = Ext.define("PartDistributor", {
 	         { name: 'orderNumber', type: 'string' },
 	         { name: 'packagingUnit', type: 'int'}
 	         ],
-	belongsTo: { type: 'belongsTo', model: 'Part', primaryKey: 'id', foreignKey: 'part_id'},
-	belongsTo: { type: 'belongsTo', model: 'Distributor', primaryKey: 'id', foreignKey: 'distributor_id'},
+	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Part', primaryKey: 'id', foreignKey: 'part_id'},
+	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Distributor', primaryKey: 'id', foreignKey: 'distributor_id'},
 	proxy: PartKeepr.getRESTProxy("PartDistributor")
 });

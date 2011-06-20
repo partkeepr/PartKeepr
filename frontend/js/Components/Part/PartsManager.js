@@ -14,7 +14,7 @@ Ext.define('PartKeepr.PartManager', {
 		 * Create the store with the default sorter "name ASC"
 		 */
 		this.createStore({
-			 model: 'Part',
+			 model: 'PartKeepr.Part',
 			 sorters: [{
 				 property: 'name',
 				 direction:'ASC'
@@ -22,9 +22,12 @@ Ext.define('PartKeepr.PartManager', {
 		 });
 		
 		// Create the tree
-		this.tree = Ext.create("PartKeepr.CategoryEditorTree", {
+		this.tree = Ext.create("PartKeepr.PartCategoryTree", {
 			region: 'west',
+			categoryModel: 'PartKeepr.PartCategory',
+			categoryService: 'PartCategory',
 			split: true,
+			ddGroup: 'CategoryTree',
 			width: 300,			// @todo Make this configurable
 			collapsible: true	// We want to collapse the tree panel on small screens
 		});

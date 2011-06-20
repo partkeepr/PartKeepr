@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Unit;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
 declare(encoding = 'UTF-8');
@@ -14,7 +16,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
  *  
  * @Entity
  **/
-class Unit extends BaseEntity {
+class Unit extends BaseEntity implements Serializable {
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
 	 * @Column(type="string")
@@ -85,5 +87,20 @@ class Unit extends BaseEntity {
 	 */
 	public function getPrefixes () {
 		return $this->prefixes;
+	}
+
+	/**
+	 * Serializes the user object and returns it as array, suitable
+	 * to process via json_encode.
+	 * @param none
+	 * @return array An array containing the object information
+	 */
+	public function serialize () {
+		return array(
+			"id" => $this->getId(),
+			"name" => $this->getName(),
+			"symbol" => $this->getSymbol(),
+			"prefixes" => $this->serializeChildren($this->getPrefixes())
+		);
 	}
 }

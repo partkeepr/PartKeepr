@@ -2,7 +2,6 @@ Ext.define('PartKeepr.UnitEditor', {
 	extend: 'PartKeepr.Editor',
 	alias: 'widget.UnitEditor',
 	saveText: i18n("Save Unit"),
-	model: 'PartKeepr.Unit',
 	initComponent: function () {
 		
 		var sm = Ext.create('Ext.selection.CheckboxModel',{

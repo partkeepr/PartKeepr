@@ -1,4 +1,4 @@
-PartKeepr.PartAttachment = Ext.define("PartAttachment", {
+Ext.define("PartKeepr.PartAttachment", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },
@@ -9,6 +9,6 @@ PartKeepr.PartAttachment = Ext.define("PartAttachment", {
 	         {	name: 'size',			type: 'string' },
 	         {	name: 'tmp_id',			type: 'int' }
 	         ],
-	belongsTo: { type: 'belongsTo', model: 'Part', primaryKey: 'id', foreignKey: 'part_id'},
+	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Part', primaryKey: 'id', foreignKey: 'part_id'},
 	proxy: PartKeepr.getRESTProxy("PartAttachment")
 });

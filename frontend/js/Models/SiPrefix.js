@@ -1,4 +1,4 @@
-PartKeepr.SiPrefix = Ext.define("SiPrefix", {
+Ext.define("PartKeepr.SiPrefix", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id', type: 'int' },

@@ -90,7 +90,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
             this.iconComponent.hide();
         }
     },
-    showException: function (exception) {
+    _showException: function (exception) {
     	this.setIcon(Ext.MessageBox.ERROR);
     	
     	this.messageDiv.update(exception.message);
@@ -116,6 +116,17 @@ Ext.define('PartKeepr.ExceptionWindow', {
     	}
     	
     	this.show();
+    	
+    },
+    
+    statics: {
+    	showException: function (exception) {
+    		if (!PartKeepr.ExceptionWindow.activeInstance) {
+        		PartKeepr.ExceptionWindow.activeInstance = new PartKeepr.ExceptionWindow();
+        	}
+    		
+    		PartKeepr.ExceptionWindow.activeInstance._showException(exception);
+    	}
     	
     }
 });

@@ -2,8 +2,8 @@ Ext.define('PartKeepr.FootprintEditor', {
 	extend: 'PartKeepr.Editor',
 	alias: 'widget.FootprintEditor',
 	saveText: i18n("Save Footprint"),
-	model: 'PartKeepr.Footprint',
 	layout: 'column',
+	syncDirect: true,
 	labelWidth: 75,
 	initComponent: function () {
 		this.on("startEdit", this.onEditStart, this, { delay: 50 });
@@ -52,10 +52,10 @@ Ext.define('PartKeepr.FootprintEditor', {
 				fieldLabel: i18n("Image")
 			}];
 		
-		this.on("itemSaved", this.syncSlaveStores, this);
+		this.on("itemSaved", this._onItemSaved, this);
 		this.callParent();
 	},
-	syncSlaveStores: function () {
+	_onItemSaved: function (record) {
 		this.attachmentGrid.store.each(function (record) {
 			record.set("footprint_id", this.record.get("id"));
 		}, this);
@@ -64,7 +64,6 @@ Ext.define('PartKeepr.FootprintEditor', {
 	},
 	onEditStart: function () {
 		var store = this.record.attachments();
-		store.load();
 		this.attachmentGrid.bindStore(store);
 	}
 });

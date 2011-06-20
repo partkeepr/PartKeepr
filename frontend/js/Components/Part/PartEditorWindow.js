@@ -37,6 +37,10 @@ Ext.define('PartKeepr.PartEditorWindow', {
 			r.parameters = [];
 		}
 		
+		if (!r.attachments) {
+			r.attachments = [];
+		}
+		
 		this.editor.partDistributorGrid.getStore().loadData(r.distributors);
 		this.editor.partManufacturerGrid.getStore().loadData(r.manufacturers);
 		this.editor.partParameterGrid.getStore().loadData(r.parameters);

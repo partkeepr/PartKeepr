@@ -2,5 +2,5 @@ Ext.define('PartKeepr.FootprintAttachmentGrid', {
 	extend: 'PartKeepr.AttachmentGrid',
 	alias: 'widget.FootprintAttachmentGrid',
 	
-	model: "FootprintAttachment"
+	model: "PartKeepr.FootprintAttachment"
 });

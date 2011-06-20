@@ -1,4 +1,4 @@
-PartKeepr.PartParameter = Ext.define("PartParameter", {
+Ext.define("PartKeepr.PartParameter", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },

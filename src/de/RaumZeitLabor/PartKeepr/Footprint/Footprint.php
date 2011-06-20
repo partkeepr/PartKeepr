@@ -1,7 +1,7 @@
 <?php 
 namespace de\RaumZeitLabor\PartKeepr\Footprint;
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
-
+use de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory;
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
 declare(encoding = 'UTF-8');
@@ -22,6 +22,13 @@ class Footprint extends BaseEntity implements Serializable {
 	 * @var string
 	 */
 	private $description;
+
+	/**
+	 * The category of the footprint
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory")
+	 * @var Category 
+	 */
+	private $category;
 	
 	/**
 	 * Holds the footprint image
@@ -78,6 +85,22 @@ class Footprint extends BaseEntity implements Serializable {
 	}
 	
 	/**
+	 * Sets the category for this footprint
+	 * @param \de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory $category The category
+	 */
+	public function setCategory (FootprintCategory $category) {
+		$this->category = $category;
+	}
+	
+	/**
+	 * Returns the category of this footprint
+	 * @return FootprintCategory The footprint category
+	 */
+	public function getCategory () {
+		return $this->category;
+	}
+	
+	/**
 	 * Sets the footprint image
 	 * @param FootprintImage $image The footprint image
 	 */
@@ -110,7 +133,9 @@ class Footprint extends BaseEntity implements Serializable {
 			"id" => $this->getId(),
 			"name" => $this->getName(),
 			"description" => $this->getDescription(),
-			"image" => is_object($this->getImage()) ? $this->getImage()->serialize() : null
+			"image" => is_object($this->getImage()) ? $this->getImage()->serialize() : null,
+			"category" => is_object($this->getCategory()) ? $this->getCategory()->getId() : null,
+			"attachments" => $this->serializeChildren($this->getAttachments())
 		);
 	}
 }

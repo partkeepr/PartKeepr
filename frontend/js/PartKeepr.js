@@ -24,49 +24,49 @@ Ext.application({
     createGlobalStores: function () {
     	this.storageLocationStore = Ext.create("Ext.data.Store",
 			{
-				model: 'StorageLocation',
+				model: 'PartKeepr.StorageLocation',
 				pageSize: -1,
 				autoLoad: false
 			});
     	
     	this.footprintStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'Footprint',
+    				model: 'PartKeepr.Footprint',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.siPrefixStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'SiPrefix',
+    				model: 'PartKeepr.SiPrefix',
     				pageSize: -1,
     				autoLoad: true
     			});
     	
     	this.distributorStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'Distributor',
+    				model: 'PartKeepr.Distributor',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.manufacturerStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'Manufacturer',
+    				model: 'PartKeepr.Manufacturer',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.partUnitStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartUnit',
+    				model: 'PartKeepr.PartUnit',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.unitStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'Unit',
+    				model: 'PartKeepr.Unit',
     				pageSize: -1,
     				autoLoad: false
     			});
@@ -192,7 +192,7 @@ Ext.application({
              message: message,
              severity: severity,
              date: new Date()
-         }, 'Message');
+         }, 'PartKeepr.Message');
     	 
     	 this.messageLog.getStore().add(r);
     	}
@@ -244,8 +244,7 @@ PartKeepr.getRESTProxy = function (service) {
         		try {
                     var data = Ext.decode(response.responseText);
                     
-                	var j = new PartKeepr.ExceptionWindow();
-                	j.showException(data.exception);
+                	PartKeepr.ExceptionWindow.showException(data.exception);
                 } catch (ex) {
                 	var exception = {
                 			message: i18n("Critical Error"),
@@ -255,8 +254,7 @@ PartKeepr.getRESTProxy = function (service) {
                 	};
                 	
              	
-                	var jj = new PartKeepr.ExceptionWindow();
-                	jj.showException(exception);
+                	PartKeepr.ExceptionWindow.showException(exception);
                 	
                 	
                 }

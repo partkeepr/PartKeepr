@@ -1,4 +1,4 @@
-PartKeepr.StockEntry = Ext.define("StockEntry", {
+Ext.define("PartKeepr.StockEntry", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },

@@ -1,4 +1,4 @@
-PartKeepr.User = Ext.define("User", {
+Ext.define("PartKeepr.User", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },

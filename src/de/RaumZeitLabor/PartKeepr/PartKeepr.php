@@ -176,8 +176,7 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\Footprint\Footprint',
 			'de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage',
 			'de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment',
-		
-			'de\RaumZeitLabor\PartKeepr\Category\Category',
+			'de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory',
 		
 			'de\RaumZeitLabor\PartKeepr\Part\Part',
 			'de\RaumZeitLabor\PartKeepr\Part\PartUnit',
@@ -185,6 +184,7 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\Part\PartDistributor',
 			'de\RaumZeitLabor\PartKeepr\Part\PartImage',
 			'de\RaumZeitLabor\PartKeepr\Part\PartAttachment',
+			'de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory',
 		
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation',
 		
