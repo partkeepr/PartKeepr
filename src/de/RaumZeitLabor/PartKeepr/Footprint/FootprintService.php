@@ -99,7 +99,7 @@ class FootprintService extends Service implements RestfulService {
 		
 		try {
 			$footprintCategory = FootprintCategory::loadById($this->getParameter("category"));
-			$fp->setCategory($footprintCategory);	
+			$footprint->setCategory($footprintCategory);	
 		} catch (\Exception $e) {}
 		
 		PartKeepr::getEM()->flush();
