@@ -1,7 +1,7 @@
 PartKeepr.CategoryTreeStore = Ext.define("CategoryTreeStore",
 {
 	extend: "Ext.data.TreeStore",
-    model: 'Category',
+    model: 'PartKeepr.Category',
     proxy: {
         type: 'ajax',
         url: PartKeepr.getBasePath()+'/Category',

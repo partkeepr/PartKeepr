@@ -8,7 +8,7 @@ use de\RaumZeitLabor\PartKeepr\Service\Service;
 use de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Category\Category,
+	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class PartService extends Service implements RestfulService {
@@ -65,13 +65,13 @@ class PartService extends Service implements RestfulService {
 			/* We are moving multiple parts */
 			foreach ($this->getParameter("parts") as $part) {
 				$part = Part::loadById($part);
-				$category = Category::loadById($this->getParameter("targetCategory"));
+				$category = PartCategory::loadById($this->getParameter("targetCategory"));
 					
 				$part->setCategory($category);
 			}
 		} else {
 			$part = Part::loadById($this->getParameter("part"));
-			$category = Category::loadById($this->getParameter("targetCategory"));
+			$category = PartCategory::loadById($this->getParameter("targetCategory"));
 			
 			$part->setCategory($category);
 				

@@ -2,6 +2,7 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
 	extend: 'Ext.window.Window',
 	border: false,
 	width: 400,
+	categoryModel: null,
 	initComponent: function () {
 		
 		this.form = Ext.create("PartKeepr.CategoryEditorForm");
@@ -20,7 +21,7 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
 		
 		this.callParent();
 		
-		this.proxyRecord = Ext.create("PartKeepr.Category");
+		this.proxyRecord = Ext.create(this.categoryModel);
 		
 		if (this.record) {
 			this.proxyRecord.set("name", this.record.get("name"));

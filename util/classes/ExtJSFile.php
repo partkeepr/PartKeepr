@@ -138,7 +138,7 @@ class ExtJSFile {
 		$aData = array($this->getJSBEntry());
 		
 		foreach ($this->childs as $child) {
-			$aData[] = $child->getJSBEntry();
+			$aData[] = $child->getJSB();
 		}
 		
 		return implode(",\n", $aData);

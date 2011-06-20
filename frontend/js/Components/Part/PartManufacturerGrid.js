@@ -4,7 +4,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
 	border: false,
 	initComponent: function () {
 		this.store = Ext.create("Ext.data.Store", {
-			model: 'PartManufacturer',
+			model: 'PartKeepr.PartManufacturer',
 			proxy: {
 				type: 'memory',
 				reader: {

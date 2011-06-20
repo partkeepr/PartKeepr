@@ -1,12 +1,12 @@
 Ext.define('PartKeepr.ManufacturerEditorComponent', {
 	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.ManufacturerEditorComponent',
-	gridClass: 'PartKeepr.ManufacturerGrid',
+	navigationClass: 'PartKeepr.ManufacturerGrid',
 	editorClass: 'PartKeepr.ManufacturerEditor',
 	newItemText: i18n("New Manufacturer"),
+	model: 'PartKeepr.Manufacturer',
 	initComponent: function () {
 		this.createStore({
-			model: "Manufacturer",
 			sorters: [{
 	              property: 'name',
 	              direction:'ASC'

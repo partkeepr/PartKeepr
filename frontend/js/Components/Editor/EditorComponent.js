@@ -1,56 +1,101 @@
 /**
  * @class PartKeepr.EditorComponent
+
  * <p>The EditorComponent encapsulates an editing workflow. In general, we have four actions
  * for each object: create, update, delete, view. These actions stay exactly the same for each
  * distinct object.</p>
- * <p>The EditorComponent is a border layout, which has a grid and a form.</p>
+ * <p>The EditorComponent is a border layout, which has a navigation and an editor area.</p>
  * @todo Document the editor system a bit better 
  */
 Ext.define('PartKeepr.EditorComponent', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.EditorComponent',
+	
+	/**
+	 * Misc layout settings
+	 */
 	layout: 'border',
-	gridClass: null,
-	editorClass: null,
 	padding: 5,
-	store: null,
 	border: false,
+	
+	/**
+	 * Specifies the class name of the navigation. The navigation is placed in the "west" region
+	 * and needs to fire the event "itemSelect". The component listens on that event and
+	 * creates an editor based on the selected record.
+	 */
+	navigationClass: null,
+	
+	/**
+	 * Specifies the class name of the editor.
+	 */
+	editorClass: null,
+	
+	/**
+	 * Contains the store for the item overview.
+	 */
+	store: null,
+	
+	/**
+	 * Contains the associated model to load a record for.
+	 */
+	model: null,
+	
+	/**
+	 * Some default text messages. Can be overridden by sub classes.
+	 */
 	deleteMessage: i18n("Do you really wish to delete the item %s?"),
 	deleteTitle: i18n("Delete Item"),
 	newItemText: i18n("New Item"),
+	
 	initComponent: function () {
 		
-		this.grid = Ext.create(this.gridClass, {
+		/**
+		 * Create the navigation panel
+		 */
+		this.navigation = Ext.create(this.navigationClass, {
 			region: 'west',
 			width: 265,
 			split: true,
-			store: this.store,
-			listeners: {
-				"itemSelect": Ext.bind(this.startEdit, this)
-			}
+			store: this.store
 		});
 		
-		this.grid.on("itemAdd", Ext.bind(this.newRecord, this));
+		this.navigation.on("itemAdd", 		this.newRecord, 	this);
+		this.navigation.on("itemDelete", 	this.confirmDelete, this);
+		this.navigation.on("itemEdit", 		this.startEdit, 	this);
 		
-		this.grid.on("itemDelete", Ext.bind(this.confirmDelete, this));
-		
+		/**
+		 * Create the editor panel
+		 */
 		this.editorTabPanel = Ext.create("Ext.tab.Panel", {
 			region: "center",
 			layout: 'fit',
 			plugins: Ext.create('Ext.ux.TabCloseMenu')
 		});
 		
-		this.items = [ this.grid, this.editorTabPanel ];
+		this.items = [ this.navigation, this.editorTabPanel ];
 		
 		this.callParent();
 	},
-	newRecord: function () {
+	/**
+	 * Creates a new record. Creates a new instance of the editor.
+	 */
+	newRecord: function (defaults) {
+		Ext.apply(defaults, {});
+		
 		var editor = this.createEditor(this.newItemText);
-		editor.newItem();
+		editor.newItem(defaults);
 		this.editorTabPanel.add(editor).show();
 	},
-	startEdit: function (r) {
-		var editor = this.findEditor(r.get("id"));
+	/**
+	 * Instructs the component to edit a new record.
+	 * @param {Record} record The record to edit
+	 */
+	startEdit: function (id) {
+		/* Search for an open editor for the current record. If we
+		 * already have an editor, show the editor instead of loading
+		 * a new record.
+		 */
+		var editor = this.findEditor(id);
 		
 		if (editor !== null) {
 			editor.show();
@@ -58,13 +103,16 @@ Ext.define('PartKeepr.EditorComponent', {
 		}
 		
 		// Still here? OK, we don't have an editor open. Create a new one
+		var model = Ext.ModelManager.getModel(this.model);
 		
-		
-		//this.editor.editItem(r);
-		editor = this.createEditor(r.getRecordName());
-		editor.editItem(r);
-		this.editorTabPanel.add(editor).show();
-		
+		model.load(id, {
+			scope: this,
+		    success: function(record, operation) {
+		    	editor = this.createEditor(record.getRecordName());
+				editor.editItem(record);
+				this.editorTabPanel.add(editor).show();
+		    }
+		});
 	},
 	findEditor: function (id) {
 		for (var i=0;i<this.editorTabPanel.items.getCount();i++) {
@@ -79,6 +127,7 @@ Ext.define('PartKeepr.EditorComponent', {
 		var editor = Ext.create(this.editorClass, {
 			store: this.store,
 			title: title,
+			model: this.model,
 			closable: true,
 			listeners: {
 				editorClose: Ext.bind(function (m) {
@@ -87,31 +136,43 @@ Ext.define('PartKeepr.EditorComponent', {
 			}
 		});
 		
+		editor.on("itemSaved", this.onItemSaved, this);
 		return editor;
 	},
 	confirmDelete: function () {
-		var r = this.grid.getSelectionModel().getLastSelected();
+		var r = this.navigation.getSelectionModel().getLastSelected();
+		var recordName;
+		
+		if (r.getRecordName) {
+			recordName = r.getRecordName();
+		} else {
+			recordName = r.get("name");
+		}
 		
 		Ext.Msg.confirm(
 				this.deleteTitle,
-				sprintf(this.deleteMessage, r.getRecordName()),
+				sprintf(this.deleteMessage, recordName),
 				function (but) {
 					if (but == "yes") {
-						var editor = this.findEditor(r.get("id"));
-						
-						if (editor !== null) {
-							this.editorTabPanel.remove(editor);
-						}
-						
-						r.destroy();
-						this.store.load();
+						this.deleteRecord(r);
 					}
 				},this);
+	},
+	deleteRecord: function (r) {
+		var editor = this.findEditor(r.get("id"));
+		
+		if (editor !== null) {
+			this.editorTabPanel.remove(editor);
+		}
+		
+		r.destroy();
+		this.store.load();
 	},
 	// Creates a store. To be called from child's initComponent
 	createStore: function (config) {
 		Ext.Object.merge(config, {
 				autoLoad: true,
+				model: this.model,
 				autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
 				remoteFilter: true,
 				remoteSort: true,
@@ -133,5 +194,8 @@ Ext.define('PartKeepr.EditorComponent', {
 	},
 	getStore: function () {
 		return this.store;
+	},
+	onItemSaved: function (record) {
+		this.navigation.syncChanges(record);	
 	}
 });

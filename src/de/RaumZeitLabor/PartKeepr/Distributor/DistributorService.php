@@ -17,7 +17,7 @@ class DistributorService extends Service implements RestfulService {
 	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
-			return DistributorManager::getInstance()->getDistributor($this->getParameter("id"))->serialize();
+			return  array("data" => DistributorManager::getInstance()->getDistributor($this->getParameter("id"))->serialize());
 		} else {
 			if ($this->hasParameter("sort")) {
 				$tmp = json_decode($this->getParameter("sort"), true);

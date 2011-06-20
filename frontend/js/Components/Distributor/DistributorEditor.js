@@ -22,6 +22,5 @@ Ext.define('PartKeepr.DistributorEditor', {
 		name: 'comment',
 		fieldLabel: i18n("Comment")
 	}],
-	saveText: i18n("Save Distributor"),
-	model: 'PartKeepr.Distributor'
+	saveText: i18n("Save Distributor")
 });

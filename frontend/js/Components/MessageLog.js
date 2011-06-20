@@ -1,7 +1,7 @@
 Ext.define('PartKeepr.MessageLog', {
 	extend: 'Ext.grid.Panel',
 	store: {
-		model: "Message"
+		model: "PartKeepr.Message"
 		},
 		columns: [
 	    	        {header: i18n("Message"),  dataIndex: 'message', flex: 1},

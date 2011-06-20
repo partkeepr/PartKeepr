@@ -22,6 +22,8 @@ Ext.define("PartKeepr.CategoryComboBox",{
 
         self.picker = new PartKeepr.CategoryTree({
             height:290,
+            categoryService: 'PartCategory',
+            categoryModel: 'PartKeepr.PartCategory',
             floating: true,
             focusOnToFront: false,
             shadow: false,

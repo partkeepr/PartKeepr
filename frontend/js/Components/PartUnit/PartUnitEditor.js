@@ -10,6 +10,5 @@ Ext.define('PartKeepr.PartUnitEditor', {
 		name: 'shortName',
 		fieldLabel: i18n("Short Name")
 	}],
-	saveText: i18n("Save Part Unit"),
-	model: 'PartKeepr.PartUnit'
+	saveText: i18n("Save Part Unit")
 });

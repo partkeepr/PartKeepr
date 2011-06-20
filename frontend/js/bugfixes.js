@@ -15,6 +15,10 @@ Ext.override(Ext.data.reader.Reader,
 		});
 
 
+Ext.override(Ext.panel.Table, {
+	scrollDelta: 100
+});
+
 Ext.override(Ext.data.Connection, {
 	/**
 	 * Inject session header. I haven't found a better way to do

@@ -84,8 +84,7 @@ Ext.define('PartKeepr.ServiceCall', {
         	};
         	
      	
-        	var j = new PartKeepr.ExceptionWindow();
-        	j.showException(exception);
+        	PartKeepr.ExceptionWindow.showException(exception);
         	return;
 		}
 		
@@ -130,8 +129,7 @@ Ext.define('PartKeepr.ServiceCall', {
 		try {
             var data = Ext.decode(response.responseText);
             
-        	var j = new PartKeepr.ExceptionWindow();
-        	j.showException(data.exception);
+        	PartKeepr.ExceptionWindow.showException(data.exception);
         } catch (ex) {
         	var exception = {
         			message: i18n("Critical Error"),
@@ -140,9 +138,7 @@ Ext.define('PartKeepr.ServiceCall', {
         			backtrace: response.responseText
         	};
         	
-     	
-        	var jj = new PartKeepr.ExceptionWindow();
-        	jj.showException(exception);
+        	PartKeepr.ExceptionWindow.showException(exception);
         	
         	
         }

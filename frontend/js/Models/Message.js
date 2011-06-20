@@ -1,4 +1,4 @@
-PartKeepr.Message = Ext.define("Message", {
+Ext.define("PartKeepr.Message", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	name: 'message', type: 'string' },

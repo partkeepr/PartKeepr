@@ -1,5 +1,13 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Tests;
+use de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory;
+
+use de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategoryManager;
+
+use de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment;
+
+use de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage;
+
 use de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter;
 use de\RaumZeitLabor\PartKeepr\Part\PartAttachment;
 
@@ -18,12 +26,12 @@ use de\RaumZeitLabor\PartKeepr\Footprint\Footprint;
 use de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager;
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
 use de\RaumZeitLabor\PartKeepr\Part\PartUnit;
-use de\RaumZeitLabor\PartKeepr\Category\Category;
+use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory;
 use de\RaumZeitLabor\PartKeepr\Part\Part;
 use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation;
 use de\RaumZeitLabor\PartKeepr\Stock\StockEntry;
-use de\RaumZeitLabor\PartKeepr\Category\CategoryManager;
-use de\RaumZeitLabor\PartKeepr\Category\CategoryManagerService;
+use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager;
+use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManagerService;
 
 use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 use de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
@@ -97,6 +105,85 @@ PartKeepr::getEM()->flush();
 
 echo "Creating footprints from SetupData/footprints.php\n";
 
+/* Import pre-defined footprints */
+$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/footprints/footprints.yaml");
+
+print_r($data);
+
+$footprintCategoryManager = FootprintCategoryManager::getInstance();
+$footprintCategoryManager->ensureRootExists();
+
+function addFootprintPath (Array $path, $node) {
+	if (count($path) == 0) { return $node; }
+	$name = array_shift($path);
+	echo "Name is: ".$name."\n";
+	
+	$childNode = null;
+	
+	foreach ($node->getChildren() as $child) {
+		if ($child->getNode()->getName() == $name) {
+			$childNode = $child; 
+		}
+	}
+	
+	if ($childNode === null) {
+		$category = new FootprintCategory();
+		$category->setParent($node->getNode()->getId());
+		$category->setName($name);
+		$childNode = FootprintCategoryManager::getInstance()->addCategory($category);
+	}
+	
+	return addFootprintPath($path, $childNode);
+		
+}
+
+foreach ($data as $footprintName => $footprintData) {
+	$footprint = new Footprint();
+	$footprint->setName($footprintName);
+	
+	if (array_key_exists("description", $footprintData)) {
+		$footprint->setDescription($footprintData["description"]);
+	}
+	
+	if (array_key_exists("category", $footprintData)) {
+		// @todo add category
+		$footprintCategory = addFootprintPath(explode("/", $footprintData["category"]), $footprintCategoryManager->getRootNode());
+		$footprint->setCategory($footprintCategory->getNode());
+	}
+	
+	if (array_key_exists("image", $footprintData)) {
+		$footprintImage = new FootprintImage();
+		$footprintImage->setFootprint($footprint);
+		$footprintImage->replace("../setup/data/footprints/" . $footprintData["image"]);
+		
+		$footprint->setImage($footprintImage);
+	}
+	
+	if (array_key_exists("attachments", $footprintData) && is_array($footprintData["attachments"])) {
+		foreach ($footprintData["attachments"] as $attachment) {
+			if (!is_array($attachment)) {
+				echo $footprintName ." has a string attachment\n";
+			}
+			if (array_key_exists("url", $attachment)) {
+				$footprintAttachment = new FootprintAttachment();
+				$footprintAttachment->setFootprint($footprint);
+				$footprintAttachment->replaceFromURL($attachment["url"]);
+
+				if (array_key_exists("description", $attachment)) {
+					$footprintAttachment->setDescription($attachment["description"]);
+				}
+				
+				$footprint->getAttachments()->add($footprintAttachment);
+			}
+			
+		}
+	}
+	
+	PartKeepr::getEM()->persist($footprint);
+}
+
+PartKeepr::getEM()->flush();
+
 $r = mysql_query("SELECT * FROM footprints");
 
 while ($sFootprint = mysql_fetch_assoc($r)) {
@@ -111,7 +198,7 @@ while ($sFootprint = mysql_fetch_assoc($r)) {
 
 echo "\n\Creating categories from existing data\n";
 
-$categoryManager = CategoryManager::getInstance();
+$categoryManager = PartCategoryManager::getInstance();
 $categoryManager->ensureRootExists();
 
 /* Pass 1: Create numeric nodes */
@@ -132,11 +219,12 @@ function addCategoryRecursive ($aCategories, $currentId, $parent) {
 	foreach ($aCategories as $aCategory) {
 		if ($aCategory["parentnode"] == $currentId) {
 			echo "Adding ".sprintf("%40s", $aCategory["name"])."\r";			
-			$oCategory = new Category();
+			$oCategory = new PartCategory();
 			$oCategory->setName(convertText($aCategory["name"]));
 			$oCategory->setDescription("");
 			$oCategory->setParent($parent->getId());
-			$category = CategoryManager::getInstance()->addCategory($oCategory);
+			
+			$category = PartCategoryManager::getInstance()->addCategory($oCategory);
 			
 			addCategoryRecursive($aCategories, $aCategory["id"], $category);
 			

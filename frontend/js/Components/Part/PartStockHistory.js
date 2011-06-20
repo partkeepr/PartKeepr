@@ -40,7 +40,7 @@ Ext.define('PartKeepr.PartStockHistory', {
 			autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
 			remoteFilter: false,
 			remoteSort: false,
-			model: 'StockEntry',
+			model: 'PartKeepr.StockEntry',
 			pageSize: -1};
     	
     	this.store = Ext.create('Ext.data.Store', config);

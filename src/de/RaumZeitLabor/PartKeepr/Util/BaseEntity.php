@@ -22,6 +22,18 @@ class BaseEntity {
 		return $this->id;
 	}
 	
+	public function serializeChildren (\Doctrine\Common\Collections\Collection $array) {
+		$aData = array();
+		$aData["totalCount"] = $array->count();
+		$aData["data"] = array();
+		
+		foreach ($array as $item) {
+			$aData["data"][] = $item->serialize();
+		}
+		
+		return array("response" => $aData);
+	}
+	
 	/**
 	 * Loads the entity from the database.
 	 * @param integer $id The entity's id

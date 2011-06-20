@@ -27,7 +27,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Footprint\Footprint,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Category\CategoryManager,
+	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerManager;
 
 class PartManager extends Singleton {
@@ -79,7 +79,7 @@ class PartManager extends Singleton {
 				$qb->andWhere("p.category = :category");
 				$qb->setParameter("category", $category);
 			} else {
-				$childs = CategoryManager::getInstance()->getChildNodes($category);
+				$childs = PartCategoryManager::getInstance()->getChildNodes($category);
 				$childs[] = $category;
 				$qb->andWhere("p.category IN (".implode(",", $childs).")");
 			}
@@ -177,7 +177,7 @@ class PartManager extends Singleton {
 		}
 		
 		if (array_key_exists("category", $aParameters)) {
-			$category = CategoryManager::getInstance()->getCategory($aParameters["category"]);
+			$category = PartCategoryManager::getInstance()->getCategory($aParameters["category"]);
 			$part->setCategory($category->getNode());	
 		}
 		

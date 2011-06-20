@@ -205,7 +205,8 @@ class Manufacturer extends BaseEntity implements Serializable {
 			"url" => $this->getURL(),
 			"address" => $this->getAddress(),
 			"email" => $this->getEmail(),
-			"comment" => $this->getComment()
+			"comment" => $this->getComment(),
+			"iclogos" => $this->serializeChildren($this->getICLogos())
 		);
 	}
 }

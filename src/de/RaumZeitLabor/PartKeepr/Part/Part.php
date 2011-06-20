@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
@@ -16,7 +18,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 class Part extends BaseEntity implements Serializable {
 	/**
 	 * The category of the part
-	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Category\Category")
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory")
 	 * @var Category 
 	 */
 	private $category;
@@ -205,9 +207,9 @@ class Part extends BaseEntity implements Serializable {
 	
 	/**
 	 * Sets the category for this part
-	 * @param \de\RaumZeitLabor\PartKeepr\Category\Category $category The category
+	 * @param \de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory $category The category
 	 */
-	public function setCategory (\de\RaumZeitLabor\PartKeepr\Category\Category $category) {
+	public function setCategory (PartCategory $category) {
 		$this->category = $category;
 	}
 	

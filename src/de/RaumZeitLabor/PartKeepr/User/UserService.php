@@ -21,7 +21,7 @@ class UserService extends AdminService implements RestfulService {
 	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
-			return UserManager::getInstance()->getUser($this->getParameter("id"))->serialize();
+			 return array("data" => UserManager::getInstance()->getUser($this->getParameter("id"))->serialize());
 		} else {
 			if ($this->hasParameter("sort")) {
 				$tmp = json_decode($this->getParameter("sort"), true);

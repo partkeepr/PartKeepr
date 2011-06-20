@@ -42,6 +42,13 @@ Ext.define('PartKeepr.EditorGrid', {
 	             * @param {Object} record The deselected record
 	             */
 				"itemDeselect",
+
+				/**
+				 * @event itemEdit
+				 * Fires if a record should be edited.
+				 * @param {Object} record The record to edit
+				 */
+				"itemEdit",
 				
 				/**
 	             * @event itemDelete
@@ -56,28 +63,10 @@ Ext.define('PartKeepr.EditorGrid', {
 				"itemAdd");
 		
 		
-		this.getSelectionModel().on("select", 
-				Ext.bind(function (rsm, r, i) {
-					if (this.getSelectionModel().getCount() == 1) {
-						this.deleteButton.enable();
-					} else {
-						this.deleteButton.disable();
-					}
-					
-					this.fireEvent("itemSelect", r);
-				},
-				this));
+		this.getSelectionModel().on("select", 	this._onItemSelect, 	this);
+		this.getSelectionModel().on("deselect", this._onItemDeselect, 	this);
 		
-		this.getSelectionModel().on("deselect", 
-				Ext.bind(function (rsm, r, i) {
-					if (this.getSelectionModel().getCount() == 1) {
-						this.deleteButton.enable();
-					} else {
-						this.deleteButton.disable();
-					}
-					
-					this.fireEvent("itemDeselect", r);
-				}, this));
+		this.on("itemclick", this._onItemEdit, this);
 
 		this.deleteButton = Ext.create("Ext.button.Button", {
 			text: (this.buttonTextMode !== "hide") ? this.deleteButtonText : '',
@@ -125,5 +114,41 @@ Ext.define('PartKeepr.EditorGrid', {
 		});
 	
 		this.callParent();
-}
+	},
+	syncChanges: function (record) {
+		// Simply reload the store for now
+		this.store.load();
+	},
+	/**
+	 * Called when an item was selected. Enables/disables the delete button. 
+	 */
+	_updateDeleteButton: function (selectionModel, record) {
+		/* Right now, we support delete on a single record only */
+		if (this.getSelectionModel().getCount() == 1) {
+			this.deleteButton.enable();
+		} else {
+			this.deleteButton.disable();
+		}
+	},
+	
+	/**
+	 * Called when an item should be edited
+	 */
+	_onItemEdit: function (view, record) {
+		this.fireEvent("itemEdit", record.get("id"));
+	},
+	/**
+	 * Called when an item was selected
+	 */
+	_onItemSelect: function (selectionModel, record) {
+		this._updateDeleteButton(selectionModel, record);
+		this.fireEvent("itemSelect", record);
+	},
+	/**
+	 * Called when an item was deselected
+	 */
+	_onItemDeselect: function (selectionModel, record) {
+		this._updateDeleteButton(selectionModel, record);
+		this.fireEvent("itemDeselect", record);
+	}
 });

@@ -2,7 +2,6 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 	extend: 'PartKeepr.Editor',
 	alias: 'widget.ManufacturerEditor',
 	saveText: i18n("Save Manufacturer"),
-	model: 'PartKeepr.Manufacturer',
 	labelWidth: 150,
 	initComponent: function () {
 		this.on("startEdit", Ext.bind(this.onEditStart, this));
@@ -94,13 +93,16 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		}];
 		
 		
+		this.on("itemSaved", this.syncSlaveStores, this);
 		this.callParent();
 		
 	},
-	onItemSave: function () {
-		this.callParent();
+	syncSlaveStores: function () {
+		this.iclogoGrid.store.each(function (record) {
+			record.set("manufacturer_id", this.record.get("id"));
+		}, this);
 		
-		this.iclogoGrid.getStore().sync();
+		this.iclogoGrid.store.sync();
 	},
 	onFileUploaded: function (response) {
 		this.iclogoGrid.getStore().add({
@@ -119,7 +121,6 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 	},
 	onEditStart: function () {
 		var store = this.record.iclogos();
-		store.load();
 		this.iclogoGrid.bindStore(store);
 	}
 });

@@ -13,7 +13,13 @@ Ext.define('PartKeepr.Editor', {
     defaults: {
         anchor: '100%',
         labelWidth: 150
+
     },
+    
+    // If false, determinates if we should sync via the store or the record itself.
+    // If true, always syncs the record via it's own proxy.
+    syncDirect: false,
+    
     onFieldChange: function () {
     	return;
     	
@@ -50,7 +56,7 @@ Ext.define('PartKeepr.Editor', {
 			// Waiting for reply on http://www.sencha.com/forum/showthread.php?135142-Ext.form.Basic.loadRecord-causes-form-to-be-dirty&p=607588#post607588
 		});
 		
-		this.addEvents("editorClose", "startEdit");
+		this.addEvents("editorClose", "startEdit", "itemSaved");
 		
 		this.defaults.listeners = {
         	"change": Ext.bind(this.onFieldChange, this)
@@ -61,9 +67,9 @@ Ext.define('PartKeepr.Editor', {
 	onCancelEdit: function () {
 		this.fireEvent("editorClose", this);
 	},
-	newItem: function () {
-		var j = Ext.create(this.model);
-			
+	newItem: function (defaults) {
+		Ext.apply(defaults, {});
+		var j = Ext.create(this.model, defaults);
 		this.editItem(j);
 	},
 	editItem: function (record) {
@@ -85,26 +91,17 @@ Ext.define('PartKeepr.Editor', {
 		}
 	},
 	onItemSave: function () {
-		if (this.record) {
-			/* Check if this is an in-memory record */
-			if (this.record.phantom === true) {
-					
-			/* Push form values into the record */
-			this.getForm().updateRecord(this.record);
-					
-			/* Trigger the save */
-			this.record.save({
-				success: function (record) {
-					this.record = record;
-							
-					// Reload the store
+		this.getForm().updateRecord(this.record);
+		
+		this.record.save({
+				callback: this._onSave,
+				scope: this
+		});
+		
+/*
 					this.store.load({
 						scope   : this,
 					    callback: function(records, operation, success) {
-					    	/* If the store contains our record, start
-					    	 * editing with the store's record, since it handles
-					    	 * syncing for us.
-							 */
 							for (i=0;i<records.length;i++) {
 					    		if (records[i].get("id") == this.record.get("id")) {
 					    			this.editItem(records[i]);
@@ -118,16 +115,20 @@ Ext.define('PartKeepr.Editor', {
 			} else {
 				this.getForm().updateRecord(this.record);
 					
-				/* If the store doesn't handle our record,
-				 * do it on our own.
-				 */ 
-				if (this.record.dirty && !this.record.store) {
+				if ((this.record.dirty && !this.record.store) || this.syncDirect == true) {
 					this.record.save();
 				} else {
 					// Sync via the store
 					this.store.sync();
 				}
+				
+				this.fireEvent("itemSaved", this.record);
 			}
-		}
+		}*/
+		
+	},
+	_onSave: function (record) {
+		this.record = record;
+		this.fireEvent("itemSaved", this.record);
 	}
 });

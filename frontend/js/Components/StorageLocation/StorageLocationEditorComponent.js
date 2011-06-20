@@ -1,12 +1,12 @@
 Ext.define('PartKeepr.StorageLocationEditorComponent', {
 	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.StorageLocationEditorComponent',
-	gridClass: 'PartKeepr.StorageLocationGrid',
+	navigationClass: 'PartKeepr.StorageLocationGrid',
 	editorClass: 'PartKeepr.StorageLocationEditor',
 	newItemText: i18n("New Storage Location"),
+	model: 'PartKeepr.StorageLocation',
 	initComponent: function () {
 		this.createStore({
-			model: "StorageLocation",
 			sorters: [{
 	              property: 'name',
 	              direction:'ASC'

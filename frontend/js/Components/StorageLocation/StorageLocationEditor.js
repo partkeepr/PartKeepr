@@ -6,6 +6,5 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 		name: 'name',
 		fieldLabel: i18n("Storage Location")
 	}],
-	saveText: i18n("Save Storage Location"),
-	model: 'PartKeepr.StorageLocation'
+	saveText: i18n("Save Storage Location")
 });

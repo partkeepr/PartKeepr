@@ -1,4 +1,4 @@
-PartKeepr.ManufacturerICLogo = Ext.define("ManufacturerICLogo", {
+Ext.define("PartKeepr.ManufacturerICLogo", {
 	extend: "Ext.data.Model",
 	fields: [
 	         { id: 'id', name: 'id',		type: 'int' },
@@ -6,6 +6,6 @@ PartKeepr.ManufacturerICLogo = Ext.define("ManufacturerICLogo", {
 	         { name: 'type', 				type: 'string' },
 	         { name: 'tmp_id', 				type: 'int' }
 	         ],
-	belongsTo: { type: 'belongsTo', model: 'Manufacturer', primaryKey: 'id', foreignKey: 'manufacturer_id'},
+	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Manufacturer', primaryKey: 'id', foreignKey: 'manufacturer_id'},
 	proxy: PartKeepr.getRESTProxy("ManufacturerICLogo")
 });

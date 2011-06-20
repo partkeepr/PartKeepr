@@ -1,4 +1,4 @@
-PartKeepr.StorageLocation = Ext.define("StorageLocation", {
+Ext.define("PartKeepr.StorageLocation", {
 	extend: "Ext.data.Model",
 	fields: [
 	         {	id: 'id', name: 'id',			type: 'int' },

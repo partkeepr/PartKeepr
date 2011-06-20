@@ -12,7 +12,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 class PartUnitService extends Service implements RestfulService {
 		public function get () {
 		if ($this->hasParameter("id")) {
-			return PartUnitManager::getInstance()->getPartUnit($this->getParameter("id"))->serialize();
+			return array("data" => PartUnitManager::getInstance()->getPartUnit($this->getParameter("id"))->serialize());
 		} else {
 			if ($this->hasParameter("sort")) {
 				$tmp = json_decode($this->getParameter("sort"), true);
