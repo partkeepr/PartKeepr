@@ -93,21 +93,16 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		}];
 		
 		
-		this.on("itemSaved", this.syncSlaveStores, this);
+		this.on("itemSaved", this._onItemSaved, this);
 		this.callParent();
 		
 	},
-	syncSlaveStores: function () {
-		this.iclogoGrid.store.each(function (record) {
-			record.set("manufacturer_id", this.record.get("id"));
-		}, this);
-		
-		this.iclogoGrid.store.sync();
+	_onItemSaved: function (record) {
+		this.iclogoGrid.bindStore(record.iclogos());
 	},
 	onFileUploaded: function (response) {
 		this.iclogoGrid.getStore().add({
-			type: 'tmp',
-			tmp_id: response.id,
+			id: "TMP:"+response.id,
 			manufacturer_id: this.record.get("id") 
 		});
 	},

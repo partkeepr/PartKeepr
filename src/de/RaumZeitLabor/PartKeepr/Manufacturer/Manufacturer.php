@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Manufacturer;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
@@ -11,7 +13,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr;
 /**
  * Represents a manufacturer
  * @Entity **/
-class Manufacturer extends BaseEntity implements Serializable {
+class Manufacturer extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The name of the manufacturer
 	 * @Column(type="string",unique=true)
@@ -209,4 +211,36 @@ class Manufacturer extends BaseEntity implements Serializable {
 			"iclogos" => $this->serializeChildren($this->getICLogos())
 		);
 	}
+	
+	/**
+	 * Deserializes the footprint
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "name":
+					$this->setName($value);
+					break;
+				case "url":
+					$this->setURL($value);
+					break;
+				case "comment":
+					$this->setComment($value);
+					break;
+				case "email":
+					$this->setEmail($value);
+					break;
+				case "address":
+					$this->setAddress($value);
+					break;
+				case "iclogos":
+					$this->deserializeChildren($value, $this->getICLogos(), "de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo");
+					foreach ($this->getICLogos() as $iclogo) {
+						$iclogo->setManufacturer($this);
+					}
+					break;
+			}
+		}
+	} 
 }

@@ -45,25 +45,12 @@ class ManufacturerService extends Service implements RestfulService {
 		$this->requireParameter("name");
 		
 		$manufacturer = new Manufacturer;
-		
-		$this->setManufacturerData($manufacturer);
+		$manufacturer->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->persist($manufacturer);
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $manufacturer->serialize());
-	}
-	
-	/**
-	* Sets the data for the manufacturer.
-	* @param Manufacturer $manufacturer The manufacturer to process
-	*/
-	private function setManufacturerData (Manufacturer $manufacturer) {
-		$manufacturer->setName($this->getParameter("name"));
-		$manufacturer->setComment($this->getParameter("comment", ""));
-		$manufacturer->setAddress($this->getParameter("address", ""));
-		$manufacturer->setURL($this->getParameter("url", ""));
-		$manufacturer->setEmail($this->getParameter("email", ""));
 	}
 	
 	/**
@@ -74,8 +61,8 @@ class ManufacturerService extends Service implements RestfulService {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
 		$manufacturer = ManufacturerManager::getInstance()->getManufacturer($this->getParameter("id"));
-
-		$this->setManufacturerData($manufacturer);
+		$manufacturer->deserialize($this->getParameters());
+			
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $manufacturer->serialize());

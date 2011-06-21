@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Manufacturer;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 declare(encoding = 'UTF-8');
@@ -10,7 +12,7 @@ use de\RaumZeitLabor\PartKeepr\Image\Image;
  * Holds a manufacturer IC logo
  * @Entity
  **/
-class ManufacturerICLogo extends Image implements Serializable {
+class ManufacturerICLogo extends Image implements Serializable, Deserializable {
 	/**
 	 * The manufacturer object
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer")
@@ -49,4 +51,16 @@ class ManufacturerICLogo extends Image implements Serializable {
 	public function serialize () {
 		return array("id" => $this->getId(), "manufacturer_id" => $this->getManufacturer()->getId());
 	}
+	
+	/**
+	 * Deserializes the iclogo
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		if (array_key_exists("id", $parameters)) {
+			if (substr($parameters["id"], 0, 4) === "TMP:") {
+				$this->replaceFromTemporaryFile($parameters["id"]);
+			}
+		}
+	} 
 }
