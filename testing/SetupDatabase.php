@@ -114,7 +114,6 @@ $footprintCategoryManager->ensureRootExists();
 function addFootprintPath (Array $path, $node) {
 	if (count($path) == 0) { return $node; }
 	$name = array_shift($path);
-	echo "Name is: ".$name."\n";
 	
 	$childNode = null;
 	
@@ -144,7 +143,6 @@ foreach ($data as $footprintName => $footprintData) {
 	}
 	
 	if (array_key_exists("category", $footprintData)) {
-		// @todo add category
 		$footprintCategory = addFootprintPath(explode("/", $footprintData["category"]), $footprintCategoryManager->getRootNode());
 		$footprint->setCategory($footprintCategory->getNode());
 	}
