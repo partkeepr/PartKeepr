@@ -25,6 +25,7 @@ try {
 			$file = PartAttachment::loadById($id);
 			break;
 		case "FootprintAttachment":
+		case "PartKeepr.FootprintAttachment":
 				$file = FootprintAttachment::loadById($id);
 				break;			
 		default:
@@ -43,11 +44,16 @@ if ($file == null) {
 		$file = TempUploadedFile::loadById($_REQUEST["tmpId"]);
 	}
 }
-header("Content-Type: ".$file->getMimeType());
 
-$fp = fopen($file->getFilename(), "rb");
-fpassthru($fp);
-fclose($fp);
+if (is_object($file)) {
+	header("Content-Type: ".$file->getMimeType());
+	
+	$fp = fopen($file->getFilename(), "rb");
+	fpassthru($fp);
+	fclose($fp);
+} else {
+	echo "404 not found";
+}
 
 PartKeepr::getEM()->flush();
 exit();
