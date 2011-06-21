@@ -39,6 +39,14 @@ class Service {
 		}
 	}
 	
+	/**
+	 * Returns all parameters passed to the service
+	 * @return array An array with all parameters (key=>value format)
+	 */
+	public function getParameters () {
+		return $this->params;
+	}
+	
 	public function hasParameter ($name) {
 		if (array_key_exists($name, $this->params)) {
 			return true; 
