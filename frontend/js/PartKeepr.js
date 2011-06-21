@@ -268,7 +268,7 @@ PartKeepr.getRESTProxy = function (service) {
             totalProperty  : 'response.totalCount'
         },
         writer: {
-            type: 'json'
+            type: 'jsonwithassociations'
         }
         
 	};
