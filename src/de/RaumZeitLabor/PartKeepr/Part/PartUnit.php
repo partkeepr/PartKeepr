@@ -1,5 +1,10 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable;
+
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
@@ -7,14 +12,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 
 
 /** @Entity **/
-class PartUnit {
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
-	
+class PartUnit extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Defines the name of the unit
 	 * @Column
@@ -91,15 +89,6 @@ class PartUnit {
 	}
 	
 	/**
-	 * Returns the ID for this object.
-	 * @param none
-	 * @return int The ID for this object
-	 */
-	public function getId () {
-		return $this->id;
-	}
-	
-	/**
 	 * Defines if the unit is default or not.
 	 * @param boolean $default True if the unit is default, false otherwise
 	 */
@@ -129,6 +118,23 @@ class PartUnit {
 					"shortName" => $this->getShortName(),
 					"default" => $this->getDefault()
 		);
+	}
+	
+	/**
+	 * Deserializes the manufacturer
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "name":
+					$this->setName($value);
+					break;
+				case "shortName":
+					$this->setShortName($value);
+					break;
+			}
+		}
 	}
 }
 	

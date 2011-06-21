@@ -36,8 +36,7 @@ class PartUnitService extends Service implements RestfulService {
 		$this->requireParameter("name");
 		
 		$partUnit = new PartUnit;
-		
-		$this->setPartUnitData($partUnit);
+		$partUnit->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->persist($partUnit);
 		PartKeepr::getEM()->flush();
@@ -45,18 +44,12 @@ class PartUnitService extends Service implements RestfulService {
 		return array("data" => $partUnit->serialize());
 	}
 	
-	private function setPartUnitData (PartUnit $partUnit) {
-		$partUnit->setName($this->getParameter("name"));
-		$partUnit->setShortName($this->getParameter("shortName",""));
-	}
-	
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
 		
 		$partUnit = PartUnitManager::getInstance()->getPartUnit($this->getParameter("id"));
-
-		$this->setPartUnitData($partUnit);
+		$partUnit->deserialize($this->getParameters());
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $partUnit->serialize());
