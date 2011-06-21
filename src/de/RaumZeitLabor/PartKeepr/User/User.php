@@ -1,11 +1,14 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\User;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
 /** @Entity @Table(name="PartKeeprUser") */
-class User extends BaseEntity {
+class User extends BaseEntity implements Serializable, Deserializable {
 	/** @Column(length=50,unique=true) */
 	private $username;
 	
@@ -157,5 +160,24 @@ class User extends BaseEntity {
 			"id" => $this->getId(),
 			"username" => $this->getUsername()
 		);
+	}
+	
+	/**
+	 * Deserializes the user
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "username":
+					$this->setUsername($value);
+					break;
+				case "password":
+					if ($value !== "") {
+						$this->setHashedPassword($value);
+					}
+					break;
+			}
+		}
 	}
 }

@@ -50,26 +50,11 @@ class UserService extends AdminService implements RestfulService {
 		$this->requireParameter("username");
 		
 		$user = new User;
-		
-		$this->setUserData($user);
+		$user->deserialize($this->getParameters());
 		
 		UserManager::getInstance()->createUser($user);
 		
 		return array("data" => $user->serialize());
-	}
-	
-	/**
-	 * Sets the data for this user. Used by update() and create().
-	 * @param User $user The user object
-	 */
-	private function setUserData (User $user) {
-		$user->setUsername($this->getParameter("username"));
-		
-		if ($this->hasParameter("password") && $this->getParameter("password") !== "") {
-			$user->setHashedPassword($this->getParameter("password"));
-		} else {
-			$user->setHashedPassword("");
-		}
 	}
 	
 	/**
@@ -81,7 +66,7 @@ class UserService extends AdminService implements RestfulService {
 		$this->requireParameter("username");
 		$user = UserManager::getInstance()->getUser($this->getParameter("id"));
 
-		$this->setUserData($user);
+		$user->deserialize($this->getParameters());
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $user->serialize());
