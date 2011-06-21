@@ -5,7 +5,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\Service\Service;
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Part\PartManager,
-	de\RaumZeitLabor\PartKeepr\Category\CategoryManager,
+	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
 	de\RaumZeitLabor\PartKeepr\PartUnit\PartUnitManager;
 
 class StatisticService extends Service {
@@ -13,7 +13,7 @@ class StatisticService extends Service {
 
 			$aData = array();
 			$aData["partCount"] = PartManager::getInstance()->getPartCount();
-			$aData["categoryCount"] = CategoryManager::getInstance()->getCategoryCount();
+			$aData["categoryCount"] = PartCategoryManager::getInstance()->getCategoryCount();
 			$aData["totalPrice"] = PartManager::getInstance()->getTotalPrice();
 			$aData["averagePrice"] = PartManager::getInstance()->getAveragePrice();
 			$aData["partsWithPrice"] = PartManager::getInstance()->getPartCount(true);
