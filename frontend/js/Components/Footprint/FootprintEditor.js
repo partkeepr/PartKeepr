@@ -10,7 +10,7 @@ Ext.define('PartKeepr.FootprintEditor', {
 		
 		this.attachmentGrid = Ext.create("PartKeepr.FootprintAttachmentGrid", {
 			height: 200,
-			anchor: '100%',
+			width: '100%',
 			border: true
 		});
 		
@@ -36,6 +36,7 @@ Ext.define('PartKeepr.FootprintEditor', {
 							},{
 								labelWidth: 75,
 								xtype: 'fieldcontainer',
+								anchor: '100%',
 								fieldLabel: i18n("Attachments"),
 								items: this.attachmentGrid
 							}
