@@ -54,17 +54,13 @@ Ext.define('PartKeepr.UnitEditor', {
 		Ext.defer(function () { this.gridPanel.getSelectionModel().select(toSelect); }, 100, this);
 	},
 	onItemSave: function () {
-		
 		var selection = this.gridPanel.getSelectionModel().getSelection();
-		var records = [];
-		for (var i=0;i<selection.length;i++) {
-			records.push(selection[i].get("id"));
-		}
 		
-		var call = new PartKeepr.ServiceCall("Unit", "setUnitPrefixes");
-		call.setParameter("prefixes", records);
-		call.setParameter("id", this.record.get("id"));
-		call.doCall();
+		this.record.prefixes().removeAll(true);
+		
+		for (var i=0;i<selection.length;i++) {
+			this.record.prefixes().add({id: selection[i].get("id") });
+		}
 		
 		this.callParent();
 	}

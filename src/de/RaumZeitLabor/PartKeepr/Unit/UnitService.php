@@ -33,28 +33,11 @@ class UnitService extends Service implements RestfulService {
 		}
 	}
 	
-	public function setUnitPrefixes () {
-		$this->requireParameter("id");
-		
-		$unit = UnitManager::getInstance()->getUnit($this->getParameter("id"));
-		
-		$prefixes = $unit->getPrefixes();
-		
-		$prefixes->clear();
-		
-		foreach ($this->getParameter("prefixes") as $prefix) {
-			$prefix = SiPrefix::loadById($prefix);
-			$prefixes->add($prefix);
-		}
-
-	}
-	
 	public function create () {
 		$this->requireParameter("name");
 		
 		$unit = new Unit;
-		
-		$this->setUnitData($unit);
+		$unit->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->persist($unit);
 		PartKeepr::getEM()->flush();
@@ -62,18 +45,13 @@ class UnitService extends Service implements RestfulService {
 		return array("data" => $unit->serialize());
 	}
 	
-	private function setUnitData (Unit $unit) {
-		$unit->setName($this->getParameter("name"));
-		$unit->setSymbol($this->getParameter("symbol"));
-	}
-	
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
 		
 		$unit = UnitManager::getInstance()->getUnit($this->getParameter("id"));
+		$unit->deserialize($this->getParameters());
 
-		$this->setUnitData($unit);
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $unit->serialize());

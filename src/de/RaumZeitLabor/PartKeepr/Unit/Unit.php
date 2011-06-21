@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Unit;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
@@ -16,7 +18,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
  *  
  * @Entity
  **/
-class Unit extends BaseEntity implements Serializable {
+class Unit extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
 	 * @Column(type="string")
@@ -103,4 +105,30 @@ class Unit extends BaseEntity implements Serializable {
 			"prefixes" => $this->serializeChildren($this->getPrefixes())
 		);
 	}
+	
+	/**
+	 * Deserializes the unit
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "name":
+					$this->setName($value);
+					break;
+				case "symbol":
+					$this->setSymbol($value);
+					break;
+				case "prefixes":
+					$prefixes = $this->getPrefixes();
+					$prefixes->clear();
+					
+					foreach ($value as $prefix) {
+						$prefix = SiPrefix::loadById($prefix["id"]);
+						$prefixes->add($prefix);
+					}
+					break;
+			}
+		}
+	} 
 }
