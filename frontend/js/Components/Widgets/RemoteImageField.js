@@ -86,7 +86,7 @@ Ext.define('PartKeepr.RemoteImageField', {
     		idparam = "id="+this.value;
     	}
     	
-    	return PartKeepr.getImagePath() + "?"+idparam+"&type="+this.imageType+"&w="+this.imageWidth+"&h="+this.imageHeight+"&m=fitpadding";
+    	return PartKeepr.getImagePath() + "?"+idparam+"&type="+this.imageType+"&w="+this.imageWidth+"&h="+this.imageHeight+"&m=fitpadding&_dc="+Ext.Date.now();
     	
     },
     /**
