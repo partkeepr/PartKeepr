@@ -161,15 +161,21 @@ foreach ($data as $footprintName => $footprintData) {
 				echo $footprintName ." has a string attachment\n";
 			}
 			if (array_key_exists("url", $attachment)) {
-				$footprintAttachment = new FootprintAttachment();
-				$footprintAttachment->setFootprint($footprint);
-				$footprintAttachment->replaceFromURL($attachment["url"]);
-
-				if (array_key_exists("description", $attachment)) {
-					$footprintAttachment->setDescription($attachment["description"]);
+				try {
+					$footprintAttachment = new FootprintAttachment();
+					$footprintAttachment->setFootprint($footprint);
+					$footprintAttachment->replaceFromURL($attachment["url"]);
+					if (array_key_exists("description", $attachment)) {
+						$footprintAttachment->setDescription($attachment["description"]);
+					}
+				
+					$footprint->getAttachments()->add($footprintAttachment);
+				} catch (\Exception $e) {
+					echo "error with url ".$attachment["url"]."\n";
 				}
 				
-				$footprint->getAttachments()->add($footprintAttachment);
+
+				
 			}
 			
 		}
@@ -331,6 +337,8 @@ while ($supplier = mysql_fetch_assoc($r)) {
 	$aDistributors[$supplier["id"]] = $distributor;
 }
 
+PartKeepr::getEM()->flush();
+
 $r = mysql_query("SELECT * FROM parts");
 
 $aRandomUnitNames = array("Spannung", "Strom", "Leitfähigkeit", "Viskosität", "Nessis");
@@ -359,13 +367,15 @@ while ($part = mysql_fetch_assoc($r)) {
 	$datasheetQuery = "SELECT datasheeturl FROM datasheets WHERE part_id = ".$part["id"];
 	$r3 = mysql_query($datasheetQuery);
 	while ($res = mysql_fetch_assoc($r3)) {
-			$attachment = new PartAttachment();
-			$attachment->setPart($oPart);
-			$attachment->replaceFromURL($res["datasheeturl"]);
-			$attachment->setDescription(PartKeepr::i18n("Datasheet"));
-			$oPart->getAttachments()->add($attachment);
-
-		
+			try {
+				$attachment = new PartAttachment();
+				$attachment->setPart($oPart);
+				$attachment->replaceFromURL($res["datasheeturl"]);
+				$attachment->setDescription(PartKeepr::i18n("Datasheet"));
+				$oPart->getAttachments()->add($attachment);	
+			} catch (\Exception $e) {
+				echo "error with url ".$res["datasheeturl"]."\n";	
+			}
 	}
 	
 	PartKeepr::getEM()->persist($oPart);
