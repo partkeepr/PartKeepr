@@ -11,15 +11,10 @@ Ext.define("PartKeepr.JsonWithAssociations", {
 		var me = this, i, key, subStore,
 		data = me.callParent(arguments);
 
-		for (i=0;i<me.associations.length;i++) {
-			key = me.associations[i];
-			data[key] = []; 
-			subStore = record[record.associations.getByKey(key).storeName];
-			subStore.each(function (subRecord) {
-				data[key].push(ReConsole.writer.JsonWithAssociations.superclass.getRecordData.call(this, subRecord));
-			}, me);
-		}
-
+		var storeName;
+		
+		Ext.apply(data, record.getAssociatedData());
+		
 		return data;
 	}
 });

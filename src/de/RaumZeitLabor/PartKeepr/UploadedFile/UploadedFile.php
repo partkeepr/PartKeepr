@@ -5,6 +5,7 @@ use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
 	de\RaumZeitLabor\PartKeepr\Util\Configuration;
 
 /**
@@ -229,4 +230,39 @@ abstract class UploadedFile extends BaseEntity {
 			mkdir($this->getFilePath(), 0777, true);
 		}
 	}
+	
+	/**
+	 * Creates a new entity from the given temporary id.
+	 * 
+	 * @param string $id The temporary id (prefixed with TMP:)
+	 * @return object a new instance of the file.
+	 * @throws \Exception If the ID does not begin with TMP:
+	 */
+	public static function createFromTemporaryFile ($id) {
+		if (substr($id, 0, 4) === "TMP:") {
+			// It's a temporary file
+				$className = get_called_class();
+				
+				$file = new $className();	
+				$file->replaceFromTemporaryFile($id);
+				return $file;
+		} else {
+			throw new \Exception("Given id $id is not a temporary file");
+		}
+	}
+	
+	/**
+	 * Replaces the file with a given temporary file.
+	 * @param string $id The temporary id (prefixed with TMP:)
+	 */
+	public function replaceFromTemporaryFile ($id) {
+		if (substr($id, 0, 4) === "TMP:") {
+			$tmpFileId = str_replace("TMP:", "", $id);
+			$tmpFile = TempUploadedFile::loadById($tmpFileId);
+			
+			$this->replace($tmpFile->getFilename());
+			$this->setOriginalFilename($tmpFile->getOriginalFilename());
+		}
+	}
+	
 }

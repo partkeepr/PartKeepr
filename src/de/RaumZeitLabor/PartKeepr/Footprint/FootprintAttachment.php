@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Footprint;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 declare(encoding = 'UTF-8');
@@ -10,7 +12,7 @@ use de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile;
  * Holds a footprint attachment
  * @Entity
  **/
-class FootprintAttachment extends UploadedFile implements Serializable {
+class FootprintAttachment extends UploadedFile implements Serializable, Deserializable {
 	/**
 	 * The description of this attachment
 	 * @Column(type="text")
@@ -79,4 +81,24 @@ class FootprintAttachment extends UploadedFile implements Serializable {
 			"size" => $this->getSize(),
 			"description" => $this->getDescription());
 	}
+	
+	/**
+	 * Deserializes the footprint attachment
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		if (array_key_exists("id", $parameters)) {
+			if (substr($parameters["id"], 0, 4) === "TMP:") {
+				$this->replaceFromTemporaryFile($parameters["id"]);
+			}
+		}
+
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "description":
+					$this->setDescription($value);
+					break;
+			}
+		}
+	} 
 }

@@ -92,40 +92,10 @@ Ext.define('PartKeepr.Editor', {
 	},
 	onItemSave: function () {
 		this.getForm().updateRecord(this.record);
-		
 		this.record.save({
 				callback: this._onSave,
 				scope: this
 		});
-		
-/*
-					this.store.load({
-						scope   : this,
-					    callback: function(records, operation, success) {
-							for (i=0;i<records.length;i++) {
-					    		if (records[i].get("id") == this.record.get("id")) {
-					    			this.editItem(records[i]);
-								    break;
-					    		}
-							}
-					    }});
-						},
-						scope: this
-					});
-			} else {
-				this.getForm().updateRecord(this.record);
-					
-				if ((this.record.dirty && !this.record.store) || this.syncDirect == true) {
-					this.record.save();
-				} else {
-					// Sync via the store
-					this.store.sync();
-				}
-				
-				this.fireEvent("itemSaved", this.record);
-			}
-		}*/
-		
 	},
 	_onSave: function (record) {
 		this.record = record;

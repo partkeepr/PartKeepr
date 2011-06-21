@@ -57,11 +57,7 @@ Ext.define('PartKeepr.FootprintEditor', {
 		this.callParent();
 	},
 	_onItemSaved: function (record) {
-		this.attachmentGrid.store.each(function (record) {
-			record.set("footprint_id", this.record.get("id"));
-		}, this);
-		
-		this.attachmentGrid.store.sync();
+		this.attachmentGrid.bindStore(record.attachments());
 	},
 	onEditStart: function () {
 		var store = this.record.attachments();

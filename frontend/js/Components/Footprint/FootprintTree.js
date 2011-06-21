@@ -27,12 +27,17 @@ Ext.define("PartKeepr.FootprintTree", {
 			        	if (r && !r.get("footprintId")) {
 			        		this.fireEvent("itemAdd", { category: r.get("id") });
 			        	} else {
-			        		/* Try to find the category's parent id */
-			        		if (r.parentNode && !r.parentNode.get("footprintId")) {
-			        			this.fireEvent("itemAdd", { category: r.parentNode.get("id") });	
+			        		if (!r) {
+			        			this.fireEvent("itemAdd", this.getRootNode().get("id"));
 			        		} else {
-			        			this.fireEvent("itemAdd");
+			        			/* Try to find the category's parent id */
+				        		if (r.parentNode && !r.parentNode.get("footprintId")) {
+				        			this.fireEvent("itemAdd", { category: r.parentNode.get("id") });	
+				        		} else {
+				        			this.fireEvent("itemAdd", this.getRootNode().get("id"));
+				        		}	
 			        		}
+			        		
 			        	}
 			        	
 			        }, this)

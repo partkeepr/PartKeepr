@@ -1,5 +1,7 @@
 <?php 
 namespace de\RaumZeitLabor\PartKeepr\Footprint;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 use de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory;
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
@@ -8,7 +10,7 @@ declare(encoding = 'UTF-8');
 
 /** @Entity */
 
-class Footprint extends BaseEntity implements Serializable {
+class Footprint extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Holds the footprint name
 	 * @Column(length=64,unique=true)
@@ -106,6 +108,7 @@ class Footprint extends BaseEntity implements Serializable {
 	 */
 	public function setImage (FootprintImage $image) {
 		$this->image = $image;
+		$image->setFootprint($this);
 	}
 	
 	/**
@@ -138,4 +141,54 @@ class Footprint extends BaseEntity implements Serializable {
 			"attachments" => $this->serializeChildren($this->getAttachments())
 		);
 	}
+	
+	/**
+	 * Deserializes the footprint
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "name":
+					$this->setName($value);
+					break;
+				case "description":
+					$this->setDescription($value);
+					break;
+				case "image_id":
+					if ($value == "") {
+						echo "/** Breaking because of empty value */";
+						break; }
+					
+					try {
+						$image = FootprintImage::loadById($value);
+						$this->setImage($image);
+					} catch (\Exception $e) {
+						if ($this->getImage()) {
+							// Image was not found, maybe a temporary image?
+							$this->getImage()->replaceFromTemporaryFile($value);
+						} else {
+							$image = FootprintImage::createFromTemporaryFile($value);
+							$this->setImage($image);
+						}
+					}
+					
+					break;
+				case "category":
+					try {
+						$category = FootprintCategory::loadById($value);
+						$this->setCategory($category);	
+					} catch (\Exception $e) {
+						// Category was not found, do not change category.
+					}
+					break;
+				case "attachments":
+					$this->deserializeChildren($value, $this->getAttachments(), "de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment");
+					foreach ($this->getAttachments() as $attachment) {
+						$attachment->setFootprint($this);
+					}
+					break;
+			}
+		}
+	} 
 }

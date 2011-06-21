@@ -19,26 +19,32 @@ PartKeepr::initialize("");
 $type = $_REQUEST["type"];
 $id = $_REQUEST["id"];
 
-try {
-	switch ($type) {
-		case "PartAttachment":
-			$file = PartAttachment::loadById($id);
-			break;
-		case "FootprintAttachment":
-		case "PartKeepr.FootprintAttachment":
-				$file = FootprintAttachment::loadById($id);
-				break;			
-		default:
-			$file = null;
-			// Add default image?
+if (substr($id, 0, 4) === "TMP:") {
+		$tmpFileId = str_replace("TMP:", "", $id);
+		$file = TempUploadedFile::loadById($tmpFileId);
+} else {
+	try {
+		switch ($type) {
+			case "PartAttachment":
+				$file = PartAttachment::loadById($id);
+				break;
+			case "FootprintAttachment":
+			case "PartKeepr.FootprintAttachment":
+					$file = FootprintAttachment::loadById($id);
+					break;			
+			default:
+				$file = null;
+				// Add default image?
+		}
+		
+	} catch (\Exception $e) {
+		$file = null;
+		// Something bad happened
 	}
-	
-} catch (\Exception $e) {
-	$file = null;
-	// Something bad happened
 }
 
 if ($file == null) {
+	
 	// Could not find the image, but maybe we want a temporary image?
 	if (array_key_exists("tmpId", $_REQUEST)) {
 		$file = TempUploadedFile::loadById($_REQUEST["tmpId"]);

@@ -20,25 +20,30 @@ PartKeepr::initialize("");
 $type = $_REQUEST["type"];
 $id = $_REQUEST["id"];
 
-try {
-	switch ($type) {
-		case Image::IMAGE_ICLOGO:
-			$image = ManufacturerICLogo::loadById($id);
-			break;
-		case Image::IMAGE_FOOTPRINT:
-			$image = FootprintImage::loadById($id);
-			break;
-		case Image::IMAGE_PART:
-			$image = PartImage::loadById($id);
-			break;
-		default:
-			$image = null;
-			// Add default image?
+if (substr($id, 0, 4) === "TMP:") {
+		$tmpImageId = str_replace("TMP:", "", $id);
+		$image = TempImage::loadById($tmpImageId);
+} else {
+	try {
+		switch ($type) {
+			case Image::IMAGE_ICLOGO:
+				$image = ManufacturerICLogo::loadById($id);
+				break;
+			case Image::IMAGE_FOOTPRINT:
+				$image = FootprintImage::loadById($id);
+				break;
+			case Image::IMAGE_PART:
+				$image = PartImage::loadById($id);
+				break;
+			default:
+				$image = null;
+				// Add default image?
+		}
+		
+	} catch (\Exception $e) {
+		$image = null;
+		// Something bad happened
 	}
-	
-} catch (\Exception $e) {
-	$image = null;
-	// Something bad happened
 }
 
 if ($image == null) {

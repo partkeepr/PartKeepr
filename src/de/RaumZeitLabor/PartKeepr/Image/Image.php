@@ -5,6 +5,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile,
 	de\RaumZeitLabor\PartKeepr\Util\Configuration,
+	de\RaumZeitLabor\PartKeepr\TempImage\TempImage,
 	de\RaumZeitLabor\PartKeepr\Image\Exceptions\InvalidImageTypeException;
 
 /**
@@ -229,6 +230,21 @@ abstract class Image extends UploadedFile {
 	public function ensureCachedirExists () {
 		if (!is_dir(Configuration::getOption("partkeepr.images.cache"))) {
 			mkdir(Configuration::getOption("partkeepr.images.cache"), 0777, true);	
+		}
+	}
+
+	/**
+	 * Replaces the file with a given temporary file.
+	 * @param string $id The temporary id (prefixed with TMP:)
+	 */
+	public function replaceFromTemporaryFile ($id) {
+		if (substr($id, 0, 4) === "TMP:") {
+			$tmpFileId = str_replace("TMP:", "", $id);
+			$tmpFile = TempImage::loadById($tmpFileId);
+			
+			$this->replace($tmpFile->getFilename());
+			$this->setOriginalFilename($tmpFile->getOriginalFilename());
+			
 		}
 	}
 	

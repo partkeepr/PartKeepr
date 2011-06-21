@@ -44,28 +44,14 @@ class FootprintService extends Service implements RestfulService {
 	public function create () {
 		$this->requireParameter("name");
 		
-		$fp = FootprintManager::getInstance()->addFootprint($this->getParameter("name"));
-		$fp->setDescription($this->getParameter("description"));
+		$footprint = new Footprint();
+		$footprint->deserialize($this->getParameters());
 		
-		if ($this->getParameter("image_id", false) !== false) {
-			if (strpos($this->getParameter("image_id"), "TMP:") !== false) {
-				$tmpImage = TempImage::loadById(str_replace("TMP:", "", $this->getParameter("image_id")));
-				$image = new FootprintImage();
-				$image->replace($tmpImage->getFilename());
-				$image->setOriginalFilename($tmpImage->getOriginalFilename());
-			
-				$fp->setImage($image);
-				$image->setFootprint($fp);
-			}
-			
-		}
+		PartKeepr::getEM()->persist($footprint);
 		
-		try {
-			$footprintCategory = FootprintCategory::loadById($this->getParameter("category"));
-			$fp->setCategory($footprintCategory);	
-		} catch (\Exception $e) {}
+		PartKeepr::getEM()->flush();
 		
-		return array("data" => $fp->serialize());
+		return array("data" => $footprint->serialize());
 	}
 	
 	/**
@@ -76,32 +62,9 @@ class FootprintService extends Service implements RestfulService {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
 		$footprint = Footprint::loadById($this->getParameter("id"));
-		$footprint->setName($this->getParameter("name"));
-		$footprint->setDescription($this->getParameter("description"));
 		
-		if ($this->getParameter("image_id", false) !== false) {
-			if (strpos($this->getParameter("image_id"), "TMP:") !== false) {
-				$tmpImage = TempImage::loadById(str_replace("TMP:", "", $this->getParameter("image_id")));
+		$footprint->deserialize($this->getParameters());
 				
-				$image= $footprint->getImage();
-				
-				if ($image === null) {
-					$image = new FootprintImage();	
-				}
-				
-				$image->replace($tmpImage->getFilename());
-				$image->setOriginalFilename($tmpImage->getOriginalFilename());
-				$image->setFootprint($footprint);
-				
-				$footprint->setImage($image);	
-			}
-		}
-		
-		try {
-			$footprintCategory = FootprintCategory::loadById($this->getParameter("category"));
-			$footprint->setCategory($footprintCategory);	
-		} catch (\Exception $e) {}
-		
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $footprint->serialize());
