@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Distributor;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
@@ -11,7 +13,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr;
 /**
  * Represents a distributor
  * @Entity **/
-class Distributor extends BaseEntity implements Serializable {
+class Distributor extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Holds the name of the distributor
 	 * @Column(type="string",unique=true)
@@ -193,7 +195,41 @@ class Distributor extends BaseEntity implements Serializable {
 			"url" => $this->getURL(),
 			"address" => $this->getAddress(),
 			"email" => $this->getEmail(),
-			"comment" => $this->getComment()
+			"comment" => $this->getComment(),
+			"phone" => $this->getPhone(),
+			"fax" => $this->getFax()
 		);
 	}
+	
+	/**
+	 * Deserializes the distributor
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "name":
+					$this->setName($value);
+					break;
+				case "url":
+					$this->setURL($value);
+					break;
+				case "comment":
+					$this->setComment($value);
+					break;
+				case "fax":
+					$this->setFax($value);
+					break;
+				case "phone":
+					$this->setPhone($value);
+					break;
+				case "email":
+					$this->setEmail($value);
+					break;
+				case "address":
+					$this->setAddress($value);
+					break;
+			}
+		}
+	} 
 }

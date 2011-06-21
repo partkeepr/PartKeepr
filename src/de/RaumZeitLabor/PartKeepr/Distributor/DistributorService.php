@@ -45,25 +45,12 @@ class DistributorService extends Service implements RestfulService {
 		$this->requireParameter("name");
 		
 		$distributor = new Distributor;
-		
-		$this->setDistributorData($distributor);
+		$distributor->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->persist($distributor);
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $distributor->serialize());
-	}
-	
-	/**
-	 * Sets the data for the distributor.
-	 * @param Distributor $distributor The distributor to process
-	 */
-	private function setDistributorData (Distributor $distributor) {
-		$distributor->setName($this->getParameter("name"));
-		$distributor->setComment($this->getParameter("comment", ""));
-		$distributor->setAddress($this->getParameter("address", ""));
-		$distributor->setURL($this->getParameter("url", ""));
-		$distributor->setEmail($this->getParameter("email", ""));
 	}
 	
 	/**
@@ -73,9 +60,10 @@ class DistributorService extends Service implements RestfulService {
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
-		$distributor = DistributorManager::getInstance()->getDistributor($this->getParameter("id"));
-
-		$this->setDistributorData($distributor);
+		
+		$distributor = Distributor::loadById($this->getParameter("id"));
+		$distributor->deserialize($this->getParameters());
+		
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $distributor->serialize());

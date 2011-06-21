@@ -208,12 +208,14 @@ class Manufacturer extends BaseEntity implements Serializable, Deserializable {
 			"address" => $this->getAddress(),
 			"email" => $this->getEmail(),
 			"comment" => $this->getComment(),
+			"phone" => $this->getPhone(),
+			"fax" => $this->getFax(),
 			"iclogos" => $this->serializeChildren($this->getICLogos())
 		);
 	}
 	
 	/**
-	 * Deserializes the footprint
+	 * Deserializes the manufacturer
 	 * @param array $parameters The array with the parameters to set
 	 */
 	public function deserialize (array $parameters) {
@@ -230,6 +232,12 @@ class Manufacturer extends BaseEntity implements Serializable, Deserializable {
 					break;
 				case "email":
 					$this->setEmail($value);
+					break;
+				case "fax":
+					$this->setFax($value);
+					break;
+				case "phone":
+					$this->setPhone($value);
 					break;
 				case "address":
 					$this->setAddress($value);

@@ -135,11 +135,12 @@ abstract class UploadedFile extends BaseEntity {
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 		
 		$data = curl_exec($curl);
-		curl_close($curl);
 		
 		if ($data === false) {
 			throw new \Exception("replaceFromURL error: ".curl_error($curl));
 		}
+		
+		curl_close($curl);
 		
 		$tempName = tempnam("/tmp", "PARTKEEPR");
 			

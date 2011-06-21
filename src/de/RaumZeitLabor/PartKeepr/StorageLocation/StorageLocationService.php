@@ -37,16 +37,17 @@ class StorageLocationService extends Service implements RestfulService {
 	public function create () {
 		$this->requireParameter("name");
 		
-		$sl = StorageLocationManager::getInstance()->addStorageLocation($this->getParameter("name"));
+		$storageLocation = new StorageLocation();
+		$storageLocation->deserialize($this->getParameters());
 		
-		return array("data" => $sl->serialize());
+		return array("data" => $storageLocation->serialize());
 	}
 	
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
 		$storageLocation = StorageLocationManager::getInstance()->getStorageLocation($this->getParameter("id"));
-		$storageLocation->setName($this->getParameter("name"));
+		$storageLocation->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->flush();
 		

@@ -18,6 +18,14 @@ Ext.define('PartKeepr.DistributorEditor', {
 		name: 'email',
 		fieldLabel: i18n("Email")
 	},{
+		xtype: 'textfield',
+		name: 'phone',
+		fieldLabel: i18n("Phone")
+	},{
+		xtype: 'textfield',
+		name: 'fax',
+		fieldLabel: i18n("Fax")
+	},{
 		xtype: 'textarea',
 		name: 'comment',
 		fieldLabel: i18n("Comment")
