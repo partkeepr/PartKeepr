@@ -251,7 +251,49 @@ PDIP-16:
       description: Outline
     - url: http://www.analog.com/static/imported-files/packages/59616100n_16.pdf
       description: Footprint      
-
+PDIP-18: 
+  description: 18-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-18.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/44930452931834N_18.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/158309702n_18.pdf
+      description: Footprint
+PDIP-20: 
+  description: 20-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-20.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/50601349676519N_20.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/1012961n_20.pdf
+      description: Footprint
+PDIP-24: 
+  description: 24-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-24.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/50726455539629N_24_1.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/94593761n_24.pdf
+      description: Footprint      
+PDIP-28 Narrow: 
+  description: 28-Lead Plastic Dual In-Line Package, Narrow Body
+  category: DIP/PDIP
+  image: DIP/PDIP-28-N.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/70961940N_28_1.pdf
+      description: Outline
+PDIP-28 Wide:
+  description: 28-Lead Plastic Dual In-Line Package, Wide Body
+  category: DIP/PDIP
+  image: DIP/PDIP-28-W.png
+  attachments:
+    - url: http://www.analog.com/static/imported-files/packages/50849324123784N_28_2.pdf
+      description: Outline
+    - url: http://www.analog.com/static/imported-files/packages/197005836n_28.pdf
+      description: Footprint      
 SOIC-N-EP-8:
   description: 8-Lead Standard Small Outline Package, with Expose Pad
   attachments:
