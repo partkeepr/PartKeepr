@@ -108,8 +108,6 @@ echo "Creating footprints from SetupData/footprints.php\n";
 /* Import pre-defined footprints */
 $data = \Symfony\Component\Yaml\Yaml::load("../setup/data/footprints/footprints.yaml");
 
-print_r($data);
-
 $footprintCategoryManager = FootprintCategoryManager::getInstance();
 $footprintCategoryManager->ensureRootExists();
 
@@ -191,6 +189,10 @@ while ($sFootprint = mysql_fetch_assoc($r)) {
 	$footprint->setName(convertText($sFootprint["name"]));
 
 	echo " Adding footprint ".$sFootprint["name"]."\r";
+
+	$footprintCategory = addFootprintPath(explode("/", "Imported Footprints"), $footprintCategoryManager->getRootNode());
+	$footprint->setCategory($footprintCategory->getNode());
+
 	PartKeepr::getEM()->persist($footprint);
 	
 	$newFootprints[$sFootprint["id"]] = $footprint;
