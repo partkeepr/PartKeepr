@@ -16,6 +16,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\Unit\Unit;
 
 use de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix;
+use de\RaumZeitLabor\PartKeepr\Setup\Setup;
 
 declare(encoding = 'UTF-8');
 
@@ -42,6 +43,8 @@ use de\RaumZeitLabor\PartKeepr\Part\PartManufacturer;
 
 PartKeepr::initialize();
 
+$setup = new Setup();
+$setup->run();
 
 echo "=)))==========================================\n";
 echo "Actions performed by this script:\n";
@@ -64,6 +67,8 @@ if (!($_SERVER["argc"] == 2 && $_SERVER["argv"][1] == "--yes")) {
 	}
 	
 }
+
+
 
 echo "Performing actions...\n";
 
