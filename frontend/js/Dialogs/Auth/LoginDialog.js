@@ -80,19 +80,11 @@ Ext.define('PartKeepr.LoginDialog', {
 		
 		if (!obj.admin) {
 			Ext.getCmp("edit-users").hide();
+		} else {
+			Ext.getCmp("edit-users").show();
 		}
 		
-		PartKeepr.getApplication().createGlobalStores();
-		
-		PartKeepr.getApplication().reloadStores();
-		
-		var j = Ext.create("PartKeepr.PartManager", {
-			title: i18n("Part Manager"),
-			closable: false
-		});
-		
-		PartKeepr.getApplication().addItem(j);
-		j.show();
+		PartKeepr.getApplication().login();
 		
 		PartKeepr.log(i18n("Logged in as")+" "+obj.username);
 		this.close();

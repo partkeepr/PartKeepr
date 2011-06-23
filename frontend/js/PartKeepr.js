@@ -21,6 +21,23 @@ Ext.application({
     	
     	Ext.QuickTips.init();
     },
+    login: function () {
+    	this.createGlobalStores();
+		this.reloadStores();
+		
+		var j = Ext.create("PartKeepr.PartManager", {
+			title: i18n("Part Manager"),
+			closable: false
+		});
+		
+		this.addItem(j);
+		this.menuBar.enable();
+    },
+    logout: function () {
+    	this.menuBar.disable();
+    	this.centerPanel.removeAll(true);
+    	this.setSession(null);
+    },
     createGlobalStores: function () {
     	this.storageLocationStore = Ext.create("Ext.data.Store",
 			{
@@ -123,13 +140,15 @@ Ext.application({
      *       
      */
     reloadStores: function () {
-    	this.storageLocationStore.load();
-    	this.footprintStore.load();
-    	this.manufacturerStore.load();
-    	this.distributorStore.load();
-    	this.partUnitStore.load();
-    	this.unitStore.load();
-    	Ext.defer(PartKeepr.getApplication().reloadStores, 100000, this);
+    	if (this.getSession()) {
+    		this.storageLocationStore.load();
+        	this.footprintStore.load();
+        	this.manufacturerStore.load();
+        	this.distributorStore.load();
+        	this.partUnitStore.load();
+        	this.unitStore.load();
+        	Ext.defer(PartKeepr.getApplication().reloadStores, 100000, this);	
+    	}
     },
     createLayout: function () {
 
@@ -145,6 +164,8 @@ Ext.application({
     	});
     	
     	this.menuBar = Ext.create("PartKeepr.MenuBar");
+    	
+    	this.menuBar.disable();
     	
     	Ext.create('Ext.container.Viewport', {
     		layout: 'fit',
@@ -220,7 +241,13 @@ Ext.application({
     setSession: function (session) {
     	this.session = session;
     	
-    	this.getStatusbar().getConnectionButton().setConnected();
+    	if (session) {
+    		this.getStatusbar().getConnectionButton().setConnected();	
+    	} else {
+    		this.getStatusbar().getConnectionButton().setDisconnected();
+    		this.setUsername("");
+    	}
+    	
     },
     setUsername: function (username) {
     	this.username = username;

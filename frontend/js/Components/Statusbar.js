@@ -8,6 +8,7 @@ Ext.define('PartKeepr.Statusbar', {
 	initComponent: function () {
 		
 		this.connectionButton = new PartKeepr.ConnectionButton();
+		this.connectionButton.on("click", this.onConnectionButtonClick, this);
 		this.timeDisplay = new PartKeepr.TimeDisplay();
 		this.currentUserDisplay = Ext.create("Ext.toolbar.TextItem");
 		
@@ -52,11 +53,15 @@ Ext.define('PartKeepr.Statusbar', {
 	}, 
 	endLoad: function () {
 		this.clearStatus({useDefaults: true});
+	},
+	onConnectionButtonClick: function () {
+		if (PartKeepr.getApplication().getSession()) {
+			PartKeepr.getApplication().logout();
+		} else {
+			var o = new PartKeepr.LoginDialog();
+	    	o.show();
+		}
 	}
-     
-	
-	
-	
 });
 
 
