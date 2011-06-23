@@ -361,10 +361,16 @@ while ($part = mysql_fetch_assoc($r)) {
 	$oPart->setPartUnit($partUnit);
 	for ($i=0;$i<rand(0,15);$i++) {
 		$randomManufacturer = rand(0, count($aManufacturers)-1);
-		$oPart->getManufacturers()->add(new PartManufacturer($oPart, $aManufacturers[$randomManufacturer]));
+		$partManufacturer = new PartManufacturer();
+		$partManufacturer->setPart($oPart);
+		$partManufacturer->setManufacturer($aManufacturers[$randomManufacturer]);
+		$oPart->getManufacturers()->add($partManufacturer);
 	}
 	
-	$oPart->getDistributors()->add(new PartDistributor($oPart, $aDistributors[$part["id_supplier"]]));
+	$partDistributor = new PartDistributor();
+	$partDistributor->setPart($oPart);
+	$partDistributor->setDistributor($aDistributors[$part["id_supplier"]]);
+	$oPart->getDistributors()->add($partDistributor);
 	
 	//echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
 	
