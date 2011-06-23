@@ -62,6 +62,13 @@ $imagick = new Imagick();
 PartKeepr.setMaxUploadSize(<?php echo $maxUploadSize; ?>);
 PartKeepr.setAvailableImageFormats(<?php echo json_encode($imagick->queryFormats()); ?>);
 
+<?php 
+if ($autoLogin) {
+?>
+PartKeepr.setAutoLogin("admin","admin");
+<?php
+}
+?>
 </script>
 </body>
 </html>

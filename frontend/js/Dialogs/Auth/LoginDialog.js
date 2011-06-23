@@ -58,7 +58,11 @@ Ext.define('PartKeepr.LoginDialog', {
 		
 		this.on("show", function () { this.loginField.focus(); }, this);
 		
-		//this.loginField.focus();
+		if (PartKeepr.autoLoginUsername) {
+			this.loginField.setValue(PartKeepr.autoLoginUsername);
+			this.passwordField.setValue(PartKeepr.autoLoginPassword);
+			this.login();
+		}
 	},
 	login: function () {
 		var call = new PartKeepr.ServiceCall("Auth", "login");

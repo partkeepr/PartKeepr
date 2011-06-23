@@ -333,3 +333,8 @@ PartKeepr.serializeRecords = function (records) {
 	
 	return finalData;
 };
+
+PartKeepr.setAutoLogin = function (username, password) {
+	PartKeepr.autoLoginUsername = username;
+	PartKeepr.autoLoginPassword = password;
+};
