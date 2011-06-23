@@ -114,10 +114,12 @@ Ext.define('PartKeepr.PartManager', {
 		
 		var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().find("default", true);
 		
-		defaults.partUnit_id = defaultPartUnit;
-		defaults.category_id = this.grid.currentCategory;
+		defaults.partUnit = defaultPartUnit;
+		defaults.category = this.grid.currentCategory;
 		
-		j.applyRecord(defaults);
+		record = Ext.create("PartKeepr.Part", defaults);
+		
+		j.editor.editItem(record);
 		j.show();
 	},
 	/**
@@ -131,8 +133,20 @@ Ext.define('PartKeepr.PartManager', {
      */
 	onPartLoaded: function (f,g) {
 		var j = Ext.create("PartKeepr.PartEditorWindow");
-		j.applyRecord(f);
+		j.editor.on("partSaved", this.onPartSaved, this);
+		j.editor.editItem(f);
 		j.show();
+	},
+	onPartSaved: function (record) {
+	
+		var idx = this.grid.store.find("id", record.get("id"));
+		
+		// Only reload the grid if the edited record is contained
+		if (idx !== -1) {
+			this.grid.store.load();
+		}
+		
+		this.detail.setValues(record);
 	},
 	/**
      * Called when a part was selected in the grid. Displays the details for this part.
@@ -156,12 +170,13 @@ Ext.define('PartKeepr.PartManager', {
      * @param {Function} handler The callback to call when the part was loaded
      */
 	loadPart: function (id, handler) {
-		var call = new PartKeepr.ServiceCall(
-    			"Part", 
-    			"getPart");
-		call.setParameter("part", id);
-    	call.setHandler(handler);
-    	call.doCall();
+		// @todo we have this method duplicated in PartEditor
+		var model = Ext.ModelManager.getModel("PartKeepr.Part");
+		
+		model.load(id, {
+			scope: this,
+		    success: handler
+		});
 	},
 	/**
      * Creates the store 

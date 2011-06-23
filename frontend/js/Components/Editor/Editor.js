@@ -77,7 +77,7 @@ Ext.define('PartKeepr.Editor', {
 		this.getForm().loadRecord(this.record);
 		this.show();
 		if (this.record.getRecordName() !== "") {
-			this.setTitle(this.record.getRecordName());
+			this._setTitle(this.record.getRecordName());
 		}
 		
 		this.change = false;
@@ -100,5 +100,8 @@ Ext.define('PartKeepr.Editor', {
 	_onSave: function (record) {
 		this.record = record;
 		this.fireEvent("itemSaved", this.record);
+	},
+	_setTitle: function (title) {
+		this.setTitle(title);
 	}
 });

@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
@@ -12,7 +14,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 /** 
  * This class represents the link between a part and a distributor.
  * @Entity **/
-class PartDistributor extends BaseEntity implements Serializable {
+class PartDistributor extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Part\Part") 
 	 */
@@ -45,9 +47,7 @@ class PartDistributor extends BaseEntity implements Serializable {
 	 * @param Part $part The part
 	 * @param Distributor $distributor The distributor
 	 */
-	public function __construct (Part $part, Distributor $distributor) {
-		$this->setPart($part);
-		$this->setDistributor($distributor);
+	public function __construct () {
 		$this->setPackagingUnit(1);
 	}
 	
@@ -143,5 +143,26 @@ class PartDistributor extends BaseEntity implements Serializable {
 			"part_id" => $this->getPart()->getId(),
 			"part_name" => $this->getPart()->getName(),
 			"packagingUnit" => $this->getPackagingUnit());
+	}
+	
+	/**
+	 * Deserializes the part manufacturer
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "distributor_id":
+					$distributor = Distributor::loadById($value);
+					$this->setDistributor($distributor);
+					break;
+				case "orderNumber":
+					$this->setOrderNumber($value);
+					break;
+				case "packagingUnit":
+					$this->setPackagingUnit($value);
+					break;
+			}
+		}
 	}
 }

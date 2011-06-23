@@ -6,7 +6,8 @@ Ext.define("PartKeepr.FootprintComboBox",{
     autoSelect: true,
     queryMode: 'local',
     triggerAction: 'all',
-  
+    forceSelection: true,
+    editable: false,
     initComponent: function () {
 		this.store = PartKeepr.getApplication().getFootprintStore();
 		

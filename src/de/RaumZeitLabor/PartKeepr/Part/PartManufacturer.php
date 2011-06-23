@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
@@ -10,7 +12,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
 
 /** @Entity **/
-class PartManufacturer extends BaseEntity implements Serializable {
+class PartManufacturer extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Part\Part") 
 	 */
@@ -27,11 +29,6 @@ class PartManufacturer extends BaseEntity implements Serializable {
 	 * @var unknown_type
 	 */
 	private $partNumber;
-	
-	public function __construct (Part $part, Manufacturer $manufacturer) {
-		$this->setPart($part);
-		$this->setManufacturer($manufacturer);
-	}
 	
 	public function setPart (Part $part) {
 		$this->part = $part;
@@ -71,5 +68,21 @@ class PartManufacturer extends BaseEntity implements Serializable {
 			"part_name" => $this->getPart()->getName());
 	}
 	
-	
+	/**
+	 * Deserializes the part manufacturer
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "manufacturer_id":
+					$manufacturer = Manufacturer::loadById($value);
+					$this->setManufacturer($manufacturer);
+					break;
+				case "partNumber":
+					$this->setPartNumber($value);
+					break;
+			}
+		}
+	}
 }

@@ -14,7 +14,7 @@ use de\RaumZeitLabor\PartKeepr\Part\PartManager,
 class PartService extends Service implements RestfulService {
 	public function get () {
 		if ($this->hasParameter("id")) {
-			return PartManager::getInstance()->getPart($this->getParameter("id"))->serialize();
+			return array("data" => PartManager::getInstance()->getPart($this->getParameter("id"))->serialize());
 		} else {
 			if ($this->hasParameter("sort")) {
 				$tmp = json_decode($this->getParameter("sort"), true);
@@ -39,13 +39,35 @@ class PartService extends Service implements RestfulService {
 		}
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
+	 */
 	public function create () {
-		throw new \Exception("Not yet implemented");
+		$part = new Part();
+		$part->deserialize($this->getParameters());
+		
+		PartKeepr::getEM()->persist($part);
+		
+		PartKeepr::getEM()->flush();
+		
+		return array("data" => $part->serialize());
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
+	 */
 	public function update () {
-		throw new \Exception("Not yet implemented");
+		$this->requireParameter("id");
+		$part = Part::loadById($this->getParameter("id"));
+		$part->deserialize($this->getParameters());
+				
+		PartKeepr::getEM()->flush();
+		
+		return array("data" => $part->serialize());
 	}
+	
 	
 	public function destroy () {
 		throw new \Exception("Not yet implemented");
@@ -80,19 +102,6 @@ class PartService extends Service implements RestfulService {
 		
 		PartKeepr::getEM()->flush();
 	}
-	// Old stuff below
-	public function getParts () {
-		$aParameters = array(
-			"start" => $this->getParameter("start", 0),
-			"limit" => $this->getParameter("limit", 15),
-			"sort" => $this->getParameter("sort", "name"),
-			"dir" => $this->getParameter("dir", "asc"),
-			"filter" => $this->getParameter("filter", ""),
-			"category" => $this->getParameter("category", 0),
-			"stockmode" => $this->getParameter("stockmode", "all")
-		);
-		return PartManager::getInstance()->getParts($aParameters);
-	}
 	
 	public function addStock () {
 		$part = PartManager::getInstance()->getPart($this->getParameter("part"));
@@ -114,67 +123,9 @@ class PartService extends Service implements RestfulService {
 		
 		PartKeepr::getEM()->flush();
 		
-		return true;
+		return array("data" => $part->serialize());
 	}
 	
-	public function addOrUpdatePart () {
-		$aParameters = array();
-		
-		$aParameters["part"] = $this->getParameter("part", null);
-		
-		if ($this->hasParameter("name")) {
-			$aParameters["name"] = $this->getParameter("name");
-		}
-		
-		if ($this->hasParameter("minStockLevel")) {
-			$aParameters["minstock"] = $this->getParameter("minStockLevel");
-		}
-		
-		if ($this->hasParameter("storageLocation_id")) {
-			$aParameters["storagelocation"] = $this->getParameter("storageLocation_id");
-		}
-		
-		if ($this->hasParameter("category_id")) {
-			$aParameters["category"] = $this->getParameter("category_id");
-		}
-		
-		if ($this->hasParameter("footprint_id")) {
-			$aParameters["footprint"] = $this->getParameter("footprint_id");
-		}
-		
-		if ($this->hasParameter("comment")) {
-			$aParameters["comment"]  = $this->getParameter("comment");
-		}
-		
-		if ($this->hasParameter("quantity")) {
-			$aParameters["quantity"]  = $this->getParameter("quantity");
-		}
-		
-		if ($this->hasParameter("distributorChanges")) {
-			$aParameters["distributorChanges"] = $this->getParameter("distributorChanges");
-		}
-		
-		if ($this->hasParameter("manufacturerChanges")) {
-			$aParameters["manufacturerChanges"] = $this->getParameter("manufacturerChanges");
-		}
-		
-		if ($this->hasParameter("parameterChanges")) {
-			$aParameters["parameterChanges"] = $this->getParameter("parameterChanges");
-		}
-		
-		if ($this->hasParameter("attachmentChanges")) {
-			$aParameters["attachmentChanges"] = $this->getParameter("attachmentChanges");
-		}
-		
-		if ($this->hasParameter("partUnit_id")) {
-			$aParameters["partUnit"] = $this->getParameter("partUnit_id");
-		}
-		
-		PartManager::getInstance()->addOrUpdatePart($aParameters);
-		
-		return true;
-	}
-		
 	public function deleteStock () {
 		$part = PartManager::getInstance()->getPart($this->getParameter("part"));
 		
@@ -189,20 +140,10 @@ class PartService extends Service implements RestfulService {
 		
 		PartKeepr::getEM()->flush();
 		
-		return true;
-	}
-	
-	public function getPart () {
-		$part = PartManager::getInstance()->getPart($this->getParameter("part"));
-		
-		return $this->serializePart($part);
+		return array("data" => $part->serialize());
 	}
 	
 	public function deletePart () {
 		PartManager::getInstance()->deletePart($this->getParameter("part"));
-	}
-	
-	private function serializePart ($part) {
-		return $part->serialize();
 	}
 }

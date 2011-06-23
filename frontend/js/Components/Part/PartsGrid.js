@@ -85,7 +85,7 @@ Ext.define('PartKeepr.PartsGrid', {
 	stockLevelRenderer: function (val,q,rec)
 	{
 		if (rec.get("partUnitDefault") !== true) {
-			return val + " " + rec.get("partUnit");
+			return val + " " + rec.get("partUnitName");
 		} else {
 			return val;
 		}

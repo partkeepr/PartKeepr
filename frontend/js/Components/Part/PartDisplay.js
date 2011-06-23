@@ -134,7 +134,6 @@ Ext.define('PartKeepr.PartDisplay', {
 	deletePartPrompt: function () {
 		var j = new PartKeepr.PartStockWindow();
 		j.removeStock(this.deletePartHandler, this);
-		//Ext.Msg.prompt(i18n("Remove Stock"), i18n("Amount"), this.deletePartHandler, this);
 	},
 	/**
 	 * Callback after the "delete stock" dialog is complete.
@@ -158,19 +157,16 @@ Ext.define('PartKeepr.PartDisplay', {
 	 * Load the part from the database.
 	 */
 	loadPart: function (id) {
-		var call = new PartKeepr.ServiceCall(
-    			"Part", 
-    			"getPart");
-		call.setParameter("part", id);
-    	call.setLoadMessage('$[de.RaumZeitLabor.PartKeepr.CategoryEditor.loadCategories]');
-    	call.setHandler(Ext.bind(this.onPartLoaded, this));
-    	call.doCall();
+		PartKeepr.Part.load(id, {
+			scope: this,
+		    success: this.onPartLoaded
+		});
 	},
 	/**
 	 * Callback after the part is loaded
 	 */
-	onPartLoaded: function (response) {
-		this.record.set(response);
+	onPartLoaded: function (record) {
+		this.record = record;
 		this.setValues(this.record);
 		this.record.commit();
 	}

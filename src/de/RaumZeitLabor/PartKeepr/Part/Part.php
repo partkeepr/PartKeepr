@@ -1,5 +1,10 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation;
+use de\RaumZeitLabor\PartKeepr\Footprint\Footprint;
+
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory;
 
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
@@ -15,7 +20,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  * @Entity **/
-class Part extends BaseEntity implements Serializable {
+class Part extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The category of the part
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory")
@@ -217,7 +222,7 @@ class Part extends BaseEntity implements Serializable {
 	 * Sets the storage location for this part
 	 * @param \de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation $storageLocation The storage location
 	 */
-	public function setStorageLocation (\de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation $storageLocation) {
+	public function setStorageLocation (StorageLocation $storageLocation) {
 		$this->storageLocation = $storageLocation;
 	}
 	
@@ -225,7 +230,7 @@ class Part extends BaseEntity implements Serializable {
 	 * Sets the footprint for this part
 	 * @param \de\RaumZeitLabor\PartKeepr\Footprint\Footprint $footprint The footprint to set
 	 */
-	public function setFootprint (\de\RaumZeitLabor\PartKeepr\Footprint\Footprint $footprint = null) {
+	public function setFootprint (Footprint $footprint = null) {
 		$this->footprint = $footprint;
 	}
 	
@@ -302,52 +307,86 @@ class Part extends BaseEntity implements Serializable {
 	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
 	 */
 	public function serialize () {
-		$aManufacturers = array();
-		
-		foreach ($this->getManufacturers() as $manufacturer) {
-			$aManufacturers[] = $manufacturer->serialize();
-		}
-		
-		$aDistributors = array();
-		
-		foreach ($this->getDistributors() as $distributor) {
-			$aDistributors[] = $distributor->serialize();
-		}
-		
-		$aParameters = array();
-		foreach ($this->getParameters() as $parameter) {
-			$aParameters[] = $parameter->serialize();
-		}
-		
-		$aImages = array();
-		foreach ($this->getImages() as $image) {
-			$aImages[] = $image->serialize();
-		}
-		
-		$aAttachments = array();
-		foreach ($this->getAttachments() as $attachment) {
-			$aAttachments[] = $attachment->serialize();
-		}
-		
 		return array(
 					"id" => $this->getId(),
 					"name" => $this->getName(),
 					"comment" => $this->getComment(),
 					"stockLevel" => $this->getStockLevel(),
-					"footprint_id" => is_object($this->footprint) ? $this->footprint->getId() : null,
+					"footprint" => is_object($this->footprint) ? $this->footprint->getId() : null,
 					"minStockLevel" => $this->minStockLevel,
-					"storageLocation_id" => is_object($this->storageLocation) ? $this->storageLocation->getId() : null,
-					"storageLocationName" => is_object($this->storageLocation) ? $this->storageLocation->getName() : null,
-					"category_id" => is_object($this->category) ?  $this->category->getId() : null,
-					"partUnit_id" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : null,
-					"partUnit_name" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : PartKeepr::i18n("Pieces"),
-					"partUnit_shortName" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : "",
-					"manufacturers" => $aManufacturers,
-					"distributors" => $aDistributors,
-					"images" => $aImages,
-					"attachments" => $aAttachments,
-					"parameters" => $aParameters
-		
+					"storageLocation" => is_object($this->storageLocation) ? $this->storageLocation->getId() : null,
+					"category" => is_object($this->category) ?  $this->category->getId() : null,
+					"partUnit" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : null,
+					"manufacturers" => $this->serializeChildren($this->getManufacturers()),
+					"distributors" => $this->serializeChildren($this->getDistributors()),
+					"images" => $this->serializeChildren($this->getImages()),
+					"attachments" => $this->serializeChildren($this->getAttachments()),
+					"parameters" => $this->serializeChildren($this->getParameters()),
+					
+					// Additional things we serialize to make displaying stuff in the frontend easier
+					"categoryName" => is_object($this->category) ?  $this->category->getName() : null,
+					"footprintName" => is_object($this->footprint) ? $this->footprint->getName() : null,
+					"storageLocationName" => is_object($this->storageLocation) ? $this->storageLocation->getName() : null
 		);
+	}
+	
+	/**
+	 * Deserializes the manufacturer
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "name":
+					$this->setName($value);
+					break;
+				case "comment":
+					$this->setComment($value);
+					break;
+				case "footprint":
+					$footprint = Footprint::loadById($value);
+					$this->setFootprint($footprint);
+					break;
+				case "minStockLevel":
+					$this->setMinStockLevel($value);
+					break;
+				case "partUnit":
+					$partUnit = PartUnit::loadById($value);
+					$this->setPartUnit($partUnit);
+					break;
+				case "category":
+					$category = PartCategory::loadById($value);
+					$this->setCategory($category);
+					break;
+				case "storageLocation":
+					$storageLocation = StorageLocation::loadById($value);
+					$this->setStorageLocation($storageLocation);
+					break;
+				case "manufacturers":
+					$this->deserializeChildren($value, $this->getManufacturers(), "de\RaumZeitLabor\PartKeepr\Part\PartManufacturer");
+					foreach ($this->getManufacturers() as $manufacturer) {
+						$manufacturer->setPart($this);
+					}
+					break;
+				case "distributors":
+					$this->deserializeChildren($value, $this->getDistributors(), "de\RaumZeitLabor\PartKeepr\Part\PartDistributor");
+					foreach ($this->getDistributors() as $distributor) {
+						$distributor->setPart($this);
+					}
+					break;
+				case "parameters":
+					$this->deserializeChildren($value, $this->getParameters(), "de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter");
+					foreach ($this->getParameters() as $parameter) {
+						$parameter->setPart($this);
+					}
+					break;
+				case "attachments":
+					$this->deserializeChildren($value, $this->getAttachments(), "de\RaumZeitLabor\PartKeepr\Part\PartAttachment");
+					foreach ($this->getAttachments() as $attachment) {
+						$attachment->setPart($this);
+					}
+					break;
+			}
+		}
 	}
 }

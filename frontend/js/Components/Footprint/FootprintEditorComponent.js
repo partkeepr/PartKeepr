@@ -26,13 +26,12 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 		var call = new PartKeepr.ServiceCall("Footprint", "destroy");
 		call.setParameter("id", r.get("footprintId"));
 		call.setHandler(Ext.bind(function () {
-			console.log("My footprint id is:"+r.get("footprintId"));
 			var oldRecordIndex = PartKeepr.getApplication().getFootprintStore().find("id", r.get("footprintId"));
 			
-			console.log(oldRecordIndex);
-			
 			PartKeepr.getApplication().getFootprintStore().removeAt(oldRecordIndex);
-			this.navigation.loadCategories(); }, this));
+			this.navigation.loadCategories();
+		}, this));
+		
 		call.doCall();
 		
 		

@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
+
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 declare(encoding = 'UTF-8');
@@ -10,14 +12,14 @@ use de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile;
  * Holds a part attachment
  * @Entity
  **/
-class PartAttachment extends UploadedFile implements Serializable {
+class PartAttachment extends UploadedFile implements Serializable, Deserializable {
 	/**
 	 * The description of this attachment
 	 * @Column(type="text")
 	 * @var string
 	 */
 	private $description;
-	
+
 	/**
 	 * Creates a new part attachment
 	 */
@@ -47,7 +49,7 @@ class PartAttachment extends UploadedFile implements Serializable {
 	public function getPart () {
 		return $this->part;
 	}
-	
+
 	/**
 	 * Sets the description for this attachment
 	 * @param string $description The attachment description
@@ -55,7 +57,7 @@ class PartAttachment extends UploadedFile implements Serializable {
 	public function setDescription ($description) {
 		$this->description = $description;
 	}
-	
+
 	/**
 	 * Returns the description for this attachment
 	 * @return string The description
@@ -78,5 +80,25 @@ class PartAttachment extends UploadedFile implements Serializable {
 			"extension" => $this->getExtension(),
 			"size" => $this->getSize(),
 			"description" => $this->getDescription());
+	}
+
+	/**
+	 * Deserializes the footprint attachment
+	 * @param array $parameters The array with the parameters to set
+	 */
+	public function deserialize (array $parameters) {
+		if (array_key_exists("id", $parameters)) {
+			if (substr($parameters["id"], 0, 4) === "TMP:") {
+				$this->replaceFromTemporaryFile($parameters["id"]);
+			}
+		}
+
+		foreach ($parameters as $key => $value) {
+			switch ($key) {
+				case "description":
+					$this->setDescription($value);
+					break;
+			}
+		}
 	}
 }

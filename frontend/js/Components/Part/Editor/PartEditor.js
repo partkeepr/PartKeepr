@@ -1,8 +1,12 @@
+/**
+ * @class PartKeepr.PartEditor
+
+ * <p>The PartEditor provides an editing form for a part. It contains multiple tabs, one for each nested record.</p>
+ */
 Ext.define('PartKeepr.PartEditor', {
 	extend: 'PartKeepr.Editor',
 	border: false,
 	model: 'PartKeepr.Part',
-	mode: 'add',
 	layout: 'fit',
 	bodyStyle: 'background:#DFE8F6;',
 	initComponent: function () {
@@ -22,20 +26,20 @@ Ext.define('PartKeepr.PartEditor', {
 			},{
 				xtype: 'PartUnitComboBox',
 				fieldLabel: i18n("Part Unit"),
-				name: 'partUnit_id'
+				name: 'partUnit'
 			},{
 				xtype: 'CategoryComboBox',
 				fieldLabel: i18n("Category"),
-				name: 'category_id'
+				name: 'category'
 			},{
 				xtype: 'StorageLocationComboBox',
 				fieldLabel: i18n("Storage Location"),
-				name: 'storageLocation_id',
+				name: 'storageLocation',
 				allowBlank: false
 			},{
 				xtype: 'FootprintComboBox',
 				fieldLabel: i18n("Footprint"),
-				name: 'footprint_id'
+				name: 'footprint'
 			},{
 				xtype: 'textarea',
 				fieldLabel: i18n("Comment"),
@@ -86,56 +90,46 @@ Ext.define('PartKeepr.PartEditor', {
 				]
 		};
 		
-		this.on("startEdit", function () { this.mode = "edit"; }, this);
+		this.on("startEdit", this.onEditStart, this, { delay: 200 });
+		this.on("itemSaved", this._onItemSaved, this);
 		
-		this.addEvents("partSaved");
+		this.addEvents("partSaved", "titleChange");
 		
 		this.callParent();
+	},
+	onEditStart: function () {
+		this.bindChildStores();
+	},
+	_onItemSaved: function () {
+		this.fireEvent("partSaved", this.record);
+		this.bindChildStores();
+	},
+	bindChildStores: function () {
+		this.partDistributorGrid.bindStore(this.record.distributors());
+		this.partManufacturerGrid.bindStore(this.record.manufacturers());
+		this.partParameterGrid.bindStore(this.record.parameters());
+		this.partAttachmentGrid.bindStore(this.record.attachments());
 	},
 	onItemSave: function () {
 		if (!this.getForm().isValid()) {
 			return;
 		}
 		
-		var call = new PartKeepr.ServiceCall(
-    			"Part", 
-    			"addOrUpdatePart");
+		this.callParent();
+	},
+	_setTitle: function (title) {
+		var tmpTitle;
 		
-		if (this.rawValues.id) {
-			call.setParameter("part", this.rawValues.id);
+		if (this.record.phantom) {
+			tmpTitle = i18n("Add Part");
+		} else {
+			tmpTitle = i18n("Edit Part");	
 		}
 		
-		var values = this.getForm().getFieldValues();
+		if (title !== "") {
+			 tmpTitle = tmpTitle + ": " + title;
+		}
 		
-		values.distributorChanges = {
-			"inserts": PartKeepr.serializeRecords(this.partDistributorGrid.getStore().getNewRecords()),
-			"updates": PartKeepr.serializeRecords(this.partDistributorGrid.getStore().getUpdatedRecords()),
-			"removals": PartKeepr.serializeRecords(this.partDistributorGrid.getStore().getRemovedRecords())
-		};
-		
-		values.manufacturerChanges = {
-				"inserts": PartKeepr.serializeRecords(this.partManufacturerGrid.getStore().getNewRecords()),
-				"updates": PartKeepr.serializeRecords(this.partManufacturerGrid.getStore().getUpdatedRecords()),
-				"removals": PartKeepr.serializeRecords(this.partManufacturerGrid.getStore().getRemovedRecords())
-			};
-	
-		values.parameterChanges = {
-				"inserts": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getNewRecords()),
-				"updates": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getUpdatedRecords()),
-				"removals": PartKeepr.serializeRecords(this.partParameterGrid.getStore().getRemovedRecords())
-		};
-		
-		values.attachmentChanges = {
-				"inserts": PartKeepr.serializeRecords(this.partAttachmentGrid.getStore().getNewRecords()),
-				"updates": PartKeepr.serializeRecords(this.partAttachmentGrid.getStore().getUpdatedRecords()),
-				"removals": PartKeepr.serializeRecords(this.partAttachmentGrid.getStore().getRemovedRecords())
-		};
-		
-		call.setParameters(values);
-		call.setHandler(Ext.bind(this.onPartSave, this));
-		call.doCall();
-	},
-	onPartSave: function () {
-		this.fireEvent("partSaved");
+		this.fireEvent("titleChange", tmpTitle);
 	}
 });
