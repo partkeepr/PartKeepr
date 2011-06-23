@@ -27,16 +27,19 @@ pear config-set auto_discover 1
 pear install phpunit/PHPUnit
 pear channel-discover pear.phing.info
 pear install phing/phing
-pear install pear.doctrine-project.org/DoctrineCommon-2.0.0RC1
-pear install pear.doctrine-project.org/DoctrineDBAL-2.0.0BETA4
-pear install pear.doctrine-project.org/DoctrineORM-2.0.0BETA4
+
+pear install pear.doctrine-project.org/DoctrineORM
+pear install pear.symfony-project.com/YAML
 
 
-Install the optional PEAR packages:
------------------------------------
-These packages are required if you wish to build the test suite. I know,
-it's quite a big list, but they are required for development. If you
-only wish to use the product, you can safely skip them.
+Install the (not yet) optional PEAR packages:
+---------------------------------------------
+
+NOTE: THESE PACKAGES ARE REQUIRED IN THE CURRENT BUILDS! INSTALL THEM!
+
+//These packages are required if you wish to build the test suite. I know,
+//it's quite a big list, but they are required for development. If you
+//only wish to use the product, you can safely skip them.
 
 pear channel-discover components.ez.no
 pear install phpunit/phpcpd
