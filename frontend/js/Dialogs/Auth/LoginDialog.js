@@ -15,7 +15,7 @@ Ext.define('PartKeepr.LoginDialog', {
 		
 		this.loginField = Ext.ComponentMgr.create({
 	    	xtype: 'textfield',
-	    	value: "test",
+	    	value: "",
 	    	fieldLabel: i18n("Username"),
 	    	anchor: '100%'
 	    });
@@ -23,7 +23,7 @@ Ext.define('PartKeepr.LoginDialog', {
 		this.passwordField = Ext.ComponentMgr.create({
         	xtype: 'textfield',
         	inputType: "password",
-        	value: "test",
+        	value: "",
         	fieldLabel: i18n("Password"),
         	anchor: '100%'
         });
@@ -54,9 +54,11 @@ Ext.define('PartKeepr.LoginDialog', {
 			       	}]
 		});
 		
-		this.login();
-		
 		this.callParent(arguments);
+		
+		this.on("show", function () { this.loginField.focus(); }, this);
+		
+		//this.loginField.focus();
 	},
 	login: function () {
 		var call = new PartKeepr.ServiceCall("Auth", "login");

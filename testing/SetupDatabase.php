@@ -87,8 +87,8 @@ $tool->createSchema($classes);
 
 /* Create initial test user */
 $user = new User();
-$user->setUsername("test");
-$user->setPassword("test");
+$user->setUsername("admin");
+$user->setPassword("admin");
 $user->setAdmin(true);
 PartKeepr::getEM()->persist($user);
 
@@ -432,8 +432,7 @@ PartKeepr::getEM()->flush();
 
 
 
-
-echo "All done.\n";
+echo "All done. Use the user 'admin' with password 'admin' to login\n";
 
 apc_clear_cache();
 apc_clear_cache("user");
