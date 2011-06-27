@@ -359,17 +359,11 @@ while ($part = mysql_fetch_assoc($r)) {
 	$oPart->setStorageLocation($newStorageLocations[$part["id_storeloc"]]);
 	$oPart->setMinStockLevel($part["mininstock"]);
 	$oPart->setPartUnit($partUnit);
-	for ($i=0;$i<rand(0,15);$i++) {
-		$randomManufacturer = rand(0, count($aManufacturers)-1);
-		$partManufacturer = new PartManufacturer();
-		$partManufacturer->setPart($oPart);
-		$partManufacturer->setManufacturer($aManufacturers[$randomManufacturer]);
-		$oPart->getManufacturers()->add($partManufacturer);
-	}
 	
 	$partDistributor = new PartDistributor();
 	$partDistributor->setPart($oPart);
 	$partDistributor->setDistributor($aDistributors[$part["id_supplier"]]);
+	$partDistributor->setOrderNumber($part["supplierpartnr"]);
 	$oPart->getDistributors()->add($partDistributor);
 	
 	//echo "Migrating part ".sprintf("%-40s", $part["name"])."\r";
@@ -406,21 +400,6 @@ while ($part = mysql_fetch_assoc($r)) {
 	
 	PartKeepr::getEM()->persist($oStock);
 	
-	/* Add some random parameters */
-	for ($i=0;$i<rand(1,15);$i++) {
-		$val = rand(0,999);
-		$prefix = $aSiPrefixes[array_rand($aSiPrefixes)];
-		
-		$oPartParameter = new PartParameter();
-		$oPartParameter->setName($aRandomUnitNames[array_rand($aRandomUnitNames)]);
-		$oPartParameter->setDescription("Testbeschreibung");
-		$oPartParameter->setPart($oPart);
-		$oPartParameter->setUnit($aUnits[array_rand($aUnits)]);
-		$oPartParameter->setValue($val);
-		$oPartParameter->setSiPrefix($prefix);
-		PartKeepr::getEM()->persist($oPartParameter);	
-	}
-
 	$fc++;
 
 	if ($fc>100) {
