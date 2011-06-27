@@ -12,7 +12,7 @@ class StockEntry {
 	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
-	 * @var unknown_type
+	 * @var int
 	 */
 	private $id;
 	
@@ -44,6 +44,14 @@ class StockEntry {
 	private $dateTime;
 	
 	/**
+	 * Indicates if the stock level is a correction entry.
+	 * 
+	 * @Column(type="boolean")
+	 * @var boolean
+	 */
+	private $correction;
+	
+	/**
 	 * Creates a new stock entry. A stock entry tracks how many parts
 	 * were the stockLevel is the amount of items added/removed,
 	 * by which user and how much the user paid for it (for adding parts only!)
@@ -57,6 +65,7 @@ class StockEntry {
 		$this->setStockLevel($stockLevel);
 		$this->setUser($user);
 		$this->setDateTime(new \DateTime());
+		$this->setCorrection(false);
 	}
 	
 	
@@ -74,6 +83,22 @@ class StockEntry {
 	 */
 	public function getDateTime () {
 		return $this->dateTime;
+	}
+	
+	/**
+	 * Sets if the stock entry is a correction record.
+	 * @param $bCorrection boolean True if the record is a correction record, false otherwise
+	 */
+	public function setCorrection ($bCorrection) {
+		$this->correction = $bCorrection;
+	}
+	
+	/**
+	 * Returns if the entry is a correction entry.
+	 * @return boolean True if the entry is a correction entry, false otherwise
+	 */
+	public function getCorrection () {
+		return $this->correction;
 	}
 	
 	/**
