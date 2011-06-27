@@ -44,6 +44,10 @@ Ext.define('PartKeepr.PartEditor', {
 				xtype: 'textarea',
 				fieldLabel: i18n("Comment"),
 				name: 'comment'
+			},{
+				xtype: 'textfield',
+				fieldLabel: i18n("Status"),
+				name: 'status'
 			}];
 		
 		this.partDistributorGrid = Ext.create("PartKeepr.PartDistributorGrid", {

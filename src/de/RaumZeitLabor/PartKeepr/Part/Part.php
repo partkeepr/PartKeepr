@@ -131,6 +131,13 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	private $parameters;
 	
+	/**
+	 * The part status for this part
+	 * @Column(type="string",nullable=true)
+	 * @var string
+	 */
+	private $status;
+	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
@@ -303,6 +310,23 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	}
 
 	/**
+	 * Sets the status for this part. A status is any string describing the status,
+	 * e.g. "new", "used", "broken" etc.
+	 * @param string $status The status
+	 */
+	public function setStatus ($status) {
+		$this->status = $status;
+	}
+	
+	/**
+	 * Returns the status for this part.
+	 * @return string The status
+	 */
+	public function getStatus () {
+		return $this->status;
+	}
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
 	 */
@@ -314,6 +338,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					"stockLevel" => $this->getStockLevel(),
 					"footprint" => is_object($this->footprint) ? $this->footprint->getId() : null,
 					"minStockLevel" => $this->minStockLevel,
+					"status" => $this->getStatus(),
 					"storageLocation" => is_object($this->storageLocation) ? $this->storageLocation->getId() : null,
 					"category" => is_object($this->category) ?  $this->category->getId() : null,
 					"partUnit" => is_object($this->partUnit) ? $this->getPartUnit()->getId() : null,
@@ -357,6 +382,9 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 				case "category":
 					$category = PartCategory::loadById($value);
 					$this->setCategory($category);
+					break;
+				case "status":
+					$this->setStatus($value);
 					break;
 				case "storageLocation":
 					$storageLocation = StorageLocation::loadById($value);
