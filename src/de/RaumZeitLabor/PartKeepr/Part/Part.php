@@ -138,12 +138,20 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	private $status;
 	
+	/**
+	 * The create date+time for this part
+	 * @Column(type="datetime",nullable=true)
+	 * @var \DateTime
+	 */
+	private $createDate;
+	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->parameters = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->images = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->createDate = new \DateTime();
 	}
 	
 	/**
