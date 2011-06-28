@@ -111,7 +111,7 @@ PartKeepr::getEM()->flush();
 echo "Creating footprints from SetupData/footprints.php\n";
 
 /* Import pre-defined footprints */
-$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/footprints/footprints.yaml");
+$data = \Symfony\Component\Yaml\Yaml::parse("../setup/data/footprints/footprints.yaml");
 
 $footprintCategoryManager = FootprintCategoryManager::getInstance();
 $footprintCategoryManager->ensureRootExists();
@@ -260,7 +260,7 @@ while ($store = mysql_fetch_assoc($r)) {
 echo "\n";
 
 /* Add Si-Prefixes */
-$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/siprefixes.yaml");
+$data = \Symfony\Component\Yaml\Yaml::parse("../setup/data/siprefixes.yaml");
 
 $aSiPrefixes = array();
 
@@ -278,7 +278,7 @@ foreach ($data as $prefixName => $data) {
 PartKeepr::getEM()->flush();
 
 /* Add units */
-$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/units.yaml");
+$data = \Symfony\Component\Yaml\Yaml::parse("../setup/data/units.yaml");
 
 $aUnits = array();
 
@@ -309,7 +309,7 @@ PartKeepr::getEM()->flush();
 
 
 /* Add manufacturers and IC logos */
-$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/manufacturers/manufacturers.yaml");
+$data = \Symfony\Component\Yaml\Yaml::parse("../setup/data/manufacturers/manufacturers.yaml");
 
 $aManufacturers = array();
 $aDistributors = array();
