@@ -5,6 +5,7 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
 	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
 	de\RaumZeitLabor\PartKeepr\Service\Service;;
 	
@@ -41,8 +42,35 @@ class StockService extends Service implements RestfulService {
 		throw new \Exception("Not yet implemented");
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
+	 */
 	public function update () {
-		throw new \Exception("Not yet implemented");
+		$this->requireParameter("id");
+		
+		$stockEntry = StockEntry::loadById($this->getParameter("id"));
+		
+		if (!SessionManager::getCurrentSession()->getUser()->isAdmin() ||
+			(SessionManager::getCurrentSession()->getUser() && $stockEntry->getUser() && SessionManager::getCurrentSession()->getUser()->getId() != $stockEntry->getUser()->getId() )) {
+			throw new \Exception("Permission denied");
+		}
+		
+		/* It's not allowed to edit a price for a removal */
+		if (!$stockEntry->isRemoval()) {
+			$stockEntry->setPrice(abs($this->getParameter("price")));
+		}
+		
+		/**
+		 * Only an admin user may correct the in&out stock levels
+		 */
+		if (SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+			$stockEntry->setStockLevel($this->getParameter("amount"));
+		}
+		
+		PartKeepr::getEM()->flush();
+		
+		return array("data" => $stockEntry->serialize());
 	}
 	
 	public function destroy () {

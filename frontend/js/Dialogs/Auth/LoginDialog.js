@@ -74,19 +74,33 @@ Ext.define('PartKeepr.LoginDialog', {
 		call.setHandler(Ext.bind(this.onLogin, this));
 		call.doCall();
 	},
+	/**
+	 * Callback after the login call was completed.
+	 * 
+	 * @param obj The response object from the server
+	 */
 	onLogin: function (obj) {
+		// Set session + username
 		PartKeepr.getApplication().setSession(obj.sessionid);
 		PartKeepr.getApplication().setUsername(obj.username);
 		
+		// @todo Disable the "edit users" menu somehow else
 		if (!obj.admin) {
 			Ext.getCmp("edit-users").hide();
 		} else {
 			Ext.getCmp("edit-users").show();
 		}
 		
+		// Set the admin flag
+		PartKeepr.getApplication().setAdmin(obj.admin);
+		
+		// Call the "login" method, which initializes the system with the user
 		PartKeepr.getApplication().login();
 		
+		// Write out a logging message
 		PartKeepr.log(i18n("Logged in as")+" "+obj.username);
+		
+		// Close the window
 		this.close();
 		
 	}

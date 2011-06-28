@@ -17,11 +17,19 @@ Ext.define('PartKeepr.PartStockHistory', {
 	        	  },
 	        	  width: 20
 	          },
-	          {header: i18n("User"),  dataIndex: 'username', width: 80 },
-	          {header: i18n("Amount"),  dataIndex: 'amount', width: 50},
+	          {header: i18n("User"),  dataIndex: 'username', flex: 0.4, minWidth: 80 },
+	          {header: i18n("Amount"),  dataIndex: 'amount', width: 50,
+	        	  editor: {
+                      xtype:'numberfield',
+                      allowBlank:false
+                  }},
 	          {header: i18n("Date"), dataIndex: 'datetime', width: 120},
 	          {
 	        	  header: i18n("Price"),
+	        	  editor: {
+                      xtype:'numberfield',
+                      allowBlank:false
+                  },
 	        	  dataIndex: 'price',
 	        	  width: 60,
 	        	  renderer: function (val, p, rec) {
@@ -34,10 +42,13 @@ Ext.define('PartKeepr.PartStockHistory', {
 	          }
 	          ],
     model: 'PartKeepr.StockEntry',
+    /**
+     * Initializes the stock history grid.
+     */
     initComponent: function () {
     	var config = {
 			autoLoad: false,
-			autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
+			autoSync: true, 
 			remoteFilter: false,
 			remoteSort: false,
 			model: 'PartKeepr.StockEntry',
@@ -45,9 +56,50 @@ Ext.define('PartKeepr.PartStockHistory', {
     	
     	this.store = Ext.create('Ext.data.Store', config);
     	
+    	this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1
+        });
+		
+		this.plugins =  [ this.editing ];
+		
+		this.editing.on("beforeedit", this.onBeforeEdit, this);
+		    	
     	this.on("activate", this.onActivate, this);
     	this.callParent();
     },
+    /**
+     * Called before editing a cell. Checks if the user may actually make the requested changes.
+     *  
+     * @param e Passed from ExtJS
+     * @returns {Boolean}
+     */
+    onBeforeEdit: function (e) {
+
+    	// Checks if the usernames match
+    	var sameUser = e.record.get("username") == PartKeepr.getApplication().getUsername();
+    	
+    	switch (e.field) {
+    		case "price":
+    			// Check the direction is "out". If yes, editing the price field is not allowed
+    			if (e.record.get("direction") == "out") {
+    				return false;
+    			}
+    			
+    			// If it's not the same user or an admin, editing is not allowed
+    			if ( !sameUser && !PartKeepr.getApplication().isAdmin()) {
+    				return false;
+    			}
+    			break;
+    		case "amount":
+    			// Only an admin may edit the amount. Regular users must put the stock back in manually.
+    			if (!PartKeepr.getApplication().isAdmin()) {
+    				return false;
+    			}
+    	}
+    },
+    /**
+     * Called when the view is activated.
+     */
     onActivate: function () {
     	var proxy = this.store.getProxy();
 		proxy.extraParams.item = this.part;

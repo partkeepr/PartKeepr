@@ -5,17 +5,11 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\Part\Part;
 use de\RaumZeitLabor\PartKeepr\User\User;
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 /** @Entity @HasLifecycleCallbacks **/
-class StockEntry {
-	
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
-	
+class StockEntry extends BaseEntity implements Serializable {
 	/**
 	 * @Column(type="integer")
 	 */
@@ -163,14 +157,6 @@ class StockEntry {
 	}
 	
 	/**
-	 * Returns the ID for this entity.
-	 * @return int The ID
-	 */
-	public function getId () {
-		return $this->id;
-	}
-	
-	/**
 	 * If the stock level is negative, we can't have a price.
 	 * @PrePersist
 	 */
@@ -189,6 +175,32 @@ class StockEntry {
 		$this->updatePrice();	
 	}
 	
+	/**
+	 * Returns if the current stock entry is a removal.
+	 * @return boolean True if the entry is a removal, false otherwise
+	 */
+	public function isRemoval () {
+		if ($this->getStockLevel() < 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
+	 */
+	public function serialize () {
+		return array(
+				"id" => $this->getId(),
+				"username" => is_object($this->getUser()) ? $this->getUser()->getUsername() : PartKeepr::i18n("Unknown User"),
+				"amount" => abs($this->getStockLevel()),
+				"datetime" => $this->getDateTime()->format("Y-m-d H:i:s"),
+				"direction" => ($this->getStockLevel() < 0) ? "out" : "in",
+				"price" => $this->getPrice()
+				);
+	}
 	
 	public function updateStockLevel () {
 		$query = PartKeepr::getEM()->createQuery("SELECT SUM(se.stockLevel) FROM de\RaumZeitLabor\PartKeepr\Stock\StockEntry se WHERE se.part = :part");

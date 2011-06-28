@@ -88,6 +88,12 @@ Ext.application({
     				autoLoad: false
     			});
     },
+    setAdmin: function (admin) {
+    	this.admin = admin;
+    },
+    isAdmin: function () {
+    	return this.admin;
+    },
     getUnitStore: function () {
     	return this.unitStore;
     },
@@ -249,10 +255,23 @@ Ext.application({
     	}
     	
     },
+    /**
+     * Sets the username. This should only be called from the login dialog.
+     * 
+     * Also updates the statusbar to reflect the username.
+     * 
+     * @param {string} username The username to set
+     */
     setUsername: function (username) {
     	this.username = username;
-    	
     	this.getStatusbar().setCurrentUser(username);
+    },
+    /**
+     * Returns the current username 
+     * @returns {string}
+     */
+    getUsername: function () {
+    	return this.username;
     }
 });
 
