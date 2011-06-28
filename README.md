@@ -16,7 +16,7 @@ you get the point.
 Demo Site
 ---------
 
-To test everything which has been written so far, please visit http://partkeepr.felicitus.org for a demo which is built
+To test everything which has been written so far, please visit http://demo.partkeepr.org for a demo which is built
 from the git sources once an hour.
 
 Requirements
