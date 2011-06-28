@@ -379,7 +379,8 @@ while ($part = mysql_fetch_assoc($r)) {
 				$attachment->setDescription(PartKeepr::i18n("Datasheet"));
 				$oPart->getAttachments()->add($attachment);	
 			} catch (\Exception $e) {
-				echo "error with url ".$res["datasheeturl"]."\n";	
+				echo "error with url ".$res["datasheeturl"]."\n";
+				echo $e->getMessage()."\n";
 			}
 	}
 	
