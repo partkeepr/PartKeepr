@@ -355,7 +355,13 @@ while ($part = mysql_fetch_assoc($r)) {
 	$oPart->setName(convertText($part["name"]));
 	$oPart->setComment(convertText($part["comment"]));
 	$oPart->setFootprint($newFootprints[$part["id_footprint"]]);
-	$oPart->setCategory($newCategories[$part["id_category"]]);
+
+	if (array_key_exists($part["id_category"], $newCategories)) {
+		$oPart->setCategory($newCategories[$part["id_category"]]);
+	} else {
+		$oPart->setCategory(PartCategoryManager::getInstance()->getRootNode()->getNode());
+	}
+
 	$oPart->setStorageLocation($newStorageLocations[$part["id_storeloc"]]);
 	$oPart->setMinStockLevel($part["mininstock"]);
 	$oPart->setPartUnit($partUnit);
