@@ -126,6 +126,8 @@ $newCategories = array();
 
 if ($migration) {
 	mysql_connect("localhost", "partdb", "partdb");
+	mysql_query("SET CHARACTER SET UTF8");
+	mysql_query("SET NAMES UTF8");
 	mysql_select_db("partdb");
 }
 
