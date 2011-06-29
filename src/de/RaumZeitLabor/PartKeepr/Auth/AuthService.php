@@ -28,8 +28,6 @@ class AuthService extends AnonService {
 		
 		if ($authenticatedUser !== false) {
 			/* Start Session */
-			SessionManager::getInstance()->invalidateSession();
-			
 			$session = SessionManager::getInstance()->startSession($authenticatedUser);
 			
 			return array("sessionid" => $session->getSessionID(), "username" => $this->getParameter("username"), "admin" => $session->getUser()->isAdmin());

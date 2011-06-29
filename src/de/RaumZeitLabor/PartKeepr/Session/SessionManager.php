@@ -14,26 +14,15 @@ class SessionManager extends Singleton {
 		return self::$currentSession;
 	}
 	
-	/**
-	 * Invalidates the given session.
-	 * @param string $sessionid The session id
-	 */
-	public function invalidateSession () {
-		$query = PartKeepr::getEM()->createQuery("DELETE FROM de\RaumZeitLabor\PartKeepr\Session\Session s WHERE s.sessionid = :sessionid");
-		$query->setParameter("sessionid", session_id());
-		
-		$query->execute();
-	}
-	
 	public function startSession (User $user = null) {
 		if (is_object($user)) {
 			try {
-			$query = PartKeepr::getEM()->createQuery("SELECT s FROM de\\RaumZeitLabor\\PartKeepr\\Session\\Session s WHERE s.user = :user");
-			$query->setParameter("user", $user);
-			$query->execute();
+				$query = PartKeepr::getEM()->createQuery("SELECT s FROM de\\RaumZeitLabor\\PartKeepr\\Session\\Session s WHERE s.user = :user");
+				$query->setParameter("user", $user);
+				$query->execute();
 			
-			$session = $query->getSingleResult();
-			$session->resume();
+				$session = $query->getSingleResult();
+				$session->resume();
 			} catch (\Exception $e) {
 				$session = new Session;	
 				$session->setUser($user);
@@ -46,6 +35,8 @@ class SessionManager extends Singleton {
 			$session->start();
 			PartKeepr::getEM()->persist($session);
 		}
+		
+		PartKeepr::getEM()->flush();
 		
 		self::$currentSession = $session;
 		
