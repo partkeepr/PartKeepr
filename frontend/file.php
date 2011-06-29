@@ -25,6 +25,7 @@ if (substr($id, 0, 4) === "TMP:") {
 } else {
 	try {
 		switch ($type) {
+			case "PartKeepr.PartAttachment":
 			case "PartAttachment":
 				$file = PartAttachment::loadById($id);
 				break;
