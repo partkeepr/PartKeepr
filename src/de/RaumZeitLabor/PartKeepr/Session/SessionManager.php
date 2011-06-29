@@ -18,9 +18,9 @@ class SessionManager extends Singleton {
 	 * Invalidates the given session.
 	 * @param string $sessionid The session id
 	 */
-	public function invalidateSession ($sessionid) {
+	public function invalidateSession () {
 		$query = PartKeepr::getEM()->createQuery("DELETE FROM de\RaumZeitLabor\PartKeepr\Session\Session s WHERE s.sessionid = :sessionid");
-		$query->setParameter("sessionid", $sessionid);
+		$query->setParameter("sessionid", session_id());
 		
 		$query->execute();
 	}
