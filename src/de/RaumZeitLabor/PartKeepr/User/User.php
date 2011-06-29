@@ -174,7 +174,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 					break;
 				case "password":
 					if ($value !== "") {
-						$this->setHashedPassword($value);
+						$this->setPassword($value);
 					}
 					break;
 			}
