@@ -5,6 +5,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\User\User,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\User\Exceptions\InvalidLoginDataException,
 	de\RaumZeitLabor\PartKeepr\Category\CategoryManager,
 	de\RaumZeitLabor\PartKeepr\User\Exceptions\UserAlreadyExistsException,
 	de\RaumZeitLabor\PartKeepr\User\Exceptions\UserNotFoundException;

@@ -5,6 +5,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\Service\AnonService,
 	de\RaumZeitLabor\PartKeepr\User\User,
 	de\RaumZeitLabor\PartKeepr\User\UserManager,
+	de\RaumZeitLabor\PartKeepr\User\Exceptions\InvalidLoginDataException,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class AuthService extends AnonService {
