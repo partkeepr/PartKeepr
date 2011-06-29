@@ -2,7 +2,7 @@ Meter:
   symbol: m
   prefixes:
     - n
-    - µ
+    - μ
     - m
     - c
     - d
@@ -37,7 +37,7 @@ Ampere:
     - k
     - m
     - ""
-    - µ
+    - μ
     - n
     - p
 Ohm:
@@ -89,7 +89,7 @@ Watt:
     - ""
     - G
     - m
-    - µ
+    - μ
 Coulomb:
   symbol: C
   prefixes:
@@ -120,7 +120,7 @@ Henry:
   symbol: H
   prefixes:
     - m
-    - µ
+    - μ
     - ""
 Celsius:
   symbol: °C
@@ -147,7 +147,7 @@ Sievert:
   prefixes:
     - m
     - ""
-    - µ
+    - μ
 Katal:
   symbol: kat
   prefixes:
