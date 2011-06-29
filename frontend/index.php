@@ -11,23 +11,23 @@ include("config.php");
 		<link rel="icon" href="favicon.ico"/>
 		
 		<!-- Include the ExtJS JavaScript Library -->
-		<script type="text/javascript" src="extjs/bootstrap.js"></script> 
+		<script type="text/javascript" src="extjs/bootstrap.js" defer="defer"></script> 
 		
 		<?php
 		// @todo This is ugly, but how to fix?
 			if ($debug) {
 		?>
-			<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
-			<script type="text/javascript" src="js/partkeepr-debug.js"></script>
+			<script type="text/javascript" src="extjs/ext-all-debug.js" defer="defer"></script>
+			<script type="text/javascript" src="js/partkeepr-debug.js" defer="defer"></script>
 		<?php
 			} else {
 		?>
-			<script type="text/javascript" src="extjs/ext-all.js"></script>
-			<script type="text/javascript" src="js/partkeepr.js"></script>
+			<script type="text/javascript" src="extjs/ext-all.js" defer="defer"></script>
+			<script type="text/javascript" src="js/partkeepr.js" defer="defer"></script>
 		<?php
 			}
 		?>
-		<script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js"></script>
+		<script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js" defer="defer"></script>
 		<!-- Include the ExtJS CSS Theme -->
 		<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css"/>
 		
