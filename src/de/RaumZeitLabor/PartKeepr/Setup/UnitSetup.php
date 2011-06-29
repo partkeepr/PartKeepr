@@ -14,8 +14,6 @@ class UnitSetup {
 		Setup::progress("Setting up Units...");
 		$data = Setup::loadYAML("../setup/data/units.yaml");
 		
-		$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/units.yaml");
-		
 		$aUnits = array();
 		
 		foreach ($data as $unitName => $data) {
