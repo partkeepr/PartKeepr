@@ -7,7 +7,7 @@ use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\PartUnit\PartUnitManager,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Category\CategoryManager,
+	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
 	de\RaumZeitLabor\PartKeepr\PartUnit\Exceptions\PartUnitNotFoundException;
 
 class StatisticSnapshotManager extends Singleton {
@@ -15,7 +15,7 @@ class StatisticSnapshotManager extends Singleton {
 		
 		$snapshot = new StatisticSnapshot();
 		$snapshot->setParts(PartManager::getInstance()->getPartCount());
-		$snapshot->setCategories(CategoryManager::getInstance()->getCategoryCount());
+		$snapshot->setCategories(PartCategoryManager::getInstance()->getCategoryCount());
 		
 		$result = PartUnitManager::getInstance()->getUnitCounts();
 		
