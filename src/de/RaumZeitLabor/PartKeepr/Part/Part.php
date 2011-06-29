@@ -262,7 +262,24 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function setCategory (PartCategory $category) {
 		$this->category = $category;
-		$this->categoryPath = PartCategoryManager::getInstance()->getNodeManager()->wrapNode($category)->getPath(' > ', true);
+		$this->updateCategoryCache();
+	}
+	
+	/**
+	 * Returns the assigned category
+	 * @return \de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory
+	 */
+	public function getCategory () {
+		return $this->category;
+	}
+	
+	/**
+	 * Updates the category cache
+	 */
+	public function updateCategoryCache () {
+		if ($this->getCategory() !== null) {
+			$this->categoryPath = PartCategoryManager::getInstance()->getNodeManager()->wrapNode($this->getCategory())->getPath(' > ', true);
+		}
 	}
 	
 	/**
@@ -380,6 +397,26 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function getStatus () {
 		return $this->status;
+	}
+	
+	public function updateCacheData () {
+		$this->updateStockLevel();
+		$this->updateCategoryCache();
+		$this->updatePrice();
+	}
+	
+	/**
+	* Updates the average price for a part
+	*/
+	public function updatePrice () {
+		$query = PartKeepr::getEM()->createQuery("SELECT SUM(se.price*se.stockLevel)  / SUM(se.stockLevel) FROM de\RaumZeitLabor\PartKeepr\Stock\StockEntry se WHERE se.part = :part AND se.stockLevel > 0");
+		$query->setParameter("part", $this);
+		$val = $query->getSingleScalarResult();
+	
+		$query = PartKeepr::getEM()->createQuery('UPDATE de\RaumZeitLabor\PartKeepr\Part\Part p SET p.averagePrice = :val WHERE p = :part');
+		$query->setParameter("val", $val);
+		$query->setParameter("part", $this);
+		$query->execute();
 	}
 	
 	/**

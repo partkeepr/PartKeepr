@@ -171,8 +171,8 @@ class StockEntry extends BaseEntity implements Serializable {
 	 * @PostPersist
 	 */
 	public function postPersist () {
-		$this->updateStockLevel();
-		$this->updatePrice();	
+		$this->part->updateStockLevel();
+		$this->part->updatePrice();	
 	}
 	
 	/**
@@ -202,28 +202,6 @@ class StockEntry extends BaseEntity implements Serializable {
 				);
 	}
 	
-	public function updateStockLevel () {
-		$query = PartKeepr::getEM()->createQuery("SELECT SUM(se.stockLevel) FROM de\RaumZeitLabor\PartKeepr\Stock\StockEntry se WHERE se.part = :part");
-		$query->setParameter("part", $this->part);
-		$val = $query->getSingleScalarResult();
-		
-		$query = PartKeepr::getEM()->createQuery('UPDATE de\RaumZeitLabor\PartKeepr\Part\Part p SET p.stockLevel = :val WHERE p = :part');
-		$query->setParameter("val", $val);
-		$query->setParameter("part", $this->part);
-		$query->execute();
-	} 
+	
 
-	/**
-	 * Updates the average price for a part
-	 */
-	public function updatePrice () {
-		$query = PartKeepr::getEM()->createQuery("SELECT SUM(se.price*se.stockLevel)  / SUM(se.stockLevel) FROM de\RaumZeitLabor\PartKeepr\Stock\StockEntry se WHERE se.part = :part AND se.stockLevel > 0");
-		$query->setParameter("part", $this->part);
-		$val = $query->getSingleScalarResult();
-		
-		$query = PartKeepr::getEM()->createQuery('UPDATE de\RaumZeitLabor\PartKeepr\Part\Part p SET p.averagePrice = :val WHERE p = :part');
-		$query->setParameter("val", $val);
-		$query->setParameter("part", $this->part);
-		$query->execute();
-	}
 }
