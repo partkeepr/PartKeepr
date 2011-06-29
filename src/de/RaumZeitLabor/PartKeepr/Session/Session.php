@@ -25,6 +25,7 @@ class Session {
 	}
 	
 	public function start () {
+		session_regenerate_id();
 		session_start();
 		
 		$this->sessionid = session_id();
