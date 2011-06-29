@@ -115,7 +115,6 @@ $user->setUsername("admin");
 $user->setPassword("admin");
 $user->setAdmin(true);
 PartKeepr::getEM()->persist($user);
-PartKeepr::getEM()->flush();
 
 PartUnitSetup::setupPartUnits();
 PartKeepr::getEM()->flush();
