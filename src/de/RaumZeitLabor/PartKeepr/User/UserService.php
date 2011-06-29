@@ -4,12 +4,12 @@ use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartKeepr\Service\AdminService;
+use de\RaumZeitLabor\PartKeepr\Service\Service;
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\User\User,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
-class UserService extends AdminService implements RestfulService {
+class UserService extends Service implements RestfulService {
 	
 	/**
 	 * Implements the get() call for the RestfulService.
@@ -21,7 +21,11 @@ class UserService extends AdminService implements RestfulService {
 	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
-			 return array("data" => UserManager::getInstance()->getUser($this->getParameter("id"))->serialize());
+			if (!SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+				throw new \Exception("Permission denied");
+			}
+			
+			return array("data" => UserManager::getInstance()->getUser($this->getParameter("id"))->serialize());
 		} else {
 			if ($this->hasParameter("sort")) {
 				$tmp = json_decode($this->getParameter("sort"), true);
@@ -47,6 +51,10 @@ class UserService extends AdminService implements RestfulService {
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
 	 */
 	public function create () {
+		if (!SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+			throw new \Exception("Permission denied");
+		}
+		
 		$this->requireParameter("username");
 		
 		$user = new User;
@@ -62,6 +70,10 @@ class UserService extends AdminService implements RestfulService {
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
 	 */
 	public function update () {
+		if (!SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+			throw new \Exception("Permission denied");
+		}
+		
 		$this->requireParameter("id");
 		$this->requireParameter("username");
 		$user = UserManager::getInstance()->getUser($this->getParameter("id"));
@@ -78,6 +90,10 @@ class UserService extends AdminService implements RestfulService {
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::destroy()
 	 */
 	public function destroy () {
+		if (!SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+			throw new \Exception("Permission denied");
+		}
+		
 		$this->requireParameter("id");
 		
 		UserManager::getInstance()->deleteUser($this->getParameter("id"));
