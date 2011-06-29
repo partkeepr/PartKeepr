@@ -92,7 +92,7 @@ class FootprintSetup {
 		Setup::progress("Adding predefined footprints...");
 		
 		/* Import pre-defined footprints */
-		$data = \Symfony\Component\Yaml\Yaml::load("../setup/data/footprints/footprints.yaml");
+		$data = Setup::loadYAML($file);
 		
 		foreach ($data as $footprintName => $footprintData) {
 			Setup::progress(" - Adding footprint ".$footprintName, true);
