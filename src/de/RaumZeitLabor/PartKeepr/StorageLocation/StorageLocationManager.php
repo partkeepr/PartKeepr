@@ -55,6 +55,13 @@ class StorageLocationManager extends Singleton {
 		}
 	}
 	
+	public function getStorageLocationByName ($name) {
+		$query = PartKeepr::getEM()->createQuery("SELECT s FROM de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation s WHERE s.name = :name");
+		$query->setParameter("name", $name);
+		
+		return $query->getSingleResult();
+	}
+	
 	public function addStorageLocation ($name) {
 		$storageLocation = new StorageLocation();
 		$storageLocation->setName($name);

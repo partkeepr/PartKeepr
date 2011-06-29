@@ -66,44 +66,31 @@ class StorageLocationService extends Service implements RestfulService {
 		return array("data" => null);
 	}
 	
-	// Old Stuff below
-	public function getStorageLocations() {
-		return StorageLocationManager::getInstance()->getStorageLocations(
-			$this->getParameter("start", 0),
-			$this->getParameter("limit", 10),
-			$this->getParameter("sortby", "name"),
-			$this->getParameter("dir", "asc"),
-			$this->getParameter("filter", ""));
-	}
-
-	public function addStorageLocation () {
-		$this->requireParameter("name");
+	/**
+	 * Creates multiple storage locations at once. 
+	 * 
+	 * Requires that the parameter "storageLocations" is set to an array with the names of the storage locations.
+	 * Returns all error messages as "data" index in the result array.
+	 */
+	public function massCreate () {
+		$this->requireParameter("storageLocations");
 		
-		StorageLocationManager::getInstance()->addStorageLocation($this->getParameter("name"));
-	}
-	
-	public function deleteStorageLocation () {
-		$this->requireParameter("id");
+		$aMessages = array();
 		
-		StorageLocationManager::getInstance()->deleteStorageLocation($this->getParameter("id"));
-	}
-	
-	public function getStorageLocation () {
-		$this->requireParameter("id");
-		
-		return StorageLocationManager::getInstance()->getStorageLocation($this->getParameter("id"))->serialize();
-	}
-	
-	public function saveStorageLocation () {
-		$this->requireParameter("id");
-		$this->requireParameter("name");
-		
-		$storageLocation = StorageLocationManager::getInstance()->getStorageLocation($this->getParameter("id"));
-		
-		$storageLocation->setName($this->getParameter("name"));
+		foreach ($this->getParameter("storageLocations") as $storageLocation) {
+			try {
+				$obj = StorageLocationManager::getInstance()->getStorageLocationByName($storageLocation);
+				$aMessages[] = sprintf(PartKeepr::i18n("Storage Location %s already exists"), $storageLocation);
+			} catch (\Exception $e) {
+				$obj = new StorageLocation();
+				$obj->setName($storageLocation);
+				PartKeepr::getEM()->persist($obj);
+			}
+			
+		}
 		
 		PartKeepr::getEM()->flush();
 		
-		return $storageLocation->serialize();
+		return array("data" => $aMessages);
 	}
 }
