@@ -16,18 +16,29 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	width: 600,
 	minWidth: 600,
 	minHeight: 300,
-	height: 450,
+	height: 380,
 	
+	/* Default edit mode. If mode = "create", we show additional fields */
+	partMode: 'edit',
 	title: i18n("Add Part"),
 	
+	/**
+	 * Creates the part editor and put it into the window.
+	 */
 	initComponent: function () {
 		this.editor = Ext.create("PartKeepr.PartEditor", {
-			border: false
+			border: false,
+			partMode: this.partMode
 		});
+		
+		/* If the edit mode is "create", we need to enlarge the window a bit to fit the fields without scrolling */
+		if (this.partMode && this.partMode == "create") {
+			this.height = 435;
+		}
+		
 		this.items = [ this.editor ];
 		
 		this.editor.on("editorClose", function () { this.close(); }, this);
-		
 		
 		/**
 		 * We need a delay, since if others are listening for "partSaved", the dialog plus the record could be destroyed

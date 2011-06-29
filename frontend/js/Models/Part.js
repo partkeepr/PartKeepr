@@ -16,6 +16,10 @@ Ext.define("PartKeepr.Part", {
 	         {	name: 'needsReview',		type: 'boolean'},
 	         
 	         // Various things that don't belong to the part, but are transmitted anyways to make handling easier
+	         {	name: 'initialStockLevel',		type: 'int'},
+	         {	name: 'initialStockLevelUser',	type: 'int'},
+	         {	name: 'initialStockLevelPrice',	type: 'float'},
+	         {	name: 'initialStockLevelPricePerItem',	type: 'boolean'},
 	         {	name: 'partUnitName',		type: 'string'},
 	         {	name: 'footprintName',		type: 'string'},
 	         {	name: 'storageLocationName',type: 'string'},

@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
+use de\RaumZeitLabor\PartKeepr\User\User;
+
 use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
@@ -48,8 +50,36 @@ class PartService extends Service implements RestfulService {
 		$part->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->persist($part);
-		
 		PartKeepr::getEM()->flush();
+		
+		if ($this->getParameter("initialStockLevel") > 0) {
+			
+			try {
+				$user = User::loadById($this->getParameter("initialStockLevelUser"));
+			} catch (\Exception $e) {
+				$user = SessionManager::getCurrentSession()->getUser();
+			}
+			
+			$stock = new StockEntry($part, intval($this->getParameter("initialStockLevel")), $user);
+
+			if ($this->getParameter("initialStockLevelPricePerItem") == true) {
+				$price = floatval($this->getParameter("initialStockLevelPrice"));
+			} else {
+				$price = floatval($this->getParameter("initialStockLevelPrice")) / $this->getParameter("initialStockLevel");
+			}
+			
+			if ($price != 0) {
+				$stock->setPrice($price);
+			}
+			
+			PartKeepr::getEM()->persist($stock);
+			
+			$part->updateStockLevel();
+			
+			PartKeepr::getEM()->flush();
+			
+			return array("data" => $part->serialize());
+		}
 		
 		return array("data" => $part->serialize());
 	}

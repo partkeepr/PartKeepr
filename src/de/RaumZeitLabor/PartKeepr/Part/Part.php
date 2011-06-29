@@ -427,8 +427,12 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					$this->setComment($value);
 					break;
 				case "footprint":
-					$footprint = Footprint::loadById($value);
-					$this->setFootprint($footprint);
+					try {
+						$footprint = Footprint::loadById($value);
+						$this->setFootprint($footprint);
+					} catch (\Exception $e) {
+						// No footprint was found. Ignore it.
+					}
 					break;
 				case "minStockLevel":
 					$this->setMinStockLevel($value);

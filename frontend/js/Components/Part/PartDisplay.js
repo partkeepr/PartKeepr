@@ -111,8 +111,11 @@ Ext.define('PartKeepr.PartDisplay', {
 		
 		var values = {};
 		for (var i in r.data) {
-			console.log(r.data[i]);
-			values[i] = htmlentities(r.data[i]);
+			if (r.data[i] !== null) {
+				values[i] = htmlentities(r.data[i]);
+			} else {
+				values[i] = r.data[i];
+			}
 		}
 		
 		this.tpl.overwrite(this.getTargetEl(), values);

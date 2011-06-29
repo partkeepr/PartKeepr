@@ -109,13 +109,15 @@ Ext.define('PartKeepr.PartManager', {
      * Creates a new, empty part editor window
      */
 	onItemAdd: function () {
-		var j = Ext.create("PartKeepr.PartEditorWindow");
+		var j = Ext.create("PartKeepr.PartEditorWindow", {
+			partMode: 'create'
+		});
 		
 		var defaults = {};
 		
-		var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().find("default", true);
+		var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().findRecord("default", true);
 		
-		defaults.partUnit = defaultPartUnit;
+		defaults.partUnit = defaultPartUnit.get("id");
 		defaults.category = this.grid.currentCategory;
 		
 		record = Ext.create("PartKeepr.Part", defaults);

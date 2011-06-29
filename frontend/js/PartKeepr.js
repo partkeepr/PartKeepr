@@ -87,6 +87,13 @@ Ext.application({
     				pageSize: -1,
     				autoLoad: false
     			});
+    	
+    	this.userStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'PartKeepr.User',
+    				pageSize: -1,
+    				autoLoad: false
+    			});
     },
     setAdmin: function (admin) {
     	this.admin = admin;
@@ -111,6 +118,12 @@ Ext.application({
     },
     getDistributorStore: function () {
     	return this.distributorStore;
+    },
+    getDefaultPartUnit: function () {
+    	return this.partUnitStore.findRecord("default", true);
+    },
+    getUserStore: function () {
+    	return this.userStore;
     },
     getSiPrefixStore: function () {
     	return this.siPrefixStore;
@@ -153,6 +166,7 @@ Ext.application({
         	this.distributorStore.load();
         	this.partUnitStore.load();
         	this.unitStore.load();
+        	this.userStore.load();
         	Ext.defer(PartKeepr.getApplication().reloadStores, 100000, this);	
     	}
     },
