@@ -139,6 +139,13 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	private $status;
 	
 	/**
+	 * Defines if the part needs review
+	 * @Column(type="boolean")
+	 * @var boolean
+	 */
+	private $needsReview;
+	
+	/**
 	 * The create date+time for this part
 	 * @Column(type="datetime",nullable=true)
 	 * @var \DateTime
@@ -151,7 +158,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 		$this->parameters = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->images = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->createDate = new \DateTime();
+		$this->setCreateDate(new \DateTime());
+		$this->setReviewFlag(false);
 	}
 	
 	/**
@@ -206,6 +214,22 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 		$this->stockLevel = $this->getStockLevel();
 	}
 
+	/**
+	 * Sets the review flag
+	 * @param boolean $bReview True if the part needs review, false otherwise
+	 */
+	public function setReviewFlag ($bReview) {
+		$this->needsReview = $bReview;
+	}
+	
+	/**
+	 * Returns the review flag
+	 * @return boolean True if the part needs review, false otherwise
+	 */
+	public function getReviewFlag () {
+		return $this->needsReview;
+	}
+	
 	/**
 	 * Set the minimum stock level for this part
 	 * 
@@ -318,6 +342,22 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	}
 
 	/**
+	 * Sets the create date for this part
+	 * @param \DateTime $dateTime The create date+time
+	 */
+	private function setCreateDate (\DateTime $dateTime) {
+		$this->createDate = $dateTime;
+	}
+	
+	/**
+	 * Returns the create date
+	 * @return \DateTime The create date+time
+	 */
+	public function getCreateDate () {
+		return $this->createDate;
+	}
+	
+	/**
 	 * Sets the status for this part. A status is any string describing the status,
 	 * e.g. "new", "used", "broken" etc.
 	 * @param string $status The status
@@ -355,6 +395,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					"images" => $this->serializeChildren($this->getImages()),
 					"attachments" => $this->serializeChildren($this->getAttachments()),
 					"parameters" => $this->serializeChildren($this->getParameters()),
+					"createDate" => $this->getCreateDate()->format("Y-m-d H:i:s"),
+					"needsReview" => $this->getReviewFlag(),
 					
 					// Additional things we serialize to make displaying stuff in the frontend easier
 					"categoryName" => is_object($this->category) ?  $this->category->getName() : null,
@@ -415,6 +457,9 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					foreach ($this->getParameters() as $parameter) {
 						$parameter->setPart($this);
 					}
+					break;
+				case "needsReview":
+					$this->setReviewFlag($value);
 					break;
 				case "attachments":
 					$this->deserializeChildren($value, $this->getAttachments(), "de\RaumZeitLabor\PartKeepr\Part\PartAttachment");

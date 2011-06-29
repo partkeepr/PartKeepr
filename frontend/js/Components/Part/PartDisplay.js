@@ -40,6 +40,14 @@ Ext.define('PartKeepr.PartDisplay', {
 					'<td class="e">'+i18n("Comment")+':</td>',
 					'<td class="e">{comment}</td>',
 				'</tr>',
+				'<tr>',
+					'<td class="o">'+i18n("Create Date")+':</td>',
+					'<td class="o">{createDate}</td>',
+				'</tr>',
+				'<tr>',
+					'<td class="e">'+i18n("Needs Review")+':</td>',
+					'<td class="e">{needsReview}</td>',
+					'</tr>',
 				'</table>');
 		
 		/**
@@ -103,6 +111,7 @@ Ext.define('PartKeepr.PartDisplay', {
 		
 		var values = {};
 		for (var i in r.data) {
+			console.log(r.data[i]);
 			values[i] = htmlentities(r.data[i]);
 		}
 		
