@@ -66,3 +66,6 @@ td.o2 {
 .remoteimagefield {
 	border: 1px solid black;
 }
+
+#loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
+#loading .logo { background: url(../resources/images/loading.gif) no-repeat; position: absolute; display: block; top: 25px; left: 22px; width: 120px; height: 120px; }

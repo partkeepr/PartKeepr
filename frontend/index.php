@@ -36,7 +36,7 @@ include("config.php");
 		<link rel="stylesheet" type="text/css" href="css/PartKeepr.css"/>
 	</head>
 <body>
-
+<div id="loading"><span class="logo"></span></div>
 <?php
 // @todo put that somewhere else. This is only a stupid hack.
 function return_bytes ($size_str)
