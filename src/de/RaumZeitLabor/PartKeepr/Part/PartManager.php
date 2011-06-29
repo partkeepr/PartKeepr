@@ -108,7 +108,7 @@ class PartManager extends Singleton {
 		
 		
 		
-		$qb->select("p.averagePrice, p.name, p.needsReview, p.createDate, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, st.name as storageLocationName, f.id AS footprint_id, f.name AS footprintName, c.id AS category_id, c.name AS categoryName, pu.id AS partUnit, pu.name AS partUnitName, pu.is_default AS partUnitDefault");
+		$qb->select("p.averagePrice, p.name, p.needsReview, p.createDate, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, p.categoryPath, st.name as storageLocationName, f.id AS footprint_id, f.name AS footprintName, c.id AS category_id, c.name AS categoryName, pu.id AS partUnit, pu.name AS partUnitName, pu.is_default AS partUnitDefault");
 		$qb->orderBy($orderBy, $dir);
 		if ($limit > -1) {
 			$qb->setMaxResults($limit);

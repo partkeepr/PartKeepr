@@ -2,7 +2,7 @@
 namespace de\RaumZeitLabor\PartKeepr\Part;
 use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation;
 use de\RaumZeitLabor\PartKeepr\Footprint\Footprint;
-
+use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager;
 use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
 
 use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory;
@@ -152,6 +152,13 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	private $createDate;
 	
+	/**
+	 * Represents the path to the category
+	 * @Column(type="text",nullable=true)
+	 * @var string
+	 */
+	private $categoryPath;
+	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
@@ -255,6 +262,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function setCategory (PartCategory $category) {
 		$this->category = $category;
+		$this->categoryPath = PartCategoryManager::getInstance()->getNodeManager()->wrapNode($category)->getPath(' > ', true);
 	}
 	
 	/**

@@ -15,6 +15,7 @@ Ext.define('PartKeepr.PartManager', {
 		 */
 		this.createStore({
 			 model: 'PartKeepr.Part',
+			 groupField: 'categoryPath',
 			 sorters: [{
 				 property: 'name',
 				 direction:'ASC'
@@ -187,7 +188,7 @@ Ext.define('PartKeepr.PartManager', {
 				autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
 				remoteFilter: true,
 				remoteSort: true,
-				pageSize: 15});
+				pageSize: 50});
 		
 		this.store = Ext.create('Ext.data.Store', config);
 		

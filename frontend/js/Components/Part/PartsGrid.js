@@ -19,10 +19,19 @@ Ext.define('PartKeepr.PartsGrid', {
     enableDragDrop   : true,
     stripeRows       : true,
     multiSelect		 : true,
+    invalidateScrollerOnRefresh: true,
 	initComponent: function () {
 		
+		var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
+			enableGroupingMenu: false,
+	        groupHeaderTpl: '{name} ({rows.length} ' + i18n("Part(s)")+")"
+	    });
+
 		// Create the columns
 		this.defineColumns();
+		
+		
+		this.features = [groupingFeature];
 		
 		// Initialize the panel
 		this.callParent();
@@ -41,6 +50,8 @@ Ext.define('PartKeepr.PartsGrid', {
 			handler: this.onFilterClick,
 			scope: this
 		});
+		
+		
 		
 		// Add the filter button
 		this.bottomToolbar.add([ '-', this.filterButton ]);

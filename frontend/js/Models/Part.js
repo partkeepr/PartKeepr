@@ -20,6 +20,7 @@ Ext.define("PartKeepr.Part", {
 	         {	name: 'footprintName',		type: 'string'},
 	         {	name: 'storageLocationName',type: 'string'},
 	         {	name: 'categoryName',		type: 'string'},
+	         {	name: 'categoryPath',		type: 'string'},
 	         {
 	        	 name: 'partUnitDefault',
 	        	 type: 'boolean',
