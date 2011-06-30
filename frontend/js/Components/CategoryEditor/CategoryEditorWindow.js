@@ -7,6 +7,12 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
 		
 		this.form = Ext.create("PartKeepr.CategoryEditorForm");
 		
+		this.keys = [{
+			key: Ext.EventObject.ENTER,
+			handler: this.onEnter,
+			scope: this
+		}];
+		
 		this.buttons = [{
 			text: i18n("Save"),
 			handler: Ext.bind(this.onSave, this)
@@ -39,6 +45,9 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
 		
 		this.on("show", Ext.bind(this.onShow, this));
 		
+	},
+	onEnter: function () {
+		this.onSave();
 	},
 	onShow: function () {
 		this.form.items.first().focus();
