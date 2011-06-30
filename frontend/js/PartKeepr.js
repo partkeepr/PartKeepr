@@ -19,7 +19,13 @@ Ext.application({
         var o = new PartKeepr.LoginDialog();
     	o.show();
     	
-    	
+
+    	PartKeepr.setMaxUploadSize(window.maxUploadSize);
+    	PartKeepr.setAvailableImageFormats(window.availableImageFormats);
+
+    	if (window.autoLoginUsername) {
+    		PartKeepr.setAutoLogin(window.autoLoginUsername,window.autoLoginPassword);
+    	}
     	Ext.QuickTips.init();
     },
     login: function () {

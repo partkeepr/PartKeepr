@@ -58,14 +58,14 @@ $maxUploadSize = ($maxPostSize < $maxFilesize) ? $maxPostSize : $maxFilesize;
 $imagick = new Imagick();
 ?>
 <script type="text/javascript">
-
-PartKeepr.setMaxUploadSize(<?php echo $maxUploadSize; ?>);
-PartKeepr.setAvailableImageFormats(<?php echo json_encode($imagick->queryFormats()); ?>);
+window.maxUploadSize = <?php echo $maxUploadSize; ?>;
+window.availableImageFormats = <?php echo json_encode($imagick->queryFormats()); ?>;
 
 <?php 
 if ($autoLogin) {
 ?>
-PartKeepr.setAutoLogin("admin","admin");
+window.autoLoginUsername = "admin";
+window.autoLoginPassword = "admin";
 <?php
 }
 ?>
