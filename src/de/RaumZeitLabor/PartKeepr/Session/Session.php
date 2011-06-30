@@ -31,6 +31,10 @@ class Session {
 		unset($_SESSION);
 		session_start();
 		
+		$query = PartKeepr::getEM()->createQuery("DELETE FROM de\\RaumZeitLabor\\PartKeepr\\Session\\Session s WHERE s.sessionid = :session");
+		$query->setParameter("session", session_id());
+		$query->execute();
+		
 		$this->sessionid = session_id();
 	}
 	
