@@ -36,25 +36,6 @@ Ext.define('PartKeepr.PartsGrid', {
 		// Initialize the panel
 		this.callParent();
 		
-		// Create the filter panel
-		this.filterPanel = Ext.create("PartKeepr.PartFilterPanel", {
-			dock: 'bottom',
-			title: i18n("Filter"),
-			height: 200,
-			store: this.store
-		});
-		
-		this.filterButton = Ext.create("Ext.button.Button", {
-			enableToggle: true,
-			text: i18n("Filter"),
-			handler: this.onFilterClick,
-			scope: this
-		});
-		
-		
-		
-		// Add the filter button
-		this.bottomToolbar.add([ '-', this.filterButton ]);
 	},
 	/**
 	 * Defines the columns used in this grid.
@@ -99,22 +80,6 @@ Ext.define('PartKeepr.PartsGrid', {
 			return val + " " + rec.get("partUnitName");
 		} else {
 			return val;
-		}
-	},
-	/**
-	 * Shows or hides the filter panel.
-	 * 
-	 * Unfortunately, we can't simply use show() or hide() on filterPanel, so we add and remove the panel.
-	 */
-	onFilterClick: function () {
-		if (this.filterButton.pressed) {
-			if (!this.getDockedComponent(this.filterPanel)) {
-				this.addDocked(this.filterPanel);
-			}
-		} else {
-			if (this.getDockedComponent(this.filterPanel)) {
-				this.removeDocked(this.filterPanel, false);	
-			}
 		}
 	},
 	/**

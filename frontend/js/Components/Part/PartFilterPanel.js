@@ -55,7 +55,6 @@ Ext.define('PartKeepr.PartFilterPanel', {
 			xtype: 'toolbar',
 			enableOverflow: true,
 			dock: 'bottom',
-			ui: 'footer',
 			items: [ this.applyButton, this.resetButton ]
 		}];
 		

@@ -8,6 +8,7 @@ Ext.define('PartKeepr.PartManager', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.PartManager',
 	layout: 'border',
+	border: false,
 	initComponent: function () {
 		
 		/**
@@ -28,6 +29,7 @@ Ext.define('PartKeepr.PartManager', {
 			categoryModel: 'PartKeepr.PartCategory',
 			categoryService: 'PartCategory',
 			split: true,
+			title: i18n("Categories"),
 			ddGroup: 'CategoryTree',
 			width: 300,			// @todo Make this configurable
 			collapsible: true	// We want to collapse the tree panel on small screens
@@ -67,7 +69,23 @@ Ext.define('PartKeepr.PartManager', {
 			items: [ this.detail, this.stockLevel ]
 		});
 		
-		this.items = [ this.tree, this.grid, this.detailPanel ]; 
+		this.filterPanel = Ext.create("PartKeepr.PartFilterPanel", {
+			region: 'south',
+			title: i18n("Filter"),
+			height: 200,
+			split: true,
+			collapsed: true,
+			collapsible: true,
+			store: this.store
+		});
+		
+		this.items = [ this.tree, {
+			layout: 'border',
+			border: false,
+			region: 'center',
+			items: [ this.grid, this.filterPanel ]
+		}, this.detailPanel ]; 
+		
 		
 		this.callParent();
 	},
