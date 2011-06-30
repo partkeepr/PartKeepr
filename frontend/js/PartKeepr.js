@@ -186,6 +186,7 @@ Ext.application({
     	
     	this.centerPanel = Ext.create("Ext.tab.Panel", {
     			xtype: 'tabpanel',
+    			border: false,
     			region: 'center',
     			bodyStyle: 'background:#DFE8F6'
     			
@@ -199,6 +200,7 @@ Ext.application({
     		layout: 'fit',
     		items: [{
     			xtype: 'panel',
+    			border: false,
     			layout: 'border',
     			items: [
     			       this.centerPanel,

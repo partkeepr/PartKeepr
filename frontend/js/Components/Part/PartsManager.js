@@ -9,6 +9,7 @@ Ext.define('PartKeepr.PartManager', {
 	alias: 'widget.PartManager',
 	layout: 'border',
 	border: false,
+	padding: 5,
 	initComponent: function () {
 		
 		/**
@@ -47,7 +48,7 @@ Ext.define('PartKeepr.PartManager', {
 		this.detail.on("editPart", this.onEditPart, this);
 		
 		// Create the grid
-		this.grid = Ext.create("PartKeepr.PartsGrid", { region: 'center', layout: 'fit', store: this.getStore()});
+		this.grid = Ext.create("PartKeepr.PartsGrid", { title: i18n("Parts List"), region: 'center', layout: 'fit', store: this.getStore()});
 		
 		// Create the grid listeners
 		this.grid.on("itemSelect", this.onItemSelect, this);
@@ -62,6 +63,7 @@ Ext.define('PartKeepr.PartManager', {
 		this.stockLevel = Ext.create("PartKeepr.PartStockHistory", { title: "Stock History"});
 		
 		this.detailPanel = Ext.create("Ext.tab.Panel", {
+			title: i18n("Part Details"),
 			hidden: true,
 			region: 'east',
 			split: true,
