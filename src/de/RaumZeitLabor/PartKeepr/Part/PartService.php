@@ -18,20 +18,10 @@ class PartService extends Service implements RestfulService {
 		if ($this->hasParameter("id")) {
 			return array("data" => PartManager::getInstance()->getPart($this->getParameter("id"))->serialize());
 		} else {
-			if ($this->hasParameter("sort")) {
-				$tmp = json_decode($this->getParameter("sort"), true);
-				
-				$aSortParams = $tmp[0];
-			} else {
-				$aSortParams = array(
-					"property" => "name",
-					"direction" => "ASC");
-			}
 			return PartManager::getInstance()->getParts(
 			$this->getParameter("start", $this->getParameter("start", 0)),
 			$this->getParameter("limit", $this->getParameter("limit", 25)),
-			$this->getParameter("sortby", $aSortParams["property"]),
-			$this->getParameter("dir", $aSortParams["direction"]),
+			$this->getParameter("sort", $this->getParameter("sort")),
 			$this->getParameter("query", ""),
 			$this->getParameter("category", 0),
 			$this->getParameter("categoryScope", "all"),

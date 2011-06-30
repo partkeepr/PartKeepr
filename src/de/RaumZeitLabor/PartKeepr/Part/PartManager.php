@@ -36,7 +36,7 @@ class PartManager extends Singleton {
 	 *
 	 * @todo The parameter list. We need to invent something so that we don't have like 20 parameters for this method.
 	 */
-	public function getParts ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "", $category = 0, $categoryScope = "all", $stockMode = "all", $withoutPrice = false, $storageLocation = "") {
+	public function getParts ($start = 0, $limit = 10, $sort = null, $filter = "", $category = 0, $categoryScope = "all", $stockMode = "all", $withoutPrice = false, $storageLocation = "") {
 		
 		$qb = PartKeepr::getEM()->createQueryBuilder();
 		$qb->select("COUNT(p.id)")->from("de\RaumZeitLabor\PartKeepr\Part\Part","p")
@@ -55,19 +55,6 @@ class PartManager extends Singleton {
 			$qb->andWhere("st.name = :storageLocation");
 			$qb->setParameter("storageLocation", $storageLocation);
 		}
-				
-		switch ($sort) {
-			case "storageLocationName":
-				$orderBy  = "st.name";
-				break;
-			case "footprintName":
-				$orderBy = "f.name";
-				break;
-			default;
-				$orderBy = "p.".$sort;
-				break;
-		}
-
 		
 		$category = intval($category);
 		
@@ -109,7 +96,29 @@ class PartManager extends Singleton {
 		
 		
 		$qb->select("p.averagePrice, p.name, p.needsReview, p.createDate, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, p.categoryPath, st.name as storageLocationName, f.id AS footprint_id, f.name AS footprintName, c.id AS category_id, c.name AS categoryName, pu.id AS partUnit, pu.name AS partUnitName, pu.is_default AS partUnitDefault");
-		$qb->orderBy($orderBy, $dir);
+		if ($sort === null) {
+			$qb->addOrderBy("p.name", "ASC");
+		} else {
+			$sortArray = json_decode($sort, true);
+			
+			foreach ($sortArray as $sortParam) {
+				switch ($sortParam["property"]) {
+					case "storageLocationName":
+						$orderBy  = "st.name";
+						break;
+					case "footprintName":
+						$orderBy = "f.name";
+						break;
+					default;
+						$orderBy = "p.".$sortParam["property"];
+					break;
+				}
+				
+				$qb->addOrderBy($orderBy, $sortParam["direction"]);
+			}
+		}
+		
+		
 		if ($limit > -1) {
 			$qb->setMaxResults($limit);
 			$qb->setFirstResult($start);
