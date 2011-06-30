@@ -16,16 +16,17 @@ Ext.application({
     	
     	PartKeepr.application = this;
     	
-        var o = new PartKeepr.LoginDialog();
-    	o.show();
-    	
-
+    	// Set static data of the server
     	PartKeepr.setMaxUploadSize(window.maxUploadSize);
     	PartKeepr.setAvailableImageFormats(window.availableImageFormats);
 
+    	// If auto login is wanted (for e.g. demo systems), put it in here
     	if (window.autoLoginUsername) {
     		PartKeepr.setAutoLogin(window.autoLoginUsername,window.autoLoginPassword);
     	}
+    	
+        new PartKeepr.LoginDialog().show();
+    	
     	Ext.QuickTips.init();
     },
     login: function () {
