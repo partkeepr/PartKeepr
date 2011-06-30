@@ -124,7 +124,7 @@ Ext.define('PartKeepr.PartDisplay', {
 	 * Prompt the user for the stock level he wishes to add.
 	 */
 	addPartPrompt: function () {
-		var j = new PartKeepr.PartStockWindow();
+		var j = new PartKeepr.PartStockWindow({ partUnitName: this.record.get("partUnitName") });
 		j.addStock(this.addPartHandler, this);
 	},
 	/**
@@ -144,7 +144,7 @@ Ext.define('PartKeepr.PartDisplay', {
 	 * Prompts the user for the stock level to decrease for the item.
 	 */
 	deletePartPrompt: function () {
-		var j = new PartKeepr.PartStockWindow();
+		var j = new PartKeepr.PartStockWindow({ partUnitName: this.record.get("partUnitName") });
 		j.removeStock(this.deletePartHandler, this);
 	},
 	/**

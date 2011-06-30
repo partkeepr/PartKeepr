@@ -35,8 +35,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.quantityField = Ext.create("Ext.form.field.Number", {
 			value: 0,		// The initial value is 0, to indicate that this is a number field
 			minValue: 1,	// The minimum value is 1. That way we force the user to enter a value
-			anchor: '100%',
-			fieldLabel: i18n("Quantity"),
+			width: 100,
 			listeners: {
                 specialkey: {
                 	fn: function(field, e){
@@ -77,7 +76,12 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.form = Ext.create("Ext.form.Panel", {
 			bodyStyle: 'background:#DFE8F6;',
 			border: false,
-			items: [ this.quantityField, this.priceField, this.priceCheckbox ]
+			items: [{
+					xtype: 'fieldcontainer',
+					fieldLabel: i18n("Quantity"),
+					layout: 'hbox',
+					items: [ this.quantityField, { width: 75, xtype: 'displayfield', margin: "0 0 0 5", value: this.partUnitName }]
+			}, this.priceField, this.priceCheckbox ]
 		});
 		
 		this.items = this.form;
