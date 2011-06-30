@@ -51,8 +51,8 @@ class StockService extends Service implements RestfulService {
 		
 		$stockEntry = StockEntry::loadById($this->getParameter("id"));
 		
-		if (!SessionManager::getCurrentSession()->getUser()->isAdmin() ||
-			(SessionManager::getCurrentSession()->getUser() && $stockEntry->getUser() && SessionManager::getCurrentSession()->getUser()->getId() != $stockEntry->getUser()->getId() )) {
+		if (!SessionManager::getCurrentSession()->getUser()->isAdmin() &&
+			!(SessionManager::getCurrentSession()->getUser() && $stockEntry->getUser() && SessionManager::getCurrentSession()->getUser()->getId() == $stockEntry->getUser()->getId() )) {
 			throw new \Exception("Permission denied");
 		}
 		
