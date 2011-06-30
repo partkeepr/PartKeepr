@@ -17,7 +17,25 @@ Ext.define('PartKeepr.PartStockHistory', {
 	        	  },
 	        	  width: 20
 	          },
-	          {header: i18n("User"),  dataIndex: 'username', flex: 0.4, minWidth: 80 },
+	          {
+	        	  header: i18n("User"),
+	        	  dataIndex: 'user_id',
+	        	  flex: 0.4,
+	        	  minWidth: 80,
+	        	  renderer: function (val) {
+	        		  var rec = PartKeepr.getApplication().getUserStore().findRecord("id", val);
+	        		  
+	        		  if (rec) {
+	        			  return rec.get("username");
+	        		  } else {
+	        			  return i18n("Unknown user");
+	        		  }
+	        		  
+	        	  },
+	        	  editor: {
+	        		  xtype: 'UserComboBox'
+	        	  }
+	          },
 	          {header: i18n("Amount"),  dataIndex: 'amount', width: 50,
 	        	  editor: {
                       xtype:'numberfield',
@@ -95,6 +113,12 @@ Ext.define('PartKeepr.PartStockHistory', {
     			if (!PartKeepr.getApplication().isAdmin()) {
     				return false;
     			}
+    			break;
+    		case "user":
+    			if (!PartKeepr.getApplication().isAdmin()) {
+    				return false;
+    			}
+    			break;
     	}
     },
     /**

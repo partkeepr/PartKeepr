@@ -195,6 +195,7 @@ class StockEntry extends BaseEntity implements Serializable {
 		return array(
 				"id" => $this->getId(),
 				"username" => is_object($this->getUser()) ? $this->getUser()->getUsername() : PartKeepr::i18n("Unknown User"),
+				"user_id" => is_object($this->getUser()) ? $this->getUser()->getId() : null,
 				"amount" => abs($this->getStockLevel()),
 				"datetime" => $this->getDateTime()->format("Y-m-d H:i:s"),
 				"direction" => ($this->getStockLevel() < 0) ? "out" : "in",

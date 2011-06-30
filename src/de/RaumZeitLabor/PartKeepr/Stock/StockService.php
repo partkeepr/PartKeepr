@@ -5,6 +5,7 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\User\User,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
 	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
 	de\RaumZeitLabor\PartKeepr\Service\Service;;
@@ -26,6 +27,7 @@ class StockService extends Service implements RestfulService {
 		foreach ($results as $result) {
 			$aData[] = array(
 				"username" => is_object($result->getUser()) ? $result->getUser()->getUsername() : PartKeepr::i18n("Unknown User"),
+				"user_id" => is_object($result->getUser()) ? $result->getUser()->getId() : null,
 				"amount" => abs($result->getStockLevel()),
 				"datetime" => $result->getDateTime()->format("Y-m-d H:i:s"),
 				"id" => $result->getId(),
@@ -66,6 +68,15 @@ class StockService extends Service implements RestfulService {
 		 */
 		if (SessionManager::getCurrentSession()->getUser()->isAdmin()) {
 			$stockEntry->setStockLevel($this->getParameter("amount"));
+		}
+		
+		if (SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+			try {
+				$stockEntry->setUser(User::loadById($this->getParameter("user_id")));
+			} catch (\Exception $e) {
+				$stockEntry->setUser(null);
+			}
+			
 		}
 		
 		PartKeepr::getEM()->flush();
