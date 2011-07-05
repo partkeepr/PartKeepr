@@ -46,7 +46,12 @@ Ext.define('PartKeepr.MenuBar', {
 		this.callParent();
 	},
 	showStatistics: function () {
-		var j = Ext.create("PartKeepr.CurrentStatisticsDialog");
+		var j = Ext.create("PartKeepr.CurrentStatisticsPanel", {
+			closable: true
+		});
+		
+		
+		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
 	editStorageLocations: function () {

@@ -1,5 +1,5 @@
-Ext.define('PartKeepr.CurrentStatisticsDialog', {
-	extend: 'Ext.window.Window',
+Ext.define('PartKeepr.CurrentStatisticsPanel', {
+	extend: 'Ext.panel.Panel',
 	width: 400,
 	height: 250,
 	title: i18n("Current Statistics"),
