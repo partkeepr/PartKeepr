@@ -106,21 +106,21 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 	},
 	createToolbar: function () {
 		this.toolbarExpandButton = Ext.create("Ext.button.Button", {
-			icon: 'resources/silkicons/bullet_toggle_plus.png',
+			icon: 'resources/fugue-icons/icons/toggle-expand.png',
 			tooltip: i18n("Expand All"),
 			handler: this._onExpandClick,
 			scope: this
 		});
 		
 		this.toolbarCollapseButton = Ext.create("Ext.button.Button", {
-			icon: 'resources/silkicons/bullet_toggle_minus.png',
+			icon: 'resources/fugue-icons/icons/toggle.png',
 			tooltip: i18n("Collapse All"),
 			handler: this._onCollapseClick,
 			scope: this
 		});
 		
 		this.toolbarReloadButton = Ext.create("Ext.button.Button", {
-			icon: 'resources/silkicons/arrow_refresh.png',
+			icon: 'extjs/resources/themes/images/default/grid/refresh.gif',
 			tooltip: i18n("Reload"),
 			handler: this._onReloadClick,
 			scope: this
