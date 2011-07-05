@@ -6,15 +6,19 @@ Ext.define('PartKeepr.MenuBar', {
 			items: [
 			        {
 			        	text: i18n('Edit Footprints'),
+			        	icon: 'resources/fugue-icons/icons/fingerprint.png',
 			        	handler: this.editFootprints
 			        },{
 			        	text: i18n('Edit Manufacturers'),
+			        	icon: 'resources/silkicons/building.png',
 			        	handler: this.editManufacturers
 			        },{
 			        	text: i18n('Edit Storage Locations'),
+			        	icon: 'resources/fugue-icons/icons/wooden-box.png',
 			        	handler: this.editStorageLocations
 			        },{
 			        	text: i18n('Edit Distributors'),
+			        	icon: 'resources/silkicons/lorry.png',
 			        	handler: this.editDistributors
 			        },{
 			        	text: i18n('Edit Users'),
