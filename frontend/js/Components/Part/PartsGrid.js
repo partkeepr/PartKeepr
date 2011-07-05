@@ -9,6 +9,11 @@ Ext.define('PartKeepr.PartsGrid', {
 	// We want to display the texts for the add/delete buttons
 	buttonTextMode: 'show',
 	
+	addButtonText: i18n("Add Part"),
+	addButtonIcon: 'resources/silkicons/brick_add.png',
+    deleteButtonText: i18n("Delete Part"),
+    deleteButtonIcon: 'resources/silkicons/brick_delete.png',
+    	
 	viewConfig: {
         plugins: {
             ddGroup: 'CategoryTree',
