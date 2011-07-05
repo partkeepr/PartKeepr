@@ -16,6 +16,11 @@ Ext.define('PartKeepr.EditorGrid', {
 	deleteButtonText: i18n("Delete Item"),
 	
 	/**
+     * @cfg {String} text The path to the 'delete' icon
+     */
+	deleteButtonIcon: 'resources/silkicons/delete.png',
+	
+	/**
      * @cfg {String} text The text for the "add" button
      */
 	addButtonText: i18n("Add Item"),
@@ -76,7 +81,7 @@ Ext.define('PartKeepr.EditorGrid', {
 		this.deleteButton = Ext.create("Ext.button.Button", {
 			text: (this.buttonTextMode !== "hide") ? this.deleteButtonText : '',
 			tooltip: this.deleteButtonText,
-        	icon: 'resources/silkicons/delete.png',
+			icon: this.deleteButtonIcon,
         	handler: Ext.bind(function () {
         		this.fireEvent("itemDelete");
         	}, this),
