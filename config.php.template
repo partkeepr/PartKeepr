@@ -3,14 +3,70 @@ namespace de\RaumZeitLabor\PartKeepr;
 
 use de\RaumZeitLabor\PartKeepr\Util\Configuration;
 
+/**
+ * Specifies the username for the database
+ */
 Configuration::setOption("partkeepr.database.username", "partkeepr");
+
+/**
+ * Specifies the password for the database
+ */
 Configuration::setOption("partkeepr.database.password", "partkeepr");
+
+/**
+ * Specifies the hostname for the database
+ */
 Configuration::setOption("partkeepr.database.hostname", "localhost");
+
+/**
+ * Specifies the database name
+ */
 Configuration::setOption("partkeepr.database.dbname", "partkeepr");
+
+/**
+ * Specifies the database driver.
+ * 
+ * In general, we support any database platform also supported by DBAL. For details, see
+ * http://www.doctrine-project.org/docs/dbal/2.0/en/reference/configuration.html#driver
+ * 
+ * Available drivers:
+ * pdo_mysql	MySQL is preferred, as all development happens on that platform.
+ * pdo_pgsql	PostgreSQL should perform well, but could give problems here and there. Be sure to report these bugs!
+ * pdo_sqlite	SQLite driver; mostly untested
+ * pdo_oci		PDO-based Oracle driver; mostly untested. Seems to give problems; try oci8 instead
+ * pdo_sqlsrv	MSSQL driver; mostly untested
+ * oci8			A driver which uses the PHP oci8 extension
+ * 
+ * WARNING: Some database drivers require configuration options, which we don't support yet. We currently
+ * only push the parameters "username", "password", "hostname" and "dbname" into DBAL's configuration. We need to rework
+ * this; until then, at least pdo_sqlite won't work.
+ */
 Configuration::setOption("partkeepr.database.driver", "pdo_mysql");
 
+
+/***********************************************************************************************************************
+ * END OF THE GENERAL CONFIGURATION SECTION - BELOW ARE CONFIGURATION SETTINGS WHICH DON'T NEED TO BE ADJUSTED ON
+ * A REGULAR BASIS
+ **********************************************************************************************************************/
+
+
+/**
+ * Specifies if doctrine should log the SQL queries by echoing them. If you enable this, all AJAX service calls from the
+ * frontend will fail because the resulting output isn't JSON anymore.
+ */
 Configuration::setOption("partkeepr.database.echo_sql_log", false);
 
+/**
+ * Specifies the location of the uploaded files
+ */
 Configuration::setOption("partkeepr.files.path", __DIR__."/data/files/");
+
+/**
+ * Specifies the location of the uploaded images
+ */
 Configuration::setOption("partkeepr.images.path", __DIR__."/data/images/");
+
+/**
+ * Specifies the cache dir
+ */
 Configuration::setOption("partkeepr.images.cache", Configuration::getOption("partkeepr.images.path")."cache/");
