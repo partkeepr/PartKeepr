@@ -5,13 +5,15 @@ Ext.define('PartKeepr.StorageLocationGrid', {
 	          {header: i18n("Storage Location"),  dataIndex: 'name', flex: 1}
 	          ],
 	addButtonText: i18n("Add Storage Location"),
+	addButtonIcon: 'resources/fugue-icons/icons/wooden-box--plus.png',
     deleteButtonText: i18n("Delete Storage Location"),
+    deleteButtonIcon: 'resources/fugue-icons/icons/wooden-box--minus.png',
     initComponent: function () {
     	this.callParent();
     	
     	// Adds a button which shows the multi-create window
     	this.multiCreateButton = Ext.create("Ext.button.Button", {
-    		icon: 'resources/silkicons/table_multiple.png',
+    		icon: 'resources/icons/storagelocation_multiadd.png',
     		tooltip: i18n("Multi-create storage locations"),
     		handler: this.onMultiCreateClick,
     		scope: this
