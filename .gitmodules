@@ -7,3 +7,6 @@
 [submodule "3rdparty/extjs"]
 	path = 3rdparty/extjs
 	url = git://github.com/partkeepr/ExtJS4.git
+[submodule "frontend/resources/mimetypes"]
+	path = frontend/resources/mimetypes
+	url = git://github.com/partkeepr/splitbrain_mimetypes.git
