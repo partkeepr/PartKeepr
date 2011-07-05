@@ -27,7 +27,11 @@ Ext.application({
     	
         new PartKeepr.LoginDialog().show();
     	
-    	Ext.QuickTips.init();
+        
+        Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
+    },
+    onContextMenu: function (e, target) {
+    	e.preventDefault();
     },
     login: function () {
     	this.createGlobalStores();
@@ -408,4 +412,4 @@ PartKeepr.serializeRecords = function (records) {
 PartKeepr.setAutoLogin = function (username, password) {
 	PartKeepr.autoLoginUsername = username;
 	PartKeepr.autoLoginPassword = password;
-};
+};  
