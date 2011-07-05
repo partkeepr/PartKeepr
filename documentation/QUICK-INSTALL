@@ -65,16 +65,14 @@ phing test-setup
 Install the database and test data
 ----------------------------------
 
-Create the user partkeepr, password partkeepr with access to the partkeepr database 
-in mysql (e.g. with phpmyadmin).
+Create a database on your database server. Right now, we support MySQL (preferred) and PostgreSQL (minor problems).
+You can also try SQLite3, Oracle and MSSQL - but it's not guaranteed that it works.
 
-Then execute the file testing/SetupDatabase.php from the command line.
+Setup the database using the SetupDatabase.php script in the "testing" folder. The SetupDatabase.php script has a help,
+you can see it by using php testing/SetupDatabase.php --help
+
 Command line is important because you need to enter "YES" to confirm
 the operation.
-
-
-Username/Password is test/test, but right now the system automatically logs
-you in (makes development easier). 
 
 
 Building the frontend
