@@ -1,0 +1,3 @@
+[submodule "frontend/resources/silkicons"]
+	path = frontend/resources/silkicons
+	url = git://github.com/partkeepr/famfamfam_silkicons.git
