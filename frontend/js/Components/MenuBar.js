@@ -36,7 +36,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        },{
 			        	text: i18n("Units"),
 			        	handler: this.editUnits,
-			        	icon: 'resources/silkicons/lightbulb.png'
+			        	icon: 'resources/icons/unit.png'
 			        }]
 		});
 		
