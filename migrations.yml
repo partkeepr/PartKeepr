@@ -1,5 +1,0 @@
----
-name: PartKeepr Migrations
-migrations_namespace: PartKeepr\Migrations
-table_name: partkeepr_versions
-migrations_directory: src/de/RaumZeitLabor/PartKeepr/Migrations
