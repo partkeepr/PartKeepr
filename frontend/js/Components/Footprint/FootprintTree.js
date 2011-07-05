@@ -48,7 +48,7 @@ Ext.define("PartKeepr.FootprintTree", {
         	disabled: true
 		});
 		
-		this.toolbar.add([this.addButton, this.deleteButton]);
+		this.toolbar.add(['-', this.addButton, this.deleteButton]);
 		
 		this.getSelectionModel().on("select", 	this._onItemSelect, 	this);
 		this.getSelectionModel().on("deselect", this._onItemDeselect, 	this);
