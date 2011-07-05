@@ -28,7 +28,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        },{
 			        	text: i18n('Part Measure Units'),
 			        	handler: this.editPartUnits,
-			        	icon: "resources/silkicons/table.png"
+			        	icon: "resources/fugue-icons/icons/ruler.png"
 			        },{
 			        	text: i18n("Statistics"),
 			        	handler: this.showStatistics,
