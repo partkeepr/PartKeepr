@@ -5,5 +5,8 @@ Ext.define('PartKeepr.DistributorGrid', {
 	          {header: i18n("Distributor"),  dataIndex: 'name', flex: 1}
 	          ],
 	addButtonText: i18n("Add Distributor"),
-    deleteButtonText: i18n("Delete Distributor")
+	addButtonIcon: 'resources/silkicons/lorry_add.png',
+    deleteButtonText: i18n("Delete Distributor"),
+    deleteButtonIcon: 'resources/silkicons/lorry_delete.png',
+    
 });
