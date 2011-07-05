@@ -125,7 +125,8 @@ Ext.define("PartKeepr.FootprintTree", {
 			nodeData = {
 					name: record.getRecordName(),
 					footprintId: record.get("id"),
-					leaf: true
+					leaf: true,
+					iconCls:'footprint-icon'
 			};
 			
 
