@@ -114,7 +114,7 @@ Ext.define('PartKeepr.MenuBar', {
 	},
 	editPartUnits: function () {
 		var j = Ext.create("PartKeepr.PartUnitEditorComponent", {
-			title: i18n("Part Units"),
+			title: i18n("Part Measurement Units"),
 			closable: true
 		});
 		
