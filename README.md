@@ -9,15 +9,12 @@ PartKeepr is an electronic part inventory management software. It helps you to k
 Project Status
 --------------
 
-This project is currently in pre-alpha stage. The code is currently pretty messy, there's not much documentation so far.
-Also please note that this project uses components I've used in earlier projects, which are based on earlier projects...
-you get the point. 
+This project is currently in alpha stage. Code quality is improving constantly. However, this project is not ready for production yet. Please try it out, but handle with care!
 
 Demo Site
 ---------
 
-To test everything which has been written so far, please visit http://demo.partkeepr.org for a demo which is built
-from the git sources once an hour.
+To test everything which has been written so far, please visit http://demo.partkeepr.org for a demo which is built from the git sources once an hour.
 
 Requirements
 ------------
@@ -40,5 +37,4 @@ Since this project is work-in-progress, please refer to the INSTALL document on 
 Thanks
 ------
 
-A very big "thank you" goes out to Georgyo of NYC resistor - although he claimed that he isn't creative, he invented
-the name "PartKeepr" which eventually became the project's name.
+A very big "thank you" goes out to Georgyo of NYC resistor - although he claimed that he isn't creative, he invented the name "PartKeepr" which eventually became the project's name.
