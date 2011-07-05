@@ -99,7 +99,7 @@ Ext.define('PartKeepr.Editor', {
 		});
 	},
 	_onSave: function (record, response) {
-		if (response.success == true) {
+		if (response.success === true) {
 			this.record = record;
 			this.fireEvent("itemSaved", this.record);			
 		}

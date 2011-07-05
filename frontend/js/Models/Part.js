@@ -45,7 +45,7 @@ Ext.define("PartKeepr.Part", {
               { model: 'PartKeepr.PartDistributor', 	name: 'distributors'},
               { model: 'PartKeepr.PartManufacturer', 	name: 'manufacturers'},
               { model: 'PartKeepr.PartParameter', 		name: 'parameters'},
-              { model: 'PartKeepr.PartAttachment', 		name: 'attachments'},
+              { model: 'PartKeepr.PartAttachment', 		name: 'attachments'}
               ],
 	proxy: PartKeepr.getRESTProxy("Part"),
 	getRecordName: function () {

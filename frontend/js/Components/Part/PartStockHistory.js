@@ -119,7 +119,11 @@ Ext.define('PartKeepr.PartStockHistory', {
     				return false;
     			}
     			break;
+		default:
+			return true;
     	}
+
+	return true;
     },
     /**
      * Called when the view is activated.
