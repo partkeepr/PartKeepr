@@ -5,28 +5,28 @@ Ext.define('PartKeepr.MenuBar', {
 		this.menu = Ext.create('Ext.menu.Menu', {
 			items: [
 			        {
-			        	text: i18n('Edit Footprints'),
+			        	text: i18n('Footprints'),
 			        	icon: 'resources/fugue-icons/icons/fingerprint.png',
 			        	handler: this.editFootprints
 			        },{
-			        	text: i18n('Edit Manufacturers'),
+			        	text: i18n('Manufacturers'),
 			        	icon: 'resources/silkicons/building.png',
 			        	handler: this.editManufacturers
 			        },{
-			        	text: i18n('Edit Storage Locations'),
+			        	text: i18n('Storage Locations'),
 			        	icon: 'resources/fugue-icons/icons/wooden-box.png',
 			        	handler: this.editStorageLocations
 			        },{
-			        	text: i18n('Edit Distributors'),
+			        	text: i18n('Distributors'),
 			        	icon: 'resources/silkicons/lorry.png',
 			        	handler: this.editDistributors
 			        },{
-			        	text: i18n('Edit Users'),
+			        	text: i18n('Users'),
 			        	id: 'edit-users',
 			        	handler: this.editUsers,
 			        	icon: "resources/silkicons/user.png"
 			        },{
-			        	text: i18n('Edit Part Units'),
+			        	text: i18n('Part Measure Units'),
 			        	handler: this.editPartUnits,
 			        	icon: "resources/silkicons/table.png"
 			        },{
