@@ -49,7 +49,10 @@ class PartKeepr {
 		
 		$classLoader = new ClassLoader('Doctrine\ORM');
 		$classLoader->register(); // register on SPL autoload stack
-		
+	
+		$classLoader = new ClassLoader('Doctrine\DBAL\Migrations', dirname(dirname(dirname(dirname(__DIR__)))) ."/3rdparty/doctrine-migrations/lib");
+		$classLoader->register();
+
 		$classLoader = new ClassLoader('Doctrine\DBAL');
 		$classLoader->register(); // register on SPL autoload stack
 		
