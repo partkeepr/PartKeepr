@@ -5,5 +5,7 @@ Ext.define('PartKeepr.UserGrid', {
 	          {header: i18n("User"),  dataIndex: 'username', flex: 1}
 	          ],
 	addButtonText: i18n("Add User"),
-    deleteButtonText: i18n("Delete User")
+	addButtonIcon: 'resources/silkicons/user_add.png',
+    deleteButtonText: i18n("Delete User"),
+    deleteButtonIcon: 'resources/silkicons/user_delete.png'
 });
