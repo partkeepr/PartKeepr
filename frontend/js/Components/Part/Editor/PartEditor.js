@@ -18,6 +18,9 @@ Ext.define('PartKeepr.PartEditor', {
 	 * Initializes the editor fields
 	 */
 	initComponent: function () {
+		this.keepOpenCheckbox = Ext.create("Ext.form.field.Checkbox", {
+			boxLabel: i18n("Create blank item after save")
+		});
 		
 		// Defines the basic editor fields
 		var basicEditorFields = [{
@@ -185,13 +188,23 @@ Ext.define('PartKeepr.PartEditor', {
 		this.addEvents("partSaved", "titleChange");
 		
 		this.callParent();
+		
+		if (this.partMode == "create") {
+			this.bottomToolbar.add(this.keepOpenCheckbox);
+		}
 	},
 	onEditStart: function () {
 		this.bindChildStores();
 	},
 	_onItemSaved: function () {
 		this.fireEvent("partSaved", this.record);
-		this.bindChildStores();
+		
+		if (this.keepOpenCheckbox.getValue() !== true) {
+			this.fireEvent("editorClose");
+		} else {
+			var newItem = Ext.create("PartKeepr.Part", this.partDefaults);
+			this.editItem(newItem);
+		}
 	},
 	bindChildStores: function () {
 		this.partDistributorGrid.bindStore(this.record.distributors());

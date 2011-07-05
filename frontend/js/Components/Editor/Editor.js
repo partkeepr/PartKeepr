@@ -41,15 +41,16 @@ Ext.define('PartKeepr.Editor', {
 			handler: Ext.bind(this.onCancelEdit, this)
 		});
 		
+		this.bottomToolbar = Ext.create("Ext.toolbar.Toolbar", {
+			enableOverflow: true,
+			margin: '10px',
+			dock: 'bottom',
+			ui: 'footer',
+			items: [ this.saveButton, this.cancelButton ]
+		});
+		
 		Ext.apply(this, {
-			dockedItems: [{
-				xtype: 'toolbar',
-				enableOverflow: true,
-				margin: '10px',
-				dock: 'bottom',
-				ui: 'footer',
-				items: [ this.saveButton, this.cancelButton ]
-			}]});
+			dockedItems: [ this.bottomToolbar ]});
 		
 		this.on("dirtychange", function (form, dirty) {
 			// @todo Check dirty flag
@@ -97,9 +98,11 @@ Ext.define('PartKeepr.Editor', {
 				scope: this
 		});
 	},
-	_onSave: function (record) {
-		this.record = record;
-		this.fireEvent("itemSaved", this.record);
+	_onSave: function (record, response) {
+		if (response.success == true) {
+			this.record = record;
+			this.fireEvent("itemSaved", this.record);			
+		}
 	},
 	_setTitle: function (title) {
 		this.setTitle(title);

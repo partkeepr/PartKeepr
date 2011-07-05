@@ -142,6 +142,9 @@ Ext.define('PartKeepr.PartManager', {
 		
 		record = Ext.create("PartKeepr.Part", defaults);
 		
+		// Inject the defaults to the editor, so the editor can create a new item on its own
+		j.editor.partDefaults = defaults;
+		
 		j.editor.editItem(record);
 		j.show();
 	},

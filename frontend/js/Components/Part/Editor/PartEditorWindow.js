@@ -37,14 +37,12 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		}
 		
 		this.items = [ this.editor ];
-		
-		this.editor.on("editorClose", function () { this.close(); }, this);
-		
+
 		/**
-		 * We need a delay, since if others are listening for "partSaved", the dialog plus the record could be destroyed
+		 * We need a delay, since if others are listening for "editorClose", the dialog plus the record could be destroyed
 		 * before any following listeners have a chance to receive the record, resulting in strange problems.
 		 */
-		this.editor.on("partSaved", function (record) { this.close();}, this, { delay: 200 });
+		this.editor.on("editorClose", function (record) { this.close();}, this, { delay: 200 });
 		
 		this.editor.on("titleChange", function (val) { this.setTitle(val); }, this);
 		this.callParent();
