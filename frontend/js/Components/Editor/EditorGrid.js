@@ -21,6 +21,11 @@ Ext.define('PartKeepr.EditorGrid', {
 	addButtonText: i18n("Add Item"),
 	
 	/**
+     * @cfg {String} text The path to the 'add' icon
+     */
+	addButtonIcon: 'resources/silkicons/add.png',
+	
+	/**
      * @cfg {String} text Defines if the "add"/"delete" buttons should show their text or icon only. If "hide", the
      * button text is hidden, anything else shows the text.
      */
@@ -89,7 +94,7 @@ Ext.define('PartKeepr.EditorGrid', {
 			        {
 			        	text: (this.buttonTextMode !== "hide") ? this.addButtonText : '',
 			        	tooltip: this.addButtonText,
-			        	icon: 'resources/silkicons/add.png',
+			        	icon: this.addButtonIcon,
 			        	handler: Ext.bind(function () {
 			        		this.fireEvent("itemAdd");
 			        	}, this)

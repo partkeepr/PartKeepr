@@ -6,6 +6,20 @@ Ext.define("PartKeepr.FootprintTree", {
 	categoryModel: 'PartKeepr.FootprintCategory',
 	categoryService: 'FootprintCategory',
 	folderSort: true,
+	
+	/**
+     * @cfg {String} text The path to the 'add' icon
+     */
+	addButtonIcon: 'resources/icons/footprint_add.png',
+	
+	/**
+     * @cfg {String} text The path to the 'delete' icon
+     */
+	deleteButtonIcon: 'resources/icons/footprint_delete.png',
+	
+	/**
+	 * Initializes the component
+	 */
 	initComponent: function () {
 		this.callParent();
 		
@@ -20,32 +34,14 @@ Ext.define("PartKeepr.FootprintTree", {
 		this.addButton = Ext.create("Ext.button.Button",
 				{
 		        	tooltip: i18n("Add Footprint"),
-			        icon: 'resources/silkicons/add.png',
-			        handler: Ext.bind(function () {
-			        	var r = this.getSelectionModel().getLastSelected();
-			        	
-			        	if (r && !r.get("footprintId")) {
-			        		this.fireEvent("itemAdd", { category: r.get("id") });
-			        	} else {
-			        		if (!r) {
-			        			this.fireEvent("itemAdd", this.getRootNode().get("id"));
-			        		} else {
-			        			/* Try to find the category's parent id */
-				        		if (r.parentNode && !r.parentNode.get("footprintId")) {
-				        			this.fireEvent("itemAdd", { category: r.parentNode.get("id") });	
-				        		} else {
-				        			this.fireEvent("itemAdd", this.getRootNode().get("id"));
-				        		}	
-			        		}
-			        		
-			        	}
-			        	
-			        }, this)
+			        icon: this.addButtonIcon,
+			        handler: this._onAddFootprint,
+			        scope: this
 			    });
 		
 		this.deleteButton = Ext.create("Ext.button.Button", {
 			tooltip: i18n("Delete Footprint"),
-        	icon: 'resources/silkicons/delete.png',
+			icon: this.deleteButtonIcon,
         	handler: Ext.bind(function () {
         		this.fireEvent("itemDelete");
         	}, this),
@@ -56,6 +52,28 @@ Ext.define("PartKeepr.FootprintTree", {
 		
 		this.getSelectionModel().on("select", 	this._onItemSelect, 	this);
 		this.getSelectionModel().on("deselect", this._onItemDeselect, 	this);
+	},
+	/**
+	 * Called when a footprint is about to be added
+	 */
+	_onAddFootprint: function () {
+		var r = this.getSelectionModel().getLastSelected();
+    	
+    	if (r && !r.get("footprintId")) {
+    		this.fireEvent("itemAdd", { category: r.get("id") });
+    	} else {
+    		if (!r) {
+    			this.fireEvent("itemAdd", this.getRootNode().get("id"));
+    		} else {
+    			/* Try to find the category's parent id */
+        		if (r.parentNode && !r.parentNode.get("footprintId")) {
+        			this.fireEvent("itemAdd", { category: r.parentNode.get("id") });	
+        		} else {
+        			this.fireEvent("itemAdd", this.getRootNode().get("id"));
+        		}	
+    		}
+    		
+    	}
 	},
 	/**
 	 * Called when an item was selected
