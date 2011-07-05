@@ -4,3 +4,6 @@
 [submodule "frontend/resources/flags"]
 	path = frontend/resources/flags
 	url = git://github.com/partkeepr/famfamfam_flags.git
+[submodule "3rdparty/extjs"]
+	path = 3rdparty/extjs
+	url = git://github.com/partkeepr/ExtJS4.git
