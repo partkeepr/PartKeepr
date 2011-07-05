@@ -4,5 +4,6 @@
 .externalToolBuilders
 .settings
 .project
+config.php
 /tests/reports
 partkeepr.jsb3
