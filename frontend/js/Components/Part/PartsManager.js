@@ -49,6 +49,7 @@ Ext.define('PartKeepr.PartManager', {
 		
 		// Create the grid
 		this.grid = Ext.create("PartKeepr.PartsGrid", { title: i18n("Parts List"), region: 'center', layout: 'fit', store: this.getStore()});
+		this.grid.on("editPart", this.onEditPart, this);
 		
 		// Create the grid listeners
 		this.grid.on("itemSelect", this.onItemSelect, this);

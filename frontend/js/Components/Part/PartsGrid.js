@@ -38,9 +38,21 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		this.features = [groupingFeature];
 		
+		this.on("itemdblclick", this.onDoubleClick, this);
+		
+		this.addEvents("editPart");
+		
 		// Initialize the panel
 		this.callParent();
 		
+	},
+	/**
+	 * Called when the record was double-clicked
+	 */
+	onDoubleClick: function (view, record) {
+		if (record) {
+			this.fireEvent("editPart", record.get("id"));
+		}
 	},
 	/**
 	 * Defines the columns used in this grid.
