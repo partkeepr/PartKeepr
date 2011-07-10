@@ -7,7 +7,7 @@ Ext.define("PartKeepr.UserComboBox",{
     queryMode: 'local',
     triggerAction: 'all',
     forceSelection: true,
-    editable: false,
+    editable: true,
     initComponent: function () {
 		this.store = PartKeepr.getApplication().getUserStore();
 		
