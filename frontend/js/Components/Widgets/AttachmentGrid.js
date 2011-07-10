@@ -42,6 +42,13 @@ Ext.define('PartKeepr.AttachmentGrid', {
 			disabled: true
 		});
 		
+		this.webcamButton = Ext.create("Ext.button.Button", {
+			text: i18n("Take image"),
+			handler: this.onWebcamClick,
+			scope: this,
+			icon: 'resources/fugue-icons/icons/webcam.png'
+		});
+		
 		this.dockedItems = [{
             xtype: 'toolbar',
             items: [{
@@ -50,6 +57,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
                 icon: 'resources/silkicons/attach.png',
                 handler: this.onAddClick
             },
+            this.webcamButton,
             this.viewButton,
             this.deleteButton
             ]
@@ -89,6 +97,20 @@ Ext.define('PartKeepr.AttachmentGrid', {
 		
 		this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.on("itemdblclick", this.onDoubleClick, this);
+	},
+	onWebcamClick: function () {
+		var wp = Ext.create("PartKeepr.WebcamPanel");
+		wp.on("uploadComplete", this.onFileUploaded, this);
+		
+		var j = Ext.create("Ext.window.Window", {
+			items: [
+			        wp
+			        ]
+		});
+		
+		wp.on("uploadComplete", function () { j.close(); });
+		
+		j.show();
 	},
 	onDoubleClick: function (view, record) {
 		if (record) {

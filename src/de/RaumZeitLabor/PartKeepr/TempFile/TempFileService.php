@@ -27,5 +27,22 @@ class TempFileService extends Service {
     	
     	return array("id" => $tmpFile->getId(), "extension" => $tmpFile->getExtension(), "size" => $tmpFile->getSize(), "originalFilename" => $tmpFile->getOriginalFilename());
 	}
+	
+	/**
+	 * Processes data via HTTP POST. Reads php://input and creates a temporary image out of it.
+	 */
+	public function uploadCam () {
+		$tempFile = tempnam("/tmp", "PWC") . ".jpg";
+		$result = file_put_contents( $tempFile, file_get_contents('php://input') );
+	
+		$image = new TempUploadedFile();
+		$image->replace($tempFile);
+		$image->setOriginalFilename(sprintf(PartKeepr::i18n("Cam photo of %s"), date("Y-m-d H:i:s")).".jpg");
+	
+		PartKeepr::getEM()->persist($image);
+		PartKeepr::getEM()->flush();
+	
+		return array("id" => $image->getId(), "extension" => $image->getExtension(), "size" => $image->getSize(), "originalFilename" => $image->getOriginalFilename());
+	}
 }
 		

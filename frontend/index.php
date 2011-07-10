@@ -34,7 +34,8 @@ include("config.php");
 		<?php
 			}
 		?>
-		<script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js" defer="defer"></script>
+		<script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js"></script>
+		<script type="text/javascript" src="js/webcam.js"></script>
 		
 	</head>
 <body>
