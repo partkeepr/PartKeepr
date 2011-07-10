@@ -28,7 +28,7 @@ Ext.define('PartKeepr.PartsGrid', {
 	initComponent: function () {
 		
 		var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
-			enableGroupingMenu: false,
+			//enableGroupingMenu: false,
 	        groupHeaderTpl: '{name} ({rows.length} ' + i18n("Part(s)")+")"
 	    });
 
@@ -60,6 +60,12 @@ Ext.define('PartKeepr.PartsGrid', {
 	defineColumns: function () {
 		this.columns = [
 		          {
+		        	  header: "",
+		        	  dataIndex: "",
+		        	  width: 30,
+		        	  renderer: this.iconRenderer
+		          },
+		          {
 		        	  header: i18n("Name"),
 		        	  dataIndex: 'name',
 		        	  flex: 1,
@@ -82,7 +88,12 @@ Ext.define('PartKeepr.PartsGrid', {
 		          },{
 		        	  header: i18n("Footprint"),
 		        	  dataIndex: 'footprintName'
+		          },{
+		        	  header: i18n("Category"),
+		        	  dataIndex: 'categoryPath',
+		        	  hidden: true
 		          }
+		          
 		          ];
 	},
 	/**
@@ -98,6 +109,18 @@ Ext.define('PartKeepr.PartsGrid', {
 		} else {
 			return val;
 		}
+	},
+	/**
+	 * Used as renderer for the icon column.
+	 */
+	iconRenderer: function (val,q,rec)
+	{
+		var ret = "";
+		if (rec.get("attachmentCount") > 0) {
+			ret += '<img src="resources/silkicons/attach.png" alt="'+i18n("Has attachments")+'" title="'+i18n("Has attachments")+'"/>';
+		}
+		
+		return ret;
 	},
 	/**
 	 * Sets the category. Triggers a store reload with a category filter.

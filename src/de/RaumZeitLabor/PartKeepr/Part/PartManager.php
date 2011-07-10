@@ -44,6 +44,7 @@ class PartManager extends Singleton {
 		->leftJoin("p.footprint", "f")
 		->join("p.category", "c")
 		->leftJoin("p.partUnit", "pu");
+		
 
 		$qb->where("1=1");
 		if ($filter != "") {
@@ -127,6 +128,14 @@ class PartManager extends Singleton {
 		$query = $qb->getQuery();
 		
 		$result = $query->getArrayResult();
+		
+		foreach ($result as $key => $item) {
+			$dql = "SELECT COUNT(pa) FROM de\RaumZeitLabor\PartKeepr\Part\PartAttachment pa WHERE pa.part = :part";
+			$query = PartKeepr::getEM()->createQuery($dql);
+			$query->setParameter("part", $item["id"]);
+			
+			$result[$key]["attachmentCount"] = $query->getSingleScalarResult(); 
+		}
 		
 		
 		
