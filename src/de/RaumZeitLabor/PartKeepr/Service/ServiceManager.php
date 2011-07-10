@@ -15,8 +15,6 @@ class ServiceManager {
 		$request = new Request(array('restful' => true));
 		$service = $request->getService();
 		
-		//print_r($request->action);
-		
 		if ($service->hasHeader("call")) {
 			$call = $service->getHeader("call");
 		} elseif (array_key_exists("call", $_REQUEST) && $_REQUEST["call"] != "") {
@@ -48,6 +46,8 @@ class ServiceManager {
 		if (!is_subclass_of($service, "de\\RaumZeitLabor\\PartKeepr\\Service\\AnonService")) {
 			
 			$session = null;
+			$sessionid = false;
+			
 			if ($service->hasHeader("session")) {
 				$sessionid = $service->getHeader("session");
 			}
