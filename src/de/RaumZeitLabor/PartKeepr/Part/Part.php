@@ -283,6 +283,14 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	}
 	
 	/**
+	 * Returns the category path
+	 * @return string
+	 */
+	public function getCategoryPath () {
+		return $this->categoryPath;
+	}
+	
+	/**
 	 * Sets the storage location for this part
 	 * @param \de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation $storageLocation The storage location
 	 */
