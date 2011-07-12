@@ -24,6 +24,7 @@ Ext.define('PartKeepr.PartsGrid', {
     enableDragDrop   : true,
     stripeRows       : true,
     multiSelect		 : true,
+    autoScroll: false,
     invalidateScrollerOnRefresh: true,
 	initComponent: function () {
 		
@@ -74,6 +75,9 @@ Ext.define('PartKeepr.PartsGrid', {
 		          },{
 		        	  header: i18n("Storage Location"),
 		        	  dataIndex: 'storageLocationName'
+		          },{
+		        	  header: i18n("Status"),
+		        	  dataIndex: "status"
 		          },{
 		        	  header: i18n("Stock"),
 		        	  dataIndex: 'stockLevel',
