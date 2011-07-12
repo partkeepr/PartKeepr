@@ -38,18 +38,22 @@ foreach ($parts as $part) {
 	$item = $rssDOM->createElement("item");
 	
 	$title = $rssDOM->createElement("title");
-	
 	$titleContent = $rssDOM->createTextNode($part->getName());
 	$title->appendChild($titleContent);
 	
 	$description = $rssDOM->createElement("description");
-	$descriptionContent = $rssDOM->createTextNode($part->getCategoryPath());
+	$descriptionContent = $rssDOM->createTextNode($part->getComment());
 	$description->appendChild($descriptionContent);
 	
+	$category = $rssDOM->createElement("partkeepr:category");
+	$categoryContent = $rssDOM->createTextNode($part->getCategoryPath());
+	$category->appendChild($categoryContent);
+
 	$pubDate = $rssDOM->createElement("pubDate", $part->getCreateDate()->format(DATE_RFC822));
 	
 	$item->appendChild($title);
 	$item->appendChild($description);
+	$item->appendChild($category);
 	$item->appendChild($pubDate);
 	
 	$channel->appendChild($item);
