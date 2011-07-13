@@ -96,6 +96,15 @@ Ext.view.AbstractView.override({
         if (store && (!initial || store.getCount())) {
             me.refresh(true);
         }
+    },
+    onItemSelect: function(record) {
+        var node = this.getNode(record);
+        if (Ext.fly(node)) {
+        	Ext.fly(node).addCls(this.selectedItemCls);
+        } else {
+        	Ext.Function.defer(this.onItemSelect, 500, this, [record]);
+        }
+        
     }
 });
 
