@@ -96,6 +96,10 @@ Ext.define('PartKeepr.PartsGrid', {
 		        	  header: i18n("Category"),
 		        	  dataIndex: 'categoryPath',
 		        	  hidden: true
+		          },{
+		        	  header: i18n("Create Date"),
+		        	  dataIndex: 'createDate',
+		        	  hidden: true
 		          }
 		          
 		          ];
