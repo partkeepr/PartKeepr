@@ -6,6 +6,8 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Exceptions\ServiceException,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\User\User,
+	de\RaumZeitLabor\PartKeepr\User\UserManager,
 	de\RaumZeitLabor\PartKeepr\REST\Request;
 
 class ServiceManager {
@@ -44,17 +46,12 @@ class ServiceManager {
 		$allowCall = true;		
 		
 		if (!is_subclass_of($service, "de\\RaumZeitLabor\\PartKeepr\\Service\\AnonService")) {
-			
 			$session = null;
 			$sessionid = false;
 			
-			if ($service->hasHeader("session")) {
-				$sessionid = $service->getHeader("session");
-			}
+			$sessionid = self::getSession($service);
 			
-			if (array_key_exists("session", $_REQUEST) && $session === null) {
-				$sessionid = $_REQUEST["session"];
-			}
+			
 			if ($sessionid === null)
 			{
 				$session = SessionManager::getInstance()->startSession();
@@ -78,6 +75,42 @@ class ServiceManager {
 		
 		return $result;
 			
+	}
+	
+	private static function getSession ($service) {
+		if ($service->hasHeader("username") && $service->hasHeader("password") && !$service->hasHeader("session")) {
+			return self::authenticateByUsername($service->getHeader("username"), $service->getHeader("password"));
+		}
+		
+		if (array_key_exists("username", $_REQUEST) && array_key_exists("password", $_REQUEST) && !array_key_exists("session", $_REQUEST)) {
+			return self::authenticateByUsername($_REQUEST["username"], $_REQUEST["password"]);
+		}
+		
+		if ($service->hasHeader("session")) {
+			return $service->getHeader("session");
+		}
+			
+		if (array_key_exists("session", $_REQUEST) && $session === null) {
+			return $_REQUEST["session"];
+		}
+	}
+	
+	private static function authenticateByUsername ($username, $password) {
+		/* Build a temporary user */
+		$user = new User;
+		$user->setRawUsername($username);
+		$user->setHashedPassword($password);
+		
+		$authenticatedUser = UserManager::getInstance()->authenticate($user);
+		
+		if ($authenticatedUser !== false) {
+			/* Start Session */
+			$session = SessionManager::getInstance()->startSession($authenticatedUser);
+				
+			return $session->getSessionID();
+		} else {
+			throw new InvalidLoginDataException();
+		}
 	}
 	
 }
