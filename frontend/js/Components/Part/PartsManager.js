@@ -56,6 +56,7 @@ Ext.define('PartKeepr.PartManager', {
 		this.grid.on("itemDeselect", this.onItemSelect, this);
 		this.grid.on("itemAdd", this.onItemAdd, this);
 		this.grid.on("itemDelete", this.onItemDelete, this);
+		this.tree.on("syncCategory", this.onSyncCategory, this);
 		
 		// Listen on the partChanged event, which is fired when the users edits the part
 		this.detail.on("partChanged", function () { this.grid.getStore().load(); }, this);
@@ -92,7 +93,24 @@ Ext.define('PartKeepr.PartManager', {
 		
 		this.callParent();
 	},
-	
+	/**
+	 * Called when the sync button was clicked. Highlights the category
+	 * of the selected part for a short time. We can't select the category
+	 * as this would affect the parts grid.
+	 */
+	onSyncCategory: function () {
+		var r = this.grid.getSelectionModel().getLastSelected();
+		
+		var rootNode = this.tree.getRootNode();
+		var cat = r.get("category");
+		
+		var node = rootNode.findChild("id", cat, true);
+		
+		this.tree.getView().ensureVisible(node);
+		var htmlNode = new Ext.Element(this.tree.getView().getNode(node));
+		
+		htmlNode.highlight("FF0000");
+	},
 	/**
      * Called when the delete button was clicked.
      * 
@@ -181,13 +199,18 @@ Ext.define('PartKeepr.PartManager', {
 	onItemSelect: function () {
 		if (this.grid.getSelectionModel().getCount() > 1) {
 			this.detailPanel.hide();
-		} else {
+			this.tree.syncButton.disable();
+		} else if (this.grid.getSelectionModel().getCount() == 1) {
 			var r = this.grid.getSelectionModel().getLastSelected();
 			
 			this.detailPanel.setActiveTab(this.detail);
 			this.detailPanel.show();
 			this.detail.setValues(r);
-			this.stockLevel.part = r.get("id");	
+			this.stockLevel.part = r.get("id");
+			
+			this.tree.syncButton.enable();
+		} else {
+			this.tree.syncButton.disable();
 		}
 		
 	},

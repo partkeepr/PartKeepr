@@ -5,6 +5,21 @@ Ext.define("PartKeepr.PartCategoryTree", {
 	ddGroup: 'PartTree',
 	categoryModel: 'PartKeepr.PartCategory',
 	categoryService: 'PartCategory',
+	initComponent: function () {
+		this.addEvents("syncCategory");
+		this.callParent();
+		
+		this.syncButton = Ext.create("Ext.button.Button", {
+			tooltip: i18n("Sync Category"),
+			icon: 'resources/fugue-icons/icons/arrow-split-180.png',
+        	handler: Ext.bind(function () {
+        		this.fireEvent("syncCategory");
+        	}, this),
+        	disabled: true
+		});
+		this.toolbar.add(['->', this.syncButton]);
+	},
+	
 	onBeforeDrop: function (node, data, overModel, dropPosition, dropFunction, options) {
 		var draggedRecord = data.records[0];
 		var droppedOn = this.getView().getRecord(node);
