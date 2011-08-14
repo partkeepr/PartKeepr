@@ -37,6 +37,10 @@ Ext.define('PartKeepr.MenuBar', {
 			        	text: i18n("Units"),
 			        	handler: this.editUnits,
 			        	icon: 'resources/icons/unit.png'
+			        },{
+			        	text: i18n("System Information"),
+			        	handler: this.showSystemInformation,
+			        	icon: 'resources/fugue-icons/icons/system-monitor.png'
 			        }]
 		});
 		
@@ -48,6 +52,20 @@ Ext.define('PartKeepr.MenuBar', {
 		
 		
 		this.callParent();
+	},
+	/**
+	 * Shows the system information window
+	 */
+	showSystemInformation: function () {
+		var j = Ext.create("PartKeepr.SystemInformationGrid", {
+			title: i18n("System Information"),
+			closable: true,
+			padding: "5 5 5 5"
+		});
+		
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
 	},
 	showStatistics: function () {
 		var j = Ext.create("PartKeepr.CurrentStatisticsPanel", {
