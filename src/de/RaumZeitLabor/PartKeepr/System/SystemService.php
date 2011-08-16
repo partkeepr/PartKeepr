@@ -42,6 +42,8 @@ class SystemService extends Service {
 		$aData[] = new SystemInformationRecord("post_max_size", ini_get("post_max_size"), "PHP");
 		$aData[] = new SystemInformationRecord("upload_max_filesize", ini_get("upload_max_filesize"), "PHP");
 		$aData[] = new SystemInformationRecord("post_max_size", ini_get("post_max_size"), "PHP");
+		$aData[] = new SystemInformationRecord("allow_url_fopen", ini_get("allow_url_fopen"), "PHP");
+		
 		// TODO: add information about post max, file upload size, timeout, memory limit
 		return array("data" => $aData);
 	}
