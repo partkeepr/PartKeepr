@@ -13,3 +13,7 @@
 [submodule "frontend/resources/fugue-icons"]
 	path = frontend/resources/fugue-icons
 	url = git://github.com/yusukekamiyamane/fugue-icons.git
+[submodule "3rdparty/doctrine-migrations"]
+        path = 3rdparty/doctrine-migrations
+	url = git://github.com/doctrine/migrations.git
+
