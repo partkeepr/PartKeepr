@@ -107,6 +107,8 @@ Ext.define('PartKeepr.PartManager', {
 		var node = rootNode.findChild("id", cat, true);
 		
 		this.tree.getView().ensureVisible(node);
+		this.tree.getView().scrollIntoView(node);
+		
 		var htmlNode = new Ext.Element(this.tree.getView().getNode(node));
 		
 		htmlNode.highlight("FF0000");
