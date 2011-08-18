@@ -1,0 +1,5 @@
+---
+name: PartKeepr
+migrations_namespace: DoctrineMigrations
+table_name: SchemaVersions
+migrations_directory: src/de/RaumZeitLabor/PartKeepr/Versions

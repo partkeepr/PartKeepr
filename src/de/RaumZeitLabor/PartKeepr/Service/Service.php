@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Service;
+use de\RaumZeitLabor\PartKeepr\User\User;
+
 use de\RaumZeitLabor\PartKeepr\Session\Session;
 
 declare(encoding = 'UTF-8');
@@ -45,6 +47,15 @@ class Service {
 	 */
 	public function getParameters () {
 		return $this->params;
+	}
+	
+	/**
+	 * Returns the current user for this session
+	 * 
+	 * @return User The user
+	 */
+	public function getUser () {
+		return SessionManager::getCurrentSession()->getUser();
 	}
 	
 	public function hasParameter ($name) {

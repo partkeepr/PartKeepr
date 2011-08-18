@@ -50,6 +50,9 @@ class PartKeepr {
 		$classLoader = new ClassLoader('Doctrine\ORM');
 		$classLoader->register(); // register on SPL autoload stack
 		
+		$classLoader = new ClassLoader("Doctrine\DBAL\Migrations", dirname(dirname(dirname(dirname(__DIR__)))) ."/3rdparty/doctrine-migrations/lib");
+		$classLoader->register();
+		
 		$classLoader = new ClassLoader('Doctrine\DBAL');
 		$classLoader->register(); // register on SPL autoload stack
 		
@@ -61,6 +64,8 @@ class PartKeepr {
 		
 		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", dirname(dirname(dirname(dirname(__DIR__)))) ."/3rdparty/doctrine2-nestedset/lib");
 		$classLoader->register();
+		
+		
 	}
 	
 
@@ -205,7 +210,11 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotUnit',
 			'de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix',
 			'de\RaumZeitLabor\PartKeepr\Unit\Unit',
-			'de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter'
+			'de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter',
+			
+			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDay',
+			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDayHistory',
+			'de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference',
 		);
 	}
 	

@@ -33,6 +33,10 @@ Ext.application({
     onContextMenu: function (e, target) {
     	e.preventDefault();
     },
+    /**
+     * Handles the login function. Initializes the part manager window,
+     * enables the menu bar and creates the stores+loads them.
+     */
     login: function () {
     	this.createGlobalStores();
 		this.reloadStores();
@@ -44,6 +48,23 @@ Ext.application({
 		
 		this.addItem(j);
 		this.menuBar.enable();
+		
+		/* Give the user preference stuff enough time to load */
+		/* @todo Load user preferences directly on login and not via delayed task */
+		this.displayTipWindowTask = new Ext.util.DelayedTask(this.displayTipOfTheDayWindow, this);
+		this.displayTipWindowTask.delay(1000);
+		
+    },
+    /**
+     * Displays the tip of the day window.
+     * 
+     * This method checks if the user has disabled tips, and if so, this method
+     * avoids showing the window. 
+     */
+    displayTipOfTheDayWindow: function () {
+    	if (PartKeepr.getApplication().setUserPreference("partkeepr.tipoftheday.showtips") !== false) {
+    		Ext.create("PartKeepr.TipOfTheDayWindow").show();
+    	}
     },
     logout: function () {
     	this.menuBar.disable();
@@ -106,12 +127,65 @@ Ext.application({
     				pageSize: -1,
     				autoLoad: false
     			});
+    	
+    	this.tipOfTheDayStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'PartKeepr.TipOfTheDay',
+    				pageSize: -1,
+    				autoLoad: true
+    			});
+    	
+    	this.userPreferenceStore = Ext.create("Ext.data.Store",
+    			{
+    				model: 'PartKeepr.UserPreference',
+    				pageSize: -1,
+    				autoLoad: true
+    			});
     },
     setAdmin: function (admin) {
     	this.admin = admin;
     },
     isAdmin: function () {
     	return this.admin;
+    },
+    getTipOfTheDayStore: function () {
+    	return this.tipOfTheDayStore;
+    },
+    /**
+     * Queries for a specific user preference. Returns either the value or null if the
+     * preference was not found.
+     * @param key The key to query
+     * @returns the key value, or null if nothing was found
+     */
+    getUserPreference: function (key) {
+    	var record = this.userPreferenceStore.findRecord("key", key);
+    	
+    	if (record) {
+    		return record.get("value");
+    	} else {
+    		return null;
+    	}
+    },
+    /**
+     * Sets a specific user preference. Directly commits the change to the server.
+     * 
+     * @param key The key to set
+     * @param value The value to set
+     */
+    setUserPreference: function (key, value) {
+    	var record = this.userPreferenceStore.findRecord("key", key);
+    	
+    	if (record) {
+    		record.set("value", value);
+    	} else {
+    		var j = new PartKeepr.UserPreference();
+    		j.set("key", key);
+    		j.set("value", value);
+    		
+    		this.userPreferenceStore.add(j);
+    	}
+    	
+    	this.userPreferenceStore.sync();
     },
     getUnitStore: function () {
     	return this.unitStore;
