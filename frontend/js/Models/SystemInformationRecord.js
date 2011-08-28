@@ -9,9 +9,6 @@ Ext.define("PartKeepr.SystemInformationRecord", {
 	         /* Defines the value of the property */
 	         {	name: 'value',				type: 'string' },
 	         /* Defines the category of the property */
-	         {	name: 'category',			type: 'string' },
-	         /* Defines the ID of the  */
-	         //{  name: 'id', id: 'id', type: 'integer' }
-	         
+	         {	name: 'category',			type: 'string' }
 	         ]
 });

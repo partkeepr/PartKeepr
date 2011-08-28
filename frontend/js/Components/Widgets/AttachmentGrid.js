@@ -103,6 +103,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
 		wp.on("uploadComplete", this.onFileUploaded, this);
 		
 		var j = Ext.create("Ext.window.Window", {
+			title: i18n("Take Webcam Photo"),
 			items: [
 			        wp
 			        ]

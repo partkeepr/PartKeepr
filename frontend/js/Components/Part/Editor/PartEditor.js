@@ -12,15 +12,12 @@ Ext.define('PartKeepr.PartEditor', {
 	// Layout stuff
 	border: false,
 	layout: 'fit',
-	bodyStyle: 'background:#DFE8F6;',
+	bodyStyle: 'background:#DBDBDB;',
 	
 	/**
 	 * Initializes the editor fields
 	 */
 	initComponent: function () {
-		this.keepOpenCheckbox = Ext.create("Ext.form.field.Checkbox", {
-			boxLabel: i18n("Create blank item after save")
-		});
 		
 		// Defines the basic editor fields
 		var basicEditorFields = [{
@@ -31,7 +28,7 @@ Ext.define('PartKeepr.PartEditor', {
 			},
 			{
 				layout: 'column',
-				bodyStyle: 'background:#DFE8F6',
+				bodyStyle: 'background:#DBDBDB',
 				border: false,
 				items: [{
 						xtype: 'numberfield',
@@ -122,7 +119,7 @@ Ext.define('PartKeepr.PartEditor', {
 			
 			basicEditorFields.push({
 				layout: 'column',
-				bodyStyle: 'background:#DFE8F6',
+				bodyStyle: 'background:#DBDBDB',
 				border: false,
 				items: [
 				        this.initialStockLevel,
@@ -146,7 +143,7 @@ Ext.define('PartKeepr.PartEditor', {
 			
 			basicEditorFields.push({
 				layout: 'column',
-				bodyStyle: 'background:#DFE8F6',
+				bodyStyle: 'background:#DBDBDB',
 				border: false,
 				items: [
 				        this.initialStockLevelPrice,
@@ -171,7 +168,7 @@ Ext.define('PartKeepr.PartEditor', {
 				        anchor: '100%',
 				        labelWidth: 150
 				    },
-					bodyStyle: 'background:#DFE8F6;padding: 10px;',
+					bodyStyle: 'background:#DBDBDB;padding: 10px;',
 					title: i18n("Basic Data"),
 					items: basicEditorFields
 				},
@@ -189,9 +186,6 @@ Ext.define('PartKeepr.PartEditor', {
 		
 		this.callParent();
 		
-		if (this.partMode == "create") {
-			this.bottomToolbar.add(this.keepOpenCheckbox);
-		}
 	},
 	onEditStart: function () {
 		this.bindChildStores();

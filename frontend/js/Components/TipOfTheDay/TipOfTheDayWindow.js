@@ -49,11 +49,15 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 		this.previousButton = Ext.create("Ext.button.Button", {
 			text: i18n("Previous Tip"),
         	handler: Ext.bind(this.displayPreviousTip, this),
+        	cls: 'x-btn-text-icon',
+        	icon: 'resources/icons/tip_previous.png',
         	disabled: true
 		});
 		
 		this.nextButton = Ext.create("Ext.button.Button", {
 			text: i18n("Next Tip"),
+			cls: 'x-btn-text-icon',
+			icon: 'resources/icons/tip_next.png',
         	handler: Ext.bind(this.displayNextTip, this)
 		});
 		
@@ -79,12 +83,15 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 		this.dockedItems = [{
 		    xtype: 'toolbar',
 		    dock: 'bottom',
+		    ui: 'footer',
+		    defaults: {minWidth: 100},
+		    pack: 'start',
 		    items: [
-		        this.showTipsCheckbox,
-		        this.displayReadTipsCheckbox,
-		        '->',
 		        this.previousButton,
-		        this.nextButton
+		        this.nextButton,
+		        '->',
+		        this.showTipsCheckbox,
+		        this.displayReadTipsCheckbox
 		    ]
 		}];
 		
@@ -151,14 +158,14 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 	 * @param record The currently displayed tip
 	 */
 	updateButtons: function (record) {
-		if (this.displayReadTipsCheckbox.getValue() == true) {
+		if (this.displayReadTipsCheckbox.getValue() === true) {
 			if (this.tipStore.indexOf(record) > 0) {
 				this.previousButton.enable();
 			} else {
 				this.previousButton.disable();
 			}
 			
-			if (this.tipStore.indexOf(record) == this.tipStore.getTotalCount() - 1) {
+			if (this.tipStore.indexOf(record) === this.tipStore.getTotalCount() - 1) {
 				this.nextButton.disable();
 			} else {
 				this.nextButton.enable();
@@ -185,7 +192,7 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 	 */
 	getFirstUnreadTip: function () {
 		for (var i=0;i<this.tipStore.getTotalCount();i++) {
-			if (this.tipStore.getAt(i).get("read") == false) {
+			if (this.tipStore.getAt(i).get("read") === false) {
 				return i;
 			}
 		}
@@ -198,7 +205,7 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 	 */
 	getLastUnreadTip: function () {
 		for (var i=this.tipStore.getTotalCount()-1;i>-1;i--) {
-			if (this.tipStore.getAt(i).get("read") == false) {
+			if (this.tipStore.getAt(i).get("read") === false) {
 				return i;
 			}
 		}
@@ -241,7 +248,7 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 			startIdx = this.tipStore.indexOf(this.currentTip);
 		}
 	
-		if (dir == "ASC") {
+		if (dir === "ASC") {
 			record = this.extractNextTip(startIdx);
 		} else {
 			record = this.extractPreviousTip(startIdx);
@@ -259,7 +266,7 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 	 */
 	extractNextTip: function (startIdx) {
 		var record = null, foundRecord = null;
-		if (this.displayReadTipsCheckbox.getValue() == true) {
+		if (this.displayReadTipsCheckbox.getValue() === true) {
 			var tmpIdx = startIdx + 1;
 			if (tmpIdx > this.tipStore.getTotalCount() - 1) {
 				tmpIdx = this.tipStore.getTotalCount() - 1;
@@ -285,7 +292,7 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
 	 */
 	extractPreviousTip: function (startIdx) {
 		var record = null, foundRecord = null;
-		if (this.displayReadTipsCheckbox.getValue() == true) {
+		if (this.displayReadTipsCheckbox.getValue() === true) {
 			var tmpIdx = startIdx - 1;
 			if (tmpIdx < 0) {
 				tmpIdx = 0;

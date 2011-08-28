@@ -7,3 +7,4 @@
 config.php
 /tests/reports
 partkeepr.jsb3
+theme/sass/.sass-cache/

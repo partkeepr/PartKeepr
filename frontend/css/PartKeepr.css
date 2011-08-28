@@ -70,6 +70,44 @@ td.o2 {
 #loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
 #loading .logo { background: url(../resources/images/loading.gif) no-repeat; position: absolute; display: block; top: 25px; left: 22px; width: 120px; height: 120px; }
 
-.footprint-icon {
+.icon-footprint {
 	background-image: url(../resources/fugue-icons/icons/fingerprint.png) !important;
 }
+
+.icon-system-monitor {
+	background-image: url(../resources/fugue-icons/icons/system-monitor.png) !important;
+}
+
+.icon-chart-bar {
+	background-image: url(../resources/silkicons/chart_bar.png) !important;
+}
+
+.icon-wooden-box {
+	background-image: url(../resources/fugue-icons/icons/wooden-box.png) !important;
+}
+
+.icon-unit {
+	background-image: url(../resources/icons/unit.png) !important;
+}
+
+.icon-building {
+	background-image: url(../resources/silkicons/building.png) !important;
+}
+
+.icon-lorry {
+	background-image: url(../resources/silkicons/lorry.png) !important;
+}
+
+.icon-user {
+	background-image: url(../resources/silkicons/user.png) !important;
+}
+
+.icon-ruler {
+	background-image: url(../resources/fugue-icons/icons/ruler.png) !important;
+}
+
+
+
+
+
+

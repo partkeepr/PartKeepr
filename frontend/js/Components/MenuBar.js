@@ -1,6 +1,8 @@
 Ext.define('PartKeepr.MenuBar', {
 	extend: 'Ext.toolbar.Toolbar',
 	initComponent: function () {
+		//this.cls = "partkeepr-mainmenu";
+		this.ui = "mainmenu";
 		
 		this.menu = Ext.create('Ext.menu.Menu', {
 			items: [
@@ -47,6 +49,13 @@ Ext.define('PartKeepr.MenuBar', {
 		this.items = [{
 			text: 'Menu',
 			menu: this.menu 
+		},
+		'->',
+		{
+			xtype: 'tbtext',
+			cls: 'partkeepr-logo-align',
+			text: '<div class="partkeepr-logo">PartKeepr</div>',
+			width: 200
 		}];
 		
 		
@@ -59,6 +68,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showSystemInformation: function () {
 		var j = Ext.create("PartKeepr.SystemInformationGrid", {
 			title: i18n("System Information"),
+			iconCls: 'icon-system-monitor',
 			closable: true,
 			padding: "5 5 5 5"
 		});
@@ -69,6 +79,7 @@ Ext.define('PartKeepr.MenuBar', {
 	},
 	showStatistics: function () {
 		var j = Ext.create("PartKeepr.CurrentStatisticsPanel", {
+			iconCls: 'icon-chart-bar',
 			closable: true
 		});
 		
@@ -79,6 +90,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editStorageLocations: function () {
 		var j = Ext.create("PartKeepr.StorageLocationEditorComponent", {
 			title: i18n("Storage Locations"),
+			iconCls: 'icon-wooden-box',
 			closable: true
 		});
 		
@@ -88,6 +100,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editUnits: function () {
 		var j = Ext.create("PartKeepr.UnitEditorComponent", {
 			title: i18n("Units"),
+			iconCls: 'icon-unit',
 			closable: true
 		});
 		
@@ -97,6 +110,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editManufacturers: function () {
 		var j = Ext.create("PartKeepr.ManufacturerEditorComponent", {
 			title: i18n("Manufacturers"),
+			iconCls: 'icon-building',
 			closable: true
 		});
 		
@@ -106,6 +120,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editFootprints: function () {
 		var j = Ext.create("PartKeepr.FootprintEditorComponent", {
 			title: i18n("Footprints"),
+			iconCls: 'icon-footprint',
 			closable: true
 		});
 		
@@ -115,6 +130,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editDistributors: function () {
 		var j = Ext.create("PartKeepr.DistributorEditorComponent", {
 			title: i18n("Distributors"),
+			iconCls: 'icon-lorry',
 			closable: true
 		});
 		
@@ -124,6 +140,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editUsers: function () {
 		var j = Ext.create("PartKeepr.UserEditorComponent", {
 			title: i18n("Users"),
+			iconCls: 'icon-user',
 			closable: true
 		});
 		
@@ -133,6 +150,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editPartUnits: function () {
 		var j = Ext.create("PartKeepr.PartUnitEditorComponent", {
 			title: i18n("Part Measurement Units"),
+			iconCls: 'icon-ruler',
 			closable: true
 		});
 		

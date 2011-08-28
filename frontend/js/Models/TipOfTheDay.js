@@ -6,5 +6,5 @@ Ext.define("PartKeepr.TipOfTheDay", {
 	         {	name: 'url',	type: 'string'},
 	         {  name: 'read', type: 'boolean' }
 	         ],
-	proxy: PartKeepr.getRESTProxy("TipOfTheDay"),
+	proxy: PartKeepr.getRESTProxy("TipOfTheDay")
 });

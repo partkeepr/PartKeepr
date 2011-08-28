@@ -21,6 +21,16 @@
     <target name="create-orm-proxies">
     	<exec command="doctrine orm:generate-proxies" passthru="true"/>
     </target>
+	
+	<target name="compile-theme">
+	    	<exec dir="theme/sass" command="compass compile partkeepr.scss" passthru="true"/>
+			<copy file="theme/css/partkeepr.css" tofile="frontend/css/partkeepr-theme.css"/>
+			<copy todir="frontend/resources/themes/images/">
+				<fileset dir="theme/themes/images/">
+					<include name="**/*"/>
+				</fileset>
+			</copy>
+	</target>
     
     <!-- Builds the frontend, regenerates the proxies and minifies the JS -->
 	<target name="build">

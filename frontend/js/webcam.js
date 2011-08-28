@@ -40,10 +40,11 @@ window.webcam = {
 	set_hook: function(name, callback) {
 		// set callback hook
 		// supported hooks: onLoad, onComplete, onError
-		if (typeof(this.hooks[name]) == 'undefined')
-			return alert("Hook type not supported: " + name);
-		
-		this.hooks[name] = callback;
+		if (typeof(this.hooks[name]) == 'undefined') {
+			alert("Hook type not supported: " + name);
+		} else {
+			this.hooks[name] = callback;
+		}
 	},
 	
 	fire_hook: function(name, value) {

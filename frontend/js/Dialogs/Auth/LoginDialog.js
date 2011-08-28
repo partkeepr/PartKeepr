@@ -4,7 +4,7 @@ Ext.define('PartKeepr.LoginDialog', {
 	loginField: null,
 	
 	width: 400,
-	height: 122,
+	height: 125,
 	
 	modal: true,
 	resizable: false,
@@ -40,7 +40,14 @@ Ext.define('PartKeepr.LoginDialog', {
 			        	this.loginField,
 			        	this.passwordField
 			],
-			bbar: [
+			dockedItems: [{
+			       xtype: 'toolbar',
+			       enableOverflow: true,
+			       dock: 'bottom',
+			       ui: 'footer',
+			       pack: 'start',
+			       defaults: {minWidth: 100},
+			       items: [
 			       	{
 			       		cls: 'x-btn-text-icon',
 			       		text: i18n("Connect"),
@@ -52,6 +59,7 @@ Ext.define('PartKeepr.LoginDialog', {
 			       		handler: Ext.bind(this.close, this),
 			       		icon: 'resources/silkicons/cancel.png'
 			       	}]
+			}]
 		});
 		
 		this.callParent(arguments);

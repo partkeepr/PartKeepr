@@ -1,0 +1,158 @@
+$theme-name: "partkeepr";
+
+$base-color: #c7c7c7;
+
+$blue-gradient-top: #2aaad3;
+$blue-gradient-bottom: #2067a3;
+
+$blue-light-gradient-top: #eff1f3;
+$blue-light-gradient-bottom: #b0bcc5;
+
+$blue-border-top: #2373af;
+$blue-border-bottom: #173a72;
+
+$tabbar-strip-background-color: $base-color;
+$tab-color-active: white;
+
+$tabbar-strip-height: 1;
+
+$panel-header-background-gradient: color-stops(#535353, #363636);
+$panel-border-color: #AAA;
+$panel-header-color: #EEE;
+$panel-header-font-family: tahoma,arial,verdana,sans-serif;
+$panel-header-font-weight: bold;
+
+$boundlist-background-color: lighten($base-color, 10%);
+
+$button-default-border-radius: 5px;
+$button-small-border-radius: 5px;
+
+$button-default-background-color: #cbcbcb;
+$button-default-border-color: #b9b9b9;
+$button-default-border-width: 1px;
+
+$button-default-background-gradient: color-stops(lighten($base-color,15), $base-color);
+$button-default-background-gradient-over: color-stops(lighten($base-color,20), $base-color);
+$button-default-background-gradient-pressed: color-stops($base-color, lighten($base-color,2));
+
+$button-toolbar-base-color: $base-color;
+$button-toolbar-background-color: $base-color;
+$button-toolbar-border-color: $button-default-border-color;
+$button-toolbar-background-gradient: $button-default-background-gradient;
+$button-toolbar-background-gradient-over: $button-default-background-gradient-over;
+$button-toolbar-background-gradient-pressed: $button-default-background-gradient-pressed;
+
+$toolbar-background-color: #dddddd;
+$toolbar-background-gradient: color-stops(lighten($toolbar-background-color,5),$toolbar-background-color);
+
+$fieldset-border-radius: 4px;
+$fieldset-border: 1px solid #a0a0a0;
+$fieldset-box-shadow: 0px 0px 2px white, inset 0px 0px 2px white;
+
+$form-toolbar-field-height: 22px;
+
+$form-checkbox-image: 'form/checkbox.png' !default;
+$form-radio-image: 'form/radio.png' !default;
+
+$font-family: tahoma,arial,verdana,sans-serif !default;
+
+$grid-header-trigger-width: 17px;
+
+$boundlist-item-over-background-color: #2070a6;
+$boundlist-item-over-border-color: #247eb3;
+
+$tab-base-color: #eaeaea;
+$tab-color-active: #333333;
+
+$tab-height: 23;
+
+$tip-base-color: $base-color;
+$tip-background-gradient: color-stops(lighten($base-color,15), $base-color);;
+
+$tab-background-gradient-active: color-stops($blue-gradient-top, $blue-gradient-bottom);
+
+$grid-header-over-border-color: darken(#d3d3d3, 10);
+$grid-header-over-background-color: $blue-border-top;
+$grid-header-over-background-gradient: color-stops($blue-light-gradient-top, $blue-light-gradient-bottom);
+
+$grid-over-lighten: 40;
+
+$grid-over-light-color: lighten(#d3d3d3, 10);
+$grid-over-dark-color: lighten(#a2a2a2, 20);
+
+$grid-row-cell-alt-background: lighten($grid-over-dark-color, 20);
+
+$grid-row-cell-over-background-color: $grid-over-light-color;
+$grid-row-cell-over-background-gradient: color-stops($grid-over-light-color, $grid-over-dark-color);
+
+$grid-row-cell-selected-background-gradient: color-stops($blue-gradient-top, $blue-gradient-bottom);
+$grid-row-cell-selected-background-color: $blue-gradient-top;
+
+$panel-base-color: #DBDBDB;
+
+
+$include-missing-images: true;
+
+// TEST STUFF
+
+
+@import 'ext4/default/all';
+
+.x-toolbar-mainmenu {
+	@include background-gradient($grid-over-light-color, color-stops($blue-gradient-top, $blue-gradient-bottom));
+}
+// This line changes the location of your images when creating UIs to be relative instead of within the ExtJS directory.
+// You MUST set this to true/string value if you are creating new UIs + supporting legacy browsers.
+// This only applies to new UIs. It does not apply to default component images (i.e. when changing $base-color)
+// The value can either be true, in which case the image path will be "../images/"
+// or a string, of where the path is
+$relative-image-path-for-uis: true; // defaults to "../images/" when true
+
+.x-btn-default-toolbar-small {
+	padding: 3px;
+}
+
+.x-panel-header-default .x-panel-header-text {
+	text-shadow: 1px 1px 0px black;
+}
+
+.x-accordion-hd {
+	text-shadow: clear;
+}
+
+.x-border-layout-ct {
+	/*background-color: #efefef;*/
+}
+
+.x-panel-header-default {
+	box-shadow: none;
+}
+
+.x-panel-header-default-top {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+.x-panel-header-default-framed-top {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+.partkeepr-logo {
+	color: white !important;
+	font-weight: bold;
+	font-style: italic;
+	font-family: 'Ubuntu', sans-serif !important;
+	
+	text-shadow: 0px -1px 0px #374683;
+	font-size: 24px !important;
+}
+
+.partkeepr-logo-align {
+	margin-right: 1px;
+	text-align: right;	
+}
+
+.x-tab-default-icon-text-left em {
+	margin-left: -4px;
+}

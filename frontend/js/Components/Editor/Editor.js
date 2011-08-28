@@ -2,7 +2,7 @@ Ext.define('PartKeepr.Editor', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.Editor',
 	trackResetOnLoad: true,
-	bodyStyle: 'background:#DFE8F6;padding: 10px;',
+	bodyStyle: 'background:#DBDBDB;padding: 10px;',
 	record: null,		// The record which is currently edited
 	saveText: i18n("Save"),
 	cancelText: i18n("Cancel"),
@@ -13,8 +13,8 @@ Ext.define('PartKeepr.Editor', {
     defaults: {
         anchor: '100%',
         labelWidth: 150
-
     },
+    enableButtons: true,
     
     // If false, determinates if we should sync via the store or the record itself.
     // If true, always syncs the record via it's own proxy.
@@ -31,26 +31,36 @@ Ext.define('PartKeepr.Editor', {
     	this.change = true;*/
     },
 	initComponent: function () {
-		this.saveButton = Ext.create("Ext.button.Button", {
-			text: this.saveText,
-			handler: Ext.bind(this.onItemSave, this)
-		});
+		if (this.enableButtons) {
+			this.saveButton = Ext.create("Ext.button.Button", {
+				text: this.saveText,
+				cls: 'x-btn-text-icon',
+				icon: 'resources/fugue-icons/icons/disk.png',
+				handler: Ext.bind(this.onItemSave, this)
+			});
+			
+			this.cancelButton = Ext.create("Ext.button.Button", {
+				text: this.cancelText,
+				cls: 'x-btn-text-icon',
+				icon: 'resources/silkicons/cancel.png',
+				handler: Ext.bind(this.onCancelEdit, this)
+			});
+			
+			this.bottomToolbar = Ext.create("Ext.toolbar.Toolbar", {
+				enableOverflow: true,
+				margin: '10px',
+				defaults: {minWidth: 100},
+				dock: 'bottom',
+				ui: 'footer',
+				items: [ this.saveButton, this.cancelButton ]
+			});
+			
+			Ext.apply(this, {
+				dockedItems: [ this.bottomToolbar ]});
+		}
 		
-		this.cancelButton = Ext.create("Ext.button.Button", {
-			text: this.cancelText,
-			handler: Ext.bind(this.onCancelEdit, this)
-		});
 		
-		this.bottomToolbar = Ext.create("Ext.toolbar.Toolbar", {
-			enableOverflow: true,
-			margin: '10px',
-			dock: 'bottom',
-			ui: 'footer',
-			items: [ this.saveButton, this.cancelButton ]
-		});
 		
-		Ext.apply(this, {
-			dockedItems: [ this.bottomToolbar ]});
 		
 		this.on("dirtychange", function (form, dirty) {
 			// @todo Check dirty flag

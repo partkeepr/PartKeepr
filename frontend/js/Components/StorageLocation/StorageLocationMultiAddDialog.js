@@ -13,7 +13,7 @@ Ext.define('PartKeepr.StorageLocationMultiAddDialog', {
 	
 	// Styling
 	border: false,
-	bodyStyle: 'background:#DFE8F6;padding: 10px;',
+	bodyStyle: 'background:#DBDBDB;padding: 10px;',
 	
 	/**
 	 * Initializes the component. Adds all form fields
@@ -113,7 +113,7 @@ Ext.define('PartKeepr.StorageLocationMultiAddDialog', {
 		              {
 		            	layout: 'column',
 		            	border: false,
-		            	bodyStyle: 'background:#DFE8F6;',
+		            	bodyStyle: 'background:#DBDBDB;',
 		            	items: [
 		            	        	this.storageLocationStart,
 		            	        	this.storageLocationEnd
@@ -123,7 +123,7 @@ Ext.define('PartKeepr.StorageLocationMultiAddDialog', {
 		            	layout: 'column',
 		            	border: false,
 		            	plain: true,
-		            	bodyStyle: 'background:#DFE8F6;',
+		            	bodyStyle: 'background:#DBDBDB;',
 		            	items: [
 		            	        	this.storageLocationZeroPrefix,
 		            	        	this.storageLocationOverallLength

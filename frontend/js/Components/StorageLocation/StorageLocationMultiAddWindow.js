@@ -29,14 +29,20 @@ Ext.define("PartKeepr.StorageLocationMultiCreateWindow", {
        		scope: this
 		});
 		
-		this.bbar = [
-		       	this.addButton,
-		       	{
-		       		text: i18n("Close"),
-		       		handler: this.onCloseClick,
-		       		scope: this,
-		       		icon: 'resources/silkicons/cancel.png'
-		       	}];
+		this.dockedItems = [{
+			xtype: 'toolbar',
+			defaults: {minWidth: 100},
+			dock: 'bottom',
+			ui: 'footer',
+			pack: 'start',
+			items: [this.addButton,
+	       	{
+	       		text: i18n("Close"),
+	       		handler: this.onCloseClick,
+	       		scope: this,
+	       		icon: 'resources/silkicons/cancel.png'
+	       	}]
+		}];
 		
 		this.callParent();
 	},

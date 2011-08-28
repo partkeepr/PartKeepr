@@ -74,7 +74,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		});
 		
 		this.form = Ext.create("Ext.form.Panel", {
-			bodyStyle: 'background:#DFE8F6;',
+			bodyStyle: 'background:#DBDBDB;',
 			border: false,
 			items: [{
 					xtype: 'fieldcontainer',

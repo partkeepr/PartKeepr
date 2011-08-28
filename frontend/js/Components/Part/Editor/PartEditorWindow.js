@@ -18,6 +18,9 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	minHeight: 300,
 	height: 390,
 	
+	saveText: i18n("Save"),
+	cancelText: i18n("Cancel"),
+	
 	/* Default edit mode. If mode = "create", we show additional fields */
 	partMode: 'edit',
 	title: i18n("Add Part"),
@@ -28,7 +31,8 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	initComponent: function () {
 		this.editor = Ext.create("PartKeepr.PartEditor", {
 			border: false,
-			partMode: this.partMode
+			partMode: this.partMode,
+			enableButtons: false
 		});
 		
 		/* If the edit mode is "create", we need to enlarge the window a bit to fit the fields without scrolling */
@@ -45,6 +49,48 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		this.editor.on("editorClose", function (record) { this.close();}, this, { delay: 200 });
 		
 		this.editor.on("titleChange", function (val) { this.setTitle(val); }, this);
+		
+		this.saveButton = Ext.create("Ext.button.Button", {
+			text: this.saveText,
+			cls: 'x-btn-text-icon',
+			icon: 'resources/fugue-icons/icons/disk.png',
+			handler: Ext.bind(this.onItemSave, this)
+		});
+		
+		this.cancelButton = Ext.create("Ext.button.Button", {
+			text: this.cancelText,
+			cls: 'x-btn-text-icon',
+			icon: 'resources/silkicons/cancel.png',
+			handler: Ext.bind(this.onCancelEdit, this)
+		});
+		
+		this.bottomToolbar = Ext.create("Ext.toolbar.Toolbar", {
+			enableOverflow: true,
+			defaults: {minWidth: 100},
+			dock: 'bottom',
+			ui: 'footer',
+			pack: 'start',
+			items: [ this.saveButton, this.cancelButton ]
+		});
+		
+		this.dockedItems = [ this.bottomToolbar ];
+		
+		this.keepOpenCheckbox = Ext.create("Ext.form.field.Checkbox", {
+			boxLabel: i18n("Create blank item after save")
+		});
+		
+		if (this.partMode == "create") {
+			this.bottomToolbar.add(this.keepOpenCheckbox);
+		}
+		
+		this.editor.keepOpenCheckbox = this.keepOpenCheckbox;
+		
 		this.callParent();
+	},
+	onCancelEdit: function () {
+		this.editor.onCancelEdit();
+	},
+	onItemSave: function () {
+		this.editor.onItemSave();
 	}
 });

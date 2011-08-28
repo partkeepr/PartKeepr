@@ -3,6 +3,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 	alias: 'widget.PartFilterPanel',
 	bodyPadding: '10px',
 	layout: 'column',
+	bodyStyle: 'background:#DBDBDB;',
 	initComponent: function () {
 		
 		// Create the filter fields
@@ -40,12 +41,16 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.resetButton = Ext.create("Ext.button.Button", {
 			text: i18n("Reset"),
 			handler: this.onReset,
+			cls: 'x-btn-text-icon',
+			icon: 'resources/diagona-icons/icons/16/101.png',
 			scope: this
 		});
 		
 		// Create the apply button
 		this.applyButton = Ext.create("Ext.button.Button", {
 			text: i18n("Apply"),
+			cls: 'x-btn-text-icon',
+			icon: 'resources/diagona-icons/icons/16/102.png',
 			handler: this.onApply,
 			scope: this
 		});
@@ -55,6 +60,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 			xtype: 'toolbar',
 			enableOverflow: true,
 			dock: 'bottom',
+			defaults: {minWidth: 100},
 			items: [ this.applyButton, this.resetButton ]
 		}];
 		

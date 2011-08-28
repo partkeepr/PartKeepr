@@ -266,7 +266,7 @@ Ext.application({
     			xtype: 'tabpanel',
     			border: false,
     			region: 'center',
-    			bodyStyle: 'background:#DFE8F6',
+    			bodyStyle: 'background:#DBDBDB',
     			plugins: Ext.create('Ext.ux.TabCloseMenu')
     			
     	});

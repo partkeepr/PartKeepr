@@ -99,16 +99,18 @@ Ext.define('Ext.ux.SimpleIFrame', {
     this.callParent(arguments);
   },
   update: function(content) {
+	var doc;
+	  
     this.setSrc('about:blank');
     try {
-      var doc=this.getDocument();
+      doc=this.getDocument();
       doc.open();
       doc.write(content);
       doc.close();
     } catch(err) {
       // reset if any permission issues
       this.reset();
-      var doc=this.getDocument();
+      doc=this.getDocument();
       doc.open();
       doc.write(content);
       doc.close();

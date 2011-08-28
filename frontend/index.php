@@ -8,8 +8,10 @@ include("config.php");
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<title>PartKeepr</title>
 		
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700italic' rel='stylesheet' type='text/css'>
+		
 		<!-- Include the ExtJS CSS Theme -->
-		<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css"/>
+		<link rel="stylesheet" type="text/css" href="css/partkeepr-theme.css"/>
 		
 		<link rel="stylesheet" type="text/css" href="js/Ext.ux/statusbar/css/statusbar.css"/>
 		

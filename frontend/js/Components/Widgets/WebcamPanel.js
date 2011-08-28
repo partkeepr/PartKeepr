@@ -6,17 +6,17 @@ Ext.define('PartKeepr.WebcamPanel', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.WebcamPanel',
 	initComponent: function () {
+		
+		this.takePhotoButton = Ext.create("Ext.button.Button", {
+			text: i18n("Take picture and upload"),
+        	icon: 'resources/fugue-icons/icons/webcam.png',
+        	handler: this.takePhoto
+		});
+		
 		// Create a toolbar with the "take photo" button
 		this.bbar = Ext.create("Ext.toolbar.Toolbar", {
 			enableOverflow: true,
-			items: [
-			        {
-			        	xtype: 'button',
-			        	text: i18n("Take picture and upload"),
-			        	icon: 'resources/fugue-icons/icons/webcam.png',
-			        	handler: this.takePhoto
-			        }
-			        ]
+			items: [ this.takePhotoButton ]
 		});
 		
 		// Render the SWF
@@ -44,6 +44,8 @@ Ext.define('PartKeepr.WebcamPanel', {
 	 */
 	takePhoto: function () {
 		webcam.snap();
+		this.takePhotoButton.disable();
+		this.takePhotoButton.setText(i18n("Uploading..."));
 	},
 	/**
 	 * Called when the upload is complete. Resumes webcam operation
