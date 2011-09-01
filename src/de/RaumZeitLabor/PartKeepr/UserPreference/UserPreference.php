@@ -97,7 +97,8 @@ class UserPreference implements Serializable {
 	public function serialize () {
 		return array(
 			"key" => $this->getKey(),
-			"value" => $this->getValue()
+			"value" => $this->getValue(),
+			"user_id" => $this->getUser()->getId()
 		);
 	}
 	

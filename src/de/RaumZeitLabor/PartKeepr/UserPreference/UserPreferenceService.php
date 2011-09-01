@@ -34,7 +34,18 @@ class UserPreferenceService extends Service implements RestfulService {
 		$dql =  "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
-		$query->setParameter("user", SessionManager::getCurrentSession()->getUser());
+		
+		if ($this->hasParameter("user_id") && SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+			if ($this->getParameter("user_id") != 0) {
+				$query->setParameter("user", User::loadById($this->getParameter("user_id")));
+			} else {
+				$query->setParameter("user", 0);
+			}
+			
+		} else {
+			$query->setParameter("user", SessionManager::getCurrentSession()->getUser());
+		}
+		
 		
 		foreach ($query->getResult() as $result) {
 			$aPreferences[] = $result->serialize();	
@@ -72,6 +83,12 @@ class UserPreferenceService extends Service implements RestfulService {
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::destroy()
 	 */
 	public function destroy () {
-		UserPreference::deletePreference($this->getUser(), $this->getParameter("key"));
+		if ($this->hasParameter("user_id") && SessionManager::getCurrentSession()->getUser()->isAdmin()) {
+			UserPreference::deletePreference(User::loadById($this->getParameter("user_id")), $this->getParameter("key"));
+		} else {
+			UserPreference::deletePreference($this->getUser(), $this->getParameter("key"));
+		}
+		
+		
 	}
 }
