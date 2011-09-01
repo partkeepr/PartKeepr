@@ -70,3 +70,23 @@ Configuration::setOption("partkeepr.images.path", __DIR__."/data/images/");
  * Specifies the cache dir
  */
 Configuration::setOption("partkeepr.images.cache", Configuration::getOption("partkeepr.images.path")."cache/");
+
+/**
+ * Specifies if auto login is wanted or not
+ */
+Configuration::setOption("partkeepr.frontend.autologin.enabled", false);
+
+/**
+ * Specifies the auto login username
+ */
+Configuration::setOption("partkeepr.frontend.autologin.username", null);
+
+/**
+ * Specifies the auto login password
+ */
+Configuration::setOption("partkeepr.frontend.autologin.password", null);
+
+/**
+ * Specifies if frontend debugging should be turned on
+ */
+Configuration::setOption("partkeepr.frontend.debug", false);

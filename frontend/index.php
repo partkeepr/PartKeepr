@@ -1,5 +1,14 @@
 <?php
-include("config.php");
+namespace de\RaumZeitLabor\PartKeepr\Frontend;
+declare(encoding = 'UTF-8');
+
+use de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+
+include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+
+PartKeepr::initialize("");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
         "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -24,7 +33,7 @@ include("config.php");
 		
 		<?php
 		// @todo This is ugly, but how to fix?
-			if ($debug) {
+			if (Configuration::getOption("partkeepr.frontend.debug", false) === true) {
 		?>
 			<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
 			<script type="text/javascript" src="js/partkeepr-debug.js"></script>
@@ -60,17 +69,17 @@ $maxFilesize = return_bytes(ini_get("upload_max_filesize"));
 
 $maxUploadSize = ($maxPostSize < $maxFilesize) ? $maxPostSize : $maxFilesize;
 
-$imagick = new Imagick();
+$imagick = new \Imagick();
 ?>
 <script type="text/javascript">
 window.maxUploadSize = <?php echo $maxUploadSize; ?>;
 window.availableImageFormats = <?php echo json_encode($imagick->queryFormats()); ?>;
 
 <?php 
-if ($autoLogin) {
+if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === true) {
 ?>
-window.autoLoginUsername = "admin";
-window.autoLoginPassword = "admin";
+window.autoLoginUsername = "<?php echo Configuration::getOption("partkeepr.frontend.autologin.username"); ?>";
+window.autoLoginPassword = "<?php echo Configuration::getOption("partkeepr.frontend.autologin.password"); ?>";
 <?php
 }
 ?>
