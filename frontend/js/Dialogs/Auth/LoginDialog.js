@@ -70,6 +70,8 @@ Ext.define('PartKeepr.LoginDialog', {
 			this.loginField.setValue(PartKeepr.autoLoginUsername);
 			this.passwordField.setValue(PartKeepr.autoLoginPassword);
 			this.login();
+			
+			PartKeepr.autoLoginUsername = null;
 		}
 	},
 	login: function () {
