@@ -62,7 +62,7 @@ Ext.application({
      * avoids showing the window. 
      */
     displayTipOfTheDayWindow: function () {
-    	if (PartKeepr.getApplication().setUserPreference("partkeepr.tipoftheday.showtips") !== false) {
+    	if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") !== false) {
     		Ext.create("PartKeepr.TipOfTheDayWindow").show();
     	}
     },
@@ -186,6 +186,9 @@ Ext.application({
     	}
     	
     	this.userPreferenceStore.sync();
+    },
+    getUserPreferenceStore: function () {
+    	return this.userPreferenceStore;
     },
     getUnitStore: function () {
     	return this.unitStore;
