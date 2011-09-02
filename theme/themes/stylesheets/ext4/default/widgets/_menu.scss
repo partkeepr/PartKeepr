@@ -121,7 +121,7 @@
         cursor: pointer;
 
         .#{$prefix}menu-item-link {
-            @include background-gradient($menu-item-active-background-color, 'matte');
+            @include background-gradient($menu-item-active-background-color, $menu-item-active-background-gradient);
             margin: 0px;
             border: 1px solid $menu-item-active-border-color;
             cursor: pointer;

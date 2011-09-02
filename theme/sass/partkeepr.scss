@@ -95,6 +95,12 @@ $include-missing-images: true;
 
 // TEST STUFF
 
+$menu-item-active-background-color: $blue-light-gradient-top;
+$menu-item-active-background-gradient: color-stops($blue-light-gradient-top, $blue-light-gradient-bottom);
+//$menu-item-active-border-color: white;
+
+//$menu-item-active-background-color: #CBCBCB;
+//$menu-background-color: #CBCBCB;
 
 @import 'ext4/default/all';
 
@@ -156,3 +162,4 @@ $relative-image-path-for-uis: true; // defaults to "../images/" when true
 .x-tab-default-icon-text-left em {
 	margin-left: -4px;
 }
+
