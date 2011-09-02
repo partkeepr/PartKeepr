@@ -152,20 +152,11 @@
 
     $framepad: max(bottom($tab-bottom-border-radius), left($tab-bottom-border-radius)) - bottom($tab-bottom-border-width);
 
-    .#{$prefix}tab-default-bottom {
-        @if $tab-inner-border {
-            @include inner-border(
-                $width: $tab-bottom-inner-border-width,
-                $color: $tab-inner-border-color
-            );
-        }
-
+   .#{$prefix}tab-default-bottom {
+   
+   		@include box-shadow(0 -1px 0 0 #FFFFFF inset, -1px 0 0 0 #FFFFFF inset, 1px 0 0 0 #FFFFFF inset);
+   		  
         border-top: 1px solid $tabbar-strip-border-color !important;
-
-        @include inner-border(
-            $width: $tab-bottom-inner-border-width,
-            $color: $tab-inner-border-color
-        );
 
         em {
             padding-top: $framepad;
@@ -173,8 +164,8 @@
 
         button,
         .#{$prefix}tab-inner {
-            height: $tab-height - $framepad * 2 - bottom($tab-bottom-border-width);
-            line-height: $tab-height - $framepad * 2 - bottom($tab-bottom-border-width);
+        	height: $tab-height - $framepad * 2 - bottom($tab-bottom-border-width);
+        	line-height: $tab-height - $framepad * 2 - bottom($tab-bottom-border-width);
         }
     }
 
@@ -250,7 +241,7 @@
         @include background-gradient($tab-base-color-over, $tab-background-gradient-over, top);
     }
     .#{$prefix}tab-bottom-over {
-        @include background-gradient($tab-base-color-over, $tab-background-gradient-over, bottom);
+        @include background-gradient($tab-base-color-over, $tab-background-gradient-over, top);
     }
 
     //active
@@ -286,7 +277,7 @@
         @include background-gradient($tab-base-color-active, $tab-background-gradient-active, top);
     }
     .#{$prefix}tab-bottom-active {
-        @include background-gradient($tab-base-color-active, $tab-background-gradient-active, bottom);
+        @include background-gradient($tab-base-color-active, $tab-background-gradient-active, top);
     }
 
     //disabled
