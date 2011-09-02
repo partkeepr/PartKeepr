@@ -52,7 +52,7 @@ Ext.application({
 		/* Give the user preference stuff enough time to load */
 		/* @todo Load user preferences directly on login and not via delayed task */
 		this.displayTipWindowTask = new Ext.util.DelayedTask(this.displayTipOfTheDayWindow, this);
-		this.displayTipWindowTask.delay(1000);
+		this.displayTipWindowTask.delay(100);
 		
     },
     /**
@@ -62,8 +62,23 @@ Ext.application({
      * avoids showing the window. 
      */
     displayTipOfTheDayWindow: function () {
+    	if (!this.userPreferenceStore._loaded) {
+    		this.displayTipWindowTask.delay(100);
+    		return;
+    		
+    	}
+    	
+    	if (!this.tipOfTheDayStore._loaded) {
+    		this.displayTipWindowTask.delay(100);
+    		return;
+    	}
+    	
     	if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") !== false) {
-    		Ext.create("PartKeepr.TipOfTheDayWindow").show();
+    		var j = Ext.create("PartKeepr.TipOfTheDayWindow");
+    		
+    		if (j.getLastUnreadTip() !== null) {
+    			j.show();
+    		}
     	}
     },
     logout: function () {
@@ -132,15 +147,27 @@ Ext.application({
     			{
     				model: 'PartKeepr.TipOfTheDay',
     				pageSize: -1,
-    				autoLoad: true
+    				autoLoad: true,
+    				listeners: {
+    					scope: this,
+    					load: this.storeLoaded
+    				}
     			});
     	
     	this.userPreferenceStore = Ext.create("Ext.data.Store",
     			{
     				model: 'PartKeepr.UserPreference',
     				pageSize: -1,
-    				autoLoad: true
+    				autoLoad: true,
+    				listeners: {
+    					scope: this,
+    					load: this.storeLoaded
+    				}
     			});
+    },
+    storeLoaded: function (store) {
+    	console.log("FOO");
+    	store._loaded = true;
     },
     setAdmin: function (admin) {
     	this.admin = admin;
