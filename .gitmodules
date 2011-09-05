@@ -14,3 +14,6 @@
 [submodule "3rdparty/extjs"]
 	path = 3rdparty/extjs
 	url = git://github.com/partkeepr/ExtJS4.git
+[submodule "3rdparty/doctrine-migrations"]
+	path = 3rdparty/doctrine-migrations
+	url = git://github.com/doctrine/migrations.git
