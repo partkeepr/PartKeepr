@@ -4,16 +4,10 @@
 [submodule "frontend/resources/flags"]
 	path = frontend/resources/flags
 	url = git://github.com/partkeepr/famfamfam_flags.git
-[submodule "3rdparty/extjs"]
-	path = 3rdparty/extjs
-	url = git://github.com/partkeepr/ExtJS4.git
 [submodule "frontend/resources/mimetypes"]
 	path = frontend/resources/mimetypes
 	url = git://github.com/partkeepr/splitbrain_mimetypes.git
 [submodule "frontend/resources/fugue-icons"]
 	path = frontend/resources/fugue-icons
 	url = git://github.com/yusukekamiyamane/fugue-icons.git
-[submodule "3rdparty/doctrine-migrations"]
-        path = 3rdparty/doctrine-migrations
-	url = git://github.com/doctrine/migrations.git
 
