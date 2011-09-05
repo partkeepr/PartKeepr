@@ -1,6 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Setup;
 
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+
 declare(encoding = 'UTF-8');
 
 class Setup {
