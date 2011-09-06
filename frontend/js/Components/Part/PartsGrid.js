@@ -43,6 +43,15 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		this.addEvents("editPart");
 		
+		// Bugfix for scroller becoming detached.
+		// @todo Remove with ExtJS 4.1
+		this.on('scrollershow', function(scroller) {
+			  if (scroller && scroller.scrollEl) {
+			    scroller.clearManagedListeners(); 
+			    scroller.mon(scroller.scrollEl, 'scroll', scroller.onElScroll, scroller); 
+			  }
+			});
+		
 		// Initialize the panel
 		this.callParent();
 		
