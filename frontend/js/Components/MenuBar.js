@@ -46,8 +46,25 @@ Ext.define('PartKeepr.MenuBar', {
 			        }]
 		});
 		
+		this.systemMenu = Ext.create('Ext.menu.Menu', {
+			items: [
+			{
+	        	text: i18n('Disconnect'),
+	        	icon: 'resources/silkicons/disconnect.png',
+	        	handler: this.disconnect
+	        },{
+	        	text: i18n("User Preferences"),
+	        	icon: 'resources/fugue-icons/icons/gear.png',
+	        	handler: this.showUserPreferences
+	        }
+			]
+		});
+		
 		this.items = [{
-			text: 'Menu',
+			text: i18n("System"),
+			menu: this.systemMenu
+		},{
+			text: i18n('Menu'),
 			menu: this.menu 
 		},
 		'->',
@@ -61,6 +78,18 @@ Ext.define('PartKeepr.MenuBar', {
 		
 		
 		this.callParent();
+	},
+	showUserPreferences: function () {
+		var j = new PartKeepr.UserPreferencePanel({
+			iconCls: 'icon-gear',
+			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	disconnect: function () {
+		PartKeepr.getApplication().logout();
 	},
 	/**
 	 * Shows the system information window

@@ -88,7 +88,16 @@ class UserPreferenceService extends Service implements RestfulService {
 		} else {
 			UserPreference::deletePreference($this->getUser(), $this->getParameter("key"));
 		}
+	}
+	
+	public function changePassword () {
+		if (!$this->getUser()->compareHashedPassword($this->getParameter("oldpassword"))) {
+			throw new \Exception("Invalid Password");
+		} else {
+			$this->getUser()->setHashedPassword($this->getParameter("newpassword"));
+		}
 		
+		return array("data" => PartKeepr::i18n("Password changed successfully"));
 		
 	}
 }
