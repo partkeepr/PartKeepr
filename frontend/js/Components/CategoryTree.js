@@ -98,6 +98,7 @@ Ext.define("PartKeepr.CategoryTree", {
 		}*/
 		
 		nodeData.leaf = false;
+                nodeData.loaded = true;
 		
 		var node = root.appendChild(Ext.create(this.categoryModel, nodeData));
 		
