@@ -90,3 +90,8 @@ Configuration::setOption("partkeepr.frontend.autologin.password", null);
  * Specifies if frontend debugging should be turned on
  */
 Configuration::setOption("partkeepr.frontend.debug", false);
+
+/**
+ * Specifies if password changing is allowed.
+ */
+Configuration::setOption("partkeepr.frontend.allow_password_change", true);

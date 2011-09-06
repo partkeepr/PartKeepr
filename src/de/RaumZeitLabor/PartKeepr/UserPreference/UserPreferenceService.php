@@ -91,6 +91,10 @@ class UserPreferenceService extends Service implements RestfulService {
 	}
 	
 	public function changePassword () {
+		if (Configuration::getOption("partkeepr.frontend.allow_password_change", true) === false) {
+			throw new \Exception("Password changing has been disabled on this server");
+		}
+		
 		if (!$this->getUser()->compareHashedPassword($this->getParameter("oldpassword"))) {
 			throw new \Exception("Invalid Password");
 		} else {
