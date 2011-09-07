@@ -1,6 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Frontend;
 use de\RaumZeitLabor\PartKeepr\Part\PartImage;
+use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage;
 
 use de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage;
 
@@ -32,6 +33,9 @@ if (substr($id, 0, 4) === "TMP:") {
 			case Image::IMAGE_FOOTPRINT:
 				$image = FootprintImage::loadById($id);
 				break;
+			case Image::IMAGE_STORAGELOCATION:
+					$image = StorageLocationImage::loadById($id);
+					break;
 			case Image::IMAGE_PART:
 				$image = PartImage::loadById($id);
 				break;

@@ -3,6 +3,8 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 	alias: 'widget.StorageLocationEditor',
 	saveText: i18n("Save Storage Location"),
 	
+	layout: 'column',
+	
 	initComponent: function () {
 		var config = {};
 		
@@ -32,17 +34,39 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 		
 		var container = Ext.create("Ext.form.FieldContainer", {
 			fieldLabel: i18n("Contained Parts"),
-			labelWidth: 150,
+			labelWidth: 110,
 			layout: 'fit',
 			height: 200,
 			items: this.gridPanel
 		});
 		
+		
+		
 		this.items =  [{
-			xtype: 'textfield',
-			name: 'name',
-			fieldLabel: i18n("Storage Location")
-		}, container ];
+			columnWidth: 1,
+   			minWidth: 500,
+   			layout: 'anchor',
+			xtype: 'container',
+			margin: '0 5 0 0',
+			items: [{
+			        	xtype: 'textfield',
+			        	name: 'name',
+			        	labelWidth: 110,
+			        	fieldLabel: i18n("Storage Location")
+					},
+					container
+					]},
+					{
+						width: 370,
+						height: 250,
+						xtype: 'remoteimagefield',
+						name: 'image_id',
+						imageType: 'storagelocation',
+						imageWidth: 256,
+						imageHeight: 256,
+						labelWidth: 110,
+						fieldLabel: i18n("Image")
+					}];
 		
 		this.on("startEdit", this.onStartEdit, this);
 		this.callParent();

@@ -192,6 +192,7 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory',
 		
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation',
+			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage',
 		
 			'de\RaumZeitLabor\PartKeepr\Stock\StockEntry',
 		
@@ -214,7 +215,7 @@ class PartKeepr {
 			
 			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDay',
 			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDayHistory',
-			'de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference',
+			'de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference'
 		);
 	}
 	

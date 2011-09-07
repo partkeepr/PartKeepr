@@ -17,6 +17,13 @@ class StorageLocation extends BaseEntity implements Serializable, Deserializable
 	private $name;
 
 	/**
+	 * Holds the storage location image
+	 * @OneToOne(targetEntity="de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage",mappedBy="storageLocation",cascade={"persist", "remove"})
+	 * @var StorageLocationImage
+	 */
+	private $image;
+	
+	/**
 	 * Sets the name for the storage location
 	 * @param string $name the name to set
 	 */
@@ -33,11 +40,31 @@ class StorageLocation extends BaseEntity implements Serializable, Deserializable
 	}
 	
 	/**
+	 * Sets the storage location image
+	 * @param StorageLocationImage $image The storage location image
+	 */
+	public function setImage (StorageLocationImage $image) {
+		$this->image = $image;
+		$image->setStorageLocation($this);
+	}
+	
+	/**
+	 * Returns the storage location image
+	 * @return StorageLocationImage The storage location image
+	 */
+	public function getImage () {
+		return $this->image;
+	}
+	
+	/**
 	 * Returns this storage location in serialized form
 	 * @return array The serialized storage location
 	 */
 	public function serialize () {
-		return array("id" => $this->getId(), "name" => $this->getName());
+		return array(
+			"id" => $this->getId(),
+			"name" => $this->getName(),
+			"image_id" => is_object($this->getImage()) ? $this->getImage()->getId() : null);
 	}
 	
 	/**
@@ -50,6 +77,30 @@ class StorageLocation extends BaseEntity implements Serializable, Deserializable
 				case "name":
 					$this->setName($value);
 					break;
+				case "image_id":
+					if ($value == "") {
+						echo "/** Breaking because of empty value */";
+						break;
+					}
+				
+					try {
+						$image = StorageLocationImage::loadById($value);
+						$this->setImage($image);
+					} catch (\Exception $e) {
+						if ($this->getImage()) {
+							// Image was not found, maybe a temporary image?
+							$this->getImage()->replaceFromTemporaryFile($value);
+						} else {
+							$image = StorageLocationImage::createFromTemporaryFile($value);
+							$this->setImage($image);
+							echo "/**";
+							echo $image->getId();
+							echo "*/";
+							echo "/** FOO */";
+						}
+					}
+				
+				break;
 			}
 		}
 	}

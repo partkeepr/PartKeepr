@@ -90,7 +90,7 @@ class ServiceManager {
 			return $service->getHeader("session");
 		}
 			
-		if (array_key_exists("session", $_REQUEST) && $session === null) {
+		if (array_key_exists("session", $_REQUEST)) {
 			return $_REQUEST["session"];
 		}
 	}

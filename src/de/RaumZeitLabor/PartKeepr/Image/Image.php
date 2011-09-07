@@ -15,6 +15,7 @@ abstract class Image extends UploadedFile {
 	const IMAGE_ICLOGO = "iclogo";
 	const IMAGE_TEMP = "temp";
 	const IMAGE_PART = "part";
+	const IMAGE_STORAGELOCATION = "storagelocation";
 	const IMAGE_FOOTPRINT = "footprint";
 	
 	/**
@@ -40,6 +41,7 @@ abstract class Image extends UploadedFile {
 			case Image::IMAGE_TEMP:
 			case Image::IMAGE_PART:
 			case Image::IMAGE_FOOTPRINT:
+			case Image::IMAGE_STORAGELOCATION:
 				parent::setType($type);
 				break;
 			default:
