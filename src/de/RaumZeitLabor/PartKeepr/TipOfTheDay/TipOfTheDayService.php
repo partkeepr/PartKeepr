@@ -65,12 +65,17 @@ class TipOfTheDayService extends Service implements RestfulService {
 	public function markTipAsRead () {
 		$this->requireParameter("name");
 		
-		$th = new TipOfTheDayHistory;
-		$th->setUser($this->getUser());
-		$th->setName($this->getParameter("name"));
+		try {
+			$th = new TipOfTheDayHistory;
+			$th->setUser($this->getUser());
+			$th->setName($this->getParameter("name"));
+			
+			PartKeepr::getEM()->persist($th);
+			PartKeepr::getEM()->flush();
+		} catch (\Exception $e) {
+			/* Do nothing */
+		}
 		
-		PartKeepr::getEM()->persist($th);
-		PartKeepr::getEM()->flush();
 	}
 	
 	/**
