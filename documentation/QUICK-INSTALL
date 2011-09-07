@@ -19,6 +19,11 @@ Prequisites:
 * Tokenizer Support
 * A working PEAR installation
 
+Get the git submodules
+----------------------
+
+git submodule update
+
 
 Install the required PEAR packages:
 -----------------------------------
