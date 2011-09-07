@@ -29,6 +29,7 @@ Install the required PEAR packages:
 -----------------------------------
 
 pear config-set auto_discover 1
+pear channel-discover pear.phpunit.de
 pear install phpunit/PHPUnit
 pear channel-discover pear.phing.info
 pear install phing/phing
