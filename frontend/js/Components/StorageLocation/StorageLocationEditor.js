@@ -36,7 +36,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 			fieldLabel: i18n("Contained Parts"),
 			labelWidth: 110,
 			layout: 'fit',
-			height: 200,
+			height: 246,
 			items: this.gridPanel
 		});
 		
