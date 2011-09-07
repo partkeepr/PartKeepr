@@ -63,11 +63,23 @@ class TipOfTheDayService extends Service implements RestfulService {
 	 * Uses the parameter "name" to identify the tip.
 	 */
 	public function markTipAsRead () {
+		$this->requireParameter("name");
+		
 		$th = new TipOfTheDayHistory;
 		$th->setUser($this->getUser());
 		$th->setName($this->getParameter("name"));
 		
 		PartKeepr::getEM()->persist($th);
 		PartKeepr::getEM()->flush();
+	}
+	
+	/**
+	 * Marks all tips as unread for the current user
+	 */
+	public function markAllTipsAsUnread () {
+		$dql = "DELETE FROM de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDayHistory th WHERE th.user = :user";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("user", $this->getUser());
+		$query->execute();
 	}
 }
