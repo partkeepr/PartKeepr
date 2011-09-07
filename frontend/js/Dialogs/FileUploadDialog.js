@@ -5,7 +5,10 @@ Ext.define('PartKeepr.FileUploadDialog', {
     fileFieldLabel: i18n("File"),
     uploadButtonText: i18n('Select File...'),
     uploadURL: PartKeepr.getBasePath()+"/TempFile",
+    layout: 'fit',
+    resizable: false,
     modal: true,
+    iconCls: 'icon-drive-upload',
     initComponent: function () {
     	
     	if (this.imageUpload) {
@@ -17,6 +20,8 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	this.uploadButton = Ext.create("Ext.button.Button",
     			{
     	        	text: i18n('Upload'),
+    	        	iconCls: 'icon-drive-upload',
+    	        	width: 120,
     	        	handler: Ext.bind(function() {
     	        		var form = this.form.getForm();
     	        		
@@ -63,6 +68,8 @@ Ext.define('PartKeepr.FileUploadDialog', {
     		
     		this.fileFormatButton = Ext.create("Ext.button.Button", {
     			text: i18n("Available Formats"),
+    			width: 120,
+    			iconCls: 'icon-infocard',
     			handler: this.showAvailableFormats,
     			scope: this
     		});
@@ -100,6 +107,8 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	    buttons: this.tbButtons
     	});
     	
+    	this.on("beforedestroy", this.onBeforeDestroy, this);
+    	
     	this.items = this.form;
     	this.callParent();
     },
@@ -123,5 +132,8 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	
     	
     	this.tip.show();
+    },
+    onBeforeDestroy: function () {
+    	this.tip.destroy();
     }
 });

@@ -110,7 +110,10 @@ td.o2 {
 	background-image: url(../resources/fugue-icons/icons/gear.png) !important;
 }
 
+.icon-drive-upload {
+	background-image: url(../resources/fugue-icons/icons/drive-upload.png) !important;
+}
 
-
-
-
+.icon-infocard {
+	background-image: url(../resources/fugue-icons/icons/infocard.png) !important;
+}
