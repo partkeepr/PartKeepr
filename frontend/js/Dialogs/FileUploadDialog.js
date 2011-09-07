@@ -134,6 +134,8 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	this.tip.show();
     },
     onBeforeDestroy: function () {
-    	this.tip.destroy();
+    	if (this.tip) {
+    		this.tip.destroy();	
+    	}
     }
 });
