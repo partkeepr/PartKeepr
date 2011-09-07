@@ -6,8 +6,9 @@ Ext.define('PartKeepr.UserPreferencePanel', {
 	initComponent: function () {
 		
 		this.passwordChangePanel = Ext.create("PartKeepr.UserPasswordChangePanel");
-		
-		this.items = [ this.passwordChangePanel ];
+		this.tipsPanel = Ext.create("PartKeepr.TipOfTheDayPreferencesPanel");
+                
+		this.items = [ this.tipsPanel, this.passwordChangePanel ];
 		this.callParent();
 	}
 });
