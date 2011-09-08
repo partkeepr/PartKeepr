@@ -14,8 +14,8 @@ declare(encoding = 'UTF-8');
  * Represents an abstract category
  */
 class AbstractCategory extends BaseEntity implements Node, Serializable {
-	/**
-	 * The "left" property of the nested set
+    /**
+     * The "left" property of the nested set
      * @Column(type="integer")
      * @var integer
      */
