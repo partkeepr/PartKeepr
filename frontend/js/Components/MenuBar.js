@@ -33,8 +33,17 @@ Ext.define('PartKeepr.MenuBar', {
 			        	icon: "resources/fugue-icons/icons/ruler.png"
 			        },{
 			        	text: i18n("Statistics"),
-			        	handler: this.showStatistics,
-			        	icon: 'resources/silkicons/chart_bar.png'
+			        	icon: 'resources/silkicons/chart_bar.png',
+			        	menu: [
+							{
+								text: i18n("Summary"),
+								handler: this.showStatisticsSummary,
+								icon: 'resources/silkicons/chart_bar.png'
+							},{
+								text: i18n("Chart"),
+								handler: this.showStatisticsChart,
+								icon: 'resources/silkicons/chart_bar.png'
+							}]
 			        },{
 			        	text: i18n("Units"),
 			        	handler: this.editUnits,
@@ -106,8 +115,18 @@ Ext.define('PartKeepr.MenuBar', {
 		PartKeepr.getApplication().addItem(j);
 		j.show();
 	},
-	showStatistics: function () {
+	showStatisticsSummary: function () {
 		var j = Ext.create("PartKeepr.CurrentStatisticsPanel", {
+			iconCls: 'icon-chart-bar',
+			closable: true
+		});
+		
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	showStatisticsChart: function () {
+		var j = Ext.create("PartKeepr.StatisticsChartPanel", {
 			iconCls: 'icon-chart-bar',
 			closable: true
 		});

@@ -13,7 +13,13 @@ PartKeepr::initialize("");
 
 try {
 	$request = $_REQUEST;
-	$request["parameters"] = json_decode($_REQUEST["parameters"], true);
+	
+	if (array_key_exists("parameters", $_REQUEST)) {
+		$request["parameters"] = json_decode($_REQUEST["parameters"], true);
+	} else {
+		$request["parameters"] = $_REQUEST;
+	}
+	
 	
 	$response = array();
 	$response["status"] = "ok";
