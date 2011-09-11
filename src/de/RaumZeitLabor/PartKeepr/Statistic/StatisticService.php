@@ -75,7 +75,7 @@ class StatisticService extends Service {
 		if ($this->hasParameter("sampleSize")) {
 			$sampleSize = $this->getParameter("sampleSize");
 		} else {
-			$sampleSize = 50;
+			$sampleSize = 25;
 		}
 		
 		$intervalSize = intval(($end->getTimestamp() - $start->getTimestamp()) / $sampleSize);
