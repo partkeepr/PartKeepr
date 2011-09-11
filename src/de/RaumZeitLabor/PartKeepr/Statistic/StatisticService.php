@@ -67,6 +67,11 @@ class StatisticService extends Service {
 		$start = \DateTime::createFromFormat("Y-m-d H:i:s", $this->getParameter("startDateTime"));
 		$end = \DateTime::createFromFormat("Y-m-d H:i:s", $this->getParameter("endDateTime"));
 		
+		if ($start->getTimestamp() > $end->getTimestamp()) {
+			// Swap both times
+			list($start, $end) = array($end, $start);
+		}
+		
 		if ($this->hasParameter("sampleSize")) {
 			$sampleSize = $this->getParameter("sampleSize");
 		} else {
@@ -127,7 +132,10 @@ class StatisticService extends Service {
 			
 			$record["start"] = $queryStartTime->format("Y-m-d H:i:s");
 			
-			$aRecords[] = $record;
+			if ($record["parts"] !== null) {
+				$aRecords[] = $record;
+			}
+			
 			
 			$queryStartTime->add(new \DateInterval("PT".$intervalSize."S"));
 			$queryEndTime->add(new \DateInterval("PT".$intervalSize."S"));
