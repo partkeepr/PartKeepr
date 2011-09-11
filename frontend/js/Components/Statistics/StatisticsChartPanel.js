@@ -1,92 +1,65 @@
 Ext.define('PartKeepr.StatisticsChartPanel', {
-	extend: 'Ext.chart.Chart',
-    shadow: true,
+	extend: 'Ext.form.Panel',
     title: i18n("Statistics Chart"),
-    legend: {
-        position: 'right'
-    },
-    background: {
-    	fill: '#fff'
-    },
-    axes: [{
-        type: 'Numeric',
-        minimum: 0,
-        position: 'left',
-        fields: ['parts', 'categories'],
-        title: i18n("Count"),
-        minorTickSteps: 1,
-        grid: {
-            odd: {
-                opacity: 1,
-                fill: '#ddd',
-                stroke: '#bbb',
-                'stroke-width': 0.5
-            }
-        }
-    }, {
-        type: 'Time',
-        dateFormat: 'Y-m-d',
-        position: 'bottom',
-        fields: ['start'],
-        title: i18n("Date")
-    }],
-    series: [{
-        type: 'line',
-        highlight: {
-            size: 7,
-            radius: 7
-        },
-        axis: 'left',
-        xField: 'start',
-        yField: 'parts',
-        title: i18n("Parts"),
-        markerConfig: {
-            type: 'cross',
-            size: 4,
-            radius: 4,
-            'stroke-width': 0
-        }
-    }, {
-        type: 'line',
-        highlight: {
-            size: 7,
-            radius: 7
-        },
-        axis: 'left',
-        title: i18n("Categories"),
-        smooth: true,
-        xField: 'start',
-        yField: 'categories',
-        markerConfig: {
-            type: 'circle',
-            size: 4,
-            radius: 4,
-            'stroke-width': 0
-        }
-    }],
+
+    layout: 'anchor',
+    
     initComponent: function () {
-    	this.store = Ext.create("Ext.data.Store", {
-    		model: 'PartKeepr.StatisticSample',
-    		proxy: {
-    	        type: 'ajax',
-    	        reader: {
-    	            type: 'json',
-    	            root: 'response.data'
-    	        },
-    	        url : 'service.php',
-    	        extraParams: {
-    	        	"service": "Statistic",
-    	        	"call": "getSampledStatistics",
-   	        		"startDateTime": "2011-01-01 00:00:00",
-       	        	"endDateTime": "2011-12-01 00:00:00"	
-    	        },
-    	        headers: {
-    	        	session :PartKeepr.getApplication().getSession()
-    	        }
-    	    },
-    	    autoLoad: true
+    	this.chart = Ext.create("PartKeepr.StatisticsChart", { anchor: '100% -50' });
+    	
+    	this.dateSelector1 = Ext.create("Ext.form.field.Date", {
+    		fieldLabel: i18n("From"),
+    		listeners: {
+    			change: Ext.bind(this.onDateChanged, this)
+    		}
     	});
     	
+    	this.dateSelector2 = Ext.create("Ext.form.field.Date", {
+    		fieldLabel: i18n("To"),
+    		listeners: {
+    			change: Ext.bind(this.onDateChanged, this)
+    		}
+    	});
+    	
+    	this.items = [ this.chart, this.dateSelector1, this.dateSelector2 ];
+    	
+    	this.reloadDates();
+    	
     	this.callParent();
+    },
+    onDateChanged: function () {
+    	this.chart.setStart(this.dateSelector1.getValue());
+    	this.chart.setEnd(this.dateSelector2.getValue());
+    	this.chart.store.load();
+    },
+    reloadDates: function () {
+    	var call = new PartKeepr.ServiceCall("Statistic", "getStatisticRange");
+		call.setHandler(Ext.bind(this.onReloadDates, this));
+		call.doCall();
+    },
+    onReloadDates: function (data) {
+    	console.log(data);
+    	
+    	var start = Ext.Date.parse(data.data.start, "Y-m-d H:i:s");
+    	var end = Ext.Date.parse(data.data.end, "Y-m-d H:i:s");
+    	
+    	this.dateSelector1.setMinValue(start);
+    	this.dateSelector1.setMaxValue(end);
+    	this.dateSelector1.suspendEvents();
+    	
+    	this.dateSelector1.setValue(start);
+    	this.dateSelector1.resumeEvents();
+    	
+    	
+    	this.dateSelector2.setMinValue(start);
+    	this.dateSelector2.setMaxValue(end);
+    	
+    	this.dateSelector2.suspendEvents();
+    	this.dateSelector2.setValue(end);
+    	this.dateSelector2.resumeEvents();
+    	
+    	this.chart.setStart(start);
+    	this.chart.setEnd(end);
+    	this.chart.store.load();
     }
 });
