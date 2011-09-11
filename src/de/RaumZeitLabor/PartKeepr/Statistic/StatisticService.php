@@ -35,6 +35,18 @@ class StatisticService extends Service {
 	}
 	
 	/**
+	 * Returns the range of all recorded statistic snapshots.
+	 */
+	public function getStatisticRange () {
+		$dql = "SELECT MIN(sts.dateTime), MAX(sts.dateTime) FROM de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshot sts";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		
+		$data = $query->getArrayResult();
+		
+		return array("data" => array("start" => $data[0][1], "end" => $data[0][2]));
+		
+	}
+	/**
 	 * Returns sampled statistics from the database. 
 	 * 
 	 * This call takes a start and an end time, and calculates a set of statistics
