@@ -166,7 +166,6 @@ Ext.application({
     			});
     },
     storeLoaded: function (store) {
-    	console.log("FOO");
     	store._loaded = true;
     },
     setAdmin: function (admin) {

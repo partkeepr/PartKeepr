@@ -40,8 +40,6 @@ Ext.define('PartKeepr.StatisticsChartPanel', {
 		call.doCall();
     },
     onReloadDates: function (data) {
-    	console.log(data);
-    	
     	var start = Ext.Date.parse(data.data.start, "Y-m-d H:i:s");
     	var end = Ext.Date.parse(data.data.end, "Y-m-d H:i:s");
     	
