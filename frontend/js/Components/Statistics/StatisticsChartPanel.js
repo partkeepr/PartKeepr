@@ -3,11 +3,13 @@ Ext.define('PartKeepr.StatisticsChartPanel', {
     title: i18n("Statistics Chart"),
 
     layout: 'anchor',
+    bodyStyle: 'background:#DBDBDB;padding: 15px;',
     
     initComponent: function () {
-    	this.chart = Ext.create("PartKeepr.StatisticsChart", { anchor: '100% -50' });
+    	this.chart = Ext.create("PartKeepr.StatisticsChart", { anchor: '100% -60' });
     	
     	this.dateSelector1 = Ext.create("Ext.form.field.Date", {
+    		style: 'margin-top: 10px', 
     		fieldLabel: i18n("From"),
     		listeners: {
     			change: Ext.bind(this.onDateChanged, this)

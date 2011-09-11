@@ -3,14 +3,10 @@ Ext.define('PartKeepr.StatisticsChart', {
 	animate: true,
     shadow: true,
     
+    style: 'border: 1px solid #AAA;background-color: white;box-shadow: 5px 5px 0px #aaa',
     legend: {
         position: 'right'
     },
-    
-    background: {
-    	fill: '#fff'
-    },
-    
     theme: 'Base',
     series: [{
         type: 'line',
@@ -77,7 +73,12 @@ Ext.define('PartKeepr.StatisticsChart', {
     	        grid: {
     	            odd: {
     	                opacity: 1,
-    	                fill: '#ddd',
+    	                fill: '#eee',
+    	                stroke: '#bbb',
+    	                'stroke-width': 0.5
+    	            },
+    	            even: {
+    	            	opacity: 1,
     	                stroke: '#bbb',
     	                'stroke-width': 0.5
     	            }
@@ -93,7 +94,8 @@ Ext.define('PartKeepr.StatisticsChart', {
     	        position: 'bottom',
     	        aggregateOp: "avg",
     	        fields: ['start'],
-    	        title: i18n("Date")
+    	        title: i18n("Date"),
+    	        grid: true
     	    };
     	
     	this.axes = [ this.axis1, this.axis2 ];
@@ -117,12 +119,6 @@ Ext.define('PartKeepr.StatisticsChart', {
     	        	session :PartKeepr.getApplication().getSession()
     	        }
     	    },
-    	    listeners: {
-	        	load: function (store) {
-	        		console.log("FOO");
-	        		console.log(store);	
-	        	}
-	        },
     	    autoLoad: false
     	});
     	
