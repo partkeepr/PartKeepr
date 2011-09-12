@@ -91,7 +91,13 @@ $grid-row-cell-selected-background-color: $blue-gradient-top;
 $panel-base-color: #DBDBDB;
 
 
+$datepicker-selected-item-border-color: #2067a3;
+$datepicker-selected-item-background-color: #2aaad3;
+$datepicker-item-hover-background-color: #2aaad3;
 $include-missing-images: true;
+
+$datepicker-th-background-gradient: color-stops($blue-gradient-top, $blue-gradient-bottom);
+$datepicker-th-color: white;
 
 // TEST STUFF
 

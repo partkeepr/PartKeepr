@@ -193,6 +193,7 @@
                 background: repeat-x left top;
                 background-color: $datepicker-selected-item-background-color;
                 border: 1px solid $datepicker-selected-item-border-color;
+                color: white;
             }
             
             span {
@@ -219,7 +220,7 @@
         .#{$prefix}datepicker-disabled a:hover {
             text-decoration: none !important;
             
-            color: #000;
+            color: white;
             
             background-color: $datepicker-item-hover-background-color;
         }
