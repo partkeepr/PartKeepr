@@ -195,15 +195,8 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 	},
 	onCategoryDelete: function (btn) {
 		if (btn == "yes") {
-			var call = new PartKeepr.ServiceCall(this.categoryService, "deleteCategory");
-			call.setLoadMessage(sprintf(i18n("Deleting category %s..."), this.menu.record.get("name")));
-			call.setParameter("id", this.menu.record.get("id"));
-			call.setHandler(Ext.bind(this.onCategoryDeleted, this));
-			call.doCall();
+			var del = this.getStore().getRootNode().findChild("id", this.menu.record.get("id"), true);
+			del.destroy();
 		}
-	},
-	onCategoryDeleted: function (response) {
-		var del = this.getStore().getRootNode().findChild("id", response.id, true);
-		del.destroy();
 	}
 });

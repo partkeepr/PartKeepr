@@ -59,12 +59,14 @@ try {
 	header('HTTP/1.0 400 Exception', false, 400);
 	$response = array();
 	$response["status"] = "error";
+	$response["success"] = false;
 	$response["exception"] = $e->serialize();
 	echo json_encode($response);
 } catch (\Exception $e) {
 	header('HTTP/1.0 400 Exception', false, 400);
 	$response = array();
 	$response["status"] = "systemerror";
+	$response["success"] = false;
 	$response["exception"] = array(
 		"message" => $e->getMessage(),
 		"exception" => get_class($e),

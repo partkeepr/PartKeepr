@@ -84,6 +84,10 @@ abstract class AbstractCategoryService extends Service {
 		return array("data" => $this->serializeCategory($category));
 	}
 	
+	public function destroy () {
+		return $this->deleteCategory();
+	}
+	
 	private function serializeCategory ($category) {
 		$data = $category->getNode()->serialize();
 		
