@@ -5,7 +5,7 @@ This guide assumes that you are working as user root. Usually this isn't recomme
 
 In this guide, I've used "/var/www" as web server root.
 
-apt-get install apache2 php5-mysql php5-curl php5-cli php-pear git php5-imagick php5-xsl php-apc mysql-client mysql-server libapache2-mod-php5
+apt-get install apache2 php5-mysql php5-curl php5-cli php-pear git php5-imagick php5-xsl php-apc imagemagick mysql-client mysql-server libapache2-mod-php5
 
 # Update PEAR
 
@@ -24,6 +24,7 @@ pear install pear.doctrine-project.org/DoctrineORM
 pear install phpunit/phpcpd
 pear install --alldeps phpmd/PHP_PMD-alpha
 
+# You can 
 # Create a new database
 mysql -uroot -p
 CREATE DATABASE partkeepr;
@@ -39,7 +40,7 @@ quit
 cd /var/www
 
 # Cloning will take a while, approx 50MB repository will be downloaded
-git clone git://github.com/partkeepr/PartKeepr.git	
+git clone git://github.com/partkeepr/PartKeepr.git  
 
 cd /var/www/PartKeepr
 
@@ -53,7 +54,7 @@ cp config.php.template config.php
 
 # ==== WITH SAMPLE DATA ====
 mysql -uroot -p
-CREATE DATABASE partdb
+CREATE DATABASE partdb;
 grant usage on *.* to partdb@localhost identified by 'partdb';
 grant all privileges on partdb.* to partdb@localhost;
 FLUSH PRIVILEGES;
@@ -75,6 +76,8 @@ php doctrine.php migrations:migrate
 # Build the frontend
 phing build
 
+# Restart apache2 to make sure php5 is enabled
+/etc/init.d/apache2 restart
+
 # Open up your browser and navigate to http://localhost/PartKeepr/build
 # The frontend should now appear
-
