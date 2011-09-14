@@ -433,8 +433,6 @@ PartKeepr.getRESTProxy = function (service) {
                 	
              	
                 	PartKeepr.ExceptionWindow.showException(exception);
-                	
-                	
                 }
         	}
         },
@@ -512,6 +510,12 @@ PartKeepr.serializeRecords = function (records) {
 	return finalData;
 };
 
+/**
+ * Sets the username & password for automatic login.
+ * 
+ * @param username The username to set
+ * @param password The password to set (plaintext, not hashed)
+ */
 PartKeepr.setAutoLogin = function (username, password) {
 	PartKeepr.autoLoginUsername = username;
 	PartKeepr.autoLoginPassword = password;
