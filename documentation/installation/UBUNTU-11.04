@@ -12,6 +12,10 @@ apt-get install apache2 php5-mysql php5-curl php5-cli php-pear git php5-imagick 
 pear update-channels
 pear upgrade
 
+# On Ubuntu Server, you need to install ia32-libs which are installed automatically on Ubuntu Desktop
+apt-get install ia32-libs
+apt-get install default-jdk
+
 # Install phpunit, phing
 
 pear config-set auto_discover 1
