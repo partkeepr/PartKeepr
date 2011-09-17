@@ -25,21 +25,25 @@ try {
 	$response["status"] = "ok";
 	$response["response"] = ServiceManager::call($request);
 	
-	echo json_encode($response);
-	
 } catch (de\RaumZeitLabor\PartKeepr\Util\SerializableException $e) {
 	$response = array();
 	$response["status"] = "error";
 	$response["exception"] = $e->serialize();
 	
-	echo json_encode($response);
 } catch (\Exception $e) {
 	$response = array();
 	$response["status"] = "systemerror";
 	$response["exception"] = get_class($e);
 	$response["message"] = $e->getMessage();
 	$response["backtrace"] = $e->getTraceAsString();
-	
+}
+
+if (array_key_exists("type", $_REQUEST) && strtolower($_REQUEST["type"]) == "jsonp") {
+	if (array_key_exists("callback", $_REQUEST)) {
+		header('Content-Type: text/javascript');
+		echo $_REQUEST["callback"]."(".json_encode($response).")";
+	}
+} else {
+	header('Content-Type: application/x-json');
 	echo json_encode($response);
 }
-?>
