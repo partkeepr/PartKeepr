@@ -14,6 +14,14 @@ class SessionManager extends Singleton {
 		return self::$currentSession;
 	}
 	
+	public static function hasSession () {
+		if (self::$currentSession !== null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public function startSession (User $user = null) {
 		if (is_object($user)) {
 			try {

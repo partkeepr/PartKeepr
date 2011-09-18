@@ -44,6 +44,6 @@ if (array_key_exists("type", $_REQUEST) && strtolower($_REQUEST["type"]) == "jso
 		echo $_REQUEST["callback"]."(".json_encode($response).")";
 	}
 } else {
-	header('Content-Type: application/x-json');
+	header('Content-Type: application/json');
 	echo json_encode($response);
 }

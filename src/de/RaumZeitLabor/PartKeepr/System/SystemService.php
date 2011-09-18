@@ -1,5 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\System;
+use de\RaumZeitLabor\PartKeepr\Session\SessionManager;
+
+use de\RaumZeitLabor\PartKeepr\Service\AnonService;
+
 use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
@@ -47,5 +51,4 @@ class SystemService extends Service {
 		// TODO: add information about post max, file upload size, timeout, memory limit
 		return array("data" => $aData);
 	}
-	
 }

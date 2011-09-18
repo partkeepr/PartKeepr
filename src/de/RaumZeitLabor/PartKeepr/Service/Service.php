@@ -58,6 +58,35 @@ class Service {
 		return SessionManager::getCurrentSession()->getUser();
 	}
 	
+	/**
+	 * Checks if the environment has an active, logged in user.
+	 * 
+	 * @param none
+	 * @return boolean True if a logged in user exists, false otherwise
+	 */
+	public function hasUser () {
+		if (!$this->hasSession()) {
+			return false;
+		}
+		
+		var_dump($this->getUser());
+		if ($this->getUser() !== null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks if there is an active session.
+	 * 
+	 * @param none
+	 * @return boolean true if an active session exists, false otherwise
+	 */
+	public function hasSession () {
+		return SessionManager::hasSession();
+	}
+	
 	public function hasParameter ($name) {
 		if (array_key_exists($name, $this->params)) {
 			return true; 
