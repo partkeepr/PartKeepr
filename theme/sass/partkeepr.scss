@@ -113,6 +113,22 @@ $menu-item-active-background-gradient: color-stops($blue-light-gradient-top, $bl
 .x-toolbar-mainmenu {
 	@include background-gradient($grid-over-light-color, color-stops($blue-gradient-top, $blue-gradient-bottom));
 }
+
+.x-toolbar-mainmenu .x-btn-default-toolbar-small {
+	border: 0 !important;
+	background: none;
+	box-shadow: none;
+}
+
+.x-toolbar-mainmenu .x-btn-default-toolbar-small .x-btn-inner {
+	color: white;
+	font-weight: bold;
+	text-shadow: 0 0 1px #000;
+}
+ 
+.x-toolbar-mainmenu .x-btn-default-toolbar-small .x-btn-arrow {
+	background-image: url(../resources/themes/images/partkeepr/button/arrow-white.gif);
+}
 // This line changes the location of your images when creating UIs to be relative instead of within the ExtJS directory.
 // You MUST set this to true/string value if you are creating new UIs + supporting legacy browsers.
 // This only applies to new UIs. It does not apply to default component images (i.e. when changing $base-color)
