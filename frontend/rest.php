@@ -8,6 +8,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 header("Content-Type: text/html; charset=UTF-8");
+header("Cache-Control: no-cache, must-revalidate");
 
 PartKeepr::initialize("");
 

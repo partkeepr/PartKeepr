@@ -8,6 +8,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr;
 include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 header("Content-Type: text/html; charset=UTF-8");
+header("Cache-Control: no-cache, must-revalidate");
 
 PartKeepr::initialize("");
 
@@ -41,6 +42,11 @@ try {
 if (array_key_exists("type", $_REQUEST) && strtolower($_REQUEST["type"]) == "jsonp") {
 	if (array_key_exists("callback", $_REQUEST)) {
 		header('Content-Type: text/javascript');
+		
+		if (array_key_exists("key", $_REQUEST)) {
+			$response["key"] = $_REQUEST["key"];
+		}
+		
 		echo $_REQUEST["callback"]."(".json_encode($response).")";
 	}
 } else {
