@@ -125,6 +125,15 @@ $menu-item-active-background-gradient: color-stops($blue-light-gradient-top, $bl
 	font-weight: bold;
 	text-shadow: 0 0 1px #000;
 }
+
+.x-toolbar-mainmenu .x-btn-over {
+	//background-color: $blue-gradient-top;
+	@include background-gradient($blue-gradient-top, color-stops(lighten($blue-gradient-top,15), lighten($blue-gradient-bottom,15)));
+}
+
+.x-toolbar-mainmenu .x-btn-menu-active {
+	@include background-gradient($blue-gradient-top, color-stops(lighten($blue-gradient-top,15), lighten($blue-gradient-bottom,15)));
+}
  
 .x-toolbar-mainmenu .x-btn-default-toolbar-small .x-btn-arrow {
 	background-image: url(../resources/themes/images/partkeepr/button/arrow-white.gif);
