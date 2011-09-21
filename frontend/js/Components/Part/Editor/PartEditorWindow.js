@@ -15,7 +15,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	/* Width and height settings */
 	width: 600,
 	minWidth: 600,
-	minHeight: 300,
+	minHeight: 390,
 	height: 390,
 	
 	saveText: i18n("Save"),
