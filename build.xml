@@ -92,7 +92,6 @@
     
     <target name="release">
     	<phingcall target="build"/>
-    	<copy overwrite="true" file="build/config-release.php" tofile="build/config.php"/>
     </target>
 		
 		
