@@ -7,9 +7,9 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 
 include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-ServiceManager::sendHeaders();
-
 PartKeepr::initialize("");
+
+ServiceManager::sendHeaders();
 
 /**
  * This script dispatches the request to the ServiceManager.
