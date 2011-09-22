@@ -16,7 +16,7 @@ class ServiceManager {
 		header("Content-Type: text/html; charset=UTF-8");
 		header("Cache-Control: no-cache, must-revalidate");
 		header("Access-Control-Allow-Origin: *");
-		header("Access-Control-Allow-Headers: lang,call,service");
+		header("Access-Control-Allow-Headers: lang,call,service,X-Requested-With,X-PartKeepr-Locale,X-PartKeepr-Name,X-PartKeepr-Call");
 	}
 	
 	public static function call () {
