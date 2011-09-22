@@ -146,11 +146,8 @@ Ext.define('PartKeepr.ServiceCall', {
 		PartKeepr.getApplication().getStatusbar().endLoad();
 	},
 	displayError: function (obj) {
-		
-		
-			
 		Ext.Msg.show({
-			title: 'Error',
+			title: i18n("Error"),
 			msg: this.getErrorMessage(obj),
 			buttons: Ext.MessageBox.OK,
 			icon: Ext.MessageBox.ERROR
@@ -178,7 +175,7 @@ Ext.define('PartKeepr.ServiceCall', {
 		Ext.Msg.maxWidth = 800;
 		
 		Ext.Msg.show({
-			title: 'System Error',
+			title: i18n("System Error"),
 			msg: errorMsg,
 			buttons: Ext.MessageBox.OK,
 			icon: Ext.MessageBox.ERROR
