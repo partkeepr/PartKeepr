@@ -10,6 +10,7 @@ include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 header("Content-Type: text/html; charset=UTF-8");
 header("Cache-Control: no-cache, must-revalidate");
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
 
 PartKeepr::initialize("");
 
