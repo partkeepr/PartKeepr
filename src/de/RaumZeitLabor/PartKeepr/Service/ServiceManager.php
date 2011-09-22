@@ -12,6 +12,15 @@ use de\RaumZeitLabor\PartKeepr\Service\Exceptions\ServiceException,
 
 class ServiceManager {
 	
+	public static function sendHeaders () {
+		header("Content-Type: text/html; charset=UTF-8");
+		header("Cache-Control: no-cache, must-revalidate");
+		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Headers: lang");
+		header("Access-Control-Allow-Headers: call");
+		header("Access-Control-Allow-Headers: service");
+	}
+	
 	public static function call () {
 		
 		$request = new Request(array('restful' => true));
