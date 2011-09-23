@@ -52,7 +52,7 @@ class Session {
 		return $this->user;
 	}
 	
-	public function setUser (User $user) {
+	public function setUser (User $user = null) {
 		$this->user = $user;
 	}
 	
