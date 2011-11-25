@@ -6,13 +6,16 @@ use	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Setup\SiPrefixSetup;
 
 class UnitSetup {
+	
+	const UNIT_DATA_FILE = "../setup-data/units.yaml";
+	
 	/**
 	 * Sets up the default units
 	 * @throws \Exception
 	 */
 	public static function setupUnits () {
 		Setup::progress("Setting up Units...");
-		$data = Setup::loadYAML("../setup/data/units.yaml");
+		$data = Setup::loadYAML(self::UNIT_DATA_FILE);
 		
 		$aUnits = array();
 		

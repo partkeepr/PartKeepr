@@ -17,6 +17,9 @@ class FootprintSetup {
 	 */
 	private static $migratedFootprints = array();
 	
+	const FOOTPRINT_PATH = "../setup-data/footprints";
+	const FOOTPRINT_FILE = "../setup-data/footprints/footprints.yaml";
+	
 	/**
 	 * Creates the root node for the footprints
 	 */
@@ -88,11 +91,11 @@ class FootprintSetup {
 	 * Imports the footprints
 	 * @throws \Exception
 	 */
-	public static function importFootprintData ($file) {
+	public static function importFootprintData () {
 		Setup::progress("Adding predefined footprints...");
 		
 		/* Import pre-defined footprints */
-		$data = Setup::loadYAML($file);
+		$data = Setup::loadYAML(self::FOOTPRINT_FILE);
 		
 		foreach ($data as $footprintName => $footprintData) {
 			Setup::progress(" - Adding footprint ".$footprintName, true);
@@ -111,7 +114,7 @@ class FootprintSetup {
 			if (array_key_exists("image", $footprintData)) {
 				$footprintImage = new FootprintImage();
 				$footprintImage->setFootprint($footprint);
-				$footprintImage->replace("../setup/data/footprints/" . $footprintData["image"]);
+				$footprintImage->replace(self::FOOTPRINT_PATH . $footprintData["image"]);
 		
 				$footprint->setImage($footprintImage);
 			}

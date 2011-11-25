@@ -7,14 +7,18 @@ use	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Setup\SiPrefixSetup;
 
 class ManufacturerSetup {
+	
+	const MANUFACTURER_IMAGE_PATH = "../setup-data/manufacturers/images/";
+	const MANUFACTURER_FILE 	  = "../setup-data/manufacturers/manufacturers.yaml";
+	
 	/**
 	 * Sets up the manufacturers using the YAML file.
 	 * @param $yaml string The path to the manufacturers YAML file
 	 */
-	public static function setupManufacturers ($yaml) {
+	public static function setupManufacturers () {
 		Setup::progress("Setting up Manufacturers...");
 		
-		$data = Setup::loadYAML($yaml);
+		$data = Setup::loadYAML(self::MANUFACTURER_FILE);
 		
 		foreach ($data as $mfgname => $logos) {
 			Setup::progress(" - Adding manufacturer ".$mfgname, true);
@@ -26,7 +30,7 @@ class ManufacturerSetup {
 			foreach ($logos as $logo) {
 				$mfglogo = new ManufacturerICLogo();
 				$mfglogo->setManufacturer($manufacturer);
-				$mfglogo->replace("../setup/data/manufacturers/images/".$logo);
+				$mfglogo->replace(self::MANUFACTURER_PATH . $logo);
 				$mfglogo->setOriginalFilename($logo);
 		
 				PartKeepr::getEM()->persist($mfglogo);
