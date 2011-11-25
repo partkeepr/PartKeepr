@@ -116,7 +116,12 @@ class PartKeepr {
 			'host' => 		PartKeeprConfiguration::getOption("partkeepr.database.hostname", "localhost")
 		);
 		
-		$cache = new \Doctrine\Common\Cache\ApcCache();
+		if (extension_loaded("apc")) {
+			$cache = new \Doctrine\Common\Cache\ApcCache();
+		} else {
+			$cache = new \Doctrine\Common\Cache\ArrayCache();
+		}
+		
 		$config->setMetadataCacheImpl($cache);
 
 		$config->setQueryCacheImpl($cache);
