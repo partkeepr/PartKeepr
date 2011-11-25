@@ -132,7 +132,7 @@ if ($migration) {
 }
 
 FootprintSetup::setupRootNode();
-FootprintSetup::importFootprintData("../setup/data/footprints/footprints.yaml");
+FootprintSetup::importFootprintData();
 PartKeepr::getEM()->flush();
 
 if ($migration) {
@@ -164,7 +164,7 @@ UnitSetup::setupUnits();
 PartKeepr::getEM()->flush();
 
 /* Add Manufacturers */
-ManufacturerSetup::setupManufacturers("../setup/data/manufacturers/manufacturers.yaml");
+ManufacturerSetup::setupManufacturers();
 PartKeepr::getEM()->flush();
 
 if ($migration) {

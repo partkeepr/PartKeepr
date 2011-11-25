@@ -5,6 +5,9 @@ use	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix;
 
 class SiPrefixSetup {
+	
+	const SIPREFIX_DATA_FILE = "../setup-data/siprefixes.yaml";
+	
 	/**
 	 * Stores the migrated si prefixes
 	 * @var array
@@ -16,7 +19,7 @@ class SiPrefixSetup {
 	 */
 	public static function setupSiPrefixes () {
 		Setup::progress("Setting up SI-Prefixes...");
-		$data = Setup::loadYAML("../setup/data/siprefixes.yaml");
+		$data = Setup::loadYAML(self::SIPREFIX_DATA_FILE);
 		
 		foreach ($data as $prefixName => $data) {
 			Setup::progress(" - Adding prefix ".$prefixName, true);
