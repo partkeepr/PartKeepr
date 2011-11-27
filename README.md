@@ -27,7 +27,6 @@ PartKeepr needs:
 
 * PHP 5.3.2 and up
 * APC (see http://www.php.net/manual/en/apc.installation.php how to install it)
-* SOAP
 * Tokenizer Support
 * A working PEAR installation
 * A MySQL database
