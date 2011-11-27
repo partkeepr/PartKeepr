@@ -23,7 +23,7 @@ Ext.define('PartKeepr.PartStockHistory', {
 	        	  flex: 0.4,
 	        	  minWidth: 80,
 	        	  renderer: function (val) {
-	        		  var rec = PartKeepr.getApplication().getUserStore().findRecord("id", val);
+	        		  var rec = PartKeepr.getApplication().getUserStore().getById(val);
 	        		  
 	        		  if (rec) {
 	        			  return rec.get("username");
