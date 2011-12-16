@@ -4,7 +4,7 @@
 	
     <target name="pre-commit">
     	<jsllint haltonfailure="true">
-			<fileset dir="frontend">
+			<fileset dir="src/frontend">
 				<include name="**/*.js"/>
 			</fileset>
 		</jsllint>
@@ -13,7 +13,7 @@
     <!-- Cleans the output directories -->
     <target name="clean">
     	<delete dir="reports" />
-    	<delete dir="build" />
+    	<delete dir="frontend" />
     	<delete dir="data" />
     </target>
     
@@ -37,9 +37,9 @@
         </target>
 	
 	<target name="build-setup">
-		<mkdir dir="build-setup/"/>
+		<mkdir dir="setup/"/>
 		
-		<copy overwrite="false" todir="build-setup/extjs/">
+		<copy overwrite="false" todir="setup/extjs/">
 			<fileset dir="${extjs.path}">
 				<include name="bootstrap.js"/>
 				<include name="compatibility/ext3-core-compat.js"/>
@@ -53,7 +53,7 @@
 			</fileset>
 		</copy>
 		
-		<copy overwrite="true" todir="build-setup/">
+		<copy overwrite="true" todir="setup/">
 			<fileset dir="setup">
 				<include name="**"/>
 			</fileset>
@@ -63,8 +63,8 @@
 	
 	<target name="build-frontend">
 		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
-				<mkdir dir="build/"/>
-				<copy overwrite="false" todir="build/extjs/">
+				<mkdir dir="frontend/"/>
+				<copy overwrite="false" todir="frontend/extjs/">
 					<fileset dir="${extjs.path}">
 						<include name="bootstrap.js"/>
 						<include name="compatibility/ext3-core-compat.js"/>
@@ -80,30 +80,30 @@
 				</copy>
 					
 				<echo>Copying Ext Statusbar</echo>
-				<copy overwrite="false" todir="build/js/Ext.ux/">
+				<copy overwrite="false" todir="frontend/js/Ext.ux/">
 					<fileset dir="${extjs.path}/examples/ux">
 						<include name="statusbar/**"/>
 					</fileset>
 				</copy>
 				
 				<echo>Copying Ext.tab.TabCloseMenu</echo>
-				<copy overwrite="false" todir="build/js/Ext.ux/">
+				<copy overwrite="false" todir="frontend/js/Ext.ux/">
 					<fileset dir="${extjs.path}/examples/ux">
 						<include name="TabCloseMenu.js"/>
 					</fileset>
 				</copy>
 				
 				<echo>Copying phpjs</echo>
-				<mkdir dir="build/js/org.phpjs.lib/"/>
-				<copy overwrite="false" todir="build/js/org.phpjs.lib">
+				<mkdir dir="frontend/js/org.phpjs.lib/"/>
+				<copy overwrite="false" todir="frontend/js/org.phpjs.lib">
 					<fileset dir="3rdparty/phpjs/">
 						<include name="php.default.min.js"/>
 					</fileset>
 				</copy>
 					
 				<echo>Copying JS frontend</echo>
-				<copy overwrite="true" todir="build/">
-					<fileset dir="frontend">
+				<copy overwrite="true" todir="frontend/">
+					<fileset dir="src/frontend">
 						<include name="**"/>
 					</fileset>
 				</copy>
@@ -129,14 +129,14 @@
 		
     <!-- Builds the jsb3 file and build the minified JS files -->
     <target name="jsbuilder">
-    	<exec command="php util/gen-jsb3-file.php ./frontend/ ${extjs.path}"/>
-    	<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/partkeepr.jsb3 --deployDir ${project.basedir}/build/js" passthru="true"/>
+    	<exec command="php util/gen-jsb3-file.php ./src/frontend/ ${extjs.path}"/>
+    	<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/partkeepr.jsb3 --deployDir ${project.basedir}/frontend/js" passthru="true"/>
     </target>
     
 	<!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->
 	<target name="jslint">
 		<jsllint>
-			<fileset dir="frontend">
+			<fileset dir="src/frontend">
 				<include name="**/*.js"/>
 			</fileset>
 		</jsllint>
