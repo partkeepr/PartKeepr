@@ -6,5 +6,6 @@
 .project
 config.php
 /tests/reports
+/build-setup
 partkeepr.jsb3
 theme/sass/.sass-cache/

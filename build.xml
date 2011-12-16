@@ -35,12 +35,11 @@
         <target name="git-update-submodules">
             <exec command="git submodule update" checkreturn="true"/>
         </target>
-    <!-- Builds the frontend, regenerates the proxies and minifies the JS -->
-	<target name="build">
-                <phingcall target="git-update-submodules"/>
-		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
-		<mkdir dir="build/"/>
-		<copy overwrite="false" todir="build/extjs/">
+	
+	<target name="build-setup">
+		<mkdir dir="build-setup/"/>
+		
+		<copy overwrite="false" todir="build-setup/extjs/">
 			<fileset dir="${extjs.path}">
 				<include name="bootstrap.js"/>
 				<include name="compatibility/ext3-core-compat.js"/>
@@ -51,42 +50,75 @@
 				<include name="adapter/ext/ext-base.js"/>
 				<include name="adapter/ext/ext-base-debug-w-comments.js"/>
 				<include name="source/adapter/ext-base.js"/>
-				<include name="resources/**"/>
-			</fileset>
-		</copy>
-			
-		<echo>Copying Ext Statusbar</echo>
-		<copy overwrite="false" todir="build/js/Ext.ux/">
-			<fileset dir="${extjs.path}/examples/ux">
-				<include name="statusbar/**"/>
 			</fileset>
 		</copy>
 		
-		<echo>Copying Ext.tab.TabCloseMenu</echo>
-		<copy overwrite="false" todir="build/js/Ext.ux/">
-			<fileset dir="${extjs.path}/examples/ux">
-				<include name="TabCloseMenu.js"/>
-			</fileset>
-		</copy>
-		
-		<echo>Copying phpjs</echo>
-		<mkdir dir="build/js/org.phpjs.lib/"/>
-		<copy overwrite="false" todir="build/js/org.phpjs.lib">
-			<fileset dir="3rdparty/phpjs/">
-				<include name="php.default.min.js"/>
-			</fileset>
-		</copy>
-			
-		<echo>Copying JS frontend</echo>
-		<copy overwrite="true" todir="build/">
-			<fileset dir="frontend">
+		<copy overwrite="true" todir="build-setup/">
+			<fileset dir="setup">
 				<include name="**"/>
 			</fileset>
 		</copy>
+			
+	</target>
+	
+	<target name="build-frontend">
+		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
+				<mkdir dir="build/"/>
+				<copy overwrite="false" todir="build/extjs/">
+					<fileset dir="${extjs.path}">
+						<include name="bootstrap.js"/>
+						<include name="compatibility/ext3-core-compat.js"/>
+						<include name="compatibility/ext3-compat.js"/>
+						<include name="ext-all.js"/>
+						<include name="ext-all-debug.js"/>
+						<include name="ext-all-debug-w-comments.js"/>
+						<include name="adapter/ext/ext-base.js"/>
+						<include name="adapter/ext/ext-base-debug-w-comments.js"/>
+						<include name="source/adapter/ext-base.js"/>
+						<include name="resources/**"/>
+					</fileset>
+				</copy>
+					
+				<echo>Copying Ext Statusbar</echo>
+				<copy overwrite="false" todir="build/js/Ext.ux/">
+					<fileset dir="${extjs.path}/examples/ux">
+						<include name="statusbar/**"/>
+					</fileset>
+				</copy>
+				
+				<echo>Copying Ext.tab.TabCloseMenu</echo>
+				<copy overwrite="false" todir="build/js/Ext.ux/">
+					<fileset dir="${extjs.path}/examples/ux">
+						<include name="TabCloseMenu.js"/>
+					</fileset>
+				</copy>
+				
+				<echo>Copying phpjs</echo>
+				<mkdir dir="build/js/org.phpjs.lib/"/>
+				<copy overwrite="false" todir="build/js/org.phpjs.lib">
+					<fileset dir="3rdparty/phpjs/">
+						<include name="php.default.min.js"/>
+					</fileset>
+				</copy>
+					
+				<echo>Copying JS frontend</echo>
+				<copy overwrite="true" todir="build/">
+					<fileset dir="frontend">
+						<include name="**"/>
+					</fileset>
+				</copy>
+				
+				<phingcall target="create-orm-proxies"/>
+				
+				<phingcall target="jsbuilder"/>
+	</target>
+	
+    <!-- Builds the frontend, regenerates the proxies and minifies the JS -->
+	<target name="build">
+		<phingcall target="git-update-submodules"/>
 		
-		<phingcall target="create-orm-proxies"/>
-		
-		<phingcall target="jsbuilder"/>
+		<phingcall target="build-frontend"/>
+		<phingcall target="build-setup"/>
 	</target>
     
     
