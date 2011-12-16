@@ -1,4 +1,6 @@
 /build
+/setup
+/frontend
 /data
 .buildpath
 .externalToolBuilders
