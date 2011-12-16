@@ -12,7 +12,7 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr;
 use de\RaumZeitLabor\PartKeepr\Image\Image;
 use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 
-include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 

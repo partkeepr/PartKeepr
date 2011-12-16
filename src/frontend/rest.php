@@ -5,7 +5,7 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\PartKeepr, 
 	de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
 
-include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 

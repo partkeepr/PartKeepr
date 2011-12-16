@@ -2,4 +2,4 @@
 name: PartKeepr
 migrations_namespace: DoctrineMigrations
 table_name: SchemaVersions
-migrations_directory: src/de/RaumZeitLabor/PartKeepr/Versions
+migrations_directory: src/backend/de/RaumZeitLabor/PartKeepr/Versions

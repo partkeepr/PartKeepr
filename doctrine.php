@@ -4,7 +4,7 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
 
-include("src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 // Variable $helperSet is defined inside cli-config.php

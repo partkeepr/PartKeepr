@@ -6,7 +6,7 @@ use de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
 use de\RaumZeitLabor\PartKeepr\Util\Configuration;
 
-include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 ?>

@@ -20,7 +20,7 @@ use de\RaumZeitLabor\PartKeepr\Setup\PartSetup;
 
 declare(encoding = 'UTF-8');
 
-include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 /* Old things */
 use de\RaumZeitLabor\PartKeepr\User\User;

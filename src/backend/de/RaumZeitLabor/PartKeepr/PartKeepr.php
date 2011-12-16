@@ -50,7 +50,7 @@ class PartKeepr {
 		$classLoader = new ClassLoader('Doctrine\ORM');
 		$classLoader->register(); // register on SPL autoload stack
 		
-		$classLoader = new ClassLoader("Doctrine\DBAL\Migrations", dirname(dirname(dirname(dirname(__DIR__)))) ."/3rdparty/doctrine-migrations/lib");
+		$classLoader = new ClassLoader("Doctrine\DBAL\Migrations", dirname(dirname(dirname(dirname(dirname(__DIR__))))) ."/3rdparty/doctrine-migrations/lib");
 		$classLoader->register();
 		
 		$classLoader = new ClassLoader('Doctrine\DBAL');
@@ -62,7 +62,7 @@ class PartKeepr {
 		$classLoader = new ClassLoader('Symfony', 'Doctrine');
 		$classLoader->register(); // register on SPL autoload stack
 		
-		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", dirname(dirname(dirname(dirname(__DIR__)))) ."/3rdparty/doctrine2-nestedset/lib");
+		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", dirname(dirname(dirname(dirname(dirname(__DIR__))))) ."/3rdparty/doctrine2-nestedset/lib");
 		$classLoader->register();
 		
 		
@@ -82,9 +82,9 @@ class PartKeepr {
 	 */
 	public static function initializeConfig ($environment = null) {
 		if ($environment != null) {
-			include(dirname(dirname(dirname(dirname(__DIR__))))."/config-$environment.php");
+			include(dirname(dirname(dirname(dirname(dirname(__DIR__)))))."/config-$environment.php");
 		} else {
-			include(dirname(dirname(dirname(dirname(__DIR__))))."/config.php");
+			include(dirname(dirname(dirname(dirname(dirname(__DIR__)))))."/config.php");
 		}
 		
 	}
@@ -126,7 +126,7 @@ class PartKeepr {
 
 		$config->setQueryCacheImpl($cache);
 		
-		$config->setProxyDir(dirname(dirname(dirname(__DIR__))) . '/Proxies');
+		$config->setProxyDir(dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/data/proxies');
 		$config->setProxyNamespace('Proxies');
 		$config->setEntityNamespaces(self::getEntityClasses());
 		$config->setAutoGenerateProxyClasses(false);

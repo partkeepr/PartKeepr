@@ -4,7 +4,7 @@ declare(encoding = 'UTF-8');
 
 use de\raumzeitlabor\PartKeepr\PartKeepr;
 
-include(dirname(__DIR__). "/src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include(dirname(__DIR__). "/src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("test");
 

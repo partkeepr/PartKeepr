@@ -7,7 +7,7 @@ use de\RaumZeitLabor\PartKeepr\Image\Image;
 use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 use de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
 
-include("../src/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 
