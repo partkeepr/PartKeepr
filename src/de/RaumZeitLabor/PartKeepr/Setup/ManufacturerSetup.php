@@ -8,7 +8,7 @@ use	de\RaumZeitLabor\PartKeepr\PartKeepr,
 
 class ManufacturerSetup {
 	
-	const MANUFACTURER_IMAGE_PATH = "../setup-data/manufacturers/images/";
+	const MANUFACTURER_PATH 	  = "../setup-data/manufacturers/";
 	const MANUFACTURER_FILE 	  = "../setup-data/manufacturers/manufacturers.yaml";
 	
 	/**
@@ -30,7 +30,7 @@ class ManufacturerSetup {
 			foreach ($logos as $logo) {
 				$mfglogo = new ManufacturerICLogo();
 				$mfglogo->setManufacturer($manufacturer);
-				$mfglogo->replace(self::MANUFACTURER_PATH . $logo);
+				$mfglogo->replace(self::MANUFACTURER_PATH . "images/". $logo);
 				$mfglogo->setOriginalFilename($logo);
 		
 				PartKeepr::getEM()->persist($mfglogo);

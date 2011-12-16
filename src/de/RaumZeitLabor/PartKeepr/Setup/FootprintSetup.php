@@ -17,7 +17,7 @@ class FootprintSetup {
 	 */
 	private static $migratedFootprints = array();
 	
-	const FOOTPRINT_PATH = "../setup-data/footprints";
+	const FOOTPRINT_PATH = "../setup-data/footprints/";
 	const FOOTPRINT_FILE = "../setup-data/footprints/footprints.yaml";
 	
 	/**

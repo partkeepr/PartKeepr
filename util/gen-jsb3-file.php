@@ -86,7 +86,7 @@ foreach ($records as $key => $record) {
 	
 	if (!$bHasRequires) {
 		/* Hardcoded check for i18n, as it isn't a class but a script, and needs to put in front of everything */
-		if ($record->getFilename() == "frontend/js/Util/i18n.js" || $record->getFilename() == "frontend/js/PartKeepr.js" || $record->getFilename() == "frontend/js/Util/JsonWithAssociationsWriter.js") {
+		if ($record->getFilename() == "src/frontend/js/Util/i18n.js" || $record->getFilename() == "src/frontend/js/PartKeepr.js" || $record->getFilename() == "src/frontend/js/Util/JsonWithAssociationsWriter.js") {
 			array_unshift($rootList, $record);
 		} else {
 			$rootList[] = $record;
