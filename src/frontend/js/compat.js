@@ -1,0 +1,2 @@
+//Ext.Compat.showErrors = true;
+
