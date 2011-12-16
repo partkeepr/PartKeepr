@@ -83,5 +83,5 @@ phing build
 # Restart apache2 to make sure php5 is enabled
 /etc/init.d/apache2 restart
 
-# Open up your browser and navigate to http://localhost/PartKeepr/build
+# Open up your browser and navigate to http://localhost/PartKeepr/frontend
 # The frontend should now appear
