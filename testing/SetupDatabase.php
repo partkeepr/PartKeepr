@@ -179,7 +179,7 @@ if ($migration) {
 
 echo "All done.\n\n";
 echo "You need to execute `php doctrine.php migrations:migrate` in the PartKeepr root directory to apply migrations now.\n\n";
-echo "Use the user 'admin' with password 'admin' to login. Access the frontend using the `build` directory.\n";
+echo "Use the user 'admin' with password 'admin' to login. Access the frontend using the `frontend` directory.\n";
 
 apc_clear_cache();
 apc_clear_cache("user");
