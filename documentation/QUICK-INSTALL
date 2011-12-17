@@ -92,13 +92,13 @@ Then wait a minute or so, after everything is completed successfully
 (remember that 777 on the whole project might be a good idea until the final
 path layout has been stabilized).
 
-You can then fire up your browser and point it to the build/ directory. Note
+You can then fire up your browser and point it to the frontend/ directory. Note
 that you need chrome/chromium with console.log support OR Firefox with the
 firebug extension. Otherwise, your browser complains about the missing
 console.log function. These console.log statements are necessary for debugging
 and development.
 
-If you make changes to any file in the frontend/ directory, you need to
+If you make changes to any file in the src/frontend/ directory, you need to
 re-build the project. To speed up things, you can use "phing build.quick" to
 skip most files you usually don't change - everything in 3rdparty and
 the huge image directories.
