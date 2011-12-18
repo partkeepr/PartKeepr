@@ -285,6 +285,9 @@ Ext.application({
         	Ext.defer(PartKeepr.getApplication().reloadStores, 100000, this);	
     	}
     },
+    /**
+     * Creates the main view of PartKeepr.
+     */
     createLayout: function () {
 
     	this.statusBar = Ext.create("PartKeepr.Statusbar");
