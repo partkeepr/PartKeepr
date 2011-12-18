@@ -54,7 +54,7 @@
 		</copy>
 		
 		<copy overwrite="true" todir="setup/">
-			<fileset dir="setup">
+			<fileset dir="src/setup">
 				<include name="**"/>
 			</fileset>
 		</copy>

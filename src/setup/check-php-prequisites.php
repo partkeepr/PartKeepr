@@ -10,14 +10,15 @@
  * 
  * error: 			Either boolean true or false
  * errormessage: 	An error message explaining what the error was
- * checks:			An additional array containing the check names and their results 
  */
 
+/* We need at least PHP 5.3.0, bail out if the version is too low */
 if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 	echo '{"error":true,"errormessage":"You need at least PHP 5.3.0"}';
 	exit;	
 }
 
+/* json_decode is the most important function, as we communicate via JSON */
 if (!function_exists("json_encode")) {
 	echo '{"error":true,"errormessage":"Your PHP installation lacks the function json_decode, which is mandatory for PartKeepr."}';
 	exit;
@@ -25,5 +26,6 @@ if (!function_exists("json_encode")) {
 
 $aChecks = array();
 
-//echo json_encode(array("error" => true, "errormessage" => "You need at least PHP 5.3.0"));
-
+echo json_encode(array("error" => false));
+exit;
+?>
