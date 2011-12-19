@@ -25,7 +25,15 @@
 	<target name="compile-theme">
 	    	<exec dir="theme/sass" command="compass compile partkeepr.scss" passthru="true"/>
 			<copy file="theme/css/partkeepr.css" tofile="frontend/css/partkeepr-theme.css"/>
+			<copy file="theme/css/partkeepr.css" tofile="setup/css/partkeepr-theme.css"/>
+		
 			<copy todir="frontend/resources/themes/images/">
+				<fileset dir="theme/themes/images/">
+					<include name="**/*"/>
+				</fileset>
+			</copy>
+		
+			<copy todir="setup/resources/themes/images/">
 				<fileset dir="theme/themes/images/">
 					<include name="**/*"/>
 				</fileset>
@@ -38,6 +46,7 @@
 	
 	<target name="build-setup">
 		<mkdir dir="setup/"/>
+		<mkdir dir="setup/js/wizard"/>
 		
 		<copy overwrite="false" todir="setup/extjs/">
 			<fileset dir="${extjs.path}">
@@ -50,6 +59,12 @@
 				<include name="adapter/ext/ext-base.js"/>
 				<include name="adapter/ext/ext-base-debug-w-comments.js"/>
 				<include name="source/adapter/ext-base.js"/>
+			</fileset>
+		</copy>
+		
+		<copy overwrite="true" todir="setup/js/wizard">
+			<fileset dir="3rdparty/ext-wizard/Ext.ux.Wizard">
+				<include name="**"/>
 			</fileset>
 		</copy>
 		

@@ -22,10 +22,12 @@ Ext.define('PartKeeprSetup.BaseSetupTest', {
 	 * Runs a given test, and processes the response
 	 */
 	run: function () {
+		console.log(this.params);
 		Ext.Ajax.request({
 			url: this.url,
 			success: this.onSuccess,
-			scope: this
+			scope: this,
+			params: this.params
 		});
 	},
 	

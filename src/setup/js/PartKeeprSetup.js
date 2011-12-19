@@ -7,7 +7,7 @@ Ext.application({
     	var tests = new Array();
     	
     	
-    	var j = Ext.create("PartKeeprSetup.PHPTest");
+    	/*var j = Ext.create("PartKeeprSetup.PHPTest");
     	j.callback = this.testResultPanel;
     	tests.push(j);
     	
@@ -20,7 +20,7 @@ Ext.application({
     	tests.push(j);
     	
     	var tr = Ext.create("PartKeeprSetup.TestRunner");
-    	tr.run(tests);
+    	tr.run(tests);*/
     	
     	//j.on("complete", function () { this.testResultPanel.appendTestResult(this); }, j);
     },
@@ -28,12 +28,14 @@ Ext.application({
      * Creates the main viewport
      */
     createLayout: function () {
-    	this.testResultPanel = Ext.create("PartKeeprSetup.TestResultPanel");
+    	var wizard = Ext.create("PartKeeprSetup.SetupWizard");
+    	wizard.show();
+    	/*this.testResultPanel = Ext.create("PartKeeprSetup.TestResultPanel");
     	
     	Ext.create('Ext.container.Viewport', {
     		layout: 'fit',
     		items: [this.testResultPanel]
     		
-        });   
+        });*/   
     }
 });
