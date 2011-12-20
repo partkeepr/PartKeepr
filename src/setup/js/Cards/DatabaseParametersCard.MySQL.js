@@ -4,6 +4,9 @@
 Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 	extend: 'Ext.panel.Panel',
 	
+	/*
+	 * Various style settings
+	 */
 	border: false,
 	layout: 'column',
 	bodyStyle: {
@@ -13,6 +16,9 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 		labelWidth: 120	
 	},
 	
+	/**
+	 * Initializes the component and creates the various fields
+	 */
 	initComponent: function () {
 		this.createHintTemplate = Ext.create("Ext.Template", [
 			"<code>CREATE DATABASE {dbname} CHARACTER SET UTF8;<br/>GRANT USAGE ON *.* TO {user}@{host} IDENTIFIED BY '{password}';<br/>GRANT ALL PRIVILEGES ON {dbname}.* TO {user}@{host};<br/><br/>"
@@ -49,6 +55,21 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 		
 		this.databaseName.on("change", this.onUpdateParameters, this);
 		
+		this.port = Ext.create("Ext.form.field.Number", {
+			fieldLabel: 'Database Port',
+			minValue: 0,
+			value: '3306',
+			labelWidth: this.defaults.labelWidth,
+			validateOnBlur: true,
+			validateOnChange: false,
+			validator: function (value) {
+				if (value == "" || value == 0) {
+					this.setValue(3306);
+				}
+				return true;
+			}
+		});
+		
 		this.showHintCheckbox = Ext.create("Ext.form.field.Checkbox", {
 					xtype: 'checkboxfield',
 					boxLabel: 'Show commands to create the database',
@@ -69,7 +90,8 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 			        this.hostname,
 		            this.databaseName,
 		            this.username,
-		            this.password
+		            this.password,
+		            this.port
 		            ]
 			},{
 				xtype: 'panel',
@@ -95,6 +117,12 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 		
 		this.on("activate", this.onUpdateParameters, this);
 	},
+	/**
+	 * This method gets fired as soon as something in the form was changed.
+	 * 
+	 * We do this because of the real-time update of the "hints" message, which
+	 * assists the user with commands to execute on the database.
+	 */
 	onUpdateParameters: function () {
 		if (this.showHintCheckbox.checked) {
 			this.createHintTemplate.overwrite(Ext.get("mysql-parameters-hint"), {
@@ -120,5 +148,9 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 				password: this.password.getValue(),
 				dbname: this.databaseName.getValue()
 		};
+		
+		if (this.port.getValue() != 3306) {
+			this.paramsheet.dbparams.port = this.port.getValue();
+		}
 	}
 });

@@ -1,11 +1,19 @@
 Ext.define('PartKeeprSetup.SetupWizard', {
 	extend: 'Ext.ux.Wizard',
 	
-	width: 850,
-	height: 800,
+	/**
+	 * The wizard's window shouldn't have a close button
+	 */
     closable: false,
-    name: 'FOO',
+    
+    /**
+     * Title. Ovbiously.
+     */
     title: 'PartKeepr Setup',
+    
+    /**
+     * Some style settings for the individual cards
+     */
     cardPanelConfig: {
         defaults: {
             baseCls: 'x-small-editor',
@@ -15,27 +23,37 @@ Ext.define('PartKeeprSetup.SetupWizard', {
         layout: 'card'
     },
     
-    // no headConfig suplied no header will be shown.
+    /**
+     * Configure the header
+     */
+    includeHeaderPanel: true,    
     headConfig: {
-        // title: 'Simple Wizard Head title Example',
         headerPosition: 'bottom',
-        position: 'top',         // or bottom
+        position: 'top',
        	cls: "x-setup-header",
-        stepText: "<center>Step {0} of {1}: {2}</center>"
+        stepText: ''
     },
 
-    width: 800, height: 500,
-    closable: false,
+    /**
+     * The width and height of the window, in pixels
+     */
+    width: 800,
+    height: 500,
 
-    includeHeaderPanel: true,
-    
+
+    /**
+     * Initializes the component
+     */
     initComponent: function () {
     	this.cards = this.setupCards();
     	this.callParent();
     	
     	this.headPanel.show();
     },
-    
+    /**
+     * Sets up all cards
+     * @returns {Array}
+     */
     setupCards: function () {
     	var cards = new Array();
     	
@@ -56,31 +74,6 @@ Ext.define('PartKeeprSetup.SetupWizard', {
     	cards.push(Ext.create("PartKeeprSetup.PrequisitesTestCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseParametersCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseConnectivityTestCard"));
-    	/*
-    	Ext.create('Ext.ux.wizard.Card', {
-    		deferredRender: true,
-            title: 'Checking prequisites',
-            showTitle: true,
-            titleCls: '',
-            autoScroll: true,
-            titleStyle: 'font-size: 2.5em;',
-            cls: 'x-partkeepr-setup-basecard',
-            items: [{
-                border: false,
-                bodyStyle: 'background:none;margin-bottom: 2px;',
-                html: 'Setup now checks if your server is capable of running PartKeepr.'
-            }, this.testResultPanel, this.retestPrequisitesButton ],
-            listeners: {
-            	activate: function () {
-            		this.nextButton.setDisabled(true);
-            		
-            		this.testResultPanel.clear();
-            		
-            		
-            	},
-            	scope: this
-            }
-        }));*/
     	
     	return cards;
     }

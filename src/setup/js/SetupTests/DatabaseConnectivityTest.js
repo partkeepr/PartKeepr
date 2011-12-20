@@ -1,9 +1,13 @@
 /**
- * A minimalistic PHP check to make sure PHP is installed on the server and activated as PHP module.
+ * Tests if the database can be reached
  */
 Ext.define('PartKeeprSetup.DatabaseConnectivityTest', {
-	extend: 'PartKeeprSetup.BaseSetupTest',
+	extend: 'PartKeeprSetup.AbstractTest',
 	url: 'tests/check-database-connectivity.php',
 	name: "Database",
-	message: "Testing for database connectivity"
+	message: "Testing for database connectivity",
+	
+	onBeforeRunTest: function () {
+		this.params = Ext.getCmp("database-parameters-card").dbparams;
+	}
 });

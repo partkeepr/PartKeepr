@@ -1,5 +1,7 @@
 /**
  * This card displays the database parameters.
+ * 
+ * This card supports multiple database types along with their special parameters.
  */
 Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 	extend: 'Ext.ux.wizard.Card',
@@ -14,8 +16,6 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 	cls: 'x-partkeepr-setup-basecard',
     id: 'database-parameters-card',
     autoScroll: true,
-    
-    
     
 	/**
 	 * Inits the component
@@ -54,12 +54,15 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 		this.callParent();
 		this.on("activate", this.onActivate, this);
 	},
+	/**
+	 * Creates the dropdown with all available database types.
+	 */
 	createDatabaseDropdown: function () {
-		// The data store containing the list of states
 		var databaseTypes = Ext.create('Ext.data.Store', {
 		    fields: ['type', 'name'],
 		    data : [
 		        {"type":"mysql", "name":"MySQL"},
+		        //For the first version, we only support MySQL as database
 		        //{"type":"postgresql", "name":"PostgreSQL"}
 		    ]
 		});
@@ -78,6 +81,10 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 		this.databaseDropdown.on("select", this.onDriverSelect, this);
 
 	},
+	/**
+	 * This method is a callback from the database dropdown and displays
+	 * the correct database settings page.
+	 */
 	onDriverSelect: function (a,r) {
 		if (r.length == 1) {
 			switch (r[0].get("type")) {
@@ -96,11 +103,11 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 		
 		this.ownerCt.ownerCt.nextButton.setDisabled(true);
 	},
-	retest: function () {
-		this.retestButton.hide();
-		this.runTests();
-	},
+	/**
+	 * Gets called when the card is activated
+	 */
 	onActivate: function () {
+		// Disable the "next" button, this needs to get enabled by the database cards
 		this.ownerCt.ownerCt.nextButton.setDisabled(true);
 		
 		// Manually fire the activate event, in case the user switched cards back/forth.

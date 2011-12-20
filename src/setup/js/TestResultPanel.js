@@ -23,7 +23,7 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
 	 * Appends the specific test to the output panel,
 	 * and fires the error event if an error occured.
 	 * 
-	 * @param test	PartKeeprSetup.BaseSetupTest
+	 * @param test	PartKeeprSetup.AbstractTest
 	 */
 	appendTestResult: function (test) {
 		var response;

@@ -1,8 +1,8 @@
 /**
- * A minimalistic PHP check to make sure PHP is installed on the server and activated as PHP module.
+ * Tests if the PHP configuration is OK.
  */
 Ext.define('PartKeeprSetup.PHPSettingsTest', {
-	extend: 'PartKeeprSetup.BaseSetupTest',
+	extend: 'PartKeeprSetup.AbstractTest',
 	url: 'tests/check-php-settings.php',
 	name: "PHP",
 	message: "Testing for correct PHP settings"

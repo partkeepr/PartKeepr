@@ -1,21 +1,36 @@
 <?php
+/**
+ * Tests the connection to the database.
+ */
 require_once 'Doctrine/Common/ClassLoader.php';
 
 use Doctrine\Common\ClassLoader;
 
 $classLoader = new ClassLoader('Doctrine\DBAL');
-$classLoader->register(); // register on SPL autoload stack
+$classLoader->register();
 
 $classLoader = new ClassLoader('Doctrine\Common');
-$classLoader->register(); // register on SPL autoload stack
-
+$classLoader->register();
 
 $config = new \Doctrine\DBAL\Configuration();
 
 
+/**
+ * Check which driver we are going to use, and set the connection parameters accordingly.
+ */
 switch ($_REQUEST["driver"]) {
 	case "mysql":
-		$driver = "pdo_mysql";
+		$connectionOptions = array(
+				'driver' => 	"pdo_mysql",
+				'dbname' => 	$_REQUEST["dbname"],
+				'user' => 		$_REQUEST["user"],
+				'password' => 	$_REQUEST["password"],
+				'host' => 		$_REQUEST["host"],
+		);
+		
+		if (isset($_REQUEST['port'])) {
+			$connectionOptions['port'] = $_REQUEST['port'];
+		}
 		break;
 	default:
 		echo json_encode(array("error" => true, "errormessage" => "Unknown driver ".$_REQUEST["driver"]));
@@ -23,20 +38,14 @@ switch ($_REQUEST["driver"]) {
 		break;
 }
 
-$connectionOptions = array(
-		'driver' => 	$driver,
-		'dbname' => 	$_REQUEST["dbname"],
-		'user' => 		$_REQUEST["user"],
-		'password' => 	$_REQUEST["password"],
-		'host' => 		$_REQUEST["host"]
-);
-
-
 $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionOptions, $config);
+
 try {
 	$conn->connect();
 } catch (\PDOException $e) {
-	echo json_encode(array("error" => true, "errormessage" => "There was an error connecting to the database:<br/><code>".$e->getMessage()."</code>"));
+	$additionalMessage = getPlatformSpecificErrorMessage($_REQUEST["driver"], $e->getCode());
+	
+	echo json_encode(array("error" => true, "errormessage" => "There was an error connecting to the database:<br/><code>".$e->getMessage()."</code>".$additionalMessage));
 	exit;
 } catch (\Exception $e) {
 	echo json_encode(array("error" => true, "errormessage" => "An unknown error occured. The error is: <code>".$e->getMessage()."</code>"));
@@ -44,3 +53,40 @@ try {
 }
 
 echo json_encode(array("error" => false));
+
+/**
+ * Returns error messages for a specific platform and PDOException code
+ * @param string $platform
+ * @param int $code
+ * @return An error message, or "" if no message is available.
+ */
+function getPlatformSpecificErrorMessage($platform, $code) {
+	switch ($platform) {
+		case "mysql":
+			return getMySQLSpecificErrorMessage($code);
+			break;
+		default:
+			return "";
+	}
+}
+
+/**
+ * Returns error messages for a specific PDOException code.
+ * @param int $code
+ * @return An error message, or "" if no message is available.
+ */
+function getMySQLSpecificErrorMessage ($code) {
+	switch ($code) {
+		case 1044:
+			return "<br/><br/>You need to grant permissions to the database, or you haven't created the database yet.";
+			break;
+		case 1045:
+			return "<br/><br/>It seems that you have mistyped your username or password.";
+			break;
+		case 2013:
+			return "<br/><br/>This error is an indication that the database host you have specified is not reachable, or that your database runs on a different port.";
+			break;
+		default:
+			return "";
+	}
+}

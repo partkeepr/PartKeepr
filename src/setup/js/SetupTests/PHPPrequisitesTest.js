@@ -1,8 +1,8 @@
 /**
- * A minimalistic PHP check to make sure PHP is installed on the server and activated as PHP module.
+ * Tests if the most important PHP prequisites are met (e.g. json_encode).
  */
 Ext.define('PartKeeprSetup.PHPPrequisitesTest', {
-	extend: 'PartKeeprSetup.BaseSetupTest',
+	extend: 'PartKeeprSetup.AbstractTest',
 	url: 'check-php-prequisites.php',
 	name: "PHP",
 	message: "Testing for PHP prequisites"
