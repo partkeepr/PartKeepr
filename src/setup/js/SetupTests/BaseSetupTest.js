@@ -1,3 +1,9 @@
+/**
+ * Represents a test.
+ * 
+ * Calls a specific PHP file on the server and
+ * interprets the response.
+ */
 Ext.define('PartKeeprSetup.BaseSetupTest', {
 	extend: 'Ext.util.Observable',
 	
@@ -10,9 +16,34 @@ Ext.define('PartKeeprSetup.BaseSetupTest', {
 	 * Defines if the call was successful or not.
 	 */
 	success: false,
+	
+	/**
+	 * Defines the callback. This needs to be
+	 * an object which implements the "appendTestResult" method.
+	 */
 	callback: null,
+	
+	/**
+	 * Defines the name of this test.
+	 */
 	name: null,
 	
+	/**
+	 * Defines additional parameters which are to
+	 * be sent with the request. The format is an object,
+	 * e.g.
+	 * {
+	 *    username: "foo",
+	 *    password: "bar"
+	 * }
+	 * 
+	 * 
+	 */
+	params: null,
+	
+	/**
+	 * Constructs the test
+	 */
 	constructor: function () {
 		this.addEvents({
             "complete" : true
@@ -22,7 +53,6 @@ Ext.define('PartKeeprSetup.BaseSetupTest', {
 	 * Runs a given test, and processes the response
 	 */
 	run: function () {
-		console.log(this.params);
 		Ext.Ajax.request({
 			url: this.url,
 			success: this.onSuccess,
@@ -31,6 +61,14 @@ Ext.define('PartKeeprSetup.BaseSetupTest', {
 		});
 	},
 	
+	/**
+	 * Callback for the Ext.Ajax.request method.
+	 * Decodes the response, sets the object
+	 * parameters, fires the "complete" event
+	 * and calls back the test result panel.
+	 * 
+	 * @param response
+	 */
 	onSuccess: function (response) {
 		var obj = Ext.decode(response.responseText);
 		

@@ -59,7 +59,7 @@ Ext.define('PartKeeprSetup.PrequisitesTestCard', {
 	},
 	onActivate: function () {
 		this.ownerCt.ownerCt.nextButton.setDisabled(true);
-		
+		this.retestButton.hide();
 		this.runTests();
 	},
 	runTests: function () {
@@ -76,6 +76,14 @@ Ext.define('PartKeeprSetup.PrequisitesTestCard', {
     	tests.push(j);
     	
     	var j = Ext.create("PartKeeprSetup.DoctrineTest");
+    	j.callback = this.testResultPanel;
+    	tests.push(j);
+    	
+    	var j = Ext.create("PartKeeprSetup.PHPSettingsTest");
+    	j.callback = this.testResultPanel;
+    	tests.push(j);
+    	
+    	var j = Ext.create("PartKeeprSetup.FilesystemPermissionTest");
     	j.callback = this.testResultPanel;
     	tests.push(j);
     	

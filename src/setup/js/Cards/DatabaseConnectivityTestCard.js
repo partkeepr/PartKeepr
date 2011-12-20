@@ -59,8 +59,8 @@ Ext.define('PartKeeprSetup.DatabaseConnectivityTestCard', {
 		this.runTests();
 	},
 	onActivate: function () {
-		console.log("BAR");
 		this.ownerCt.ownerCt.nextButton.setDisabled(true);
+		this.retestButton.hide();
 		
 		this.runTests();
 	},
@@ -70,7 +70,6 @@ Ext.define('PartKeeprSetup.DatabaseConnectivityTestCard', {
 		var tests = new Array();
 		
 		var j = Ext.create("PartKeeprSetup.DatabaseConnectivityTest");
-		console.log(Ext.getCmp("database-parameters-card").dbparams);
 		j.params = Ext.getCmp("database-parameters-card").dbparams;
 
     	j.callback = this.testResultPanel;
