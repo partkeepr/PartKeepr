@@ -26,6 +26,7 @@ switch ($_REQUEST["driver"]) {
 				'user' => 		$_REQUEST["user"],
 				'password' => 	$_REQUEST["password"],
 				'host' => 		$_REQUEST["host"],
+				'charset' => 'utf8'
 		);
 		
 		if (isset($_REQUEST['port'])) {
@@ -52,6 +53,26 @@ try {
 	exit;
 }
 
+/* Run additional tests */
+switch ($_REQUEST["driver"]) {
+	case "mysql":
+		performAdditionalMySQLTests($conn, $_REQUEST["dbname"]);
+		break;
+}
+
+function performAdditionalMySQLTests ($connection, $dbname) {
+	$statement = $connection->prepare("SELECT default_character_set_name FROM information_schema.SCHEMATA S WHERE schema_name = :schema");
+	$statement->bindValue("schema", $dbname);
+	$statement->execute();
+	
+	$encoding = $statement->fetchColumn(0);
+	
+	if ($encoding != "utf8") {
+		echo json_encode(array("error" => true, "errormessage" => "Your database doesn't have the proper encoding. Please change it using the following SQL statement: <br/><br/><code>ALTER DATABASE ".$dbname." CHARACTER SET utf8;</code>"));
+		exit;
+	}
+	
+}
 echo json_encode(array("error" => false));
 
 /**
