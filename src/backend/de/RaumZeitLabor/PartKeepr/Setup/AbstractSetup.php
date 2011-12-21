@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
  * Represents a basic setup step
  */
 abstract class AbstractSetup {
+	private $console;
+	
 	/**
 	 * Represents the Doctrine Entity Manager
 	 * @var Doctrine\ORM\EntityManager
@@ -29,8 +31,14 @@ abstract class AbstractSetup {
 	
 	abstract public function run ();
 	
+	public function setConsole ($console) {
+		$this->console = $console;
+	}
+	
 	public function logMessage ($message) {
-		//echo "- ".$message."\n";
+		if ($this->console) {
+			echo "- ".$message."\n";
+		}
 		$this->messages[] = $message;
 	}
 }

@@ -71,28 +71,6 @@ class FootprintSetup extends AbstractSetup {
 	}
 	
 	/**
-	 * Migrates the existing footprints from the PartDB.
-	 */
-	public static function migrateFootprints () {
-		$r = mysql_query("SELECT * FROM footprints");
-		
-		while ($sFootprint = mysql_fetch_assoc($r)) {
-			Setup::progress(" - Migrating footprint ".$sFootprint["name"], true);
-			
-			$footprint = new Footprint();
-			$footprint->setName(Setup::convertText($sFootprint["name"]));
-		
-	
-			$footprintCategory = FootprintSetup::addFootprintPath(explode("/", "Imported Footprints"), FootprintCategoryManager::getInstance()->getRootNode());
-			$footprint->setCategory($footprintCategory->getNode());
-		
-			$this->entityManager->persist($footprint);
-		
-			FootprintSetup::$migratedFootprints[$sFootprint["id"]] = $footprint;
-		}
-	}
-	
-	/**
 	 * Checks if the specified footprint exists
 	 * @param string $name The footprint name
 	 */
@@ -161,7 +139,7 @@ class FootprintSetup extends AbstractSetup {
 		
 							$footprint->getAttachments()->add($footprintAttachment);
 						} catch (\Exception $e) {
-							echo "error with url ".$attachment["url"]."\n";
+							//echo "error with url ".$attachment["url"]."\n";
 						}
 					}
 						

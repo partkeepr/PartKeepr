@@ -142,6 +142,52 @@ abstract class AbstractCategoryManager extends Singleton {
 		return PartKeepr::getEM()->createQuery($dql)->getSingleScalarResult();
 	}
 	
+	/**
+	 * Creates a category tree by an array of category names
+	 * @param array $aCategoryNames
+	 * @param Category A category where to start searching at
+	 */
+	public function createCategoryTreeByArray ($aCategoryNames, NodeWrapper $rootNode = null) {
+		if (count($aCategoryNames) == 0) {
+			return false;
+		}
+		
+		$categoryName = array_shift($aCategoryNames);
+		
+		if ($rootNode === null) {
+			$rootNode = $this->getRootNode();
+		}
+		
+		$bFound = false;
+		foreach ($rootNode->getChildren() as $child) {
+			if ($child->getNode()->getName() == $categoryName) {
+				$bFound = true;
+				$category = $child->getNode(); 
+				break;
+			}
+		}
+		
+		if ($bFound === false) {
+			$category = new $this->categoryClass();
+			$category->setName($categoryName);
+			$category->setDescription("");
+			$category->setParent($rootNode->getId());
+			$this->addCategory($category);
+		}
+		
+		$result = $this->createCategoryTreeByArray($aCategoryNames,new NodeWrapper($category, $this->getNodeManager()));
+		
+		if ($result === false) {
+			return $category;
+		} else {
+			return $result;
+		}
+	}
+	
+	/**
+	 * Loads a category by id
+	 * @param string $id
+	 */
 	protected function loadCategoryById($id) {
 		$class = $this->categoryClass;
 		

@@ -4,44 +4,24 @@ namespace de\RaumZeitLabor\PartKeepr\Tests;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Setup\Migration\PartDB\PartDBMigration;
 use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager;
 
 
 use de\RaumZeitLabor\PartKeepr\Setup\Setup;
-
-use de\RaumZeitLabor\PartKeepr\Setup\FootprintSetup;
-use de\RaumZeitLabor\PartKeepr\Setup\PartCategorySetup;
-use de\RaumZeitLabor\PartKeepr\Setup\StorageLocationSetup;
-use de\RaumZeitLabor\PartKeepr\Setup\SiPrefixSetup;
-use de\RaumZeitLabor\PartKeepr\Setup\UnitSetup;
-use de\RaumZeitLabor\PartKeepr\Setup\ManufacturerSetup;
-use de\RaumZeitLabor\PartKeepr\Setup\DistributorSetup;
-use de\RaumZeitLabor\PartKeepr\Setup\PartSetup;
 
 declare(encoding = 'UTF-8');
 
 include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-/* Old things */
-use de\RaumZeitLabor\PartKeepr\User\User;
-use de\RaumZeitLabor\PartKeepr\Part\PartUnit;
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory;
-use de\RaumZeitLabor\PartKeepr\Part\Part;
-use de\RaumZeitLabor\PartKeepr\Setup\PartUnitSetup;
-use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation;
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager;
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManagerService;
-
-use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
-use de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
-use de\RaumZeitLabor\PartKeepr\Distributor\Distributor;
-
-
-
 PartKeepr::initialize();
 
 $ask = true;
 $migration = false;
+
+echo "PartKeepr Setup\n";
+echo "Use SetupDatabase.php --help for help\n\n";
 
 foreach ($_SERVER["argv"] as $arg) {
 	switch ($arg) {
@@ -58,10 +38,11 @@ foreach ($_SERVER["argv"] as $arg) {
 		case "--help":
 			echo "Usage: SetupDatabase.php [OPTION]\n\n";
 			echo "Actions performed by this script:\n";
-			echo "* Drop the tables contained in the database for PartKeepr INCLUDING ALL DATA\n";
 			echo "* Creates the schema\n";
-			echo "* Creates an admin user\n";
-			echo "* Imports data from database partdb\n\n";
+			echo "* Sets up the basic data\n";
+			echo "* Imports data from database partdb (if specified)\n\n";
+			echo "Please make sure to enter your database settings in the file config.php.\n";
+			echo "Use the file config.php.template as template for your configuration.\n\n";
 			echo "Arguments:\n";
 			echo " --yes			Assumes 'YES' for the security prompt. USE WITH CAUTION!\n";
 			echo " --migrate		Also migrates the data from the old PartDB database\n";
@@ -74,7 +55,6 @@ foreach ($_SERVER["argv"] as $arg) {
 }
 
 if ($ask) {
-	echo "\n\n";
 	echo "If you are sure you want to do this, type YES and hit return.\n";
 
 	$fp = fopen('php://stdin', 'r');
@@ -90,63 +70,32 @@ if ($ask) {
 echo "Performing actions...\n";
 
 $setup = new Setup();
+$setup->setConsole();
 $setup->run();
 
-/*@mkdir("../data/images");
-@mkdir("../data/files");
-chmod("../data/images", 0777);
-chmod("../data/files", 0777);*/
-
-/* Create footprints */
-
-$newFootprints = array();
-$newCategories = array();
 
 if ($migration) {
-	mysql_connect("localhost", "partdb", "partdb");
+	if (Configuration::getOption("partkeepr.migration.partdb.hostname", false) === false ||
+			Configuration::getOption("partkeepr.migration.partdb.username", false) === false ||
+			Configuration::getOption("partkeepr.migration.partdb.password", false) === false ||
+			Configuration::getOption("partkeepr.migration.partdb.dbname", false) === false) {
+	
+		echo "Error migrating from partdb: One or more configuration settings are missing.\n";
+		echo "Please make sure that you define the partkeepr.migration.partdb.* keys, as shown in config.php.template\n\n";
+		echo "After adjusting the keys, you can safely re-run the setup, even if you already have worked with PartKeepr.\n";
+		exit;
+	}
+	mysql_connect(Configuration::getOption("partkeepr.migration.partdb.hostname"), Configuration::getOption("partkeepr.migration.partdb.username"), Configuration::getOption("partkeepr.migration.partdb.password"));
 	mysql_query("SET CHARACTER SET UTF8");
 	mysql_query("SET NAMES UTF8");
-	mysql_select_db("partdb");
-}
-
-
-/*if ($migration) {
-	FootprintSetup::migrateFootprints();
-	PartKeepr::getEM()->flush();
-}*/
-
-/*if ($migration) {
-	PartCategorySetup::migrateCategories();
-}*/
-
-/*
-if ($migration) {
-	StorageLocationSetup::migrateStorageLocations();
-	PartKeepr::getEM()->flush();
-}*/
-
-
-
-/* Add units */
-//UnitSetup::setupUnits();
-//PartKeepr::getEM()->flush();
-
-/* Add Manufacturers */
-/*ManufacturerSetup::setupManufacturers();
-PartKeepr::getEM()->flush();*/
-
-if ($migration) {
-	DistributorSetup::migrateDistributors();
-	PartKeepr::getEM()->flush();
-}
-
-if ($migration) {
-	PartSetup::migrateParts();
-	PartKeepr::getEM()->flush();
+	mysql_select_db(Configuration::getOption("partkeepr.migration.partdb.dbname"));
+	
+	$migration = new PartDBMigration();
+	$migration->setConsole();
+	$migration->run();
 }
 
 echo "All done.\n\n";
-echo "You need to execute `php doctrine.php migrations:migrate` in the PartKeepr root directory to apply migrations now.\n\n";
 echo "Use the user 'admin' with password 'admin' to login. Access the frontend using the `frontend` directory.\n";
 
 apc_clear_cache();

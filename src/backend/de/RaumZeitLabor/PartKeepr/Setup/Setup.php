@@ -8,16 +8,31 @@ declare(encoding = 'UTF-8');
 
 class Setup {
 	/**
+	 * Specifies if setup runs in console mode.
+	 * @var boolean
+	 */
+	private $console = false;
+	
+	/**
 	 * Defines if the setup runs in verbose mode.
 	 * @var boolean
 	 */
 	private static $verbose = false;
 	
 	/**
-	 * Runs the setup. Right now, it only tests the prequisites.
+	 * Runs the migration with all steps
 	 */
 	public function run () {
 		$this->runStep("all");
+	}
+	
+	/**
+	 * Sets console mode.
+	 * 
+	 * In this mode, messages are directly written to the console.
+	 */
+	public function setConsole () {
+		$this->console = true;
 	}
 
 	/**
@@ -42,6 +57,7 @@ class Setup {
 		
 		if ($step == "all") {
 			foreach ($aSteps as $step) {
+				$step->setConsole($this->console);
 				$step->run();
 			}
 		} else {
@@ -52,7 +68,7 @@ class Setup {
 			}
 		}
 	}
-
+	
 	/**
 	 * Tests for APC. Throws an exception if APC is missing or not active.
 	 * @throws \Exception
@@ -69,18 +85,6 @@ class Setup {
 	 */
 	public function testMemoryLimit () {
 		//echo ini_get("memory_limit");
-	}
-	
-	/**
-	 * Converts strange escpaes in the database to "regular" text.
-	 * @param string $string The string to convert
-	 * @return string The converted string
-	 */
-	public static function convertText ($string) {
-		$string = stripslashes($string);
-		$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-		$string = str_replace("&#937;", "Ω", $string);
-		return $string;
 	}
 	
 	/**
@@ -138,13 +142,5 @@ class Setup {
 				throw new \Exception(sprintf("Invalid driver %s specified.", $_REQUEST["driver"]));
 				break;
 		}
-	}
-	
-	/**
-	 * Sets the database configuration from 
-	 * @param unknown_type $options
-	 */
-	public static function setDatabaseConfigurationFromOptions ($options) {
-		
 	}
 }

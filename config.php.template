@@ -50,8 +50,15 @@ Configuration::setOption("partkeepr.database.driver", "pdo_mysql");
 
 
 /***********************************************************************************************************************
- * END OF THE GENERAL CONFIGURATION SECTION - BELOW ARE CONFIGURATION SETTINGS WHICH DON'T NEED TO BE ADJUSTED ON
- * A REGULAR BASIS
+ * CONFIGURATION SETTINGS FOR MIGRATING FROM PARTDB TO PARTKEEPR. LEAVE UNTOUCHED IF YOU DON'T HAVE PARTDB TO MIGRATE
+ **********************************************************************************************************************/
+Configuration::setOption("partkeepr.migration.partdb.hostname", "localhost");
+Configuration::setOption("partkeepr.migration.partdb.username", "partdb");
+Configuration::setOption("partkeepr.migration.partdb.password", "partdb");
+Configuration::setOption("partkeepr.migration.partdb.dbname", 	"partdb");
+ 
+/***********************************************************************************************************************
+ * END OF THE GENERAL CONFIGURATION SECTION - BELOW ARE CONFIGURATION SETTINGS WHICH USUALLY DON'T NEED TO BE ADJUSTED
  **********************************************************************************************************************/
 
 

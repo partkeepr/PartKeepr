@@ -143,4 +143,18 @@ class FootprintManager extends Singleton {
 			
 		return $fp;
 	}
+	
+	/**
+	 * Retrieves a distributor by its name.
+	 *
+	 * @param string $name The name of the distributor to retrieve
+	 * @throws Doctrine\ORM\NoResultException If the distributor was not found
+	 */
+	public function getFootprintByName ($name) {
+		$dql = "SELECT fp FROM de\RaumZeitLabor\PartKeepr\Footprint\Footprint fp WHERE fp.name = :name";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("name", $name);
+	
+		return $query->getSingleResult();
+	}
 }

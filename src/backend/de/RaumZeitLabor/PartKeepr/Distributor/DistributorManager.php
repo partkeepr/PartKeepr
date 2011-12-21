@@ -91,4 +91,18 @@ class DistributorManager extends Singleton {
 		PartKeepr::getEM()->remove($distributor);
 		PartKeepr::getEM()->flush();
 	}
+	
+	/**
+	 * Retrieves a distributor by its name.
+	 *
+	 * @param string $name The name of the distributor to retrieve
+	 * @throws Doctrine\ORM\NoResultException If the distributor was not found
+	 */
+	public function getDistributorByName ($name) {
+		$dql = "SELECT d FROM de\RaumZeitLabor\PartKeepr\Distributor\Distributor d WHERE d.name = :name";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("name", $name);
+	
+		return $query->getSingleResult();
+	}
 }

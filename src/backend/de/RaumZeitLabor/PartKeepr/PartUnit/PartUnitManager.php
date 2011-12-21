@@ -74,6 +74,17 @@ class PartUnitManager extends Singleton {
 		PartKeepr::getEM()->flush();
 	}
 	
+	/**
+	 * Returns the default part unit for this system
+	 * 
+	 * @param none
+	 * @return PartUnit The default part unit for this system
+	 */
+	public function getDefaultPartUnit () {
+		$dql = 'SELECT pu FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit pu WHERE pu.is_default = 1';
+		return PartKeepr::getEM()->createQuery($dql)->getSingleResult();
+	}
+	
 	public function setDefaultPartUnit ($id) {
 		PartKeepr::getEM()->beginTransaction();
 		
