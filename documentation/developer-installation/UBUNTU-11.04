@@ -1,5 +1,7 @@
 Step by Step Guide für Ubuntu 10.04
+===================================
 
+This guide explains how to setup your workstation so that you can develop using PartKeepr.
 
 This guide assumes that you are working as user root. Usually this isn't recommended, but to make it easier for you, we'll omit that.
 

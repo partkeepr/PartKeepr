@@ -1,10 +1,10 @@
 PartKeepr Installation Instructions
-=================================
+===================================
 
 1) Quick Installation
 
-Please read the file "documentation/QUICK-INSTALL"
+Point your browser to the setup/ directory
 
-2) Verbose Installation
+2) Developer Installation
 
-not written yet.
+See documentation/developer-installation/
