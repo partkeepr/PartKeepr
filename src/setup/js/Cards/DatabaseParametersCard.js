@@ -61,7 +61,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 		var databaseTypes = Ext.create('Ext.data.Store', {
 		    fields: ['type', 'name'],
 		    data : [
-		        {"type":"mysql", "name":"MySQL"},
+		        {"type":"mysql", "name":"MySQL"}
 		        //For the first version, we only support MySQL as database
 		        //{"type":"postgresql", "name":"PostgreSQL"}
 		    ]
@@ -96,6 +96,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 					break;
 				default:
 					this.databaseSettings.layout.setActiveItem(0);
+					break;
 			}
 		} else {
 			this.databaseSettings.layout.setActiveItem(0);

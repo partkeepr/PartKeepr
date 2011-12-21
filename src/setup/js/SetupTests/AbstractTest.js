@@ -52,11 +52,13 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 	run: function () {
 		this.onBeforeRunTest();
 		
+		this.callback.outputTestMessage(this);
 		Ext.Ajax.request({
 			url: this.url,
 			success: this.onSuccess,
 			scope: this,
-			params: this.params
+			params: this.params,
+			timeout: 120000
 		});
 	},
 	
@@ -69,7 +71,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 	onSuccess: function (response) {
 		var obj = Ext.decode(response.responseText);
 		
-		if (obj.error == false) {
+		if (obj.error === false) {
 			this.success = true;
 		} else {
 			this.success = false;
@@ -81,7 +83,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 		}
 		
 		if (this.success) {
-			this.fireEvent("complete");	
+			this.fireEvent("complete", this);	
 		}
 	},
 	/**

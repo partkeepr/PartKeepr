@@ -20,15 +20,29 @@ Ext.define('PartKeeprSetup.TestRunner', {
 	 * 
 	 * @param tests An array of tests
 	 */
-	run: function (tests) {
+	run: function (tests, callback) {
 		test = tests.shift();
+		this.tests = tests;
 		
 		if (!test) {
 			this.fireEvent("success");
 			return;
 		}
 		
-		test.on("complete", function () { this.run(tests); }, this);
+		test.callback = callback;
+		
+		/**
+		 * We re-assign the event handler on each cycle due to the asynchronous nature of the ajax requests.
+		 */
+		test.on("complete", this.onTestComplete, this);
 		test.run();
+	},
+	/**
+	 * Callback when the test is complete
+	 * @param test The test which was run
+	 */
+	onTestComplete: function (test) {
+		test.un(this.onTestComplete);
+		this.run(this.tests, test.callback);
 	}
 });

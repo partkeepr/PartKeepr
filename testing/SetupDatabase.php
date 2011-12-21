@@ -40,9 +40,6 @@ use de\RaumZeitLabor\PartKeepr\Distributor\Distributor;
 
 PartKeepr::initialize();
 
-$setup = new Setup();
-$setup->run();
-
 $ask = true;
 $migration = false;
 
@@ -92,32 +89,13 @@ if ($ask) {
 
 echo "Performing actions...\n";
 
-@mkdir("../src/Proxies");
-@mkdir("../data");
-@mkdir("../data/images");
+$setup = new Setup();
+$setup->run();
+
+/*@mkdir("../data/images");
 @mkdir("../data/files");
 chmod("../data/images", 0777);
-chmod("../data/files", 0777);
-
-$tool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
-
-$classes = PartKeepr::getClassMetaData();
-
-Setup::progress("Dropping schema `".Configuration::getOption("partkeepr.database.dbname")."`");
-$tool->dropDatabase($classes);
-Setup::progress("Creating schema `".Configuration::getOption("partkeepr.database.dbname")."`");
-$tool->createSchema($classes);
-
-Setup::progress("Setting up initial admin user");
-/* Create initial test user */
-$user = new User();
-$user->setUsername("admin");
-$user->setPassword("admin");
-$user->setAdmin(true);
-PartKeepr::getEM()->persist($user);
-
-PartUnitSetup::setupPartUnits();
-PartKeepr::getEM()->flush();
+chmod("../data/files", 0777);*/
 
 /* Create footprints */
 
@@ -131,41 +109,31 @@ if ($migration) {
 	mysql_select_db("partdb");
 }
 
-FootprintSetup::setupRootNode();
-FootprintSetup::importFootprintData();
-PartKeepr::getEM()->flush();
 
-if ($migration) {
+/*if ($migration) {
 	FootprintSetup::migrateFootprints();
 	PartKeepr::getEM()->flush();
-}
+}*/
 
-PartCategorySetup::setupRootCategory();
-
-if ($migration) {
+/*if ($migration) {
 	PartCategorySetup::migrateCategories();
-}
+}*/
 
-
+/*
 if ($migration) {
 	StorageLocationSetup::migrateStorageLocations();
 	PartKeepr::getEM()->flush();
-}
-
-
-/* Add Si-Prefixes */
-SiPrefixSetup::setupSiPrefixes();
-PartKeepr::getEM()->flush();
+}*/
 
 
 
 /* Add units */
-UnitSetup::setupUnits();
-PartKeepr::getEM()->flush();
+//UnitSetup::setupUnits();
+//PartKeepr::getEM()->flush();
 
 /* Add Manufacturers */
-ManufacturerSetup::setupManufacturers();
-PartKeepr::getEM()->flush();
+/*ManufacturerSetup::setupManufacturers();
+PartKeepr::getEM()->flush();*/
 
 if ($migration) {
 	DistributorSetup::migrateDistributors();

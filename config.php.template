@@ -24,6 +24,11 @@ Configuration::setOption("partkeepr.database.hostname", "localhost");
 Configuration::setOption("partkeepr.database.dbname", "partkeepr");
 
 /**
+ * Specifies the MySQL database port
+ */
+Configuration::setOption("partkeepr.database.mysql_port", 3306);
+
+/**
  * Specifies the database driver.
  * 
  * In general, we support any database platform also supported by DBAL. For details, see

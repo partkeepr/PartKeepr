@@ -59,6 +59,26 @@ class UnitManager extends Singleton {
 		return array("response" => array("totalCount" => count($aData), "data" => $aData));
 	}
 	
+	public function getUnitByName ($name) {
+		$dql = "SELECT u FROM de\RaumZeitLabor\PartKeepr\Unit\Unit u WHERE u.name = :name";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("name", $name);
+		
+		return $query->getSingleResult();
+	}
+	
+	public function unitExists ($name) {
+		$dql = "SELECT COUNT(u) FROM de\RaumZeitLabor\PartKeepr\Unit\Unit u WHERE u.name = :name";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("name", $name);
+	
+		if ($query->getSingleScalarResult() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public function getUnit ($id) {
 		$unit = PartKeepr::getEM()->find("de\RaumZeitLabor\PartKeepr\Unit\Unit", $id);
 		

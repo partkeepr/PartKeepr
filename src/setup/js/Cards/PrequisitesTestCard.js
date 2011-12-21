@@ -5,29 +5,15 @@ Ext.define('PartKeeprSetup.PrequisitesTestCard', {
 	extend: 'PartKeeprSetup.AbstractTestCard',
 	
 	cardMessage: "Setup now checks if your server is capable of running PartKeepr.",
-
+	title: 'Checking prequisites',
 	/**
 	 * Sets up all tests
 	 */
 	setupTests: function () {
-		var j = Ext.create("PartKeeprSetup.PHPTest");
-    	j.callback = this.testResultPanel;
-    	this.tests.push(j);
-    	
-    	var j = Ext.create("PartKeeprSetup.PHPPrequisitesTest");
-    	j.callback = this.testResultPanel;
-    	this.tests.push(j);
-    	
-    	var j = Ext.create("PartKeeprSetup.PHPSettingsTest");
-    	j.callback = this.testResultPanel;
-    	this.tests.push(j);
-    	
-    	var j = Ext.create("PartKeeprSetup.DoctrineTest");
-    	j.callback = this.testResultPanel;
-    	this.tests.push(j);
-    	
-    	var j = Ext.create("PartKeeprSetup.FilesystemPermissionTest");
-    	j.callback = this.testResultPanel;
-    	this.tests.push(j);
+    	this.tests.push(new PartKeeprSetup.PHPTest());
+    	this.tests.push(new PartKeeprSetup.PHPPrequisitesTest());
+    	this.tests.push(new PartKeeprSetup.PHPSettingsTest());
+    	this.tests.push(new PartKeeprSetup.DoctrineTest());
+    	this.tests.push(new PartKeeprSetup.FilesystemPermissionTest());
 	}
 });

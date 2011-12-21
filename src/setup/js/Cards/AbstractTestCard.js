@@ -34,7 +34,6 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
 	/**
 	 * Various Style Settings
 	 */
-	title: 'Checking Database Connectivity',
 	showTitle: true,
 	titleCls: '',
 	titleStyle: 'font-size: 2.5em;',
@@ -65,6 +64,10 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
          this.retestButton ];
 		
 		this.tests = new Array();
+		
+		this.testRunner = Ext.create("PartKeeprSetup.TestRunner");
+		this.testRunner.on("success", this.onTestSuccessful, this);
+		
 		this.setupTests();
 		this.callParent();
 		this.on("activate", this.onActivate, this);
@@ -100,12 +103,10 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
 	runTests: function () {
 		this.testResultPanel.clear();
     	
-    	var tr = Ext.create("PartKeeprSetup.TestRunner");
-    	
     	// We need to clone the test array, because we wouldn't be able to run all tests twice
     	var clonedTests = this.tests.slice(0);
-    	tr.run(clonedTests);
-    	tr.on("success", this.onTestSuccessful, this);
+    	this.testRunner.run(clonedTests, this.testResultPanel);
+    	
 	},
 	/**
 	 * When the card is activated, automatically invoke all tests.

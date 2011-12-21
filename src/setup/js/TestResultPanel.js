@@ -19,6 +19,14 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
 		this.removeAll(true);
 	},
 	
+	outputTestMessage: function (test) {
+		var cmp = this.add({
+			border: false,
+			html: test.message +'...<img src="resources/images/ajax-loader.gif" align="absbottom"/>'
+		});
+		
+		test.outputCmp = cmp;
+	},
 	/**
 	 * Appends the specific test to the output panel,
 	 * and fires the error event if an error occured.
@@ -35,7 +43,7 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
 			this.fireEvent("test-error");
 		}
 		
-		this.add({
+		test.outputCmp.body.replaceWith({
 			border: false,
 			html: test.message +"..."+response
 		});

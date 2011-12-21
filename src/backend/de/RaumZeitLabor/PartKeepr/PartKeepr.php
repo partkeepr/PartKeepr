@@ -103,18 +103,10 @@ class PartKeepr {
 		
 		$driverImpl = $config->newDefaultAnnotationDriver(
 			array(__DIR__)
-			//array(__DIR__."/Session")
-			
 			);
 		$config->setMetadataDriverImpl($driverImpl);
 		
-		$connectionOptions = array(
-		    'driver' => 	PartKeeprConfiguration::getOption("partkeepr.database.driver","pdo_mysql"),
-			'dbname' => 	PartKeeprConfiguration::getOption("partkeepr.database.dbname", "partkeepr"),
-			'user' => 		PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr"),
-			'password' => 	PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr"),
-			'host' => 		PartKeeprConfiguration::getOption("partkeepr.database.hostname", "localhost")
-		);
+		$connectionOptions = PartKeepr::createConnectionOptionsFromConfig();
 		
 		if (extension_loaded("apc")) {
 			$cache = new \Doctrine\Common\Cache\ApcCache();
@@ -137,6 +129,30 @@ class PartKeepr {
 		}
 		
 		self::$entityManager = EntityManager::create($connectionOptions, $config);
+	}
+	
+	public static function createConnectionOptionsFromConfig () {
+		$connectionOptions = array();
+		
+		$driver = PartKeeprConfiguration::getOption("partkeepr.database.driver");
+		
+		switch ($driver) {
+			case "pdo_mysql":
+				$connectionOptions["driver"] 	= "pdo_mysql";
+				$connectionOptions["dbname"] 	= PartKeeprConfiguration::getOption("partkeepr.database.dbname", "partkeepr");
+				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
+				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
+				$connectionOptions["host"] 		= PartKeeprConfiguration::getOption("partkeepr.database.host", "localhost");
+				
+				if (PartKeeprConfiguration::getOption("partkeepr.database.mysql_port")) {
+					$connectionOptions["port"] = PartKeeprConfiguration::getOption("partkeepr.database.mysql_port");
+				}
+				break;
+			default:
+				throw new \Exception(sprintf("Unknown driver %s", $driver));
+		}
+		
+		return $connectionOptions;
 	}
 	
 	/**

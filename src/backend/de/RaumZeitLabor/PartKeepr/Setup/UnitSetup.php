@@ -3,24 +3,34 @@ namespace de\RaumZeitLabor\PartKeepr\Setup;
 
 use	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Unit\Unit,
+	de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefixManager,
+	de\RaumZeitLabor\PartKeepr\Unit\UnitManager,
 	de\RaumZeitLabor\PartKeepr\Setup\SiPrefixSetup;
 
-class UnitSetup {
+class UnitSetup extends AbstractSetup {
 	
 	const UNIT_DATA_FILE = "../setup-data/units.yaml";
 	
+	
+	public function run () {
+		$this->setupUnits();
+	}
 	/**
 	 * Sets up the default units
 	 * @throws \Exception
 	 */
-	public static function setupUnits () {
-		Setup::progress("Setting up Units...");
+	public function setupUnits () {
+		$count = 0;
+		$skipped = 0;
 		$data = Setup::loadYAML(self::UNIT_DATA_FILE);
 		
 		$aUnits = array();
 		
 		foreach ($data as $unitName => $data) {
-			Setup::progress(" - Adding unit ".$unitName, true);
+			if (UnitManager::getInstance()->unitExists($unitName)) {
+				$skipped++;
+				continue;
+			}
 			$unit = new Unit();
 			$unit->setName($unitName);
 			$unit->setSymbol($data["symbol"]);
@@ -31,7 +41,8 @@ class UnitSetup {
 				}
 				
 				foreach ($data["prefixes"] as $prefix) {
-					$siPrefix = SiPrefixSetup::getSiPrefixBySymbol($prefix);
+					
+					$siPrefix = SiPrefixManager::getInstance()->getSiPrefixBySymbol($prefix);
 					if ($siPrefix === false) {
 						throw new \Exception("Unable to find prefix ".$prefix);
 					}
@@ -40,6 +51,12 @@ class UnitSetup {
 			}
 		
 			PartKeepr::getEM()->persist($unit);
+			$count++;
 		}
+		
+		$this->entityManager->flush();
+		$this->logMessage(sprintf("Imported %d Units, skipped %d because they already exist", $count, $skipped));
 	}
+	
+	
 }

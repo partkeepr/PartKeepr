@@ -15,9 +15,12 @@ class PartCategorySetup {
 	/**
 	 * Sets up the root category node
 	 */
-	public static function setupRootCategory () {
-		Setup::progress("Creating category root node...");
+	public function setupRootCategory () {
 		PartCategoryManager::getInstance()->ensureRootExists();
+	}
+	
+	public function run () {
+		$this->setupRootCategory();
 	}
 	
 	/**

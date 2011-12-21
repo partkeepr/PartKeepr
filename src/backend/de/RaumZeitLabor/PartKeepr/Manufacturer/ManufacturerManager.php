@@ -56,6 +56,7 @@ class ManufacturerManager extends Singleton {
 	
 	/**
 	 * Adds a new manufacturer by name
+	 * 
 	 * @param string $name The manufacturer name
 	 */
 	public function addManufacturer ($name) {
@@ -70,11 +71,13 @@ class ManufacturerManager extends Singleton {
 	
 	/**
 	 * Loads a manufacturer by id
+	 * 
 	 * @param int $id The manufacturer id
 	 */
 	public function getManufacturer ($id) {
 		return Manufacturer::loadById($id);
 	}
+	
 	/**
 	 * Deletes the manufacturer by id
 	 * @param int $id The manufacturer's id
@@ -84,5 +87,19 @@ class ManufacturerManager extends Singleton {
 		
 		PartKeepr::getEM()->remove($manufacturer);
 		PartKeepr::getEM()->flush();
+	}
+	
+	/**
+	 * Retrieves a manufacturer by its name.
+	 * 
+	 * @param string $name The name of the manufacturer to retrieve
+	 * @throws Doctrine\ORM\NoResultException If the manufacturer was not found
+	 */
+	public function getManufacturerByName ($name) {
+		$dql = "SELECT m FROM de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer m WHERE m.name = :name";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("name", $name);
+		
+		return $query->getSingleResult();
 	}
 }

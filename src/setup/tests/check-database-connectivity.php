@@ -2,41 +2,25 @@
 /**
  * Tests the connection to the database.
  */
-require_once 'Doctrine/Common/ClassLoader.php';
+include("../../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 use Doctrine\Common\ClassLoader;
+use de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Setup\Setup;
 
-$classLoader = new ClassLoader('Doctrine\DBAL');
-$classLoader->register();
-
-$classLoader = new ClassLoader('Doctrine\Common');
-$classLoader->register();
+PartKeepr::initializeClassLoaders();
 
 $config = new \Doctrine\DBAL\Configuration();
-
 
 /**
  * Check which driver we are going to use, and set the connection parameters accordingly.
  */
-switch ($_REQUEST["driver"]) {
-	case "mysql":
-		$connectionOptions = array(
-				'driver' => 	"pdo_mysql",
-				'dbname' => 	$_REQUEST["dbname"],
-				'user' => 		$_REQUEST["user"],
-				'password' => 	$_REQUEST["password"],
-				'host' => 		$_REQUEST["host"],
-				'charset' => 'utf8'
-		);
-		
-		if (isset($_REQUEST['port'])) {
-			$connectionOptions['port'] = $_REQUEST['port'];
-		}
-		break;
-	default:
-		echo json_encode(array("error" => true, "errormessage" => "Unknown driver ".$_REQUEST["driver"]));
-		exit;
-		break;
+try {
+	$onnectionOptions = Setup::setDatabaseConfigurationFromRequest();
+	$connectionOptions = PartKeepr::createConnectionOptionsFromConfig();
+} catch (\Exception $e) {
+	echo json_encode(array("error" => true, "errormessage" => $e->getMessage()));
+	exit;
 }
 
 $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionOptions, $config);

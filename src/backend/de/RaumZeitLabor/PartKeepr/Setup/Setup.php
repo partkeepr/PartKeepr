@@ -1,7 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Setup;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Util\Configuration as PartKeeprConfiguration;
 
 declare(encoding = 'UTF-8');
 
@@ -16,15 +17,40 @@ class Setup {
 	 * Runs the setup. Right now, it only tests the prequisites.
 	 */
 	public function run () {
-		$this->testPrequisites();
+		$this->runStep("all");
 	}
 
 	/**
-	 * Tests all requires prequisites for the system.
+	 * Runs a specific setup step, or all steps.
+	 * @param string $step 
+	 * @throws \Exception
 	 */
-	public function testPrequisites () {
-		$this->testAPC();
-		$this->testMemoryLimit();
+	public function runStep ($step) {
+		$entityManager = PartKeepr::getEM();
+		
+		$aSteps = array(
+				"schema" => new SchemaSetup($entityManager),
+				"adminuser" => new UserSetup($entityManager),
+				"partunit" => new PartUnitSetup($entityManager),
+				"footprint" => new FootprintSetup($entityManager),
+				"partcategory" => new PartCategorySetup($entityManager),
+				"siprefix" => new SiPrefixSetup($entityManager),
+				"unit" => new UnitSetup($entityManager),
+				"manufacturer" => new ManufacturerSetup($entityManager),
+				"schemamigration" => new SchemaMigrationSetup($entityManager)
+				);
+		
+		if ($step == "all") {
+			foreach ($aSteps as $step) {
+				$step->run();
+			}
+		} else {
+			if (array_key_exists($step, $aSteps)) {
+				$aSteps[$step]->run();
+			} else {
+				throw new \Exception(sprintf("Setup step %s doesn't exist", $step));
+			}
+		}
 	}
 
 	/**
@@ -90,5 +116,35 @@ class Setup {
 		} else {
 			return \Symfony\Component\Yaml\Yaml::parse($file);
 		}
+	}
+	
+	/**
+	 * Sets the database configuration array from $_REQUEST
+	 */
+	public static function setDatabaseConfigurationFromRequest () {
+		switch ($_REQUEST["driver"]) {
+			case "mysql":
+				PartKeeprConfiguration::setOption("partkeepr.database.driver","pdo_mysql");
+				PartKeeprConfiguration::setOption("partkeepr.database.dbname", $_REQUEST["dbname"]);
+				PartKeeprConfiguration::setOption("partkeepr.database.username", $_REQUEST["user"]);
+				PartKeeprConfiguration::setOption("partkeepr.database.password", $_REQUEST["password"]);
+				PartKeeprConfiguration::setOption("partkeepr.database.hostname", $_REQUEST["host"]);
+
+				if (isset($_REQUEST['port'])) {
+					PartKeeprConfiguration::setOption("partkeepr.database.mysql_port", $_REQUEST["port"]);
+				}
+				break;
+			default:
+				throw new \Exception(sprintf("Invalid driver %s specified.", $_REQUEST["driver"]));
+				break;
+		}
+	}
+	
+	/**
+	 * Sets the database configuration from 
+	 * @param unknown_type $options
+	 */
+	public static function setDatabaseConfigurationFromOptions ($options) {
+		
 	}
 }

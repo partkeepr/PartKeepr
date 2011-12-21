@@ -4,5 +4,10 @@ if (ini_get("safe_mode")) {
 	exit;
 }
 
+if (ini_get("allow_url_fopen") == false) {
+	echo json_encode(array("error" => true, "errormessage" => "PHP allow_url_fopen is set to off. Right now, we require that it is set to ON. Please set<br/><code>allow_url_fopen = On</code> in your php.ini file."));
+	exit;
+}
+
 echo json_encode(array("error" => false));
 exit;

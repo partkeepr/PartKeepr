@@ -63,7 +63,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 			validateOnBlur: true,
 			validateOnChange: false,
 			validator: function (value) {
-				if (value == "" || value == 0) {
+				if (value === "" || value === 0) {
 					this.setValue(3306);
 				}
 				return true;
@@ -100,8 +100,8 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 					background: "none"
 				},
 				items: [
-				 this.showHintCheckbox
-				,{
+				 this.showHintCheckbox,
+				{
 					border: false,
 					style: 'overflow: auto;',
 					width: "450px",
@@ -137,7 +137,9 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 			this.masterTemplate.overwrite(Ext.get("mysql-parameters-hint"));
 		}
 		
-		if (this.hostname.getValue() != "" && this.username.getValue() != "" && this.password.getValue() != "" && this.databaseName.getValue() != "") {
+		if (this.hostname.getValue() !== "" && this.username.getValue() !== "" && this.password.getValue() !== "" &&
+			this.databaseName.getValue() !== "") {
+			
 			this.paramsheet.ownerCt.ownerCt.nextButton.setDisabled(false);
 		}
 		

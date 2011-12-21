@@ -74,6 +74,20 @@ Ext.define('PartKeeprSetup.SetupWizard', {
     	cards.push(Ext.create("PartKeeprSetup.PrequisitesTestCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseParametersCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseConnectivityTestCard"));
+    	cards.push(Ext.create("PartKeeprSetup.DatabaseSetupCard"));
+    	
+    	cards.push(Ext.create('Ext.ux.wizard.Card', {
+            title: 'Setup Complete',
+            showTitle: true,
+            titleCls: '',
+            titleStyle: 'font-size: 2.5em;',
+            cls: 'x-partkeepr-setup-basecard',
+            items: [{
+                border: false,
+                bodyStyle: 'background:none;',
+                html: "<b>PartKeepr is now set-up.</b><br/><br/>If possible, set your web server's document root to the <b>frontend</b> directory.<br/><br/>To open PartKeepr, open the 'frontend' directory using your browser.<br/><br/>The default username/password combination is <b>admin/admin</b>"
+            }]
+        }));
     	
     	return cards;
     }

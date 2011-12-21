@@ -4,7 +4,7 @@ namespace de\RaumZeitLabor\PartKeepr\Setup;
 use	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Part\PartUnit;
 
-class PartUnitSetup {
+class PartUnitSetup extends AbstractSetup {
 	/**
 	 * Holds the default unit
 	 * @var object
@@ -12,25 +12,24 @@ class PartUnitSetup {
 	private static $defaultUnit;
 	
 	/**
-	 * Sets up the default part unit
+	 * Sets up the default part unit if none exists
 	 */
-	public static function setupPartUnits () {
-		Setup::progress("Setting up default part unit `Pieces`");
-		$partUnit = new PartUnit();
-		$partUnit->setName(PartKeepr::i18n("Pieces"));
-		$partUnit->setShortName(PartKeepr::i18n("pcs"));
-		$partUnit->setDefault(true);
+	public function run () {
+		$dql = "SELECT COUNT(p) FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit p WHERE p.is_default = 1";
+		$query = $this->entityManager->createQuery($dql);
 		
-		PartUnitSetup::$defaultUnit = $partUnit;
-		
-		PartKeepr::getEM()->persist($partUnit);		
-	}
-	
-	/**
-	 * Returns the default part unit
-	 * @return PartUnit The part unit
-	 */
-	public static function getDefaultPartUnit () {
-		return PartUnitSetup::$defaultUnit;
+		if ($query->getSingleScalarResult() == 0) {
+			$partUnit = new PartUnit();
+			$partUnit->setName(PartKeepr::i18n("Pieces"));
+			$partUnit->setShortName(PartKeepr::i18n("pcs"));
+			$partUnit->setDefault(true);
+			
+			$this->entityManager->persist($partUnit);
+			$this->entityManager->flush();
+			
+			$this->logMessage("Added default part unit");
+		} else {
+			$this->logMessage("Skipped adding default part unit, because a default part unit already exists");
+		}
 	}
 }

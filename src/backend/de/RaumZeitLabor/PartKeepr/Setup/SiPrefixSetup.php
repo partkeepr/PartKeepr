@@ -2,9 +2,10 @@
 namespace de\RaumZeitLabor\PartKeepr\Setup;
 
 use	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix;
+	de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix,
+	de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefixManager;
 
-class SiPrefixSetup {
+class SiPrefixSetup extends AbstractSetup {
 	
 	const SIPREFIX_DATA_FILE = "../setup-data/siprefixes.yaml";
 	
@@ -14,37 +15,33 @@ class SiPrefixSetup {
 	 */
 	private static $siPrefixes = array();
 	
-	/**
-	 * Sets up the SI prefixes
-	 */
-	public static function setupSiPrefixes () {
-		Setup::progress("Setting up SI-Prefixes...");
-		$data = Setup::loadYAML(self::SIPREFIX_DATA_FILE);
-		
-		foreach ($data as $prefixName => $data) {
-			Setup::progress(" - Adding prefix ".$prefixName, true);
-			$prefix = new SiPrefix();
-			$prefix->setPrefix($prefixName);
-			$prefix->setPower($data["power"]);
-			$prefix->setSymbol($data["symbol"]);
-		
-			self::$siPrefixes[] = $prefix;
-			
-			PartKeepr::getEM()->persist($prefix);
-		}
+	public function run () {
+		$this->setupSiPrefixes();
 	}
 	
 	/**
-	 * Returns the SI prefix by symbol
-	 * @param string $symbol The symbol to find
+	 * Sets up the SI prefixes
 	 */
-	public static function getSiPrefixBySymbol ($symbol) {
-		foreach (self::$siPrefixes as $prefix) {
-			if ($prefix->getSymbol() == $symbol) {
-				return $prefix;
+	public function setupSiPrefixes () {
+		$count = 0;
+		$skipped = 0;
+		
+		$data = Setup::loadYAML(self::SIPREFIX_DATA_FILE);
+		
+		foreach ($data as $prefixName => $data) {
+			if (!SiPrefixManager::getInstance()->siPrefixExists($prefixName)) {
+				$prefix = new SiPrefix();
+				$prefix->setPrefix($prefixName);
+				$prefix->setPower($data["power"]);
+				$prefix->setSymbol($data["symbol"]);
+				$this->entityManager->persist($prefix);
+				$count++;
+			} else {
+				$skipped++;
 			}
 		}
 		
-		return false;
+		$this->entityManager->flush();
+		$this->logMessage(sprintf("Imported %d Si Prefixes, skipped %d", $count, $skipped));
 	}
 }

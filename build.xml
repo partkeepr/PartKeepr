@@ -155,6 +155,11 @@
 				<include name="**/*.js"/>
 			</fileset>
 		</jsllint>
+		<jsllint>
+			<fileset dir="src/setup">
+				<include name="**/*.js"/>
+			</fileset>
+		</jsllint>
 	</target>
     
 	<!-- Checks all PHP files for messy code. -->

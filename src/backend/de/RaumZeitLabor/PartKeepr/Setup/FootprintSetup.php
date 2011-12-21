@@ -10,7 +10,7 @@ use de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Setup\Setup;
 
-class FootprintSetup {
+class FootprintSetup extends AbstractSetup {
 	/**
 	 * Holds the migrated footprints
 	 * @var array
@@ -23,10 +23,15 @@ class FootprintSetup {
 	/**
 	 * Creates the root node for the footprints
 	 */
-	public static function setupRootNode () {
+	public function setupRootNode () {
 		FootprintCategoryManager::getInstance()->ensureRootExists();
 	}
 	
+	public function run () {
+		$this->setupRootNode();
+		$this->importFootprintData();
+	}
+
 	/**
 	 * Returns a footprint by it's partdb id
 	 * @param int $id The footprint id from the old partdb
@@ -41,7 +46,7 @@ class FootprintSetup {
 	 * @param $path array The components of the path
 	 * @param $node Node  The parent node
 	 */
-	public static function addFootprintPath (Array $path, $node) {
+	public function addFootprintPath (Array $path, $node) {
 		if (count($path) == 0) {
 			return $node;
 		}
@@ -62,14 +67,13 @@ class FootprintSetup {
 			$childNode = FootprintCategoryManager::getInstance()->addCategory($category);
 		}
 	
-		return FootprintSetup::addFootprintPath($path, $childNode);
+		return $this->addFootprintPath($path, $childNode);
 	}
 	
 	/**
 	 * Migrates the existing footprints from the PartDB.
 	 */
 	public static function migrateFootprints () {
-		Setup::progress("Migrating footprints...");
 		$r = mysql_query("SELECT * FROM footprints");
 		
 		while ($sFootprint = mysql_fetch_assoc($r)) {
@@ -82,23 +86,45 @@ class FootprintSetup {
 			$footprintCategory = FootprintSetup::addFootprintPath(explode("/", "Imported Footprints"), FootprintCategoryManager::getInstance()->getRootNode());
 			$footprint->setCategory($footprintCategory->getNode());
 		
-			PartKeepr::getEM()->persist($footprint);
+			$this->entityManager->persist($footprint);
 		
 			FootprintSetup::$migratedFootprints[$sFootprint["id"]] = $footprint;
 		}
 	}
+	
+	/**
+	 * Checks if the specified footprint exists
+	 * @param string $name The footprint name
+	 */
+	public function footprintExists ($name) {
+		$dql = "SELECT COUNT(fp) FROM de\RaumZeitLabor\PartKeepr\Footprint\Footprint fp WHERE fp.name = :name";
+		$query = $this->entityManager->createQuery($dql);
+		$query->setParameter("name", $name);
+		
+		if ($query->getSingleScalarResult() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	/**
 	 * Imports the footprints
 	 * @throws \Exception
 	 */
-	public static function importFootprintData () {
-		Setup::progress("Adding predefined footprints...");
+	public function importFootprintData () {
+		$count = 0;
+		$skipped = 0;
 		
 		/* Import pre-defined footprints */
 		$data = Setup::loadYAML(self::FOOTPRINT_FILE);
 		
 		foreach ($data as $footprintName => $footprintData) {
-			Setup::progress(" - Adding footprint ".$footprintName, true);
+			/* Check if the footprint with the name already exists. If yes, skip the import for the single footprint */
+			if ($this->footprintExists($footprintName)) {
+				$skipped++;
+				continue;
+			}
 			$footprint = new Footprint();
 			$footprint->setName($footprintName);
 		
@@ -107,7 +133,7 @@ class FootprintSetup {
 			}
 		
 			if (array_key_exists("category", $footprintData)) {
-				$footprintCategory = FootprintSetup::addFootprintPath(explode("/", $footprintData["category"]), FootprintCategoryManager::getInstance()->getRootNode());
+				$footprintCategory = $this->addFootprintPath(explode("/", $footprintData["category"]), FootprintCategoryManager::getInstance()->getRootNode());
 				$footprint->setCategory($footprintCategory->getNode());
 			}
 		
@@ -137,15 +163,16 @@ class FootprintSetup {
 						} catch (\Exception $e) {
 							echo "error with url ".$attachment["url"]."\n";
 						}
-		
-		
-		
 					}
 						
 				}
 			}
 		
-			PartKeepr::getEM()->persist($footprint);
+			$this->entityManager->persist($footprint);
+			$count++;
 		}
+		
+		$this->entityManager->flush();
+		$this->logMessage(sprintf("Imported %d footprints, skipped %d because they already existed", $count, $skipped));
 	}
 }
