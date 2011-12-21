@@ -42,6 +42,7 @@
     
         <target name="git-update-submodules">
         	<exec command="git submodule sync" checkreturn="true"/>
+        	<exec command="git submodule init" checkreturn="true"/>
             <exec command="git submodule update" checkreturn="true"/>
         </target>
 	
@@ -174,6 +175,12 @@
     			<exclude name="frontend/resources/fugue-icons/all-preview.png"/>
     			<exclude name="frontend/resources/fugue-icons/all-shadowless.png"/>
     			<exclude name=".git/**/*"/>
+    			<exclude name="3rdparty/doctrine-migrations/.git/**/*"/>
+    			<exclude name="frontend/resources/silkicons/.git/**/*"/>
+    			<exclude name="frontend/resources/flags/.git/**/*"/>
+    			<exclude name="frontend/resources/mimetypes/.git/**/*"/>
+    			<exclude name="frontend/resources/fugue-icons/.git/**/*"/>
+    			
     		</fileset>
     	</copy>
     	
@@ -184,6 +191,12 @@
    		<delete dir="${packagepath}/src/setup/"/>
    		<delete dir="${packagepath}/util/"/>
 		<delete dir="${packagepath}/.git/"/>
+		<delete dir="${packagepath}/3rdparty/doctrine-migrations/.git/"/>
+		<delete dir="${packagepath}/frontend/resources/silkicons/.git/"/>
+		<delete dir="${packagepath}/frontend/resources/flags/.git/"/>
+		<delete dir="${packagepath}/frontend/resources/mimetypes/.git/"/>
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/.git/"/>
+		
    		<delete dir="${packagepath}/3rdparty/extjs/"/>
    		<delete dir="${packagepath}/3rdparty/phpjs/"/>
    		<delete dir="${packagepath}/3rdparty/ext-wizard/"/>
@@ -199,8 +212,8 @@
 			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d"/>
 		</tstamp>
     	
-    	<zip destfile="${build.time}.zip" basedir="${packagepath}"/>
-    	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}"/>
+    	<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly"/>
+    	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-nightly"/>
 	</target>
 		
     <!-- Builds the jsb3 file and build the minified JS files -->
