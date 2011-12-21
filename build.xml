@@ -180,6 +180,7 @@
     			<exclude name="frontend/resources/flags/.git/**/*"/>
     			<exclude name="frontend/resources/mimetypes/.git/**/*"/>
     			<exclude name="frontend/resources/fugue-icons/.git/**/*"/>
+    			<exclude name="config.php"/>
     			
     		</fileset>
     	</copy>
