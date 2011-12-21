@@ -41,6 +41,7 @@
 	</target>
     
         <target name="git-update-submodules">
+        	<exec command="git submodule sync" checkreturn="true"/>
             <exec command="git submodule update" checkreturn="true"/>
         </target>
 	
@@ -138,9 +139,59 @@
     
     
     <target name="release">
-    	<phingcall target="build"/>
+    	
     </target>
-		
+	
+	<target name="prepare-archiving">
+		<phingcall target="build"/>
+		    	
+    	<delete quiet="true">
+    		<fileset dir="${packagepath}"/>
+    	</delete>
+    		
+    	<copy todir="${packagepath}" includeemptydirs="false">
+    		<fileset dir=".">
+    			<exclude name="3rdparty/extjs/**"/>
+    			<exclude name="3rdparty/phpjs/**"/>
+    			<exclude name="3rdparty/ext-wizard/**"/>
+    			<exclude name="theme/**/*"/>
+    			<exclude name="testing/**/*"/>
+    			<exclude name="util/**/*"/>
+    			<exclude name="src/frontend/**/*"/>
+    			<exclude name="src/setup/**"/>
+    			<exclude name="partkeepr.jsb3"/>
+    			<exclude name="partkeepr.jsb3.template"/>
+    			<exclude name="pre-commit.hook"/>
+    			<exclude name="RELEASE-TODO"/>
+    			<exclude name="doctrine.php"/>
+    			<exclude name="build.properties"/>
+    			<exclude name="build.xml"/>
+    			<exclude name="cli-config.php"/>
+    		</fileset>
+    	</copy>
+    	
+    	<delete dir="${packagepath}/theme/"/>
+    	<delete dir="${packagepath}/testing/"/>
+    	<delete dir="${packagepath}/tests/"/>
+    	<delete dir="${packagepath}/src/frontend/"/>
+   		<delete dir="${packagepath}/src/setup/"/>
+   		<delete dir="${packagepath}/util/"/>
+   		<delete dir="${packagepath}/3rdparty/extjs/"/>
+   		<delete dir="${packagepath}/3rdparty/phpjs/"/>
+   		<delete dir="${packagepath}/3rdparty/ext-wizard/"/>
+	</target>
+	
+    <target name="nightly">
+    	<phingcall target="prepare-archiving"/>
+    	
+    	<!--<zip destfile="/data/vhosts/timo/domains/partkeepr.org/wordpress/downloads/-->
+    	 <tstamp>
+			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d"/>
+		</tstamp>
+    	
+    	<zip destfile="${build.time}.zip" basedir="${packagepath}"/>
+    	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}"/>
+	</target>
 		
     <!-- Builds the jsb3 file and build the minified JS files -->
     <target name="jsbuilder">
