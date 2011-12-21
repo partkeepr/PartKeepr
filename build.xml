@@ -167,6 +167,12 @@
     			<exclude name="build.properties"/>
     			<exclude name="build.xml"/>
     			<exclude name="cli-config.php"/>
+    			<exclude name="frontend/resources/fugue-icons/src/**/*"/>
+    			<exclude name="frontend/resources/fugue-icons/bonus/**/*"/>
+    			<exclude name="frontend/resources/fugue-icons/icons-shadowless/**/*"/>
+    			<exclude name="frontend/resources/fugue-icons/all.png"/>
+    			<exclude name="frontend/resources/fugue-icons/all-preview.png"/>
+    			<exclude name="frontend/resources/fugue-icons/all-shadowless.png"/>
     		</fileset>
     	</copy>
     	
@@ -179,6 +185,9 @@
    		<delete dir="${packagepath}/3rdparty/extjs/"/>
    		<delete dir="${packagepath}/3rdparty/phpjs/"/>
    		<delete dir="${packagepath}/3rdparty/ext-wizard/"/>
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/src/"/>
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/bonus/"/>
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/icons-shadowless/"/>
 	</target>
 	
     <target name="nightly">
