@@ -173,6 +173,7 @@
     			<exclude name="frontend/resources/fugue-icons/all.png"/>
     			<exclude name="frontend/resources/fugue-icons/all-preview.png"/>
     			<exclude name="frontend/resources/fugue-icons/all-shadowless.png"/>
+    			<exclude name=".git/**/*"/>
     		</fileset>
     	</copy>
     	
@@ -182,6 +183,7 @@
     	<delete dir="${packagepath}/src/frontend/"/>
    		<delete dir="${packagepath}/src/setup/"/>
    		<delete dir="${packagepath}/util/"/>
+		<delete dir="${packagepath}/.git/"/>
    		<delete dir="${packagepath}/3rdparty/extjs/"/>
    		<delete dir="${packagepath}/3rdparty/phpjs/"/>
    		<delete dir="${packagepath}/3rdparty/ext-wizard/"/>
@@ -193,7 +195,6 @@
     <target name="nightly">
     	<phingcall target="prepare-archiving"/>
     	
-    	<!--<zip destfile="/data/vhosts/timo/domains/partkeepr.org/wordpress/downloads/-->
     	 <tstamp>
 			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d"/>
 		</tstamp>
