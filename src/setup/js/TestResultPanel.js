@@ -47,5 +47,7 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
 			border: false,
 			html: test.message +"..."+response
 		});
+		
+		test.outputCmp.doLayout();
 	}
 });
