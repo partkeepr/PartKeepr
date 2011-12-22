@@ -459,7 +459,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	}
 	
 	/**
-	 * Deserializes the manufacturer
+	 * Deserializes the part
 	 * @param array $parameters The array with the parameters to set
 	 */
 	public function deserialize (array $parameters) {

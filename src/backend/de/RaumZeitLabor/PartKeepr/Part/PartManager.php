@@ -52,7 +52,11 @@ class PartManager extends Singleton {
 			$qb->setParameter("filter", "%".$filter."%");
 		}
 		
-		if ($storageLocation != "") {
+		if ($storageLocation !== null) {
+			/* If storage location is empty, assume new record. This isn't nice and to be considered as a hack */
+			if ($storageLocation == "") {
+				return array();
+			}
 			$qb->andWhere("st.name = :storageLocation");
 			$qb->setParameter("storageLocation", $storageLocation);
 		}
