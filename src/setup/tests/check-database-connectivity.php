@@ -13,6 +13,19 @@ PartKeepr::initializeClassLoaders();
 $config = new \Doctrine\DBAL\Configuration();
 
 /**
+ * Test if the requested driver is available
+ */
+
+$drivers = PDO::getAvailableDrivers();
+
+$bDriverAvailable = false;
+
+if (!in_array($_REQUEST["driver"], $drivers)) {
+	echo json_encode(array("error" => true, "errormessage" => "The requested driver isn't installed as PHP pdo module. Please install the PDO driver for PHP."));
+	exit;
+}
+
+/**
  * Check which driver we are going to use, and set the connection parameters accordingly.
  */
 try {
