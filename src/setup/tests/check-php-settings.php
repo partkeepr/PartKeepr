@@ -9,5 +9,9 @@ if (ini_get("allow_url_fopen") == false) {
 	exit;
 }
 
+if (!function_exists("curl_init")) {
+	echo json_encode(array("error" => true, "errormessage" => "You are missing the curl-library for PHP. Please install and activate it."));
+	exit;
+}
 echo json_encode(array("error" => false));
 exit;
