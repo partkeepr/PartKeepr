@@ -1,11 +1,16 @@
 Ext.define('PartKeepr.MenuBar', {
 	extend: 'Ext.toolbar.Toolbar',
 	initComponent: function () {
-		//this.cls = "partkeepr-mainmenu";
 		this.ui = "mainmenu";
 		
+		// @todo this is an ugly list of configurations. Refactor this in a cleaner way.
+		
 		this.menu = Ext.create('Ext.menu.Menu', {
-			items: [
+			items: [{
+						text: i18n('Projects'),
+						icon: 'resources/fugue-icons/icons/drill.png',
+						handler: this.editProjects
+					},
 			        {
 			        	text: i18n('Footprints'),
 			        	icon: 'resources/fugue-icons/icons/fingerprint.png',
@@ -199,6 +204,16 @@ Ext.define('PartKeepr.MenuBar', {
 		var j = Ext.create("PartKeepr.PartUnitEditorComponent", {
 			title: i18n("Part Measurement Units"),
 			iconCls: 'icon-ruler',
+			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	editProjects: function () {
+		var j = Ext.create("PartKeepr.ProjectEditorComponent", {
+			title: i18n("Projects"),
+			iconCls: 'icon-drill',
 			closable: true
 		});
 		
