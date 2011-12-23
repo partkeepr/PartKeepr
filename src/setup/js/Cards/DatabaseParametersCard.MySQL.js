@@ -21,10 +21,10 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 	 */
 	initComponent: function () {
 		this.createHintTemplate = Ext.create("Ext.Template", [
-			"<code>CREATE DATABASE {dbname} CHARACTER SET UTF8;<br/>GRANT USAGE ON *.* TO {user}@{host} IDENTIFIED BY '{password}';<br/>GRANT ALL PRIVILEGES ON {dbname}.* TO {user}@{host};<br/><br/>"
+			"<code>CREATE DATABASE {dbname} CHARACTER SET UTF8;<br/>GRANT USAGE ON *.* TO {user}@{localhost} IDENTIFIED BY '{password}';<br/>GRANT ALL PRIVILEGES ON {dbname}.* TO {user}@{localhost};<br/><br/>"
 			]);
 		
-		this.masterTemplate = Ext.create("Ext.Template", ["The database must be manually created prior installation. Please note that we don't support UNIX sockets at this time - only TCP connections are supported." ]);	                                                
+		this.masterTemplate = Ext.create("Ext.Template", ["The database must be manually created prior installation." ]);	                                                
 		                                                
 		this.hostname = Ext.create("Ext.form.field.Text", {
 			fieldLabel: 'Database Hostname',
@@ -56,8 +56,9 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 		this.databaseName.on("change", this.onUpdateParameters, this);
 		
 		this.port = Ext.create("Ext.form.field.Number", {
-			fieldLabel: 'Database Port',
 			minValue: 0,
+			flex: 1,
+			disabled: true,
 			value: '3306',
 			labelWidth: this.defaults.labelWidth,
 			validateOnBlur: true,
@@ -67,6 +68,23 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 					this.setValue(3306);
 				}
 				return true;
+			}
+		});
+		
+		this.portDefault = Ext.create("Ext.form.field.Checkbox", {
+			boxLabel: 'Default',
+			flex: 1,
+			checked: true,
+			listeners: {
+				change: function (field) {
+					if (field.getValue()) {
+						this.port.disable();
+						this.port.setValue(3306);
+					} else {
+						this.port.enable();
+					}
+				},
+				scope: this
 			}
 		});
 		
@@ -91,7 +109,15 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 		            this.databaseName,
 		            this.username,
 		            this.password,
-		            this.port
+		            {
+			        	xtype: 'fieldcontainer',
+			        	labelWidth: this.defaults.labelWidth,
+			        	layout: 'hbox',
+			        	width: 300,
+			        	fieldLabel: 'Database Port',
+			        	items: [ this.port, this.portDefault ]		        	        
+		            }
+		            
 		            ]
 			},{
 				xtype: 'panel',
@@ -125,8 +151,16 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 	 */
 	onUpdateParameters: function () {
 		if (this.showHintCheckbox.checked) {
+			var host;
+			
+			if (this.hostname.getValue() == "localhost" || this.hostname.getValue() == "127.0.0.1") {
+				host = this.hostname.getValue();
+			} else {
+				host = "&lt;YOUR-CONNECTING-IP&gt;";
+			}
+			
 			this.createHintTemplate.overwrite(Ext.get("mysql-parameters-hint"), {
-				host: this.hostname.getValue(),
+				localhost: host,
 				user: this.username.getValue(),
 				password: this.password.getValue(),
 				dbname: this.databaseName.getValue()
@@ -151,8 +185,11 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 				dbname: this.databaseName.getValue()
 		};
 		
-		if (this.port.getValue() != 3306) {
-			this.paramsheet.dbparams.port = this.port.getValue();
+		if (!this.portDefault.getValue()) {
+			if (this.port.getValue() != 3306) {
+				this.paramsheet.dbparams.port = this.port.getValue();
+			}	
 		}
+		
 	}
 });
