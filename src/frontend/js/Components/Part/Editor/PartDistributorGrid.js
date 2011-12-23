@@ -45,7 +45,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 		                	dataIndex: 'distributor_id',
 		                	xtype: 'templatecolumn',
 		                	tpl: '{distributor_name}',
-		                	flex: 0.4,
+		                	flex: 0.3,
 		                	editor: {
 		                        xtype:'DistributorComboBox',
 		                        allowBlank:true
@@ -54,7 +54,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 		                { 	
 		                	header: i18n("Order Number"),
 		                	dataIndex: 'orderNumber',
-		                	flex: 0.4,
+		                	flex: 0.3,
 		                	editor: {
 		                        xtype:'textfield',
 		                        allowBlank:true
@@ -69,6 +69,15 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 		                        allowBlank:false,
 		                        minValue: 1
 		                    }
+		                },{
+		                	header: i18n("Price per Item"),
+		                	dataIndex: 'price',
+		                	flex: 0.2,
+		                	editor: {
+		                		xtype:'numberfield',
+		                        allowDecimals: true,
+		                        allowBlank:true
+		                	}
 		                }
 		                ];
 		

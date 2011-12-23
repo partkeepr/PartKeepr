@@ -42,6 +42,15 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	private $packagingUnit;
 	
 	/**
+	 * Specifies the price of the part. Note that the price
+	 * needs to be per item, not per packaging unit.
+	 * 
+	 * @Column(type="decimal",precision=5, scale=2,nullable=true)
+	 * @var float
+	 */
+	private $price;
+	
+	/**
 	 * Cretes a new part->distributor link. Initializes the packaging unit with a quantity of "1".
 	 * 
 	 * @param Part $part The part
@@ -131,6 +140,22 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	}
 
 	/**
+	 * Sets the price
+	 * @param float $price
+	 */
+	public function setPrice ($price) {
+		echo "/** price set to ".$price." **/";
+		$this->price = $price;
+	}
+	
+	/**
+	 * Returns the price
+	 */
+	public function getPrice () {
+		return $this->price;
+	}
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
 	 */
@@ -142,7 +167,8 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 			"distributor_name" => $this->getDistributor()->getName(),
 			"part_id" => $this->getPart()->getId(),
 			"part_name" => $this->getPart()->getName(),
-			"packagingUnit" => $this->getPackagingUnit());
+			"packagingUnit" => $this->getPackagingUnit(),
+			"price" => $this->getPrice());
 	}
 	
 	/**
@@ -161,6 +187,9 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 					break;
 				case "packagingUnit":
 					$this->setPackagingUnit($value);
+					break;
+				case "price":
+					$this->setPrice($value);
 					break;
 			}
 		}

@@ -6,6 +6,7 @@ Ext.define("PartKeepr.PartDistributor", {
 	         {	name: 'part_name',			type: 'string' },
 	         {	name: 'distributor_id',			type: 'int' },
 	         {	name: 'distributor_name',			type: 'string' },
+	         {	name: 'price',			type: 'float' },
 	         { name: 'orderNumber', type: 'string' },
 	         { name: 'packagingUnit', type: 'int'}
 	         ],
