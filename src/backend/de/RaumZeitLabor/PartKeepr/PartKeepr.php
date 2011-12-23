@@ -138,15 +138,28 @@ class PartKeepr {
 		
 		switch ($driver) {
 			case "pdo_mysql":
-				$connectionOptions["driver"] 	= "pdo_mysql";
+			case "pdo_pgsql":
+			case "pdo_oci":
+			case "oci8":
+			case "pdo_sqlsrv":
+				$connectionOptions["driver"] 	= $driver;
 				$connectionOptions["dbname"] 	= PartKeeprConfiguration::getOption("partkeepr.database.dbname", "partkeepr");
 				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
 				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
 				$connectionOptions["host"] 		= PartKeeprConfiguration::getOption("partkeepr.database.host", "localhost");
 				
-				if (PartKeeprConfiguration::getOption("partkeepr.database.mysql_port")) {
-					$connectionOptions["port"] = PartKeeprConfiguration::getOption("partkeepr.database.mysql_port");
+				if (PartKeeprConfiguration::getOption("partkeepr.database.port") !== null) {
+					$connectionOptions["port"] = PartKeeprConfiguration::getOption("partkeepr.database.port");
 				}
+				
+				if (PartKeeprConfiguration::getOption("partkeepr.database.mysql_socket", null) !== null) {
+					$connectionOptions["unix_socket"] = PartKeeprConfiguration::getOption("partkeepr.database.mysql_socket");
+				}
+				break;
+			case "pdo_sqlite":
+				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
+				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
+				$connectionOptions["path"] 		= PartKeeprConfiguration::getOption("partkeepr.database.sqlite_path", PartKeepr::getRootDirectory() . "/data/partkeepr.sqlite");
 				break;
 			default:
 				throw new \Exception(sprintf("Unknown driver %s", $driver));
@@ -163,6 +176,10 @@ class PartKeepr {
 		return self::getEntityManager();
 	}
 
+	public static function getRootDirectory () {
+		return dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+	}
+	
 	/**
 	 * Returns the EntityManager.
 	 * @return Doctrine\ORM\EntityManager The EntityManager

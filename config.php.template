@@ -24,9 +24,17 @@ Configuration::setOption("partkeepr.database.hostname", "localhost");
 Configuration::setOption("partkeepr.database.dbname", "partkeepr");
 
 /**
- * Specifies the MySQL database port
+ * Specifies the database port.
+ * Doesn't need to be specified. "null" specifies the default port.
  */
-Configuration::setOption("partkeepr.database.mysql_port", 3306);
+Configuration::setOption("partkeepr.database.port", null);
+
+/**
+ * Specifies the MySQL unix socket to use
+ */
+Configuration::setOption("partkeepr.database.mysql_socket", null);
+
+
 
 /**
  * Specifies the database driver.
