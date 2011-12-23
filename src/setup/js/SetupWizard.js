@@ -31,6 +31,7 @@ Ext.define('PartKeeprSetup.SetupWizard', {
         headerPosition: 'bottom',
         position: 'top',
        	cls: "x-setup-header",
+       	height: 120,
         stepText: ''
     },
 
