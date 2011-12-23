@@ -132,7 +132,7 @@ class Setup {
 				PartKeeprConfiguration::setOption("partkeepr.database.dbname", $_REQUEST["dbname"]);
 				PartKeeprConfiguration::setOption("partkeepr.database.username", $_REQUEST["user"]);
 				PartKeeprConfiguration::setOption("partkeepr.database.password", $_REQUEST["password"]);
-				PartKeeprConfiguration::setOption("partkeepr.database.hostname", $_REQUEST["host"]);
+				PartKeeprConfiguration::setOption("partkeepr.database.host", $_REQUEST["host"]);
 
 				if (isset($_REQUEST['port'])) {
 					PartKeeprConfiguration::setOption("partkeepr.database.mysql_port", $_REQUEST["port"]);

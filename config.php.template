@@ -16,7 +16,7 @@ Configuration::setOption("partkeepr.database.password", "partkeepr");
 /**
  * Specifies the hostname for the database
  */
-Configuration::setOption("partkeepr.database.hostname", "localhost");
+Configuration::setOption("partkeepr.database.host", "localhost");
 
 /**
  * Specifies the database name

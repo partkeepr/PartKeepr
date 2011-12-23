@@ -146,7 +146,16 @@ class PartKeepr {
 				$connectionOptions["dbname"] 	= PartKeeprConfiguration::getOption("partkeepr.database.dbname", "partkeepr");
 				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
 				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
-				$connectionOptions["host"] 		= PartKeeprConfiguration::getOption("partkeepr.database.host", "localhost");
+				
+				/**
+				 * Compatibility with older configuration files. We check for the key "hostname" as well as "host".
+				 */
+				if (PartKeeprConfiguration::getOption("partkeepr.database.hostname", null) !== null) {
+					$connectionOptions["host"] 	= PartKeeprConfiguration::getOption("partkeepr.database.hostname");
+				} else {
+					$connectionOptions["host"] 	= PartKeeprConfiguration::getOption("partkeepr.database.host", "localhost");
+				}
+				
 				
 				if (PartKeeprConfiguration::getOption("partkeepr.database.port") !== null) {
 					$connectionOptions["port"] = PartKeeprConfiguration::getOption("partkeepr.database.port");
