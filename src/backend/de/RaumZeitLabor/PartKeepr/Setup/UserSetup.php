@@ -8,9 +8,10 @@ use de\RaumZeitLabor\PartKeepr\User\User;
  */
 class UserSetup extends AbstractSetup {
 	public function run () {
-		$dql = "SELECT COUNT(u) FROM de\RaumZeitLabor\PartKeepr\User\User u WHERE u.username = :username OR u.admin = 1";
+		$dql = "SELECT COUNT(u) FROM de\RaumZeitLabor\PartKeepr\User\User u WHERE u.username = :username OR u.admin = :admin";
 		$query = $this->entityManager->createQuery($dql);
 		$query->setParameter("username", "admin");
+		$query->setParameter("admin", true);
 		
 		if ($query->getSingleScalarResult() == 0) {
 			$user = new User();

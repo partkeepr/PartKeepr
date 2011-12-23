@@ -9,7 +9,7 @@ declare(encoding = 'UTF-8');
 
 /**
  * @MappedSuperclass
- * @Table(indexes={@index(name="lft", columns={"lft"}),@index(name="rgt", columns={"rgt"})})
+ * @Table(indexes={@index(columns={"lft"}),@index(columns={"rgt"})})
  * 
  * Represents an abstract category
  */

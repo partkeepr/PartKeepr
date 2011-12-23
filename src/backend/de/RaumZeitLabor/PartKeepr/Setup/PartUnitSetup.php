@@ -15,8 +15,9 @@ class PartUnitSetup extends AbstractSetup {
 	 * Sets up the default part unit if none exists
 	 */
 	public function run () {
-		$dql = "SELECT COUNT(p) FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit p WHERE p.is_default = 1";
+		$dql = "SELECT COUNT(p) FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit p WHERE p.is_default = :default";
 		$query = $this->entityManager->createQuery($dql);
+		$query->setParameter("default", true);
 		
 		if ($query->getSingleScalarResult() == 0) {
 			$partUnit = new PartUnit();

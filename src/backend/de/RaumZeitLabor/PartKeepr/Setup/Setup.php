@@ -126,17 +126,30 @@ class Setup {
 	 * Sets the database configuration array from $_REQUEST
 	 */
 	public static function setDatabaseConfigurationFromRequest () {
+		if (isset($_REQUEST["dbname"])) {
+			PartKeeprConfiguration::setOption("partkeepr.database.dbname", $_REQUEST["dbname"]);
+		}
+
+		if (isset($_REQUEST["user"])) {
+			PartKeeprConfiguration::setOption("partkeepr.database.username", $_REQUEST["user"]);
+		}
+		if (isset($_REQUEST["password"])) {
+			PartKeeprConfiguration::setOption("partkeepr.database.password", $_REQUEST["password"]);
+		}
+		if (isset($_REQUEST["host"])) {
+			PartKeeprConfiguration::setOption("partkeepr.database.host", $_REQUEST["host"]);
+		}
+
+		if (isset($_REQUEST['port'])) {
+			PartKeeprConfiguration::setOption("partkeepr.database.port", $_REQUEST["port"]);
+		}
+		
 		switch ($_REQUEST["driver"]) {
 			case "mysql":
 				PartKeeprConfiguration::setOption("partkeepr.database.driver","pdo_mysql");
-				PartKeeprConfiguration::setOption("partkeepr.database.dbname", $_REQUEST["dbname"]);
-				PartKeeprConfiguration::setOption("partkeepr.database.username", $_REQUEST["user"]);
-				PartKeeprConfiguration::setOption("partkeepr.database.password", $_REQUEST["password"]);
-				PartKeeprConfiguration::setOption("partkeepr.database.host", $_REQUEST["host"]);
-
-				if (isset($_REQUEST['port'])) {
-					PartKeeprConfiguration::setOption("partkeepr.database.mysql_port", $_REQUEST["port"]);
-				}
+				break;
+			case "pgsql":
+				PartKeeprConfiguration::setOption("partkeepr.database.driver","pdo_pgsql");
 				break;
 			default:
 				throw new \Exception(sprintf("Invalid driver %s specified.", $_REQUEST["driver"]));

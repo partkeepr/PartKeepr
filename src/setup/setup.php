@@ -12,13 +12,13 @@ include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 PartKeepr::initializeClassLoaders();
 
 try {
-	$onnectionOptions = Setup::setDatabaseConfigurationFromRequest();
+	Setup::setDatabaseConfigurationFromRequest();
 } catch (\Exception $e) {
 	echo json_encode(array("error" => true, "errormessage" => $e->getMessage()));
 	exit;
 }
 
-PartKeepr::initialize();
+PartKeepr::initializeDoctrine();
 
 $setup = new Setup();
 
