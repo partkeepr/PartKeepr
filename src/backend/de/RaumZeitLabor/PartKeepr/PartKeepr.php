@@ -238,8 +238,8 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\Part\PartAttachment',
 			'de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory',
 		
-			'de\RaumZeitLabor\PartKeepr\UserPreference\Project',
-			'de\RaumZeitLabor\PartKeepr\UserPreference\ProjectPart',
+			'de\RaumZeitLabor\PartKeepr\Project\Project',
+			'de\RaumZeitLabor\PartKeepr\Project\ProjectPart',
 				
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation',
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage',
