@@ -13,5 +13,10 @@ if (!function_exists("curl_init")) {
 	echo json_encode(array("error" => true, "errormessage" => "You are missing the curl-library for PHP. Please install and activate it."));
 	exit;
 }
+
+if (!class_exists("\\finfo")) {
+	echo json_encode(array("error" => true, "errormessage" => "You are missing the fileinfo-library for PHP. Please install and activate it."));
+	exit;
+}
 echo json_encode(array("error" => false));
 exit;
