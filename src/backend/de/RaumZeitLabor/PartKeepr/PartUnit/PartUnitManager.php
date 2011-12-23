@@ -81,18 +81,18 @@ class PartUnitManager extends Singleton {
 	 * @return PartUnit The default part unit for this system
 	 */
 	public function getDefaultPartUnit () {
-		$dql = 'SELECT pu FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit pu WHERE pu.is_default = 1';
-		return PartKeepr::getEM()->createQuery($dql)->getSingleResult();
+		$dql = 'SELECT pu FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit pu WHERE pu.is_default = :default';
+		return PartKeepr::getEM()->createQuery($dql)->setParameter("default", true)->getSingleResult();
 	}
 	
 	public function setDefaultPartUnit ($id) {
 		PartKeepr::getEM()->beginTransaction();
 		
-		$dql = 'UPDATE de\RaumZeitLabor\PartKeepr\Part\PartUnit pu SET pu.is_default = 1 WHERE pu.id = :id';
-		PartKeepr::getEM()->createQuery($dql)->setParameter("id", $id)->execute();
+		$dql = 'UPDATE de\RaumZeitLabor\PartKeepr\Part\PartUnit pu SET pu.is_default = :default WHERE pu.id = :id';
+		PartKeepr::getEM()->createQuery($dql)->setParameter("id", $id)->setParameter("default", true, \PDO::PARAM_BOOL)->execute();
 
-		$dql = 'UPDATE de\RaumZeitLabor\PartKeepr\Part\PartUnit pu SET pu.is_default = 0 WHERE pu.id != :id';
-		PartKeepr::getEM()->createQuery($dql)->setParameter("id", $id)->execute();
+		$dql = 'UPDATE de\RaumZeitLabor\PartKeepr\Part\PartUnit pu SET pu.is_default = :default WHERE pu.id != :id';
+		PartKeepr::getEM()->createQuery($dql)->setParameter("id", $id)->setParameter("default", false, \PDO::PARAM_BOOL)->execute();
 		
 		PartKeepr::getEM()->commit();
 	}
