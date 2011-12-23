@@ -71,6 +71,7 @@ echo "Performing actions...\n";
 
 $setup = new Setup();
 $setup->setConsole();
+$setup->runCLIChecks();
 $setup->run();
 
 

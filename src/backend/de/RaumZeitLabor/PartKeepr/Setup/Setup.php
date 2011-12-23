@@ -156,4 +156,19 @@ class Setup {
 				break;
 		}
 	}
+	
+	/**
+	 * Runs some checks for the CLI setup
+	 */
+	public function runCLIChecks () {
+		
+		if (PartKeeprConfiguration::getOption("partkeepr.database.driver") == "pdo_mysql") {
+			$dbname = PartKeeprConfiguration::getOption("partkeepr.database.dbname");
+			if (!SchemaSetup::mysqlHasUTF8Encoding(PartKeepr::getEM()->getConnection(), $dbname )) {
+				echo "Error: The database $dbname hasn't got the UTF-8 encoding. You need to set the database encoding to UTF-8. Aborting.\n";
+				die;
+			}	
+		}
+		
+	}
 }

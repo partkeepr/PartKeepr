@@ -6,7 +6,8 @@ include("../../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 use Doctrine\Common\ClassLoader;
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Setup\Setup;
+	de\RaumZeitLabor\PartKeepr\Setup\Setup,
+	de\RaumZeitLabor\PartKeepr\Setup\SchemaSetup;
 
 PartKeepr::initializeClassLoaders();
 
@@ -58,13 +59,7 @@ switch ($_REQUEST["driver"]) {
 }
 
 function performAdditionalMySQLTests ($connection, $dbname) {
-	$statement = $connection->prepare("SELECT default_character_set_name FROM information_schema.SCHEMATA S WHERE schema_name = :schema");
-	$statement->bindValue("schema", $dbname);
-	$statement->execute();
-	
-	$encoding = $statement->fetchColumn(0);
-	
-	if ($encoding != "utf8") {
+	if (!SchemaSetup::mysqlHasUTF8Encoding($connection, $dbname)) {
 		echo json_encode(array("error" => true, "errormessage" => "Your database doesn't have the proper encoding. Please change it using the following SQL statement: <br/><br/><code>ALTER DATABASE ".$dbname." CHARACTER SET utf8;</code>"));
 		exit;
 	}

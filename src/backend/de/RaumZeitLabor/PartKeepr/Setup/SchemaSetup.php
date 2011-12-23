@@ -12,4 +12,23 @@ class SchemaSetup extends AbstractSetup {
 		$tool->updateSchema($classes);
 		$this->logMessage("Database Schema created/updated");
 	}
+	
+	/**
+	 * Checks if the specified database has UTF-8 encoding
+	 * @param $connection The DBAL connection
+	 * @param string $dbname
+	 */
+	public static function mysqlHasUTF8Encoding ($connection, $dbname) {
+		$statement = $connection->prepare("SELECT default_character_set_name FROM information_schema.SCHEMATA S WHERE schema_name = :schema");
+		$statement->bindValue("schema", $dbname);
+		$statement->execute();
+	
+		$encoding = $statement->fetchColumn(0);
+		
+		if ($encoding != "utf8") {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }
