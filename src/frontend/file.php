@@ -54,7 +54,7 @@ if ($file == null) {
 
 if (is_object($file)) {
 	header("Content-Type: ".$file->getMimeType());
-	header('Content-Disposition: attachment; filename="'.basename($file->getOriginalFilename()).'"');
+	header('Content-Disposition: inline; filename="'.basename($file->getOriginalFilename()).'"');
 	
 	$fp = fopen($file->getFilename(), "rb");
 	fpassthru($fp);
