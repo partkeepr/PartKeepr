@@ -206,13 +206,23 @@
 		<delete dir="${packagepath}/frontend/resources/fugue-icons/icons-shadowless/"/>
 	</target>
 	
+	<target name="set-version">
+		<exec executable="sed">
+		   <arg value="s/{V_GIT}/${partkeepr.version}/g" />
+		   <arg value="${packagepath}/src/backend/de/RaumZeitLabor/PartKeepr/PartKeeprVersion.php" />
+		 </exec>
+	</target>
+	
     <target name="nightly">
     	<phingcall target="prepare-archiving"/>
     	
     	 <tstamp>
 			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d"/>
 		</tstamp>
-    	
+
+    	<property name="partkeepr.version" value="{build.time}-nightly" />
+    	<phingcall target="set-version"/>
+
     	<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly"/>
     	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-nightly"/>
 	</target>

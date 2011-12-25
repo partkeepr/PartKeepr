@@ -303,5 +303,28 @@ class PartKeepr {
 	      mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
 	    );
 	  }
+	  
+	/**
+	 * Returns the current PartKeepr version.
+	 * @return string The PartKeepr Version
+	 */
+	public static function getVersion () {
+	 	if (PartKeeprVersion::PARTKEEPR_VERSION == "{V_GIT}") {
+	  		return "GIT development version";
+	  	}
+	  	return self::PARTKEEPR_VERSION;
+	}
 }
-?>
+
+
+
+
+
+
+
+
+
+
+
+
+
