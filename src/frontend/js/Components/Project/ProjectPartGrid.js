@@ -42,12 +42,21 @@ Ext.define('PartKeepr.ProjectPartGrid', {
 		this.plugins = [ this.editing ];
 		
 		this.deleteButton = Ext.create("Ext.button.Button", {
-            text: 'Delete',
+            text: i18n('Delete'),
             disabled: true,
             itemId: 'delete',
             scope: this,
             icon: 'resources/silkicons/brick_delete.png',
             handler: this.onDeleteClick
+        });
+		
+		this.viewButton = Ext.create("Ext.button.Button", {
+            text: i18n('View Part'),
+            disabled: true,
+            itemId: 'view',
+            scope: this,
+            icon: 'resources/silkicons/brick_go.png',
+            handler: this.onViewClick
         });
 		
 		this.dockedItems = [{
@@ -57,7 +66,10 @@ Ext.define('PartKeepr.ProjectPartGrid', {
 		        scope: this,
 		        icon: 'resources/silkicons/brick_add.png',
 		        handler: this.onAddClick
-		    }, this.deleteButton]
+		    },
+		    this.deleteButton,
+		    this.viewButton
+		    ]
 		}];
 		
 		this.callParent();
@@ -88,9 +100,19 @@ Ext.define('PartKeepr.ProjectPartGrid', {
         }
 	},
 	/**
+	 * Removes the currently selected row
+	 */
+	onViewClick: function () {
+		var selection = this.getView().getSelectionModel().getSelection()[0];
+        if (selection) {
+            Ext.getCmp("partkeepr-partmanager").onEditPart(selection.get("part_id"));
+        }
+	},
+	/**
 	 * Enables or disables the delete button, depending on the row selection
 	 */
 	onSelectChange: function(selModel, selections){
         this.deleteButton.setDisabled(selections.length === 0);
+        this.viewButton.setDisabled(selections.length === 0);
     }
 });

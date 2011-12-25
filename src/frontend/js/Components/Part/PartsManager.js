@@ -8,6 +8,7 @@ Ext.define('PartKeepr.PartManager', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.PartManager',
 	layout: 'border',
+	id: 'partkeepr-partmanager',
 	border: false,
 	padding: 5,
 	initComponent: function () {
