@@ -62,6 +62,10 @@ Ext.define('PartKeepr.MenuBar', {
 						text: i18n("System Information"),
 						handler: this.showSystemInformation,
 						icon: 'resources/fugue-icons/icons/system-monitor.png'
+					},{
+						text: i18n("Project Reports"),
+						handler: this.showProjectReports,
+						icon: 'resources/fugue-icons/icons/drill.png'
 					}
 			        ]
 		});
@@ -222,6 +226,16 @@ Ext.define('PartKeepr.MenuBar', {
 	editProjects: function () {
 		var j = Ext.create("PartKeepr.ProjectEditorComponent", {
 			title: i18n("Projects"),
+			iconCls: 'icon-drill',
+			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	showProjectReports: function () {
+		var j = Ext.create("PartKeepr.ProjectReportView", {
+			title: i18n("Project Reports"),
 			iconCls: 'icon-drill',
 			closable: true
 		});
