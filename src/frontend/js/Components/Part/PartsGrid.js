@@ -13,7 +13,10 @@ Ext.define('PartKeepr.PartsGrid', {
 	addButtonIcon: 'resources/silkicons/brick_add.png',
     deleteButtonText: i18n("Delete Part"),
     deleteButtonIcon: 'resources/silkicons/brick_delete.png',
-    	
+    
+    expandRowButtonIcon: 'resources/icons/group-expand.png',
+    collapseRowButtonIcon: 'resources/icons/group-collapse.png',
+    
 	viewConfig: {
         plugins: {
             ddGroup: 'CategoryTree',
@@ -28,7 +31,7 @@ Ext.define('PartKeepr.PartsGrid', {
     invalidateScrollerOnRefresh: true,
 	initComponent: function () {
 		
-		var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
+		this.groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
 			//enableGroupingMenu: false,
 	        groupHeaderTpl: '{name} ({rows.length} ' + i18n("Part(s)")+")"
 	    });
@@ -37,7 +40,7 @@ Ext.define('PartKeepr.PartsGrid', {
 		this.defineColumns();
 		
 		
-		this.features = [groupingFeature];
+		this.features = [this.groupingFeature];
 		
 		this.on("itemdblclick", this.onDoubleClick, this);
 		
@@ -54,6 +57,27 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		// Initialize the panel
 		this.callParent();
+		
+		this.bottomToolbar.add({
+			xtype: 'button',
+			tooltip: i18n("Expand all Groups"),
+			icon: this.expandRowButtonIcon,
+			listeners: {
+				scope: this.groupingFeature,
+				click: this.groupingFeature.expandAll	
+			}
+			
+		});
+		
+		this.bottomToolbar.add({
+			xtype: 'button',
+			tooltip: i18n("Collapse all Groups"),
+			icon: this.collapseRowButtonIcon,
+			listeners: {
+				scope: this.groupingFeature,
+				click: this.groupingFeature.collapseAll	
+			}
+		});
 		
 	},
 	/**
