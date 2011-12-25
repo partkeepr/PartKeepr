@@ -82,11 +82,20 @@ Ext.define('PartKeepr.ProjectEditor', {
 	 */
 	onProjectGridEdit: function (editor, e) {
 		if (e.field == "part_id") {
+			/**
+			 * If the user cancelled the editing, set the field to the original value
+			 */
+			if (e.value === null) {
+				e.record.set("part_id", e.originalValue);
+			}
+			
+			/**
+			 * Inject the name into the record
+			 */
 			var rec = e.column.getEditor().store.getById(e.value);
 			if (rec) {
 				e.record.set("part_name", rec.get("name"));	
 			}
-			
 		}
 	},
 	/**
