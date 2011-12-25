@@ -67,7 +67,7 @@ class ManagerFilter {
 	 * @param mixed $limit Either a positive integer, or null/-1 for no limit
 	 */
 	public function setLimit ($limit) {
-		if ($limit === null || $limit === -1) {
+		if ($limit === null || $limit == -1) {
 			$this->limit = null;
 		} else {
 			$this->limit = intval($limit);

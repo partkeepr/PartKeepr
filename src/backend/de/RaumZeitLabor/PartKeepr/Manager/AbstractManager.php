@@ -114,7 +114,7 @@ abstract class AbstractManager extends Singleton {
 		$qb->select($aQueryFields);
 		
 		
-		if ($filter->getStart() !== null) {
+		if ($filter->getStart() !== null && $filter->getLimit() !== null) {
 			$qb->setFirstResult($filter->getStart());
 		}
 		
