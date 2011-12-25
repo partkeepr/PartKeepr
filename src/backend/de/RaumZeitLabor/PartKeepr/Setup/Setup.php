@@ -52,7 +52,8 @@ class Setup {
 				"siprefix" => new SiPrefixSetup($entityManager),
 				"unit" => new UnitSetup($entityManager),
 				"manufacturer" => new ManufacturerSetup($entityManager),
-				"schemamigration" => new SchemaMigrationSetup($entityManager)
+				"schemamigration" => new SchemaMigrationSetup($entityManager),
+				"configfile" => new ConfigFileSetup($entityManager)
 				);
 		
 		if ($step == "all") {

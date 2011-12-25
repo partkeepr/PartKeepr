@@ -39,5 +39,26 @@ class Configuration {
 		}
 		return Configuration::$options[$option];
 	}
+	
+	/**
+	 * Returns a configuration file, based on all configurations.
+	 * 
+	 * @param none
+	 * @return string A complete configuration file including namespace and use directives
+	 */
+	public static function dumpConfig () {
+		$config = <<<EOD
+<?php
+namespace de\RaumZeitLabor\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+
+
+EOD;
+		foreach (Configuration::$options as $option => $value) {
+			$config .= 'Configuration::setOption("'.$option.'", "'.$value.'");'."\n";
+		}
+		
+		return $config;
+	}
 }
 ?>

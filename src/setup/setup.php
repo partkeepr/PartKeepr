@@ -6,7 +6,12 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Setup\Setup;
 
-declare(encoding = 'UTF-8');
+/*function exception_error_handler($errno, $errstr, $errfile, $errline ) {
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+}
+set_error_handler("errorHandler", E_ALL);*/
+set_error_handler(create_function('$a, $b, $c, $d', 'throw new ErrorException($b, 0, $a, $c, $d);'), E_ALL);
+
 
 include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 PartKeepr::initializeClassLoaders();
@@ -26,6 +31,6 @@ try {
 	$setup->runStep($_REQUEST["step"]);
 	echo json_encode(array("error" => false));
 } catch (\Exception $e) {
-	echo json_encode(array("error" => true, "errormessage" => "An unexpected error occured during installation. The error message was:<br/><code>".$e->getMessage()."</code>"));
+	echo json_encode(array("error" => true, "errormessage" => "An unexpected error occured during installation. The error message was:<br/><code>".$e->getMessage()."</code> and happened in <code>".$e->getFile().":".$e->getLine() ));
 	exit;
 }

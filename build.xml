@@ -138,11 +138,27 @@
 		<phingcall target="build-setup"/>
 	</target>
     
-    
+
+	<!--
+	Creates a new PartKeepr release.
+	
+	This task asks for the target version number, and then generates the zip and tbz2 archives out of it.
+	-->
     <target name="release">
+    	<propertyprompt propertyName="partkeepr.version" defaultValue=""
+    	    			promptText="Please enter the version number of the build to generate (e.g. 0.1)" />
     	
+    	<phingcall target="prepare-archiving"/>
+    	<phingcall target="set-version"/>
+
+    	<zip destfile="partkeepr-${partkeepr.version}.zip" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}"/>
+    	<tar destfile="partkeepr-${partkeepr.version}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}"/>
     </target>
 	
+	<!--
+	Runs the build process, then copies the current working tree to a temporary directory (specified by ${packagepath})
+	while excluding stuff the end-user doesn't need (like .git directories, and some 3rdparty stuff).
+	-->
 	<target name="prepare-archiving">
 		<phingcall target="build"/>
 		    	
@@ -206,10 +222,14 @@
 		<delete dir="${packagepath}/frontend/resources/fugue-icons/icons-shadowless/"/>
 	</target>
 	
+	<!--
+	Sets the version of the release inside PartKeeprVersion.php
+	-->
 	<target name="set-version">
 		<exec executable="sed">
-		   <arg value="s/{V_GIT}/${partkeepr.version}/g" />
-		   <arg value="${packagepath}/src/backend/de/RaumZeitLabor/PartKeepr/PartKeeprVersion.php" />
+			<arg value="-i" />
+		   	<arg value="s/{V_GIT}/${partkeepr.version}/g" />
+		   	<arg value="${packagepath}/src/backend/de/RaumZeitLabor/PartKeepr/PartKeeprVersion.php" />
 		 </exec>
 	</target>
 	
@@ -226,7 +246,7 @@
     	<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly"/>
     	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-nightly"/>
 	</target>
-		
+	
     <!-- Builds the jsb3 file and build the minified JS files -->
     <target name="jsbuilder">
     	<exec command="php util/gen-jsb3-file.php ./src/frontend/ ${extjs.path}"/>

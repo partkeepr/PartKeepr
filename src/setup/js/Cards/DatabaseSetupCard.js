@@ -22,5 +22,6 @@ Ext.define('PartKeeprSetup.DatabaseSetupCard', {
     	this.tests.push(new PartKeeprSetup.UnitSetup());
     	this.tests.push(new PartKeeprSetup.ManufacturerSetup());
     	this.tests.push(new PartKeeprSetup.SchemaMigrationSetup());
+    	this.tests.push(new PartKeeprSetup.ConfigFileSetup());
 	}
 });
