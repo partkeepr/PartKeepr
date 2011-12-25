@@ -5,7 +5,7 @@ Ext.define('PartKeepr.MenuBar', {
 		
 		// @todo this is an ugly list of configurations. Refactor this in a cleaner way.
 		
-		this.menu = Ext.create('Ext.menu.Menu', {
+		this.editMenu = Ext.create('Ext.menu.Menu', {
 			items: [{
 						text: i18n('Projects'),
 						icon: 'resources/fugue-icons/icons/drill.png',
@@ -37,6 +37,14 @@ Ext.define('PartKeepr.MenuBar', {
 			        	handler: this.editPartUnits,
 			        	icon: "resources/fugue-icons/icons/ruler.png"
 			        },{
+			        	text: i18n("Units"),
+			        	handler: this.editUnits,
+			        	icon: 'resources/icons/unit.png'
+			        }]
+		});
+		
+		this.viewMenu = Ext.create('Ext.menu.Menu', {
+			items: [{
 			        	text: i18n("Statistics"),
 			        	icon: 'resources/silkicons/chart_bar.png',
 			        	menu: [
@@ -49,15 +57,13 @@ Ext.define('PartKeepr.MenuBar', {
 								handler: this.showStatisticsChart,
 								icon: 'resources/silkicons/chart_bar.png'
 							}]
-			        },{
-			        	text: i18n("Units"),
-			        	handler: this.editUnits,
-			        	icon: 'resources/icons/unit.png'
-			        },{
-			        	text: i18n("System Information"),
-			        	handler: this.showSystemInformation,
-			        	icon: 'resources/fugue-icons/icons/system-monitor.png'
-			        }]
+			        },
+					{
+						text: i18n("System Information"),
+						handler: this.showSystemInformation,
+						icon: 'resources/fugue-icons/icons/system-monitor.png'
+					}
+			        ]
 		});
 		
 		this.systemMenu = Ext.create('Ext.menu.Menu', {
@@ -78,8 +84,11 @@ Ext.define('PartKeepr.MenuBar', {
 			text: i18n("System"),
 			menu: this.systemMenu
 		},{
-			text: i18n('Menu'),
-			menu: this.menu 
+			text: i18n('Edit'),
+			menu: this.editMenu 
+		},{
+			text: i18n('View'),
+			menu: this.viewMenu 
 		},
 		'->',
 		{
@@ -215,6 +224,16 @@ Ext.define('PartKeepr.MenuBar', {
 			title: i18n("Projects"),
 			iconCls: 'icon-drill',
 			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	displayComponent: function (component) {
+		var j = Ext.create(component.type, {
+			title: component.title,
+			iconCls: component.iconCls,
+			closable: component.closable 
 		});
 		
 		PartKeepr.getApplication().addItem(j);
