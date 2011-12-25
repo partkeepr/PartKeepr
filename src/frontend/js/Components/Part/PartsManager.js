@@ -171,6 +171,8 @@ Ext.define('PartKeepr.PartManager', {
 		
 		j.editor.editItem(record);
 		j.show();
+		
+		return j;
 	},
 	/**
      * Called when a part was edited. Refreshes the grid.

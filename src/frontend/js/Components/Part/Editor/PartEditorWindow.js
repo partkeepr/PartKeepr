@@ -46,7 +46,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		 * We need a delay, since if others are listening for "editorClose", the dialog plus the record could be destroyed
 		 * before any following listeners have a chance to receive the record, resulting in strange problems.
 		 */
-		this.editor.on("editorClose", function (record) { this.close();}, this, { delay: 200 });
+		this.editor.on("editorClose", function (context) { this.close();}, this, { delay: 200 });
 		
 		this.editor.on("titleChange", function (val) { this.setTitle(val); }, this);
 		

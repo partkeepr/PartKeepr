@@ -62,10 +62,15 @@ Ext.define('PartKeepr.ProjectPartGrid', {
 		this.dockedItems = [{
 		    xtype: 'toolbar',
 		    items: [{
-		        text: 'Add',
+		        text: i18n('Add'),
 		        scope: this,
 		        icon: 'resources/silkicons/brick_add.png',
 		        handler: this.onAddClick
+		    },{
+		    	text: i18n("Create new Part"),
+		    	scope: this,
+		    	icon: 'resources/silkicons/brick_add.png',
+		    	handler: this.onAddPartClick
 		    },
 		    this.deleteButton,
 		    this.viewButton
@@ -89,6 +94,29 @@ Ext.define('PartKeepr.ProjectPartGrid', {
 		this.store.insert(this.store.count(), rec);
 		
 		this.editing.startEdit(rec, this.columns[0]);
+	},
+	/**
+	 * Creates a new part, adds it to the list and sets the default quantity to 1.
+	 */
+	onAddPartClick: function () {
+		var win = Ext.getCmp("partkeepr-partmanager").onItemAdd();
+		win.editor.on("editorClose", function (context) {
+			// End this if the record is a phatom and thus hasn't been saved yet
+			if (context.record.phantom) { return; }
+			
+			// Insert the new record
+			this.editing.cancelEdit();
+			
+			var rec = new PartKeepr.ProjectPart({
+				quantity: 1,
+				part_id: context.record.get("id"),
+				part_name: context.record.get("name")
+			});
+			
+			this.store.insert(this.store.count(), rec);
+			
+			this.editing.startEdit(rec, this.columns[0]);
+		}, this);
 	},
 	/**
 	 * Removes the currently selected row

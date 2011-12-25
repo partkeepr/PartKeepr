@@ -194,7 +194,7 @@ Ext.define('PartKeepr.PartEditor', {
 		this.fireEvent("partSaved", this.record);
 		
 		if (this.keepOpenCheckbox.getValue() !== true) {
-			this.fireEvent("editorClose");
+			this.fireEvent("editorClose", this);
 		} else {
 			var newItem = Ext.create("PartKeepr.Part", this.partDefaults);
 			this.editItem(newItem);
