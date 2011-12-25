@@ -66,10 +66,12 @@ Ext.define('PartKeepr.PartManager', {
 		
 		this.detailPanel = Ext.create("Ext.tab.Panel", {
 			title: i18n("Part Details"),
-			hidden: true,
+			collapsed: true,
+			collapsible: true,
 			region: 'east',
 			split: true,
 			width: 300,
+			animCollapse: false,
 			items: [ this.detail, this.stockLevel ]
 		});
 		
@@ -200,13 +202,13 @@ Ext.define('PartKeepr.PartManager', {
      */
 	onItemSelect: function () {
 		if (this.grid.getSelectionModel().getCount() > 1) {
-			this.detailPanel.hide();
+			this.detailPanel.collapse();
 			this.tree.syncButton.disable();
 		} else if (this.grid.getSelectionModel().getCount() == 1) {
 			var r = this.grid.getSelectionModel().getLastSelected();
 			
 			this.detailPanel.setActiveTab(this.detail);
-			this.detailPanel.show();
+			this.detailPanel.expand();
 			this.detail.setValues(r);
 			this.stockLevel.part = r.get("id");
 			
