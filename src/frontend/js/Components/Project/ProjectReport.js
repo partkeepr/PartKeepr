@@ -98,7 +98,27 @@ Ext.define('PartKeepr.ProjectReportView', {
 		
 		this.reportResult.on("beforeedit", this.onBeforeEdit, this);
 		this.reportResult.on("edit", this.onEdit, this);
-		this.items = [ this.reportList, { xtype: 'button', text: i18n("Create Report"), margin: { top: 5, bottom: 5 }, listeners: { click: this.onCreateReportClick, scope: this }}, this.reportResult ];
+		this.items = [
+		              this.reportList,
+		              {
+		            	  xtype: 'button',
+		            	  text: i18n("Create Report"),
+		            	  margin: { top: 5, bottom: 5 },
+		            	  listeners: {
+		            		  click: this.onCreateReportClick,
+		            		  scope: this
+		            		}
+		            	  }, 
+		            	  {
+		            		  xtype: 'button',
+			            	  text: i18n("Autofill"),
+			            	  margin: { top: 5, bottom: 5 },
+			            	  listeners: {
+			            		  click: this.onAutoFillClick,
+			            		  scope: this
+			            		}
+		            	  },this.reportResult ];
+		            	  
 		
 		
 		
@@ -139,6 +159,36 @@ Ext.define('PartKeepr.ProjectReportView', {
 		
 		this.reportResult.getView().refresh(true);
 		
+	},
+	onAutoFillClick: function () {
+		for (var i=0;i<this.reportResult.store.count();i++) {
+			var activeRecord = this.reportResult.store.getAt(i);
+			var cheapest=null;
+			var cheapestPrice=null;
+			
+			for (var j=0;j<activeRecord.part().getAt(0).distributors().count();j++) {
+				var activeDistributor = activeRecord.part().getAt(0).distributors().getAt(j);
+				
+				if (cheapestPrice === null && parseFloat(activeDistributor.get("price")) !== 0) {
+					cheapestPrice = activeDistributor.get("price");
+					cheapest = activeDistributor;
+				} else {
+					if (parseFloat(activeDistributor.get("price")) !== 0 && parseFloat(activeDistributor.get("price")) < cheapestPrice) {
+						cheapestPrice = activeDistributor.get("price");
+						cheapest = activeDistributor;
+					}
+				}
+				
+			}
+			
+			if (cheapest !== null) {
+				activeRecord.set("distributor_name", cheapest.get("distributor_name"));
+				activeRecord.set("price", cheapest.get("price"));
+				activeRecord.set("sum_order", activeRecord.get("missing") * activeRecord.get("price"));
+			}
+		}
+		
+		this.reportResult.getView().refresh(true);
 	},
 	onCreateReportClick: function () {
 		selection = this.reportList.getSelectionModel().getSelection();
