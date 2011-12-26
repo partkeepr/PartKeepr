@@ -8,6 +8,7 @@ Ext.define("PartKeepr.ProjectReport", {
 	         {	name: 'storageLocation_name',	type: 'string'},
 	         {	name: 'available',	type: 'int'},
 	         {	name: 'missing',	type: 'int'},
+	         {	name: 'distributor_order_number',	type: 'string'},
 	         {	name: 'sum_order',	type: 'float'}
 	         ],
 	hasMany: [

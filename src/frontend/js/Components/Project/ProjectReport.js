@@ -73,6 +73,12 @@ Ext.define('PartKeepr.ProjectReportView', {
 					editable: false
 				}
 			},{
+				header: i18n("Distributor Order Number"), dataIndex: 'distributor_order_number',
+				flex: 1,
+				editor: {
+					xtype: 'textfield',
+				}
+			},{
 				header: i18n("Price per Item"), dataIndex: 'price',
 				width: 100
 			},{
@@ -125,6 +131,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 		this.callParent();
 	},
 	onBeforeEdit: function (e) {
+		if (e.field !== "distributor_id") { return; }
 		
 		var distributors = e.record.part().getAt(0).distributors();
 		
@@ -151,6 +158,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 				if (distributors.getAt(i).get("distributor_id") == e.value) {
 					e.record.set("distributor_name", distributors.getAt(i).get("distributor_name"));
 					e.record.set("price", distributors.getAt(i).get("price"));
+					e.record.set("distributor_order_number", distributors.getAt(i).get("orderNumber"));
 					
 					e.record.set("sum_order", e.record.get("missing") * e.record.get("price"));
 				}
@@ -183,6 +191,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 			
 			if (cheapest !== null) {
 				activeRecord.set("distributor_name", cheapest.get("distributor_name"));
+				activeRecord.set("distributor_order_number", cheapest.get("orderNumber"));
 				activeRecord.set("price", cheapest.get("price"));
 				activeRecord.set("sum_order", activeRecord.get("missing") * activeRecord.get("price"));
 			}
