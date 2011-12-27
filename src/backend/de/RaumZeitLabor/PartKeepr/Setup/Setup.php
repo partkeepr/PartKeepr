@@ -116,11 +116,7 @@ class Setup {
 	 * @return array The parsed YAML file
 	 */
 	public static function loadYAML ($file) {
-		if (method_exists("\Symfony\Component\Yaml\Yaml", "load")) {
-			return \Symfony\Component\Yaml\Yaml::load($file);
-		} else {
-			return \Symfony\Component\Yaml\Yaml::parse($file);
-		}
+		return \Symfony\Component\Yaml\Yaml::parse($file);
 	}
 	
 	/**

@@ -6,10 +6,6 @@ declare(encoding = 'UTF-8');
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Setup\Setup;
 
-/*function exception_error_handler($errno, $errstr, $errfile, $errline ) {
-    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
-}
-set_error_handler("errorHandler", E_ALL);*/
 set_error_handler(create_function('$a, $b, $c, $d', 'throw new ErrorException($b, 0, $a, $c, $d);'), E_ALL);
 
 
