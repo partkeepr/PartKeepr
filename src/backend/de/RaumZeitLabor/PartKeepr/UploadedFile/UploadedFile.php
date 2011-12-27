@@ -214,7 +214,9 @@ abstract class UploadedFile extends BaseEntity {
  	 * @return string The path to the file
 	 */
 	public function getFilePath () {
-		return Configuration::getOption("partkeepr.files.path").$this->getType()."/";
+		return Configuration::getOption(
+				"partkeepr.files.path",
+				PartKeepr::getRootDirectory() . "/data/") . $this->getType() . "/";
 	}
 	
 	/**
@@ -228,7 +230,11 @@ abstract class UploadedFile extends BaseEntity {
 	 */
 	public function ensureFilePathExists () {
 		if (!is_dir($this->getFilePath())) {
-			mkdir($this->getFilePath(), 0777, true);
+			try {
+				mkdir($this->getFilePath(), 0777, true);
+			} catch (\Exception $e) {
+				throw new \Exception("Unable to create directory ".$this->getFilePath());
+			}
 		}
 	}
 	

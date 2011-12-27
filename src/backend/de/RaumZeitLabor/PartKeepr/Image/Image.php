@@ -83,7 +83,9 @@ abstract class Image extends UploadedFile {
 	 * @return string The path to the image
 	 */
 	public function getFilePath () {
-		return Configuration::getOption("partkeepr.images.path").$this->getType()."/";
+		return Configuration::getOption(
+				"partkeepr.images.path",
+				PartKeepr::getRootDirectory() . "/data/images/") . $this->getType() . "/";
 	}
 	
 	/**
