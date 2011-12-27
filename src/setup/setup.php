@@ -24,6 +24,12 @@ PartKeepr::initializeDoctrine();
 $setup = new Setup();
 
 try {
+	/**
+	 * Workaround for the footprint setup to allow long downloads pass through
+	 */
+	if ($_REQUEST["step"] == "footprint") {
+		@set_time_limit(0);
+	}
 	$setup->runStep($_REQUEST["step"]);
 	echo json_encode(array("error" => false));
 } catch (\Exception $e) {
