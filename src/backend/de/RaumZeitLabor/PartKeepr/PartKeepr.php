@@ -45,22 +45,22 @@ class PartKeepr {
 		
 		
 		$classLoader = new ClassLoader('de\RaumZeitLabor\PartKeepr', dirname(dirname(dirname(__DIR__))));
-		$classLoader->register(); // register on SPL autoload stack
+		$classLoader->register();
 		
 		$classLoader = new ClassLoader('Doctrine\ORM');
-		$classLoader->register(); // register on SPL autoload stack
+		$classLoader->register();
 		
 		$classLoader = new ClassLoader("Doctrine\DBAL\Migrations", dirname(dirname(dirname(dirname(dirname(__DIR__))))) ."/3rdparty/doctrine-migrations/lib");
 		$classLoader->register();
 		
 		$classLoader = new ClassLoader('Doctrine\DBAL');
-		$classLoader->register(); // register on SPL autoload stack
+		$classLoader->register();
 		
 		$classLoader = new ClassLoader('Doctrine\Common');
-		$classLoader->register(); // register on SPL autoload stack
+		$classLoader->register();
 		
 		$classLoader = new ClassLoader('Symfony', 'Doctrine');
-		$classLoader->register(); // register on SPL autoload stack
+		$classLoader->register();
 		
 		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", dirname(dirname(dirname(dirname(dirname(__DIR__))))) ."/3rdparty/doctrine2-nestedset/lib");
 		$classLoader->register();
