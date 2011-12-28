@@ -59,8 +59,7 @@ if (\Doctrine\ORM\Version::compare("2.1.0") == 1) {
  * of footprints.
  */
 
-if (!$sfClassLoader->canLoadClass("Symfony\\Component\\Yaml\\Yaml") ||
-	!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Yaml\\Yaml")) {
+if (!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Yaml\\Yaml")) {
 	
 	$yamlErrorMessage = "The YAML component of symfony is not installed. This component is required; please install ";
 	$yamlErrorMessage .= "it using:<br/><br/>";
