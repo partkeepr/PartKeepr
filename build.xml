@@ -152,7 +152,7 @@
     	<phingcall target="set-version"/>
 
     	<zip destfile="partkeepr-${partkeepr.version}.zip" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}"/>
-    	<tar destfile="partkeepr-${partkeepr.version}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}"/>
+    	<tar destfile="partkeepr-${partkeepr.version}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}/"/>
     </target>
 	
 	<!--
