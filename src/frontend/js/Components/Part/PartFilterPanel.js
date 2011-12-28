@@ -157,7 +157,12 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		 * Get the raw (=text) value. I really wish that ExtJS would handle selected values (from a store)
 		 * distinct than entered values.
 		 */ 
-		extraParams.storageLocation = this.storageLocationFilter.getRawValue();
+		if (this.storageLocationFilter.getRawValue() !== "") {
+			extraParams.storageLocation = this.storageLocationFilter.getRawValue();
+		} else {
+			delete extraParams.storageLocation;
+		}
+		
 	}
 	
 });
