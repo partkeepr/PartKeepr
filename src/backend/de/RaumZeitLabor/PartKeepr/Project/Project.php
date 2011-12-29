@@ -37,10 +37,19 @@ class Project extends BaseEntity implements Serializable, Deserializable {
 	private $description;
 	
 	/**
+	 * Holds the project attachments
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Project\ProjectAttachment",mappedBy="project",cascade={"persist", "remove"})
+	 * @var ProjectAttachment
+	 */
+	private $attachments;
+	
+	
+	/**
 	 * Constructs a new project
 	 */
 	public function __construct () {
 		$this->parts = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 		
 	/**
@@ -99,6 +108,14 @@ class Project extends BaseEntity implements Serializable, Deserializable {
 	}
 	
 	/**
+	 * Returns the attachments for this project
+	 * @return ArrayCollection The attachments
+	 */
+	public function getAttachments () {
+		return $this->attachments;
+	}
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
 	 */
@@ -108,6 +125,7 @@ class Project extends BaseEntity implements Serializable, Deserializable {
 				"name" => $this->getName(),
 				"description" => $this->getDescription(),
 				"parts" => $this->serializeChildren($this->getParts()),
+				"attachments" => $this->serializeChildren($this->getAttachments())
 		);
 	}
 	
@@ -128,6 +146,12 @@ class Project extends BaseEntity implements Serializable, Deserializable {
 					$this->deserializeChildren($value, $this->getParts(), "de\RaumZeitLabor\PartKeepr\Project\ProjectPart");
 					foreach ($this->getParts() as $part) {
 						$part->setProject($this);
+					}
+					break;
+				case "attachments":
+					$this->deserializeChildren($value, $this->getAttachments(), "de\RaumZeitLabor\PartKeepr\Project\ProjectAttachment");
+					foreach ($this->getAttachments() as $attachment) {
+						$attachment->setProject($this);
 					}
 					break;
 			}

@@ -1,6 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Frontend;
 use de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment;
+use de\RaumZeitLabor\PartKeepr\Project\ProjectAttachment;
 
 use de\RaumZeitLabor\PartKeepr\Part\PartAttachment;
 
@@ -32,7 +33,11 @@ if (substr($id, 0, 4) === "TMP:") {
 			case "FootprintAttachment":
 			case "PartKeepr.FootprintAttachment":
 					$file = FootprintAttachment::loadById($id);
-					break;			
+					break;
+			case "ProjectAttachment":
+			case "PartKeepr.ProjectAttachment":
+				$file = ProjectAttachment::loadById($id);
+				break;
 			default:
 				$file = null;
 				// Add default image?

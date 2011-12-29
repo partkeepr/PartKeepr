@@ -61,6 +61,19 @@ Ext.define('PartKeepr.ProjectEditor', {
 			items: this.partGrid
 		});
 		
+		this.attachmentGrid = Ext.create("PartKeepr.ProjectAttachmentGrid", {
+			width: '100%',
+			border: true
+		});
+		
+		var container2 = Ext.create("Ext.form.FieldContainer", {
+			fieldLabel: i18n("Attachments"),
+			labelWidth: 110,
+			layout: 'fit',
+			flex: 1,
+			items: this.attachmentGrid
+		});
+		
 		this.items = [{
 			xtype: 'textfield',
 			name: 'name',
@@ -72,7 +85,8 @@ Ext.define('PartKeepr.ProjectEditor', {
 			fieldLabel: i18n("Project Description"),
 			height: 70
 		},
-			container
+			container,
+			container2
 		];
 		this.callParent();
 		
@@ -103,6 +117,7 @@ Ext.define('PartKeepr.ProjectEditor', {
 	 */
 	_onItemSaved: function (record) {
 		this.partGrid.bindStore(record.parts());
+		this.attachmentGrid.bindStore(record.attachments());
 	},
 	/**
 	 * Bind the store as soon as the view was rendered.
@@ -112,5 +127,8 @@ Ext.define('PartKeepr.ProjectEditor', {
 	onEditStart: function () {
 		var store = this.record.parts();
 		this.partGrid.bindStore(store);
+		
+		var store2 = this.record.attachments();
+		this.attachmentGrid.bindStore(store2);
 	}
 });

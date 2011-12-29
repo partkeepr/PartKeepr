@@ -10,7 +10,8 @@ Ext.define("PartKeepr.Project", {
 	         {	name: 'user_id',	type: 'int'}
 	         ],
 	hasMany: [
-		{ model: 'PartKeepr.ProjectPart', 	name: 'parts'}
+		{ model: 'PartKeepr.ProjectPart', 	name: 'parts'},
+		{ model: 'PartKeepr.ProjectAttachment', name: 'attachments' }
 		],
 	proxy: PartKeepr.getRESTProxy("Project"),
 	getRecordName: function () {
