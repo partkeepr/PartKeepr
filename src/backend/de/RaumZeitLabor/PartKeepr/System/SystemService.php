@@ -42,11 +42,14 @@ class SystemService extends Service {
 			
 		}
 		
+		 
 		$aData[] = new SystemInformationRecord("memory_limit", ini_get("memory_limit"), "PHP");
 		$aData[] = new SystemInformationRecord("post_max_size", ini_get("post_max_size"), "PHP");
 		$aData[] = new SystemInformationRecord("upload_max_filesize", ini_get("upload_max_filesize"), "PHP");
 		$aData[] = new SystemInformationRecord("post_max_size", ini_get("post_max_size"), "PHP");
 		$aData[] = new SystemInformationRecord("allow_url_fopen", ini_get("allow_url_fopen"), "PHP");
+		$aData[] = new SystemInformationRecord("max_execution_time", ini_get("max_execution_time"), "PHP");
+		$aData[] = new SystemInformationRecord("APC enabled", (extension_loaded("apc") ? PartKeepr::i18n("Yes") : PartKeepr::i18n("No")), "PHP");
 		
 		$aData[] = new SystemInformationRecord("PartKeepr Version", PartKeepr::getVersion(), "PartKeepr");
 		
