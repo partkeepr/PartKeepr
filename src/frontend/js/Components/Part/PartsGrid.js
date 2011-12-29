@@ -55,6 +55,14 @@ Ext.define('PartKeepr.PartsGrid', {
 			  }
 			});
 		
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1
+        });
+		
+		this.editing.on("edit", this.onEdit, this);
+		
+		this.plugins =  [ this.editing ];
+		
 		// Initialize the panel
 		this.callParent();
 		
@@ -114,6 +122,10 @@ Ext.define('PartKeepr.PartsGrid', {
 		          },{
 		        	  header: i18n("Stock"),
 		        	  dataIndex: 'stockLevel',
+		        	  editor: {
+	                      xtype:'numberfield',
+	                      allowBlank:false
+	                  },
 		        	  renderer: this.stockLevelRenderer
 		          },{
 		        	  header: i18n("Min. Stock"),
@@ -177,5 +189,146 @@ Ext.define('PartKeepr.PartsGrid', {
 		proxy.extraParams.start = 0;
 		this.store.currentPage = 1;
 		this.store.load({ start: 0});
+	},
+	/**
+	 * Handles editing of the grid fields. Right now, only the stock level editing is supported.
+	 * 
+	 * @param e An edit event, as documented in
+	 * 		    http://docs.sencha.com/ext-js/4-0/#!/api/Ext.grid.plugin.CellEditing-event-edit
+	 */
+	onEdit: function (editor, e) {
+		switch (e.field) {
+			case "stockLevel": this.handleStockFieldEdit(e); break;
+			default: break;
+		}
+	},
+	/**
+	 * Handles the editing of the stock level field. Checks if the user has opted in to skip the
+	 * online stock edit confirm window, and runs the changes afterwards.
+	 * 
+	 * @param e An edit event, as documented in
+	 * 		    http://docs.sencha.com/ext-js/4-0/#!/api/Ext.grid.plugin.CellEditing-event-edit
+	 */
+	handleStockFieldEdit: function (e) {
+		if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm") === false) {
+			this.handleStockChange(e);
+		} else {
+			this.confirmStockChange(e);
+		}
+	},
+	/**
+	 * Opens the confirm dialog
+	 * 
+	 * @param e An edit event, as documented in
+	 * 		    http://docs.sencha.com/ext-js/4-0/#!/api/Ext.grid.plugin.CellEditing-event-edit
+	 */
+	confirmStockChange: function (e) {
+		var confirmText = "";
+		var headerText = "";
+		
+		if (e.value < 0) {
+			confirmText = sprintf(	i18n("You wish to remove <b>%s %s</b> of the part <b>%s</b>. Is this correct?"),
+									abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
+			
+			// Set the stock level to a temporary calculated value. 
+			e.record.set("stockLevel", (e.originalValue - abs(e.value)));
+			headerText = i18n("Remove Part(s)");
+		} else {
+			confirmText = sprintf(
+							i18n("You wish to set the stock level to <b>%s %s</b> of part <b>%s</b>. Is this correct?"),
+							abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
+			
+			headerText = i18n("Set Stock Level for Part(s)");
+		}
+		
+		var j = new PartKeepr.RememberChoiceMessageBox({
+			escButtonAction: "cancel",
+			dontAskAgainProperty: "partkeepr.inlinestockremoval.ask",
+			dontAskAgainValue: false
+		});
+		
+		j.show({
+                title : headerText,
+                msg : confirmText,
+                buttons: Ext.Msg.OKCANCEL,
+                fn: this.afterConfirmStockChange,
+                scope : this,
+                originalOnEdit: e,
+                dialog: j
+            });
+	},
+	/**
+	 * Callback for the stock removal confirm window. 
+	 *
+	 * The parameters are documented on:
+	 * http://docs.sencha.com/ext-js/4-0/#!/api/Ext.window.MessageBox-method-show 
+	 */
+	afterConfirmStockChange: function (buttonId, text, opts) {
+		if (buttonId == "cancel") {
+			opts.originalOnEdit.record.set("stockLevel", opts.originalOnEdit.originalValue);
+		}
+		
+		if (buttonId == "ok") {
+			if (opts.dialog.rememberChoiceCheckbox.getValue() === true) {
+				PartKeepr.getApplication().setUserPreference("partkeepr.inline-stock-change.confirm", false);
+			}
+			
+			this.handleStockChange(opts.originalOnEdit);
+		}
+	},
+	/**
+	 * Handles the stock change. Automatically figures out which method to call (deleteStock or addStock) and
+	 * sets the correct quantity.
+	 * 
+	 * @param e An edit event, as documented in
+	 * 		    http://docs.sencha.com/ext-js/4-0/#!/api/Ext.grid.plugin.CellEditing-event-edit
+	 */
+	handleStockChange: function (e) {
+		var mode, quantity = 0;
+		
+		if (e.value < 0) {
+			mode = "deleteStock";
+			quantity = abs(e.value);
+		} else {
+			if (e.originalValue <= e.value) {
+				mode = "deleteStock";
+				quantity = e.originalValue - e.value;
+			} else {
+				mode = "addStock";
+				quantity = e.value - e.originalValue;
+			}
+		}
+		
+		var call = new PartKeepr.ServiceCall(
+    			"Part", 
+    			mode);
+		call.setParameter("stock", quantity);
+		call.setParameter("part", e.record.get("id"));
+    	call.setHandler(Ext.bind(this.reloadPart, this, [ e ]));
+    	call.doCall();
+	},
+	/**
+	 * Reloads the current part
+	 */
+	reloadPart: function (opts) {
+		this.loadPart(opts.record.get("id"), opts);
+	},
+	/**
+	 * Load the part from the database.
+	 */
+	loadPart: function (id, opts) {
+		PartKeepr.Part.load(id, {
+			scope: this,
+		    success: this.onPartLoaded
+		});
+	},
+	/**
+	 * Callback after the part is loaded
+	 */
+	onPartLoaded: function (record, opts) {
+		var rec = this.store.findRecord("id", record.get("id"));
+		if (rec) {
+			rec.set("stockLevel", record.get("stockLevel"));
+		}
 	}
 });

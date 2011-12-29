@@ -76,7 +76,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 				header: i18n("Distributor Order Number"), dataIndex: 'distributor_order_number',
 				flex: 1,
 				editor: {
-					xtype: 'textfield',
+					xtype: 'textfield'
 				}
 			},{
 				header: i18n("Price per Item"), dataIndex: 'price',
