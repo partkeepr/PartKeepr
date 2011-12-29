@@ -76,6 +76,9 @@ class ServiceManager {
 			throw new ServiceException("Permission denied");
 		}
 		
+		if (!method_exists($service, $call)) {
+			throw new \Exception(sprintf("The service %s doesn't implement %s", get_class($service), $call));
+		}
 		$result = $service->$call();
 		
 		PartKeepr::getEM()->flush();
