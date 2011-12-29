@@ -28,6 +28,10 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 		        	  flex: 1,
 		        	  minWidth: 200,
 		        	  renderer: Ext.util.Format.htmlEncode
+		          },{
+		        	  header: i18n("Qty"),
+		        	  width: 50,
+		        	  dataIndex: 'stockLevel'
 		          }
 			          ]
 		});
