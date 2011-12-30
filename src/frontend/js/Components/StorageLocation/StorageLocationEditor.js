@@ -14,6 +14,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 			autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
 			remoteFilter: true,
 			remoteSort: true,
+			proxy: PartKeepr.getRESTProxy("Part"),
 			pageSize: 15});
 	
 		this.store = Ext.create('Ext.data.Store', config);
