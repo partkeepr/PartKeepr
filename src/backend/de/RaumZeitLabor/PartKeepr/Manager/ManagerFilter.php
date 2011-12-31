@@ -43,6 +43,12 @@ class ManagerFilter {
 	protected $direction = "asc";
 	
 	/**
+	 * A callback which is called when creating the filter
+	 * @var function The callback
+	 */
+	protected $callback = null;
+	
+	/**
 	 * Sets the start position
 	 * @param int $start
 	 */
@@ -171,6 +177,23 @@ class ManagerFilter {
 	 */
 	public function getFilterField () {
 		return $this->filterField;
+	}
+	
+	/**
+	 * Sets the filter callback
+	 * @param function $callback A function which is called when creating a filter. The callback function receives the
+	 * 							 query builder as first argument.
+	 */
+	public function setFilterCallback ($callback) {
+		$this->callback = $callback;
+	}
+	
+	/**
+	 * Returns the filter callback
+	 * @return function The callback function
+	 */
+	public function getFilterCallback () {
+		return $this->callback;
 	}
 	
 	/**

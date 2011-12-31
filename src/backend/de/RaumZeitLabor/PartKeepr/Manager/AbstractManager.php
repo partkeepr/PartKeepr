@@ -93,7 +93,7 @@ abstract class AbstractManager extends Singleton {
 		
 		$qb->select("COUNT(q.id)");
 		
-		//$qb->where("1");
+		$qb->where("1=1");
 		
 		if ($filter->getFilter() !== null && $filter->getFilterField() !== null) {
 			$aOrWhereFields = array();
@@ -106,8 +106,15 @@ abstract class AbstractManager extends Singleton {
 				$aOrWhereFields[] = "q.".$filter->getFilterField()." = :filter";
 			}
 			
-			$qb->orWhere($aOrWhereFields);
+			foreach ($aOrWhereFields as $or) {
+				$qb->orWhere($or);
+			}
+			
 			$qb->setParameter("filter", "%".$filter->getFilter()."%");
+		}
+		
+		if ($filter->getFilterCallback() !== null) {
+			call_user_func($filter->getFilterCallback(), $qb);
 		}
 		
 		$qb->from($this->getEntityName(),"q");
