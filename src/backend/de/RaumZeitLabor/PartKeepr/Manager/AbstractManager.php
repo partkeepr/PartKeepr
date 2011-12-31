@@ -6,6 +6,15 @@ use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Manager\Exceptions\EntityInUseException;
 
+/**
+ * The AbstractManager is a very basic helper which
+ * implements the mostly used operations on entities:
+ * 
+ * - Create
+ * - Delete
+ * - List
+ * 
+ */
 abstract class AbstractManager extends Singleton {
 	/**
 	 * Returns the FQCN for the target entity to operate on.
