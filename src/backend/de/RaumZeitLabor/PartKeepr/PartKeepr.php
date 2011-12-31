@@ -97,8 +97,6 @@ class PartKeepr {
 	 * @return nothing
 	 */
 	public static function initializeDoctrine () {
-		
-		
 		$config = new Configuration;
 		
 		$driverImpl = $config->newDefaultAnnotationDriver(
@@ -265,7 +263,8 @@ class PartKeepr {
 			
 			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDay',
 			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDayHistory',
-			'de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference'
+			'de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference',
+			'de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNotice'
 			
 		);
 	}
