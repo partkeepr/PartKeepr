@@ -17,14 +17,12 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		        ];
 		
 		this.addLogoButton = Ext.create("Ext.button.Button", {
-			cls:'x-btn-text-icon',
 	        icon: "resources/silkicons/add.png",
 	        text: i18n("Add Logo"),
 	        handler: Ext.bind(this.uploadImage, this)
 		});
 		
 		this.deleteLogoButton = Ext.create("Ext.button.Button", {
-			cls:'x-btn-text-icon',
 	        icon: "resources/silkicons/delete.png",
 	        text: i18n("Delete Logo"),
 	        disabled: true,

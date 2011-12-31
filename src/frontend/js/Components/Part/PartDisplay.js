@@ -59,7 +59,6 @@ Ext.define('PartKeepr.PartDisplay', {
 		 */
 		this.addButton = new Ext.Button({
 			text: i18n("Add Stock"),
-			cls:'x-btn-text-icon',
 			icon: 'resources/silkicons/brick_add.png',
 			handler: Ext.bind(this.addPartPrompt, this)
 		});
@@ -69,7 +68,6 @@ Ext.define('PartKeepr.PartDisplay', {
 		 */
 		this.deleteButton = new Ext.Button({
 			text: i18n("Remove Stock"),
-			cls:'x-btn-text-icon',
 			icon: 'resources/silkicons/brick_delete.png',
 			handler: Ext.bind(this.deletePartPrompt, this)
 		});

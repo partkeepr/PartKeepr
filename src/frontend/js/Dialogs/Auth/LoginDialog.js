@@ -49,12 +49,10 @@ Ext.define('PartKeepr.LoginDialog', {
 			       defaults: {minWidth: 100},
 			       items: [
 			       	{
-			       		cls: 'x-btn-text-icon',
 			       		text: i18n("Connect"),
 			       		icon: 'resources/silkicons/connect.png',
 			       		handler: Ext.bind(this.login, this)
 			       	},{
-			       		cls: 'x-btn-text-icon',
 			       		text: i18n("Close"),
 			       		handler: Ext.bind(this.close, this),
 			       		icon: 'resources/silkicons/cancel.png'

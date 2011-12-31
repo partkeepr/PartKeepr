@@ -28,7 +28,8 @@ Ext.define('PartKeepr.ExceptionWindow', {
         });
     	
     	this.exceptionDiv = Ext.create('Ext.Component', {                            autoEl: { tag: 'div' },
-            cls: 'ext-mb-text'
+            cls: 'ext-mb-text',
+            style: 'overflow: auto'
         });
     	
     	this.traceDiv = Ext.create('Ext.Component', {                            autoEl: { tag: 'div' },
@@ -110,7 +111,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
     	}
     	
     	if (exception.backtrace) {
-    		this.traceDiv.update(exception.backtrace);
+    		this.traceDiv.update(nl2br('<code>'+exception.backtrace+'</code>'));
     	} else {
     		this.traceDiv.update("No backtrace available");
     	}
