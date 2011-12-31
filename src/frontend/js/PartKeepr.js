@@ -49,6 +49,8 @@ Ext.application({
 		this.addItem(j);
 		this.menuBar.enable();
 		
+		this.doSchemaCheck();
+		
 		/* Give the user preference stuff enough time to load */
 		/* @todo Load user preferences directly on login and not via delayed task */
 		this.displayTipWindowTask = new Ext.util.DelayedTask(this.displayTipOfTheDayWindow, this);
@@ -79,6 +81,26 @@ Ext.application({
     		if (j.getLastUnreadTip() !== null) {
     			j.show();
     		}
+    	}
+    },
+    /**
+     * Does a schema status call against the PartKeepr installation, in order to verify if the schema is up-to-date.
+     * 
+     * @param none
+     * @return nothing
+     */
+    doSchemaCheck: function () {
+    	var call = new PartKeepr.ServiceCall("System", "getDatabaseSchemaStatus");
+		call.setHandler(Ext.bind(this.onSchemaChecked, this));
+		call.doCall();
+    },
+    /**
+     * Handler for the schema check 
+     * @param data The data returned from the server
+     */
+    onSchemaChecked: function (data) {
+    	if (data.data.status !== "complete") {
+    		alert(i18n("Your database schema is not up-to-date! Please re-run setup immediately!"));
     	}
     },
     logout: function () {

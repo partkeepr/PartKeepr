@@ -56,4 +56,25 @@ class SystemService extends Service {
 		// TODO: add information about post max, file upload size, timeout, memory limit
 		return array("data" => $aData);
 	}
+	
+	/**
+	 * Returns the database schema status.
+	 * 
+	 * This method is usuall called once the user logs in, and alerts him if the schema is not up-to-date.
+	 * 
+	 * Returns either status incomplete if the schema is not up-to-date, or complete if everything is OK.
+	 */
+	public function getDatabaseSchemaStatus () {
+		$metadatas = PartKeepr::getEM()->getMetadataFactory()->getAllMetadata();
+
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
+		
+		$queries = $schemaTool->getUpdateSchemaSql($metadatas, true);
+		
+		if (count($queries) > 0) {
+			return array("data" => array("status" => "incomplete"));
+		} else {
+			return array("data" => array("status" => "complete"));
+		}
+	}
 }
