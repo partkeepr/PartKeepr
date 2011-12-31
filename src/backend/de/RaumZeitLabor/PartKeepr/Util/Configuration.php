@@ -1,6 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Util;
 
+use de\RaumZeitLabor\PartKeepr\PartKeepr;
+
 /**
  * This class manages simple key -> value configurations within the system.
  * 
@@ -55,7 +57,23 @@ use de\RaumZeitLabor\PartKeepr\Util\Configuration;
 
 EOD;
 		foreach (Configuration::$options as $option => $value) {
-			$config .= 'Configuration::setOption("'.$option.'", "'.$value.'");'."\n";
+			switch (PartKeepr::getType($value)) {
+				case "string":
+					$config .= 'Configuration::setOption("'.$option.'", "'.$value.'");'."\n";
+					break;
+				case "boolean":
+					$config .= 'Configuration::setOption("'.$option.'", '.($value === true ? 'true' : 'false').');'."\n";
+					break;
+				case "integer":
+					$config .= 'Configuration::setOption("'.$option.'", '.intval($value).');'."\n";
+					break;
+				case "float":
+					$config .= 'Configuration::setOption("'.$option.'", '.floatval($value).');'."\n";
+					break;
+				default:
+					break;
+			}
+			
 		}
 		
 		return $config;

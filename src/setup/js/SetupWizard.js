@@ -85,7 +85,16 @@ Ext.define('PartKeeprSetup.SetupWizard', {
             items: [{
                 border: false,
                 bodyStyle: 'background:none;',
-                html: "<b>PartKeepr is now set-up.</b><br/><br/>If possible, set your web server's document root to the <b>frontend</b> directory.<br/><br/>To open PartKeepr, open the 'frontend' directory using your browser.<br/><br/>The default username/password combination is <b>admin/admin</b>"
+                html: 	"<b>PartKeepr is now set-up.</b><br/><br/>"+
+                		"Please set up the following cronjobs:<br/><br/><code>"+
+                		"0 0,24 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/CreateStatisticSnapshot.php<br/>"+
+                		"0 0,6,12,18 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdatePartCacheData.php<br/>"+
+                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/CheckForUpdates.php<br/>"+
+                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdateTipsOfTheDay.php<br/>"+
+                		"</code><br/><br/>"+
+                		"If possible, set your web server's document root to the <b>frontend</b> directory.<br/><br/>"+
+                		"To open PartKeepr, open the 'frontend' directory using your browser.<br/><br/>"+
+                		"The default username/password combination is <b>admin/admin</b>"
             }]
         }));
     	

@@ -49,7 +49,8 @@ Ext.application({
 		this.addItem(j);
 		this.menuBar.enable();
 		
-		this.doSchemaCheck();
+		this.doSystemStatusCheck();
+		this.doUnacknowledgedNoticesCheck();
 		
 		/* Give the user preference stuff enough time to load */
 		/* @todo Load user preferences directly on login and not via delayed task */
@@ -89,20 +90,49 @@ Ext.application({
      * @param none
      * @return nothing
      */
-    doSchemaCheck: function () {
-    	var call = new PartKeepr.ServiceCall("System", "getDatabaseSchemaStatus");
-		call.setHandler(Ext.bind(this.onSchemaChecked, this));
+    doSystemStatusCheck: function () {
+    	var call = new PartKeepr.ServiceCall("System", "getSystemStatus");
+		call.setHandler(Ext.bind(this.onSystemStatusCheck, this));
 		call.doCall();
     },
     /**
      * Handler for the schema check 
      * @param data The data returned from the server
      */
-    onSchemaChecked: function (data) {
-    	if (data.data.status !== "complete") {
+    onSystemStatusCheck: function (data) {
+    	if (data.data.schemaStatus !== "complete") {
     		alert(i18n("Your database schema is not up-to-date! Please re-run setup immediately!"));
     	}
+    	
+    	if (data.data.inactiveCronjobCount > 0) {
+    		alert(i18n("The following cronjobs aren't running:")+"\n\n"+data.data.inactiveCronjobs.join("\n"));
+    	}
     },
+    /*
+     * Checks for unacknowledged system notices
+     * 
+     * @param none
+     * @return nothing
+     */
+   	doUnacknowledgedNoticesCheck: function () {
+   		var call = new PartKeepr.ServiceCall("SystemNotice", "hasUnacknowledgedNotices");
+		
+   		call.setHandler(Ext.bind(this.onUnacknowledgedNoticesCheck, this));
+		call.doCall();
+   	},
+   	/**
+     * Handler for the unacknowledged system notices check 
+     * @param data The data returned from the server
+     */
+   	onUnacknowledgedNoticesCheck: function (data) {
+   		if (data.data.unacknowledgedNotices === true) {
+   			this.statusBar.systemNoticeButton.show();
+   		} else {
+   			this.statusBar.systemNoticeButton.hide();
+   		}
+   		
+   		Ext.defer(this.doUnacknowledgedNoticesCheck, 10000, this);
+   	},
     logout: function () {
     	this.menuBar.disable();
     	this.centerPanel.removeAll(true);

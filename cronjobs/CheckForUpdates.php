@@ -1,9 +1,7 @@
 <?php
 /**
- * Updates the tip of the day title index.
- * Typically scheduled once or twice a day.
- * 
- * The API to retrieve tips has an upper limit of 500 requests/day, so don't schedule this each minute.
+ * Checks for PartKeepr updates
+ * Typically scheduled every one or two days.
  * 
  * @author felicitus
  *
@@ -15,11 +13,10 @@ declare(encoding = 'UTF-8');
 include(__DIR__."/../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDay,
 	de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager;
 
 PartKeepr::initialize();
 
-TipOfTheDay::syncTips();
+PartKeepr::doVersionCheck();
 
 CronLoggerManager::getInstance()->markCronRun(basename(__FILE__));

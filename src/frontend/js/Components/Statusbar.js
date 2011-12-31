@@ -22,6 +22,10 @@ Ext.define('PartKeepr.Statusbar', {
 			}
 		});
 		
+		this.systemNoticeButton = Ext.create("PartKeepr.SystemNoticeButton", {
+			hidden: true
+		});
+		
 		Ext.apply(this, {
 			items: [
 			        this.currentUserDisplay,
@@ -30,7 +34,8 @@ Ext.define('PartKeepr.Statusbar', {
 			        { xtype: 'tbseparator' },
 			        this.showMessageLog,
 			        { xtype: 'tbseparator' },
-			        this.connectionButton
+			        this.connectionButton,
+			        this.systemNoticeButton
 			        
 			        ]
 		});

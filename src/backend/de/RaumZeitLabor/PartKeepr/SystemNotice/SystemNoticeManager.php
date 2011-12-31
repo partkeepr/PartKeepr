@@ -31,4 +31,26 @@ class SystemNoticeManager extends AbstractManager {
 	public function getDefaultSortField () {
 		return "date";
 	}
+	
+	public function createUniqueSystemNotice ($type, $title, $description) {
+		$dql = "SELECT sn FROM de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNotice sn WHERE sn.type = :type";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		
+		$query->setParameter("type", $type);
+		
+		try {
+			$notice = $query->getSingleResult();
+		} catch (\Exception $e) {
+			$notice = new SystemNotice();
+			PartKeepr::getEM()->persist($notice);
+		}
+		
+		$notice->setDate(new \DateTime());
+		$notice->setTitle($title);
+		$notice->setDescription($description);
+		$notice->setType($type);
+		
+		PartKeepr::getEM()->flush();
+		
+	}
 }

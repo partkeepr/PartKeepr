@@ -69,4 +69,17 @@ class SystemNoticeService extends Service implements RestfulService {
 		$entity = SystemNoticeManager::getInstance()->getEntity($this->getParameter("id"));
 		$entity->setAcknowledgedFlag();
 	}
+	
+	public function hasUnacknowledgedNotices () {
+		$dql = "SELECT COUNT(c) FROM de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNotice c WHERE c.acknowledged = :a";
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("a", false);
+		
+		$bRetval = false;
+		
+		if ($query->getSingleScalarResult() > 0) {
+			$bRetval = true;	
+		}
+		return array("data" => array("unacknowledgedNotices" => $bRetval));
+	}
 }

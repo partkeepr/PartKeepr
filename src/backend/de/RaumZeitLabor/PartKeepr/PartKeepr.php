@@ -2,6 +2,7 @@
 namespace de\RaumZeitLabor\PartKeepr;
 
 use Doctrine\Common\ClassLoader,
+	de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNoticeManager,
     Doctrine\ORM\Configuration,
     Doctrine\ORM\EntityManager,
     de\RaumZeitLabor\PartKeepr\Util\Configuration as PartKeeprConfiguration;
@@ -68,6 +69,19 @@ class PartKeepr {
 		
 	}
 	
+	/**
+	 * Returns an array of all cronjobs which are required for proper execution of PartKeepr.
+	 * 
+	 * @return Array The filenames of each cronjob which is required
+	 */
+	public static function getRequiredCronjobs () {
+		return array(
+				"CreateStatisticSnapshot.php",
+				"UpdatePartCacheData.php",
+				"UpdateTipsOfTheDay.php",
+				"CheckForUpdates.php"
+				);
+	}
 
 	/**
 	 * Initializes the configuration for a given environment.
@@ -87,6 +101,30 @@ class PartKeepr {
 			include(dirname(dirname(dirname(dirname(dirname(__DIR__)))))."/config.php");
 		}
 		
+	}
+
+	/**
+	 * Checks against the versions at partkeepr.org.
+	 * 
+	 * If a newer version was found, create a system notice entry.
+	 */
+	public static function doVersionCheck () {
+		
+		$data = file_get_contents("http://www.partkeepr.org/versions.json");
+		$versions = json_decode($data, true);
+		
+		if (PartKeeprVersion::PARTKEEPR_VERSION == "{V_GIT}") { return; }
+		
+		if (version_compare(PartKeepr::getVersion(), $versions[0]["version"], '<')) {
+			
+			SystemNoticeManager::getInstance()->createUniqueSystemNotice(
+					"PARTKEEPR_VERSION_".$versions[0]["version"],
+					sprintf(PartKeepr::i18n("New PartKeepr Version %s available"), $versions[0]["version"]),
+					sprintf(PartKeepr::i18n("PartKeepr Version %s changelog:"), $versions[0]["version"]) . "\n\n".
+					$versions[0]["changelog"]
+					);
+			
+		}
 	}
 	
 	/**
@@ -238,6 +276,7 @@ class PartKeepr {
 		
 			'de\RaumZeitLabor\PartKeepr\Project\Project',
 			'de\RaumZeitLabor\PartKeepr\Project\ProjectPart',
+			'de\RaumZeitLabor\PartKeepr\Project\ProjectAttachment',
 				
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation',
 			'de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage',
@@ -264,7 +303,8 @@ class PartKeepr {
 			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDay',
 			'de\RaumZeitLabor\PartKeepr\TipOfTheDay\TipOfTheDayHistory',
 			'de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference',
-			'de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNotice'
+			'de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNotice',
+			'de\RaumZeitLabor\PartKeepr\CronLogger\CronLogger'
 			
 		);
 	}
@@ -313,17 +353,27 @@ class PartKeepr {
 	  	}
 	  	return self::PARTKEEPR_VERSION;
 	}
+	
+	/**
+	 * This is a re-implementation of gettype().
+	 * 
+	 * The PHP documentation states that the "gettype" return values will change in the future, so we need
+	 * to make sure we don't get bitten by the change.
+	 *  
+	 * @param mixed $var
+	 * @return string The type
+	 */
+	public static function getType($var)
+	{
+		if (is_array($var)) return "array";
+		if (is_bool($var)) return "boolean";
+		if (is_float($var)) return "float";
+		if (is_int($var)) return "integer";
+		if (is_null($var)) return "NULL";
+		if (is_numeric($var)) return "numeric";
+		if (is_object($var)) return "object";
+		if (is_resource($var)) return "resource";
+		if (is_string($var)) return "string";
+		return "unknown type";
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,8 +5,10 @@ declare(encoding = 'UTF-8');
 
 include(__DIR__."/../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotManager;
+use de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotManager,
+	de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager;
+
 PartKeepr::initialize();
 
 $query = PartKeepr::getEM()->createQuery("SELECT p FROM de\RaumZeitLabor\PartKeepr\Part\Part p");
@@ -25,3 +27,4 @@ foreach ($result as $part) {
 
 PartKeepr::getEM()->flush();
 
+CronLoggerManager::getInstance()->markCronRun(basename(__FILE__));

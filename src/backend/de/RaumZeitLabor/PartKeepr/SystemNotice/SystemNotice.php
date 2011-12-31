@@ -8,7 +8,7 @@ use de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile,
 	de\RaumZeitLabor\PartKeepr\Util\Deserializable;
 
 /**
- * Holds a project attachment
+ * Holds a system notice
  * @Entity
  **/
 class SystemNotice extends BaseEntity implements Serializable {
@@ -36,7 +36,14 @@ class SystemNotice extends BaseEntity implements Serializable {
 	 * @Column(type="boolean")
 	 * @var boolean
 	 */
-	private $acknowledged;
+	private $acknowledged = false;
+	
+	/**
+	 * Specifies the type. This is required for unique notices which shouldn't pop up every time we create them.
+	 * @Column(type="string")
+	 * @var string
+	 */
+	private $type;
 	
 	/**
 	 * Sets the date and time for this entry
@@ -103,10 +110,26 @@ class SystemNotice extends BaseEntity implements Serializable {
 	public function getAcknowledgedFlag () {
 		return $this->acknowledged;
 	}
+	
 	/**
-	 *
-	 * Serializes this project attachment
-	 * @return array The serialized project  attachment
+	 * Sets the type of this entry
+	 * @param string $type
+	 */
+	public function setType ($type) {
+		$this->type = $type;
+	}
+	
+	/**
+	 * Returns the type of this entry
+	 * @return string The type
+	 */
+	public function getType () {
+		return $this->type;
+	}
+	
+	/**
+	 * Serializes this system notice attachment
+	 * @return array The serialized system notice
 	 */
 	public function serialize () {
 		return array(

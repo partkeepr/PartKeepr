@@ -98,9 +98,3 @@ if ($migration) {
 
 echo "All done.\n\n";
 echo "Use the user 'admin' with password 'admin' to login. Access the frontend using the `frontend` directory.\n";
-
-apc_clear_cache();
-apc_clear_cache("user");
-
-
-?>

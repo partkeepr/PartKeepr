@@ -53,7 +53,8 @@ class Setup {
 				"unit" => new UnitSetup($entityManager),
 				"manufacturer" => new ManufacturerSetup($entityManager),
 				"schemamigration" => new SchemaMigrationSetup($entityManager),
-				"configfile" => new ConfigFileSetup($entityManager)
+				"configfile" => new ConfigFileSetup($entityManager),
+				"miscsettings" => new MiscSettingsSetup($entityManager)
 				);
 		
 		if ($step == "all") {

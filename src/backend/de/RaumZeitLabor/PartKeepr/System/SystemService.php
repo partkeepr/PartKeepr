@@ -10,6 +10,7 @@ declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Service;
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager;
 
 class SystemService extends Service {
 	/**
@@ -64,17 +65,28 @@ class SystemService extends Service {
 	 * 
 	 * Returns either status incomplete if the schema is not up-to-date, or complete if everything is OK.
 	 */
-	public function getDatabaseSchemaStatus () {
+	public function getSystemStatus () {
+		
+		$inactiveCronjobs = CronLoggerManager::getInstance()->getInactiveCronjobs();
+		
+		return array("data" =>
+				array(
+					"inactiveCronjobCount" => count($inactiveCronjobs),
+					"inactiveCronjobs" => $inactiveCronjobs,
+					"schemaStatus" => $this->getSchemaStatus()));
+	}
+	
+	protected function getSchemaStatus () {
 		$metadatas = PartKeepr::getEM()->getMetadataFactory()->getAllMetadata();
-
+		
 		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
 		
 		$queries = $schemaTool->getUpdateSchemaSql($metadatas, true);
 		
 		if (count($queries) > 0) {
-			return array("data" => array("status" => "incomplete"));
+			return "incomplete";
 		} else {
-			return array("data" => array("status" => "complete"));
+			return "complete";
 		}
 	}
 }
