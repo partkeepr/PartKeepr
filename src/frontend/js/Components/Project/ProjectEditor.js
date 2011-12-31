@@ -62,7 +62,6 @@ Ext.define('PartKeepr.ProjectEditor', {
 		});
 		
 		this.attachmentGrid = Ext.create("PartKeepr.ProjectAttachmentGrid", {
-			width: '100%',
 			border: true
 		});
 		
