@@ -31,6 +31,11 @@ Ext.define('PartKeepr.EditorGrid', {
 	addButtonIcon: 'resources/silkicons/add.png',
 	
 	/**
+     * @cfg {Boolean} boolean Specifies whether to enable the top toolbar or not
+     */
+	enableTopToolbar: true,
+	
+	/**
      * @cfg {String} text Defines if the "add"/"delete" buttons should show their text or icon only. If "hide", the
      * button text is hidden, anything else shows the text.
      */
@@ -88,6 +93,15 @@ Ext.define('PartKeepr.EditorGrid', {
         	disabled: true
 		});
 		
+		this.addButton = Ext.create("Ext.button.Button", {
+			text: (this.buttonTextMode !== "hide") ? this.addButtonText : '',
+        	tooltip: this.addButtonText,
+        	icon: this.addButtonIcon,
+        	handler: Ext.bind(function () {
+        		this.fireEvent("itemAdd");
+        	}, this)
+		});
+		
 		this.searchField = Ext.create("Ext.ux.form.SearchField",{
 				store: this.store
 			});
@@ -96,14 +110,7 @@ Ext.define('PartKeepr.EditorGrid', {
 			dock: 'top',
 			enableOverflow: true,
 			items: [
-			        {
-			        	text: (this.buttonTextMode !== "hide") ? this.addButtonText : '',
-			        	tooltip: this.addButtonText,
-			        	icon: this.addButtonIcon,
-			        	handler: Ext.bind(function () {
-			        		this.fireEvent("itemAdd");
-			        	}, this)
-			        },
+			        this.addButton,
 			        this.deleteButton,
 			        { xtype: 'tbfill' },
 			        this.searchField]
@@ -116,13 +123,14 @@ Ext.define('PartKeepr.EditorGrid', {
 			displayInfo: false
 		});
 		
-		Ext.apply(this, {
-			dockedItems: [
-			    this.topToolbar,
-				this.bottomToolbar
-				]
-		});
+		this.dockedItems = new Array();
+		
+		this.dockedItems.push(this.bottomToolbar);
 	
+		if (this.enableTopToolbar) {
+			this.dockedItems.push(this.topToolbar);	
+		}
+		
 		this.callParent();
 	},
 	syncChanges: function (record) {
