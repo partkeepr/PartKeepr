@@ -1,5 +1,5 @@
 <?php
-namespace de\raumzeitlabor\PartKeepr\Part;
+namespace de\RaumZeitLabor\PartKeepr\Part;
 use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile;
 
 use de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter;

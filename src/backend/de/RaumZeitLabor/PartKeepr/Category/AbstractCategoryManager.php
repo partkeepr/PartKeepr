@@ -1,5 +1,5 @@
 <?php
-namespace de\raumzeitlabor\PartKeepr\Category;
+namespace de\RaumZeitLabor\PartKeepr\Category;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,

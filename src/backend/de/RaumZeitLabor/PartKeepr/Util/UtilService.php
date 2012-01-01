@@ -1,5 +1,5 @@
 <?php
-namespace de\raumzeitlabor\PartKeepr\Util;
+namespace de\RaumZeitLabor\PartKeepr\Util;
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\AnonService;

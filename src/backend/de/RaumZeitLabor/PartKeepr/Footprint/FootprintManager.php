@@ -1,5 +1,5 @@
 <?php
-namespace de\raumzeitlabor\PartKeepr\Footprint;
+namespace de\RaumZeitLabor\PartKeepr\Footprint;
 
 declare(encoding = 'UTF-8');
 
