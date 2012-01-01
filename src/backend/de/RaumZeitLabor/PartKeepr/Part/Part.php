@@ -299,6 +299,14 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	}
 	
 	/**
+	 * Returns the storage location for this part
+	 * @return \de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation $storageLocation The storage location
+	 */
+	public function getStorageLocation () {
+		return $this->storageLocation;
+	}
+	
+	/**
 	 * Sets the footprint for this part
 	 * @param \de\RaumZeitLabor\PartKeepr\Footprint\Footprint $footprint The footprint to set
 	 */
