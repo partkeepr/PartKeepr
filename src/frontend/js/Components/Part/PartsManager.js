@@ -18,6 +18,7 @@ Ext.define('PartKeepr.PartManager', {
 		 */
 		this.createStore({
 			 model: 'PartKeepr.Part',
+			 proxy: PartKeepr.getRESTProxy("Part"),
 			 groupField: 'categoryPath',
 			 sorters: [{
 				 property: 'name',

@@ -48,7 +48,6 @@ Ext.define("PartKeepr.Part", {
               { model: 'PartKeepr.PartParameter', 		name: 'parameters'},
               { model: 'PartKeepr.PartAttachment', 		name: 'attachments'}
               ],
-	proxy: PartKeepr.getRESTProxy("Part"),
 	getRecordName: function () {
 		return this.get("name");
 	}

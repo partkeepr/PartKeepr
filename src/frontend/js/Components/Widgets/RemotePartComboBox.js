@@ -10,13 +10,14 @@ Ext.define("PartKeepr.RemotePartComboBox",{
     triggerAction: 'all',
     typeAhead: true,
     typeAheadDelay: 100,
+    pageSize: 30,
     minChars: 2,
     forceSelection: true,
     initComponent: function () {
     	this.store = Ext.create("Ext.data.Store",
     			{
     				model: 'PartKeepr.Part',
-    				pageSize: 30,
+    				proxy: PartKeepr.getRESTProxy("Part"),
     				autoLoad: true
     			});
 		this.callParent();
