@@ -1,16 +1,12 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\System;
-use de\RaumZeitLabor\PartKeepr\Session\SessionManager;
-
-use de\RaumZeitLabor\PartKeepr\Service\AnonService;
-
-use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager;
+use de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager,
+	de\RaumZeitLabor\PartKeepr\Util\OS\OperatingSystem;
 
 class SystemService extends Service {
 	/**
@@ -22,27 +18,15 @@ class SystemService extends Service {
 	public function getSystemInformation () {
 		$aData  = array();
 		
-		
 		$aData[] = new SystemInformationRecord("Doctrine ORM", \Doctrine\ORM\Version::VERSION, "Libraries");
 		$aData[] = new SystemInformationRecord("Doctrine DBAL", \Doctrine\DBAL\Version::VERSION, "Libraries");
 		
-		$aData[] = new SystemInformationRecord("PHP", phpversion(), "System");
-		$aData[] = new SystemInformationRecord("Operating System", php_uname(), "System");
+		$aData[] = new SystemInformationRecord("PHP Version", phpversion(), "System");
 		
-		if (file_exists("/etc/lsb-release")) {
-			// Quick'n'dirty extract of the release information
-			$aReleaseData = explode("\n", file_get_contents("/etc/lsb-release"));
-			
-			foreach ($aReleaseData as $releaseData) {
-				if (strpos($releaseData, "DISTRIB_ID") !== false) {
-					$data = explode("\"", $releaseData);
-					$aData[] = new SystemInformationRecord("Distribution", $data[1], "System");
-				}
-			}
-			
-			
-		}
+		$os = new OperatingSystem();
 		
+		$aData[] = new SystemInformationRecord("Operating System Type", $os->getPlatform(), "System");
+		$aData[] = new SystemInformationRecord("Operating System Release", $os->getRelease(), "System");
 		 
 		$aData[] = new SystemInformationRecord("memory_limit", ini_get("memory_limit"), "PHP");
 		$aData[] = new SystemInformationRecord("post_max_size", ini_get("post_max_size"), "PHP");
