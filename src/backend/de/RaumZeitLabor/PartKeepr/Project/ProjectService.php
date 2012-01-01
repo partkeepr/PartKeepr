@@ -19,6 +19,7 @@ class ProjectService extends Service implements RestfulService {
 			return array("data" => ProjectManager::getInstance()->getEntity($this->getParameter("id"))->serialize());
 		} else {
 			$parameters = new ManagerFilter($this);
+			$parameters->setFilterField("name");
 			return ProjectManager::getInstance()->getList($parameters);
 		}
 	}
