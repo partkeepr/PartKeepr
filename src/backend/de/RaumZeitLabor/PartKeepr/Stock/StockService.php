@@ -1,43 +1,43 @@
 <?php
-namespace de\raumzeitlabor\PartKeepr\Stock;
+namespace de\RaumZeitLabor\PartKeepr\Stock;
 
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\User\User,
+	de\RaumZeitLabor\PartKeepr\Manager\ManagerFilter,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
 	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
 	de\RaumZeitLabor\PartKeepr\Service\Service;;
 	
 
 class StockService extends Service implements RestfulService {
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::get()
+	 */
 	public function get () {
-		$qb = PartKeepr::getEM()->createQueryBuilder();
-		
-		$qb->select("se")->from("de\RaumZeitLabor\PartKeepr\Stock\StockEntry","se")
-		->where("se.part = :part")
-		->orderBy("se.dateTime", "DESC")
-		->setParameter("part", $this->getParameter("item"));
-		
-		$results = $qb->getQuery()->getResult();
-		
-		$aData = array();
-		
-		foreach ($results as $result) {
-			$aData[] = array(
-				"username" => is_object($result->getUser()) ? $result->getUser()->getUsername() : PartKeepr::i18n("Unknown User"),
-				"user_id" => is_object($result->getUser()) ? $result->getUser()->getId() : null,
-				"amount" => abs($result->getStockLevel()),
-				"datetime" => $result->getDateTime()->format("Y-m-d H:i:s"),
-				"id" => $result->getId(),
-				"direction" => ($result->getStockLevel() < 0) ? "out" : "in",
-				"price" => $result->getPrice()
-			);	
+		if ($this->hasParameter("id")) {
+			return array("data" => StockManager::getInstance()->getEntity($this->getParameter("id"))->serialize());
+		} else {
+			$parameters = new ManagerFilter($this);
+			$parameters->setFilterField("name");
+			
+			if ($this->hasParameter("part")) {
+				$parameters->setFilterCallback(array($this, "filterCallback"));
+			}
+			return StockManager::getInstance()->getList($parameters);
 		}
-		
-
-		return array("data" => $aData);
+	}
+	
+	/**
+	 * If the "part" parameter is set, join the part into the result and filter on that 
+	 * @param QueryBuilder The $queryBuilder
+	 */
+	public function filterCallback ($queryBuilder) {
+		$queryBuilder->andWhere("q.part = :part");
+		$queryBuilder->setParameter("part", $this->getParameter("part"));
 	}
 	
 	public function create () {

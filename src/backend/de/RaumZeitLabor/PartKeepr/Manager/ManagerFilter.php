@@ -225,7 +225,7 @@ class ManagerFilter {
 						"direction" => "ASC");
 			}
 			
-			$this->setSortField($aSortParams["property"]);
+			$this->setSortField("q.".$aSortParams["property"]);
 			$this->setDirection($aSortParams["direction"]);
 			
 			if ($service->hasParameter("query")) {

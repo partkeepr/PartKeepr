@@ -70,7 +70,12 @@ Ext.define('PartKeepr.MenuBar', {
 						text: i18n("System Notices"),
 						handler: this.showSystemNotices,
 						icon: 'resources/fugue-icons/icons/service-bell.png'
+					},{
+						text: i18n("Stock History"),
+						handler: this.showStockHistory,
+						icon: 'resources/fugue-icons/icons/service-bell.png'
 					}
+					
 			        ]
 		});
 		
@@ -250,6 +255,16 @@ Ext.define('PartKeepr.MenuBar', {
 	showSystemNotices: function () {
 		var j = Ext.create("PartKeepr.SystemNoticeEditorComponent", {
 			title: i18n("System Notices"),
+			iconCls: 'icon-service-bell',
+			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	showStockHistory: function () {
+		var j = Ext.create("PartKeepr.StockHistoryGrid", {
+			title: i18n("Stock History"),
 			iconCls: 'icon-service-bell',
 			closable: true
 		});

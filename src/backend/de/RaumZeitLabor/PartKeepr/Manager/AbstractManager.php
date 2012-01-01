@@ -1,9 +1,12 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Manager;
+use Doctrine\ORM\Query;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	Doctrine\ORM\QueryBuilder,
 	de\RaumZeitLabor\PartKeepr\Manager\Exceptions\EntityInUseException;
 
 /**
@@ -91,21 +94,77 @@ abstract class AbstractManager extends Singleton {
 	public function getList (ManagerFilter $filter) {
 		$qb = PartKeepr::getEM()->createQueryBuilder();
 		
-		$qb->select("COUNT(q.id)");
+		$qb->select("COUNT(q.id)")->from($this->getEntityName(),"q");
 		
-		$qb->where("1=1");
+		$this->applyFiltering($qb, $filter);
+		$this->applyCustomQuery($qb, $filter);
 		
-		if ($filter->getFilter() !== null && $filter->getFilterField() !== null) {
-			$aOrWhereFields = array();
+		$totalQuery = $qb->getQuery();
+
+		$this->applyResultFields($qb, $filter);
+		$this->applyPagination($qb, $filter);
+		$this->applySorting($qb, $filter);
+
+		$query = $qb->getQuery();
+		
+		return array("data" => $this->getResult($query), "totalCount" => $totalQuery->getSingleScalarResult());
+	}
+	
+	/**
+	 * Processes the result after it was retrieved. In the default configuration, it returns an array result, or
+	 * if no query fields are specified, it tries to serialize all objects.
+	 */
+	protected function getResult (Query $query) {
+		if (count($this->getQueryFields()) == 0) {
+			$aSerializedResult = array();
+			foreach ($query->getResult() as $result) {
+				$aSerializedResult[] = $result->serialize();
+			}	 
 			
-			if (is_array($filter->getFilterField())) {
-				foreach ($filter->getFilterField() as $field) {
-					$aOrWhereFields[] = "q.".$field." = :filter";
-				}
-			} else {
-				$aOrWhereFields[] = "q.".$filter->getFilterField()." = :filter";
+			return $aSerializedResult;
+		} else {
+			return $query->getArrayResult();
+		}
+	}
+	
+	/**
+	 * Applies pagination to the query
+	 *
+	 * @param QueryBuilder $qb The query builder
+	 * @param ManagerFilter $filter The query filter
+	 */
+	protected function applyResultFields (QueryBuilder $qb, ManagerFilter $filter) {
+		if (count($this->getQueryFields()) == 0) {
+			$qb->select("q");
+		} else {
+			// Prepend a prefix to each field
+			$aQueryFields = array();
+			foreach ($this->getQueryFields() as $field) {
+				$aQueryFields[] = "q.".$field;
 			}
 			
+			$qb->select($aQueryFields);
+		}
+	}
+	
+	/**
+	 * Applies filtering to the query and calls back the custom filtering function, if required.
+	 *
+	 * @param QueryBuilder $qb The query builder
+	 * @param ManagerFilter $filter The query filter
+	 */
+	protected function applyFiltering (QueryBuilder $qb, ManagerFilter $filter) {
+		if ($filter->getFilter() !== null && $filter->getFilterField() !== null) {
+			$aOrWhereFields = array();
+				
+			if (is_array($filter->getFilterField())) {
+				foreach ($filter->getFilterField() as $field) {
+					$aOrWhereFields[] = "q.".$field." LIKE :filter";
+				}
+			} else {
+				$aOrWhereFields[] = "q.".$filter->getFilterField()." LIKE :filter";
+			}
+				
 			foreach ($aOrWhereFields as $or) {
 				$qb->orWhere($or);
 			}
@@ -116,20 +175,26 @@ abstract class AbstractManager extends Singleton {
 		if ($filter->getFilterCallback() !== null) {
 			call_user_func($filter->getFilterCallback(), $qb);
 		}
-		
-		$qb->from($this->getEntityName(),"q");
-		
-		$totalQuery = $qb->getQuery();
+	}
+	
 
-		// Prepend a prefix to each field
-		$aQueryFields = array();
-		foreach ($this->getQueryFields() as $field) {
-			$aQueryFields[] = "q.".$field;
-		}
+	/**
+	 * Applies a custom query to the QueryBuilder
+	 * 
+	 * @param QueryBuilder $qb The query builder
+	 * @param ManagerFilter $filter The query filter
+	 */
+	protected function applyCustomQuery (QueryBuilder $qb, ManagerFilter $filter) {
 		
-		$qb->select($aQueryFields);
-		
-		
+	}
+	
+	/**
+	 * Applies pagination to the query
+	 * 
+	 * @param QueryBuilder $qb The query builder
+	 * @param ManagerFilter $filter The query filter
+	 */
+	protected function applyPagination (QueryBuilder $qb, ManagerFilter $filter) {
 		if ($filter->getStart() !== null && $filter->getLimit() !== null) {
 			$qb->setFirstResult($filter->getStart());
 		}
@@ -137,16 +202,17 @@ abstract class AbstractManager extends Singleton {
 		if ($filter->getLimit() !== null) {
 			$qb->setMaxResults($filter->getLimit());
 		}
-		
-		if ($filter->getSortField() !== null) {
-			$qb->orderBy("q.".$filter->getSortField(), $filter->getDir());
+	}
+	
+	/**
+	 * Applies record sorting
+	 * 
+	 * @param QueryBuilder $qb The query builder
+	 * @param ManagerFilter $filter The query filter
+	 */
+	protected function applySorting (QueryBuilder $qb, ManagerFilter $filter) {
+		if ($filter->getSortField() !== null && $filter->getSortField() != "q.") {
+			$qb->orderBy($filter->getSortField(), $filter->getDir());
 		}
-		
-		$query = $qb->getQuery();
-		
-		$result = $query->getResult();
-		
-		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
-		
 	}
 } 

@@ -141,6 +141,14 @@ class StockEntry extends BaseEntity implements Serializable {
 	}
 	
 	/**
+	 * Returns the part assigned to this entry.
+	 * @return Part $part The part
+	 */
+	public function getPart () {
+		return $this->part;
+	}
+	
+	/**
 	 * Sets the user assigned to this entry.
 	 * @param User $user The user The user to set
 	 */
@@ -194,15 +202,15 @@ class StockEntry extends BaseEntity implements Serializable {
 	public function serialize () {
 		return array(
 				"id" => $this->getId(),
+				"part_name" => $this->getPart()->getName(),
+				"part_id" => $this->getPart()->getId(),
+				"storageLocation_name" => $this->getPart()->getStorageLocation()->getName(),
 				"username" => is_object($this->getUser()) ? $this->getUser()->getUsername() : PartKeepr::i18n("Unknown User"),
 				"user_id" => is_object($this->getUser()) ? $this->getUser()->getId() : null,
-				"amount" => abs($this->getStockLevel()),
-				"datetime" => $this->getDateTime()->format("Y-m-d H:i:s"),
+				"stockLevel" => abs($this->getStockLevel()),
+				"dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"),
 				"direction" => ($this->getStockLevel() < 0) ? "out" : "in",
 				"price" => $this->getPrice()
 				);
 	}
-	
-	
-
 }
