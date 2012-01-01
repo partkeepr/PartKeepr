@@ -26,7 +26,7 @@ class SystemNoticeService extends Service implements RestfulService {
 	
 	public function filterCallback ($queryBuilder) {
 		$queryBuilder->andWhere("q.acknowledged = :acknowledged");
-		$queryBuilder->setParameter("acknowledged", false);
+		$queryBuilder->setParameter("acknowledged", false, \PDO::PARAM_BOOL);
 	}
 	/**
 	 * Stub method to fulfill the RestfulService. We don't want to have SystemNotices created by the user, so
@@ -73,7 +73,7 @@ class SystemNoticeService extends Service implements RestfulService {
 	public function hasUnacknowledgedNotices () {
 		$dql = "SELECT COUNT(c) FROM de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNotice c WHERE c.acknowledged = :a";
 		$query = PartKeepr::getEM()->createQuery($dql);
-		$query->setParameter("a", false);
+		$query->setParameter("a", false, \PDO::PARAM_BOOL);
 		
 		$bRetval = false;
 		

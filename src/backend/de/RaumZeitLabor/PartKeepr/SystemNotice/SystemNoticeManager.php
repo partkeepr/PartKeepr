@@ -36,7 +36,7 @@ class SystemNoticeManager extends AbstractManager {
 		$dql = "SELECT sn FROM de\RaumZeitLabor\PartKeepr\SystemNotice\SystemNotice sn WHERE sn.type = :type";
 		$query = PartKeepr::getEM()->createQuery($dql);
 		
-		$query->setParameter("type", $type);
+		$query->setParameter("type", $type, \PDO::PARAM_BOOL);
 		
 		try {
 			$notice = $query->getSingleResult();
