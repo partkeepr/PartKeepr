@@ -351,7 +351,7 @@ class PartKeepr {
 	 	if (PartKeeprVersion::PARTKEEPR_VERSION == "{V_GIT}") {
 	  		return "GIT development version";
 	  	}
-	  	return self::PARTKEEPR_VERSION;
+	  	return PartKeeprVersion::PARTKEEPR_VERSION;
 	}
 	
 	/**
