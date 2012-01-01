@@ -6,6 +6,7 @@ Ext.define("PartKeepr.StockEntry", {
 	         {	name: 'user_id',	type: 'int'},
 	         {	name: 'dateTime',	type: 'datetime'},
 	         {	name: 'stockLevel',	type: 'int'},
+	         {	name: 'storageLocation_name',	type: 'string'},
 	         {	name: 'direction',	type: 'string'},
 	         {	name: 'part_name',	type: 'string'},
 	         {	name: 'price',	type: 'float'}

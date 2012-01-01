@@ -52,6 +52,10 @@ class StockManager extends AbstractManager {
 			case "q.direction":
 				$filter->setSortField("q.dateTime");
 				break;
+			case "q.storageLocation_name":
+				$qb->join("q.part", "p")->join("p.storageLocation", "st");
+				$filter->setSortField("st.name");
+				break;
 		}
 	}
 }

@@ -21,6 +21,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 	        	  },
 	        	  width: 20
 	          },
+	          {header: i18n("Date"), dataIndex: 'dateTime', width: 120},
 	          {
 	        	  header: i18n("User"),
 	        	  dataIndex: 'user_id',
@@ -38,7 +39,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
                       xtype:'numberfield',
                       allowBlank:false
                   }},
-	          {header: i18n("Date"), dataIndex: 'dateTime', width: 120},
+	          
 	          {
 	        	  header: i18n("Price"),
 	        	  editor: {

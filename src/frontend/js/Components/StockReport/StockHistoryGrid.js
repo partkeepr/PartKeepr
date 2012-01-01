@@ -10,12 +10,19 @@ Ext.define('PartKeepr.StockHistoryGrid', {
 	defineColumns: function () {
 		this.callParent();
 		
-		this.columns.splice(1, 0, {
+		this.columns.splice(2, 0, {
 	        	  header: i18n("Part"),
 	        	  dataIndex: 'part_name',
 	        	  flex: 1,
 	        	  minWidth: 200
 		});
+		
+		this.columns.splice(3, 0, {
+      	  header: i18n("Storage Location"),
+      	  dataIndex: 'storageLocation_name',
+      	  flex: 1,
+      	  minWidth: 200
+	});
 	},
 	initComponent: function () {
 		this.callParent();
