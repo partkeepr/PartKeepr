@@ -17,7 +17,7 @@ Ext.define('PartKeepr.RemoteImageField', {
     
     // The field template for rendering this field
     fieldSubTpl: [
-                  '<img id="{id}" style="{size}" class="remoteimagefield"/>',
+                  '<img id="{cmpId}-imgEl" style="{size}" class="remoteimagefield"/>',
                   {
                       compiled: true,
                       disableFormats: true
@@ -38,6 +38,7 @@ Ext.define('PartKeepr.RemoteImageField', {
      */
     getSubTplData: function() {
     	return {
+    		cmpId: this.id,
             size: 'height:'+this.imageHeight+"px;width:"+this.imageWidth+"px;",
             imageid: this.imageId
     	};
@@ -45,7 +46,16 @@ Ext.define('PartKeepr.RemoteImageField', {
     /**
      * Renders this field.
      */
-    onRender: function () {
+    onRender: function() {
+        var me = this;
+
+        me.onLabelableRender();
+
+        me.addChildEls('imgEl');
+
+        me.callParent(arguments);
+    },
+    /*onRender: function () {
     	 var me = this,
          renderSelectors = me.renderSelectors;
 
@@ -56,7 +66,7 @@ Ext.define('PartKeepr.RemoteImageField', {
     	 });
 
     	 me.callParent(arguments);
-    },
+    },*/
     /**
      * Applies the image URL to the element after rendering
      */
