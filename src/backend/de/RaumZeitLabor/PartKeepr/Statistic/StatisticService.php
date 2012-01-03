@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Statistic;
+use de\RaumZeitLabor\PartKeepr\Part\PartUnit;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Service;
@@ -25,7 +27,7 @@ class StatisticService extends Service {
 		
 		foreach ($result as $row) {
 			$aUnits[] = array(
-				"name" => $row[0]->getName(),
+				"name" => PartUnit::loadById($row["puid"])->getName(),
 				"stockLevel" => $row["stockLevel"]);
 		}
 		

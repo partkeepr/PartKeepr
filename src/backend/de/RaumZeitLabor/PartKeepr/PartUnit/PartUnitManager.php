@@ -98,7 +98,7 @@ class PartUnitManager extends Singleton {
 	}
 	
 	public function getUnitCounts () {
-		$dql = 'SELECT SUM(p.stockLevel) AS stockLevel, pu FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit pu LEFT JOIN pu.parts p GROUP BY pu.id';
+		$dql = 'SELECT SUM(p.stockLevel) AS stockLevel, pu.id AS puid FROM de\RaumZeitLabor\PartKeepr\Part\PartUnit pu LEFT JOIN pu.parts p GROUP BY pu.id';
 		
 		$result = PartKeepr::getEM()->createQuery($dql)->getResult();
 		
