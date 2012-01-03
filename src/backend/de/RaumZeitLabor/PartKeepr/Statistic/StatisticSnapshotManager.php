@@ -21,9 +21,15 @@ class StatisticSnapshotManager extends Singleton {
 		
 		foreach ($result as $row) {
 			$snapshotUnit = new StatisticSnapshotUnit();
-			$snapshotUnit->setPartUnit($row[0]);
+			$snapshotUnit->setPartUnit(PartUnit::loadById($row["puid"]));
 			$snapshotUnit->setStatisticSnapshot($snapshot);
-			$snapshotUnit->setStockLevel($row["stockLevel"]);
+			
+			if ($row["stockLevel"] !== null) {
+				$snapshotUnit->setStockLevel($row["stockLevel"]);
+			} else {
+				$snapshotUnit->setStockLevel(0);
+			}
+			
 			$snapshot->getUnits()->add($snapshotUnit);
 		}
 		
