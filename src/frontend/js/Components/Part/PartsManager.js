@@ -149,7 +149,10 @@ Ext.define('PartKeepr.PartManager', {
 		Ext.data.Model.id(copy);
 		copy.set("id", null);
 		
-		var j = Ext.create("PartKeepr.PartEditorWindow");
+		var j = Ext.create("PartKeepr.PartEditorWindow", {
+			partMode: 'create'
+		});
+		
 		j.editor.on("partSaved", this.onPartSaved, this);
 		j.editor.editItem(copy);
 		j.show();
