@@ -87,6 +87,43 @@ Ext.define('PartKeepr.PartsGrid', {
 			}
 		});
 		
+		this.addFromTemplateButton = Ext.create("Ext.button.Button", {
+			disabled: true,
+			handler: Ext.bind(function () {
+        		this.fireEvent("itemCreateFromTemplate");
+        	}, this),
+			tooltip: i18n("Add a new part, using the selected part as template"),
+			text: i18n("Create from Template"),
+			icon: 'resources/silkicons/brick_link.png'
+		});
+		
+		this.topToolbar.insert(2, this.addFromTemplateButton);
+		
+	},
+	/**
+	 * Called when an item was selected. Enables/disables the delete button. 
+	 */
+	_updateAddTemplateButton: function (selectionModel, record) {
+		/* Right now, we support delete on a single record only */
+		if (this.getSelectionModel().getCount() == 1) {
+			this.addFromTemplateButton.enable();
+		} else {
+			this.addFromTemplateButton.disable();
+		}
+	},
+	/**
+	 * Called when an item was selected
+	 */
+	_onItemSelect: function (selectionModel, record) {
+		this._updateAddTemplateButton(selectionModel, record);
+		this.callParent(arguments);
+	},
+	/**
+	 * Called when an item was deselected
+	 */
+	_onItemDeselect: function (selectionModel, record) {
+		this._updateAddTemplateButton(selectionModel, record);
+		this.callParent(arguments);
 	},
 	/**
 	 * Called when the record was double-clicked

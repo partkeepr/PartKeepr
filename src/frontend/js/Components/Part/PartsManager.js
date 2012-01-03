@@ -58,6 +58,7 @@ Ext.define('PartKeepr.PartManager', {
 		this.grid.on("itemDeselect", this.onItemSelect, this);
 		this.grid.on("itemAdd", this.onItemAdd, this);
 		this.grid.on("itemDelete", this.onItemDelete, this);
+		this.grid.on("itemCreateFromTemplate", this.onItemCreateFromTemplate, this);
 		this.tree.on("syncCategory", this.onSyncCategory, this);
 		
 		// Listen on the partChanged event, which is fired when the users edits the part
@@ -126,6 +127,32 @@ Ext.define('PartKeepr.PartManager', {
 		var r = this.grid.getSelectionModel().getLastSelected();
 		
 		Ext.Msg.confirm(i18n("Delete Part"), sprintf(i18n("Do you really wish to delete the part %s?"),r.get("name")), this.deletePart, this);
+	},
+	/**
+	 * Creates a duplicate from the selected item. Loads the selected part and calls createPartDuplicate
+	 * after the part was loaded.
+	 * 
+	 * @param none
+	 * @return nothing
+	 */
+	onItemCreateFromTemplate: function () {
+		var r = this.grid.getSelectionModel().getLastSelected();
+		
+		this.loadPart(r.get("id"), Ext.bind(this.createPartDuplicate, this));
+	},
+	/**
+	 * Creates a part duplicate from the given record and opens the editor window.
+	 * @param rec The record to duplicate
+	 */
+	createPartDuplicate: function (rec) {
+		var copy = rec.copy();
+		Ext.data.Model.id(copy);
+		copy.set("id", null);
+		
+		var j = Ext.create("PartKeepr.PartEditorWindow");
+		j.editor.on("partSaved", this.onPartSaved, this);
+		j.editor.editItem(copy);
+		j.show();
 	},
 	/**
      * Deletes the selected part.
