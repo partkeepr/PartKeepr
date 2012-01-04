@@ -159,17 +159,17 @@ abstract class AbstractManager extends Singleton {
 				
 			if (is_array($filter->getFilterField())) {
 				foreach ($filter->getFilterField() as $field) {
-					$aOrWhereFields[] = "q.".$field." LIKE :filter";
+					$aOrWhereFields[] = "LOWER(q.".$field.") LIKE :filter";
 				}
 			} else {
-				$aOrWhereFields[] = "q.".$filter->getFilterField()." LIKE :filter";
+				$aOrWhereFields[] = "LOWER(q.".$filter->getFilterField().") LIKE :filter";
 			}
 				
 			foreach ($aOrWhereFields as $or) {
 				$qb->orWhere($or);
 			}
 			
-			$qb->setParameter("filter", "%".$filter->getFilter()."%");
+			$qb->setParameter("filter", "%".strtolower($filter->getFilter())."%");
 		}
 		
 		if ($filter->getFilterCallback() !== null) {

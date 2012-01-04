@@ -13,8 +13,8 @@ class UnitManager extends Singleton {
 		$qb->select("u.id, u.name, u.symbol")->from("de\RaumZeitLabor\PartKeepr\Unit\Unit","u");
 
 		if ($filter != "") {
-			$qb = $qb->where("u.name LIKE :filter");
-			$qb->setParameter("filter", "%".$filter."%");
+			$qb = $qb->where("LOWER(u.name) LIKE :filter");
+			$qb->setParameter("filter", "%".strtolower($filter)."%");
 		}
 				
 		if ($limit > -1) {
@@ -34,8 +34,8 @@ class UnitManager extends Singleton {
 		
 		
 		if ($filter != "") {
-			$totalQueryBuilder = $totalQueryBuilder->where("u.name LIKE :filter");
-			$totalQueryBuilder->setParameter("filter", "%".$filter."%");
+			$totalQueryBuilder = $totalQueryBuilder->where("LOWER(u.name) LIKE :filter");
+			$totalQueryBuilder->setParameter("filter", "%".strtolower($filter)."%");
 		}
 		
 		$totalQuery = $totalQueryBuilder->getQuery();

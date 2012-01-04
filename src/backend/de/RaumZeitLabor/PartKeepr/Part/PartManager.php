@@ -48,8 +48,8 @@ class PartManager extends Singleton {
 
 		$qb->where("1=1");
 		if ($filter != "") {
-			$qb = $qb->where("p.name LIKE :filter");
-			$qb->setParameter("filter", "%".$filter."%");
+			$qb = $qb->where("LOWER(p.name) LIKE :filter");
+			$qb->setParameter("filter", "%".strtolower($filter)."%");
 		}
 		
 		if ($storageLocation !== null) {

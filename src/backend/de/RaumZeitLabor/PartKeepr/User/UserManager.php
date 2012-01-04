@@ -26,8 +26,8 @@ class UserManager extends Singleton {
 		$qb->select("st.id, st.username")->from("de\RaumZeitLabor\PartKeepr\User\User","st");
 
 		if ($filter != "") {
-			$qb = $qb->where("st.username LIKE :filter");
-			$qb->setParameter("filter", "%".$filter."%");
+			$qb = $qb->where("LOWER(st.username) LIKE :filter");
+			$qb->setParameter("filter", "%".strtolower($filter)."%");
 		}
 				
 		if ($limit > -1) {
@@ -47,8 +47,8 @@ class UserManager extends Singleton {
 		
 		
 		if ($filter != "") {
-			$totalQueryBuilder = $totalQueryBuilder->where("st.username LIKE :filter");
-			$totalQueryBuilder->setParameter("filter", "%".$filter."%");
+			$totalQueryBuilder = $totalQueryBuilder->where("LOWER(st.username) LIKE :filter");
+			$totalQueryBuilder->setParameter("filter", "%".strtolower($filter)."%");
 		}
 		
 		$totalQuery = $totalQueryBuilder->getQuery();

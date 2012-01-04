@@ -24,8 +24,8 @@ class DistributorManager extends Singleton {
 		$qb->select("st.id, st.name, st.url, st.email, st.comment, st.address")->from("de\RaumZeitLabor\PartKeepr\Distributor\Distributor","st");
 
 		if ($filter != "") {
-			$qb = $qb->where("st.name LIKE :filter");
-			$qb->setParameter("filter", "%".$filter."%");
+			$qb = $qb->where("LOWER(st.name) LIKE :filter");
+			$qb->setParameter("filter", "%".strtolower($filter)."%");
 		}
 				
 		if ($limit > -1) {
@@ -45,8 +45,8 @@ class DistributorManager extends Singleton {
 		
 		
 		if ($filter != "") {
-			$totalQueryBuilder = $totalQueryBuilder->where("st.name LIKE :filter");
-			$totalQueryBuilder->setParameter("filter", "%".$filter."%");
+			$totalQueryBuilder = $totalQueryBuilder->where("LOWER(st.name) LIKE :filter");
+			$totalQueryBuilder->setParameter("filter", "%".strtolower($filter)."%");
 		}
 		
 		$totalQuery = $totalQueryBuilder->getQuery();

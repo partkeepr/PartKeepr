@@ -27,8 +27,8 @@ class FootprintManager extends Singleton {
 			->leftJoin("f.category", "ca");
 
 		if ($filter != "") {
-			$qb = $qb->where("f.name LIKE :filter");
-			$qb->setParameter("filter", "%".$filter."%");
+			$qb = $qb->where("LOWER(f.name) LIKE :filter");
+			$qb->setParameter("filter", "%".strtolower($filter)."%");
 		}
 				
 		if ($limit > -1) {
@@ -48,8 +48,8 @@ class FootprintManager extends Singleton {
 		
 		
 		if ($filter != "") {
-			$totalQueryBuilder = $totalQueryBuilder->where("f.name LIKE :filter");
-			$totalQueryBuilder->setParameter("filter", "%".$filter."%");
+			$totalQueryBuilder = $totalQueryBuilder->where("LOWER(f.name) LIKE :filter");
+			$totalQueryBuilder->setParameter("filter", "%".strtolower($filter)."%");
 		}
 		
 		$totalQuery = $totalQueryBuilder->getQuery();

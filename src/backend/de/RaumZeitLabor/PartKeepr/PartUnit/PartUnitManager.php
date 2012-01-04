@@ -15,8 +15,8 @@ class PartUnitManager extends Singleton {
 		$qb->select("st.id, st.name, st.shortName, st.is_default AS default")->from("de\RaumZeitLabor\PartKeepr\Part\PartUnit","st");
 
 		if ($filter != "") {
-			$qb = $qb->where("st.name LIKE :filter");
-			$qb->setParameter("filter", "%".$filter."%");
+			$qb = $qb->where("LOWER(st.name) LIKE :filter");
+			$qb->setParameter("filter", "%".strtolower($filter)."%");
 		}
 				
 		if ($limit > -1) {
@@ -48,8 +48,8 @@ class PartUnitManager extends Singleton {
 		
 		
 		if ($filter != "") {
-			$totalQueryBuilder = $totalQueryBuilder->where("st.name LIKE :filter");
-			$totalQueryBuilder->setParameter("filter", "%".$filter."%");
+			$totalQueryBuilder = $totalQueryBuilder->where("LOWER(st.name) LIKE :filter");
+			$totalQueryBuilder->setParameter("filter", "%".strtolower($filter)."%");
 		}
 		
 		$totalQuery = $totalQueryBuilder->getQuery();
