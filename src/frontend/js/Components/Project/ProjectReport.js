@@ -16,19 +16,32 @@ Ext.define('PartKeepr.ProjectReportView', {
 		
 		this.createStores();
 		
+		this.upperGridEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+	        clicksToEdit: 1
+	    });
+		
 		this.reportList = Ext.create("Ext.grid.Panel", {
 			title: i18n("Choose Projects to create a report for"),
 			selModel: {
-				
 				mode: 'MULTI'
 			},
 			selType: 'checkboxmodel',
 			flex: 1,
 			columns: [{
+				header: i18n("Amount"), dataIndex: 'amount',
+				width: 50,
+				editor: {
+					xtype: 'numberfield'
+				}
+			},{
 				header: i18n("Project Name"), dataIndex: 'name',
 				flex: 1
+			},{
+				header: i18n("Description"), dataIndex: 'description',
+				flex: 1
 			}],
-			store: this.store
+			store: this.store,
+			plugins: [ this.upperGridEditing ]
 		});
 		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -205,16 +218,19 @@ Ext.define('PartKeepr.ProjectReportView', {
 		var params = new Array();
 		
 		for (var i=0;i<selection.length;i++) {
-			params.push(selection[i].get("id"));
+			params.push({ project: selection[i].get("id"), amount: selection[i].get("amount")});
 		}
 		
-		this.projectReportStore.getProxy().extraParams.reports = params.join(",");
+		this.projectReportStore.getProxy().extraParams.reports = Ext.encode(params);
 		this.projectReportStore.load();
 	},
+	/**
+	 * Creates the store used in this view.
+	 */
 	createStores: function () {
 		var config = {
 			autoLoad: true,
-			model: "PartKeepr.Project",
+			model: "PartKeepr.ProjectReportList",
 			pageSize: -1
 		};
 		
