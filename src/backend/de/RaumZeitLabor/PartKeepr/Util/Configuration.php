@@ -65,6 +65,7 @@ EOD;
 					$config .= 'Configuration::setOption("'.$option.'", '.($value === true ? 'true' : 'false').');'."\n";
 					break;
 				case "integer":
+				case "numeric":
 					$config .= 'Configuration::setOption("'.$option.'", '.intval($value).');'."\n";
 					break;
 				case "float":
