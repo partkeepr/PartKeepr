@@ -1,5 +1,5 @@
 <?php
-include_once 'Doctrine/Common/ClassLoader.php';
+@include_once 'Doctrine/Common/ClassLoader.php';
 
 /**
  * Check if the Doctrine Common classloader can be loaded 
