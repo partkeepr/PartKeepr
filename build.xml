@@ -14,11 +14,11 @@
     <target name="clean">
     	<delete dir="reports" />
     	<delete dir="frontend" />
-    	<delete dir="data" />
     </target>
     
     <!--  Re-generates the proxies needed by Doctrine2 -->
     <target name="create-orm-proxies">
+    	<mkdir dir="data/"/>
     	<exec command="doctrine orm:generate-proxies" passthru="true"/>
     </target>
 	
