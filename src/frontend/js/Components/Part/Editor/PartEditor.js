@@ -19,13 +19,16 @@ Ext.define('PartKeepr.PartEditor', {
 	 */
 	initComponent: function () {
 		
+		this.nameField = Ext.create("Ext.form.field.Text", {
+			name: 'name',
+			fieldLabel: i18n("Name"),
+			allowBlank: false,
+			labelWidth: 150
+		});
+		
 		// Defines the basic editor fields
-		var basicEditorFields = [{
-				xtype: 'textfield',
-				name: 'name',
-				fieldLabel: i18n("Name"),
-				allowBlank: false
-			},
+		var basicEditorFields = [
+			this.nameField,
 			{
 				layout: 'column',
 				bodyStyle: 'background:#DBDBDB',
@@ -189,6 +192,7 @@ Ext.define('PartKeepr.PartEditor', {
 	},
 	onEditStart: function () {
 		this.bindChildStores();
+		this.nameField.focus();
 	},
 	_onItemSaved: function () {
 		this.fireEvent("partSaved", this.record);
