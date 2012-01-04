@@ -151,7 +151,7 @@
     	<phingcall target="prepare-archiving"/>
     	<phingcall target="set-version"/>
 
-    	<zip destfile="partkeepr-${partkeepr.version}.zip" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}"/>
+    	<zip destfile="partkeepr-${partkeepr.version}.zip" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}/"/>
     	<tar destfile="partkeepr-${partkeepr.version}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}/"/>
     </target>
 	
@@ -243,8 +243,8 @@
     	<property name="partkeepr.version" value="{build.time}-nightly" />
     	<phingcall target="set-version"/>
 
-    	<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly"/>
-    	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-nightly"/>
+    	<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly/"/>
+    	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-nightly/"/>
 	</target>
 	
     <!-- Builds the jsb3 file and build the minified JS files -->
