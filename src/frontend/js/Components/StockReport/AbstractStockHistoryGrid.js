@@ -72,6 +72,10 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 			remoteSort: true,
 			proxy: PartKeepr.getRESTProxy("Stock"),
 			model: 'PartKeepr.StockEntry',
+ 			sorters: [{
+	 			property: 'dateTime',
+ 				direction:'DESC'
+ 			}],
 			pageSize: this.pageSize };
     	
     	this.store = Ext.create('Ext.data.Store', config);
