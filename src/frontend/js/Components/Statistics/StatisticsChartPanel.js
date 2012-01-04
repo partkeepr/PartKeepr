@@ -40,6 +40,13 @@ Ext.define('PartKeepr.StatisticsChartPanel', {
 		call.doCall();
     },
     onReloadDates: function (data) {
+    	if (data.data.start === null || data.data.end === null) {
+    		Ext.Msg.alert(
+    				i18n("Unable to retrieve the statistic data"),
+    				i18n("The system was unable to retrieve the statistic data. The most probable cause is that the CreateStatisticSnapshot.php cronjob is not running."));
+    		return;
+    	}
+    	
     	var start = Ext.Date.parse(data.data.start, "Y-m-d H:i:s");
     	var end = Ext.Date.parse(data.data.end, "Y-m-d H:i:s");
     	

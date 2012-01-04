@@ -113,7 +113,7 @@ Ext.define('PartKeepr.StatisticsChart', {
     	        	"service": "Statistic",
     	        	"call": "getSampledStatistics",
    	        		"startDateTime": "2011-01-01 00:00:00",
-       	        	"endDateTime": "2011-12-01 00:00:00"	
+       	        	"endDateTime": "2011-12-01 23:59:59"	
     	        },
     	        headers: {
     	        	session :PartKeepr.getApplication().getSession()
@@ -124,10 +124,26 @@ Ext.define('PartKeepr.StatisticsChart', {
     	
     	this.callParent();
     },
+    /**
+     * Sets the start date for the chart. Does not trigger a reload of the dataset.
+     * @param date A valid date object
+     */
     setStart: function (date) {
+    	if (!(date instanceof Date)) { return; }
     	this.store.getProxy().extraParams.startDateTime = Ext.Date.format(date, "Y-m-d H:i:s");
     },
+    /**
+     * Sets the end date for the chart. Does not trigger a reload of the dataset.
+     * @param date A valid date object
+     */
     setEnd: function (date) {
+    	if (!(date instanceof Date)) { return; }
+    	
+    	// Always set the end date to the end of the day
+    	date.setHours(23);
+    	date.setMinutes(59);
+    	date.setSeconds(59);
+    	
     	this.store.getProxy().extraParams.endDateTime = Ext.Date.format(date, "Y-m-d H:i:s");
     }
 });
