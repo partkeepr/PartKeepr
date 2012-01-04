@@ -83,24 +83,28 @@ Ext.define('PartKeepr.PartEditor', {
 		// Creates the distributor grid
 		this.partDistributorGrid = Ext.create("PartKeepr.PartDistributorGrid", {
 			title: i18n("Distributors"),
+			iconCls: 'icon-lorry',
 			layout: 'fit'
 		});
 		
 		// Creates the manufacturer grid
 		this.partManufacturerGrid = Ext.create("PartKeepr.PartManufacturerGrid", {
 			title: i18n("Manufacturers"),
+			iconCls: 'icon-building',
 			layout: 'fit'
 		});
 		
 		// Creates the parameter grid
 		this.partParameterGrid = Ext.create("PartKeepr.PartParameterGrid", {
 			title: i18n("Parameters"),
+			iconCls: 'icon-table',
 			layout: 'fit'
 		});
 		
 		// Creates the attachment grid
 		this.partAttachmentGrid = Ext.create("PartKeepr.PartAttachmentGrid", {
 			title: i18n("Attachments"),
+			iconCls: 'icon-attach',
 			layout: 'fit'
 		});
 		
@@ -163,6 +167,7 @@ Ext.define('PartKeepr.PartEditor', {
 				border: false,
 				plain: true,
 				items: [{
+					iconCls: 'icon-brick',
 					xtype: 'panel',
 					border: false,
 					autoScroll: true,

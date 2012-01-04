@@ -25,20 +25,20 @@ Ext.define('PartKeepr.PartParameterGrid', {
 		this.plugins =  [ this.editing ];
 		
 		this.deleteButton = Ext.create("Ext.button.Button", {
-                text: 'Delete',
+                text: i18n('Delete'),
                 disabled: true,
                 itemId: 'delete',
                 scope: this,
-                icon: 'resources/silkicons/building_delete.png',
+                icon: 'resources/fugue-icons/icons/table--minus.png',
                 handler: this.onDeleteClick
             });
 		
 		this.dockedItems = [{
             xtype: 'toolbar',
             items: [{
-                text: 'Add',
+                text: i18n('Add'),
                 scope: this,
-                icon: 'resources/silkicons/building_add.png',
+                icon: 'resources/fugue-icons/icons/table--plus.png',
                 handler: this.onAddClick
             }, this.deleteButton]
         }];
