@@ -112,6 +112,12 @@ Configuration::setOption("partkeepr.frontend.autologin.password", null);
 Configuration::setOption("partkeepr.frontend.debug", false);
 
 /**
+ * Specifies if cronjobs should be checked. Disable this on Windows unless we have an automatic cronjob runner
+ * emulation implemented.
+ */
+Configuration::setOption("partkeepr.cronjobs.disablecheck", false);
+
+/**
  * Specifies if password changing is allowed.
  */
 Configuration::setOption("partkeepr.frontend.allow_password_change", true);

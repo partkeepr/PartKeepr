@@ -1,6 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\System;
 
+use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Service,
@@ -51,7 +53,13 @@ class SystemService extends Service {
 	 */
 	public function getSystemStatus () {
 		
-		$inactiveCronjobs = CronLoggerManager::getInstance()->getInactiveCronjobs();
+		if (Configuration::getOption("partkeepr.cronjobs.disablecheck", false) === true) {
+			// Skip cronjob tests
+			$inactiveCronjobs = array();
+		} else {
+			$inactiveCronjobs = CronLoggerManager::getInstance()->getInactiveCronjobs();
+		}
+		
 		
 		return array("data" =>
 				array(

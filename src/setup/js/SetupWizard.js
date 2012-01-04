@@ -77,6 +77,27 @@ Ext.define('PartKeeprSetup.SetupWizard', {
     	cards.push(Ext.create("PartKeeprSetup.DatabaseSetupCard"));
     	
     	cards.push(Ext.create('Ext.ux.wizard.Card', {
+            title: 'Cron Setup',
+            showTitle: true,
+            titleCls: '',
+            titleStyle: 'font-size: 2.5em;',
+            cls: 'x-partkeepr-setup-basecard',
+            items: [{
+                border: false,
+                bodyStyle: 'background:none;',
+                autoScroll: true,
+                html: 	"Please set up the following cronjobs:<br/><br/><code>"+
+                		"0 0,24 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/CreateStatisticSnapshot.php<br/>"+
+                		"0 0,6,12,18 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdatePartCacheData.php<br/>"+
+                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/CheckForUpdates.php<br/>"+
+                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdateTipsOfTheDay.php<br/>"+
+                		"</code><br/>If you cannot run cronjobs (e.g. you are on Windows), you can disable the "+
+                		"cronjobs by adding the following line to your config.php file:<br/><br/>"+
+                		'<code>Configuration::setOption("partkeepr.cronjobs.disablecheck", true);</code>'
+            }]
+    	}));
+    	
+    	cards.push(Ext.create('Ext.ux.wizard.Card', {
             title: 'Setup Complete',
             showTitle: true,
             titleCls: '',
@@ -85,13 +106,8 @@ Ext.define('PartKeeprSetup.SetupWizard', {
             items: [{
                 border: false,
                 bodyStyle: 'background:none;',
+                autoScroll: true,
                 html: 	"<b>PartKeepr is now set-up.</b><br/><br/>"+
-                		"Please set up the following cronjobs:<br/><br/><code>"+
-                		"0 0,24 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/CreateStatisticSnapshot.php<br/>"+
-                		"0 0,6,12,18 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdatePartCacheData.php<br/>"+
-                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/CheckForUpdates.php<br/>"+
-                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdateTipsOfTheDay.php<br/>"+
-                		"</code><br/><br/>"+
                 		"If possible, set your web server's document root to the <b>frontend</b> directory.<br/><br/>"+
                 		"To open PartKeepr, open the 'frontend' directory using your browser.<br/><br/>"+
                 		"The default username/password combination is <b>admin/admin</b>"
