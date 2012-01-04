@@ -43,6 +43,7 @@ Ext.application({
 		
 		var j = Ext.create("PartKeepr.PartManager", {
 			title: i18n("Part Manager"),
+			iconCls: 'icon-brick',
 			closable: false
 		});
 		

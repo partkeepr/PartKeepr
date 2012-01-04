@@ -73,7 +73,7 @@ Ext.define('PartKeepr.MenuBar', {
 					},{
 						text: i18n("Stock History"),
 						handler: this.showStockHistory,
-						icon: 'resources/fugue-icons/icons/service-bell.png'
+						icon: 'resources/fugue-icons/icons/notebook.png'
 					}
 					
 			        ]
@@ -265,7 +265,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showStockHistory: function () {
 		var j = Ext.create("PartKeepr.StockHistoryGrid", {
 			title: i18n("Stock History"),
-			iconCls: 'icon-service-bell',
+			iconCls: 'icon-notebook',
 			closable: true
 		});
 		

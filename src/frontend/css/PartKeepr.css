@@ -125,3 +125,19 @@ td.o2 {
 .icon-service-bell {
 	background-image: url(../resources/fugue-icons/icons/service-bell.png) !important;
 }
+
+.icon-brick {
+	background-image: url(../resources/silkicons/brick.png) !important;
+}
+
+.icon-table {
+	background-image: url(../resources/fugue-icons/icons/table.png) !important;
+}
+
+.icon-attach {
+	background-image: url(../resources/silkicons/attach.png) !important;
+}
+
+.icon-notebook {
+	background-image: url(../resources/fugue-icons/icons/notebook.png) !important;
+}
