@@ -198,6 +198,11 @@ Ext.define('PartKeepr.PartEditor', {
 	onEditStart: function () {
 		this.bindChildStores();
 		this.nameField.focus();
+		
+		// Re-trigger validation because of asynchronous loading of the storage location field,
+		// which would be marked invalid because validation happens immediately, but after loading
+		// the storage locations, the field is valid, but not re-validated.
+		this.getForm().isValid();
 	},
 	_onItemSaved: function () {
 		this.fireEvent("partSaved", this.record);
