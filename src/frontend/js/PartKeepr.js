@@ -139,13 +139,6 @@ Ext.application({
     	this.setSession(null);
     },
     createGlobalStores: function () {
-    	this.storageLocationStore = Ext.create("Ext.data.Store",
-			{
-				model: 'PartKeepr.StorageLocation',
-				pageSize: -1,
-				autoLoad: false
-			});
-    	
     	this.footprintStore = Ext.create("Ext.data.Store",
     			{
     				model: 'PartKeepr.Footprint',
@@ -274,9 +267,6 @@ Ext.application({
     getPartUnitStore: function () {
     	return this.partUnitStore;
     },
-    getStorageLocationStore: function () {
-    	return this.storageLocationStore;
-    },
     getFootprintStore: function () {
     	return this.footprintStore;
     },
@@ -327,7 +317,6 @@ Ext.application({
      */
     reloadStores: function () {
     	if (this.getSession()) {
-    		this.storageLocationStore.load();
         	this.footprintStore.load();
         	this.manufacturerStore.load();
         	this.distributorStore.load();

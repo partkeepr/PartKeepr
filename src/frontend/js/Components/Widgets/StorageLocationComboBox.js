@@ -8,17 +8,13 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
     triggerAction: 'all',
   
     initComponent: function () {
-		this.store = PartKeepr.getApplication().getStorageLocationStore();
-		
-		/* Workaround to remember the value when loading */
-		this.store.on("beforeload", function () {
-			this._oldValue = this.getValue();
-		}, this);
-		
-		/* Set the old value when load is complete */
-		this.store.on("load", function () {
-			this.setValue(this._oldValue);
-		}, this);
+		this.store = Ext.create("Ext.data.Store",
+			{
+				model: 'PartKeepr.StorageLocation',
+				proxy: PartKeepr.getRESTProxy("StorageLocation"),
+				pageSize: -1,
+				autoLoad: true
+			});
 		
 		this.callParent();
     }
