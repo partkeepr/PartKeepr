@@ -8,8 +8,9 @@ Ext.define('PartKeepr.ManufacturerEditorComponent', {
 	initComponent: function () {
 		this.createStore({
 			sorters: [{
-	              property: 'name',
-	              direction:'ASC'
+				proxy: PartKeepr.getRESTProxy("Manufacurer"),
+	            property: 'name',
+	            direction:'ASC'
 	          }]
 		});
 		

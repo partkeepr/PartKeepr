@@ -7,6 +7,7 @@ Ext.define('PartKeepr.DistributorEditorComponent', {
 	model: 'PartKeepr.Distributor',
 	initComponent: function () {
 		this.createStore({
+			proxy: PartKeepr.getRESTProxy("Distributor"),
 			sorters: [{
 	              property: 'name',
 	              direction:'ASC'

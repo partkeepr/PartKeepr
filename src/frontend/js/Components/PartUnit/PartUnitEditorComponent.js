@@ -10,8 +10,9 @@ Ext.define('PartKeepr.PartUnitEditorComponent', {
 	initComponent: function () {
 		this.createStore({
 			sorters: [{
-	              property: 'name',
-	              direction:'ASC'
+				proxy: PartKeepr.getRESTProxy("PartUnit"),
+				property: 'name',
+				direction:'ASC'
 	          }]
 		});
 		

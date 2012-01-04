@@ -7,6 +7,7 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 	model: 'PartKeepr.Footprint',
 	initComponent: function () {
 		this.createStore({
+			proxy: PartKeepr.getRESTProxy("Footprint"),
 			sorters: [{
 	              property: 'name',
 	              direction:'ASC'

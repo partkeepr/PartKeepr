@@ -11,8 +11,9 @@ Ext.define('PartKeepr.SystemNoticeEditorComponent', {
 	initComponent: function () {
 		this.createStore({
 			sorters: [{
-	              property: 'date',
-	              direction:'DESC'
+				proxy: PartKeepr.getRESTProxy("SystemNotice"),
+				property: 'date',
+				direction:'DESC'
 	          }]
 		});
 		
