@@ -196,7 +196,13 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 	onCategoryDelete: function (btn) {
 		if (btn == "yes") {
 			var del = this.getStore().getRootNode().findChild("id", this.menu.record.get("id"), true);
-			del.destroy();
+			del.destroy({
+				failure: function () {
+					console.log("FOO");
+			     	this.loadCategories();   
+			    },
+			    scope: this
+			});
 		}
 	}
 });
