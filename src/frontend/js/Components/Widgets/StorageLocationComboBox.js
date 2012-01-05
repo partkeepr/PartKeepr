@@ -3,10 +3,18 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
     alias: 'widget.StorageLocationComboBox',
     displayField: 'name',
     valueField: 'id',
-    autoSelect: true,
     queryMode: 'local',
     triggerAction: 'all',
-  
+    
+    trigger2Cls: Ext.baseCSSPrefix + 'form-reload-trigger',
+    
+    onTrigger1Click: function () {
+    	this.onTriggerClick();
+    },
+    onTrigger2Click: function () {
+    	this.expand();
+    	this.store.load();
+    },
     initComponent: function () {
 		this.store = Ext.create("Ext.data.Store",
 			{

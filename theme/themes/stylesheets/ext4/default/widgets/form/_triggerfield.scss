@@ -182,4 +182,7 @@
     .#{$prefix}form-search-trigger {
         background-image: theme-image($theme-name, 'form/search-trigger.png');
     }
+    .#{$prefix}form-reload-trigger {
+        background-image: theme-image($theme-name, 'form/reload-trigger.png');
+    }
 }
