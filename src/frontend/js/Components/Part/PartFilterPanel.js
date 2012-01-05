@@ -70,7 +70,6 @@ Ext.define('PartKeepr.PartFilterPanel', {
 	 */
 	onApply: function () {
 		this.applyFilterParameters(this.store.getProxy().extraParams);
-		this.store.getProxy().extraParams.start = 0;
 		this.store.currentPage = 1;
 		this.store.load({ start: 0});
 	},
