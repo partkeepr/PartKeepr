@@ -11,7 +11,7 @@ and code coverage.
 
 
 
-Prequisites:
+Prerequisites:
 ------------
 * PHP 5.3 or higher
 * PDO

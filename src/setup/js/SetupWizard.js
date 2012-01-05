@@ -71,7 +71,7 @@ Ext.define('PartKeeprSetup.SetupWizard', {
             }]
         }));
     	
-    	cards.push(Ext.create("PartKeeprSetup.PrequisitesTestCard"));
+    	cards.push(Ext.create("PartKeeprSetup.PrerequisitesTestCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseParametersCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseConnectivityTestCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseSetupCard"));
