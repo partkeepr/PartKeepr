@@ -23,7 +23,7 @@ class ProjectPart extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Specifies the project which belongs to this project part
-	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Part\Part")
+	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Project\Project")
 	 */
 	private $project;
 	
