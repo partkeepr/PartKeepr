@@ -1,0 +1,30 @@
+The following steps describe how a new PartKeepr release is being built:
+
+* Create a new GIT tag using:
+  
+  git tag -s <version>
+  
+  The tag message should contain a non-verbose list of changes. To view all commits since the last release, use:
+  
+  git log <tag>..HEAD
+  
+
+* Push the tag to the repository using:
+
+  git push --tags
+  
+
+* Run the release script on the PartKeepr server:
+
+  partkeepr-release.sh <tag>
+  
+  This generates a release and puts both tbz2 and zip archives into the downloads directory
+  
+
+* Test the archive for errors (simple installation should work)
+
+* Update the downloads page
+
+* Write a blog entry
+
+* Push out notifications on twitter
