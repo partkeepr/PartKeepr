@@ -70,9 +70,6 @@ Ext.define('PartKeepr.ProjectReportView', {
 				header: i18n("Available"), dataIndex: 'available',
 				width: 75
 			},{
-				header: i18n("Missing"), dataIndex: 'missing',
-				width: 75
-			},{
 				header: i18n("Distributor"), dataIndex: 'distributor_id',
 				renderer: function (val,p,rec) {
 					return rec.get("distributor_name");
@@ -104,6 +101,9 @@ Ext.define('PartKeepr.ProjectReportView', {
 					return 0;
 					
 				},
+				width: 100
+			},{
+				header: i18n("Amount to Order"), dataIndex: 'missing',
 				width: 100
 			},{
 				header: i18n("Sum (Order)"),
