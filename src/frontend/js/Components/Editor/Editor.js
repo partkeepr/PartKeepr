@@ -100,6 +100,14 @@ Ext.define('PartKeepr.Editor', {
 		}
 	},
 	onItemSave: function () {
+		// Disable the save button to indicate progress
+		if (this.enableButtons) {
+			this.saveButton.disable();
+
+			// Sanity: If the save process fails, re-enable the button after 30 seconds
+			Ext.defer(function () { this.saveButton.enable(); }, 30000, this);
+		}
+		
 		this.getForm().updateRecord(this.record);
 		this.record.save({
 				callback: this._onSave,
@@ -107,6 +115,11 @@ Ext.define('PartKeepr.Editor', {
 		});
 	},
 	_onSave: function (record, response) {
+		if (this.enableButtons) {
+			// Re-enable the save button
+			this.saveButton.enable();
+		}
+		
 		if (response.success === true) {
 			this.record = record;
 			this.fireEvent("itemSaved", this.record);			

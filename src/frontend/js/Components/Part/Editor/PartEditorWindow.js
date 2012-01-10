@@ -49,6 +49,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		this.editor.on("editorClose", function (context) { this.close();}, this, { delay: 200 });
 		
 		this.editor.on("titleChange", function (val) { this.setTitle(val); }, this);
+		this.editor.on("itemSaved", this.onItemSaved, this);
 		
 		this.saveButton = Ext.create("Ext.button.Button", {
 			text: this.saveText,
@@ -88,7 +89,24 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	onCancelEdit: function () {
 		this.editor.onCancelEdit();
 	},
+	/**
+	 * Called when the save button was clicked
+	 */
 	onItemSave: function () {
+		if (!this.editor.getForm().isValid()) { return; }
+		
+		// Disable the save button to indicate progress
+		this.saveButton.disable();
+		
+		// Sanity: If the save process fails, re-enable the button after 30 seconds
+		Ext.defer(function () { this.saveButton.enable(); }, 30000, this);
+		
 		this.editor.onItemSave();
+	},
+	/**
+	 * Called when the item was saved
+	 */
+	onItemSaved: function () {
+		this.saveButton.enable();
 	}
 });

@@ -238,13 +238,6 @@ Ext.define('PartKeepr.PartEditor', {
 		this.partParameterGrid.bindStore(this.record.parameters());
 		this.partAttachmentGrid.bindStore(this.record.attachments());
 	},
-	onItemSave: function () {
-		if (!this.getForm().isValid()) {
-			return;
-		}
-		
-		this.callParent();
-	},
 	_setTitle: function (title) {
 		var tmpTitle;
 		
