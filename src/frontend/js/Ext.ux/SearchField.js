@@ -34,7 +34,6 @@ Ext.define('Ext.ux.form.SearchField', {
         if (me.hasSearch) {
             me.setValue('');
             proxy.extraParams[me.paramName] = '';
-            proxy.extraParams.start = 0;
             store.currentPage = 1;
             store.load({ start: 0 });
             me.hasSearch = false;
