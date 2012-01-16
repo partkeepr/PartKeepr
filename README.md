@@ -29,7 +29,7 @@ PartKeepr needs:
 * APC (see http://www.php.net/manual/en/apc.installation.php how to install it)
 * Tokenizer Support
 * A working PEAR installation
-* A MySQL database
+* A PostgreSQL or MySQL database (in theory, we support Oracle and MSSQL as well, but you have to install PartKeepr using the CLI setup).
 * The Imagick pecl extension
 
 Installation
