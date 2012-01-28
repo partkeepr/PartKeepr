@@ -1,11 +1,13 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\StorageLocation;
+
 use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
 declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Service;
 use de\RaumZeitLabor\PartKeepr\Part\PartManager,
+	de\RaumZeitLabor\PartKeepr\Util\SerializableException,
 	de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
@@ -41,7 +43,20 @@ class StorageLocationService extends Service implements RestfulService {
 		$storageLocation->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->persist($storageLocation);
-		PartKeepr::getEM()->flush();
+		
+		try {
+			PartKeepr::getEM()->flush();
+		} catch (\PDOException $e) {
+			if ($e->getCode() == "23505") {
+				$exception = new SerializableException(sprintf(PartKeepr::i18n("Storage Location %s already exists!"), $storageLocation->getName()));
+				$exception->setDetail(sprintf(PartKeepr::i18n("You tried to add the storage location %s, but a storage location with the same name already exists."), $storageLocation->getName()));
+			
+				throw $exception;
+			} else {
+				throw $e;
+			}
+		}
+		
 		
 		return array("data" => $storageLocation->serialize());
 	}
