@@ -11,6 +11,7 @@ class MiscSettingsSetup extends AbstractSetup {
 	public function run () {
 		$this->markCronjobsAsRun();
 		$this->clearAPCCache();
+		$this->regenerateProxies();
 	}
 	
 	/**
@@ -25,10 +26,44 @@ class MiscSettingsSetup extends AbstractSetup {
 		}
 	}
 	
+	/**
+	 * Clears the APC cache to push out old entries
+	 */
 	public function clearAPCCache () {
 		if (function_exists("apc_clear_cache")) {
 			apc_clear_cache();
 			apc_clear_cache("user");
 		}
 	}
+	
+	/**
+	 * Re-generates all proxies. This is analog to doctrine orm:generate-proxies
+	 * 
+	 * @throws \InvalidArgumentException
+	 */
+	public function regenerateProxies () {
+		$em = $this->entityManager;
+		
+		$metadatas = $em->getMetadataFactory()->getAllMetadata();
+		$destPath = $em->getConfiguration()->getProxyDir();
+	
+		if ( ! is_dir($destPath)) {
+			mkdir($destPath, 0777, true);
+		}
+	
+		$destPath = realpath($destPath);
+	
+		if ( ! file_exists($destPath)) {
+			throw new \InvalidArgumentException(
+					sprintf("Proxies destination directory '<info>%s</info>' does not exist.", $em->getConfiguration()->getProxyDir())
+			);
+		} else if ( ! is_writable($destPath)) {
+			throw new \InvalidArgumentException(
+					sprintf("Proxies destination directory '<info>%s</info>' does not have write permissions.", $destPath)
+			);
+		}
+	
+		$em->getProxyFactory()->generateProxyClasses($metadatas, $destPath);
+	}
+	
 }
