@@ -39,7 +39,7 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
 	titleStyle: 'font-size: 2.5em;',
 	cls: 'x-partkeepr-setup-basecard',
     autoScroll: true,
-    
+    rerunTestText: "Re-run checks",
     
 	/**
 	 * Inits the component
@@ -49,7 +49,7 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
 		this.testResultPanel.on("test-error", this.onTestError, this);
 		
 		this.retestButton = Ext.create("Ext.button.Button", {
-			text: 'Re-run checks',
+			text: this.rerunTestText,
 			hidden: true
 		});
 		

@@ -9,6 +9,7 @@ Ext.define('PartKeeprSetup.DatabaseSetupCard', {
 	
 	cardMessage: "PartKeepr is now being set-up.",
 	title: 'PartKeepr is now being set-up, please wait',
+	rerunTestText: "Re-run setup",
 	/**
 	 * Sets up the tests
 	 */
