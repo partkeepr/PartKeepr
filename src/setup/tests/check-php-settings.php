@@ -59,7 +59,7 @@ if (!isTimezoneSetAndValid()) {
 	$errorMessage = "The PHP timezone (%s) is not set or invalid. Please set the correct timezone in your";
 	$errorMessage .= " php.ini file (don't forget to restart the web server afterwards)";
 	
-	echo json_encode(array("error" => true, "errormessage" => sprintf($errorMessage, @date_default_timezone_get())));
+	echo json_encode(array("error" => true, "errormessage" => sprintf($errorMessage, ini_get("date.timezone"))));
 	exit;
 }
 
