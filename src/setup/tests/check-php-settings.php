@@ -23,5 +23,24 @@ if (!class_exists("\\Imagick")) {
 	echo json_encode(array("error" => true, "errormessage" => "You are missing the Imagick library for PHP. Please install and activate it."));
 	exit;
 }
+
+if (!isTimezoneSetAndValid()) {
+	$errorMessage = "The PHP timezone (%s) is not set or invalid. Please set the correct timezone in your";
+	$errorMessage .= " php.ini file (don't forget to restart the web server afterwards)";
+	
+	echo json_encode(array("error" => true, "errormessage" => sprintf($errorMessage, @date_default_timezone_get())));
+	exit;
+}
+
 echo json_encode(array("error" => false));
 exit;
+
+/**
+ * Checks if the timezone is set and valid.
+ *
+ * @param 	none
+ * @return 	bool 	True if the timezone is set and valid, false otherwise.
+ */
+public function isTimezoneSetAndValid () {
+	return @date_default_timezone_set(@date_default_timezone_get());
+}
