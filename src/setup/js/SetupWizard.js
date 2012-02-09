@@ -87,10 +87,10 @@ Ext.define('PartKeeprSetup.SetupWizard', {
                 bodyStyle: 'background:none;',
                 autoScroll: true,
                 html: 	"Please set up the following cronjobs:<br/><br/><code>"+
-                		"0 0,12 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/CreateStatisticSnapshot.php<br/>"+
-                		"0 0,6,12,18 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdatePartCacheData.php<br/>"+
-                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/CheckForUpdates.php<br/>"+
-                		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/UpdateTipsOfTheDay.php<br/>"+
+		                "0 0,12 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/cronjobs/CreateStatisticSnapshot.php<br/>"+
+		        		"0 0,6,12,18 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/cronjobs/UpdatePartCacheData.php<br/>"+
+		        		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/cronjobs/CheckForUpdates.php<br/>"+
+		        		"0 0 */2 * * /usr/bin/php &lt;path-to-partkeepr&gt;/cronjobs/UpdateTipsOfTheDay.php<br/>"+
                 		"</code><br/>If you cannot run cronjobs (e.g. you are on Windows), you can disable the "+
                 		"cronjobs by adding the following line to your config.php file:<br/><br/>"+
                 		'<code>Configuration::setOption("partkeepr.cronjobs.disablecheck", true);</code>'
