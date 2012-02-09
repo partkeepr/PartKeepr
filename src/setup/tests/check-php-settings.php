@@ -73,5 +73,9 @@ exit;
  * @return 	bool 	True if the timezone is set and valid, false otherwise.
  */
 function isTimezoneSetAndValid () {
-	return @date_default_timezone_set(@date_default_timezone_get());
+	if (ini_get("date.timezone") == "") {
+		return false;
+	} 
+	
+	return @date_default_timezone_set(ini_get("date.timezone"));
 }
