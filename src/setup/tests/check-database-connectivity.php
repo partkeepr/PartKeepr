@@ -22,7 +22,7 @@ $drivers = PDO::getAvailableDrivers();
 $bDriverAvailable = false;
 
 if (!in_array($_REQUEST["driver"], $drivers)) {
-	echo json_encode(array("error" => true, "errormessage" => "The requested driver isn't installed as PHP pdo module. Please install the PDO driver for PHP."));
+	echo json_encode(array("error" => true, "message" => "The requested driver isn't installed as PHP pdo module. Please install the PDO driver for PHP."));
 	exit;
 }
 
@@ -33,7 +33,7 @@ try {
 	$onnectionOptions = Setup::setDatabaseConfigurationFromRequest();
 	$connectionOptions = PartKeepr::createConnectionOptionsFromConfig();
 } catch (\Exception $e) {
-	echo json_encode(array("error" => true, "errormessage" => $e->getMessage()));
+	echo json_encode(array("error" => true, "message" => $e->getMessage()));
 	exit;
 }
 
@@ -44,10 +44,10 @@ try {
 } catch (\PDOException $e) {
 	$additionalMessage = getPlatformSpecificErrorMessage($_REQUEST["driver"], $e->getCode());
 	
-	echo json_encode(array("error" => true, "errormessage" => "There was an error connecting to the database:<br/><code>".$e->getMessage()."</code>".$additionalMessage));
+	echo json_encode(array("error" => true, "message" => "There was an error connecting to the database:<br/><code>".$e->getMessage()."</code>".$additionalMessage));
 	exit;
 } catch (\Exception $e) {
-	echo json_encode(array("error" => true, "errormessage" => "An unknown error occured. The error is: <code>".$e->getMessage()."</code>"));
+	echo json_encode(array("error" => true, "message" => "An unknown error occured. The error is: <code>".$e->getMessage()."</code>"));
 	exit;
 }
 
@@ -60,7 +60,7 @@ switch ($_REQUEST["driver"]) {
 
 function performAdditionalMySQLTests ($connection, $dbname) {
 	if (!SchemaSetup::mysqlHasUTF8Encoding($connection, $dbname)) {
-		echo json_encode(array("error" => true, "errormessage" => "Your database doesn't have the proper encoding. Please change it using the following SQL statement: <br/><br/><code>ALTER DATABASE ".$dbname." CHARACTER SET utf8;</code>"));
+		echo json_encode(array("error" => true, "message" => "Your database doesn't have the proper encoding. Please change it using the following SQL statement: <br/><br/><code>ALTER DATABASE ".$dbname." CHARACTER SET utf8;</code>"));
 		exit;
 	}
 	

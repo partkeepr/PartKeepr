@@ -8,7 +8,7 @@ if (ini_get("safe_mode")) {
 	$errorMessage .= "kind. Please disable it by setting safe_mode=off in your php.ini file (don't forget to restart ";
 	$errorMessage .= "your web server afterwards)";
 	
-	echo json_encode(array("error" => true, "errormessage" => $errorMessage));
+	echo json_encode(array("error" => true, "message" => $errorMessage));
 	exit;
 }
 
@@ -21,7 +21,7 @@ if (ini_get("allow_url_fopen") == false) {
 	$errorMessage .= "Please set<br/><code>allow_url_fopen = On</code> in your php.ini file. ";
 	$errorMessage .= "Don't forget to restart your web server afterwards.";
 	
-	echo json_encode(array("error" => true, "errormessage" => $errorMessage));
+	echo json_encode(array("error" => true, "message" => $errorMessage));
 	exit;
 }
 
@@ -30,7 +30,7 @@ if (ini_get("allow_url_fopen") == false) {
  */
 if (!function_exists("curl_init")) {
 	$errorMessage = "You are missing the curl-library for PHP. Please install and activate it.";
-	echo json_encode(array("error" => true, "errormessage" => $errorMessage));
+	echo json_encode(array("error" => true, "message" => $errorMessage));
 	exit;
 }
 
@@ -39,7 +39,7 @@ if (!function_exists("curl_init")) {
  */
 if (!class_exists("\\finfo")) {
 	$errorMessage = "You are missing the fileinfo-library for PHP. Please install and activate it.";
-	echo json_encode(array("error" => true, "errormessage" => $errorMessage));
+	echo json_encode(array("error" => true, "message" => $errorMessage));
 	exit;
 }
 
@@ -48,7 +48,7 @@ if (!class_exists("\\finfo")) {
  */
 if (!class_exists("\\Imagick")) {
 	$errorMessage = "You are missing the Imagick library for PHP. Please install and activate it.";
-	echo json_encode(array("error" => true, "errormessage" => $errorMessage));
+	echo json_encode(array("error" => true, "message" => $errorMessage));
 	exit;
 }
 
@@ -59,7 +59,7 @@ if (!isTimezoneSetAndValid()) {
 	$errorMessage = "The PHP timezone (%s) is not set or invalid. Please set the correct timezone in your";
 	$errorMessage .= " php.ini file (don't forget to restart the web server afterwards)";
 	
-	echo json_encode(array("error" => true, "errormessage" => sprintf($errorMessage, ini_get("date.timezone"))));
+	echo json_encode(array("error" => true, "message" => sprintf($errorMessage, ini_get("date.timezone"))));
 	exit;
 }
 

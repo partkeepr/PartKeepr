@@ -12,7 +12,7 @@ $installDoctrineError .= "pear install pear.doctrine-project.org/DoctrineORM</co
 
 if (!class_exists("\\Doctrine\\Common\ClassLoader")) {
 	$installDoctrineError .= "<small>Doctrine\\Common\\ClassLoader was not found</small>";
-	echo json_encode(array("error" => true, "errormessage" => $installDoctrineError));
+	echo json_encode(array("error" => true, "message" => $installDoctrineError));
 	exit;
 }
 
@@ -40,7 +40,7 @@ $doctrineClassLoader->register();
  */
 if (!$ormClassLoader->canLoadClass("Doctrine\\ORM\\Version")) {
 	$installDoctrineError .= "<small>The classloader can't load Doctrine\\ORM\\Version</small>";
-	echo json_encode(array("error" => true, "errormessage" => $installDoctrineError));
+	echo json_encode(array("error" => true, "message" => $installDoctrineError));
 	exit;
 }
 
@@ -51,7 +51,7 @@ if (\Doctrine\ORM\Version::compare("2.1.0") == 1) {
 	$versionInvalidMessage = "DoctrineORM is installed, but needs to be at Version 2.1.0 or higher. ";
 	$versionInvalidMessage .= "Please run pear upgrade-all to bring your packages up-to-date.";
 	
-	echo json_encode(array("error" => true, "errormessage" => $versionInvalidMessage));
+	echo json_encode(array("error" => true, "message" => $versionInvalidMessage));
 	exit;
 }
 
@@ -70,7 +70,7 @@ if (!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Yaml\\Yam
 	$yamlErrorMessage .= "please REINSTALL the package using <code>pear uninstall doctrine/DoctrineSymfonyYaml<br/>";
 	$yamlErrorMessage .= "pear install doctrine/DoctrineSymfonyYaml</code>";	
 	
-	echo json_encode(array("error" => true, "errormessage" => $yamlErrorMessage));
+	echo json_encode(array("error" => true, "message" => $yamlErrorMessage));
 	exit;
 }
 

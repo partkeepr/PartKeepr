@@ -58,7 +58,7 @@ Ext.define('PartKeepr.ServiceCall', {
 		};
 		
 		if (!this.anonymous) {
-			headers.session = PartKeepr.getApplication().getSession();
+			headers.session = PartKeepr.getApplication().getSessionManager().getSession();
 		}
 		
 		Ext.Ajax.request({

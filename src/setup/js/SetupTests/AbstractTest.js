@@ -75,7 +75,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 			this.success = true;
 		} else {
 			this.success = false;
-			this.errorMessage = obj.errormessage;
+			this.errorMessage = obj.message;
 		}
 		
 		if (this.callback) {

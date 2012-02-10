@@ -1,10 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Setup;
 
-declare(encoding = 'UTF-8');
-
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Setup\Setup;
+	de\RaumZeitLabor\PartKeepr\Setup\Setup,
+	de\RaumZeitLabor\PartKeepr\Util\SerializableException;
 
 set_error_handler(create_function('$a, $b, $c, $d', 'throw new ErrorException($b, 0, $a, $c, $d);'), E_ALL);
 
@@ -15,7 +14,7 @@ PartKeepr::initializeClassLoaders();
 try {
 	Setup::setDatabaseConfigurationFromRequest();
 } catch (\Exception $e) {
-	echo json_encode(array("error" => true, "errormessage" => $e->getMessage()));
+	echo json_encode(array("error" => true, "message" => $e->getMessage()));
 	exit;
 }
 
@@ -32,7 +31,11 @@ try {
 	}
 	$setup->runStep($_REQUEST["step"]);
 	echo json_encode(array("error" => false));
+} catch (SerializableException $e) {
+	$error = $e->serialize();
+	$error["error"] = true;
+	echo json_encode($error);
 } catch (\Exception $e) {
-	echo json_encode(array("error" => true, "errormessage" => "An unexpected error occured during installation. The error message was:<br/><code>".$e->getMessage()."</code> and happened in <code>".$e->getFile().":".$e->getLine() ));
+	echo json_encode(array("error" => true, "message" => "An unexpected error occured during installation. The error message was:<br/><code>".$e->getMessage()."</code> and happened in <code>".$e->getFile().":".$e->getLine() ));
 	exit;
 }
