@@ -17,7 +17,8 @@ class SerializableException extends \Exception {
 		return array(
 			"message" => $this->getMessage(),
 			"detail" => $this->getDetail(),
-			"exception" => get_class($this)
+			"exception" => get_class($this),
+			"code" => $this->getCode()
 			//"backtrace" => $this->getFormattedTrace()
 		);
 	}
