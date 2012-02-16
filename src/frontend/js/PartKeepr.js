@@ -21,13 +21,18 @@ Ext.application({
     	PartKeepr.setAvailableImageFormats(window.availableImageFormats);
 
     	// If auto login is wanted (for e.g. demo systems), put it in here
+    	
+    	
+    	this.sessionManager = new PartKeepr.Session();
+    	this.sessionManager.on("login", this.onLogin, this);
+    	
     	if (window.autoLoginUsername) {
-    		PartKeepr.setAutoLogin(window.autoLoginUsername,window.autoLoginPassword);
+    		this.sessionManager.login(window.autoLoginUsername, window.autoLoginPassword);
+    	} else {
+    		this.sessionManager.login();
     	}
     	
-        new PartKeepr.LoginDialog().show();
     	
-        
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
     },
     onContextMenu: function (e, target) {
@@ -37,7 +42,7 @@ Ext.application({
      * Handles the login function. Initializes the part manager window,
      * enables the menu bar and creates the stores+loads them.
      */
-    login: function () {
+    onLogin: function () {
     	this.createGlobalStores();
 		this.reloadStores();
 		
@@ -57,6 +62,8 @@ Ext.application({
 		/* @todo Load user preferences directly on login and not via delayed task */
 		this.displayTipWindowTask = new Ext.util.DelayedTask(this.displayTipOfTheDayWindow, this);
 		this.displayTipWindowTask.delay(100);
+		
+		this.setSession(this.getSessionManager().getSession());
 		
     },
     /**
@@ -109,6 +116,14 @@ Ext.application({
     		alert(i18n("The following cronjobs aren't running:")+"\n\n"+data.data.inactiveCronjobs.join("\n"));
     	}
     },
+    /**
+     * Returns the session manager
+     * 
+     * @returns SessionManager
+     */
+    getSessionManager: function () {
+    	return this.sessionManager;
+    },
     /*
      * Checks for unacknowledged system notices
      * 
@@ -137,7 +152,7 @@ Ext.application({
     logout: function () {
     	this.menuBar.disable();
     	this.centerPanel.removeAll(true);
-    	this.setSession(null);
+    	this.getSessionManager.logout();
     },
     createGlobalStores: function () {
     	this.footprintStore = Ext.create("Ext.data.Store",
@@ -317,7 +332,7 @@ Ext.application({
      *       
      */
     reloadStores: function () {
-    	if (this.getSession()) {
+    	if (this.getSessionManager().getSession()) {
         	this.footprintStore.load();
         	this.manufacturerStore.load();
         	this.distributorStore.load();
@@ -419,11 +434,9 @@ Ext.application({
     	return this.statusBar;
     },
     getSession: function () {
-    	return this.session;
+    	return this.getSessionManager().getSession();
     },
     setSession: function (session) {
-    	this.session = session;
-    	
     	if (session) {
     		this.getStatusbar().getConnectionButton().setConnected();	
     	} else {
