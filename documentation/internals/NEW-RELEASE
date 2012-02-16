@@ -6,7 +6,7 @@ The following steps describe how a new PartKeepr release is being built:
   
   The tag message should contain a non-verbose list of changes. To view all commits since the last release, use:
   
-  git log <tag>..HEAD
+  git log <previoustag>..HEAD
   
 
 * Push the tag to the repository using:
