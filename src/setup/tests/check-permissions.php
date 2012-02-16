@@ -1,11 +1,17 @@
 <?php
 $dataDir = dirname(dirname(dirname(__FILE__)))."/data";
 
-if (!is_writable_recursive($dataDir)) {
-	echo json_encode(array("error" => true, "message" => "The directory /data is not writable<br/>Please adjust the filesystem permissions so that your webserver can write into that directory."));
+try {
+	is_writable_recursive($dataDir);
+} catch (\Exception $e) {
+	echo json_encode(array("error" => true, "errormessage" => $e->getMessage() . "<br/>Please adjust the filesystem permissions so that your webserver can write into that directory."));
 	exit;
 }
 
+/**
+ * Checks if the given directory and all contained files within it is writable by the current user.
+ * @param string $dir The directory to check
+ */
 function is_writable_recursive($dir)
 {
 	if (!is_writable($dir)) {
@@ -14,18 +20,17 @@ function is_writable_recursive($dir)
 	
 	$folder = opendir($dir);
 	while($file = readdir( $folder )) {
-		if (is_dir($dir."/".$file)) {
-			if($file != '.' &&  $file != '..') {
-				if (!is_writable(  $dir."/".$file )) {
-					closedir($folder);
-					return false;
-				} else {
+		if($file != '.' &&  $file != '..') {
+			if (!is_writable(  $dir."/".$file )) {
+				closedir($folder);
+				throw new \Exception($dir."/".$file." is not writable.");
+			} else {
+				if (is_dir($dir."/".$file)) {
 					if (!is_writable_recursive($dir."/".$file)) {
 						closedir($folder);
-						return false;
+						throw new \Exception($dir."/".$file." is not writable.");
 					}
 				}
-					
 			}
 		}
 	}
