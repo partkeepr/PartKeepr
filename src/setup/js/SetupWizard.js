@@ -76,6 +76,9 @@ Ext.define('PartKeeprSetup.SetupWizard', {
     	cards.push(Ext.create("PartKeeprSetup.DatabaseConnectivityTestCard"));
     	cards.push(Ext.create("PartKeeprSetup.DatabaseSetupCard"));
     	
+    	cards.push(Ext.create("PartKeeprSetup.ConfigFileModeCard"));
+    	cards.push(Ext.create("PartKeeprSetup.ConfigFileActionCard"));
+    	
     	cards.push(Ext.create('Ext.ux.wizard.Card', {
             title: 'Cron Setup',
             showTitle: true,

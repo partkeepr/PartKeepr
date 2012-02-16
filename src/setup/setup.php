@@ -29,8 +29,17 @@ try {
 	if ($_REQUEST["step"] == "footprint") {
 		@set_time_limit(0);
 	}
-	$setup->runStep($_REQUEST["step"]);
-	echo json_encode(array("error" => false));
+	$result = $setup->runStep($_REQUEST["step"]);
+	
+	//var_dump($result);
+	
+	if ($result !== null) {
+		$aResult = array_merge($result, array("error" => false));
+		echo json_encode($aResult);
+	} else {
+		echo json_encode(array("error" => false));
+	}
+	
 } catch (SerializableException $e) {
 	$error = $e->serialize();
 	$error["error"] = true;

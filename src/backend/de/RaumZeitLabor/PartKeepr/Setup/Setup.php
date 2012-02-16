@@ -37,7 +37,8 @@ class Setup {
 
 	/**
 	 * Runs a specific setup step, or all steps.
-	 * @param string $step 
+	 * 
+	 * @param string $step The step to execute 
 	 * @throws \Exception
 	 */
 	public function runStep ($step) {
@@ -53,10 +54,12 @@ class Setup {
 				"unit" => new UnitSetup($entityManager),
 				"manufacturer" => new ManufacturerSetup($entityManager),
 				"schemamigration" => new SchemaMigrationSetup($entityManager),
-				"configfile" => new ConfigFileSetup($entityManager),
 				"miscsettings" => new MiscSettingsSetup($entityManager)
 				);
 		
+		$aActions = array(
+				"configfile" => new ConfigFileSetup($entityManager)
+				);
 		if ($step == "all") {
 			foreach ($aSteps as $step) {
 				$step->setConsole($this->console);
@@ -64,10 +67,14 @@ class Setup {
 			}
 		} else {
 			if (array_key_exists($step, $aSteps)) {
-				$aSteps[$step]->run();
-			} else {
-				throw new \Exception(sprintf("Setup step %s doesn't exist", $step));
+				return $aSteps[$step]->run();
 			}
+
+			if (array_key_exists($step, $aActions)) {
+				return $aActions[$step]->run();
+			}
+
+			throw new \Exception(sprintf("Setup step %s doesn't exist", $step));
 		}
 	}
 	

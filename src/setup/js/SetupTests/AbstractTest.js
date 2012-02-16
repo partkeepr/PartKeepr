@@ -69,7 +69,16 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 	 * @param response
 	 */
 	onSuccess: function (response) {
-		var obj = Ext.decode(response.responseText);
+		var obj;
+		
+		try {
+			obj = Ext.decode(response.responseText);
+		} catch (exception) {
+			obj = {};
+			obj.error = true;
+			obj.message = "Invalid Response from server: "+response.responseText;
+		}
+		
 		
 		if (obj.error === false) {
 			this.success = true;
