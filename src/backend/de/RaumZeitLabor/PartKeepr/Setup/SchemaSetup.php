@@ -9,7 +9,7 @@ class SchemaSetup extends AbstractSetup {
 	public function run () {
 		$tool = new \Doctrine\ORM\Tools\SchemaTool($this->entityManager);
 		$classes = PartKeepr::getClassMetaData();
-		$tool->updateSchema($classes);
+		$tool->updateSchema($classes, true);
 		$this->logMessage("Database Schema created/updated");
 	}
 	
