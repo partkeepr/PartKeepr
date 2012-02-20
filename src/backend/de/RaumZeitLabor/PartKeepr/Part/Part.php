@@ -89,7 +89,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * The comment for this part
 	 * @Column(type="text")
 	 */
-	private $comment;
+	private $comment = "";
 	
 	/**
 	 * The stock level. Note that this is a cached value, because it makes our summary queries easier.
@@ -106,7 +106,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * @Column(type="integer")
 	 * @var integer
 	 */
-	private $minStockLevel;
+	private $minStockLevel = 0;
 	
 	/**
 	 * The average price for the part. Note that this is a cached value.
