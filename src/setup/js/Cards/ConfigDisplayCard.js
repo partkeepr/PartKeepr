@@ -15,7 +15,7 @@ Ext.define('PartKeeprSetup.ConfigDisplayCard', {
 	layout: {
 	    type: 'vbox',
 	    align : 'stretch',
-	    pack  : 'start',
+	    pack  : 'start'
 	},
 
 	/**

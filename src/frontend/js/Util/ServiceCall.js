@@ -70,7 +70,8 @@ Ext.define('PartKeepr.ServiceCall', {
 			headers: headers
 		});
 	},
-	onSuccess: function (responseObj) {
+	onSuccess: function (responseObj, options) {
+		console.log(options);
 		PartKeepr.getApplication().getStatusbar().endLoad();
 		
 		try {
@@ -78,13 +79,16 @@ Ext.define('PartKeepr.ServiceCall', {
 		} catch (ex) {
 			var exception = {
         			message: i18n("Critical Error"),
-        			detail: i18n("The server returned a response which we were not able to interpret."),
-        			exception: "",
-        			backtrace: responseObj.responseText
+        			detail: i18n("The server returned a response which we were not able to interpret.")
         	};
         	
      	
-        	PartKeepr.ExceptionWindow.showException(exception);
+			var request = {
+        			response: responseObj.responseText,
+        			request: Ext.encode(options)
+        	};
+			
+        	PartKeepr.ExceptionWindow.showException(exception, request);
         	return;
 		}
 		
@@ -125,20 +129,31 @@ Ext.define('PartKeepr.ServiceCall', {
 			this.sHandler(response.response);
 		}
 	},
-	onError: function (response) {
+	onError: function (response, options) {
+		var request;
+		
 		try {
             var data = Ext.decode(response.responseText);
             
-        	PartKeepr.ExceptionWindow.showException(data.exception);
+            request = {
+        			response: response.responseText,
+        			request: Ext.encode(options)
+        	};
+            
+        	PartKeepr.ExceptionWindow.showException(data.exception, request);
         } catch (ex) {
         	var exception = {
         			message: i18n("Critical Error"),
         			detail: i18n("The server returned a response which we were not able to interpret."),
-        			exception: "",
         			backtrace: response.responseText
         	};
         	
-        	PartKeepr.ExceptionWindow.showException(exception);
+        	request = {
+        			response: response.responseText,
+        			request: Ext.encode(options)
+        	};
+        	
+        	PartKeepr.ExceptionWindow.showException(exception, request);
         	
         	
         }

@@ -472,6 +472,8 @@ Ext.application({
  * @return {Object} The RESTProxy definition
 */
 PartKeepr.getRESTProxy = function (service) {
+	var request;
+	
 	var obj = {
 		batchActions: false,
 		url: PartKeepr.getBasePath()+ '/'+service,
@@ -480,17 +482,23 @@ PartKeepr.getRESTProxy = function (service) {
         		try {
                     var data = Ext.decode(response.responseText);
                     
-                	PartKeepr.ExceptionWindow.showException(data.exception);
+                    request = {
+                			response: respons.responseText
+                	};
+                    
+                	PartKeepr.ExceptionWindow.showException(data.exception, request);
                 } catch (ex) {
                 	var exception = {
                 			message: i18n("Critical Error"),
-                			detail: i18n("The server returned a response which we were not able to interpret."),
-                			exception: "",
-                			backtrace: response.responseText
+                			detail: i18n("The server returned a response which we were not able to interpret.")
                 	};
                 	
              	
-                	PartKeepr.ExceptionWindow.showException(exception);
+                	request = {
+                			response: response.responseText
+                	};
+                	
+                	PartKeepr.ExceptionWindow.showException(exception, request);
                 }
         	}
         },
