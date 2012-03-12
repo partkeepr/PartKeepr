@@ -212,9 +212,17 @@ Ext.define('PartKeepr.PartEditor', {
 		this.on("itemSave", this.onItemSave, this);
 		
 	},
+	/**
+	 * Cleans up the record prior saving.
+	 */
 	onItemSave: function () {
 		var removeRecords = [], j;
 		
+		/**
+		 * Iterate through all records and check if a valid distributor
+		 * ID is assigned. If not, the record is removed as it is assumed
+		 * that the record is invalid and being removed.
+		 */
 		for (j=0;j<this.record.distributors().getCount();j++) {
 			if (this.record.distributors().getAt(j).get("id") === 0) {
 				removeRecords.push(this.record.distributors().getAt(j));
@@ -227,6 +235,12 @@ Ext.define('PartKeepr.PartEditor', {
 		
 		removeRecords = [];
 		
+		/**
+		 * Iterate through all records and check if a valid parameter
+		 * ID is assigned. If not, the record is removed as it is assumed
+		 * that the record is invalid and being removed.
+		 */
+
 		for (j=0;j<this.record.parameters().getCount();j++) {
 			if (this.record.parameters().getAt(j).get("id") === 0) {
 				removeRecords.push(this.record.parameters().getAt(j));
@@ -239,6 +253,12 @@ Ext.define('PartKeepr.PartEditor', {
 		
 		removeRecords = [];
 		
+		/**
+		 * Iterate through all records and check if a valid manufacturer
+		 * ID is assigned. If not, the record is removed as it is assumed
+		 * that the record is invalid and being removed.
+		 */
+
 		for (j=0;j<this.record.manufacturers().getCount();j++) {
 			if (this.record.manufacturers().getAt(j).get("id") === 0) {
 				removeRecords.push(this.record.manufacturers().getAt(j));
