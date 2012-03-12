@@ -9,6 +9,13 @@ use de\RaumZeitLabor\PartKeepr\Util\Configuration;
 include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
+
+$aParameters = array();
+$aParameters["doctrine_orm_version"] = \Doctrine\ORM\Version::VERSION;
+$aParameters["doctrine_dbal_version"] = \Doctrine\DBAL\Version::VERSION;
+$aParameters["doctrine_common_version"] = \Doctrine\Common\Version::VERSION;
+$aParameters["php_version"] = phpversion();
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
         "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -80,6 +87,7 @@ if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === 
 ?>
 window.autoLoginUsername = "<?php echo Configuration::getOption("partkeepr.frontend.autologin.username"); ?>";
 window.autoLoginPassword = "<?php echo Configuration::getOption("partkeepr.frontend.autologin.password"); ?>";
+window.parameters = <?php echo json_encode($aParameters); ?>;
 <?php
 }
 ?>

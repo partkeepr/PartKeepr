@@ -79,7 +79,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
     			layout: {
         		    type: 'vbox',
         		    align : 'stretch',
-        		    pack  : 'start',
+        		    pack  : 'start'
         		},
     			items: [ this.exceptionDetails, this.backtraceDetails, this.requestDetails, this.responseDetails ]
     		}]
@@ -193,6 +193,12 @@ Ext.define('PartKeepr.ExceptionWindow', {
     		this.responseDetails.setValue(nl2br(requestData.response));
     	} else {
     		this.responseDetails.setValue("No server response information available");
+    	}
+    	
+    	fullDetails += "\n\n"+i18n("Server Configuration")+"\n"+separator+"\n";
+    	
+    	for (var j in window.parameters) {
+    		fullDetails += j+": " + window.parameters[j]+"\n"; 
     	}
     	
     	this.fullReport.setValue(fullDetails);
