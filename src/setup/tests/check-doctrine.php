@@ -47,8 +47,8 @@ if (!$ormClassLoader->canLoadClass("Doctrine\\ORM\\Version")) {
 /**
  * Check for the correct DoctrineORM version. We only support Doctrine 2.1.0 or higher.
  */
-if (\Doctrine\ORM\Version::compare("2.1.0") == 1) {
-	$versionInvalidMessage = "DoctrineORM is installed, but needs to be at Version 2.1.0 or higher. ";
+if (\Doctrine\ORM\Version::compare("2.2.0") == 1) {
+	$versionInvalidMessage = "DoctrineORM is installed, but needs to be at Version 2.2.0 or higher. ";
 	$versionInvalidMessage .= "Please run pear upgrade-all to bring your packages up-to-date.";
 	
 	echo json_encode(array("error" => true, "message" => $versionInvalidMessage));
