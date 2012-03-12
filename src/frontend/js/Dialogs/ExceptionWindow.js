@@ -3,14 +3,13 @@
  */
 Ext.define('PartKeepr.ExceptionWindow', {
     extend: 'Ext.window.Window',
-    autoScroll: true,
     resizable: true,
-    layout: 'anchor',
+    layout: 'fit',
     width: 500,
-    //height: 300,
     autoHeight: true,
     maxHeight: 800,
     cls: Ext.baseCSSPrefix + 'message-box',
+    
     initComponent: function () {
     	
     	this.iconComponent = Ext.create('Ext.Component', {
@@ -32,61 +31,75 @@ Ext.define('PartKeepr.ExceptionWindow', {
             style: 'margin-left: 40px; margin-top: 20px;'
         });
     	
-    	this.exceptionDiv = Ext.create('Ext.form.field.TextArea', {
-    		anchor: '100% 100%'
+    	this.exceptionDetails = Ext.create('Ext.form.field.TextArea', {
+    		fieldLabel: i18n("Exception Details"),
+    		flex: 1,
+    		minHeight: 65,
+    		readOnly: true
         });
     	
-    	this.traceDiv = Ext.create('Ext.form.field.TextArea', {
-    		anchor: '100% 100%'
+    	this.backtraceDetails = Ext.create('Ext.form.field.TextArea', {
+    		fieldLabel: i18n("Backtrace"),
+    		flex: 1,
+    		minHeight: 65,
+    		readOnly: true
     	});
     	
-    	this.requestDiv = Ext.create('Ext.form.field.TextArea', {
-    		anchor: '100% 100%'
+    	this.requestDetails = Ext.create('Ext.form.field.TextArea', {
+    		fieldLabel: i18n("Request"),
+    		flex: 1,
+    		minHeight: 65,
+    		readOnly: true
         });
     	
-    	this.responseDiv = Ext.create('Ext.form.field.TextArea', {
-    		anchor: '100% 100%'
+    	this.responseDetails = Ext.create('Ext.form.field.TextArea', {
+    		fieldLabel: i18n("Response"),
+    		flex: 1,
+    		minHeight: 65,
+    		readOnly: true
         });
     		
-    	this.exceptionDetails = Ext.create('Ext.form.FieldSet', {
-			style: 'margin-left: 40px; margin-top: 20px',
-			title: 'Exception Details',
-			collapsible: true,
-			collapsed: true,
-			items: this.exceptionDiv
-        });
-    	
-    	this.backtraceDetails = Ext.create('Ext.form.FieldSet', {
-			style: 'margin-left: 40px',
-			title: 'Backtrace',
-			collapsible: true,
-			collapsed: true,
-			items: this.traceDiv
-    	});
-    	
-    	this.requestDetails = Ext.create('Ext.form.FieldSet', {
-			style: 'margin-left: 40px',
-			title: 'Server Request',
-			collapsible: true,
-			collapsed: true,
-			items: this.requestDiv
-    	});
-    	
-    	this.responseDetails = Ext.create('Ext.form.FieldSet', {
-			style: 'margin-left: 40px',
-			title: 'Server Response',
-			collapsible: true,
-			collapsed: true,
-			items: this.responseDiv
-    	});
-    	
-    	this.topContainer = Ext.create("Ext.container.Container", {
-    		xtype: 'container',
+    	this.basicTab = Ext.create("Ext.panel.Panel", {
     		style: 'padding: 10px',
     		layout: 'anchor',
     		anchor: '100% 100%',
-    		items: [this.iconComponent, this.messageDiv, this.detailDiv, 
-    		        this.exceptionDetails, this.backtraceDetails, this.requestDetails, this.responseDetails]
+    		title: i18n("Basic"),
+    		items: [this.iconComponent, this.messageDiv, this.detailDiv ]
+    	});
+    	
+    	this.detailTab = Ext.create("Ext.form.Panel", {
+    		style: 'padding: 10px',
+    		layout: 'anchor',
+    		autoScroll: true,
+    		title: i18n("Detail"),
+    		items: [{
+    			xtype: 'panel',
+    			height: 300,
+    			border: false,
+    			layout: {
+        		    type: 'vbox',
+        		    align : 'stretch',
+        		    pack  : 'start',
+        		},
+    			items: [ this.exceptionDetails, this.backtraceDetails, this.requestDetails, this.responseDetails ]
+    		}]
+    	});
+    	
+    	this.fullReport = Ext.create("Ext.form.field.TextArea", {
+    		readOnly: true,
+    		height: 300
+    	});
+    	
+    	this.backtraceTab = Ext.create("Ext.panel.Panel", {
+    		style: 'padding: 10px',
+    		layout: 'fit',
+    		anchor: '100% 100%',
+    		title: i18n("Full Report"),
+    		items: [ this.fullReport ]
+    	});
+    	
+    	this.topContainer = Ext.create("Ext.tab.Panel", {
+    		items: [ this.basicTab, this.detailTab, this.backtraceTab ]
     	});
     	
     	this.items = this.topContainer;
@@ -101,15 +114,10 @@ Ext.define('PartKeepr.ExceptionWindow', {
             },
             items: [
                 { xtype: 'button', text: 'OK', handler: Ext.bind(function () { this.hide(); }, this) }
-                /*{ xtype: 'button', text: 'Details >>', handler: Ext.bind(function () { this.showDetails(); }, this) }*/
             ]
         }];
     	
     	this.callParent();
-    },
-    showDetails: function () {
-    	this.doComponentLayout();
-    	console.log(this.getHeight());
     },
     setIcon : function(icon) {
         this.iconComponent.removeCls(this.iconCls);
@@ -155,39 +163,43 @@ Ext.define('PartKeepr.ExceptionWindow', {
     		fullDetails += "\n\n"+i18n("Exception")+"\n"+separator+"\n";
     		fullDetails += exception.exception;
     		
-    		this.exceptionDiv.setValue(exception.exception);
+    		this.exceptionDetails.setValue(exception.exception);
     	} else {
-    		this.exceptionDiv.setValue("No information available");
+    		this.exceptionDetails.setValue("No information available");
     	}
     	
     	if (exception.backtrace) {
     		fullDetails += "\n\n"+i18n("Backtrace")+"\n"+separator+"\n";
     		fullDetails += exception.exception;
     		
-    		this.traceDiv.setValue(nl2br(exception.backtrace));
+    		this.backtraceDetails.setValue(nl2br(exception.backtrace));
     	} else {
-    		this.traceDiv.setValue("No backtrace available");
+    		this.backtraceDetails.setValue("No backtrace available");
     	}
     	
     	if (requestData.request) {
     		fullDetails += "\n\n"+i18n("Request")+"\n"+separator+"\n";
     		fullDetails += requestData.request;
     		
-    		this.requestDiv.setValue(nl2br(requestData.request));
+    		this.requestDetails.setValue(nl2br(requestData.request));
     	} else {
-    		this.requestDiv.setValue("No server request information available");
+    		this.requestDetails.setValue("No server request information available");
     	}
     	
     	if (requestData.response) {
     		fullDetails += "\n\n"+i18n("Response")+"\n"+separator+"\n";
     		fullDetails += requestData.response;
     		
-    		this.responseDiv.setValue(nl2br(requestData.response));
+    		this.responseDetails.setValue(nl2br(requestData.response));
     	} else {
-    		this.responseDiv.setValue("No server response information available");
+    		this.responseDetails.setValue("No server response information available");
     	}
     	
+    	this.fullReport.setValue(fullDetails);
+    	
     	this.show();
+    	this.topContainer.layout.setActiveItem(0);
+    	this.doLayout();
     },
     
     statics: {

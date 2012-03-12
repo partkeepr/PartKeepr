@@ -483,7 +483,7 @@ PartKeepr.getRESTProxy = function (service) {
                     var data = Ext.decode(response.responseText);
                     
                     request = {
-                			response: respons.responseText
+                			response: response.responseText
                 	};
                     
                 	PartKeepr.ExceptionWindow.showException(data.exception, request);
