@@ -35,7 +35,7 @@ Ext.define('PartKeepr.Editor', {
 			this.saveButton = Ext.create("Ext.button.Button", {
 				text: this.saveText,
 				icon: 'resources/fugue-icons/icons/disk.png',
-				handler: Ext.bind(this.onItemSave, this)
+				handler: Ext.bind(this._onItemSave, this)
 			});
 			
 			this.cancelButton = Ext.create("Ext.button.Button", {
@@ -65,7 +65,17 @@ Ext.define('PartKeepr.Editor', {
 			// Waiting for reply on http://www.sencha.com/forum/showthread.php?135142-Ext.form.Basic.loadRecord-causes-form-to-be-dirty&p=607588#post607588
 		});
 		
-		this.addEvents("editorClose", "startEdit", "itemSaved");
+		this.addEvents(
+				"editorClose",
+				"startEdit",
+				"itemSaved", 
+
+				/**
+				 * Fired before the item is saved.
+				 * 
+				 * @param record The record which is about to be saved
+				 */
+				"itemSave");
 		
 		this.defaults.listeners = {
         	"change": Ext.bind(this.onFieldChange, this)
@@ -99,7 +109,7 @@ Ext.define('PartKeepr.Editor', {
 			return null;
 		}
 	},
-	onItemSave: function () {
+	_onItemSave: function () {
 		// Disable the save button to indicate progress
 		if (this.enableButtons) {
 			this.saveButton.disable();
@@ -109,6 +119,9 @@ Ext.define('PartKeepr.Editor', {
 		}
 		
 		this.getForm().updateRecord(this.record);
+		
+		this.fireEvent("itemSave", this.record);
+		
 		this.record.save({
 				callback: this._onSave,
 				scope: this

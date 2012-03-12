@@ -101,7 +101,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		// Sanity: If the save process fails, re-enable the button after 30 seconds
 		Ext.defer(function () { this.saveButton.enable(); }, 30000, this);
 		
-		this.editor.onItemSave();
+		this.editor._onItemSave();
 	},
 	/**
 	 * Called when the item was saved

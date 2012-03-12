@@ -209,6 +209,46 @@ Ext.define('PartKeepr.PartEditor', {
 		
 		this.callParent();
 		
+		this.on("itemSave", this.onItemSave, this);
+		
+	},
+	onItemSave: function () {
+		var removeRecords = [], j;
+		
+		for (j=0;j<this.record.distributors().getCount();j++) {
+			if (this.record.distributors().getAt(j).get("id") === 0) {
+				removeRecords.push(this.record.distributors().getAt(j));
+			}
+		}
+		
+		if (removeRecords.length > 0) {
+			this.record.distributors().remove(removeRecords);
+		}
+		
+		removeRecords = [];
+		
+		for (j=0;j<this.record.parameters().getCount();j++) {
+			if (this.record.parameters().getAt(j).get("id") === 0) {
+				removeRecords.push(this.record.parameters().getAt(j));
+			}
+		}
+		
+		if (removeRecords.length > 0) {
+			this.record.parameters().remove(removeRecords);
+		}
+		
+		removeRecords = [];
+		
+		for (j=0;j<this.record.manufacturers().getCount();j++) {
+			if (this.record.manufacturers().getAt(j).get("id") === 0) {
+				removeRecords.push(this.record.manufacturers().getAt(j));
+			}
+		}
+		
+		if (removeRecords.length > 0) {
+			this.record.manufacturers().remove(removeRecords);
+		}
+		
 	},
 	onEditStart: function () {
 		this.bindChildStores();
