@@ -45,6 +45,14 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	                    	this.close();
     	                    },this),
     	                    failure: function(form, action) {
+    	                    	
+    	                    	 var data = Ext.decode(action.response.responseText);
+    	                         
+    	                         request = {
+    	                     			response: action.response.responseText
+    	                     	};
+    	                         
+    	                     	PartKeepr.ExceptionWindow.showException(data.exception, request);
     	                    }
     	                });
     	            }

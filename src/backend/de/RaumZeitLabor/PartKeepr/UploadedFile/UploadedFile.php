@@ -1,5 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\UploadedFile;
+use de\RaumZeitLabor\PartKeepr\Util\SerializableException;
+
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
 declare(encoding = 'UTF-8');
@@ -95,6 +97,8 @@ abstract class UploadedFile extends BaseEntity {
 		$this->size = filesize($path);
 		
 		$this->ensureFilePathExists();
+		$this->checkPermissions();
+		
 		copy($path, $this->getFilename());
 		
 		$this->setOriginalFilename(basename($path));
@@ -272,4 +276,15 @@ abstract class UploadedFile extends BaseEntity {
 		}
 	}
 	
+	/**
+	 * Checks if the path where the file should be stored has sufficient permissions to do so.
+	 * 
+	 * @throws SerializableException
+	 */
+	public function checkPermissions () {
+		if (!is_writable($this->getFilePath())) {
+				throw new SerializableException(
+						sprintf(PartKeepr::i18n("Unable to write to directory %s"), $this->getFilePath()));
+		}
+	}
 }
