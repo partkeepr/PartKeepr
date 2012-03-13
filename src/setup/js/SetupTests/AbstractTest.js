@@ -27,6 +27,11 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 	name: null,
 	
 	/**
+	 * Defines any warnings for the test.
+	 */
+	warnings: null,
+	
+	/**
 	 * Defines additional parameters which are to be sent with the request. The format is an object,
 	 * e.g.
 	 * {
@@ -85,6 +90,10 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 		} else {
 			this.success = false;
 			this.errorMessage = obj.message;
+		}
+		
+		if (obj.warnings) {
+			this.warnings = obj.warnings;
 		}
 		
 		if (this.callback) {

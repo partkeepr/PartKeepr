@@ -43,6 +43,16 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
 			this.fireEvent("test-error");
 		}
 		
+		if (test.warnings instanceof Array && test.warnings.length > 0) {
+			response += '<br/><div style="margin-left: 10px;">';
+			
+			for (var i=0;i<test.warnings.length;i++) {
+				response += "<i>"+test.warnings[i]+"</i><br/>"; 
+			}
+			
+			response += "</div><br/>";
+		}
+		
 		test.outputCmp.body.replaceWith({
 			border: false,
 			html: test.message +"..."+response
