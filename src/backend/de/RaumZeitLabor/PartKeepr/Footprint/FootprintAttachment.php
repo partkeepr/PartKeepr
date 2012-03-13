@@ -1,12 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Footprint;
-use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
 
-use de\RaumZeitLabor\PartKeepr\Util\Serializable;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile;
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable,
+	de\RaumZeitLabor\PartKeepr\Util\Serializable,
+	de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile;
 
 /**
  * Holds a footprint attachment

@@ -1,11 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Statistic;
-use de\RaumZeitLabor\PartKeepr\Part\PartUnit;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
+use de\RaumZeitLabor\PartKeepr\Part\PartUnit,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
 	de\RaumZeitLabor\PartKeepr\PartUnit\PartUnitManager;

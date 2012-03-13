@@ -4,8 +4,6 @@ namespace de\RaumZeitLabor\PartKeepr\Setup;
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Util\Configuration as PartKeeprConfiguration;
 
-declare(encoding = 'UTF-8');
-
 class Setup {
 	/**
 	 * Specifies if setup runs in console mode.

@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\PartUnit;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Part\PartUnit,

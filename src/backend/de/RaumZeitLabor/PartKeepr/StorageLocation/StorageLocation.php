@@ -5,8 +5,6 @@ use de\RaumZeitLabor\PartKeepr\Util\Deserializable,
 	de\RaumZeitLabor\PartKeepr\Util\Serializable,
 	de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
-declare(encoding = 'UTF-8');
-
 /** @Entity **/
 class StorageLocation extends BaseEntity implements Serializable, Deserializable {
 	/**

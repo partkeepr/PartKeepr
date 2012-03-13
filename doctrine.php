@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Foo;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
 

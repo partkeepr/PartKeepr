@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Project;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Manager\AbstractManager,
 	de\RaumZeitLabor\PartKeepr\Project\Project,

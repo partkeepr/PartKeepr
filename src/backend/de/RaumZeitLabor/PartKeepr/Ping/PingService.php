@@ -2,10 +2,8 @@
 namespace de\RaumZeitLabor\PartKeepr\Ping;
 use de\RaumZeitLabor\PartKeepr\Service\AnonService;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\PartKeepr;
 
 class PingService extends AnonService {
 	/**

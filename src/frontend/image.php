@@ -1,18 +1,14 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Frontend;
-use de\RaumZeitLabor\PartKeepr\Part\PartImage;
-use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage;
 
-use de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage;
-
-use de\RaumZeitLabor\PartKeepr\TempImage\TempImage;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\Image\Image;
-use de\RaumZeitLabor\PartKeepr\Image\CachedImage;
-use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
+use de\RaumZeitLabor\PartKeepr\Part\PartImage,
+	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage,
+	de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage,
+	de\RaumZeitLabor\PartKeepr\TempImage\TempImage,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Image\Image,
+	de\RaumZeitLabor\PartKeepr\Image\CachedImage,
+	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 
 include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 

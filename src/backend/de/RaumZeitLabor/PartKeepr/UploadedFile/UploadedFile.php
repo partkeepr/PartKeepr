@@ -1,12 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\UploadedFile;
-use de\RaumZeitLabor\PartKeepr\Util\SerializableException;
 
-use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
+use de\RaumZeitLabor\PartKeepr\Util\SerializableException,
+	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
 	de\RaumZeitLabor\PartKeepr\Util\Configuration;
 

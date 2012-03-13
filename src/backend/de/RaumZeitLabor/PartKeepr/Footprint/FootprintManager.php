@@ -1,8 +1,6 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Footprint;
 
-declare(encoding = 'UTF-8');
-
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Util\SerializableException,
 	de\RaumZeitLabor\PartKeepr\Footprint\Footprint,

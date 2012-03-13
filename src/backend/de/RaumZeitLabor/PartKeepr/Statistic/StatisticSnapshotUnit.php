@@ -1,12 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Statistic;
 
-use de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshot;
-use de\RaumZeitLabor\PartKeepr\Part\PartUnit;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshot,
+	de\RaumZeitLabor\PartKeepr\Part\PartUnit,
+	de\RaumZeitLabor\PartKeepr\PartKeepr;
 
 
 /** @Entity **/

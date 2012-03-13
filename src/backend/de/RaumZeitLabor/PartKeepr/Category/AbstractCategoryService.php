@@ -1,12 +1,10 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Category;
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\Category\CategoryManager;
-use DoctrineExtensions\NestedSet\NodeWrapper;
+use de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\Category\CategoryManager,
+	DoctrineExtensions\NestedSet\NodeWrapper;
 
 
 abstract class AbstractCategoryService extends Service {

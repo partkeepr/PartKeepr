@@ -1,8 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Service;
-use de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
-declare(encoding = 'UTF-8');
+use de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class AdminService extends Service {
 	public function mayCall ($call) {
@@ -13,5 +12,3 @@ class AdminService extends Service {
 		}
 	}
 }
-
-?>

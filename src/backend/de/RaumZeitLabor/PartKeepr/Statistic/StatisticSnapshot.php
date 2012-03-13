@@ -1,9 +1,7 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Statistic;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr;
-
 
 /** @Entity **/
 class StatisticSnapshot {

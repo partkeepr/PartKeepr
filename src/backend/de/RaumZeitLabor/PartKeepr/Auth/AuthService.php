@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Auth;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\AnonService,
 	de\RaumZeitLabor\PartKeepr\User\User,

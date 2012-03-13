@@ -1,10 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\SiPrefix;
-use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
+use de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Util\Exceptions\OutOfRangeException;
 
 

@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\PartParameter;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\PartKeepr,
 de\RaumZeitLabor\PartKeepr\Util\Exceptions\OutOfRangeException,

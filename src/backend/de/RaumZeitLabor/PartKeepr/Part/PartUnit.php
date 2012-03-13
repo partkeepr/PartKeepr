@@ -1,13 +1,10 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
-use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
-use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
-use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
+use de\RaumZeitLabor\PartKeepr\Util\Deserializable,
+	de\RaumZeitLabor\PartKeepr\Util\Serializable,
+	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Util\Exceptions\OutOfRangeException;
 
 

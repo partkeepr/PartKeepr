@@ -1,10 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
-use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Image\Image;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable,
+	de\RaumZeitLabor\PartKeepr\Image\Image;
 
 /**
  * Holds a part image

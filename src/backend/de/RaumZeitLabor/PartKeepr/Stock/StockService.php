@@ -1,16 +1,13 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Stock;
 
-declare(encoding = 'UTF-8');
-
 use de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\User\User,
 	de\RaumZeitLabor\PartKeepr\Manager\ManagerFilter,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
 	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
-	de\RaumZeitLabor\PartKeepr\Service\Service;;
-	
+	de\RaumZeitLabor\PartKeepr\Service\Service;
 
 class StockService extends Service implements RestfulService {
 	/**

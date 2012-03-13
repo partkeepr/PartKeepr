@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Stock;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Manager\AbstractManager,
 	Doctrine\ORM\QueryBuilder,

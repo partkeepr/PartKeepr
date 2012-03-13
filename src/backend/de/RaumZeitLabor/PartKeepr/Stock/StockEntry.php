@@ -1,12 +1,11 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Stock;
-declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartKeepr\Part\Part;
-use de\RaumZeitLabor\PartKeepr\User\User;
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
-use de\RaumZeitLabor\PartKeepr\Util\Serializable;
+use de\RaumZeitLabor\PartKeepr\Part\Part,
+	de\RaumZeitLabor\PartKeepr\User\User,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\Util\Serializable;
 
 /** @Entity @HasLifecycleCallbacks **/
 class StockEntry extends BaseEntity implements Serializable {

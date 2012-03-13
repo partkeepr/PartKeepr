@@ -1,15 +1,11 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\ProjectAttachment;
-use de\RaumZeitLabor\PartKeepr\Project\ProjectAttachment;
 
-use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile;
-
-use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
+use de\RaumZeitLabor\PartKeepr\Project\ProjectAttachment,
+	de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
+	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Project\Project,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 

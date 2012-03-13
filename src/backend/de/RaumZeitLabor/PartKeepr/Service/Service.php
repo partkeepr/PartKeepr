@@ -1,12 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Service;
-use de\RaumZeitLabor\PartKeepr\User\User;
 
-use de\RaumZeitLabor\PartKeepr\Session\Session;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Session\SessionManager,
+use de\RaumZeitLabor\PartKeepr\User\User,
+	de\RaumZeitLabor\PartKeepr\Session\Session,
+	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
 	de\RaumZeitLabor\PartKeepr\Service\Exceptions\ServiceException;
 
 class Service {

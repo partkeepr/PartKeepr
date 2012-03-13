@@ -2,10 +2,8 @@
 namespace de\RaumZeitLabor\PartKeepr\Distributor;
 use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\Part\PartManager,
+use de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;

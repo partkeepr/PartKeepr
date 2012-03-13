@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Manager;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\Service\Service;
 

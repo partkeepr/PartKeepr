@@ -1,11 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\System;
 
-use de\RaumZeitLabor\PartKeepr\Util\Configuration;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service,
+use de\RaumZeitLabor\PartKeepr\Util\Configuration,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager,
 	de\RaumZeitLabor\PartKeepr\Util\OS\OperatingSystem;

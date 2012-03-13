@@ -1,13 +1,10 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\ManufacturerICLogo;
-use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
 
-use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
+use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo,
+	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 

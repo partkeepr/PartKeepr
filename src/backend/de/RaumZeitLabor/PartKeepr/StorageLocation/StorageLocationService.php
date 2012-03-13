@@ -1,12 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\StorageLocation;
 
-use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\Part\PartManager,
+use de\RaumZeitLabor\PartKeepr\Service\RestfulService,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\Util\SerializableException,
 	de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,

@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Manager\Exceptions;
-declare(encoding = 'UTF-8');
 
 /**
  * This exception is thrown when an entity should be deleted, but is in use by other entities.

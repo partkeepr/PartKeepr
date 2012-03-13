@@ -1,11 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\ProjectReport;
-use de\RaumZeitLabor\PartKeepr\Service\RestfulService;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service;
-use de\RaumZeitLabor\PartKeepr\Project\ProjectManager,
+use de\RaumZeitLabor\PartKeepr\Service\RestfulService,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\Project\ProjectManager,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Part\Part,
 	de\RaumZeitLabor\PartKeepr\Manager\ManagerFilter;

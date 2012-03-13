@@ -5,8 +5,6 @@ use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 use DoctrineExtensions\NestedSet\Node;
 
-declare(encoding = 'UTF-8');
-
 /**
  * @MappedSuperclass
  * @Table(indexes={@index(columns={"lft"}),@index(columns={"rgt"})})

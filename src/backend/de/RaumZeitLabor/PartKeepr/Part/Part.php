@@ -1,19 +1,14 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
-use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation;
-use de\RaumZeitLabor\PartKeepr\Footprint\Footprint;
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager;
-use de\RaumZeitLabor\PartKeepr\Util\Deserializable;
 
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory;
-
-use de\RaumZeitLabor\PartKeepr\Util\Serializable;
-
-use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
+use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation,
+	de\RaumZeitLabor\PartKeepr\Footprint\Footprint,
+	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
+	de\RaumZeitLabor\PartKeepr\Util\Deserializable,
+	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory,
+	de\RaumZeitLabor\PartKeepr\Util\Serializable,
+	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Util\Exceptions\OutOfRangeException;
 
 

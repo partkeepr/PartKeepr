@@ -1,6 +1,5 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\CronLogger;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\UploadedFile\UploadedFile,
 	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,

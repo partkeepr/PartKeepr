@@ -1,30 +1,22 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
-use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile;
 
-use de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter;
-
-use de\RaumZeitLabor\PartKeepr\Unit\Unit;
-use de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix;
-
-use de\RaumZeitLabor\PartKeepr\Part\PartDistributor;
-use de\RaumZeitLabor\PartKeepr\Part\PartManufacturer;
-
-use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation;
-
-use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationManager;
-
-use de\RaumZeitLabor\PartKeepr\Part\Part;
-use de\RaumZeitLabor\PartKeepr\PartUnit\PartUnitManager;
-use de\RaumZeitLabor\PartKeepr\Distributor\Distributor;
-use de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
-use de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager;
-use de\RaumZeitLabor\PartKeepr\Session\SessionManager;
-use de\RaumZeitLabor\PartKeepr\Stock\StockEntry;
-
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Util\Singleton,
+use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
+	de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter,
+	de\RaumZeitLabor\PartKeepr\Unit\Unit,
+	de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix,
+	de\RaumZeitLabor\PartKeepr\Part\PartDistributor,
+	de\RaumZeitLabor\PartKeepr\Part\PartManufacturer,
+	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation,
+	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationManager,
+	de\RaumZeitLabor\PartKeepr\Part\Part,
+	de\RaumZeitLabor\PartKeepr\PartUnit\PartUnitManager,
+	de\RaumZeitLabor\PartKeepr\Distributor\Distributor,
+	de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer,
+	de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager,
+	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
+	de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
+	de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Footprint\Footprint,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,

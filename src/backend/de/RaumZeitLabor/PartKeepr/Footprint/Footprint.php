@@ -6,8 +6,6 @@ use de\RaumZeitLabor\PartKeepr\Util\Serializable;
 use de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory;
 use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
 
-declare(encoding = 'UTF-8');
-
 /** @Entity */
 
 class Footprint extends BaseEntity implements Serializable, Deserializable {

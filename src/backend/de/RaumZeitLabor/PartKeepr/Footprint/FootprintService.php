@@ -1,11 +1,9 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Footprint;
-use de\RaumZeitLabor\PartKeepr\TempImage\TempImage;
-use de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory;
 
-declare(encoding = 'UTF-8');
-
-use de\RaumZeitLabor\PartKeepr\Service\Service,
+use de\RaumZeitLabor\PartKeepr\TempImage\TempImage,
+	de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategory,
+	de\RaumZeitLabor\PartKeepr\Service\Service,
 	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Footprint\FootprintManager;
