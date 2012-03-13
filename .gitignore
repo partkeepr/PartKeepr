@@ -11,3 +11,4 @@ config.php
 /build-setup
 partkeepr.jsb3
 theme/sass/.sass-cache/
+/reports
