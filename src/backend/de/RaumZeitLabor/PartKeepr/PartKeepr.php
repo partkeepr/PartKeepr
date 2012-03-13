@@ -165,6 +165,8 @@ class PartKeepr {
 		}
 		
 		self::$entityManager = EntityManager::create($connectionOptions, $config);
+		
+		self::$entityManager->getConnection()->setCharset("utf8");
 	}
 	
 	public static function createConnectionOptionsFromConfig () {
