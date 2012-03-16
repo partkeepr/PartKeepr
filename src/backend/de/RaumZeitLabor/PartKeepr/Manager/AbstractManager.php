@@ -1,10 +1,10 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Manager;
-use Doctrine\ORM\Query;
 
 use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	Doctrine\ORM\QueryBuilder,
+	Doctrine\ORM\Query,
 	de\RaumZeitLabor\PartKeepr\Manager\Exceptions\EntityInUseException;
 
 /**
@@ -126,7 +126,12 @@ abstract class AbstractManager extends Singleton {
 	}
 	
 	/**
-	 * Applies pagination to the query
+	 * Applies the result fields to the query.
+	 * 
+	 * The result fields can be prefixed with the table alias or not; if not prefixed, it is assumed that we'll be
+	 * using the specified entity FQCN.
+	 * 
+	 * Note that the base name will be always "q", so avoid "q" as alias for joined tables.
 	 *
 	 * @param QueryBuilder $qb The query builder
 	 * @param ManagerFilter $filter The query filter
@@ -138,7 +143,14 @@ abstract class AbstractManager extends Singleton {
 			// Prepend a prefix to each field
 			$aQueryFields = array();
 			foreach ($this->getQueryFields() as $field) {
-				$aQueryFields[] = "q.".$field;
+				
+				if (strpos($field, ".") === false) {
+					// The field is not prefixed, prepend the q. prefix
+					$aQueryFields[] = "q.".$field;
+				} else {
+					// Use as-is
+					$aQueryFields[] = $field;
+				}
 			}
 			
 			$qb->select($aQueryFields);
