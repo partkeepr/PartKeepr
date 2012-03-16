@@ -2,7 +2,7 @@
 namespace de\RaumZeitLabor\PartKeepr\Tests\Auth;
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartKeepr\Auth\User;
+use de\RaumZeitLabor\PartKeepr\User\User;
 
 class UserTest extends \PHPUnit_Framework_TestCase {
 	public function testBasics () {
@@ -13,11 +13,11 @@ class UserTest extends \PHPUnit_Framework_TestCase {
 		
 		$user->setUsername("Timo A. Hummel");
 		
-		$hashedPassword = "3858f62230ac3c915f300c664312c63f";
-		
 		$this->assertEquals($user->getUsername(), "timo_a_hummel");
 		
 		$user->setPassword("foobar");
+		$hashedPassword = "3858f62230ac3c915f300c664312c63f";
+		
 		$this->assertEquals($user->comparePassword("foobar"), true, "Error comparing passwords: PasswordTest01");
 		$this->assertEquals($user->compareHashedPassword($hashedPassword), true, "Error comparing passwords: PasswordTest02");
 
@@ -26,4 +26,3 @@ class UserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($user->compareHashedPassword($hashedPassword), true, "Error comparing passwords: PasswordTest04");
 	}
 }
-?>

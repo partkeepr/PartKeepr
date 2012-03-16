@@ -4,10 +4,12 @@ namespace de\RaumZeitLabor\PartKeepr\Part;
 use de\RaumZeitLabor\PartKeepr\User\User,
 	de\RaumZeitLabor\PartKeepr\Service\RestfulService,
 	de\RaumZeitLabor\PartKeepr\Service\Service,
+	de\RaumZeitLabor\PartKeepr\Manager\ManagerFilter,
 	de\RaumZeitLabor\PartKeepr\Part\PartManager,
 	de\RaumZeitLabor\PartKeepr\Stock\StockEntry,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategory,
+	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
 	de\RaumZeitLabor\PartKeepr\Session\SessionManager;
 
 class PartService extends Service implements RestfulService {
@@ -15,16 +17,76 @@ class PartService extends Service implements RestfulService {
 		if ($this->hasParameter("id")) {
 			return array("data" => PartManager::getInstance()->getPart($this->getParameter("id"))->serialize());
 		} else {
-			return PartManager::getInstance()->getParts(
-			$this->getParameter("start", $this->getParameter("start", 0)),
-			$this->getParameter("limit", $this->getParameter("limit", 25)),
-			$this->getParameter("sort", $this->getParameter("sort")),
-			$this->getParameter("query", ""),
-			$this->getParameter("category", 0),
-			$this->getParameter("categoryScope", "all"),
-			$this->getParameter("stockMode", "all"),
-			$this->getParameter("withoutPrice", false),
-			$this->getParameter("storageLocation", null));
+			
+			$filter = new ManagerFilter($this);
+			$filter->setFilterCallback(array($this, "filterCallback"));
+			
+			return PartManager::getInstance()->getList($filter);
+		}
+	}
+	
+	/**
+	 * Advanced filtering for the list
+	 * @param QueryBuilder The $queryBuilder
+	 */
+	public function filterCallback ($queryBuilder) {
+		
+		/**
+		 * Applies text-based filtering
+		 */
+		if ($this->hasParameter("query") && $this->getParameter("query") != "") {
+			$queryBuilder->where("LOWER(q.name) LIKE :filter");
+			$queryBuilder->setParameter("filter", "%".strtolower($this->getParameter("query"))."%");
+		}
+		
+		/**
+		 * Applies filtering by the storage location name
+		 */
+		if ($this->getParameter("storageLocation") !== null) {
+			$queryBuilder->andWhere("st.name = :storageLocation");
+			$queryBuilder->setParameter("storageLocation", $this->getParameter("storageLocation"));
+		}
+		
+		/**
+		 * Filter by the category id and set the category mode
+		 * 
+		 */
+		$category = intval($this->getParameter("category", 0));
+		
+		if ($category !== 0) {
+			/* Fetch all children */
+			if ($this->getParameter("categoryScope") == "selected") {
+				$queryBuilder->andWhere("q.category = :category");
+				$queryBuilder->setParameter("category", $category);
+			} else {
+				$childs = PartCategoryManager::getInstance()->getChildNodes($category);
+				$childs[] = $category;
+				$queryBuilder->andWhere("q.category IN (".implode(",", $childs).")");
+			}
+		}
+		
+		/**
+		 * Filter by the stock mode
+		 */
+		switch ($this->getParameter("stockMode")) {
+			case "all":
+				break;
+			case "zero":
+				$queryBuilder->andWhere("q.stockLevel = 0");
+				break;
+			case "nonzero":
+				$queryBuilder->andWhere("q.stockLevel > 0");
+				break;
+			case "below":
+				$queryBuilder->andWhere("q.stockLevel < q.minStockLevel");
+				break;
+		}
+		
+		/**
+		 * Filter by the price
+		 */
+		if ($this->getParameter("withoutPrice") === true || $this->getParameter("withoutPrice") === "true") {
+			$queryBuilder->andWhere("q.averagePrice IS NULL");
 		}
 	}
 	
@@ -33,42 +95,35 @@ class PartService extends Service implements RestfulService {
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::create()
 	 */
 	public function create () {
-		$part = new Part();
-		$part->deserialize($this->getParameters());
-		
-		PartKeepr::getEM()->persist($part);
-		PartKeepr::getEM()->flush();
+		$entity = PartManager::getInstance()->createEntity($this->getParameters());
 		
 		if ($this->getParameter("initialStockLevel") > 0) {
-			
 			try {
 				$user = User::loadById($this->getParameter("initialStockLevelUser"));
 			} catch (\Exception $e) {
 				$user = SessionManager::getCurrentSession()->getUser();
 			}
-			
-			$stock = new StockEntry($part, intval($this->getParameter("initialStockLevel")), $user);
-
+				
+			$stock = new StockEntry($entity, intval($this->getParameter("initialStockLevel")), $user);
+		
 			if ($this->getParameter("initialStockLevelPricePerItem") == true) {
 				$price = floatval($this->getParameter("initialStockLevelPrice"));
 			} else {
 				$price = floatval($this->getParameter("initialStockLevelPrice")) / $this->getParameter("initialStockLevel");
 			}
-			
+				
 			if ($price != 0) {
 				$stock->setPrice($price);
 			}
-			
+				
 			PartKeepr::getEM()->persist($stock);
 			PartKeepr::getEM()->flush();
-			
+				
 			$part->updateStockLevel();
 			PartKeepr::getEM()->flush();
-			
-			return array("data" => $part->serialize());
 		}
 		
-		return array("data" => $part->serialize());
+		return array("data" => $entity->serialize());
 	}
 	
 	/**
@@ -76,13 +131,12 @@ class PartService extends Service implements RestfulService {
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::update()
 	 */
 	public function update () {
-		$this->requireParameter("id");
-		$part = Part::loadById($this->getParameter("id"));
-		$part->deserialize($this->getParameters());
-				
+		$entity = PartManager::getInstance()->getEntity($this->getParameter("id"));
+		$entity->deserialize($this->getParameters());
+			
 		PartKeepr::getEM()->flush();
 		
-		return array("data" => $part->serialize());
+		return array("data" => $entity->serialize());
 	}
 	
 	
@@ -115,7 +169,6 @@ class PartService extends Service implements RestfulService {
 			$part->setCategory($category);
 				
 		}
-		
 		
 		PartKeepr::getEM()->flush();
 	}

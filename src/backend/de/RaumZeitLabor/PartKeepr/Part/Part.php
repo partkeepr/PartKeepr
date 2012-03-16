@@ -9,12 +9,16 @@ use de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation,
 	de\RaumZeitLabor\PartKeepr\Util\Serializable,
 	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Util\Exceptions\OutOfRangeException;
+	de\RaumZeitLabor\PartKeepr\Part\Exceptions\CategoryNotAssignedException,
+	de\RaumZeitLabor\PartKeepr\Util\Exceptions\OutOfRangeException,
+	de\RaumZeitLabor\PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
 
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
- * @Entity **/
+ * 
+ * @Entity @HasLifecycleCallbacks
+ */
 class Part extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The category of the part
@@ -530,4 +534,53 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 			}
 		}
 	}
+	
+	/**
+	 * Checks if the part category is set.
+	 *  
+	 * @throws CategoryNotAssignedException
+	 */
+	private function checkCategoryConsistency () {
+		if ($this->getCategory() === null) {
+				throw new CategoryNotAssignedException();
+		}
+	}
+	
+	/**
+	 * Checks if the part storage location is set.
+	 * 
+	 * @throws StorageLocationNotAssignedException
+	 */
+	private function checkStorageLocationConsistency () {
+		if ($this->getStorageLocation() === null) {
+			throw new StorageLocationNotAssignedException();
+		}
+	}
+	
+	/**
+	 * Checks if the requirements for database persisting are given.
+	 * 
+	 * @throws CategoryNotAssignedException			Thrown if no category is set
+	 * @throws StorageLocationNotAssignedException	Thrown if no storage location is set
+	 * 
+	 * @PrePersist
+	 */
+	public function onPrePersist () {
+		$this->checkCategoryConsistency();
+		$this->checkStorageLocationConsistency();
+	}
+	
+	/**
+	 * 
+	 * Checks if the requirements for database persisting are given.
+	 * 
+	 * For a list of exceptions, see
+	 * @see de\RaumZeitLabor\PartKeepr\Part.Part::onPrePersist()
+	 * 
+	 * @PreUpdate */
+	public function onPreUpdate () {
+		$this->checkCategoryConsistency();
+		$this->checkStorageLocationConsistency();
+	}
+	
 }

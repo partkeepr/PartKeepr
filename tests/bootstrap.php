@@ -1,8 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Tests;
-declare(encoding = 'UTF-8');
 
-use de\raumzeitlabor\PartKeepr\PartKeepr;
+use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
+	de\raumzeitlabor\PartKeepr\PartKeepr;
 
 include(dirname(__DIR__). "/src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
@@ -14,4 +14,4 @@ $classes = PartKeepr::getClassMetaData();
 $tool->dropSchema($classes);
 $tool->createSchema($classes);
 
-?>
+PartCategoryManager::getInstance()->ensureRootExists();

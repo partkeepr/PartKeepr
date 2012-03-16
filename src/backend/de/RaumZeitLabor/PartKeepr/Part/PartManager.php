@@ -2,7 +2,10 @@
 namespace de\RaumZeitLabor\PartKeepr\Part;
 
 use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
+	de\RaumZeitLabor\PartKeepr\Manager\ManagerFilter,
+	Doctrine\ORM\QueryBuilder,
 	de\RaumZeitLabor\PartKeepr\PartParameter\PartParameter,
+	de\RaumZeitLabor\PartKeepr\Manager\AbstractManager,
 	de\RaumZeitLabor\PartKeepr\Unit\Unit,
 	de\RaumZeitLabor\PartKeepr\SiPrefix\SiPrefix,
 	de\RaumZeitLabor\PartKeepr\Part\PartDistributor,
@@ -22,120 +25,52 @@ use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
 	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerManager;
 
-class PartManager extends Singleton {
+class PartManager extends AbstractManager {
+	
 	/**
-	 * Returns a list of parts.
-	 *
-	 * @todo The parameter list. We need to invent something so that we don't have like 20 parameters for this method.
+	 * Returns the FQCN for the target entity to operate on.
+	 * @return string The FQCN, e.g. de\RaumZeitLabor\PartKeepr\Part
 	 */
-	public function getParts ($start = 0, $limit = 10, $sort = null, $filter = "", $category = 0, $categoryScope = "all", $stockMode = "all", $withoutPrice = false, $storageLocation = "") {
-		
-		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select("COUNT(p.id)")->from("de\RaumZeitLabor\PartKeepr\Part\Part","p")
-		->join("p.storageLocation", "st")
-		->leftJoin("p.footprint", "f")
-		->join("p.category", "c")
-		->leftJoin("p.partUnit", "pu");
-		
-
-		$qb->where("1=1");
-		if ($filter != "") {
-			$qb = $qb->where("LOWER(p.name) LIKE :filter");
-			$qb->setParameter("filter", "%".strtolower($filter)."%");
-		}
-		
-		if ($storageLocation !== null) {
-			/* If storage location is empty, assume new record. This isn't nice and to be considered as a hack */
-			if ($storageLocation == "") {
-				return array();
-			}
-			$qb->andWhere("st.name = :storageLocation");
-			$qb->setParameter("storageLocation", $storageLocation);
-		}
-		
-		$category = intval($category);
-		
-		
-		
-		if ($category !== 0) {
-			/* Fetch all children */
-			if ($categoryScope == "selected") {
-				$qb->andWhere("p.category = :category");
-				$qb->setParameter("category", $category);
-			} else {
-				$childs = PartCategoryManager::getInstance()->getChildNodes($category);
-				$childs[] = $category;
-				$qb->andWhere("p.category IN (".implode(",", $childs).")");
-			}
-		}
-		
-		switch ($stockMode) {
-			case "all":
-				break;
-			case "zero":
-				$qb->andWhere("p.stockLevel = 0");
-				break;
-			case "nonzero":
-				$qb->andWhere("p.stockLevel > 0");
-				break;
-			case "below":
-				$qb->andWhere("p.stockLevel < p.minStockLevel");
-				break;
-		}
-		
-		if ($withoutPrice === true || $withoutPrice === "true") {
-			$qb->andWhere("p.averagePrice IS NULL");
-		}
-		
-		$totalQuery = $qb->getQuery();
-		
-		
-		
-		
-		$qb->select("p.averagePrice, p.status, p.name, p.needsReview, p.createDate, p.id, p.stockLevel, p.minStockLevel, p.comment, st.id AS storageLocation_id, p.categoryPath, st.name as storageLocationName, f.id AS footprint_id, f.name AS footprintName, c.id AS category, c.name AS categoryName, pu.id AS partUnit, pu.name AS partUnitName, pu.is_default AS partUnitDefault");
-		if ($sort === null) {
-			$qb->addOrderBy("p.name", "ASC");
-		} else {
-			$sortArray = json_decode($sort, true);
-			
-			foreach ($sortArray as $sortParam) {
-				switch ($sortParam["property"]) {
-					case "storageLocationName":
-						$orderBy  = "st.name";
-						break;
-					case "footprintName":
-						$orderBy = "f.name";
-						break;
-					default;
-						$orderBy = "p.".$sortParam["property"];
-					break;
-				}
-				
-				$qb->addOrderBy($orderBy, $sortParam["direction"]);
-			}
-		}
-		
-		
-		if ($limit > -1) {
-			$qb->setMaxResults($limit);
-			$qb->setFirstResult($start);
-		}
-		
-		$query = $qb->getQuery();
-		
-		$result = $query->getArrayResult();
-		
-		foreach ($result as $key => $item) {
-			$dql = "SELECT COUNT(pa) FROM de\RaumZeitLabor\PartKeepr\Part\PartAttachment pa WHERE pa.part = :part";
-			$query = PartKeepr::getEM()->createQuery($dql);
-			$query->setParameter("part", $item["id"]);
-			
-			$result[$key]["attachmentCount"] = $query->getSingleScalarResult(); 
-		}
-		
-		
-		
-		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
+	public function getEntityName () {
+		return 'de\RaumZeitLabor\PartKeepr\Part\Part';
+	}
+	
+	/**
+	 * Returns all fields which need to appear in the getList ResultSet.
+	 * @return array An array of all fields which should be returned
+	 */
+	public function getQueryFields () {
+		return array("name", "averagePrice", "status", "needsReview", "createDate", "id", "stockLevel",
+					"minStockLevel", "comment", "st.id AS storageLocation_id", "categoryPath",
+					"st.name as storageLocationName", "f.id AS footprint_id", "f.name AS footprintName",
+					"c.id AS category", "c.name AS categoryName", "pu.id AS partUnit", "pu.name AS partUnitName",
+					"pu.is_default AS partUnitDefault"			 
+				);
+	}
+	
+	/**
+	 * Returns the default sort field
+	 *
+	 * @return string The default sort field
+	 */
+	public function getDefaultSortField () {
+		return "dateTime";
+	}
+	
+	/**
+	 * Appends various join tables to the result set
+	 * 
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Manager.AbstractManager::applyCustomQuery()
+	 */
+	protected function applyCustomQuery (QueryBuilder $qb, ManagerFilter $filter) {
+		/**
+		 * Pull in additional tables
+		 */
+		$qb	->join("q.storageLocation", "st")
+			->leftJoin("q.footprint", "f")
+			->join("q.category", "c")
+			->leftJoin("q.partUnit", "pu");
 	}
 	
 	public function addOrUpdatePart ($aParameters) {
