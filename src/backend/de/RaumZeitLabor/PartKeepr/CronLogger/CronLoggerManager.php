@@ -30,6 +30,10 @@ class CronLoggerManager extends AbstractManager {
 		return "date";
 	}
 	
+	/**
+	 * Marks a specific cronjob as ran
+	 * @param string $cronjob The name of the cronjob
+	 */
 	public function markCronRun ($cronjob) {
 		$dql = "SELECT c FROM de\RaumZeitLabor\PartKeepr\CronLogger\CronLogger c WHERE c.cronjob = :cronjob";
 		$query = PartKeepr::getEM()->createQuery($dql);
@@ -48,6 +52,12 @@ class CronLoggerManager extends AbstractManager {
 		PartKeepr::getEM()->flush();
 	}
 	
+	/**
+	 * Returns a list of all inactive cronjobs
+	 * 
+	 * @param none
+	 * @return array A string of cronjob names which aren't running
+	 */
 	public function getInactiveCronjobs () {
 		$dql = "SELECT c.cronjob FROM de\RaumZeitLabor\PartKeepr\CronLogger\CronLogger c WHERE c.cronjob = :cronjob";
 		$dql .= " AND c.lastRunDate > :date";
