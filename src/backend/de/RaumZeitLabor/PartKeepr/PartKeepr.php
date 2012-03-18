@@ -101,6 +101,28 @@ class PartKeepr {
 			include(dirname(dirname(dirname(dirname(dirname(__DIR__)))))."/config.php");
 		}
 		
+		// Check if the files path is set. If not, fall back to <partkeepr-root>/data/
+		if (PartKeeprConfiguration::getOption("partkeepr.files.path", null) === null) {
+			
+			PartKeeprConfiguration::setOption("partkeepr.files.path",
+				PartKeepr::getRootDirectory() . "/data/");
+		}
+
+		// Check if the image path is set. If not, fall back to <configured-files-directory>/images/
+		if (PartKeeprConfiguration::getOption("partkeepr.images.path", null) === null) {
+			
+			PartKeeprConfiguration::setOption("partkeepr.images.path",
+				PartKeeprConfiguration::getOption("partkeepr.files.path") . "images/");
+		}
+		
+		// Check if the image cache path is set. If not, fall back to <configured-images-directory>/images/	
+		if (PartKeeprConfiguration::getOption("partkeepr.images.cache", null) === null) {
+			
+			PartKeeprConfiguration::setOption("partkeepr.images.cache",
+				PartKeeprConfiguration::getOption("partkeepr.images.path") . "cache/");
+				
+		}
+		
 	}
 
 	/**
