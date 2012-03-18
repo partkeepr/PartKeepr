@@ -49,6 +49,15 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
 	private $parent;
 	
 	/**
+	 * Holds the category path.
+	 * 
+	 * @Column(type="text")
+	 * 
+	 * @var string
+	 */
+	private $categoryPath;
+	
+	/**
 	 * Sets the name of this category
 	 * @param string $name The name to set
 	 */
@@ -146,6 +155,24 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
 	 */
 	public function __toString () {
 		return $this->getName();
+	}
+	
+	/**
+	 * Retrieves the category path
+	 */
+	public function getCategoryPath () {
+		return $this->categoryPath;
+	}
+	
+	/**
+	 * Sets the category path.
+	 * 
+	 * THIS IS ONLY TO BE CALLED FROM THE CATEGORYMANAGER! DON'T MESS WITH IT!
+	 * 
+	 * @param string $categoryPath
+	 */
+	public function setCategoryPath ($categoryPath) {
+		$this->categoryPath = $categoryPath;
 	}
 	
 }

@@ -142,6 +142,21 @@ abstract class AbstractCategoryManager extends Singleton {
 	}
 	
 	/**
+	 * Updates the category paths for a given node and all children.
+	 * 
+	 * This method is usually called whenever a category is moved.
+	 * 
+	 * @param NodeWrapper $startNode The node to start updating at
+	 */
+	public function updateCategoryPaths (NodeWrapper $startNode) {
+		$startNode->getNode()->setCategoryPath($startNode->getPath(" ➤ ", true));
+		
+		foreach ($startNode->getChildren() as $child) {
+			$this->updateCategoryPaths($child);
+		}
+	}
+	
+	/**
 	 * Creates a category tree by an array of category names
 	 * @param array $aCategoryNames
 	 * @param Category A category where to start searching at

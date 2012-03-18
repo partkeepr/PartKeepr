@@ -13,7 +13,16 @@ class PartCategorySetup extends AbstractSetup {
 		PartCategoryManager::getInstance()->ensureRootExists();
 	}
 	
+	public function updateCategoryPathCache () {
+		PartCategoryManager::getInstance()->updateCategoryPaths(
+			PartCategoryManager::getInstance()->getRootNode()
+		);
+		
+		PartKeepr::getEM()->flush();
+	}
+	
 	public function run () {
 		$this->setupRootCategory();
+		$this->updateCategoryPathCache();
 	}
 }

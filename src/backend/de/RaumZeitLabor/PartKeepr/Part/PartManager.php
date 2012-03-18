@@ -41,7 +41,7 @@ class PartManager extends AbstractManager {
 	 */
 	public function getQueryFields () {
 		return array("name", "averagePrice", "status", "needsReview", "createDate", "id", "stockLevel",
-					"minStockLevel", "comment", "st.id AS storageLocation_id", "categoryPath",
+					"minStockLevel", "comment", "st.id AS storageLocation_id", "c.categoryPath AS categoryPath",
 					"st.name as storageLocationName", "f.id AS footprint_id", "f.name AS footprintName",
 					"c.id AS category", "c.name AS categoryName", "pu.id AS partUnit", "pu.name AS partUnitName",
 					"pu.is_default AS partUnitDefault"			 
@@ -71,6 +71,14 @@ class PartManager extends AbstractManager {
 			->leftJoin("q.footprint", "f")
 			->join("q.category", "c")
 			->leftJoin("q.partUnit", "pu");
+		
+		switch ($filter->getSortField()) {
+			case "q.categoryPath":
+				$filter->setSortField("c.categoryPath");
+				break;
+			default:
+				break;
+		}
 	}
 	
 	public function addOrUpdatePart ($aParameters) {

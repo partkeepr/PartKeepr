@@ -36,6 +36,7 @@ abstract class AbstractCategoryService extends Service {
 			$parent = $this->getCategoryManager()->getCategory($this->getParameter("target"));
 			
 			$category->moveAsLastChildOf($parent);
+			$this->getCategoryManager()->updateCategoryPaths($category);
 			
 		}
 	}
@@ -65,6 +66,8 @@ abstract class AbstractCategoryService extends Service {
 		
 		PartKeepr::getEM()->persist($category->getNode());
 		
+		$this->getCategoryManager()->updateCategoryPaths($category);
+		
 		return array("data" => $this->serializeCategory($category));
 	}
 	
@@ -78,6 +81,8 @@ abstract class AbstractCategoryService extends Service {
 		$category->setParent($this->getParameter("parent"));
 		
 		$category = $this->getCategoryManager()->addCategory($category);
+		
+		$this->getCategoryManager()->updateCategoryPaths($category);
 		
 		return array("data" => $this->serializeCategory($category));
 	}
@@ -138,4 +143,3 @@ abstract class AbstractCategoryService extends Service {
 		return $categoryManager::getInstance();
 	}
 }
-?>

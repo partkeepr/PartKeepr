@@ -44,7 +44,7 @@ foreach ($parts as $part) {
 	$description->appendChild($descriptionContent);
 	
 	$category = $rssDOM->createElement("partkeepr:category");
-	$categoryContent = $rssDOM->createTextNode($part->getCategoryPath());
+	$categoryContent = $rssDOM->createTextNode($part->getCategory()->getCategoryPath());
 	$category->appendChild($categoryContent);
 
 	$pubDate = $rssDOM->createElement("pubDate", $part->getCreateDate()->format(DATE_RFC822));

@@ -151,13 +151,6 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	private $createDate;
 	
-	/**
-	 * Represents the path to the category
-	 * @Column(type="text",nullable=true)
-	 * @var string
-	 */
-	private $categoryPath;
-	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
@@ -261,7 +254,6 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function setCategory (PartCategory $category) {
 		$this->category = $category;
-		$this->updateCategoryCache();
 	}
 	
 	/**
@@ -270,23 +262,6 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function getCategory () {
 		return $this->category;
-	}
-	
-	/**
-	 * Updates the category cache
-	 */
-	public function updateCategoryCache () {
-		if ($this->getCategory() !== null) {
-			$this->categoryPath = PartCategoryManager::getInstance()->getNodeManager()->wrapNode($this->getCategory())->getPath(' > ', true);
-		}
-	}
-	
-	/**
-	 * Returns the category path
-	 * @return string
-	 */
-	public function getCategoryPath () {
-		return $this->categoryPath;
 	}
 	
 	/**
@@ -416,7 +391,6 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	
 	public function updateCacheData () {
 		$this->updateStockLevel();
-		$this->updateCategoryCache();
 		$this->updatePrice();
 	}
 	
