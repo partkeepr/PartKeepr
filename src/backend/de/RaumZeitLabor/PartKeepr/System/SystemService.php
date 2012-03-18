@@ -37,6 +37,10 @@ class SystemService extends Service {
 		
 		$aData[] = new SystemInformationRecord("PartKeepr Version", PartKeepr::getVersion(), "PartKeepr");
 		
+		
+		foreach (Configuration::getOptions() as $key => $value) {
+			$aData[] = new SystemInformationRecord($key, $value, "PartKeepr Configuration Information");
+		}
 		// TODO: add information about post max, file upload size, timeout, memory limit
 		return array("data" => $aData);
 	}

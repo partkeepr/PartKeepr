@@ -43,6 +43,15 @@ class Configuration {
 	}
 	
 	/**
+	 * Returns all configuration options
+	 * 
+	 * @return array An array with key=>value assignments
+	 */
+	public static function getOptions () {
+		return Configuration::$options;
+	}
+	
+	/**
 	 * Returns a configuration file, based on all configurations.
 	 * 
 	 * @param none
