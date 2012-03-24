@@ -119,7 +119,7 @@ class PartService extends Service implements RestfulService {
 			PartKeepr::getEM()->persist($stock);
 			PartKeepr::getEM()->flush();
 				
-			$part->updateStockLevel();
+			$entity->updateStockLevel();
 			PartKeepr::getEM()->flush();
 		}
 		
