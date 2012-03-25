@@ -22,7 +22,8 @@ $aParameters["php_version"] = phpversion();
 /* HTTP auth */
 if (Configuration::getOption("partkeepr.auth.http", false) === true) {
 	if (!isset($_SERVER["PHP_AUTH_USER"])) {
-		// @todo Redirect to permission denied page 
+		// @todo Redirect to permission denied page
+		die("Permission denied"); 
 	}
 	
 	try {
