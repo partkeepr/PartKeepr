@@ -51,7 +51,7 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
 	/**
 	 * Holds the category path.
 	 * 
-	 * @Column(type="text")
+	 * @Column(type="text",nullable=true)
 	 * 
 	 * @var string
 	 */

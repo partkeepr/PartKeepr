@@ -5,10 +5,11 @@ use de\RaumZeitLabor\PartKeepr\Util\Singleton,
 	de\RaumZeitLabor\PartKeepr\Category\Category,
 	de\RaumZeitLabor\PartKeepr\Util\SerializableException,
 	de\RaumZeitLabor\PartKeepr\Category\Exceptions\CategoryNotFoundException,
-	de\RaumZeitLabor\PartKeepr\PartKeepr;
-use DoctrineExtensions\NestedSet\Manager;
-use DoctrineExtensions\NestedSet\Config;
-use DoctrineExtensions\NestedSet\NodeWrapper;
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Util\Configuration,
+	DoctrineExtensions\NestedSet\Manager,
+	DoctrineExtensions\NestedSet\Config,
+	DoctrineExtensions\NestedSet\NodeWrapper;
 
 abstract class AbstractCategoryManager extends Singleton {
 	/**
@@ -158,7 +159,9 @@ abstract class AbstractCategoryManager extends Singleton {
 	 * @param NodeWrapper $startNode The node to start updating at
 	 */
 	public function updateCategoryPaths (NodeWrapper $startNode) {
-		$startNode->getNode()->setCategoryPath($startNode->getPath(" ➤ ", true));
+		$pathSeparator = Configuration::getOption("partkeepr.category.path_separator", " ➤ ");
+		
+		$startNode->getNode()->setCategoryPath($startNode->getPath($pathSeparator, true));
 		
 		foreach ($startNode->getChildren() as $child) {
 			$this->updateCategoryPaths($child);

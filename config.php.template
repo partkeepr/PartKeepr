@@ -121,3 +121,10 @@ Configuration::setOption("partkeepr.cronjobs.disablecheck", false);
  * Specifies if password changing is allowed.
  */
 Configuration::setOption("partkeepr.frontend.allow_password_change", true);
+
+/**
+ * Specifies the separator for category paths. If you change this, you need to rebuild the category paths by
+ * executing the script scripts/UpdateCategoryPathCache.php
+ * 
+ */
+Configuration::setOption("partkeepr.category.path_separator", " ➤ ");
