@@ -17,6 +17,10 @@ abstract class AbstractCategoryManager extends Singleton {
 	 */
 	private $nodeManager;
 	
+	/**
+	 * Holds the FQCN of the target entity
+	 * @var de\RaumZeitLabor\PartKeepr\Category\AbstractCategory
+	 */
 	protected $categoryClass = "de\RaumZeitLabor\PartKeepr\Category\AbstractCategory";
 
 	/**
@@ -97,18 +101,23 @@ abstract class AbstractCategoryManager extends Singleton {
 	 */
 	public function addCategory (AbstractCategory $category) {
 		$parent = $category->getParent();
-		 
+
 		if ($parent == 0) {
 			$parent = $this->getRootNode();
-			
 		} else {
-			
 			$parent = PartKeepr::getEM()->find($this->categoryClass, $parent);	
-
 			$parent = new NodeWrapper($parent, $this->getNodeManager());
 		}
 		
-		return $parent->addChild($category);
+		$node = $parent->addChild($category);
+		
+		// Force category path update
+		$this->updateCategoryPaths($node);
+		
+		// Flush the category path changes
+		PartKeepr::getEM()->flush();
+		
+		return $node;
 	}
 
 	/**
