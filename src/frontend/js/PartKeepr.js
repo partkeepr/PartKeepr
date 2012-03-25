@@ -17,8 +17,8 @@ Ext.application({
     	PartKeepr.application = this;
     	
     	// Set static data of the server
-    	PartKeepr.setMaxUploadSize(window.maxUploadSize);
-    	PartKeepr.setAvailableImageFormats(window.availableImageFormats);
+    	PartKeepr.setMaxUploadSize(window.parameters.maxUploadSize);
+    	PartKeepr.setAvailableImageFormats(window.parameters.availableImageFormats);
 
     	this.sessionManager = new PartKeepr.SessionManager();
     	

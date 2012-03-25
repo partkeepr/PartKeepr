@@ -238,7 +238,7 @@ class PartKeepr {
 	
 	/**
 	 * Returns the EntityManager. Shortcut for getEntityManager().
-	 * @return Doctrine\ORM\EntityManager The EntityManager
+	 * @return \Doctrine\ORM\EntityManager The EntityManager
 	 */
 	public static function getEM () {
 		return self::getEntityManager();
@@ -398,5 +398,25 @@ class PartKeepr {
 		if (is_resource($var)) return "resource";
 		if (is_string($var)) return "string";
 		return "unknown type";
+	}
+	
+	/**
+	 * Returns the effective size from a human-readable byte format.
+	 * 
+	 * Example:
+	 * getBytesFromHumanReadable("1M") will return 1048576.
+	 * 
+	 * @param string $size_str The byte
+	 * @return int The bytes
+	 */
+	public static function getBytesFromHumanReadable ($size_str)
+	{
+	    switch (substr ($size_str, -1))
+	    {
+	        case 'M': case 'm': return (int)$size_str * 1048576;
+	        case 'K': case 'k': return (int)$size_str * 1024;
+	        case 'G': case 'g': return (int)$size_str * 1073741824;
+	        default: return $size_str;
+	    }
 	}
 }
