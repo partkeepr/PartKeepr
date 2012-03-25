@@ -8,6 +8,10 @@ abstract class Singleton {
 		
 	}
 	
+	/**
+	 * Returns an instance of the current singleton
+	 * @return $this
+	 */
 	public static function getInstance () {
 		if (!static::$instance instanceof static) {
 			static::$instance = new static;
@@ -16,5 +20,3 @@ abstract class Singleton {
 		return static::$instance;
 	}	
 }
-
-?>
