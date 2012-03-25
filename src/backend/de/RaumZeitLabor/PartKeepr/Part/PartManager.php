@@ -13,6 +13,7 @@ use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
 	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocation,
 	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationManager,
 	de\RaumZeitLabor\PartKeepr\Part\Part,
+	Doctrine\ORM\Query,
 	de\RaumZeitLabor\PartKeepr\PartUnit\PartUnitManager,
 	de\RaumZeitLabor\PartKeepr\Distributor\Distributor,
 	de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer,
@@ -79,6 +80,25 @@ class PartManager extends AbstractManager {
 			default:
 				break;
 		}
+	}
+	
+	/**
+	 * Processes the result after it was retrieved. In the default configuration, it returns an array result, or
+	 * if no query fields are specified, it tries to serialize all objects.
+	 */
+	protected function getResult (Query $query) {
+		$result = parent::getResult($query);
+
+		/* Add attachment counts to the result set */
+		foreach ($result as $key => $item) {
+			$dql = "SELECT COUNT(pa) FROM de\RaumZeitLabor\PartKeepr\Part\PartAttachment pa WHERE pa.part = :part";
+			$query = PartKeepr::getEM()->createQuery($dql);
+			$query->setParameter("part", $item["id"]);
+			
+			$result[$key]["attachmentCount"] = $query->getSingleScalarResult();
+		}
+		
+		return $result;
 	}
 	
 	public function addOrUpdatePart ($aParameters) {
