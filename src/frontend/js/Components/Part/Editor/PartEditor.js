@@ -269,6 +269,19 @@ Ext.define('PartKeepr.PartEditor', {
 			this.record.manufacturers().remove(removeRecords);
 		}
 		
+		/**
+		 * Check if the storage location is valid. If not, try an exact, case-insensitive match for the
+		 * storage location name and inject that into the record.
+		 */
+		if (isNaN(this.record.get("storageLocation"))) {
+			var storageLocationRecord = this.storageLocationComboBox.getStore().findRecord(
+					"name",
+					this.storageLocationComboBox.getValue(),
+					0, false, false, true)	;
+			
+			this.record.set("storageLocation", storageLocationRecord.get("id"));
+		}
+		
 	},
 	onEditStart: function () {
 		this.bindChildStores();
