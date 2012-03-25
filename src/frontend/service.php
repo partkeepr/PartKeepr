@@ -10,6 +10,8 @@ PartKeepr::initialize("");
 
 ServiceManager::sendHeaders();
 
+$timingStart = microtime(true);
+
 try {
 	$request = $_REQUEST;
 	
@@ -23,11 +25,13 @@ try {
 	$response = array();
 	$response["status"] = "ok";
 	$response["response"] = ServiceManager::call($request);
+	$response["timing"] = microtime(true) - $timingStart;
 	
 } catch (de\RaumZeitLabor\PartKeepr\Util\SerializableException $e) {
 	$response = array();
 	$response["status"] = "error";
 	$response["exception"] = $e->serialize();
+	$response["timing"] = microtime(true) - $timingStart;
 	
 } catch (\Exception $e) {
 	$response = array();
@@ -35,6 +39,7 @@ try {
 	$response["exception"] = get_class($e);
 	$response["message"] = $e->getMessage();
 	$response["backtrace"] = $e->getTraceAsString();
+	$response["timing"] = microtime(true) - $timingStart;
 }
 
 if (array_key_exists("type", $_REQUEST) && strtolower($_REQUEST["type"]) == "jsonp") {

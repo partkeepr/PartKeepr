@@ -10,6 +10,8 @@ PartKeepr::initialize("");
 
 ServiceManager::sendHeaders();
 
+$timingStart = microtime(true);
+
 /**
  * This script dispatches the request to the ServiceManager.
  * 
@@ -51,6 +53,7 @@ try {
 	$response["status"] = "ok";
 	$response["success"] = true;
 	$response["response"] = ServiceManager::call();
+	$response["timing"] = microtime(true) - $timingStart;
 	
 	echo json_encode($response);
 	
@@ -60,6 +63,7 @@ try {
 	$response["status"] = "error";
 	$response["success"] = false;
 	$response["exception"] = $e->serialize();
+	$response["timing"] = microtime(true) - $timingStart;
 	echo json_encode($response);
 } catch (\Exception $e) {
 	header('HTTP/1.0 400 Exception', false, 400);
@@ -70,6 +74,7 @@ try {
 		"message" => $e->getMessage(),
 		"exception" => get_class($e),
 		"backtrace" => $e->getTraceAsString());
+	$response["timing"] = microtime(true) - $timingStart;
 	
 	echo json_encode($response);
 }
