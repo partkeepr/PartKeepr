@@ -3,7 +3,8 @@ namespace de\RaumZeitLabor\PartKeepr\User;
 
 use de\RaumZeitLabor\PartKeepr\Util\Deserializable,
 	de\RaumZeitLabor\PartKeepr\Util\Serializable,
-	de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\PartKeepr;
 
 /** @Entity @Table(name="PartKeeprUser") */
 class User extends BaseEntity implements Serializable, Deserializable {
@@ -41,6 +42,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * lowercase a-z characters. 
 	 * 
 	 * Replaces space with an underscore.
+	 * Replaces dot with nothing.
 	 * 
 	 * @param string $username	The username to set. Applies automatic username modification.
 	 * @return nothing
@@ -48,6 +50,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	public function setUsername ($username) {
 		$username = strtolower($username);
 		$username = str_replace(" ", "_", $username);
+		$username = str_replace(".", "", $username);
 		
 		$this->username = $username;
 		
@@ -177,5 +180,21 @@ class User extends BaseEntity implements Serializable, Deserializable {
 					break;
 			}
 		}
+	}
+	
+	/**
+	 * Loads a user by name.
+	 * 
+	 * @param $username string The username to query
+	 * @return User A user object
+	 * @throws Doctrine\ORM\NoResultException If no user was found
+	 */
+	public static function loadByName ($username) {
+		$dql = "SELECT u FROM de\RaumZeitLabor\PartKeepr\User\User u WHERE u.username = :username";
+		
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("username", $username);
+		
+		return $query->getSingleResult();
 	}
 }
