@@ -31,8 +31,8 @@ Ext.application({
         	// If auto login is wanted (for e.g. demo systems), put it in here
         	this.sessionManager.on("login", this.onLogin, this);
         	
-        	if (window.autoLoginUsername) {
-        		this.sessionManager.login(window.autoLoginUsername, window.autoLoginPassword);
+        	if (window.parameters.autoLoginUsername) {
+        		this.sessionManager.login(window.parameters.autoLoginUsername, window.parameters.autoLoginPassword);
         	} else {
         		this.sessionManager.login();
         	}
@@ -581,15 +581,4 @@ PartKeepr.serializeRecords = function (records) {
 	}
 	
 	return finalData;
-};
-
-/**
- * Sets the username & password for automatic login.
- * 
- * @param username The username to set
- * @param password The password to set (plaintext, not hashed)
- */
-PartKeepr.setAutoLogin = function (username, password) {
-	PartKeepr.autoLoginUsername = username;
-	PartKeepr.autoLoginPassword = password;
-};  
+}; 
