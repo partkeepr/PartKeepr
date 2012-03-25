@@ -13,6 +13,7 @@ Ext.define('PartKeepr.SystemInformationGrid', {
 	          },{
 	        	  header: 'Value',
 	        	  dataIndex: 'value',
+	        	  renderer: 'htmlEncode',
 	        	  flex:1
 	          },{
 	        	  header: 'Category',

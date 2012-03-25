@@ -39,6 +39,12 @@ class SystemService extends Service {
 		
 		
 		foreach (Configuration::getOptions() as $key => $value) {
+			
+			// Hide passwords
+			if ($key == "partkeepr.database.password" || $key == "partkeepr.migration.partdb.password") {
+				$value = "<hidden>";
+			}
+			
 			$aData[] = new SystemInformationRecord($key, $value, "PartKeepr Configuration Information");
 		}
 		// TODO: add information about post max, file upload size, timeout, memory limit
