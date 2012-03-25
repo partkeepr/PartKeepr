@@ -39,6 +39,26 @@ class PartServiceTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * Tests if a part with an initial stock level > 0 is created correctly.
+	 * 
+	 * This was fixed with 
+	 */
+	public function testCreatePartWithInitialStockLevel () {
+		$partName = "testCreatePartWithInitialStockLevel";
+	
+		$part = array(
+				"name" => $partName,
+				"initialStockLevel" => 1,
+				"category" => 1,
+				"initialStockLevelUser" => 1,
+				"storageLocation" => self::$storageLocation
+		);
+	
+		$service = new PartService($part);
+		$service->create();
+	}
+	
+	/**
 	 * @expectedException de\RaumZeitLabor\PartKeepr\Part\Exceptions\StorageLocationNotAssignedException
 	 */
 	public function testCreatePartWithoutStorageLocation () {
