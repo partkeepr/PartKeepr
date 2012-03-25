@@ -1,7 +1,7 @@
 /**
  * Represents a session against the PartKeepr Server.
  */
-Ext.define("PartKeepr.Session", {
+Ext.define("PartKeepr.SessionManager", {
 	extend: 'Ext.util.Observable',
 	 
 	/**
@@ -71,10 +71,16 @@ Ext.define("PartKeepr.Session", {
 	 * @param response The session ID
 	 */
 	onAfterLogin: function (response) {
-		this.session = response.sessionid;
+		this.setSession(response.sessionid);
 		this.loginDialog.destroy();
 		
 		this.fireEvent("login");
+	},
+	/**
+	 * Sets the session
+	 */
+	setSession: function (sessionid) {
+		this.session = sessionid;
 	},
 	/**
 	 * Returns the current session

@@ -20,17 +20,24 @@ Ext.application({
     	PartKeepr.setMaxUploadSize(window.maxUploadSize);
     	PartKeepr.setAvailableImageFormats(window.availableImageFormats);
 
-    	// If auto login is wanted (for e.g. demo systems), put it in here
+    	this.sessionManager = new PartKeepr.SessionManager();
     	
-    	
-    	this.sessionManager = new PartKeepr.Session();
-    	this.sessionManager.on("login", this.onLogin, this);
-    	
-    	if (window.autoLoginUsername) {
-    		this.sessionManager.login(window.autoLoginUsername, window.autoLoginPassword);
+    	/* Automatic session starting is active. This disables login/logout functionality. */
+    	if (window.parameters.auto_start_session) {
+    		this.getSessionManager().setSession(window.parameters.auto_start_session);
+    		this.getStatusbar().connectionButton.hide();
+    		this.onLogin();
     	} else {
-    		this.sessionManager.login();
+        	// If auto login is wanted (for e.g. demo systems), put it in here
+        	this.sessionManager.on("login", this.onLogin, this);
+        	
+        	if (window.autoLoginUsername) {
+        		this.sessionManager.login(window.autoLoginUsername, window.autoLoginPassword);
+        	} else {
+        		this.sessionManager.login();
+        	}
     	}
+    	
     	
     	
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);

@@ -125,6 +125,15 @@ Configuration::setOption("partkeepr.frontend.allow_password_change", true);
 /**
  * Specifies the separator for category paths. If you change this, you need to rebuild the category paths by
  * executing the script scripts/UpdateCategoryPathCache.php
- * 
  */
 Configuration::setOption("partkeepr.category.path_separator", " ➤ ");
+
+/**
+ * Set to true if authentication via HTTP is wanted.
+ *
+ * Authentication is then completely handled by your web server. Non-existant users are created automatically.
+ * Make sure you have admin rights transferred prior switching to HTTP auth.
+ *
+ * As soon as you set HTTP auth, you can no longer login and logout in PartKeepr, as this is handled by your web server.
+ */
+Configuration::setOption("partkeepr.auth.http", false);

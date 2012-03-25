@@ -1,9 +1,11 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use de\RaumZeitLabor\PartKeepr\User\User,
+	de\RaumZeitLabor\PartKeepr\Service\ServiceManager,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
+	de\RaumZeitLabor\PartKeepr\Util\Configuration;
 
 include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
 
@@ -14,6 +16,28 @@ $aParameters["doctrine_orm_version"] = \Doctrine\ORM\Version::VERSION;
 $aParameters["doctrine_dbal_version"] = \Doctrine\DBAL\Version::VERSION;
 $aParameters["doctrine_common_version"] = \Doctrine\Common\Version::VERSION;
 $aParameters["php_version"] = phpversion();
+
+if (Configuration::getOption("partkeepr.auth.http", false) === true) {
+	if (!isset($_SERVER["PHP_AUTH_USER"])) {
+		// @todo Redirect to permission denied page 
+	}
+	
+	try {
+		$user = User::loadByName($_SERVER['PHP_AUTH_USER']);
+	} catch (\Doctrine\ORM\NoResultException $e) {
+		$user = new User;
+		$user->setUsername($_SERVER['PHP_AUTH_USER']);
+		$user->setPassword("invalid");
+		
+		PartKeepr::getEM()->persist($user);
+		PartKeepr::getEM()->flush();
+	}
+	
+
+	$session = SessionManager::getInstance()->startSession($user);
+	
+	$aParameters["auto_start_session"] = $session->getSessionID();
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -86,10 +110,10 @@ if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === 
 ?>
 window.autoLoginUsername = "<?php echo Configuration::getOption("partkeepr.frontend.autologin.username"); ?>";
 window.autoLoginPassword = "<?php echo Configuration::getOption("partkeepr.frontend.autologin.password"); ?>";
-window.parameters = <?php echo json_encode($aParameters); ?>;
 <?php
 }
 ?>
+window.parameters = <?php echo json_encode($aParameters); ?>;
 </script>
 </body>
 </html>
