@@ -187,8 +187,6 @@ class PartKeepr {
 		}
 		
 		self::$entityManager = EntityManager::create($connectionOptions, $config);
-		
-		self::$entityManager->getConnection()->setCharset("utf8");
 	}
 	
 	public static function createConnectionOptionsFromConfig () {
@@ -206,7 +204,7 @@ class PartKeepr {
 				$connectionOptions["dbname"] 	= PartKeeprConfiguration::getOption("partkeepr.database.dbname", "partkeepr");
 				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
 				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
-				
+				$connectionOptions["charset"]	= "utf8";
 				/**
 				 * Compatibility with older configuration files. We check for the key "hostname" as well as "host".
 				 */
@@ -226,6 +224,7 @@ class PartKeepr {
 				}
 				break;
 			case "pdo_sqlite":
+				$connectionOptions["driver"] 	= $driver;
 				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
 				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
 				$connectionOptions["path"] 		= PartKeeprConfiguration::getOption("partkeepr.database.sqlite_path", PartKeepr::getRootDirectory() . "/data/partkeepr.sqlite");
