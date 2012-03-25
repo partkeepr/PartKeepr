@@ -83,6 +83,15 @@ class PartService extends Service implements RestfulService {
 		}
 		
 		/**
+		 * Query by the distributor's order number
+		 */
+		if ($this->getParameter("distributorOrderNumber")) {
+			$queryBuilder->leftJoin("q.distributors", "di");
+			$queryBuilder->andWhere("LOWER(di.orderNumber) LIKE :orderNumber");
+			$queryBuilder->setParameter("orderNumber", "%".strtolower($this->getParameter("distributorOrderNumber"))."%");
+		}
+		
+		/**
 		 * Filter by the price
 		 */
 		if ($this->getParameter("withoutPrice") === true || $this->getParameter("withoutPrice") === "true") {

@@ -1,6 +1,8 @@
 <?php 
 namespace de\RaumZeitLabor\PartKeepr\Tests\Part;
 
+use de\RaumZeitLabor\PartKeepr\Distributor\DistributorService;
+
 use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
 	de\RaumZeitLabor\PartKeepr\Part\PartService,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
@@ -36,6 +38,44 @@ class PartServiceTest extends \PHPUnit_Framework_TestCase {
 		
 		$service = new PartService($part);
 		$service->create();
+	}
+	
+	/**
+	 * Tests if a part can be found by its order number.
+	 */
+	public function testPartSearchByOrderNumber () {
+		$partName = "testPartSearchByOrderNumber";
+
+		/* Create a distributor */
+		$distributor = array(
+			"name" => $partName
+		);
+		
+		$service = new DistributorService($distributor);
+		$distributor = $service->create();
+		
+		/* Create a part with a distributor and a specific order number */
+		$part = array(
+				"name" => $partName,
+				"category" => 1,
+				"distributors" => array(
+					array(
+							"distributor_id" => $distributor["data"]["id"],
+							"orderNumber" => $partName // Re-use $partName as orderNumber
+							)),
+				"storageLocation" => self::$storageLocation
+		);
+		
+		$service = new PartService($part);
+		$service->create();
+		
+		PartKeepr::getEM()->flush();
+		
+		$service = new PartService(array("distributorOrderNumber" => $partName));
+		
+		$response = $service->get();
+		
+		$this->assertEquals(1, $response["totalCount"], "The resultset totalCount is wrong.");
 	}
 	
 	/**

@@ -30,7 +30,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
             	columnWidth: 0.5,
             	layout: 'anchor',
             	items: [
-            	        this.stockFilter
+            	        this.stockFilter,
+            	        this.distributorOrderNumberFilter
             	        ]
 		};
 		
@@ -81,6 +82,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.storageLocationFilter.setValue("");
 		this.categoryFilter.setValue({ category: 'all'});
 		this.stockFilter.setValue({ stock: 'any'});
+		this.distributorOrderNumberFilter.setValue("");
 		
 		this.onApply();
 	},
@@ -140,6 +142,10 @@ Ext.define('PartKeepr.PartFilterPanel', {
 			fieldLabel: i18n("Item Price"),
 			boxLabel: i18n("Show Parts without Price only")
 		});
+		
+		this.distributorOrderNumberFilter = Ext.create("Ext.form.field.Text", {
+			fieldLabel: i18n("Order Number")
+		});
 	},
 	/**
 	 * Applies the filter parameters to the passed extraParams object.
@@ -149,7 +155,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		extraParams.withoutPrice = this.partsWithoutPrice.getValue();
 		extraParams.categoryScope = this.categoryFilter.getValue().category;
 		extraParams.stockMode = this.stockFilter.getValue().stock;
-		
+		extraParams.distributorOrderNumber = this.distributorOrderNumberFilter.getValue();
 		/**
 		 * Get the raw (=text) value. I really wish that ExtJS would handle selected values (from a store)
 		 * distinct than entered values.
