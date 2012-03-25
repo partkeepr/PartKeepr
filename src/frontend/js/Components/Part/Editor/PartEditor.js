@@ -224,7 +224,7 @@ Ext.define('PartKeepr.PartEditor', {
 		 * that the record is invalid and being removed.
 		 */
 		for (j=0;j<this.record.distributors().getCount();j++) {
-			if (this.record.distributors().getAt(j).get("id") === 0) {
+			if (this.record.distributors().getAt(j).get("distributor_id") === 0) {
 				removeRecords.push(this.record.distributors().getAt(j));
 			}
 		}
@@ -242,7 +242,7 @@ Ext.define('PartKeepr.PartEditor', {
 		 */
 
 		for (j=0;j<this.record.parameters().getCount();j++) {
-			if (this.record.parameters().getAt(j).get("id") === 0) {
+			if (this.record.parameters().getAt(j).get("unit_id") === 0) {
 				removeRecords.push(this.record.parameters().getAt(j));
 			}
 		}
@@ -260,7 +260,7 @@ Ext.define('PartKeepr.PartEditor', {
 		 */
 
 		for (j=0;j<this.record.manufacturers().getCount();j++) {
-			if (this.record.manufacturers().getAt(j).get("id") === 0) {
+			if (this.record.manufacturers().getAt(j).get("manufacturer_id") === 0) {
 				removeRecords.push(this.record.manufacturers().getAt(j));
 			}
 		}
