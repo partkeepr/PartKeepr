@@ -45,6 +45,6 @@ try {
 	$error["error"] = true;
 	echo json_encode($error);
 } catch (\Exception $e) {
-	echo json_encode(array("error" => true, "message" => "An unexpected error occured during installation. The error message was:<br/><code>".$e->getMessage()."</code> and happened in <code>".$e->getFile().":".$e->getLine() ));
+	echo json_encode(array("error" => true, "message" => "An unexpected error occured during installation. The error message was:<br/><code>".$e->getMessage()."</code> and happened in <code>".$e->getFile().":".$e->getLine()."</code>" ));
 	exit;
 }
