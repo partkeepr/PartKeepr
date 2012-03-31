@@ -4,7 +4,7 @@ $dataDir = dirname(dirname(dirname(__FILE__)))."/data";
 try {
 	is_writable_recursive($dataDir);
 } catch (\Exception $e) {
-	echo json_encode(array("error" => true, "errormessage" => $e->getMessage() . "<br/>Please adjust the filesystem permissions so that your webserver can write into that directory."));
+	echo json_encode(array("error" => true, "message" => $e->getMessage() . "<br/>Please adjust the filesystem permissions so that your webserver can write into that directory."));
 	exit;
 }
 
@@ -15,7 +15,7 @@ try {
 function is_writable_recursive($dir)
 {
 	if (!is_writable($dir)) {
-		return false;
+		throw new \Exception($dir ." is not writable.");
 	}
 	
 	$folder = opendir($dir);
