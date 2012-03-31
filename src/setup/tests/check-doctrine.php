@@ -74,10 +74,10 @@ if (!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Yaml\\Yam
 	$yamlErrorMessage = "The YAML component of symfony is not installed. This component is required; please install ";
 	$yamlErrorMessage .= "it using:<br/><br/>";
 	$yamlErrorMessage .= "<code>pear install pear.doctrine-project.org/DoctrineSymfonyYaml</code><br/><br/>";
-	$yamlErrorMessage .= "If you are getting the error <code>doctrine/DoctrineSymfonyYaml is already installed and is ";
-	$yamlErrorMessage .= "the same as the released version</code>";
-	$yamlErrorMessage .= "please REINSTALL the package using <code>pear uninstall doctrine/DoctrineSymfonyYaml<br/>";
-	$yamlErrorMessage .= "pear install doctrine/DoctrineSymfonyYaml</code>";	
+	$yamlErrorMessage .= "If you are getting the error:<br/><br/><code>doctrine/DoctrineSymfonyYaml is already ";
+	$yamlErrorMessage .= "installed and is the same as the released version</code><br/><br/>";
+	$yamlErrorMessage .= "please REINSTALL the package using<br/><br/><code>pear uninstall ";
+	$yamlErrorMessage .= "doctrine/DoctrineSymfonyYaml<br/>pear install doctrine/DoctrineSymfonyYaml</code>";	
 	
 	echo json_encode(array("error" => true, "message" => $yamlErrorMessage));
 	exit;
