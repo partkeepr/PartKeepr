@@ -75,7 +75,7 @@ if (!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Yaml\\Yam
 	$yamlErrorMessage .= "it using:<br/><br/>";
 	$yamlErrorMessage .= "<code>pear install pear.doctrine-project.org/DoctrineSymfonyYaml</code><br/><br/>";
 	$yamlErrorMessage .= "If you are getting the error <code>doctrine/DoctrineSymfonyYaml is already installed and is ";
-	$yamlErrorMessage .= "the same as the released version</code";
+	$yamlErrorMessage .= "the same as the released version</code>";
 	$yamlErrorMessage .= "please REINSTALL the package using <code>pear uninstall doctrine/DoctrineSymfonyYaml<br/>";
 	$yamlErrorMessage .= "pear install doctrine/DoctrineSymfonyYaml</code>";	
 	
