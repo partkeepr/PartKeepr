@@ -516,7 +516,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	private function checkCategoryConsistency () {
 		if ($this->getCategory() === null) {
-				throw new CategoryNotAssignedException();
+				throw new CategoryNotAssignedException($this);
 		}
 	}
 	
@@ -555,6 +555,16 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	public function onPreUpdate () {
 		$this->checkCategoryConsistency();
 		$this->checkStorageLocationConsistency();
+	}
+	
+	/**
+	 * Returns a string representation of the part
+	 * 
+	 * @param none
+	 * @return string The name and the ID of the part
+	 */
+	public function __toString () {
+		return $this->getName() . " (".$this->getId().")";
 	}
 	
 }
