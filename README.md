@@ -35,7 +35,7 @@ PartKeepr needs:
 Installation
 ------------
 
-Since this project is work-in-progress, please refer to the INSTALL document on how to install PartKeepr.
+Simply point your browser to the "setup" directory and the installer will start.
 
 Thanks
 ------
