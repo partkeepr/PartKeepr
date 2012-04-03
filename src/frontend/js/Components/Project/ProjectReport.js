@@ -5,13 +5,15 @@ Ext.define('PartKeepr.ProjectReportView', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.ProjectReportView',
 	
-	bodyStyle: 'background:#DBDBDB;padding: 10px;',
+	bodyStyle: 'background:#DBDBDB;padding: 5px',
 	border: false,
-	layout: {
-	    type: 'vbox',
-	    align : 'stretch',
-	    pack  : 'start'
+	
+	defaults: {
+	    bodyStyle: 'padding:10px'
 	},
+	
+	layout: 'border',
+	
 	initComponent: function () {
 		
 		this.createStores();
@@ -21,7 +23,6 @@ Ext.define('PartKeepr.ProjectReportView', {
 	    });
 		
 		this.reportList = Ext.create("Ext.grid.Panel", {
-			title: i18n("Choose Projects to create a report for"),
 			selModel: {
 				mode: 'MULTI'
 			},
@@ -49,7 +50,6 @@ Ext.define('PartKeepr.ProjectReportView', {
 	    });
 		
 		this.reportResult = Ext.create("Ext.grid.Panel", {
-			title: i18n("Project Report"),
 			flex: 1,
 			features: [{
 		        ftype: 'summary'
@@ -117,26 +117,65 @@ Ext.define('PartKeepr.ProjectReportView', {
 		
 		this.reportResult.on("beforeedit", this.onBeforeEdit, this);
 		this.reportResult.on("edit", this.onEdit, this);
+		
+		this.createReportButton = Ext.create('Ext.button.Button', {
+			xtype: 'button',
+			text: i18n("Create Report"),
+			width: 120,
+			margins: {
+				right: 10
+			},
+			listeners: {
+				click: this.onCreateReportClick,
+				scope: this
+			}
+		});
+		
+		this.autoFillButton = Ext.create('Ext.button.Button', {
+			  xtype: 'button',
+		  	  text: i18n("Autofill"),
+		  	  width: 120,
+		  	  listeners: {
+		  		  click: this.onAutoFillClick,
+		  		  scope: this
+		  		}
+		});
+		
 		this.items = [
-		              this.reportList,
 		              {
-		            	  xtype: 'button',
-		            	  text: i18n("Create Report"),
-		            	  margin: { top: 5, bottom: 5 },
-		            	  listeners: {
-		            		  click: this.onCreateReportClick,
-		            		  scope: this
-		            		}
-		            	  }, 
-		            	  {
-		            		  xtype: 'button',
-			            	  text: i18n("Autofill"),
-			            	  margin: { top: 5, bottom: 5 },
-			            	  listeners: {
-			            		  click: this.onAutoFillClick,
-			            		  scope: this
-			            		}
-		            	  },this.reportResult ];
+		            	  title: i18n("Choose Projects to create a report for"),
+		            	  split: true,
+		            	  minHeight: 300,
+		            	  height: 300,
+		            	  bodyStyle: 'background:#DBDBDB;padding: 10px;',
+		            	  layout: {
+		            		  type: 'vbox',
+		            		  align : 'stretch',
+		            		  pack  : 'start'
+		            	  },
+		            	  region: 'north',
+		            	  items: [
+									this.reportList,
+									{
+										layout: {
+											type: 'hbox',
+											pack: 'start'
+										},
+										margins: {
+											top: 10
+										},
+										border: false,
+										bodyStyle: 'background:#DBDBDB',
+										items: [ this.createReportButton , this.autoFillButton ]
+									}
+		            	          ]
+		              },{
+		            	  region: 'center',
+		            	  layout: 'fit',
+		            	  bodyStyle: 'background:#DBDBDB;padding: 10px;',
+		            	  title: i18n("Project Report"),
+		            	  items: this.reportResult
+		              }];
 		            	  
 		
 		
@@ -212,6 +251,9 @@ Ext.define('PartKeepr.ProjectReportView', {
 		
 		this.reportResult.getView().refresh(true);
 	},
+	/**
+	 * 
+	 */
 	onCreateReportClick: function () {
 		selection = this.reportList.getSelectionModel().getSelection();
 		
