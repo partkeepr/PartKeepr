@@ -333,10 +333,22 @@ class PartKeepr {
 	}
 	
 	/**
-	 *@todo stub
+	 * Formats a message and applies internationalization.
+	 * 
+	 * This method accepts sprintf-like parameters, which are appended after the $string parameter.
+	 * 
+	 * @param $string string The string to internationalize
+	 * @todo stub
 	 */
 	public static function i18n ($string) {
-		return $string;
+		if (func_num_args() > 1) {
+			$args = func_get_args();
+			array_shift($args);
+			
+			return vsprintf($string, $args);
+		} else {
+			return $string;
+		}		
 	}
 	
 	/**
