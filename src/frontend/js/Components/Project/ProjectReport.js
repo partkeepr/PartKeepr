@@ -64,6 +64,14 @@ Ext.define('PartKeepr.ProjectReportView', {
 				},
 				flex: 1
 			},{
+				header: i18n("Remarks"),
+				dataIndex: 'remarks',
+				flex: 1
+			},{
+				header: i18n("Projects"),
+				dataIndex: 'projects',
+				flex: 1
+			},{
 				header: i18n("Storage Location"), dataIndex: 'storageLocation_name',
 				width: 100
 			},{

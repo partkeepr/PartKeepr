@@ -32,8 +32,9 @@ class ProjectReportService extends Service implements RestfulService {
 		
 		// Loop over all reports and calculate the overall quantities
 		foreach ($reports as $report) {
-			$dql = "SELECT pp.quantity, p.id FROM ";
-			$dql .= "de\RaumZeitLabor\PartKeepr\Project\ProjectPart pp JOIN pp.part p WHERE pp.project = :project";
+			$dql = "SELECT pp.quantity, pro.name AS projectname, pp.remarks, p.id FROM ";
+			$dql .= "de\RaumZeitLabor\PartKeepr\Project\ProjectPart pp JOIN pp.part p ";
+			$dql .= "JOIN pp.project pro WHERE pp.project = :project";
 			
 			$query = PartKeepr::getEM()->createQuery($dql);
 			$query->setParameter("project", $report["project"]);
@@ -43,7 +44,12 @@ class ProjectReportService extends Service implements RestfulService {
 				
 				if (array_key_exists($result["id"], $aPartResults)) {
 					// Only update the quantity of the part
-					$aPartResults[$result["id"]]["quantity"] += $result["quantity"] * $report["amount"]; 
+					$aPartResults[$result["id"]]["quantity"] += $result["quantity"] * $report["amount"];
+					$aPartResults[$result["id"]]["projects"][] = $result["projectname"];
+					
+					if ($result["remarks"] != "") {
+						$aPartResults[$result["id"]]["remarks"][] = $result["projectname"]. ": " .$result["remarks"];
+					}
 				} else {
 					// Create a full resultset
 					$aPartResults[$result["id"]] = array(
@@ -51,8 +57,14 @@ class ProjectReportService extends Service implements RestfulService {
 							"part" => array("response" => array("totalCount" => 1, "data" => $part->serialize())),
 							"storageLocation_name" => $part->getStorageLocation()->getName(),
 							"available" => $part->getStockLevel(),
-							"sum_order" => 0
+							"sum_order" => 0,
+							"projects" => array($result["projectname"]),
+							"remarks" => array() 
 					);
+					
+					if ($result["remarks"] != "") {
+						$aPartResults[$result["id"]]["remarks"] = array($result["projectname"]. ": " .$result["remarks"]); 
+					}
 				}
 			}
 		}
@@ -68,7 +80,9 @@ class ProjectReportService extends Service implements RestfulService {
 			}
 		
 			$partResult["missing"] = $missing;
-		
+			$partResult["remarks"] = implode(", ", $partResult["remarks"]);
+			$partResult["projects"] = implode(", ", $partResult["projects"]);
+			
 			$aFinalResult[] = $partResult;
 		}
 			

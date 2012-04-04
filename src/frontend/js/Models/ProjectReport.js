@@ -9,7 +9,9 @@ Ext.define("PartKeepr.ProjectReport", {
 	         {	name: 'available',	type: 'int'},
 	         {	name: 'missing',	type: 'int'},
 	         {	name: 'distributor_order_number',	type: 'string'},
-	         {	name: 'sum_order',	type: 'float'}
+	         {	name: 'sum_order',	type: 'float'},
+	         {	name: 'projects',	type: 'string'},
+	         {	name: 'remarks',	type: 'string'}
 	         ],
 	hasMany: [
 		{ model: 'PartKeepr.Part', 	name: 'part'}
