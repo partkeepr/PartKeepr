@@ -109,6 +109,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 					return 0;
 					
 				},
+				summaryType: 'sum',
 				width: 100
 			},{
 				header: i18n("Amount to Order"), dataIndex: 'missing',
