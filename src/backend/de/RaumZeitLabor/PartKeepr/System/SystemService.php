@@ -77,6 +77,9 @@ class SystemService extends Service {
 	
 	/**
 	 * Checks if the schema is up-to-date. If yes, it returns "complete", if not, it returns "incomplete".
+	 * 
+	 * @param none
+	 * @return string Either "complete" or "incomplete"
 	 */
 	protected function getSchemaStatus () {
 		$metadatas = PartKeepr::getEM()->getMetadataFactory()->getAllMetadata();
@@ -91,4 +94,6 @@ class SystemService extends Service {
 			return "complete";
 		}
 	}
+	
+	
 }
