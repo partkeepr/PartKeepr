@@ -101,14 +101,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 				width: 100
 			},{
 				header: i18n("Sum"),
-				renderer: function (val,p,rec) {
-					if (!isNaN(rec.get("price"))) {
-						return rec.get("quantity") * rec.get("price");	
-					}
-					
-					return 0;
-					
-				},
+				dataIndex: 'sum',
 				summaryType: 'sum',
 				width: 100
 			},{
@@ -222,6 +215,8 @@ Ext.define('PartKeepr.ProjectReportView', {
 					e.record.set("distributor_order_number", distributors.getAt(i).get("orderNumber"));
 					
 					e.record.set("sum_order", e.record.get("missing") * e.record.get("price"));
+					
+					e.record.set("sum", e.record.get("quantity") * e.record.get("price"));
 				}
 			}
 		}
@@ -255,6 +250,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 				activeRecord.set("distributor_order_number", cheapest.get("orderNumber"));
 				activeRecord.set("price", cheapest.get("price"));
 				activeRecord.set("sum_order", activeRecord.get("missing") * activeRecord.get("price"));
+				activeRecord.set("sum", activeRecord.get("quantity") * activeRecord.get("price"));
 			}
 		}
 		

@@ -10,6 +10,7 @@ Ext.define("PartKeepr.ProjectReport", {
 	         {	name: 'missing',	type: 'int'},
 	         {	name: 'distributor_order_number',	type: 'string'},
 	         {	name: 'sum_order',	type: 'float'},
+	         {	name: 'sum',	type: 'float'},
 	         {	name: 'projects',	type: 'string'},
 	         {	name: 'remarks',	type: 'string'}
 	         ],
