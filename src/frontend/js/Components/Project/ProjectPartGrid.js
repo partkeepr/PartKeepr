@@ -2,7 +2,7 @@
  * Represents an editable list of project parts.
  */
 Ext.define('PartKeepr.ProjectPartGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	
 	/* Column definitions */
 	columns: [{

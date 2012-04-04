@@ -61,8 +61,6 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		this.editing.on("edit", this.onEdit, this);
 		
-		this.plugins =  [ this.editing ];
-		
 		// Initialize the panel
 		this.callParent();
 		
@@ -87,6 +85,7 @@ Ext.define('PartKeepr.PartsGrid', {
 			}
 		});
 		
+
 		this.addFromTemplateButton = Ext.create("Ext.button.Button", {
 			disabled: true,
 			handler: Ext.bind(function () {

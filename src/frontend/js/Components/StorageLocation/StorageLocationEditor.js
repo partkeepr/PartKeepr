@@ -19,7 +19,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 	
 		this.store = Ext.create('Ext.data.Store', config);
 	
-		this.gridPanel = Ext.create("Ext.grid.Panel", {
+		this.gridPanel = Ext.create("PartKeepr.BaseGrid", {
 			store: this.store,
 			columnLines: true,
 			columns: [

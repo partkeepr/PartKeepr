@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.PartParameterGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	alias: 'widget.PartParameterGrid',
 	border: false,
 	initComponent: function () {

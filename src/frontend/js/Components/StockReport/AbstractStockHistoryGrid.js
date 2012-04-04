@@ -2,7 +2,7 @@
  * Represents the stock history grid.
  */
 Ext.define('PartKeepr.AbstractStockHistoryGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	
 	pageSize: 25,
 	

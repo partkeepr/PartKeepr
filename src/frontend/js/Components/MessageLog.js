@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.MessageLog', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	store: {
 		model: "PartKeepr.Message"
 		},

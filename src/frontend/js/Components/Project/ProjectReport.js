@@ -22,7 +22,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 	        clicksToEdit: 1
 	    });
 		
-		this.reportList = Ext.create("Ext.grid.Panel", {
+		this.reportList = Ext.create("PartKeepr.BaseGrid", {
 			selModel: {
 				mode: 'MULTI'
 			},
@@ -49,7 +49,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 	        clicksToEdit: 1
 	    });
 		
-		this.reportResult = Ext.create("Ext.grid.Panel", {
+		this.reportResult = Ext.create("PartKeepr.BaseGrid", {
 			flex: 1,
 			features: [{
 		        ftype: 'summary'

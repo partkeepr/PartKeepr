@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.AttachmentGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	alias: 'widget.AttachmentGrid',
 	border: false,
 	model: null,

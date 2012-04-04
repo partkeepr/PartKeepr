@@ -8,7 +8,7 @@ Ext.define('PartKeepr.UnitEditor', {
 			checkOnly: true
 		});
 		
-		this.gridPanel = Ext.create("Ext.grid.Panel", {
+		this.gridPanel = Ext.create("PartKeepr.BaseGrid", {
 			store: PartKeepr.getApplication().getSiPrefixStore(),
 			selModel: sm,
 			columnLines: true,

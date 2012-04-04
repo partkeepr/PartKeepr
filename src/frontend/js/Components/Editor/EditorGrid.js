@@ -7,7 +7,7 @@
  * - Paging Toolbar
  */
 Ext.define('PartKeepr.EditorGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	alias: 'widget.EditorGrid',
 	
 	/**
@@ -130,6 +130,8 @@ Ext.define('PartKeepr.EditorGrid', {
 		if (this.enableTopToolbar) {
 			this.dockedItems.push(this.topToolbar);	
 		}
+		
+		this.plugins = [ 'gridmenu' ];
 		
 		this.callParent();
 	},

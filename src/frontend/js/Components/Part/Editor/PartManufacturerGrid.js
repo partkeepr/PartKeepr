@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.PartManufacturerGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	alias: 'widget.PartManufacturerGrid',
 	border: false,
 	initComponent: function () {

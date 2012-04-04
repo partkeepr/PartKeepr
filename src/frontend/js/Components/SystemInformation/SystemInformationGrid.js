@@ -2,7 +2,7 @@
  * This class represents a list of all system information records.
  */
 Ext.define('PartKeepr.SystemInformationGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 	
 	/* Define the columns */
 	columns: [

@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.UserPreferenceGrid', {
-	extend: 'Ext.grid.Panel',
+	extend: 'PartKeepr.BaseGrid',
 
 	columnLines: true,
 	
