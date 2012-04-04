@@ -95,7 +95,7 @@
 						<include name="resources/**"/>
 					</fileset>
 				</copy>
-					
+				
 				<echo>Copying Ext Statusbar</echo>
 				<copy overwrite="false" todir="frontend/js/Ext.ux/">
 					<fileset dir="${extjs.path}/examples/ux">
@@ -251,6 +251,8 @@
     <target name="jsbuilder">
     	<exec command="php util/gen-jsb3-file.php ./src/frontend/ ${extjs.path}"/>
     	<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/partkeepr.jsb3 --deployDir ${project.basedir}/frontend/js" passthru="true"/>
+    	
+    	<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/3rdparty/Ext.ux.Exporter/Ext.ux.Exporter.jsb --deployDir ${project.basedir}/frontend/js/Ext.ux" passthru="true"/>
     </target>
     
 	<!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->

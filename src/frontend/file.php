@@ -54,7 +54,14 @@ if ($file == null) {
 
 if (is_object($file)) {
 	header("Content-Type: ".$file->getMimeType());
-	header('Content-Disposition: inline; filename="'.basename($file->getOriginalFilename()).'"');
+	
+	if ($_REQUEST["download"] && $_REQUEST["download"] == "true") {
+		header("Content-Description: File Transfer");
+		header('Content-Disposition: attachment; filename="'.basename($file->getOriginalFilename()).'"');
+	} else {
+		header('Content-Disposition: inline; filename="'.basename($file->getOriginalFilename()).'"');
+	}
+	
 	
 	$fp = fopen($file->getFilename(), "rb");
 	fpassthru($fp);

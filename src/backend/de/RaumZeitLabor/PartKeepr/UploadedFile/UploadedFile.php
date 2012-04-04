@@ -3,6 +3,7 @@ namespace de\RaumZeitLabor\PartKeepr\UploadedFile;
 
 use de\RaumZeitLabor\PartKeepr\Util\SerializableException,
 	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\Util\Serializable,
 	de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
 	de\RaumZeitLabor\PartKeepr\Util\Configuration;
@@ -10,7 +11,7 @@ use de\RaumZeitLabor\PartKeepr\Util\SerializableException,
 /**
  * @MappedSuperclass
  */
-abstract class UploadedFile extends BaseEntity {
+abstract class UploadedFile extends BaseEntity implements Serializable {
 	/**
 	 * Specifies the type of the file.
 	 *
@@ -283,5 +284,18 @@ abstract class UploadedFile extends BaseEntity {
 				throw new SerializableException(
 						sprintf(PartKeepr::i18n("Unable to write to directory %s"), $this->getFilePath()));
 		}
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
+	 */
+	public function serialize () {
+		return array(
+				"id" => $this->getId(),
+				"extension" => $this->getExtension(),
+				"size" => $this->getSize(),
+				"originalFilename" => $this->getOriginalFilename()
+				);
 	}
 }

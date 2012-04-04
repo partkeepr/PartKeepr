@@ -21,14 +21,15 @@
 		{% if debug %}
 			<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
 			<script type="text/javascript" src="js/partkeepr-debug.js"></script>
+			<script type="text/javascript" src="js/Ext.ux/Ext.ux.formatter-all-debug.js"></script>
 		{% else %}
 			<script type="text/javascript" src="extjs/ext-all.js"></script>
 			<script type="text/javascript" src="js/partkeepr.js"></script>
+			<script type="text/javascript" src="js/Ext.ux/Ext.ux.formatter-all.js"></script>
 		{% endif %}
 		
 		<script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js"></script>
 		<script type="text/javascript" src="js/webcam.js"></script>
-		
 	</head>
 <body>
 <div id="loading"><span class="logo"></span></div>

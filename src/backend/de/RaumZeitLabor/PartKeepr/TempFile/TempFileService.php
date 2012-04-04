@@ -29,6 +29,30 @@ class TempFileService extends Service {
 	}
 	
 	/**
+	 * Receives a file via the service call.
+	 *
+	 * Parameters:
+	 * - filedata: needs to be base64-encoded.
+	 * - filename: The filename
+	 */
+	public function jsonUpload () {
+		$data = base64_decode($this->getParameter("filedata"));
+		$filename = $this->getParameter("filename");
+	
+		$tempFile = tempnam("/tmp", "PWC");
+		file_put_contents($tempFile, $data);
+		
+		$tmpFile = new TempUploadedFile();
+		$tmpFile->replace($tempFile);
+		$tmpFile->setOriginalFilename($filename);
+		
+		PartKeepr::getEM()->persist($tmpFile);
+		PartKeepr::getEM()->flush();
+		
+		return $tmpFile->serialize();
+	}
+	
+	/**
 	 * Processes data via HTTP POST. Reads php://input and creates a temporary image out of it.
 	 */
 	public function uploadCam () {
