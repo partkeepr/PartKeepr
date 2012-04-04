@@ -47,7 +47,7 @@ class SystemService extends Service {
 			
 			$aData[] = new SystemInformationRecord($key, $value, "PartKeepr Configuration Information");
 		}
-		// TODO: add information about post max, file upload size, timeout, memory limit
+
 		return array("data" => $aData);
 	}
 	
@@ -75,6 +75,9 @@ class SystemService extends Service {
 					"schemaStatus" => $this->getSchemaStatus()));
 	}
 	
+	/**
+	 * Checks if the schema is up-to-date. If yes, it returns "complete", if not, it returns "incomplete".
+	 */
 	protected function getSchemaStatus () {
 		$metadatas = PartKeepr::getEM()->getMetadataFactory()->getAllMetadata();
 		
