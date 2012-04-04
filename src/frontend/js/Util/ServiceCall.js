@@ -71,7 +71,6 @@ Ext.define('PartKeepr.ServiceCall', {
 		});
 	},
 	onSuccess: function (responseObj, options) {
-		console.log(options);
 		PartKeepr.getApplication().getStatusbar().endLoad();
 		
 		try {

@@ -43,8 +43,6 @@ Ext.define('PartKeeprSetup.ConfigFileActionCard', {
 	 * Gets called when the card is activated
 	 */
 	onActivate: function () {
-		console.log("Activating "+ Ext.getCmp("config-mode-card").mode);
-		
 		this.getLayout().setActiveItem('card-action-' + Ext.getCmp("config-mode-card").mode);
 		this.getLayout().activeItem.fireEvent("activateCard");
 		// Disable the "next" button, this needs to get enabled by the database cards
