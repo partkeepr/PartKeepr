@@ -222,6 +222,32 @@ class PartService extends Service implements RestfulService {
 		return array("data" => $part->serialize());
 	}
 	
+	public function massDeleteStock () {
+		$data = $this->getParameter("removals");
+		
+		$updateStockLevels = array();
+		
+		foreach ($data as $item) {
+			$part = PartManager::getInstance()->getPart($item["part"]);
+			$user = SessionManager::getCurrentSession()->getUser();
+			
+			$stock = new StockEntry($part, 0-intval($item["amount"]), $user);
+			$stock->setComment($item["comment"]);
+			PartKeepr::getEM()->persist($stock);
+			
+			$updateStockLevels[$item["part"]] = $part;
+		}
+		
+		PartKeepr::getEM()->flush();
+		
+		foreach ($updateStockLevels as $part) {
+			$part->updateStockLevel();
+		}
+		
+		PartKeepr::getEM()->flush();
+		return array();
+	}
+	
 	public function deletePart () {
 		PartManager::getInstance()->deletePart($this->getParameter("part"));
 	}

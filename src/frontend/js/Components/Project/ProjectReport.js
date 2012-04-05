@@ -134,13 +134,25 @@ Ext.define('PartKeepr.ProjectReportView', {
 		});
 		
 		this.autoFillButton = Ext.create('Ext.button.Button', {
-			  xtype: 'button',
 		  	  text: i18n("Autofill"),
 		  	  width: 120,
+		  	  margins: {
+		  		  right: 20
+		  	  },
 		  	  listeners: {
 		  		  click: this.onAutoFillClick,
 		  		  scope: this
 		  		}
+		});
+		
+		this.removeStockButton = Ext.create('Ext.button.Button', {
+		  	  text: i18n("Remove parts from stock"),
+		  	  width: 160,
+		  	  listeners: {
+		  		  click: this.onStockRemovalClick,
+		  		  scope: this
+		  		}
+			
 		});
 		
 		this.items = [
@@ -168,7 +180,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 										},
 										border: false,
 										bodyStyle: 'background:#DBDBDB',
-										items: [ this.createReportButton , this.autoFillButton ]
+										items: [ this.createReportButton , this.autoFillButton, { xtype: 'tbspacer'}, this.removeStockButton ]
 									}
 		            	          ]
 		              },{
@@ -184,6 +196,12 @@ Ext.define('PartKeepr.ProjectReportView', {
 		
 		this.callParent();
 	},
+	/**
+	 * Called when the distributor field is about to be edited.
+	 * 
+	 * Filters the distributor list and show only distributors which are assigned to the particular item.
+	 * @param e
+	 */
 	onBeforeEdit: function (e) {
 		if (e.field !== "distributor_id") { return; }
 		
@@ -203,6 +221,38 @@ Ext.define('PartKeepr.ProjectReportView', {
 			}
 			return false;
 		}});
+	},
+	/**
+	 * Removes all parts in the project view.
+	 */
+	onStockRemovalClick: function () {
+		Ext.Msg.confirm(i18n("Remove parts from stock"),
+						i18n("Do you really want to remove the parts in the project report from the stock?"),
+						this.removeStocks, this);
+	},
+	removeStocks: function (btn) {
+		if (btn == "yes") {
+			
+			var store = this.reportResult.getStore();
+			var removals = [];
+			
+			for (var i=0;i<store.count();i++) {
+				var item = store.getAt(i);
+				
+				removals.push({
+					part: item.part().getAt(0).get("id"),
+					amount: item.get("quantity"),
+					comment: item.get("projects")
+				});
+			}
+			
+			var call = new PartKeepr.ServiceCall(
+					"Part", 
+					"massDeleteStock");
+			
+			call.setParameter("removals", removals);
+			call.doCall();
+		}
 	},
 	onEdit: function (editor, e) {
 		if (e.field == "distributor_id") {
