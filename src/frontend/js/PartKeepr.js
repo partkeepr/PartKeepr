@@ -72,6 +72,8 @@ Ext.application({
 		
 		this.setSession(this.getSessionManager().getSession());
 		
+		this.getStatusbar().getConnectionButton().setConnected();
+		
     },
     /**
      * Displays the tip of the day window.

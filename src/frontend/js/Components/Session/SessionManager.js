@@ -74,7 +74,11 @@ Ext.define("PartKeepr.SessionManager", {
 		this.setSession(response.sessionid);
 		this.loginDialog.destroy();
 		
+		PartKeepr.getApplication().setAdmin(response.admin);
+		PartKeepr.getApplication().setUsername(response.username);
+		
 		this.fireEvent("login");
+		
 	},
 	/**
 	 * Sets the session
