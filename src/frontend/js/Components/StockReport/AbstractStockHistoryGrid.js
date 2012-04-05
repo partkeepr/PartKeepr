@@ -55,6 +55,14 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 	        			  return val;
 	        		  }
 	        	  }
+	          },{
+	        	  header: i18n("Comment"),
+	        	  dataIndex: 'comment',
+	        	  width: 60,
+	        	  editor: {
+                      xtype:'textfield',
+                      allowBlank:true
+                  }
 	          }];
 	},
     model: 'PartKeepr.StockEntry',
@@ -132,6 +140,11 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
     			break;
     		case "user":
     			if (!PartKeepr.getApplication().isAdmin()) {
+    				return false;
+    			}
+    			break;
+    		case "comment":
+    			if ( !sameUser && !PartKeepr.getApplication().isAdmin()) {
     				return false;
     			}
     			break;

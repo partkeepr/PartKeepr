@@ -45,6 +45,13 @@ class StockEntry extends BaseEntity implements Serializable {
 	private $correction;
 	
 	/**
+	 * @Column(type="string",nullable=true)
+	 * @var string
+	 */
+	private $comment;
+	
+	
+	/**
 	 * Creates a new stock entry. A stock entry tracks how many parts
 	 * were the stockLevel is the amount of items added/removed,
 	 * by which user and how much the user paid for it (for adding parts only!)
@@ -195,6 +202,22 @@ class StockEntry extends BaseEntity implements Serializable {
 	}
 	
 	/**
+	 * Sets a comment
+	 * @param string $comment
+	 */
+	public function setComment ($comment) {
+		$this->comment = $comment;
+	}
+	
+	/**
+	 * Returns the comment
+	 * @return string The comment
+	 */
+	public function getComment () {
+		return $this->comment;
+	}
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see de\RaumZeitLabor\PartKeepr\Util.Serializable::serialize()
 	 */
@@ -207,6 +230,7 @@ class StockEntry extends BaseEntity implements Serializable {
 				"username" => is_object($this->getUser()) ? $this->getUser()->getUsername() : PartKeepr::i18n("Unknown User"),
 				"user_id" => is_object($this->getUser()) ? $this->getUser()->getId() : null,
 				"stockLevel" => abs($this->getStockLevel()),
+				"comment" => $this->getComment(),
 				"dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"),
 				"direction" => ($this->getStockLevel() < 0) ? "out" : "in",
 				"price" => $this->getPrice()

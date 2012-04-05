@@ -81,6 +81,7 @@ class StockService extends Service implements RestfulService {
 			
 		}
 		
+		$stockEntry->setComment($this->getParameter("comment"));
 		PartKeepr::getEM()->flush();
 		
 		return array("data" => $stockEntry->serialize());
