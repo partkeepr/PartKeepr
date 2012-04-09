@@ -98,6 +98,20 @@ class PartManager extends AbstractManager {
 			$result[$key]["attachmentCount"] = $query->getSingleScalarResult();
 		}
 		
+		foreach ($result as $key => $item) {
+			$dql = "SELECT pr.name FROM de\RaumZeitLabor\PartKeepr\Project\Project pr JOIN pr.parts ppart WHERE ppart.part = :part";
+			
+			$query = PartKeepr::getEM()->createQuery($dql);
+			$query->setParameter("part", $item["id"]);
+				
+			$projectNames = array();
+			foreach ($query->getArrayResult() as $project) {
+				$projectNames[] = $project["name"];
+			}
+			
+			$result[$key]["projects"] = implode(", ", $projectNames);
+			
+		}
 		return $result;
 	}
 	

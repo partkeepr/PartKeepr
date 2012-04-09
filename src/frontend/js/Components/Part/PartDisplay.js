@@ -51,7 +51,11 @@ Ext.define('PartKeepr.PartDisplay', {
 				'<tr>',
 					'<td class="o">'+i18n("Needs Review")+':</td>',
 					'<td class="o">{needsReview}</td>',
-					'</tr>',
+				'</tr>',
+				'<tr>',
+					'<td class="e">'+i18n("Used in projects")+':</td>',
+					'<td class="e">{projects}</td>',
+				'</tr>',
 				'</table>');
 		
 		/**

@@ -151,6 +151,11 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	private $createDate;
 	
+	/**
+	 * @OneToMany(targetEntity="de\RaumZeitLabor\PartKeepr\Project\Project", mappedBy="part")
+	 **/
+	private $projects;
+	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
@@ -262,6 +267,14 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function getCategory () {
 		return $this->category;
+	}
+	
+	/**
+	 * Returns all projects this part is used
+	 * @return ArrayCollection the projects
+	 */
+	public function getProjects () {
+		return $this->projects;
 	}
 	
 	/**
