@@ -363,7 +363,7 @@
 	
 	<target name="apigen">
 		<apigen source="${source.php}" destination="reports/api/" title="PartKeepr API Documentation" internal="true"
-			deprecated="true" todo="true">
+			deprecated="true" todo="true" charset="utf8" report="reports/logs/api-checkstyle.xml">
 
 		</apigen>
 	</target>
