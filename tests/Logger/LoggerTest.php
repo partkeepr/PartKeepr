@@ -33,6 +33,10 @@ class LoggerTest extends \PHPUnit_Framework_TestCase {
 		$this->outputLog(Logger::LOGLEVEL_DEBUG, 	"test");
 	}
 	
+	/*
+	 * Tests the logging with their helper methods. This makes sure that
+	 * each severity has its own helper method.
+	 */
 	public function testLoggingWithHelperMethods () {
 		$this->outputLog(Logger::LOGLEVEL_CRITICAL, "test", true);
 		$this->outputLog(Logger::LOGLEVEL_ERROR, 	"test", true);
