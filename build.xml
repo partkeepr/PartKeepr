@@ -317,7 +317,7 @@
 		
 		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
 		
-		<coverage-report geshipath="/usr/share/php-geshi" outfile="reports/coverage/db/coverage.xml">
+		<coverage-report outfile="reports/coverage/db/coverage.xml">
 			<report todir="reports/coverage/"/>
 		</coverage-report>
 	</target>
