@@ -298,7 +298,7 @@
 		<mkdir dir="reports/phpunit"/>
 		
 		<coverage-setup database="reports/coverage/db/coverage.db">
-			<fileset dir="src">
+			<fileset dir="src/backend">
 				<include name="**/*.php"/>
 			</fileset>
 		</coverage-setup>
@@ -317,24 +317,11 @@
 		
 		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
 		
-		<coverage-report outfile="reports/coverage/db/coverage.xml">
+		<coverage-report geshipath="/usr/share/php-geshi" outfile="reports/coverage/db/coverage.xml">
 			<report todir="reports/coverage/"/>
 		</coverage-report>
 	</target>
 	
-	<target name="php-documentor">
-		<phpdoc title="API Documentation" destdir="reports/api/" undocumentedelements="true" sourcecode="true" output="HTML:Smarty:PHP">
-			<fileset dir="src/">
-				<include name="**/*.php" />
-			</fileset>
-			<projdocfileset dir=".">
-				<include name="README" />
-				<include name="INSTALL" />
-				<include name="CHANGELOG" />
-			</projdocfileset>
-		</phpdoc>
-	</target>
-
 	<target name="test">
 		<mkdir dir="reports/phpunit"/>
 		
@@ -374,7 +361,14 @@
 		<echo msg="       You may now proceed!"/>
 	</target>
 	
-	<target name="cruise-control" depends="clean,phpmd,jslint,phpcpd,code-coverage,php-documentor">
+	<target name="apigen">
+		<apigen source="${source.php}" destination="reports/api/" title="PartKeepr API Documentation" internal="true"
+			deprecated="true" todo="true">
+
+		</apigen>
+	</target>
+	
+	<target name="jenkins" depends="clean,phpmd,apigen,jslint,phpcpd,code-coverage">
 			
 	</target>
 </project>
