@@ -1,6 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\Part;
 
+use de\RaumZeitLabor\PartKeepr\Logger\Logger;
+
 use de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
 	de\RaumZeitLabor\PartKeepr\Manager\ManagerFilter,
 	Doctrine\ORM\QueryBuilder,
@@ -72,14 +74,24 @@ class PartManager extends AbstractManager {
 			->leftJoin("q.footprint", "f")
 			->join("q.category", "c")
 			->leftJoin("q.partUnit", "pu");
+
+		// Apply special handling for non-direct fields in relations, where the frontend has no idea about.
+		foreach ($filter->getSorters() as $sorter) {
+			switch ($sorter->getSortField()) {
+				case "q.categoryPath":
+					$sorter->setSortField("c.categoryPath");
+					break;
+				case "q.storageLocationName":
+					$sorter->setSortField("st.name");
+					break;
+				case "q.footprintName":
+					$sorter->setSortField("f.name");
+					break;
+				default:
+					break;
+			}
+		}		
 		
-		switch ($filter->getSortField()) {
-			case "q.categoryPath":
-				$filter->setSortField("c.categoryPath");
-				break;
-			default:
-				break;
-		}
 	}
 	
 	/**

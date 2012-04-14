@@ -221,8 +221,10 @@ abstract class AbstractManager extends Singleton {
 	 * @param ManagerFilter $filter The query filter
 	 */
 	protected function applySorting (QueryBuilder $qb, ManagerFilter $filter) {
-		if ($filter->getSortField() !== null && $filter->getSortField() != "q.") {
-			$qb->orderBy($filter->getSortField(), $filter->getDir());
+		foreach ($filter->getSorters() as $sorter) {
+			if ($sorter->getSortField() !== null && $sorter->getSortField() != "q.") {
+				$qb->addOrderBy($sorter->getSortField(), $sorter->getSortDirection());
+			}
 		}
 	}
 } 

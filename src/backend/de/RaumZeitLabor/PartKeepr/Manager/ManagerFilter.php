@@ -30,16 +30,10 @@ class ManagerFilter {
 	protected $filterField = null;
 	
 	/**
-	 * Specifies the field to sort by
-	 * @var string
+	 * Specifies the fields to sort by
+	 * @var array
 	 */
-	protected $sortField = null;
-	
-	/**
-	 * Specifies the direction (either ASC or DESC)
-	 * @var string
-	 */
-	protected $direction = "asc";
+	protected $sorters = array();
 	
 	/**
 	 * A callback which is called when creating the filter
@@ -88,6 +82,30 @@ class ManagerFilter {
 	}
 	
 	/**
+	 * Sets the sorters for this filter.
+	 * 
+	 * @param array $sorters An array of Sorter instances
+	 */
+	public function setSorters (array $sorters) {
+		// Make sure that each sorter is an instance of the Sorter class.
+		foreach ($sorters as $sorter) {
+			if (!($sorter instanceof Sorter)) {
+				throw new InvalidArgumentException("The passed sorters needs to be an array of Sorter instances");
+			}
+		}
+		
+		$this->sorters = $sorters;
+	}
+	
+	/**
+	 * Returns the sorters for this filter.
+	 * @return array An array of Sorter instances
+	 */
+	public function getSorters () {
+		return $this->sorters;
+	}
+	
+	/**
 	 * Sets the filter. Specify null if no filter is wanted.
 	 * @param mixed $filter A string to filter for, or null to disable
 	 */
@@ -101,62 +119,6 @@ class ManagerFilter {
 	 */
 	public function getFilter () {
 		return $this->filter;
-	}
-	
-	/**
-	 * Sets the direction to order by
-	 * @param string $direction Either "asc" or "desc".
-	 */
-	public function setDirection ($direction) {
-		switch (strtolower($direction)) {
-			case "desc":
-				$this->direction = "desc";
-				break;
-			case "asc":
-			default:
-				$this->direction = "asc";
-				break;
-		}
-	}
-	
-	/**
-	 * Sets the direction to order by. Shorthand function for setDirection().
-	 * @param string $dir The direction, either "asc" or "desc"
-	 */
-	public function setDir ($dir) {
-		$this->setDirection($dir);	
-	}
-	
-	/**
-	 * Returns the direction to order by.
-	 * @return either "asc" or "desc".
-	 */
-	public function getDirection () {
-		return $this->direction;
-	}
-	
-	/**
-	 * Shorthand function for getDirection().
-	 * @see getDirection
-	 */
-	public function getDir () {
-		return $this->getDirection();
-	}
-	
-	/**
-	 * Sets the field to sort by
-	 * @param string $sortField The sort field
-	 */
-	public function setSortField ($sortField) {
-		$this->sortField = $sortField;
-	}
-	
-	/**
-	 * Returns the sort field
-	 * @return string the field to sort by
-	 */
-	public function getSortField () {
-		return $this->sortField;
 	}
 	
 	/**
@@ -217,15 +179,14 @@ class ManagerFilter {
 			if ($service->hasParameter("sort")) {
 				$tmp = json_decode($service->getParameter("sort"), true);
 			
-				$aSortParams = $tmp[0];
-			} else {
-				$aSortParams = array(
-						"property" => null,
-						"direction" => "ASC");
+				$aSorters = array();
+				
+				foreach ($tmp as $key => $sortParam) {
+					 $aSorters[] = new Sorter("q.".$sortParam["property"], $sortParam["direction"]);
+				}
+				
+				$this->setSorters($aSorters);
 			}
-			
-			$this->setSortField("q.".$aSortParams["property"]);
-			$this->setDirection($aSortParams["direction"]);
 			
 			if ($service->hasParameter("query")) {
 				$this->setFilter($service->getParameter("query"));

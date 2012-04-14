@@ -39,22 +39,28 @@ class StockManager extends AbstractManager {
 	 * @param ManagerFilter $filter The query filter
 	 */
 	protected function applyCustomQuery (QueryBuilder $qb, ManagerFilter $filter) {
-		switch ($filter->getSortField()) {
-			case "q.part_name":
-				$qb->join("q.part", "p");
-				$filter->setSortField("p.name");
-				break;
-			case "q.user_id":
-				$qb->leftJoin("q.user", "u");
-				$filter->setSortField("u.username");
-				break;
-			case "q.direction":
-				$filter->setSortField("q.dateTime");
-				break;
-			case "q.storageLocation_name":
-				$qb->join("q.part", "p")->join("p.storageLocation", "st");
-				$filter->setSortField("st.name");
-				break;
+		
+		// Apply special handling for non-direct fields in relations, where the frontend has no idea about.
+		foreach ($filter->getSorters() as $sorter) {
+			switch ($sorter->getSortField()) {
+				case "q.part_name":
+					$qb->join("q.part", "p");
+					$sorter->setSortField("p.name");
+					break;
+				case "q.user_id":
+					$qb->leftJoin("q.user", "u");
+					$sorter->setSortField("u.username");
+					break;
+				case "q.direction":
+					$sorter->setSortField("q.dateTime");
+					break;
+				case "q.storageLocation_name":
+					$qb->join("q.part", "p")->join("p.storageLocation", "st");
+					$sorter->setSortField("st.name");
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }
