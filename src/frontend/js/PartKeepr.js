@@ -43,7 +43,9 @@ Ext.application({
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
     },
     onContextMenu: function (e, target) {
-    	e.preventDefault();
+    	if (!e.ctrlKey) {
+    		e.preventDefault();
+    	}
     },
     /**
      * Handles the login function. Initializes the part manager window,
