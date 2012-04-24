@@ -76,7 +76,8 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 			"mimetype" => $this->getMimetype(),
 			"extension" => $this->getExtension(),
 			"size" => $this->getSize(),
-			"description" => $this->getDescription());
+			"description" => $this->getDescription(),
+			"image" => $this->isImage());
 	}
 
 	/**
@@ -96,6 +97,23 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 					$this->setDescription($value);
 					break;
 			}
+		}
+	}
+	
+	/**
+	 * Returns if the attachment is an image or not.
+	 * 
+	 * Ths method uses ImageMagick to find out if this is an image. Limitations apply; if ImageMagick doesn't support
+	 * the image format, this method would return false, even if it is an image.
+	 * 
+	 * @return True if the attachment is an image, false otherwise
+	 */
+	public function isImage () {
+		try {
+			$im = new \Imagick($this->getFilename());
+			return true;
+		} catch (\ImagickException $e) {
+			return false;
 		}
 	}
 }
