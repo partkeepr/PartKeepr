@@ -141,3 +141,40 @@ td.o2 {
 .icon-notebook {
 	background-image: url(../resources/fugue-icons/icons/notebook.png) !important;
 }
+
+.x-char-picker {
+	width:520px;
+	height:286px;
+	cursor:pointer
+}
+
+.x-char-picker a { 
+	border:1px solid #fff;
+	float:left;
+	padding:2px;
+	text-decoration:none;
+	-moz-outline: 0 none;
+	outline:0 none;
+	cursor:pointer;
+	color: black;
+}
+
+.x-char-picker a:hover, .x-char-picker a.x-char-picker-selected {
+	border-color:#8bb8f3;
+	background-color:#deecfd;
+}
+
+.x-char-picker em { 
+	display:block;
+	border:1px solid #aca899
+}
+
+.x-char-picker em span {
+	cursor:pointer;
+	display:block;
+	height:18px;
+	vertical-align: top;
+	text-align: center;
+	width:18px;
+	line-height:18px
+}
