@@ -8,11 +8,10 @@ Ext.define('PartKeepr.PartStockWindow', {
 	
 	// Configurations
 	constrainHeader: true,
-	width: 300,
-	height: 150,
+	width: 305,
+	height: 155,
 	
 	resizable: false,
-	layout: 'fit',
 	
 	// We set the title later
 	title: "",
@@ -86,17 +85,22 @@ Ext.define('PartKeepr.PartStockWindow', {
 		
 		this.items = this.form;
 		
+		this.okButton = Ext.create("Ext.button.Button", {
+			text: i18n("OK"),
+        	handler: this.onOKClick,
+        	scope: this
+		});
+		
 		this.buttons = [
 		                {
 		                	text: i18n("Close"),
 		                	handler: this.onCloseClick,
+		                	icon: "resources/silkicons/cancel.png",
 		                	scope: this
-		                },{
-		                	text: i18n("OK"),
-		                	handler: this.onOKClick,
-		                	scope: this
-		                }];
-		this.on("show", function () { this.quantityField.focus(); }, this);
+		                },
+		                this.okButton
+		                ];
+		this.on("show", function () { this.quantityField.focus(); this.quantityField.selectText(0); }, this, { delay: 100 });
 		this.callParent();
 	},
 	/**
@@ -132,6 +136,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.callbackFn = fn;
 		this.callbackScope = scope;
 		this.setTitle(this.addPartText);
+		this.okButton.setIcon("resources/silkicons/brick_add.png");
 		this.show();
 	},
 	/**
@@ -147,6 +152,8 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.setTitle(this.removePartText);
 		this.priceField.hide();
 		this.priceCheckbox.hide();
+		this.setHeight(105);
+		this.okButton.setIcon("resources/silkicons/brick_delete.png");
 		this.show();
 	}
 });
