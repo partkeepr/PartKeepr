@@ -55,7 +55,7 @@ if ($file == null) {
 if (is_object($file)) {
 	header("Content-Type: ".$file->getMimeType());
 	
-	if ($_REQUEST["download"] && $_REQUEST["download"] == "true") {
+	if (array_key_exists("download", $_REQUEST) && $_REQUEST["download"] == "true") {
 		header("Content-Description: File Transfer");
 		header('Content-Disposition: attachment; filename="'.basename($file->getOriginalFilename()).'"');
 	} else {
