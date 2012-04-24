@@ -124,6 +124,12 @@ class PartManager extends AbstractManager {
 			$result[$key]["projects"] = implode(", ", $projectNames);
 			
 		}
+		
+		foreach ($result as $key => $item) {
+			$part = Part::loadById($item["id"]);
+			$result[$key]["attachments"] = $part->serializeChildren($part->getAttachments()); 
+		}
+		
 		return $result;
 	}
 	
