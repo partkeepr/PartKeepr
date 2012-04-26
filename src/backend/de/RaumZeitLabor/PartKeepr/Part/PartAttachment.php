@@ -81,7 +81,7 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 	}
 
 	/**
-	 * Deserializes the footprint attachment
+	 * Deserializes the part attachment
 	 * @param array $parameters The array with the parameters to set
 	 */
 	public function deserialize (array $parameters) {
