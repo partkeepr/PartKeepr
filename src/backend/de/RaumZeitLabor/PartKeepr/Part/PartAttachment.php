@@ -109,6 +109,15 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 	 * @return True if the attachment is an image, false otherwise
 	 */
 	public function isImage () {
+		/**
+		 * Special case: Check if it's a PDF. If yes, return immediately.
+		 * This is because ImageMagick outputs warning messages for malformed PDF files, and halts the execution
+		 * of the script for several seconds. DO NOT REMOVE!
+		 */
+		if ($this->getMimeType() == "application/pdf") {
+			return false;
+		}
+		
 		try {
 			$im = new \Imagick($this->getFilename());
 			return true;
