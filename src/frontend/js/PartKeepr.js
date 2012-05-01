@@ -492,8 +492,14 @@ PartKeepr.getRESTProxy = function (service) {
         	exception: function (proxy, response, operation) {
         		try {
                     var data = Ext.decode(response.responseText);
+
+                    var requestData = {};
+                    requestData.method = operation.request.method;
+                    requestData.headers = operation.request.headers;
+                    requestData.jsonData = operation.request.jsonData;
                     
                     request = {
+                    		request: Ext.encode(requestData),
                 			response: response.responseText
                 	};
                     
@@ -505,7 +511,14 @@ PartKeepr.getRESTProxy = function (service) {
                 	};
                 	
              	
+                    var requestData = {};
+                    requestData.method = operation.request.method;
+                    requestData.headers = operation.request.headers;
+                    requestData.jsonData = operation.request.jsonData;
+
+                    
                 	request = {
+                			request: Ext.encode(requestData),
                 			response: response.responseText
                 	};
                 	
