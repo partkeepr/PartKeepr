@@ -24,6 +24,6 @@ class PartFulltextSearch extends FulltextSearch {
 	 * @see de\RaumZeitLabor\PartKeepr\FulltextSearch.FulltextSearch::getFields()
 	 */
 	protected function getFields () {
-		return array("comment", "name");
+		return array("comment", "name", "internalPartNumber");
 	}
 }
