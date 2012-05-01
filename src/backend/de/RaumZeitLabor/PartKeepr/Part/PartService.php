@@ -35,8 +35,12 @@ class PartService extends Service implements RestfulService {
 		 * Applies text-based filtering
 		 */
 		if ($this->hasParameter("query") && $this->getParameter("query") != "") {
-			$queryBuilder->where("LOWER(q.name) LIKE :filter");
-			$queryBuilder->setParameter("filter", "%".strtolower($this->getParameter("query"))."%");
+
+			$fulltextSearch = new PartFulltextSearch($this->getParameter("query"));
+			$fulltextSearchResults = $fulltextSearch->query();
+			
+			$queryBuilder->andWhere("q.id IN (".implode(",", $fulltextSearchResults).")");
+			
 		}
 		
 		/**
