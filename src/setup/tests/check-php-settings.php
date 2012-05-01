@@ -12,6 +12,15 @@ if (ini_get("safe_mode")) {
 	exit;
 }
 
+if (ini_get("magic_quotes_gpc")) {
+	$errorMessage  = "PHP magic_quotes_gpc is active. PartKeepr won't work with magic_quotes_gpc. ";
+	$errorMessage .= "Please disable it by setting magic_quotes_gpc=off in your php.ini file (don't forget to restart ";
+	$errorMessage .= "your web server afterwards)";
+	
+	echo json_encode(array("error" => true, "message" => $errorMessage));
+	exit;
+}
+
 /*
  * Check if allow_url_fopen is enabled. This is required for downloading files due to lazyness (another solution,
  * like cURL, needs to be implemented). 
