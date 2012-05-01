@@ -156,6 +156,13 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 **/
 	private $projects;
 	
+	/**
+	 * The internal part number
+	 * @Column(type="string",nullable=true)
+	 * @var string
+	 */
+	private $internalPartNumber;
+	
 	public function __construct () {
 		$this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
@@ -180,6 +187,22 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function getName () {
 		return $this->name;
+	}
+	
+	/**
+	 * Sets the internal part number for this part
+	 * @param string $partnumber
+	 */
+	public function setInternalPartNumber ($partNumber) {
+		$this->internalPartNumber = $partNumber;
+	}
+	
+	/**
+	 * Returns the internal part number for this part
+	 * @return string the internal part number
+	 */
+	public function getInternalPartNumber () {
+		return $this->internalPartNumber;
 	}
 	
 	/**
@@ -444,7 +467,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					"parameters" => $this->serializeChildren($this->getParameters()),
 					"createDate" => $this->getCreateDate()->format("Y-m-d H:i:s"),
 					"needsReview" => $this->getReviewFlag(),
-					
+					"internalPartNumber" => $this->getInternalPartNumber(),
 					// Additional things we serialize to make displaying stuff in the frontend easier
 					"categoryName" => is_object($this->category) ?  $this->category->getName() : null,
 					"footprintName" => is_object($this->footprint) ? $this->footprint->getName() : null,
@@ -464,6 +487,9 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					break;
 				case "comment":
 					$this->setComment($value);
+					break;
+				case "internalPartNumber":
+					$this->setInternalPartNumber($value);
 					break;
 				case "footprint":
 					try {

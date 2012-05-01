@@ -26,6 +26,7 @@ Ext.define("PartKeepr.Part", {
 	         {	name: 'categoryName',		type: 'string'},
 	         {	name: 'categoryPath',		type: 'string'},
 	         {	name: 'projects',			type: 'string'},
+	         {  name: 'internalPartNumber',	type: 'string'},
 	         {	name: 'attachmentCount',	type: 'int'},
 	         {
 	        	 name: 'partUnitDefault',
