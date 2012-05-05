@@ -492,11 +492,15 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					$this->setInternalPartNumber($value);
 					break;
 				case "footprint":
-					try {
-						$footprint = Footprint::loadById($value);
-						$this->setFootprint($footprint);
-					} catch (\Exception $e) {
-						// No footprint was found. Ignore it.
+					if ($value === 0) {
+						$this->setFootprint(null);
+					} else {
+						try {
+							$footprint = Footprint::loadById($value);
+							$this->setFootprint($footprint);
+						} catch (\Exception $e) {
+							// No footprint was found. Ignore it.
+						}	
 					}
 					break;
 				case "minStockLevel":
