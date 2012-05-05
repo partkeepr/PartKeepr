@@ -137,16 +137,29 @@ Ext.define('PartKeepr.PartEditor', {
 				xtype: 'textarea',
 				fieldLabel: i18n("Comment"),
 				name: 'comment'
-			},{
-				xtype: 'textfield',
+			},
+			{
+				xtype: 'fieldcontainer',
+				layout: 'hbox',
 				fieldLabel: i18n("Status"),
-				name: 'status'
-			},{
-				xtype: 'checkbox',
-				hideEmptyLabel: false,
-				fieldLabel: '',
-				boxLabel: i18n("Needs Review"),
-				name: 'needsReview'
+				defaults: {
+	                hideLabel: true
+	            },
+	            items: [{
+	            	xtype: 'textfield',
+	            	fieldLabel: i18n("Status"),
+	            	flex: 1,
+	            	name: 'status'
+	            },{
+	            	xtype: 'checkbox',
+	            	hideEmptyLabel: false,
+	            	fieldLabel: '',
+	            	margins: {
+	            		left: 5
+	            	},
+	            	boxLabel: i18n("Needs Review"),
+	            	name: 'needsReview'
+	            }]
 			},{
 				xtype: 'textfield',
 				fieldLabel: i18n("Internal Part Number"),
