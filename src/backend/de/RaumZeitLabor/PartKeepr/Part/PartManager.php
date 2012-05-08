@@ -43,7 +43,7 @@ class PartManager extends AbstractManager {
 	 * @return array An array of all fields which should be returned
 	 */
 	public function getQueryFields () {
-		return array("name", "averagePrice", "status", "needsReview", "createDate", "id", "stockLevel",
+		return array("name", "description", "averagePrice", "status", "needsReview", "createDate", "id", "stockLevel",
 					"minStockLevel", "comment", "st.id AS storageLocation_id", "c.categoryPath AS categoryPath",
 					"st.name as storageLocationName", "f.id AS footprint_id", "f.name AS footprintName",
 					"c.id AS category", "c.name AS categoryName", "pu.id AS partUnit", "pu.name AS partUnitName",
@@ -162,6 +162,10 @@ class PartManager extends AbstractManager {
 			$part->setName($aParameters["name"]);
 		}
 		
+		if (array_key_exists("description", $aParameters)) {
+			$part->setDescription($aParameters["description"]);
+		}
+
 		if (array_key_exists("minstock", $aParameters)) {
 			$part->setMinStockLevel($aParameters["minstock"]);
 		}

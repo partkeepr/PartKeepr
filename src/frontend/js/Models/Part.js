@@ -8,6 +8,7 @@ Ext.define("PartKeepr.Part", {
 	         {	name: 'partUnit',			type: 'int'},
 	         {	name: 'averagePrice',		type: 'float'},
 	         {	name: 'name',				type: 'string'},
+	         {	name: 'description',		type: 'string'},
 	         {	name: 'comment',			type: 'string'},
 	         {	name: 'status',				type: 'string'},
 	         {	name: 'stockLevel',			type: 'int'},

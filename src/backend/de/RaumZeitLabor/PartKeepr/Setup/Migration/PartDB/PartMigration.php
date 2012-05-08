@@ -30,6 +30,7 @@ class PartMigration extends AbstractSetup {
 			
 			$oPart = new Part();
 			$oPart->setName($name);
+			$oPart->setDescription($part["description"]);
 			$oPart->setComment(PartDBMigration::convertText($part["comment"]));
 			
 			$oPart->setFootprint($this->getFootprintForPart($part["id"]));
