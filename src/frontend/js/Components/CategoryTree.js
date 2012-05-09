@@ -63,9 +63,15 @@ Ext.define("PartKeepr.CategoryTree", {
 		return ret;
 	},
 	buildCategoryTree : function(root, data, expandedNodes) {
+		var label;
+		if (data.id == 1) {
+			label = data.name;
+		} else {
+			label = data.name + " - " + data.description;
+		}
 		var nodeData = {
 			id :  data.id,
-			name : data.name,
+			name : label,
 			tooltip : data.description
 		};
 		
