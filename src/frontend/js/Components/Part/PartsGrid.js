@@ -146,14 +146,14 @@ Ext.define('PartKeepr.PartsGrid', {
 		          {
 		        	  header: i18n("Name"),
 		        	  dataIndex: 'name',
-					  width: 60,
+		        	  flex: 1,
+		        	  minWidth: 150,
 		        	  renderer: Ext.util.Format.htmlEncode
 		          },{
 					  header: i18n("Description"),
 					  dataIndex: 'description',
-					  flex: 1,
-					  width: 200,
-					  minWidth: 200
+					  flex: 2,
+					  minWidth: 150
 		          },{
 		        	  header: i18n("Storage Location"),
 		        	  dataIndex: 'storageLocationName'
