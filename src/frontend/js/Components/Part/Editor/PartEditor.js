@@ -94,6 +94,10 @@ Ext.define('PartKeepr.PartEditor', {
 		var basicEditorFields = [
 			this.nameField,
 			{
+				xtype: 'textfield',
+				fieldLabel: i18n("Description"),
+				name: 'description'
+			},{
 				layout: 'column',
 				bodyStyle: 'background:#DBDBDB',
 				border: false,
