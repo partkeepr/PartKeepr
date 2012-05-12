@@ -3,7 +3,6 @@ Ext.define("PartKeepr.CategoryTree", {
 	extend: 'Ext.tree.Panel',
 	categoryService: null,
 	categoryModel: null,
-	displayField: 'name',
 	sorters: [{
         property: 'name',
         direction: 'ASC'
@@ -63,9 +62,17 @@ Ext.define("PartKeepr.CategoryTree", {
 		return ret;
 	},
 	buildCategoryTree : function(root, data, expandedNodes) {
+		var label;
+		if ((data.id > 1) && (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === true)) {
+			label = data.name + " - " + data.description;
+		} else {
+			label = data.name;
+		}
 		var nodeData = {
 			id :  data.id,
 			name : data.name,
+			description : data.description,
+			text : label,
 			tooltip : data.description
 		};
 		

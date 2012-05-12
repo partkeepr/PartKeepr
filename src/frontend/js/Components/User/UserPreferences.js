@@ -7,8 +7,10 @@ Ext.define('PartKeepr.UserPreferencePanel', {
 		
 		this.passwordChangePanel = Ext.create("PartKeepr.UserPasswordChangePanel");
 		this.tipsPanel = Ext.create("PartKeepr.TipOfTheDayPreferencesPanel");
+		this.categoryTreePanel = Ext.create("PartKeepr.CategoryTreePreferencesPanel");
         this.stockPanel = Ext.create("PartKeepr.StockPreferencesPanel");
-		this.items = [ this.tipsPanel, this.passwordChangePanel, this.stockPanel ];
+		this.items = [ this.tipsPanel, this.categoryTreePanel, this.passwordChangePanel, this.stockPanel ];
 		this.callParent();
 	}
 });
+
