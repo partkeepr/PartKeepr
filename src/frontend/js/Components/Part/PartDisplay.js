@@ -15,6 +15,7 @@ Ext.define('PartKeepr.PartDisplay', {
 		 */
 		this.tpl = new Ext.XTemplate(
 				'<h1>{name}</h1>',
+				'<h2>{description}</h2>',
 				'<table>',
 				'<tr>',
 					'<td class="o">'+i18n("Category")+':</td>',

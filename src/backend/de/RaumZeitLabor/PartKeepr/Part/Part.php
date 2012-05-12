@@ -35,6 +35,13 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	private $name;
 
 	/**
+	 * The part's short description
+	 * @Column(type="string",nullable=true)
+	 * @var string
+	 */
+	private $description;
+
+	/**
 	 * The footprint of this part
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Footprint\Footprint")
 	 * @var Footprint
@@ -205,6 +212,22 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 		return $this->internalPartNumber;
 	}
 	
+	/**
+	 * Sets the description for this part
+	 * @param string $description The part's short description
+	 */
+	public function setDescription ($description) {
+		$this->description = $description;
+	}
+
+	/**
+	 * Returns the short description of this part
+	 * @return string The part description
+	 */
+	public function getDescription () {
+		return $this->description;
+	}
+
 	/**
 	 * Sets the part unit
 	 * 
@@ -452,6 +475,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 		return array(
 					"id" => $this->getId(),
 					"name" => $this->getName(),
+					"description" => $this->getDescription(),
 					"comment" => $this->getComment(),
 					"stockLevel" => $this->getStockLevel(),
 					"footprint" => is_object($this->footprint) ? $this->footprint->getId() : null,
@@ -485,6 +509,9 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 				case "name":
 					$this->setName($value);
 					break;
+				case "description":
+					$this->setDescription($value);
+					break;
 				case "comment":
 					$this->setComment($value);
 					break;
@@ -492,11 +519,15 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					$this->setInternalPartNumber($value);
 					break;
 				case "footprint":
-					try {
-						$footprint = Footprint::loadById($value);
-						$this->setFootprint($footprint);
-					} catch (\Exception $e) {
-						// No footprint was found. Ignore it.
+					if ($value === 0) {
+						$this->setFootprint(null);
+					} else {
+						try {
+							$footprint = Footprint::loadById($value);
+							$this->setFootprint($footprint);
+						} catch (\Exception $e) {
+							// No footprint was found. Ignore it.
+						}	
 					}
 					break;
 				case "minStockLevel":

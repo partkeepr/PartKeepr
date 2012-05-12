@@ -44,10 +44,60 @@ Ext.define('PartKeepr.PartEditor', {
 			this.getForm().isValid();
 		}, this);
 		
+		this.footprintNone = Ext.create("Ext.form.field.Radio", {
+				boxLabel: i18n("None"),
+				name: 'footprint_mode',
+				margin: {
+					right: 5
+				},
+				value: "unset",
+				listeners: {
+					scope: this,
+					change: function (field, newValue) {
+						if (newValue === true) {
+							this.footprintComboBox.clearValue();
+						}
+					}
+				}
+			});
+		
+		this.footprintSet = Ext.create("Ext.form.field.Radio", {
+			name: 'footprint_mode',
+			margin: {
+				right: 5
+			},
+			value: "set"
+		});
+		
+		/*
+		 * Creates the footprint combo box. We listen for the "change" event, because we need to set the footprint
+		 * comboboxes to the right state, depending on the selection. Another way would be to patch the combobox
+		 * to support "null" values, however, this is a major change within ExtJS and probably not supported for
+		 * updates of ExtJS.
+		 */
+		this.footprintComboBox = Ext.create("PartKeepr.FootprintComboBox", {
+				name: 'footprint',
+				flex: 1,
+				listeners: {
+					scope: this,
+					change: function (field, newValue) {
+						console.log(newValue);
+						
+						if (newValue !== 0) {
+							this.footprintSet.setValue(true);
+						}
+					}
+				}
+		});
+		
 		// Defines the basic editor fields
 		var basicEditorFields = [
 			this.nameField,
 			{
+				xtype: 'textfield',
+				fieldLabel: i18n("Description"),
+				name: 'description'
+			},{
 				layout: 'column',
 				bodyStyle: 'background:#DBDBDB',
 				border: false,
@@ -76,23 +126,45 @@ Ext.define('PartKeepr.PartEditor', {
 			},
 			this.storageLocationComboBox,
 			{
-				xtype: 'FootprintComboBox',
+				xtype: 'fieldcontainer',
+				layout: 'hbox',
 				fieldLabel: i18n("Footprint"),
-				name: 'footprint'
+				defaults: {
+	                hideLabel: true
+	            },
+				items: [
+				        this.footprintNone,
+				        this.footprintSet,
+				        this.footprintComboBox
+				       ]
 			},{
 				xtype: 'textarea',
 				fieldLabel: i18n("Comment"),
-				name: 'comment'
-			},{
-				xtype: 'textfield',
+				name: 'comment',
+				anchor: '100% -200'
+			},
+			{
+				xtype: 'fieldcontainer',
+				layout: 'hbox',
 				fieldLabel: i18n("Status"),
-				name: 'status'
-			},{
-				xtype: 'checkbox',
-				hideEmptyLabel: false,
-				fieldLabel: '',
-				boxLabel: i18n("Needs Review"),
-				name: 'needsReview'
+				defaults: {
+	                hideLabel: true
+	            },
+	            items: [{
+	            	xtype: 'textfield',
+	            	fieldLabel: i18n("Status"),
+	            	flex: 1,
+	            	name: 'status'
+	            },{
+	            	xtype: 'checkbox',
+	            	hideEmptyLabel: false,
+	            	fieldLabel: '',
+	            	margins: {
+	            		left: 5
+	            	},
+	            	boxLabel: i18n("Needs Review"),
+	            	name: 'needsReview'
+	            }]
 			},{
 				xtype: 'textfield',
 				fieldLabel: i18n("Internal Part Number"),
@@ -286,6 +358,11 @@ Ext.define('PartKeepr.PartEditor', {
 			this.record.set("storageLocation", storageLocationRecord.get("id"));
 		}
 		
+		// Force footprint to be "null" when the checkbox is checked.
+		if (this.footprintNone.getValue() === true) {
+			this.record.set("footprint", 0);
+		}
+		
 	},
 	onEditStart: function () {
 		this.bindChildStores();
@@ -298,6 +375,12 @@ Ext.define('PartKeepr.PartEditor', {
 		// This workaround is done twice; once after the store is loaded and once when we start editing,
 		// because we don't know which event will come first
 		this.getForm().isValid();
+		
+		if (this.record.get("footprint") == 0) {
+			this.footprintNone.setValue(true);
+		} else {
+			this.footprintSet.setValue(true);
+		}
 	},
 	_onItemSaved: function () {
 		this.fireEvent("partSaved", this.record);
