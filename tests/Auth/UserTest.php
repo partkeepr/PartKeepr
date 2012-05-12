@@ -1,6 +1,5 @@
 <?php 
 namespace de\RaumZeitLabor\PartKeepr\Tests\Auth;
-declare(encoding = 'UTF-8');
 
 use de\RaumZeitLabor\PartKeepr\User\User;
 
