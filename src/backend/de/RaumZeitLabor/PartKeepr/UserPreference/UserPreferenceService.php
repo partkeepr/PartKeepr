@@ -36,28 +36,11 @@ class UserPreferenceService extends Service implements RestfulService {
 		
 		$aPreferences = array();
 		
-		foreach (self::getPreferencesForUser($user) as $result) {
+		foreach ($user->getPreferences() as $result) {
 			$aPreferences[] = $result->serialize();	
 		}
 		
 		return array("data" => $aPreferences);
-	}
-	
-	/**
-	 * Returns the user preferences for a specific user
-	 * @param User $user The user to retrieve the user preferences for
-	 * @return array An array of UserPreference objects
-	 */
-	public static function getPreferencesForUser (User $user) {
-		$aPreferences = array();
-		
-		/* Extract all preferences */
-		$dql =  "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user";
-		
-		$query = PartKeepr::getEM()->createQuery($dql);
-		$query->setParameter("user", $user);
-		
-		return $query->getResult();
 	}
 	
 	/**
