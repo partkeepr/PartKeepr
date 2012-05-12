@@ -38,8 +38,20 @@ Ext.application({
         	}
     	}
     	
-    	
-    	
+		new Ext.util.KeyMap(Ext.get(document), {
+			key: 'x',
+			ctrl: false,
+			alt: true,
+			fn: function(e) {
+				var searchBox = Ext.getCmp('thesearchfield');
+				if (Ext.get(document).activeElement != searchBox) {
+					searchBox.focus('',10);
+				}
+				searchBox.setValue('');
+			},
+			stopEvent: true
+		});
+
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
     },
     onContextMenu: function (e, target) {
@@ -598,4 +610,4 @@ PartKeepr.serializeRecords = function (records) {
 	}
 	
 	return finalData;
-}; 
+};
