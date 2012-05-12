@@ -18,36 +18,46 @@ use de\RaumZeitLabor\PartKeepr\User\User,
  */
 class UserPreferenceService extends Service implements RestfulService {
 	/**
-	 * Returns the preferences for the current user.
+	 * Returns the preferences for the current user, or a user specified by user_id (admin only).
 	 * 
 	 * (non-PHPdoc)
 	 * @see de\RaumZeitLabor\PartKeepr\Service.RestfulService::get()
 	 */
 	public function get () {
-		$aPreferences = array();
-		
-		/* Extract all preferences */ 
-		$dql =  "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user";
-		
-		$query = PartKeepr::getEM()->createQuery($dql);
+		$user = null;
 		
 		if ($this->hasParameter("user_id") && SessionManager::getCurrentSession()->getUser()->isAdmin()) {
 			if ($this->getParameter("user_id") != 0) {
-				$query->setParameter("user", User::loadById($this->getParameter("user_id")));
-			} else {
-				$query->setParameter("user", 0);
+				$user = User::loadById($this->getParameter("user_id"));
 			}
-			
 		} else {
-			$query->setParameter("user", SessionManager::getCurrentSession()->getUser());
+			$user = SessionManager::getCurrentSession()->getUser();
 		}
 		
+		$aPreferences = array();
 		
-		foreach ($query->getResult() as $result) {
+		foreach (self::getPreferencesForUser($user) as $result) {
 			$aPreferences[] = $result->serialize();	
 		}
 		
 		return array("data" => $aPreferences);
+	}
+	
+	/**
+	 * Returns the user preferences for a specific user
+	 * @param User $user The user to retrieve the user preferences for
+	 * @return array An array of UserPreference objects
+	 */
+	public static function getPreferencesForUser (User $user) {
+		$aPreferences = array();
+		
+		/* Extract all preferences */
+		$dql =  "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user";
+		
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("user", $user);
+		
+		return $query->getResult();
 	}
 	
 	/**

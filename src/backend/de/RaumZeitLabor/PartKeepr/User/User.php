@@ -1,6 +1,8 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\User;
 
+use de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference;
+
 use de\RaumZeitLabor\PartKeepr\Util\Deserializable,
 	de\RaumZeitLabor\PartKeepr\Util\Serializable,
 	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
@@ -16,7 +18,6 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	
 	/** @Column(type="boolean") */
 	private $admin;
-	
 	
 	/**
 	 * Creates a new user object.
@@ -35,6 +36,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 		
 		$this->setAdmin(false);
 	}
+	
 	/**
 	 * Sets the username.
 	 * 
@@ -180,6 +182,49 @@ class User extends BaseEntity implements Serializable, Deserializable {
 					break;
 			}
 		}
+	}
+
+	/**
+	 * Sets a user preference
+	 * 
+	 * @param string $preferenceKey 	The preference key
+	 * @param string $preferenceValue 	The preference value
+	 */
+	public function setPreference ($preferenceKey, $preferenceValue) {
+		return UserPreference::setPreference($this, $preferenceKey, $preferenceValue);
+	}
+	
+	/**
+	 * Returns a given preference object
+	 * 
+	 * @param string $preferenceKey The preference key
+	 * @return UserPreference The user preference object
+	 * @thorws UserPreferenceNotFoundException If the preference key was not found
+	 */
+	public function getPreference ($preferenceKey) {
+		return UserPreference::getPreference($this, $preferenceKey);
+	}
+	
+	/**
+	 * Returns a given preference value
+	 * 
+	 * @param string $preferenceKey The preference key
+	 * @return UserPreference The user preference object
+	 * @thorws UserPreferenceNotFoundException If the preference key was not found
+	 */
+	public function getPreferenceValue ($preferenceKey) {
+		return UserPreference::getPreferenceValue($this, $preferenceKey);
+	}
+	
+	/**
+	 * Deletes the given preference
+	 *
+	 * @param string $preferenceKey The preference key
+	 * @return UserPreference The user preference object
+	 * @thorws UserPreferenceNotFoundException If the preference key was not found
+	 */
+	public function deletePreference ($preferenceKey) {
+		return UserPreference::deletePreference($this, $preferenceKey);
 	}
 	
 	/**

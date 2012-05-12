@@ -142,4 +142,34 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals($expectedArray, $userPreference->serialize());
 	}
+	
+	/**
+	 * Makes sure that an exception is thrown when attempting to set a preference if the user is not persistant yet.
+	 *
+	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 */
+	public function testSetNonPersistantUserPreference () {
+		$user = new User();
+		UserPreference::setPreference($user, "test", "foo");
+	}
+	
+	/**
+	 * Makes sure that an exception is thrown when attempting to get a preference if the user is not persistant yet.
+	 *
+	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 */
+	public function testGetNonPersistantUserPreference () {
+		$user = new User();
+		UserPreference::getPreference($user, "test");
+	}
+	
+	/**
+	 * Makes sure that an exception is thrown when attempting to delete a preference if the user is not persistant yet.
+	 *
+	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 */
+	public function testDeleteNonPersistantUserPreference () {
+		$user = new User();
+		UserPreference::deletePreference($user, "test");
+	}
 }

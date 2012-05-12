@@ -36,12 +36,12 @@ function initializeEnvironment () {
 	PartKeepr::getEM()->persist($user);
 	
 	/* Create a blank regular user */
-	$user = new User();
-	$user->setUsername("regular");
-	$user->setPassword("regular");
-	$user->setAdmin(false);
+	$user2 = new User();
+	$user2->setUsername("regular");
+	$user2->setPassword("regular");
+	$user2->setAdmin(false);
 	
-	PartKeepr::getEM()->persist($user);
+	PartKeepr::getEM()->persist($user2);
 	
 	PartKeepr::getEM()->flush();
 }

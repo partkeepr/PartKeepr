@@ -7,6 +7,7 @@ use de\RaumZeitLabor\PartKeepr\Util\Serializable,
 	de\RaumZeitLabor\PartKeepr\Util\Configuration,
 	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
 	de\RaumZeitLabor\PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException,
+	de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException,
 	Doctrine\ORM\NoResultException;
 
 /**
@@ -110,8 +111,13 @@ class UserPreference implements Serializable {
 	 * @param User $user The user to set the preference for
 	 * @param string $key	The key to set
 	 * @param string $value The value to set
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public static function setPreference (User $user, $key, $value) {
+		if (!PartKeepr::getEM()->contains($user)) {
+			throw new EntityNotPersistantException();
+		}
+		
 		$dql = "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user AND ";
 		$dql .= "up.preferenceKey = :key";
 		
@@ -142,7 +148,8 @@ class UserPreference implements Serializable {
 	 * @param User $user 	The user to retrieve the preference for
 	 * @param string $key	The preference key to retrieve
 	 * @return string		The preference string
-	 * @throws UserPreferenceNotFoundException	Thrown if the preference key was not found	
+	 * @throws UserPreferenceNotFoundException	Thrown if the preference key was not found
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public static function getPreferenceValue (User $user, $key) {
 		$userPreference = self::getPreference($user, $key);
@@ -157,8 +164,13 @@ class UserPreference implements Serializable {
 	 * @param string $key		The preference key to retrieve
 	 * @return UserPreference	The preference object
 	 * @throws UserPreferenceNotFoundException	Thrown if the preference key was not found
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public static function getPreference (User $user, $key) {
+		if (!PartKeepr::getEM()->contains($user)) {
+			throw new EntityNotPersistantException();
+		}
+		
 		$dql = "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user AND ";
 		$dql .= "up.preferenceKey = :key";
 		
@@ -179,8 +191,13 @@ class UserPreference implements Serializable {
 	 * 
 	 * @param User $user	The user to delete the preference for
 	 * @param string $key	The key to delete
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public static function deletePreference (User $user, $key) {
+		if (!PartKeepr::getEM()->contains($user)) {
+			throw new EntityNotPersistantException();
+		}
+		
 		$dql = "DELETE FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user AND ";
 		$dql .= "up.preferenceKey = :key";
 		
