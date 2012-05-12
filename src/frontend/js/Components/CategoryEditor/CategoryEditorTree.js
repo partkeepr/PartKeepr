@@ -175,12 +175,21 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 	onUpdateRecord: function (record) {
 		var currentRecord = this.getStore().getRootNode().findChild("id", record.get("id"), true);
 		
+		var label;
+		if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === true) {
+			label = record.get("name") + " - " + record.get("description");
+		} else {
+			label = record.get("name");
+		}
+
 		if (currentRecord === null) {
 			var parentRecord = this.getStore().getRootNode().findChild("id", record.get("parent"), true);
 			
 			var nodeData = {
 					id : record.get("id"),
 					name : record.get("name"),
+					description : record.get("description"),
+					text : label,
 					tooltip : record.get("description")
 				};
 			
@@ -189,6 +198,8 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 		} else {
 			currentRecord.set("name", record.get("name"));
 			currentRecord.set("description", record.get("description"));
+			currentRecord.set("text", label);
+			currentRecord.set("tooltip", record.get("description"));
 			currentRecord.commit();	
 		}
 		
