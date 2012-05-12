@@ -103,6 +103,7 @@ Ext.define('PartKeepr.EditorGrid', {
 		});
 		
 		this.searchField = Ext.create("Ext.ux.form.SearchField",{
+				id: 'thesearchfield',
 				store: this.store
 			});
 		
