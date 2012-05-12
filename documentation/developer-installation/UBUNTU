@@ -1,25 +1,37 @@
-Step by Step Guide für Ubuntu 10.04
-===================================
+Step-by-Step Guide for Ubuntu
+=============================
 
 This guide explains how to setup your workstation so that you can develop using PartKeepr.
 
-This guide assumes that you are working as user root. Usually this isn't recommended, but to make it easier for you, we'll omit that.
+Tested with:
+- Ubuntu 11.04
+- Ubuntu 12.04
 
 In this guide, I've used "/var/www" as web server root.
 
-apt-get install apache2 php5-mysql php5-curl php5-cli php-pear git php5-imagick php5-xsl php-apc imagemagick mysql-client mysql-server libapache2-mod-php5
+
+-------------
+SYSTEM CONFIG
+-------------
+
+# NOTE: These steps require root access.
+# Prefix all commands with 'sudo' or run as the root user.
+
+# Install apache, mysql, php, imagemagick and git
+apt-get install apache2 mysql-server mysql-client libapache2-mod-php5 php5-mysql php5-curl php5-cli php-pear php5-imagick php5-xsl php-apc php5-dev imagemagick git
+
+# On Ubuntu Server, you need to install ia32-libs (installed automatically on Ubuntu Desktop)
+# Note: This is only required with 64-bit Ubuntu (not 32-bit)
+apt-get install ia32-libs
+
+# Install Java SDK
+apt-get install default-jdk
 
 # Update PEAR
-
 pear update-channels
 pear upgrade
 
-# On Ubuntu Server, you need to install ia32-libs which are installed automatically on Ubuntu Desktop
-apt-get install ia32-libs
-apt-get install default-jdk
-
-# Install phpunit, phing
-
+# Install phpunit, phing, doctrine components and twig
 pear config-set auto_discover 1
 pear channel-discover pear.phpunit.de
 pear install phpunit/PHPUnit
@@ -28,12 +40,27 @@ pear install phing/phing
 
 pear install pear.doctrine-project.org/DoctrineORM
 pear install phpunit/phpcpd
+# (the required domain 'components.ez.no' seems to be unavailable quite often)
+
 pear install --alldeps phpmd/PHP_PMD-alpha
 
-# You can 
-# Create a new database
+pear install doctrine/DoctrineSymfonyYaml
+pear install doctrine/DoctrineSymfonyConsole
+
+pear channel-discover pear.twig-project.org
+pear install twig/Twig
+
+
+------------------
+# PARTKEEPR CONFIG
+------------------
+
+# NOTE: These steps can be performed as a regular user.
+$ Steps requiring root permission
+
+# Create a new database and user 'partkeepr'
 mysql -uroot -p
-CREATE DATABASE partkeepr;
+CREATE DATABASE partkeepr CHARACTER SET utf8;
 grant usage on *.* to partkeepr@localhost identified by 'partkeepr';
 grant all privileges on partkeepr.* to partkeepr@localhost;
 quit
@@ -43,17 +70,22 @@ mysql -upartkeepr -ppartkeepr
 quit
 
 # Setting up the PartKeepr repository
+# NOTE: You should secure the PartKeepr directory with appropriate permissions once setup is complete
 cd /var/www
+sudo mkdir PartKeepr
+sudo chmod 777 PartKeepr
 
 # Cloning will take a while, approx 50MB repository will be downloaded
-git clone git://github.com/partkeepr/PartKeepr.git  
+git clone git://github.com/partkeepr/PartKeepr.git
 
 cd /var/www/PartKeepr
 
-# This will update the submodules. Another 200MB will be downloaded
+# This will update the submodules. Another 400MB will be downloaded
 git submodule sync
+git submodule init
 git submodule update
 
+# Copy the default configuration file
 cp config.php.template config.php
 
 # You have now two choices: Proceed with or without sample data.
@@ -82,8 +114,9 @@ php doctrine.php migrations:migrate
 # Build the frontend
 phing build
 
-# Restart apache2 to make sure php5 is enabled
-/etc/init.d/apache2 restart
+# Restart apache2 to make sure php5 is enabled (requires root permission)
+sudo /etc/init.d/apache2 restart
 
 # Open up your browser and navigate to http://localhost/PartKeepr/frontend
 # The frontend should now appear
+
