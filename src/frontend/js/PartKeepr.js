@@ -483,7 +483,7 @@ Ext.application({
  * @return {Object} The RESTProxy definition
 */
 PartKeepr.getRESTProxy = function (service) {
-	var request;
+	var request,requestData = {};
 	
 	var obj = {
 		batchActions: false,
@@ -493,7 +493,6 @@ PartKeepr.getRESTProxy = function (service) {
         		try {
                     var data = Ext.decode(response.responseText);
 
-                    var requestData = {};
                     requestData.method = operation.request.method;
                     requestData.headers = operation.request.headers;
                     requestData.jsonData = operation.request.jsonData;
@@ -511,12 +510,10 @@ PartKeepr.getRESTProxy = function (service) {
                 	};
                 	
              	
-                    var requestData = {};
                     requestData.method = operation.request.method;
                     requestData.headers = operation.request.headers;
                     requestData.jsonData = operation.request.jsonData;
 
-                    
                 	request = {
                 			request: Ext.encode(requestData),
                 			response: response.responseText
