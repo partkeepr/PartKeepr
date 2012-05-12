@@ -65,6 +65,8 @@ Ext.application({
      */
     onLogin: function () {
     	this.createGlobalStores();
+    	
+    	this.getUserPreferenceStore().getProxy().getReader().read(PartKeepr.initialUserPreferences);
 		this.reloadStores();
 		
 		var j = Ext.create("PartKeepr.PartManager", {
@@ -90,18 +92,18 @@ Ext.application({
 		
     },
     /**
+     * Sets the initial user preferences, which are applied into the userPreferenceStore after login.
+     */
+    setInitialUserPreferences: function (obj) {
+    	PartKeepr.initialUserPreferences = obj;
+    },
+    /**
      * Displays the tip of the day window.
      * 
      * This method checks if the user has disabled tips, and if so, this method
      * avoids showing the window. 
      */
     displayTipOfTheDayWindow: function () {
-    	if (!this.userPreferenceStore._loaded) {
-    		this.displayTipWindowTask.delay(100);
-    		return;
-    		
-    	}
-    	
     	if (!this.tipOfTheDayStore._loaded) {
     		this.displayTipWindowTask.delay(100);
     		return;
@@ -242,7 +244,7 @@ Ext.application({
     			{
     				model: 'PartKeepr.UserPreference',
     				pageSize: -1,
-    				autoLoad: true,
+    				autoLoad: false,
     				listeners: {
     					scope: this,
     					load: this.storeLoaded

@@ -376,7 +376,7 @@ Ext.define('PartKeepr.PartEditor', {
 		// because we don't know which event will come first
 		this.getForm().isValid();
 		
-		if (this.record.get("footprint") == 0) {
+		if (this.record.get("footprint") === 0) {
 			this.footprintNone.setValue(true);
 		} else {
 			this.footprintSet.setValue(true);

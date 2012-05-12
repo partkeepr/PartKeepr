@@ -77,6 +77,8 @@ Ext.define("PartKeepr.SessionManager", {
 		PartKeepr.getApplication().setAdmin(response.admin);
 		PartKeepr.getApplication().setUsername(response.username);
 		
+		PartKeepr.getApplication().setInitialUserPreferences(response.userPreferences);
+		
 		this.fireEvent("login");
 		
 	},
