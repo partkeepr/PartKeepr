@@ -1,11 +1,13 @@
 <?php
 namespace de\RaumZeitLabor\PartKeepr\UserPreference;
 
-use de\RaumZeitLabor\PartKeepr\Util\Serializable;
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\User\User;
-use de\RaumZeitLabor\PartKeepr\Util\Configuration;
-use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
+use de\RaumZeitLabor\PartKeepr\Util\Serializable,
+	de\RaumZeitLabor\PartKeepr\PartKeepr,
+	de\RaumZeitLabor\PartKeepr\User\User,
+	de\RaumZeitLabor\PartKeepr\Util\Configuration,
+	de\RaumZeitLabor\PartKeepr\Util\BaseEntity,
+	de\RaumZeitLabor\PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException,
+	Doctrine\ORM\NoResultException;
 
 /**
  * Represents a user preference entry.
@@ -13,7 +15,7 @@ use de\RaumZeitLabor\PartKeepr\Util\BaseEntity;
  * User preferences are a simple key => value mechanism, where the developer can
  * specify the key and value himself.
  * 
- * Note that values are stored internally as JSON to keep their type.
+ * Note that values are stored internally as serialized PHP values to keep their type.
  * 
  * @Entity
  **/
@@ -118,20 +120,58 @@ class UserPreference implements Serializable {
 		$query->setParameter("key", $key);
 		
 		try {
-			$up = $query->getSingleResult();
+			$userPreference = $query->getSingleResult();
 		} catch (\Exception $e) {
-			$up = new UserPreference();
-			$up->setUser($user);
-			$up->setKey($key);
+			$userPreference = new UserPreference();
+			$userPreference->setUser($user);
+			$userPreference->setKey($key);
 			
-			PartKeepr::getEM()->persist($up);
+			PartKeepr::getEM()->persist($userPreference);
 		}
 		
-		$up->setValue($value);
+		$userPreference->setValue($value);
 		
 		PartKeepr::getEM()->flush();
 		
-		return $up;
+		return $userPreference;
+	}
+	
+	/**
+	 * Returns a specific preference value for the given user
+	 * 
+	 * @param User $user 	The user to retrieve the preference for
+	 * @param string $key	The preference key to retrieve
+	 * @return string		The preference string
+	 * @throws UserPreferenceNotFoundException	Thrown if the preference key was not found	
+	 */
+	public static function getPreferenceValue (User $user, $key) {
+		$userPreference = self::getPreference($user, $key);
+		
+		return $userPreference->getValue();
+	}
+	
+	/**
+	 * Returns a specific preference object for the given user
+	 *
+	 * @param User $user		The user to retrieve the preference for
+	 * @param string $key		The preference key to retrieve
+	 * @return UserPreference	The preference object
+	 * @throws UserPreferenceNotFoundException	Thrown if the preference key was not found
+	 */
+	public static function getPreference (User $user, $key) {
+		$dql = "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user AND ";
+		$dql .= "up.preferenceKey = :key";
+		
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("user", $user);
+		$query->setParameter("key", $key);
+		
+		try {
+			$up = $query->getSingleResult();
+			return $up;
+		} catch (NoResultException $e) {
+			throw new UserPreferenceNotFoundException($user, $key);
+		}
 	}
 	
 	/**
