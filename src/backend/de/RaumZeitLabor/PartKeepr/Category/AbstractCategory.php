@@ -9,7 +9,10 @@ use DoctrineExtensions\NestedSet\Node;
  * @MappedSuperclass
  * @Table(indexes={@index(columns={"lft"}),@index(columns={"rgt"})})
  * 
- * Represents an abstract category
+ * Represents an abstract category. This class isn't directly usable; you need to inherit it to take advantage of
+ * the AbstractCategoryManager.
+ * 
+ * If you are interested on how NestedSets work, please read http://en.wikipedia.org/wiki/Nested_set_model
  */
 class AbstractCategory extends BaseEntity implements Node, Serializable {
     /**
@@ -107,6 +110,10 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
 	}
 	
 	/**
+	 * Returns the "left" value of the nested set.
+	 * 
+	 * @return int The left value
+	 * 
 	 * (non-PHPdoc)
 	 * @see DoctrineExtensions\NestedSet.Node::getLeftValue()
 	 */
@@ -115,6 +122,9 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
     }
     
     /**
+     * Sets the "left" value.
+     * 
+     * @param $lft integer The left value
      * (non-PHPdoc)
      * @see DoctrineExtensions\NestedSet.Node::setLeftValue()
      */
@@ -123,6 +133,10 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
     }
 
     /**
+     * Returns the "right" value of the nested set.
+     * 
+     * @return int The right value
+     * 
      * (non-PHPdoc)
      * @see DoctrineExtensions\NestedSet.Node::getRightValue()
      */
@@ -131,6 +145,10 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
     }
     
     /**
+     * Sets the "right" value of the nested set
+     * 
+     * @param $rgt int The right value
+     * 
      * (non-PHPdoc)
      * @see DoctrineExtensions\NestedSet.Node::setRightValue()
      */
@@ -150,6 +168,10 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
 	}
 	
 	/**
+	 * Returns a string representation of the current node.
+	 * 
+	 * @return string The node name
+	 * 
 	 * (non-PHPdoc)
 	 * @see DoctrineExtensions\NestedSet.Node::__toString()
 	 */
@@ -159,6 +181,8 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
 	
 	/**
 	 * Retrieves the category path
+	 * 
+	 * @return string The category path
 	 */
 	public function getCategoryPath () {
 		return $this->categoryPath;
