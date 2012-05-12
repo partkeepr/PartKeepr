@@ -189,6 +189,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * 
 	 * @param string $preferenceKey 	The preference key
 	 * @param string $preferenceValue 	The preference value
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public function setPreference ($preferenceKey, $preferenceValue) {
 		return UserPreference::setPreference($this, $preferenceKey, $preferenceValue);
@@ -199,7 +200,8 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * 
 	 * @param string $preferenceKey The preference key
 	 * @return UserPreference The user preference object
-	 * @thorws UserPreferenceNotFoundException If the preference key was not found
+	 * @throws UserPreferenceNotFoundException If the preference key was not found
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public function getPreference ($preferenceKey) {
 		return UserPreference::getPreference($this, $preferenceKey);
@@ -210,7 +212,8 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * 
 	 * @param string $preferenceKey The preference key
 	 * @return UserPreference The user preference object
-	 * @thorws UserPreferenceNotFoundException If the preference key was not found
+	 * @throws UserPreferenceNotFoundException If the preference key was not found
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public function getPreferenceValue ($preferenceKey) {
 		return UserPreference::getPreferenceValue($this, $preferenceKey);
@@ -221,12 +224,23 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 *
 	 * @param string $preferenceKey The preference key
 	 * @return UserPreference The user preference object
-	 * @thorws UserPreferenceNotFoundException If the preference key was not found
+	 * @throws UserPreferenceNotFoundException If the preference key was not found
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public function deletePreference ($preferenceKey) {
 		return UserPreference::deletePreference($this, $preferenceKey);
 	}
 	
+	/**
+	 * Returns all user preferences for this user
+	 * 
+	 * @param none
+	 * @return Array An array of UserPreference objects
+	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
+	 */
+	public function getPreferences () {
+		return UserPreference::getPreferences($this);
+	}
 	/**
 	 * Loads a user by name.
 	 * 

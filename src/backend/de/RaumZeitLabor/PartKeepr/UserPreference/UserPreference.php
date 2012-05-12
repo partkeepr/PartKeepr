@@ -158,6 +158,24 @@ class UserPreference implements Serializable {
 	}
 	
 	/**
+	 * Returns all preferences for the given user
+	 * @param User $user The user
+	 * @throws EntityNotPersistantException Thrown if the user entity is not persistent
+	 */
+	public static function getPreferences (User $user) {
+		if (!PartKeepr::getEM()->contains($user)) {
+			throw new EntityNotPersistantException();
+		}
+		
+		$dql = "SELECT up FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user";
+		
+		$query = PartKeepr::getEM()->createQuery($dql);
+		$query->setParameter("user", $user);
+		
+		return $query->getResult();
+	}
+	
+	/**
 	 * Returns a specific preference object for the given user
 	 *
 	 * @param User $user		The user to retrieve the preference for

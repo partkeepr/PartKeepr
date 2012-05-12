@@ -140,9 +140,11 @@ class UserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals("foo", $user->getPreferenceValue("test"));
 		$this->assertEquals("foo", $user->getPreference("test")->getValue());
 		
+		$this->assertEquals(1, count($user->getPreferences()));
+		
 		$user->deletePreference("test");
 		
-		echo $user->getId();
+		
 		
 		UserManager::getInstance()->deleteUser($user->getId());
 	}
