@@ -174,7 +174,9 @@ Ext.define('PartKeepr.PartsGrid', {
 		        	  renderer: this.stockLevelRenderer
 		          },{
 		        	  header: i18n("Avg. Price"),
-		        	  dataIndex: 'averagePrice'
+		        	  dataIndex: 'averagePrice',
+		        	  align: 'right',
+		        	  renderer: this.averagePriceRenderer
 		          },{
 		        	  header: i18n("Footprint"),
 		        	  dataIndex: 'footprintName'
@@ -203,6 +205,18 @@ Ext.define('PartKeepr.PartsGrid', {
 		} else {
 			return val;
 		}
+	},
+	/**
+	 * Used as renderer for the average price column.
+	 */
+	averagePriceRenderer: function (val,q,rec)
+	{
+		var numDecimals = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.price.numdecimals");
+		if (numDecimals === null) {
+			numDecimals = 2;
+		}
+
+		return val.toFixed(numDecimals);
 	},
 	/**
 	 * Used as renderer for the icon column.

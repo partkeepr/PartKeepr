@@ -118,7 +118,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * The average price for the part. Note that this is a cached value.
 	 * 
 	 * @todo It would be nice if we could get rid of that
-	 * @Column(type="decimal",precision=5, scale=2,nullable=true)
+	 * @Column(type="decimal",precision=13,scale=4,nullable=true)
 	 * @var float
 	 */
 	private $averagePrice = null;
