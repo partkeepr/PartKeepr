@@ -490,6 +490,14 @@ Ext.application({
      */
     getUsername: function () {
     	return this.username;
+    },
+    /**
+     * Returns the number of decimal places
+     * 
+     * @returns {int} The number of decimal places
+     */
+    getDecimalPlaces: function () {
+    	return this.getUserPreference("partkeepr.number.decimalplaces", 3);
     }
 });
 
