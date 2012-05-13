@@ -266,18 +266,19 @@ Ext.application({
     	return this.tipOfTheDayStore;
     },
     /**
-     * Queries for a specific user preference. Returns either the value or null if the
-     * preference was not found.
+     * Queries for a specific user preference. Returns either the value or a default value if
+     * the preference was not found.
      * @param key The key to query
-     * @returns the key value, or null if nothing was found
+     * @param defaultValue A default value to return (optional)
+     * @returns the key value, or defaultValue if preference key was not found
      */
-    getUserPreference: function (key) {
+    getUserPreference: function (key, defaultValue) {
     	var record = this.userPreferenceStore.findRecord("key", key);
     	
     	if (record) {
     		return record.get("value");
     	} else {
-    		return null;
+    		return (typeof defaultValue == "undefined") ? null : defaultValue;
     	}
     },
     /**
