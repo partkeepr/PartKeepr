@@ -1,332 +1,331 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="partkeepr" default="build">
-	<property file="build.properties"  />
-	
-    <target name="pre-commit">
-    	<jsllint haltonfailure="true">
+	<property file="build.properties" />
+
+	<target name="pre-commit">
+		<jsllint haltonfailure="true">
 			<fileset dir="src/frontend">
-				<include name="**/*.js"/>
+				<include name="**/*.js" />
 			</fileset>
 		</jsllint>
-    </target>
-    
-    <!-- Cleans the output directories -->
-    <target name="clean">
-    	<delete dir="reports" />
-    	<delete dir="frontend" />
-    </target>
-    
-    <!--  Re-generates the proxies needed by Doctrine2 -->
-    <target name="create-orm-proxies">
-    	<mkdir dir="data/"/>
-    	<exec command="doctrine orm:generate-proxies" passthru="true"/>
-    </target>
-	
-	<target name="compile-theme">
-	    	<exec dir="theme/sass" command="compass compile partkeepr.scss" passthru="true"/>
-			<copy file="theme/css/partkeepr.css" tofile="src/frontend/css/partkeepr-theme.css"/>
-			<copy file="theme/css/partkeepr.css" tofile="src/setup/css/partkeepr-theme.css"/>
-		
-			<copy todir="src/frontend/resources/themes/images/">
-				<fileset dir="theme/themes/images/">
-					<include name="**/*"/>
-				</fileset>
-			</copy>
-		
-			<copy todir="src/setup/resources/themes/images/">
-				<fileset dir="theme/themes/images/">
-					<include name="**/*"/>
-				</fileset>
-			</copy>
 	</target>
-    
-        <target name="git-update-submodules">
-        	<exec command="git submodule sync" checkreturn="true"/>
-        	<exec command="git submodule init" checkreturn="true"/>
-            <exec command="git submodule update" checkreturn="true"/>
-        </target>
-	
+
+	<!-- Cleans the output directories -->
+	<target name="clean">
+		<delete dir="reports" />
+		<delete dir="frontend" />
+	</target>
+
+	<!--  Re-generates the proxies needed by Doctrine2 -->
+	<target name="create-orm-proxies">
+		<mkdir dir="data/" />
+		<exec command="doctrine orm:generate-proxies" passthru="true" />
+	</target>
+
+	<target name="compile-theme">
+		<exec dir="theme/sass" command="compass compile partkeepr.scss" passthru="true" />
+		<copy file="theme/css/partkeepr.css" tofile="src/frontend/css/partkeepr-theme.css" />
+		<copy file="theme/css/partkeepr.css" tofile="src/setup/css/partkeepr-theme.css" />
+
+		<copy todir="src/frontend/resources/themes/images/">
+			<fileset dir="theme/themes/images/">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<copy todir="src/setup/resources/themes/images/">
+			<fileset dir="theme/themes/images/">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="git-update-submodules">
+		<exec command="git submodule sync" checkreturn="true" />
+		<exec command="git submodule init" checkreturn="true" />
+		<exec command="git submodule update" checkreturn="true" />
+	</target>
+
 	<target name="build-setup">
-		<mkdir dir="setup/"/>
-		<mkdir dir="setup/js/wizard"/>
-		
+		<mkdir dir="setup/" />
+		<mkdir dir="setup/js/wizard" />
+
 		<copy overwrite="false" todir="setup/extjs/">
 			<fileset dir="${extjs.path}">
-				<include name="bootstrap.js"/>
-				<include name="compatibility/ext3-core-compat.js"/>
-				<include name="compatibility/ext3-compat.js"/>
-				<include name="ext-all.js"/>
-				<include name="ext-all-debug.js"/>
-				<include name="ext-all-debug-w-comments.js"/>
-				<include name="adapter/ext/ext-base.js"/>
-				<include name="adapter/ext/ext-base-debug-w-comments.js"/>
-				<include name="source/adapter/ext-base.js"/>
+				<include name="bootstrap.js" />
+				<include name="compatibility/ext3-core-compat.js" />
+				<include name="compatibility/ext3-compat.js" />
+				<include name="ext-all.js" />
+				<include name="ext-all-debug.js" />
+				<include name="ext-all-debug-w-comments.js" />
+				<include name="adapter/ext/ext-base.js" />
+				<include name="adapter/ext/ext-base-debug-w-comments.js" />
+				<include name="source/adapter/ext-base.js" />
 			</fileset>
 		</copy>
-		
+
 		<copy overwrite="true" todir="setup/js/wizard">
 			<fileset dir="3rdparty/ext-wizard/Ext.ux.Wizard">
-				<include name="**"/>
+				<include name="**" />
 			</fileset>
 		</copy>
-		
+
 		<copy overwrite="true" todir="setup/">
 			<fileset dir="src/setup">
-				<include name="**"/>
+				<include name="**" />
 			</fileset>
 		</copy>
-			
+
 	</target>
-	
+
 	<target name="build-frontend">
 		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
-				<mkdir dir="frontend/"/>
-				<copy overwrite="false" todir="frontend/extjs/">
-					<fileset dir="${extjs.path}">
-						<include name="bootstrap.js"/>
-						<include name="compatibility/ext3-core-compat.js"/>
-						<include name="compatibility/ext3-compat.js"/>
-						<include name="ext-all.js"/>
-						<include name="ext-all-debug.js"/>
-						<include name="ext-all-debug-w-comments.js"/>
-						<include name="adapter/ext/ext-base.js"/>
-						<include name="adapter/ext/ext-base-debug-w-comments.js"/>
-						<include name="source/adapter/ext-base.js"/>
-						<include name="resources/**"/>
-					</fileset>
-				</copy>
-				
-				<echo>Copying Ext Statusbar</echo>
-				<copy overwrite="false" todir="frontend/js/Ext.ux/">
-					<fileset dir="${extjs.path}/examples/ux">
-						<include name="statusbar/**"/>
-					</fileset>
-				</copy>
-				
-				<echo>Copying Ext.tab.TabCloseMenu</echo>
-				<copy overwrite="false" todir="frontend/js/Ext.ux/">
-					<fileset dir="${extjs.path}/examples/ux">
-						<include name="TabCloseMenu.js"/>
-					</fileset>
-				</copy>
-				
-				<echo>Copying phpjs</echo>
-				<mkdir dir="frontend/js/org.phpjs.lib/"/>
-				<copy overwrite="false" todir="frontend/js/org.phpjs.lib">
-					<fileset dir="3rdparty/phpjs/">
-						<include name="php.default.min.js"/>
-					</fileset>
-				</copy>
-					
-				<echo>Copying JS frontend</echo>
-				<copy overwrite="true" todir="frontend/">
-					<fileset dir="src/frontend">
-						<include name="**"/>
-					</fileset>
-				</copy>
-				
-				<phingcall target="create-orm-proxies"/>
-				
-				<phingcall target="jsbuilder"/>
+		<mkdir dir="frontend/" />
+		<copy overwrite="false" todir="frontend/extjs/">
+			<fileset dir="${extjs.path}">
+				<include name="bootstrap.js" />
+				<include name="compatibility/ext3-core-compat.js" />
+				<include name="compatibility/ext3-compat.js" />
+				<include name="ext-all.js" />
+				<include name="ext-all-debug.js" />
+				<include name="ext-all-debug-w-comments.js" />
+				<include name="adapter/ext/ext-base.js" />
+				<include name="adapter/ext/ext-base-debug-w-comments.js" />
+				<include name="source/adapter/ext-base.js" />
+				<include name="resources/**" />
+			</fileset>
+		</copy>
+
+		<echo>Copying Ext Statusbar</echo>
+		<copy overwrite="false" todir="frontend/js/Ext.ux/">
+			<fileset dir="${extjs.path}/examples/ux">
+				<include name="statusbar/**" />
+			</fileset>
+		</copy>
+
+		<echo>Copying Ext.tab.TabCloseMenu</echo>
+		<copy overwrite="false" todir="frontend/js/Ext.ux/">
+			<fileset dir="${extjs.path}/examples/ux">
+				<include name="TabCloseMenu.js" />
+			</fileset>
+		</copy>
+
+		<echo>Copying phpjs</echo>
+		<mkdir dir="frontend/js/org.phpjs.lib/" />
+		<copy overwrite="false" todir="frontend/js/org.phpjs.lib">
+			<fileset dir="3rdparty/phpjs/">
+				<include name="php.default.min.js" />
+			</fileset>
+		</copy>
+
+		<echo>Copying JS frontend</echo>
+		<copy overwrite="true" todir="frontend/">
+			<fileset dir="src/frontend">
+				<include name="**" />
+			</fileset>
+		</copy>
+
+		<phingcall target="create-orm-proxies" />
+
+		<phingcall target="jsbuilder" />
 	</target>
-	
-    <!-- Builds the frontend, regenerates the proxies and minifies the JS -->
+
+	<!-- Builds the frontend, regenerates the proxies and minifies the JS -->
 	<target name="build">
-		<phingcall target="git-update-submodules"/>
-		
-		<phingcall target="build-frontend"/>
-		<phingcall target="build-setup"/>
+		<phingcall target="git-update-submodules" />
+
+		<phingcall target="build-frontend" />
+		<phingcall target="build-setup" />
 	</target>
-    
+
 
 	<!--
 	Creates a new PartKeepr release.
 	
 	This task asks for the target version number, and then generates the zip and tbz2 archives out of it.
 	-->
-    <target name="release">
-    	<propertyprompt propertyName="partkeepr.version" defaultValue=""
-    	    			promptText="Please enter the version number of the build to generate (e.g. 0.1)" />
-    	
-    	<phingcall target="prepare-archiving"/>
-    	<phingcall target="set-version"/>
+	<target name="release">
+		<propertyprompt propertyName="partkeepr.version" defaultValue="" promptText="Please enter the version number of the build to generate (e.g. 0.1)" />
 
-    	<zip destfile="partkeepr-${partkeepr.version}.zip" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}/"/>
-    	<tar destfile="partkeepr-${partkeepr.version}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}/"/>
-    </target>
-	
+		<phingcall target="prepare-archiving" />
+		<phingcall target="set-version" />
+
+		<zip destfile="partkeepr-${partkeepr.version}.zip" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}/" />
+		<tar destfile="partkeepr-${partkeepr.version}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-${partkeepr.version}/" />
+	</target>
+
 	<!--
 	Runs the build process, then copies the current working tree to a temporary directory (specified by ${packagepath})
 	while excluding stuff the end-user doesn't need (like .git directories, and some 3rdparty stuff).
 	-->
 	<target name="prepare-archiving">
-		<phingcall target="build"/>
-		    	
-    	<delete quiet="true">
-    		<fileset dir="${packagepath}"/>
-    	</delete>
-    		
-    	<copy todir="${packagepath}" includeemptydirs="false">
-    		<fileset dir=".">
-    			<exclude name="3rdparty/extjs/**"/>
-    			<exclude name="3rdparty/phpjs/**"/>
-    			<exclude name="3rdparty/ext-wizard/**"/>
-    			<exclude name="theme/**/*"/>
-    			<exclude name="testing/**/*"/>
-    			<exclude name="util/**/*"/>
-    			<exclude name="src/frontend/**/*"/>
-    			<exclude name="src/setup/**"/>
-    			<exclude name="partkeepr.jsb3"/>
-    			<exclude name="partkeepr.jsb3.template"/>
-    			<exclude name="pre-commit.hook"/>
-    			<exclude name="RELEASE-TODO"/>
-    			<exclude name="doctrine.php"/>
-    			<exclude name="build.properties"/>
-    			<exclude name="build.xml"/>
-    			<exclude name="cli-config.php"/>
-    			<exclude name="frontend/resources/fugue-icons/src/**/*"/>
-    			<exclude name="frontend/resources/fugue-icons/bonus/**/*"/>
-    			<exclude name="frontend/resources/fugue-icons/icons-shadowless/**/*"/>
-    			<exclude name="frontend/resources/fugue-icons/all.png"/>
-    			<exclude name="frontend/resources/fugue-icons/all-preview.png"/>
-    			<exclude name="frontend/resources/fugue-icons/all-shadowless.png"/>
-    			<exclude name=".git/**/*"/>
-    			<exclude name="3rdparty/doctrine-migrations/.git/**/*"/>
-    			<exclude name="frontend/resources/silkicons/.git/**/*"/>
-    			<exclude name="frontend/resources/flags/.git/**/*"/>
-    			<exclude name="frontend/resources/mimetypes/.git/**/*"/>
-    			<exclude name="frontend/resources/fugue-icons/.git/**/*"/>
-    			<exclude name="config.php"/>
-    			
-    		</fileset>
-    	</copy>
-    	
-    	<delete dir="${packagepath}/theme/"/>
-    	<delete dir="${packagepath}/testing/"/>
-    	<delete dir="${packagepath}/tests/"/>
-    	<delete dir="${packagepath}/src/frontend/"/>
-   		<delete dir="${packagepath}/src/setup/"/>
-   		<delete dir="${packagepath}/util/"/>
-		<delete dir="${packagepath}/.git/"/>
-		<delete dir="${packagepath}/3rdparty/doctrine-migrations/.git/"/>
-		<delete dir="${packagepath}/frontend/resources/silkicons/.git/"/>
-		<delete dir="${packagepath}/frontend/resources/flags/.git/"/>
-		<delete dir="${packagepath}/frontend/resources/mimetypes/.git/"/>
-		<delete dir="${packagepath}/frontend/resources/fugue-icons/.git/"/>
-		
-   		<delete dir="${packagepath}/3rdparty/extjs/"/>
-   		<delete dir="${packagepath}/3rdparty/phpjs/"/>
-   		<delete dir="${packagepath}/3rdparty/ext-wizard/"/>
-		<delete dir="${packagepath}/frontend/resources/fugue-icons/src/"/>
-		<delete dir="${packagepath}/frontend/resources/fugue-icons/bonus/"/>
-		<delete dir="${packagepath}/frontend/resources/fugue-icons/icons-shadowless/"/>
+		<phingcall target="build" />
+
+		<delete quiet="true">
+			<fileset dir="${packagepath}" />
+		</delete>
+
+		<copy todir="${packagepath}" includeemptydirs="false">
+			<fileset dir=".">
+				<exclude name="3rdparty/extjs/**" />
+				<exclude name="3rdparty/phpjs/**" />
+				<exclude name="3rdparty/ext-wizard/**" />
+				<exclude name="theme/**/*" />
+				<exclude name="testing/**/*" />
+				<exclude name="util/**/*" />
+				<exclude name="src/frontend/**/*" />
+				<exclude name="src/setup/**" />
+				<exclude name="partkeepr.jsb3" />
+				<exclude name="partkeepr.jsb3.template" />
+				<exclude name="pre-commit.hook" />
+				<exclude name="RELEASE-TODO" />
+				<exclude name="doctrine.php" />
+				<exclude name="build.properties" />
+				<exclude name="build.xml" />
+				<exclude name="cli-config.php" />
+				<exclude name="frontend/resources/fugue-icons/src/**/*" />
+				<exclude name="frontend/resources/fugue-icons/bonus/**/*" />
+				<exclude name="frontend/resources/fugue-icons/icons-shadowless/**/*" />
+				<exclude name="frontend/resources/fugue-icons/all.png" />
+				<exclude name="frontend/resources/fugue-icons/all-preview.png" />
+				<exclude name="frontend/resources/fugue-icons/all-shadowless.png" />
+				<exclude name=".git/**/*" />
+				<exclude name="3rdparty/doctrine-migrations/.git/**/*" />
+				<exclude name="frontend/resources/silkicons/.git/**/*" />
+				<exclude name="frontend/resources/flags/.git/**/*" />
+				<exclude name="frontend/resources/mimetypes/.git/**/*" />
+				<exclude name="frontend/resources/fugue-icons/.git/**/*" />
+				<exclude name="config.php" />
+
+			</fileset>
+		</copy>
+
+		<delete dir="${packagepath}/theme/" />
+		<delete dir="${packagepath}/testing/" />
+		<delete dir="${packagepath}/tests/" />
+		<delete dir="${packagepath}/src/frontend/" />
+		<delete dir="${packagepath}/src/setup/" />
+		<delete dir="${packagepath}/util/" />
+		<delete dir="${packagepath}/.git/" />
+		<delete dir="${packagepath}/3rdparty/doctrine-migrations/.git/" />
+		<delete dir="${packagepath}/frontend/resources/silkicons/.git/" />
+		<delete dir="${packagepath}/frontend/resources/flags/.git/" />
+		<delete dir="${packagepath}/frontend/resources/mimetypes/.git/" />
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/.git/" />
+
+		<delete dir="${packagepath}/3rdparty/extjs/" />
+		<delete dir="${packagepath}/3rdparty/phpjs/" />
+		<delete dir="${packagepath}/3rdparty/ext-wizard/" />
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/src/" />
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/bonus/" />
+		<delete dir="${packagepath}/frontend/resources/fugue-icons/icons-shadowless/" />
 	</target>
-	
+
 	<!--
 	Sets the version of the release inside PartKeeprVersion.php
 	-->
 	<target name="set-version">
 		<exec executable="sed">
 			<arg value="-i" />
-		   	<arg value="s/{V_GIT}/${partkeepr.version}/g" />
-		   	<arg value="${packagepath}/src/backend/de/RaumZeitLabor/PartKeepr/PartKeeprVersion.php" />
-		 </exec>
+			<arg value="s/{V_GIT}/${partkeepr.version}/g" />
+			<arg value="${packagepath}/src/backend/de/RaumZeitLabor/PartKeepr/PartKeeprVersion.php" />
+		</exec>
 	</target>
-	
-    <target name="nightly">
-    	<phingcall target="prepare-archiving"/>
-    	
-    	 <tstamp>
-			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d"/>
+
+	<target name="nightly">
+		<phingcall target="prepare-archiving" />
+
+		<tstamp>
+			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d" />
 		</tstamp>
 
-    	<property name="partkeepr.version" value="{build.time}-nightly" />
-    	<phingcall target="set-version"/>
+		<property name="partkeepr.version" value="{build.time}-nightly" />
+		<phingcall target="set-version" />
 
-    	<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly/"/>
-    	<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-nightly/"/>
+		<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly/" />
+		<tar destfile="${build.time}.tbz2" compression="bzip2" basedir="${packagepath}" prefix="partkeepr-nightly/" />
 	</target>
-	
-    <!-- Builds the jsb3 file and build the minified JS files -->
-    <target name="jsbuilder">
-    	<exec command="php util/gen-jsb3-file.php ./src/frontend/ ${extjs.path}"/>
-    	<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/partkeepr.jsb3 --deployDir ${project.basedir}/frontend/js" passthru="true"/>
-    	
-    	<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/3rdparty/Ext.ux.Exporter/Ext.ux.Exporter.jsb --deployDir ${project.basedir}/frontend/js/Ext.ux" passthru="true"/>
-    </target>
-    
+
+	<!-- Builds the jsb3 file and build the minified JS files -->
+	<target name="jsbuilder">
+		<exec command="php util/gen-jsb3-file.php ./src/frontend/ ${extjs.path}" />
+		<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/partkeepr.jsb3 --deployDir ${project.basedir}/frontend/js" passthru="true" />
+
+		<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/3rdparty/Ext.ux.Exporter/Ext.ux.Exporter.jsb --deployDir ${project.basedir}/frontend/js/Ext.ux" passthru="true" />
+	</target>
+
 	<!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->
 	<target name="jslint">
 		<jsllint>
 			<fileset dir="src/frontend">
-				<include name="**/*.js"/>
+				<include name="**/*.js" />
 			</fileset>
 		</jsllint>
 		<jsllint>
 			<fileset dir="src/setup">
-				<include name="**/*.js"/>
+				<include name="**/*.js" />
 			</fileset>
 		</jsllint>
 	</target>
-    
+
 	<!-- Checks all PHP files for messy code. -->
 	<target name="phpmd">
-		<mkdir dir="reports/logs"/>
-    	
+		<mkdir dir="reports/logs" />
+
 		<phpmd rulesets="codesize,unusedcode,design,naming">
 			<fileset dir="src/">
 				<include name="**/*.php" />
 			</fileset>
-			<formatter type="xml" outfile="reports/logs/pmd.xml"/>
+			<formatter type="xml" outfile="reports/logs/pmd.xml" />
 		</phpmd>
 	</target>
-    
+
 	<!-- Checks all PHP files for copy/paste code -->
 	<target name="phpcpd">
-		<mkdir dir="reports/logs"/>
+		<mkdir dir="reports/logs" />
 		<phpcpd minTokens="30">
 			<fileset dir="src/">
 				<include name="**/*.php" />
 			</fileset>
-			<formatter type="pmd" outfile="reports/logs/pmd-cpd.xml"/>
+			<formatter type="pmd" outfile="reports/logs/pmd-cpd.xml" />
 		</phpcpd>
 	</target>
-    
+
 	<target name="code-coverage">
-	  
-		<mkdir dir="reports/coverage/db"/>
-		<mkdir dir="reports/phpunit"/>
-		
+
+		<mkdir dir="reports/coverage/db" />
+		<mkdir dir="reports/phpunit" />
+
 		<coverage-setup database="reports/coverage/db/coverage.db">
 			<fileset dir="src/backend">
-				<include name="**/*.php"/>
+				<include name="**/*.php" />
 			</fileset>
 		</coverage-setup>
-    	
+
 		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" codecoverage="true" printsummary="true">
-			
+
 			<batchtest>
 				<fileset dir="tests/">
 					<include name="**/*Test.php" />
 				</fileset>
 			</batchtest>
-			<formatter todir="reports/phpunit/" type="xml"/>
-			<formatter type="clover" usefile="true" todir="reports/coverage/"/>
-			
+			<formatter todir="reports/phpunit/" type="xml" />
+			<formatter type="clover" usefile="true" todir="reports/coverage/" />
+
 		</phpunit>
-		
-		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
-		
+
+		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit" />
+
 		<coverage-report outfile="reports/coverage/db/coverage.xml">
-			<report todir="reports/coverage/"/>
+			<report todir="reports/coverage/" />
 		</coverage-report>
 	</target>
-	
+
 	<target name="test">
-		<mkdir dir="reports/phpunit"/>
-		
+		<mkdir dir="reports/phpunit" />
+
 		<phpunit bootstrap="tests/bootstrap.php" haltonfailure="false" haltonerror="true" codecoverage="false" printsummary="true">
-			<formatter todir="reports/phpunit/" type="xml"/>
+			<formatter todir="reports/phpunit/" type="xml" />
 			<batchtest>
 				<fileset dir="tests/">
 					<include name="**/*Test.php" />
@@ -334,14 +333,14 @@
 			</batchtest>
 			<formatter type="plain" usefile="false" />
 		</phpunit>
-		
-		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit"/>
-		
+
+		<phpunitreport infile="reports/phpunit/testsuites.xml" format="frames" todir="reports/phpunit" />
+
 	</target>
-	
-	<target name="test-setup" >
+
+	<target name="test-setup">
 		<echo msg="Testing the installation..." />
-        
+
 		<phpunit haltonfailure="true" codecoverage="false" printsummary="true">
 			<batchtest>
 				<fileset dir="setup/tests/">
@@ -350,25 +349,24 @@
 			</batchtest>
 			<formatter type="plain" usefile="false" />
 		</phpunit>
-		
-		<echo msg=""/>
-        
-		<echo msg="       ***************************"/>
-		<echo msg="       Setup Test Complete"/>
-		<echo msg="       ***************************"/>
-		<echo msg=""/>
-		<echo msg="       No errors were found."/>
-		<echo msg="       You may now proceed!"/>
+
+		<echo msg="" />
+
+		<echo msg="       ***************************" />
+		<echo msg="       Setup Test Complete" />
+		<echo msg="       ***************************" />
+		<echo msg="" />
+		<echo msg="       No errors were found." />
+		<echo msg="       You may now proceed!" />
 	</target>
-	
+
 	<target name="apigen">
-		<apigen source="${source.php}" destination="reports/api/" title="PartKeepr API Documentation" internal="true"
-			deprecated="true" todo="true" charset="utf8" report="reports/logs/api-checkstyle.xml">
+		<apigen source="${source.php}" destination="reports/api/" title="PartKeepr API Documentation" internal="true" deprecated="true" todo="true" charset="utf8" report="reports/logs/api-checkstyle.xml">
 
 		</apigen>
 	</target>
-	
+
 	<target name="jenkins" depends="clean,phpmd,apigen,jslint,phpcpd,code-coverage">
-			
+
 	</target>
 </project>
