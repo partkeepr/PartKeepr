@@ -24,6 +24,6 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 		this.items = [ this.priceNumDecimalsField ];
 
 		this.callParent();
-	},
+	}
 });
 
