@@ -53,6 +53,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 	        mouseWheelEnabled: false,
 	        anchor: '100%',
 	        value: 0,
+	        decimalPrecision: 4,
 			fieldLabel: i18n("Price"),
 			listeners: {
                 specialkey: {

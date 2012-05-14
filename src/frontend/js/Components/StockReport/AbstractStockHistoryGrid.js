@@ -44,6 +44,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 	        	  header: i18n("Price"),
 	        	  editor: {
                       xtype:'numberfield',
+                      decimalPrecision: 4,
                       allowBlank:false
                   },
 	        	  dataIndex: 'price',
