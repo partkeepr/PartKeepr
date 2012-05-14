@@ -25,7 +25,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	private $user;
 	
 	/**
-	 * @Column(type="decimal",precision=5, scale=2,nullable=true)
+	 * @Column(type="decimal",precision=13,scale=4,nullable=true)
 	 * @var float
 	 */
 	private $price;
