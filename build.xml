@@ -46,84 +46,170 @@
 		<exec command="git submodule update" checkreturn="true" />
 	</target>
 
+	<!-- Build the end-user 'setup' directory -->
 	<target name="build-setup">
 		<mkdir dir="setup/" />
+
+		<echo>Copying extjs</echo>
+		<mkdir dir="setup/extjs/" />
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -ptgo
+				                         --include=/bootstrap.js
+				                         --include=/ext-all.js
+				                         --include=/ext-all-debug.js
+				                         --include=/ext-all-debug-w-comments.js
+				                         --exclude=*
+				                         ${extjs.path}/* setup/extjs/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="false" todir="setup/extjs/">
+					<fileset dir="${extjs.path}">
+						<include name="bootstrap.js" />
+						<include name="compatibility/ext3-core-compat.js" />
+						<include name="compatibility/ext3-compat.js" />
+						<include name="ext-all.js" />
+						<include name="ext-all-debug.js" />
+						<include name="ext-all-debug-w-comments.js" />
+						<include name="adapter/ext/ext-base.js" />
+						<include name="adapter/ext/ext-base-debug-w-comments.js" />
+						<include name="source/adapter/ext-base.js" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
+
+		<echo>Copying Ext.ux.Wizard</echo>
 		<mkdir dir="setup/js/wizard" />
-
-		<copy overwrite="false" todir="setup/extjs/">
-			<fileset dir="${extjs.path}">
-				<include name="bootstrap.js" />
-				<include name="compatibility/ext3-core-compat.js" />
-				<include name="compatibility/ext3-compat.js" />
-				<include name="ext-all.js" />
-				<include name="ext-all-debug.js" />
-				<include name="ext-all-debug-w-comments.js" />
-				<include name="adapter/ext/ext-base.js" />
-				<include name="adapter/ext/ext-base-debug-w-comments.js" />
-				<include name="source/adapter/ext-base.js" />
-			</fileset>
-		</copy>
-
-		<copy overwrite="true" todir="setup/js/wizard">
-			<fileset dir="3rdparty/ext-wizard/Ext.ux.Wizard">
-				<include name="**" />
-			</fileset>
-		</copy>
-
-		<copy overwrite="true" todir="setup/">
-			<fileset dir="src/setup">
-				<include name="**" />
-			</fileset>
-		</copy>
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -a --delete 3rdparty/ext-wizard/Ext.ux.Wizard/ setup/js/wizard/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="true" todir="setup/js/wizard">
+					<fileset dir="3rdparty/ext-wizard/Ext.ux.Wizard">
+						<include name="**"/>
+					</fileset>
+				</copy>
+			</else>
+		</if>
+		
+		<echo>Copying src/setup</echo>
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -a src/setup/ setup/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="true" todir="setup/">
+					<fileset dir="src/setup">
+						<include name="**" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
 
 	</target>
 
+	<!-- Build the end-user 'frontend' directory -->
 	<target name="build-frontend">
-		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
 		<mkdir dir="frontend/" />
-		<copy overwrite="false" todir="frontend/extjs/">
-			<fileset dir="${extjs.path}">
-				<include name="bootstrap.js" />
-				<include name="compatibility/ext3-core-compat.js" />
-				<include name="compatibility/ext3-compat.js" />
-				<include name="ext-all.js" />
-				<include name="ext-all-debug.js" />
-				<include name="ext-all-debug-w-comments.js" />
-				<include name="adapter/ext/ext-base.js" />
-				<include name="adapter/ext/ext-base-debug-w-comments.js" />
-				<include name="source/adapter/ext-base.js" />
-				<include name="resources/**" />
-			</fileset>
-		</copy>
+
+		<echo>Copying 3rdparty/extjs - this may take up to a few minutes</echo>
+		<mkdir dir="frontend/extjs" />
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -ptgo -r
+				                         --include=/bootstrap.js
+				                         --include=/ext-all.js
+				                         --include=/ext-all-debug.js
+				                         --include=/ext-all-debug-w-comments.js
+				                         --include=/resources/***
+				                         --exclude=/*
+				                         ${extjs.path}/* frontend/extjs/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="false" todir="frontend/extjs/">
+					<fileset dir="${extjs.path}">
+						<include name="bootstrap.js" />
+						<include name="compatibility/ext3-core-compat.js" />
+						<include name="compatibility/ext3-compat.js" />
+						<include name="ext-all.js" />
+						<include name="ext-all-debug.js" />
+						<include name="ext-all-debug-w-comments.js" />
+						<include name="adapter/ext/ext-base.js" />
+						<include name="adapter/ext/ext-base-debug-w-comments.js" />
+						<include name="source/adapter/ext-base.js" />
+						<include name="resources/**" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
 
 		<echo>Copying Ext Statusbar</echo>
-		<copy overwrite="false" todir="frontend/js/Ext.ux/">
-			<fileset dir="${extjs.path}/examples/ux">
-				<include name="statusbar/**" />
-			</fileset>
-		</copy>
+		<mkdir dir="frontend/js/Ext.ux/statusbar"/>
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -a --delete ${extjs.path}/examples/ux/statusbar/ frontend/js/Ext.ux/statusbar/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="false" todir="frontend/js/Ext.ux/">
+					<fileset dir="${extjs.path}/examples/ux">
+						<include name="statusbar/**" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
 
 		<echo>Copying Ext.tab.TabCloseMenu</echo>
-		<copy overwrite="false" todir="frontend/js/Ext.ux/">
-			<fileset dir="${extjs.path}/examples/ux">
-				<include name="TabCloseMenu.js" />
-			</fileset>
-		</copy>
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -a ${extjs.path}/examples/ux/TabCloseMenu.js frontend/js/Ext.ux/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="false" todir="frontend/js/Ext.ux/">
+					<fileset dir="${extjs.path}/examples/ux">
+						<include name="TabCloseMenu.js" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
 
 		<echo>Copying phpjs</echo>
 		<mkdir dir="frontend/js/org.phpjs.lib/" />
-		<copy overwrite="false" todir="frontend/js/org.phpjs.lib">
-			<fileset dir="3rdparty/phpjs/">
-				<include name="php.default.min.js" />
-			</fileset>
-		</copy>
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -a 3rdparty/phpjs/php.default.min.js frontend/js/org.phpjs.lib/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="false" todir="frontend/js/org.phpjs.lib">
+					<fileset dir="3rdparty/phpjs/">
+						<include name="php.default.min.js" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
 
 		<echo>Copying JS frontend</echo>
-		<copy overwrite="true" todir="frontend/">
-			<fileset dir="src/frontend">
-				<include name="**" />
-			</fileset>
-		</copy>
+		<if>
+			<isset property="build.fast" />
+			<then>
+				<exec dir="." command="rsync -a --exclude=.git src/frontend/ frontend/" checkreturn="true" />
+			</then>
+			<else>
+				<copy overwrite="true" todir="frontend/">
+					<fileset dir="src/frontend">
+						<include name="**" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
 
 		<phingcall target="create-orm-proxies" />
 
@@ -138,6 +224,19 @@
 		<phingcall target="build-setup" />
 	</target>
 
+    <!-- Fast build uses rsync instead of standard file copy -->
+	<target name="build-fast">
+		<condition property="build.fast">
+			<or>
+				<os family="mac" />
+				<os family="unix" />
+			</or>
+		</condition>
+
+		<fail unless="build.fast" message="Fast build only supported on Mac and Unix-like systems (rsync required)" />
+
+		<phingcall target="build" />
+	</target>    
 
 	<!--
 	Creates a new PartKeepr release.
