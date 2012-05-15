@@ -66,9 +66,15 @@ Ext.application({
     onLogin: function () {
     	this.createGlobalStores();
     	
-    	var records = this.getUserPreferenceStore().getProxy().getReader().read(PartKeepr.initialUserPreferences);
-    	this.getUserPreferenceStore().loadRecords(records.records);
-
+    	if (window.parameters.userPreferences) {
+    		PartKeepr.getApplication().setInitialUserPreferences(window.parameters.userPreferences);
+    	}
+    	
+    	if (PartKeepr.initialUserPreferences) {
+    		var records = this.getUserPreferenceStore().getProxy().getReader().read(PartKeepr.initialUserPreferences);
+        	this.getUserPreferenceStore().loadRecords(records.records);	
+    	}
+    	
     	this.reloadStores();
 		
 		var j = Ext.create("PartKeepr.PartManager", {

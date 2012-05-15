@@ -42,6 +42,14 @@ if (Configuration::getOption("partkeepr.auth.http", false) === true) {
 	
 	$aParameters["autoLoginUsername"] = $user->getUsername();
 	$aParameters["auto_start_session"] = $session->getSessionID();
+	
+	$aPreferences = array();
+	
+	foreach ($user->getPreferences() as $result) {
+		$aPreferences[] = $result->serialize();
+	}
+	
+	$aParameters["userPreferences"] = array("response" => array("data" => $aPreferences));
 }
 
 /* Information about maximum upload sizes */
