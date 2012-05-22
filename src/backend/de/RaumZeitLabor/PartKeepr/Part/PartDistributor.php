@@ -41,7 +41,7 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	 * Specifies the price of the part. Note that the price
 	 * needs to be per item, not per packaging unit.
 	 * 
-	 * @Column(type="decimal",precision=5, scale=2,nullable=true)
+	 * @Column(type="decimal",precision=13,scale=4,nullable=true) 
 	 * @var float
 	 */
 	private $price;
