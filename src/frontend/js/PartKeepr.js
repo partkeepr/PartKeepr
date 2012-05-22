@@ -144,16 +144,20 @@ Ext.application({
     	return this.sessionManager;
     },
     /*
-     * Checks for unacknowledged system notices
+     * Checks for unacknowledged system notices. Triggers a service call against the server.
+     * 
+     * Checks if a session is active; otherwise, nothing will happen.
      * 
      * @param none
      * @return nothing
      */
    	doUnacknowledgedNoticesCheck: function () {
-   		var call = new PartKeepr.ServiceCall("SystemNotice", "hasUnacknowledgedNotices");
-		
-   		call.setHandler(Ext.bind(this.onUnacknowledgedNoticesCheck, this));
-		call.doCall();
+   		if (this.getSessionManager().getSession() !== null) {
+   			var call = new PartKeepr.ServiceCall("SystemNotice", "hasUnacknowledgedNotices");
+   			
+   	   		call.setHandler(Ext.bind(this.onUnacknowledgedNoticesCheck, this));
+   			call.doCall();
+   		}
    	},
    	/**
      * Handler for the unacknowledged system notices check 
