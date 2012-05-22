@@ -6,10 +6,18 @@ Ext.define("PartKeepr.CurrencyField", {
     alias: 'widget.CurrencyField',
     
     initComponent: function () {
-    	this.decimalPrecision 		= PartKeepr.getApplication().getUserPreference("partkeepr.currency.decimals", 4);
-    	this.currencySign 			= PartKeepr.getApplication().getUserPreference("partkeepr.currency.symbol", "€");
-    	this.useThousandSeparator 	= PartKeepr.getApplication().getUserPreference("partkeepr.currency.thousandsSeparator", true);
-    	this.currencyAtEnd			= PartKeepr.getApplication().getUserPreference("partkeepr.currency.currencySymbolAtEnd", true);
+    	this.decimalPrecision 	= PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.numdecimals", 2);
+    	this.currencySign 		= PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
+    	this.currencyAtEnd		= PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.currencySymbolAtEnd", true);
+    	
+    	if (PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.thousandsSeparator", true) === true) {
+    		// @todo This is hard-coded for now
+    		this.thousandSeparator 	= ",";
+    	} else {
+    		this.thousandSeparator 	= "";
+    	}
+    	 
+    	
     	
     	this.callParent();
     }

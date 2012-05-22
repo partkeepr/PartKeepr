@@ -36,7 +36,7 @@ Ext.define('Ext.ux.NumericField', {
         format.currencyPrecision = this.decimalPrecision;
         format.thousandSeparator = this.thousandSeparator;
         format.currencySign = this.currencySign;
-        format.currencyAtEnd = true;
+        format.currencyAtEnd = this.currencyAtEnd;
         return format.currency(value);
     },
 
@@ -74,6 +74,7 @@ Ext.define('Ext.ux.NumericField', {
      */
     parseValue: function (value) {
         value = String(value).replace(this.thousandSeparator, "");
+    	value = String(value).replace(this.currencySign, "");
         value = parseFloat(String(value).replace(this.decimalSeparator, '.'));
         return isNaN(value) ? null : value;
     }
