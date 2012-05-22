@@ -98,11 +98,14 @@ Ext.define('PartKeepr.ProjectReportView', {
 				}
 			},{
 				header: i18n("Price per Item"), dataIndex: 'price',
+				renderer: PartKeepr.getApplication().formatCurrency,
 				width: 100
 			},{
 				header: i18n("Sum"),
 				dataIndex: 'sum',
+				renderer: PartKeepr.getApplication().formatCurrency,
 				summaryType: 'sum',
+				summaryRenderer: PartKeepr.getApplication().formatCurrency,
 				width: 100
 			},{
 				header: i18n("Amount to Order"), dataIndex: 'missing',
@@ -110,7 +113,9 @@ Ext.define('PartKeepr.ProjectReportView', {
 			},{
 				header: i18n("Sum (Order)"),
 				dataIndex: 'sum_order',
+				renderer: PartKeepr.getApplication().formatCurrency,
 				summaryType: 'sum',
+				summaryRenderer: PartKeepr.getApplication().formatCurrency,
 				width: 100
 			}],
 			store: this.projectReportStore,

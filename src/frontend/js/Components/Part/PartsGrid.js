@@ -232,18 +232,6 @@ Ext.define('PartKeepr.PartsGrid', {
 		}
 	},
 	/**
-	 * Used as renderer for the average price column.
-	 */
-	averagePriceRenderer: function (val,q,rec)
-	{
-		var numDecimals = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.price.numdecimals");
-		if (numDecimals === null) {
-			numDecimals = 2;
-		}
-
-		return val.toFixed(numDecimals);
-	},
-	/**
 	 * Used as renderer for the icon column.
 	 */
 	iconRenderer: function (val,q,rec)

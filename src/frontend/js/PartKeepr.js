@@ -486,6 +486,21 @@ Ext.application({
      */
     getUsername: function () {
     	return this.username;
+    },
+    formatCurrency: function (value) {
+    	var format = Ext.util.Format;
+    	format.currencyPrecision = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.numdecimals", 2);
+        format.currencySign = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
+        format.currencyAtEnd = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.currencySymbolAtEnd", true);
+        
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.thousandsSeparator", true) === true) {
+    		// @todo This is hard-coded for now
+    		format.thousandSeparator 	= ",";
+    	} else {
+    		format.thousandSeparator 	= "";
+    	}
+        
+        return format.currency(value);
     }
 });
 

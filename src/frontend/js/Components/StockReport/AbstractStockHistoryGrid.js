@@ -43,8 +43,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 	          {
 	        	  header: i18n("Price"),
 	        	  editor: {
-                      xtype:'numberfield',
-                      decimalPrecision: 4,
+                      xtype:'CurrencyField',
                       allowBlank:false
                   },
 	        	  dataIndex: 'price',
@@ -53,7 +52,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 	        		  if (rec.get("dir") == "out") {
 	        			  return "-";
 	        		  } else {
-	        			  return val;
+	        			  return PartKeepr.getApplication().formatCurrency(val);
 	        		  }
 	        	  }
 	          },{
