@@ -171,7 +171,7 @@ Ext.application({
     logout: function () {
     	this.menuBar.disable();
     	this.centerPanel.removeAll(true);
-    	this.getSessionManager.logout();
+    	this.getSessionManager().logout();
     },
     createGlobalStores: function () {
     	this.footprintStore = Ext.create("Ext.data.Store",
