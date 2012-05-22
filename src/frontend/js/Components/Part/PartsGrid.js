@@ -98,6 +98,31 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		this.topToolbar.insert(2, this.addFromTemplateButton);
 		
+		this.mapSearchHotkey();
+	},
+	/**
+	 * Maps a search hotkey to the search box.
+	 * 
+	 * Right now, this is hardcoded to alt+x.
+	 * 
+	 * @param none
+	 * @return nothing
+	 */
+	mapSearchHotkey: function () {
+		this.searchKey = new Ext.util.KeyMap(Ext.get(document), {
+			key: 'x',
+			ctrl: false,
+			alt: true,
+			fn: function(e) {
+				var searchBox = this.searchField;
+				if (Ext.get(document).activeElement != searchBox) {
+					searchBox.focus('',10);
+				}
+				searchBox.setValue('');
+			},
+			scope: this,
+			stopEvent: true
+		});		
 	},
 	/**
 	 * Called when an item was selected. Enables/disables the delete button. 
