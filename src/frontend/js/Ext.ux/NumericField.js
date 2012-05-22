@@ -39,7 +39,6 @@ Ext.define('Ext.ux.NumericField', {
         format.currencyAtEnd = this.currencyAtEnd;
         return format.currency(value);
     },
-
     /**
      * Converts a mixed-type value to a raw representation suitable for displaying in the field. This allows controlling
      * how value objects passed to {@link #setValue} are shown to the user, including localization.
@@ -64,9 +63,53 @@ Ext.define('Ext.ux.NumericField', {
      * @return {String} The processed string value
      */
     processRawValue: function (value) {
-        return this.parseValue(this.callParent(arguments));
-    },
+    	value = this.callParent(arguments);
+    	
+    	if (isNaN(value) || value === null || value === "") {
+    		return value;
+    	}
 
+        return this.parseValue(value);
+    },
+    /**
+     * Runs all of Number's validations and returns an array of any errors. Note that this first runs Text's
+     * validations, so the returned array is an amalgamation of all field errors. The additional validations run test
+     * that the value is a number, and that it is within the configured min and max values.
+     * @param {Object} [value] The value to get errors for (defaults to the current field value)
+     * @return {String[]} All validation errors for this field
+     */
+    getErrors: function(value) {
+        var me = this,
+            errors = [], // This is a hack because of the strange class layout...
+            format = Ext.String.format,
+            num;
+
+        value = Ext.isDefined(value) ? value : this.processRawValue(this.getRawValue());
+
+        if (value.length < 1) { // if it's blank and textfield didn't flag it then it's valid
+             return errors;
+        }
+
+        value = this.parseValue(value);
+
+        if(isNaN(value)){
+            errors.push(format(me.nanText, value));
+        }
+
+        if (me.minValue === 0 && value < 0) {
+            errors.push(this.negativeText);
+        }
+        else if (value < me.minValue) {
+            errors.push(format(me.minText, me.minValue));
+        }
+
+        if (value > me.maxValue) {
+            errors.push(format(me.maxText, me.maxValue));
+        }
+
+
+        return errors;
+    },
     /**
      * Overrided to remove thousand separator.
      *
