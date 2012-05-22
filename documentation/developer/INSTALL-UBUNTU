@@ -10,6 +10,14 @@ Tested with:
 In this guide, I've used "/var/www" as web server root.
 
 
+--------
+CONTENTS
+--------
+- System config
+- Partkeepr config
+- Submitting code
+
+
 -------------
 SYSTEM CONFIG
 -------------
@@ -119,4 +127,11 @@ sudo /etc/init.d/apache2 restart
 
 # Open up your browser and navigate to http://localhost/PartKeepr/frontend
 # The frontend should now appear
+
+
+-----------------
+# SUBMITTING CODE
+-----------------
+
+Please see the document SUBMITTING-CODE
 
