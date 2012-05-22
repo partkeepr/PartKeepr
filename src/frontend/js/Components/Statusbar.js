@@ -63,8 +63,7 @@ Ext.define('PartKeepr.Statusbar', {
 		if (PartKeepr.getApplication().getSession()) {
 			PartKeepr.getApplication().logout();
 		} else {
-			var o = new PartKeepr.LoginDialog();
-	    	o.show();
+			PartKeepr.getApplication().getSessionManager().login();
 		}
 	}
 });
