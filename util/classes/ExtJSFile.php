@@ -91,7 +91,7 @@ class ExtJSFile {
 	 * @return string The extend class name
 	 */
 	private function parseExtendDirective () {
-		$pattern = "/extend:\s*[\"|'](.*)[\"|']/";
+		$pattern = "/extend\s*:\s*[\"|'](.*)[\"|']/";
 		
 		preg_match($pattern, $this->source, $results);
 		
