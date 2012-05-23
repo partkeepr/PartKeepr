@@ -101,13 +101,15 @@ class PartManager extends AbstractManager {
 	protected function getResult (Query $query) {
 		$result = parent::getResult($query);
 
-		/* Add attachment counts to the result set */
+		/* Add attachment counts to the result set and re-format the date */
 		foreach ($result as $key => $item) {
 			$dql = "SELECT COUNT(pa) FROM de\RaumZeitLabor\PartKeepr\Part\PartAttachment pa WHERE pa.part = :part";
 			$query = PartKeepr::getEM()->createQuery($dql);
 			$query->setParameter("part", $item["id"]);
 			
 			$result[$key]["attachmentCount"] = $query->getSingleScalarResult();
+			
+			$result[$key]["createDate"] = $result[$key]["createDate"]->format("Y-m-d H:i:s");
 		}
 		
 		foreach ($result as $key => $item) {

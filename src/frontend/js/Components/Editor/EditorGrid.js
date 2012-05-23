@@ -41,6 +41,16 @@ Ext.define('PartKeepr.EditorGrid', {
      */
 	buttonTextMode: 'hide',
 	
+	/**
+	 * @cfg {Boolean} boolean Defines if the grid should automatically calculate it's page size
+	 */
+	automaticPageSize: false,
+	
+	/**
+	 * @cfg {Integer} integer Defines the row height with which the calculator should assume
+	 */
+	automaticPageSizeRowHeight: 21,
+	
 	initComponent: function () {
 		
 		this.addEvents(
@@ -103,7 +113,6 @@ Ext.define('PartKeepr.EditorGrid', {
 		});
 		
 		this.searchField = Ext.create("Ext.ux.form.SearchField",{
-				id: 'thesearchfield',
 				store: this.store
 			});
 		
@@ -135,6 +144,38 @@ Ext.define('PartKeepr.EditorGrid', {
 		this.plugins = [ 'gridmenu' ];
 		
 		this.callParent();
+		
+		if (this.automaticPageSize) {
+			this.on("afterlayout", this.reassignPageSize, this);
+		}
+	},
+	/**
+	 * Re-calculates and re-assigns the page size for the assigned store.
+	 * 
+	 * Automatically reloads the store.
+	 * 
+	 * @param none
+	 * @return nothing
+	 */
+	reassignPageSize: function () {
+		if (this.store.isLoading()) { return; }
+		if (this.getView().getHeight() === 0) { return; }
+		
+		var numRecords = Math.floor(this.getView().getHeight() / this.automaticPageSizeRowHeight);
+		
+		if (numRecords < 1) { numRecords = 1; }
+		
+		var oldStartIndex = this.store.pageSize * this.store.currentPage;
+		
+		this.store.pageSize = numRecords;
+		
+		var newStartPage = Math.floor(oldStartIndex / numRecords);
+		
+		if (newStartPage < 1) {
+			newStartPage = 1;
+		}
+		
+		this.store.loadPage(newStartPage);
 	},
 	syncChanges: function (record) {
 		// Simply reload the store for now

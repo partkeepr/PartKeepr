@@ -225,12 +225,11 @@ Ext.define('PartKeepr.PartEditor', {
 				]
 			});
 			
-			this.initialStockLevelPrice = Ext.create("Ext.form.field.Number", {
+			this.initialStockLevelPrice = Ext.create("PartKeepr.CurrencyField", {
 				fieldLabel: i18n('Price'),
 				labelWidth: 150,
 				columnWidth: 0.5,
-				name: 'initialStockLevelPrice',
-				decimalPrecision: 4
+				name: 'initialStockLevelPrice'
 			});
 			
 			this.initialStockLevelPricePerItem = Ext.create("Ext.form.field.Checkbox", {

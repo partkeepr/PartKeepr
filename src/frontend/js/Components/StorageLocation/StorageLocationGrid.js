@@ -1,6 +1,9 @@
 Ext.define('PartKeepr.StorageLocationGrid', {
 	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.StorageLocationGrid',
+	
+	automaticPageSize: true,
+	
 	columns: [
 	          {header: i18n("Storage Location"),  dataIndex: 'name', flex: 1}
 	          ],

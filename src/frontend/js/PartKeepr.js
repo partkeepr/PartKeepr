@@ -38,20 +38,6 @@ Ext.application({
         	}
     	}
     	
-		new Ext.util.KeyMap(Ext.get(document), {
-			key: 'x',
-			ctrl: false,
-			alt: true,
-			fn: function(e) {
-				var searchBox = Ext.getCmp('thesearchfield');
-				if (Ext.get(document).activeElement != searchBox) {
-					searchBox.focus('',10);
-				}
-				searchBox.setValue('');
-			},
-			stopEvent: true
-		});
-
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
     },
     onContextMenu: function (e, target) {
@@ -158,16 +144,20 @@ Ext.application({
     	return this.sessionManager;
     },
     /*
-     * Checks for unacknowledged system notices
+     * Checks for unacknowledged system notices. Triggers a service call against the server.
+     * 
+     * Checks if a session is active; otherwise, nothing will happen.
      * 
      * @param none
      * @return nothing
      */
    	doUnacknowledgedNoticesCheck: function () {
-   		var call = new PartKeepr.ServiceCall("SystemNotice", "hasUnacknowledgedNotices");
-		
-   		call.setHandler(Ext.bind(this.onUnacknowledgedNoticesCheck, this));
-		call.doCall();
+   		if (this.getSessionManager().getSession() !== null) {
+   			var call = new PartKeepr.ServiceCall("SystemNotice", "hasUnacknowledgedNotices");
+   			
+   	   		call.setHandler(Ext.bind(this.onUnacknowledgedNoticesCheck, this));
+   			call.doCall();
+   		}
    	},
    	/**
      * Handler for the unacknowledged system notices check 
@@ -185,7 +175,7 @@ Ext.application({
     logout: function () {
     	this.menuBar.disable();
     	this.centerPanel.removeAll(true);
-    	this.getSessionManager.logout();
+    	this.getSessionManager().logout();
     },
     createGlobalStores: function () {
     	this.footprintStore = Ext.create("Ext.data.Store",
@@ -496,6 +486,21 @@ Ext.application({
      */
     getUsername: function () {
     	return this.username;
+    },
+    formatCurrency: function (value) {
+    	var format = Ext.util.Format;
+    	format.currencyPrecision = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.numdecimals", 2);
+        format.currencySign = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
+        format.currencyAtEnd = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.currencySymbolAtEnd", true);
+        
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.thousandsSeparator", true) === true) {
+    		// @todo This is hard-coded for now
+    		format.thousandSeparator 	= ",";
+    	} else {
+    		format.thousandSeparator 	= "";
+    	}
+        
+        return format.currency(value);
     }
 });
 

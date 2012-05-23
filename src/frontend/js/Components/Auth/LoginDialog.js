@@ -70,7 +70,8 @@ Ext.define('PartKeepr.LoginDialog', {
 		this.callParent(arguments);
 
 		// Focus the login field on show
-		this.on("show", function () { this.loginField.focus(); }, this);
+		// @workaround Set the focus 100ms after the dialog has been shown.
+		this.on("show", function () { this.loginField.focus(); }, this, { delay: 100 });
 	},
 	/**
 	 * Fires the "login" event
