@@ -141,7 +141,7 @@ Ext.define('PartKeepr.PartEditor', {
 				xtype: 'textarea',
 				fieldLabel: i18n("Comment"),
 				name: 'comment',
-				anchor: '100% -200'
+				anchor: '100% -220'
 			},
 			{
 				xtype: 'fieldcontainer',
