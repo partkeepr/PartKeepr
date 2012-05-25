@@ -29,6 +29,8 @@ Ext.define("PartKeepr.CategoryTree", {
 		this.loadCategories();
 	},
 	loadCategories: function () {
+		this.loaded = false;
+		
 		var call = new PartKeepr.ServiceCall(this.categoryService, "getAllCategories");
 		call.setLoadMessage(i18n("Loading categories..."));
 		call.setHandler(Ext.bind(this._onCategoriesLoaded, this));

@@ -3,6 +3,9 @@ Ext.define("PartKeepr.CategoryComboBox",{
     alias: 'widget.CategoryComboBox',
     requires:["Ext.tree.Panel"],
     selectedValue: null,
+    
+    trigger2Cls: Ext.baseCSSPrefix + 'form-reload-trigger',
+    
     initComponent: function(){
         var self = this;
 
@@ -16,6 +19,28 @@ Ext.define("PartKeepr.CategoryComboBox",{
         
         this.createPicker();
 
+    },
+    onTrigger1Click: function () {
+    	this.onTriggerClick();
+    },
+    onTrigger2Click: function () {
+    	this.collapse();
+    	this.picker.loadCategories();
+    	this.expand();
+    },
+    /**
+     * Override the expand method so that it doesn't expand immediately when data is being loaded. Defers the expand
+     * function for 100 milliseconds until the picker data has been loaded.
+     */
+    expand: function () {
+    	console.log(this.picker);
+    	
+    	if (!this.picker.loaded) {
+    		Ext.defer(this.expand, 100, this);
+    		return;
+    	} else {
+    		this.callParent();
+    	}
     },
     createPicker: function(){
         var self = this;
