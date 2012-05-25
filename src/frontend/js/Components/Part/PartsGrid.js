@@ -252,7 +252,6 @@ Ext.define('PartKeepr.PartsGrid', {
 		var proxy = this.store.getProxy();
 		
 		proxy.extraParams.category = category;
-		this.searchField.onTrigger1Click();
 		
 		this.store.currentPage = 1;
 		this.store.load({ start: 0});
