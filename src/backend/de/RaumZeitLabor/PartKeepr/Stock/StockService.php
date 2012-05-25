@@ -65,9 +65,9 @@ class StockService extends Service implements RestfulService {
 		 */
 		if (SessionManager::getCurrentSession()->getUser()->isAdmin()) {
 			if ($this->getParameter("direction") == "out") {
-				$stockEntry->setStockLevel(-(abs($this->getParameter("amount"))));
+				$stockEntry->setStockLevel(-(abs($this->getParameter("stockLevel"))));
 			} else {
-				$stockEntry->setStockLevel($this->getParameter("amount"));
+				$stockEntry->setStockLevel($this->getParameter("stockLevel"));
 			}
 			
 		}
