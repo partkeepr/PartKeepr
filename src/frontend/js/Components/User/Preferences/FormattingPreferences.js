@@ -6,6 +6,16 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 	title: i18n("Formatting"),
 	bodyStyle: 'background:#DBDBDB;padding: 10px;',
 	
+	/**
+	 * Indicates that values are currently being loaded. This is a workaround because when we initially set the values
+	 * for the fields below, we would actually trigger an immediate update. This can only be solved when the
+	 * configuration framework gets a dedicated "save" button. 
+	 * 
+	 * @workaround
+	 * @var boolean
+	 */
+	loading: true,
+	
 	initComponent: function () {
 
 		this.createWidgets();
@@ -38,8 +48,10 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 		var currencyAtEnd = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.currencySymbolAtEnd", true);
 		this.currencyAtEndCheckbox.setValue(currencyAtEnd);
 		
-		var currencySymbol = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", true);
+		var currencySymbol = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
 		this.currencySymbolField.setValue(currencySymbol);
+		
+		this.loading = false;
 	},
 	/**
 	 * Creates the widgets used in this form.
@@ -59,8 +71,11 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 			allowDecimals: false,
 			listeners: {
 				change: function(field, newValue) {
-					PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.numdecimals", newValue);
-				}
+					if (!this.loading) {
+						PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.numdecimals", newValue);
+					}
+				},
+				scope: this
 			}
 		});
 		
@@ -68,8 +83,11 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 			boxLabel: i18n("Separate thousands"),
 			listeners: {
 				change: function(field, newValue) {
-					PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.thousandsSeparator", newValue);
-				}
+					if (!this.loading) {
+						PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.thousandsSeparator", newValue);
+					}
+				},
+				scope: this
 			}
 		});
 		
@@ -78,8 +96,11 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 			maxLength: 5,
 			listeners: {
 				change: function(field, newValue) {
-					PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.symbol", newValue);
-				}
+					if (!this.loading) {
+						PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.symbol", newValue);
+					}
+				},
+				scope: this
 			}
 		});
 		
@@ -87,8 +108,11 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 			boxLabel: i18n("Currency at end"),
 			listeners: {
 				change: function(field, newValue) {
-					PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.currencySymbolAtEnd", newValue);
-				}
+					if (!this.loading) {
+						PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.currencySymbolAtEnd", newValue);
+					}
+				},
+				scope: this
 			}
 		});
 	}
