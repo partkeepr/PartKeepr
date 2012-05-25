@@ -82,7 +82,8 @@ Ext.define('PartKeepr.PartParameterGrid', {
 		                	flex: 0.2,
 		                	dataIndex: 'unit_id',
 		                	renderer: function (val,p,rec) {
-		                		var foundRec = PartKeepr.getApplication().getUnitStore().findRecord("id", val);
+		                		var unitStore = PartKeepr.getApplication().getUnitStore();
+		                		var foundRec = unitStore.findRecord("id", val, 0, false, false, true);
 		                		
 		                		if (foundRec) {
 		                			return foundRec.get("name");
