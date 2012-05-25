@@ -37,7 +37,8 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		
 		/* If the edit mode is "create", we need to enlarge the window a bit to fit the fields without scrolling */
 		if (this.partMode && this.partMode == "create") {
-			this.height = 460;
+			this.height = 500;
+			this.minHeight = 500;
 		}
 		
 		this.items = [ this.editor ];
