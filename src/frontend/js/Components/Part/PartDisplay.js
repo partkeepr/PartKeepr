@@ -55,7 +55,7 @@ Ext.define('PartKeepr.PartDisplay', {
 				'</tr>',
 				'<tr>',
 					'<td class="e">'+i18n("Used in projects")+':</td>',
-					'<td class="e">{projects}</td>',
+					'<td class="e">{[ (values.projects == "") ? "'+i18n("none")+'" : values.projects ]}</td>',
 				'</tr>',
 				'</table>');
 		
