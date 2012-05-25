@@ -3,10 +3,6 @@ Ext.define('PartKeepr.ContextMenu.CharPicker', {
 
      alias: 'widget.charpickermenu',
 
-     requires: [
-        'PartKeepr.picker.Char'
-     ],
-
     /**
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a date is selected.
