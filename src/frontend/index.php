@@ -52,11 +52,26 @@ if (Configuration::getOption("partkeepr.auth.http", false) === true) {
 	$aParameters["userPreferences"] = array("response" => array("data" => $aPreferences));
 }
 
+\Twig_Autoloader::register();
+
+$loader = new \Twig_Loader_Filesystem(dirname(__FILE__) . '/templates/');
+$twig = new \Twig_Environment($loader);
+
+
 /* Information about maximum upload sizes */
 $maxPostSize = PartKeepr::getBytesFromHumanReadable(ini_get("post_max_size"));
 $maxFileSize = PartKeepr::getBytesFromHumanReadable(ini_get("upload_max_filesize"));
 
 $aParameters["maxUploadSize"] = min($maxPostSize, $maxFileSize);
+
+if (!class_exists("Imagick")) {
+	$template = $twig->loadTemplate("error.tpl");
+	echo $template->render(array(
+			"title" => PartKeepr::i18n("ImageMagick is not installed"),
+			"error" => PartKeepr::i18n("You are missing the ImageMagick extension. Please install it and restart the setup to verify that the library was installed correctly.")
+	));
+	exit;
+}
 
 /* ImageMagick formats */
 $imagick = new \Imagick();
@@ -69,11 +84,6 @@ if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === 
 }
 
 /* Load and render the template */
-\Twig_Autoloader::register();
-
-$loader = new \Twig_Loader_Filesystem(dirname(__FILE__) . '/templates/');
-$twig = new \Twig_Environment($loader);
-
 $template = $twig->loadTemplate("index.tpl");
 
 echo $template->render(array(
