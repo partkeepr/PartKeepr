@@ -137,12 +137,13 @@ Ext.define('PartKeepr.PartDisplay', {
 	/**
 	 * Callback after the "add stock" dialog is complete.
 	 */
-	addPartHandler: function (quantity, price) {
+	addPartHandler: function (quantity, price, comment) {
 			var call = new PartKeepr.ServiceCall(
 	    			"Part", 
 	    			"addStock");
 			call.setParameter("stock", quantity);
 			call.setParameter("price", price);
+			call.setParameter("comment", comment);
 			call.setParameter("part", this.record.get("id"));
 	    	call.setHandler(Ext.bind(this.reloadPart, this));
 	    	call.doCall();	

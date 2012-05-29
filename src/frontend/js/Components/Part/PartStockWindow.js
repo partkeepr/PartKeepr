@@ -8,7 +8,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 	// Configurations
 	constrainHeader : true,
 	width : 305,
-	height : 155,
+	height : 180,
 
 	resizable : false,
 
@@ -68,6 +68,23 @@ Ext.define('PartKeepr.PartStockWindow', {
 			checked : true
 		});
 
+		this.commentField = Ext.create("Ext.form.field.Text", {
+			anchor : '100%',
+			fieldLabel : i18n("Comment"),
+			maxLength : 255,
+			enforceMaxLength : true,
+			listeners : {
+				specialkey : {
+					fn : function(field, e) {
+						if (e.getKey() == e.ENTER) {
+							this.onOKClick();
+						}
+					},
+					scope : this
+				}
+			}
+		});
+
 		this.form = Ext.create("Ext.form.Panel", {
 			bodyStyle : 'background:#DBDBDB;',
 			border : false,
@@ -81,7 +98,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 					margin : "0 0 0 5",
 					value : this.partUnitName
 				} ]
-			}, this.priceField, this.priceCheckbox ]
+			}, this.priceField, this.priceCheckbox, this.commentField ]
 		});
 
 		this.items = this.form;
@@ -126,13 +143,13 @@ Ext.define('PartKeepr.PartStockWindow', {
 
 			Ext.callback(	this.callbackFn,
 							this.callbackScope,
-							[ this.quantityField.getValue(), price ]);
+							[ this.quantityField.getValue(), price, this.commentField.getValue() ]);
 			this.close();
 		}
 	},
 	/**
-	 * Opens the window in "add stock" mode. The target callback receives two parameters: the value of the quantity
-	 * field and the value of the price field.
+	 * Opens the window in "add stock" mode. The target callback receives three parameters: the value of the quantity
+	 * field, the value of the price field and the value of the comment field.
 	 * 
 	 * @param fn
 	 *            The callback
@@ -161,6 +178,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.setTitle(this.removePartText);
 		this.priceField.hide();
 		this.priceCheckbox.hide();
+		this.commentField.hide();
 		this.setHeight(105);
 		this.okButton.setIcon("resources/silkicons/brick_delete.png");
 		this.show();

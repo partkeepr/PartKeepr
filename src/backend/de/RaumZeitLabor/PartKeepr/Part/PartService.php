@@ -199,6 +199,10 @@ class PartService extends Service implements RestfulService {
 			$stock->setPrice($price);
 		}
 		
+		if ($this->hasParameter("comment")) {
+			$stock->setComment($this->getParameter("comment"));
+		}
+
 		PartKeepr::getEM()->persist($stock);
 		PartKeepr::getEM()->flush();
 		
