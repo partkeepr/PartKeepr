@@ -6,6 +6,8 @@ Ext.define('PartKeepr.PartDisplay', {
 	extend: 'Ext.panel.Panel',
 	bodyCls: 'partdisplay',
 	
+	autoScroll: true,
+	
 	/**
 	 * Initializes the component and adds a template as well as the add/remove stock and edit part buttons.
 	 */
@@ -105,6 +107,10 @@ Ext.define('PartKeepr.PartDisplay', {
 		 */
 		this.addEvents("editPart");
 		
+		this.imageDisplay = Ext.create("PartKeepr.PartImageDisplay");
+		this.infoContainer = Ext.create("Ext.container.Container");
+		
+		this.items = [ this.infoContainer, this.imageDisplay ];
 		this.callParent();
 	},
 	/**
@@ -125,7 +131,13 @@ Ext.define('PartKeepr.PartDisplay', {
 			}
 		}
 		
-		this.tpl.overwrite(this.getTargetEl(), values);
+		this.tpl.overwrite(this.infoContainer.getEl(), values);
+		this.imageDisplay.setStore(this.record.attachments());
+		
+		this.doLayout();
+		// Scroll the container to top in case the user scrolled the part, then switched to another part
+		this.getTargetEl().scrollTo("top", 0);
+		
 	},
 	/**
 	 * Prompt the user for the stock level he wishes to add.
