@@ -24,6 +24,7 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 		parent::__construct();
 		$this->setType("PartAttachment");
 	}
+	
 	/**
 	 * The part object
 	 * @ManyToOne(targetEntity="de\RaumZeitLabor\PartKeepr\Part\Part")

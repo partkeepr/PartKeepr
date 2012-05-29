@@ -8,14 +8,22 @@ use de\RaumZeitLabor\PartKeepr\PartKeepr,
 	de\RaumZeitLabor\PartKeepr\Image\Exceptions\InvalidImageTypeException;
 
 /**
+ * This is only a storage class; actual image rendering is done by the ImageRenderer.
+ * 
  * @MappedSuperclass
  */
-abstract class Image extends UploadedFile {
+abstract class Image extends UploadedFile implements RenderableImage {
 	const IMAGE_ICLOGO = "iclogo";
 	const IMAGE_TEMP = "temp";
 	const IMAGE_PART = "part";
 	const IMAGE_STORAGELOCATION = "storagelocation";
 	const IMAGE_FOOTPRINT = "footprint";
+
+	/**
+	 * Holds the image renderer
+	 * @var object
+	 */
+	private $renderer;
 	
 	/**
 	 * Constructs a new image object.
@@ -48,6 +56,17 @@ abstract class Image extends UploadedFile {
 		}
 	}
 	
+	/**
+	 * Returns the renderer for image manipulations
+	 * @return object
+	 */
+	public function getRenderer () {
+		if (!$this->renderer instanceof ImageRenderer) {
+			$this->renderer = new ImageRenderer($this);
+		}
+		
+		return $this->renderer;
+	}
 	/**
 	 * Replaces the current image with a new image.
 	 * 
@@ -88,79 +107,16 @@ abstract class Image extends UploadedFile {
 	}
 	
 	/**
-	 * Scales the image to a specific width and height
-	 *
-	 * @param int $w The width
-	 * @param int $h The height
-	 * @return string The path to the scaled file
-	 */	
-	public function scaleTo ($w, $h) {
-		$this->ensureCachedirExists();
-		
-		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h).".png";
-		
-		if (file_exists($outputFile)) {
-			return $outputFile;
+	 * Ensures that the image cache dir exists.
+	 */
+	public function ensureCachedirExists () {
+		if (!is_dir(Configuration::getOption("partkeepr.images.cache"))) {
+			mkdir(Configuration::getOption("partkeepr.images.cache"), 0777, true);
 		}
-		$image = new \Imagick();
-		$image->readImage($this->getFilename());
-		$image->adaptiveResizeImage($w, $h);
-		$image->writeImage($outputFile);
-		
-		$cachedImage = new CachedImage($this, $outputFile);
-		PartKeepr::getEM()->persist($cachedImage);
-		
-		return $outputFile;
 	}
 	
 	/**
-	 * Scales the image to fit exactly within the given size.
-	 * 
-	 * This method ensures that no blank space is in the output image,
-	 * and that the output image is exactly the width and height specified.
-	 *
-	 * @param int $w The width
-	 * @param int $h The height
-	 * @return string The path to the scaled file
-	*/
-	public function fitWithinExact ($w, $h) {
-		$this->ensureCachedirExists();
-		
-		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h."fwe").".png";
-		
-		if (file_exists($outputFile)) {
-			return $outputFile;
-		}
-		$image = new \Imagick();
-		$image->readImage($this->getFilename());
-		
-		$sourceAspectRatio = $image->getImageWidth() / $image->getImageHeight();
-		$targetAspectRatio = $w / $h;
-		
-		$filter = \Imagick::FILTER_UNDEFINED;
-		$blur = 1;
-		
-		if ($sourceAspectRatio < $targetAspectRatio) {
-			$image->resizeImage($w, $w / $sourceAspectRatio, $filter, $blur);	
-		} else {
-			$image->resizeImage($h * $sourceAspectRatio, $h, $filter, $blur);
-		}
-		
-		$offsetX = intval(($image->getImageWidth() - $w)/2);
-		$offsetY = intval(($image->getImageHeight() - $h)/2);
-		
-		$image = $image->getImageRegion($w, $h, $offsetX, $offsetY);
-		
-		$image->writeImage($outputFile);
-		
-		$cachedImage = new CachedImage($this, $outputFile);
-		PartKeepr::getEM()->persist($cachedImage);
-		
-		return $outputFile;
-	}
-	
-	/**
-	 * Scales the image to fit within the given size. 
+	 * Scales the image to fit within the given size.
 	 *
 	 * @param int $w The width
 	 * @param int $h The height
@@ -181,34 +137,8 @@ abstract class Image extends UploadedFile {
 		if (file_exists($outputFile)) {
 			return $outputFile;
 		}
-		$image = new \Imagick();
-		$image->readImage($this->getFilename());
 		
-		$sourceAspectRatio = $image->getImageWidth() / $image->getImageHeight();
-		$targetAspectRatio = $w / $h;
-		
-		$filter = \Imagick::FILTER_UNDEFINED;
-		$blur = 1;
-		
-		$targetHeight = $h;
-		$targetWidth = $w;
-		
-		if ($sourceAspectRatio < $targetAspectRatio) {
-			$targetWidth = $h * $sourceAspectRatio;
-			$image->resizeImage($h * $sourceAspectRatio, $h, $filter, $blur);	
-		} else {
-			$targetHeight = $w / $sourceAspectRatio;
-			$image->resizeImage($w, $w / $sourceAspectRatio, $filter, $blur);
-		}
-		
-		if ($padding) {
-			$posX = intval(($w - $targetWidth) / 2);
-			$posY = intval(($h - $targetHeight) / 2);
-			
-			$image->extentImage($w, $h,-$posX, -$posY);
-		}
-		
-		$image->writeImage($outputFile);
+		$this->getRenderer()->fitWithin($outputFile, $w, $h, $padding);
 		
 		$cachedImage = new CachedImage($this, $outputFile);
 		PartKeepr::getEM()->persist($cachedImage);
@@ -217,25 +147,68 @@ abstract class Image extends UploadedFile {
 	}
 	
 	/**
-	 * Convinience method for fitWithin. Automatically pads the image. 
+	 * Convinience method for fitWithin. Automatically pads the image.
 	 *
 	 * @param int $w The width
 	 * @param int $h The height
 	 * @return string The path to the scaled file
 	 */
 	public function fitWithinPadding ($w, $h) {
-		return $this->fitWithin($w, $h, true);
+		return $this->fitWithin($w, $h);
 	}
 	
 	/**
-	 * Ensures that the image cache dir exists.
+	 * Scales the image to fit exactly within the given size.
+	 *
+	 * This method ensures that no blank space is in the output image,
+	 * and that the output image is exactly the width and height specified.
+	 *
+	 * @param string $outputFile The output file
+	 * @param int $w The width
+	 * @param int $h The height
+	 * @return string The path to the scaled file
 	 */
-	public function ensureCachedirExists () {
-		if (!is_dir(Configuration::getOption("partkeepr.images.cache"))) {
-			mkdir(Configuration::getOption("partkeepr.images.cache"), 0777, true);	
-		}
-	}
+	public function fitWithinExact ($w, $h) {
+		$this->ensureCachedirExists();
 
+		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h."fwe").".png";
+
+		if (file_exists($outputFile)) {
+			return $outputFile;
+		}
+
+		$this->getRenderer()->fitWithinExact($outputFile, $w, $h);
+		
+		$cachedImage = new CachedImage($this, $outputFile);
+		PartKeepr::getEM()->persist($cachedImage);
+		
+		return $outputFile;
+	}
+	
+	/**
+	 * Scales the image to a specific width and height
+	 *
+	 * @param int $w The width
+	 * @param int $h The height
+	 * @return string The path to the scaled file
+	 */
+	public function scaleTo ($w, $h) {
+		$this->ensureCachedirExists();
+	
+		$outputFile = Configuration::getOption("partkeepr.images.cache").md5($this->getFilename().$w."x".$h).".png";
+	
+		if (file_exists($outputFile)) {
+			return $outputFile;
+		}
+		
+		$this->getRenderer()->scaleTo($outputFile, $w, $h);
+		
+		$cachedImage = new CachedImage($this, $outputFile);
+		PartKeepr::getEM()->persist($cachedImage);
+		
+		return $outputFile;
+	}
+	
 	/**
 	 * Replaces the file with a given temporary file.
 	 * @param string $id The temporary id (prefixed with TMP:)
