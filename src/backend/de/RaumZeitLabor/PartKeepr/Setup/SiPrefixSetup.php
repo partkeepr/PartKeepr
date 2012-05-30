@@ -28,12 +28,12 @@ class SiPrefixSetup extends AbstractSetup {
 		
 		$data = Setup::loadYAML(self::SIPREFIX_DATA_FILE);
 		
-		foreach ($data as $prefixName => $data) {
+		foreach ($data as $prefixName => $prefixData) {
 			if (!SiPrefixManager::getInstance()->siPrefixExists($prefixName)) {
 				$prefix = new SiPrefix();
 				$prefix->setPrefix($prefixName);
-				$prefix->setPower($data["power"]);
-				$prefix->setSymbol($data["symbol"]);
+				$prefix->setPower($prefixData["power"]);
+				$prefix->setSymbol($prefixData["symbol"]);
 				$this->entityManager->persist($prefix);
 				$count++;
 			} else {

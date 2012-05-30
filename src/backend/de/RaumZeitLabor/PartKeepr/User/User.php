@@ -228,7 +228,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public function deletePreference ($preferenceKey) {
-		return UserPreference::deletePreference($this, $preferenceKey);
+		UserPreference::deletePreference($this, $preferenceKey);
 	}
 	
 	/**

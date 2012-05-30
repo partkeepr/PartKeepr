@@ -26,21 +26,21 @@ class UnitSetup extends AbstractSetup {
 		
 		$aUnits = array();
 		
-		foreach ($data as $unitName => $data) {
+		foreach ($data as $unitName => $unitData) {
 			if (UnitManager::getInstance()->unitExists($unitName)) {
 				$skipped++;
 				continue;
 			}
 			$unit = new Unit();
 			$unit->setName($unitName);
-			$unit->setSymbol($data["symbol"]);
+			$unit->setSymbol($unitData["symbol"]);
 		
-			if (array_key_exists("prefixes", $data)) {
-				if (!is_array($data["prefixes"])) {
+			if (array_key_exists("prefixes", $unitData)) {
+				if (!is_array($unitData["prefixes"])) {
 					throw new \Exception($unitName." doesn't contain a prefix list, or the prefix list is not an array.");
 				}
 				
-				foreach ($data["prefixes"] as $prefix) {
+				foreach ($unitData["prefixes"] as $prefix) {
 					
 					$siPrefix = SiPrefixManager::getInstance()->getSiPrefixBySymbol($prefix);
 					if ($siPrefix === false) {

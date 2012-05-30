@@ -23,6 +23,7 @@ class ProjectAttachment extends UploadedFile implements Serializable, Deserializ
 	public function __construct () {
 		parent::__construct();
 		$this->setType("ProjectAttachment");
+        \de\RaumZeitLabor\PartKeepr\PartKeepr::
 	}
 	/**
 	 * The project object

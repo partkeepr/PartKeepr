@@ -31,19 +31,20 @@ class SerializableException extends \Exception {
 		$args = array();
 		
 		foreach ($items as $id => $item) {
-			foreach ($item["args"] as $item) {
-				switch (gettype($item)) {
+			foreach ($item["args"] as $itemData) {
+				switch (gettype($itemData)) {
 					case "object":
-						if (method_exists($item, "__toString")) {
-							$args[] = get_class($item) . "(".$item->__toString().")";
+						if (method_exists($itemData, "__toString")) {
+							$args[] = get_class($itemData) . "(".$itemData->__toString().")";
 						} else {
-							$args[] = get_class($item);
+							$args[] = get_class($itemData);
 						}
+                        break;
 					case "array":
 						$args[] = "array";
 						break;
 					default:
-						$args[] = $item;
+						$args[] = $itemData;
 						break;
 				}
 			}
