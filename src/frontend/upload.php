@@ -1,12 +1,12 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
+namespace PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\Image\Image;
-use de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
-use de\RaumZeitLabor\PartKeepr\Manufacturer\Manufacturer;
+use PartKeepr\PartKeepr;
+use PartKeepr\Image\Image;
+use PartKeepr\Manufacturer\ManufacturerICLogo;
+use PartKeepr\Manufacturer\Manufacturer;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 

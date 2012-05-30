@@ -1,11 +1,11 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Tests;
+namespace PartKeepr\Tests;
 
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\User\User;
+use PartKeepr\PartCategory\PartCategoryManager,
+	PartKeepr\PartKeepr,
+	PartKeepr\User\User;
 
-include(dirname(__DIR__). "/src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include(dirname(__DIR__). "/src/backend/PartKeepr/PartKeepr.php");
 
 /**
  * Initializes a bootstrapped PartKeepr environment.

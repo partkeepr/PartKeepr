@@ -1,5 +1,5 @@
 <?php
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use PartKeepr\PartKeepr;
 
 $helpers = array(
     'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper(PartKeepr::getEM()->getConnection()),

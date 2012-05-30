@@ -1,9 +1,9 @@
 <?php 
-namespace de\RaumZeitLabor\PartKeepr\Tests\Service;
+namespace PartKeepr\Tests\Service;
 
-use de\RaumZeitLabor\PartKeepr\Service\Service,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Part\Part;
+use PartKeepr\Service\Service,
+	PartKeepr\PartKeepr,
+	PartKeepr\Part\Part;
 
 
 class ServiceTest extends \PHPUnit_Framework_TestCase {

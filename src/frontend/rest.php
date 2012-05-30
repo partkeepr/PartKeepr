@@ -1,10 +1,10 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
+namespace PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr, 
-	de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
+use PartKeepr\PartKeepr,
+	PartKeepr\Service\ServiceManager;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 
@@ -39,7 +39,7 @@ $timingStart = microtime(true);
  * rest.php/Part
  * 
  * /Part specifies that you wish to call the Part service. The service manager automatically extends the short "Part"
- * name to the class de\RaumZeitLabor\PartKeepr\Part\PartService.
+ * name to the class PartKeepr\Part\PartService.
  * 
  * REST
  * ====
@@ -57,7 +57,7 @@ try {
 	
 	echo json_encode($response);
 	
-} catch (\de\RaumZeitLabor\PartKeepr\Util\SerializableException $e) {
+} catch (\PartKeepr\Util\SerializableException $e) {
 	header('HTTP/1.0 400 Exception', false, 400);
 	$response = array();
 	$response["status"] = "error";

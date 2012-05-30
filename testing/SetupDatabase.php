@@ -1,19 +1,19 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Tests;
+namespace PartKeepr\Testing;
 
 declare(encoding = 'UTF-8');
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\Setup\Migration\PartDB\PartDBMigration;
-use de\RaumZeitLabor\PartKeepr\Util\Configuration;
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager;
+use PartKeepr\PartKeepr,
+    PartKeepr\Setup\Migration\PartDB\PartDBMigration,
+    PartKeepr\Util\Configuration,
+    PartKeepr\PartCategory\PartCategoryManager;
 
 
-use de\RaumZeitLabor\PartKeepr\Setup\Setup;
+use PartKeepr\Setup\Setup;
 
 declare(encoding = 'UTF-8');
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize();
 

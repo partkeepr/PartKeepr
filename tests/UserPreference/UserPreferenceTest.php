@@ -1,9 +1,9 @@
 <?php 
-namespace de\RaumZeitLabor\PartKeepr\Tests\UserPreference;
+namespace PartKeepr\Tests\UserPreference;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\User\User,
-	de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference;
+use PartKeepr\PartKeepr,
+	PartKeepr\User\User,
+	PartKeepr\UserPreference\UserPreference;
 
 class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	protected $user;
@@ -35,7 +35,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	 * @return nothing
 	 */
 	protected function deleteUserPreferences () {
-		$dql = "DELETE FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE up.user = :user";
+		$dql = "DELETE FROM PartKeepr\UserPreference\UserPreference up WHERE up.user = :user";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
 		$query->setParameter("user", $this->user);
@@ -63,7 +63,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 		// Make sure that we only get one result when we set the same preference twice
 		UserPreference::setPreference($this->user, $preferenceKey, $preferenceValue);
 		
-		$dql =  "SELECT COUNT(up) FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE ";
+		$dql =  "SELECT COUNT(up) FROM PartKeepr\UserPreference\UserPreference up WHERE ";
 		$dql .= "up.user = :user AND up.preferenceKey = :key";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
@@ -75,7 +75,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Tests if the correct exception is thrown when attempting to load a non-existing user preference
-	 * @expectedException de\RaumZeitLabor\PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException
+	 * @expectedException PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException
 	 */
 	public function testGetNonExistingUserPreference () {
 		$preferenceKey = "test2";
@@ -89,7 +89,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	 * We're expecting the UserPreferenceNotFoundException because we are attempting to retrieve the value of the
 	 * previously deleted value.
 	 * 
-	 * @expectedException de\RaumZeitLabor\PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException
+	 * @expectedException PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException
 	 */
 	public function testDeleteUserPreference () {
 		$preferenceKey = "test3";
@@ -114,7 +114,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 		
 		UserPreference::setPreference($this->user, $preferenceKey, $preferenceValue);
 		
-		$dql =  "SELECT up.preferenceValue FROM de\RaumZeitLabor\PartKeepr\UserPreference\UserPreference up WHERE ";
+		$dql =  "SELECT up.preferenceValue FROM PartKeepr\UserPreference\UserPreference up WHERE ";
 		$dql .= "up.user = :user AND up.preferenceKey = :key";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
@@ -146,7 +146,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Makes sure that an exception is thrown when attempting to set a preference if the user is not persistant yet.
 	 *
-	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 * @expectedException PartKeepr\Util\Exceptions\EntityNotPersistantException
 	 */
 	public function testSetNonPersistantUserPreference () {
 		$user = new User();
@@ -156,7 +156,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Makes sure that an exception is thrown when attempting to get a preference if the user is not persistant yet.
 	 *
-	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 * @expectedException PartKeepr\Util\Exceptions\EntityNotPersistantException
 	 */
 	public function testGetNonPersistantUserPreference () {
 		$user = new User();
@@ -166,7 +166,7 @@ class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Makes sure that an exception is thrown when attempting to delete a preference if the user is not persistant yet.
 	 *
-	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 * @expectedException PartKeepr\Util\Exceptions\EntityNotPersistantException
 	 */
 	public function testDeleteNonPersistantUserPreference () {
 		$user = new User();

@@ -1,14 +1,14 @@
 <?php 
-namespace de\RaumZeitLabor\PartKeepr\Tests\Part;
+namespace PartKeepr\Tests\Part;
 
-use de\RaumZeitLabor\PartKeepr\Distributor\DistributorService;
+use PartKeepr\Distributor\DistributorService;
 
-use de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
-	de\RaumZeitLabor\PartKeepr\Part\PartService,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Part\Part,
-	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationManager,
-	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationService;
+use PartKeepr\PartCategory\PartCategoryManager,
+	PartKeepr\Part\PartService,
+	PartKeepr\PartKeepr,
+	PartKeepr\Part\Part,
+	PartKeepr\StorageLocation\StorageLocationManager,
+	PartKeepr\StorageLocation\StorageLocationService;
 
 class PartServiceTest extends \PHPUnit_Framework_TestCase {
 	protected $backupGlobals = false;
@@ -26,7 +26,7 @@ class PartServiceTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-     * @expectedException de\RaumZeitLabor\PartKeepr\Part\Exceptions\CategoryNotAssignedException
+     * @expectedException PartKeepr\Part\Exceptions\CategoryNotAssignedException
      */
 	public function testCreatePartWithoutCategory () {
 		$partName = "testCreatePartWithoutCategory";
@@ -99,7 +99,7 @@ class PartServiceTest extends \PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	 * @expectedException de\RaumZeitLabor\PartKeepr\Part\Exceptions\StorageLocationNotAssignedException
+	 * @expectedException PartKeepr\Part\Exceptions\StorageLocationNotAssignedException
 	 */
 	public function testCreatePartWithoutStorageLocation () {
 		$partName = "testCreatePartWithoutStorageLocation";

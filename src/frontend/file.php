@@ -1,14 +1,14 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
-use de\RaumZeitLabor\PartKeepr\Footprint\FootprintAttachment,
-	de\RaumZeitLabor\PartKeepr\Project\ProjectAttachment,
-	de\RaumZeitLabor\PartKeepr\Part\PartAttachment,
-	de\RaumZeitLabor\PartKeepr\UploadedFile\TempUploadedFile,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Image\Image,
-	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
+namespace PartKeepr\Frontend;
+use PartKeepr\Footprint\FootprintAttachment,
+	PartKeepr\Project\ProjectAttachment,
+	PartKeepr\Part\PartAttachment,
+	PartKeepr\UploadedFile\TempUploadedFile,
+	PartKeepr\PartKeepr,
+	PartKeepr\Image\Image,
+	PartKeepr\Manufacturer\ManufacturerICLogo;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 

@@ -1,7 +1,7 @@
 <?php 
-namespace de\RaumZeitLabor\PartKeepr\Tests\Auth;
+namespace PartKeepr\Tests\Auth;
 
-use de\RaumZeitLabor\PartKeepr\User\User;
+use PartKeepr\User\User;
 
 class UserTest extends \PHPUnit_Framework_TestCase {
 	public function testBasics () {

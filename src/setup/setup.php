@@ -1,14 +1,14 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Setup;
+namespace PartKeepr\Setup;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Setup\Setup,
-	de\RaumZeitLabor\PartKeepr\Util\SerializableException;
+use PartKeepr\PartKeepr,
+	PartKeepr\Setup\Setup,
+	PartKeepr\Util\SerializableException;
 
 set_error_handler(create_function('$a, $b, $c, $d', 'throw new ErrorException($b, 0, $a, $c, $d);'), E_ALL);
 
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 PartKeepr::initializeClassLoaders();
 
 try {

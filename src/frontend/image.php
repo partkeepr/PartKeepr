@@ -1,20 +1,20 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
+namespace PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\Part\PartAttachment;
+use PartKeepr\Part\PartAttachment;
 
-use de\RaumZeitLabor\PartKeepr\Image\ImageRenderer;
+use PartKeepr\Image\ImageRenderer;
 
-use de\RaumZeitLabor\PartKeepr\Part\PartImage,
-	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage,
-	de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage,
-	de\RaumZeitLabor\PartKeepr\TempImage\TempImage,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Image\Image,
-	de\RaumZeitLabor\PartKeepr\Image\CachedImage,
-	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
+use PartKeepr\Part\PartImage,
+	PartKeepr\StorageLocation\StorageLocationImage,
+	PartKeepr\Footprint\FootprintImage,
+	PartKeepr\TempImage\TempImage,
+	PartKeepr\PartKeepr,
+	PartKeepr\Image\Image,
+	PartKeepr\Image\CachedImage,
+	PartKeepr\Manufacturer\ManufacturerICLogo;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 

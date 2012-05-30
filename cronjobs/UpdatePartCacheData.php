@@ -1,15 +1,15 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Cronjobs;
+namespace PartKeepr\Cronjobs;
 
-include(__DIR__."/../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include(__DIR__."/../src/backend/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Statistic\StatisticSnapshotManager,
-	de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager;
+use PartKeepr\PartKeepr,
+	PartKeepr\Statistic\StatisticSnapshotManager,
+	PartKeepr\CronLogger\CronLoggerManager;
 
 PartKeepr::initialize();
 
-$query = PartKeepr::getEM()->createQuery("SELECT p FROM de\RaumZeitLabor\PartKeepr\Part\Part p");
+$query = PartKeepr::getEM()->createQuery("SELECT p FROM PartKeepr\Part\Part p");
 $result = $query->getResult();
 
 $fc = 0;
