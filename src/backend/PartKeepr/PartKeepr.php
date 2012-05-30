@@ -176,7 +176,7 @@ class PartKeepr {
 
 		$config->setQueryCacheImpl($cache);
 		
-		$config->setProxyDir(dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/data/proxies');
+		$config->setProxyDir(self::getRootDirectory() . '/data/proxies');
 		$config->setProxyNamespace('Proxies');
 		$config->setEntityNamespaces(self::getEntityClasses());
 		$config->setAutoGenerateProxyClasses(false);
