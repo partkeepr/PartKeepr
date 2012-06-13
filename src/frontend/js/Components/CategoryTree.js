@@ -11,7 +11,7 @@ Ext.define("PartKeepr.CategoryTree", {
     	animate: false
     },
     loaded: false,
-    rootVisible: false,
+    rootVisible: true,
 	initComponent: function () {
 		this.store = new Ext.data.TreeStore({
 			root: {
@@ -40,13 +40,12 @@ Ext.define("PartKeepr.CategoryTree", {
 		/* Store expand/collapse state for all nodes */
 		var expandedNodes = this.getExpandedNodes(this.getRootNode());
 		
-		this.getRootNode().removeAll();
+		//this.getRootNode().removeAll();
 		
 		this.buildCategoryTree(this.getRootNode(), result, expandedNodes);
-		
 		this.loaded = true;
 		
-		this.getRootNode().expandChildren();
+		//this.getRootNode().expandChildren();
 		
 		this.getStore().sort("name", "ASC");
 		
@@ -70,6 +69,7 @@ Ext.define("PartKeepr.CategoryTree", {
 		} else {
 			label = data.name;
 		}
+		
 		var nodeData = {
 			id :  data.id,
 			name : data.name,
@@ -106,13 +106,25 @@ Ext.define("PartKeepr.CategoryTree", {
 			nodeData.leaf = false;
 		}*/
 		
-		nodeData.leaf = false;
-                nodeData.loaded = true;
+		//nodeData.leaf = false;
+		//nodeData.loaded = true;
 		
-		var node = root.appendChild(Ext.create(this.categoryModel, nodeData));
+        //console.log(insertNode);
+        
+		Ext.data.NodeInterface.decorate(this.categoryModel);
 		
-		for ( var i = 0; i < data.children.length; i++) {
-			this.buildCategoryTree(node, data.children[i], expandedNodes);
+		var model = Ext.create(this.categoryModel, nodeData);
+		
+		
+		console.log(model);
+		model.childNodes = [];
+		
+		var newNode = root.appendChild(model);
+		return;
+		/*for ( var i = 0; i < data.children.length; i++) {
+			this.buildCategoryTree(newNode, data.children[i], expandedNodes);
 		}
+		
+		return newNode;*/
 	}
 });
