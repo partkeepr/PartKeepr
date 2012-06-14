@@ -338,7 +338,7 @@
 			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d" />
 		</tstamp>
 
-		<property name="partkeepr.version" value="${build.time}-nightly" />
+		<property name="partkeepr.version" value="${build.time}" />
 		<phingcall target="set-version" />
 
 		<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly/" />
