@@ -47,6 +47,13 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	private $price;
 	
 	/**
+	 * The distributor's SKU (stock keeping unit) for the part.  Used with barcodes.
+	 * @Column(type="string",nullable=true)
+	 * @var string
+	 */
+	private $sku;
+
+	/**
 	 * Cretes a new part->distributor link. Initializes the packaging unit with a quantity of "1".
 	 * 
 	 * @param Part $part The part
@@ -152,6 +159,22 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	}
 	
 	/**
+	 * Sets the SKU (stock keeping unit)
+	 * @param string $sku The SKU
+	 */
+	public function setSKU ($sku) {
+		$this->sku = $sku;
+	}
+
+	/**
+	 * Returns the SKU (stock keeping unit)
+	 * @return string The SKU
+	 */
+	public function getSKU () {
+		return $this->sku;
+	}
+
+	/**
 	 * (non-PHPdoc)
 	 * @see PartKeepr\Util.Serializable::serialize()
 	 */
@@ -164,7 +187,8 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 			"part_id" => $this->getPart()->getId(),
 			"part_name" => $this->getPart()->getName(),
 			"packagingUnit" => $this->getPackagingUnit(),
-			"price" => $this->getPrice());
+			"price" => $this->getPrice(),
+			"sku" => $this->getSKU());
 	}
 	
 	/**
@@ -186,6 +210,9 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 					break;
 				case "price":
 					$this->setPrice($value);
+					break;
+				case "sku":
+					$this->setSKU($value);
 					break;
 			}
 		}
