@@ -37,6 +37,8 @@ class ExtJSFile {
 	 * @param string $file The source file
 	 */
 	public function __construct ($file) {
+		$file = str_replace("//", "/", $file);
+
 		$this->source = file_get_contents($file);
 		
 		if ($this->parseExtendDirective() != "") {
