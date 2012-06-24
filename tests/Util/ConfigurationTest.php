@@ -1,7 +1,7 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Tests\Util;
+namespace PartKeepr\Tests\Util;
 
-use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use PartKeepr\Util\Configuration;
 
 class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 	public function testConfiguration () {

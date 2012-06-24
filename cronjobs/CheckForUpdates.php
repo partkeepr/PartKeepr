@@ -6,12 +6,12 @@
  * @author felicitus
  *
  */
-namespace de\RaumZeitLabor\PartKeepr\Cronjobs;
+namespace PartKeepr\Cronjobs;
 
-include(__DIR__."/../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include(__DIR__."/../src/backend/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\CronLogger\CronLoggerManager;
+use PartKeepr\PartKeepr,
+	PartKeepr\CronLogger\CronLoggerManager;
 
 PartKeepr::initialize();
 

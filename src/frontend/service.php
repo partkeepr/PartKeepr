@@ -1,10 +1,10 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
+namespace PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\Service\ServiceManager;
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use PartKeepr\Service\ServiceManager;
+use PartKeepr\PartKeepr;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 
@@ -27,7 +27,7 @@ try {
 	$response["response"] = ServiceManager::call($request);
 	$response["timing"] = microtime(true) - $timingStart;
 	
-} catch (de\RaumZeitLabor\PartKeepr\Util\SerializableException $e) {
+} catch (PartKeepr\Util\SerializableException $e) {
 	$response = array();
 	$response["status"] = "error";
 	$response["exception"] = $e->serialize();

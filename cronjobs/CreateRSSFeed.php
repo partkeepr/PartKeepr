@@ -1,14 +1,14 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Cronjobs;
+namespace PartKeepr\Cronjobs;
 
-include(__DIR__."/../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include(__DIR__."/../src/backend/PartKeepr/PartKeepr.php");
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
-use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use PartKeepr\PartKeepr,
+    PartKeepr\Util\Configuration;
 
 PartKeepr::initialize();
 
-$dql = PartKeepr::getEM()->createQuery("SELECT p FROM de\RaumZeitLabor\PartKeepr\Part\Part p ORDER BY p.createDate DESC");
+$dql = PartKeepr::getEM()->createQuery("SELECT p FROM PartKeepr\Part\Part p ORDER BY p.createDate DESC");
 $dql->setMaxResults(40);
 
 $parts = $dql->getResult();

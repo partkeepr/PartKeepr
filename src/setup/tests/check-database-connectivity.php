@@ -2,12 +2,12 @@
 /**
  * Tests the connection to the database.
  */
-include("../../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../../src/backend/PartKeepr/PartKeepr.php");
 
 use Doctrine\Common\ClassLoader;
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Setup\Setup,
-	de\RaumZeitLabor\PartKeepr\Setup\SchemaSetup;
+use PartKeepr\PartKeepr,
+	PartKeepr\Setup\Setup,
+	PartKeepr\Setup\SchemaSetup;
 
 PartKeepr::initializeClassLoaders();
 

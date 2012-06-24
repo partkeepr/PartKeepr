@@ -1,8 +1,8 @@
 <?php 
-namespace de\RaumZeitLabor\PartKeepr\Tests\Logger;
+namespace PartKeepr\Tests\Logger;
 
-use de\RaumZeitLabor\PartKeepr\Logger\Logger,
-	de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use PartKeepr\Logger\Logger,
+	PartKeepr\Util\Configuration;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase {
 	

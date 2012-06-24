@@ -4,14 +4,14 @@
  * 
  * This script needs to be called after changing the partkeepr.category.path_separator.
  */
-namespace de\RaumZeitLabor\PartKeepr\Scripts;
+namespace PartKeepr\Scripts;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\PartCategory\PartCategoryManager,
-	de\RaumZeitLabor\PartKeepr\Util\Configuration,
-	de\RaumZeitLabor\PartKeepr\FootprintCategory\FootprintCategoryManager;
+use PartKeepr\PartKeepr,
+	PartKeepr\PartCategory\PartCategoryManager,
+	PartKeepr\Util\Configuration,
+	PartKeepr\FootprintCategory\FootprintCategoryManager;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 
 PartKeepr::initialize();

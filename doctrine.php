@@ -1,9 +1,9 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Foo;
+namespace PartKeepr\Foo;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr;
+use PartKeepr\PartKeepr;
 
-include("src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 // Variable $helperSet is defined inside cli-config.php

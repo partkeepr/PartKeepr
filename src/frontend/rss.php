@@ -1,10 +1,10 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
+namespace PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use PartKeepr\PartKeepr,
+	PartKeepr\Util\Configuration;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 header("Content-Type: text/xml; charset=UTF-8");
 

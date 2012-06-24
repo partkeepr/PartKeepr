@@ -1,16 +1,20 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
+namespace PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\Part\PartImage,
-	de\RaumZeitLabor\PartKeepr\StorageLocation\StorageLocationImage,
-	de\RaumZeitLabor\PartKeepr\Footprint\FootprintImage,
-	de\RaumZeitLabor\PartKeepr\TempImage\TempImage,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Image\Image,
-	de\RaumZeitLabor\PartKeepr\Image\CachedImage,
-	de\RaumZeitLabor\PartKeepr\Manufacturer\ManufacturerICLogo;
+use PartKeepr\Part\PartAttachment;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+use PartKeepr\Image\ImageRenderer;
+
+use PartKeepr\Part\PartImage,
+	PartKeepr\StorageLocation\StorageLocationImage,
+	PartKeepr\Footprint\FootprintImage,
+	PartKeepr\TempImage\TempImage,
+	PartKeepr\PartKeepr,
+	PartKeepr\Image\Image,
+	PartKeepr\Image\CachedImage,
+	PartKeepr\Manufacturer\ManufacturerICLogo;
+
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 
@@ -30,10 +34,12 @@ if (substr($id, 0, 4) === "TMP:") {
 				$image = FootprintImage::loadById($id);
 				break;
 			case Image::IMAGE_STORAGELOCATION:
-					$image = StorageLocationImage::loadById($id);
-					break;
-			case Image::IMAGE_PART:
-				$image = PartImage::loadById($id);
+				$image = StorageLocationImage::loadById($id);
+				break;
+			case "partattachment":
+				$attachment = PartAttachment::loadById($id);
+				$image = new PartImage();
+				$image->replace($attachment->getFilename());
 				break;
 			default:
 				$image = null;
@@ -54,20 +60,7 @@ if ($image == null) {
 	
 	if ($image === null) {
 		/* The image is still null - output an "image not found" image.	 */
-		$image = imagecreate($_REQUEST["w"], $_REQUEST["h"]);
-		$white = imagecolorallocate($image, 255,255,255);
-		$black = imagecolorallocate($image, 0,0,0);
-		
-		header("Content-Type: image/png");
-		
-		$w = $_REQUEST["w"]-1;
-		$h = $_REQUEST["h"]-1;
-		imagefill($image, 0,0, $white);
-		
-		/* Draw the X */
-		imageline($image, 0,0,$w,$h, $black);
-		imageline($image, $w,0,0,$h, $black);
-		imagepng($image);
+		ImageRenderer::outputRenderNotFoundImage($_REQUEST["w"], $_REQUEST["h"]);
 		exit();
 		
 	}
@@ -98,8 +91,7 @@ switch ($mode) {
 	case "fit":
 	default:
 		$file = $image->fitWithin($_REQUEST["w"],$_REQUEST["h"]);
-		break;		
-	
+		break;
 }
 
 

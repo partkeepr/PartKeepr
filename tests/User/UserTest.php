@@ -1,9 +1,9 @@
 <?php 
-namespace de\RaumZeitLabor\PartKeepr\Tests\User;
+namespace PartKeepr\Tests\User;
 
-use de\RaumZeitLabor\PartKeepr\User\UserManager,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\User\User;
+use PartKeepr\User\UserManager,
+	PartKeepr\PartKeepr,
+	PartKeepr\User\User;
 
 class UserTest extends \PHPUnit_Framework_TestCase {
 	protected $backupGlobals = false;
@@ -99,7 +99,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Makes sure that an exception is thrown when attempting to set a preference if the user is not persistant yet.
 	 * 
-	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 * @expectedException PartKeepr\Util\Exceptions\EntityNotPersistantException
 	 */
 	public function testSetNonPersistantUserPreference () {
 		$user = new User();
@@ -109,7 +109,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Makes sure that an exception is thrown when attempting to get a preference if the user is not persistant yet.
 	 *
-	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 * @expectedException PartKeepr\Util\Exceptions\EntityNotPersistantException
 	 */
 	public function testGetNonPersistantUserPreference () {
 		$user = new User();
@@ -119,7 +119,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Makes sure that an exception is thrown when attempting to delete a preference if the user is not persistant yet.
 	 *
-	 * @expectedException de\RaumZeitLabor\PartKeepr\Util\Exceptions\EntityNotPersistantException
+	 * @expectedException PartKeepr\Util\Exceptions\EntityNotPersistantException
 	 */
 	public function testDeleteNonPersistantUserPreference () {
 		$user = new User();

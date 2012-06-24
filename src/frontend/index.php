@@ -1,13 +1,13 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr\Frontend;
+namespace PartKeepr\Frontend;
 
-use de\RaumZeitLabor\PartKeepr\User\User,
-	de\RaumZeitLabor\PartKeepr\Service\ServiceManager,
-	de\RaumZeitLabor\PartKeepr\PartKeepr,
-	de\RaumZeitLabor\PartKeepr\Session\SessionManager,
-	de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use PartKeepr\User\User,
+	PartKeepr\Service\ServiceManager,
+	PartKeepr\PartKeepr,
+	PartKeepr\Session\SessionManager,
+	PartKeepr\Util\Configuration;
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 include_once 'Twig/Autoloader.php';
 
 PartKeepr::initialize("");

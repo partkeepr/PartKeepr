@@ -14,6 +14,8 @@
 	<target name="clean">
 		<delete dir="reports" />
 		<delete dir="frontend" />
+		<delete dir="setup" />
+		<delete file="partkeepr.jsb3" />
 	</target>
 
 	<!--  Re-generates the proxies needed by Doctrine2 -->
@@ -90,12 +92,12 @@
 			<else>
 				<copy overwrite="true" todir="setup/js/wizard">
 					<fileset dir="3rdparty/ext-wizard/Ext.ux.Wizard">
-						<include name="**"/>
+						<include name="**" />
 					</fileset>
 				</copy>
 			</else>
 		</if>
-		
+
 		<echo>Copying src/setup</echo>
 		<if>
 			<isset property="build.fast" />
@@ -150,7 +152,7 @@
 		</if>
 
 		<echo>Copying Ext Statusbar</echo>
-		<mkdir dir="frontend/js/Ext.ux/statusbar"/>
+		<mkdir dir="frontend/js/Ext.ux/statusbar" />
 		<if>
 			<isset property="build.fast" />
 			<then>
@@ -224,7 +226,7 @@
 		<phingcall target="build-setup" />
 	</target>
 
-    <!-- Fast build uses rsync instead of standard file copy -->
+	<!-- Fast build uses rsync instead of standard file copy -->
 	<target name="build-fast">
 		<condition property="build.fast">
 			<or>
@@ -236,7 +238,7 @@
 		<fail unless="build.fast" message="Fast build only supported on Mac and Unix-like systems (rsync required)" />
 
 		<phingcall target="build" />
-	</target>    
+	</target>
 
 	<!--
 	Creates a new PartKeepr release.
@@ -327,7 +329,7 @@
 		<exec executable="sed">
 			<arg value="-i" />
 			<arg value="s/{V_GIT}/${partkeepr.version}/g" />
-			<arg value="${packagepath}/src/backend/de/RaumZeitLabor/PartKeepr/PartKeeprVersion.php" />
+			<arg value="${packagepath}/src/backend/PartKeepr/PartKeeprVersion.php" />
 		</exec>
 	</target>
 
@@ -338,7 +340,7 @@
 			<format property="build.time" pattern="partkeepr-nightly-%Y%m%d" />
 		</tstamp>
 
-		<property name="partkeepr.version" value="{build.time}-nightly" />
+		<property name="partkeepr.version" value="${build.time}" />
 		<phingcall target="set-version" />
 
 		<zip destfile="${build.time}.zip" basedir="${packagepath}" prefix="partkeepr-nightly/" />

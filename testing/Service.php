@@ -2,7 +2,7 @@
 namespace de\RaumZeitLabor\PartKeepr\Tests;
 declare(encoding = 'UTF-8');
 
-include("../src/backend/de/RaumZeitLabor/PartKeepr/PartKeepr.php");
+include("../src/backend/PartKeepr/PartKeepr.php");
 
 use de\RaumZeitLabor\PartKeepr\Auth\User;
 use de\RaumZeitLabor\PartKeepr\PartKeepr;

@@ -5,6 +5,7 @@ Ext.define("PartKeepr.PartAttachment", {
 	         {	name: 'originalFilename',	type: 'string' },
 	         {	name: 'footprint_id',		type: 'int' },
 	         {	name: 'mimetype',			type: 'string' },
+	         {	name: 'image',				type: 'boolean' },
 	         {	name: 'extension',			type: 'string' },
 	         {	name: 'description',		type: 'string' },
 	         {	name: 'size',				type: 'string' }

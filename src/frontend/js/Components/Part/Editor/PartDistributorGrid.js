@@ -52,7 +52,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 		}, {
 			header : i18n("Order Number"),
 			dataIndex : 'orderNumber',
-			flex : 0.3,
+			flex : 0.2,
 			editor : {
 				xtype : 'textfield',
 				allowBlank : true
@@ -77,6 +77,14 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 			editor : {
 				xtype : 'CurrencyField',
 				allowBlank : false
+			}
+		}, {
+			header : i18n("SKU"),
+			dataIndex : 'sku',
+			flex : 0.1,
+			editor : {
+				xtype : 'textfield',
+				allowBlank : true
 			}
 		} ];
 

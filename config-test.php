@@ -1,7 +1,7 @@
 <?php
-namespace de\RaumZeitLabor\PartKeepr;
+namespace PartKeepr;
 
-use de\RaumZeitLabor\PartKeepr\Util\Configuration;
+use PartKeepr\Util\Configuration;
 
 Configuration::setOption("partkeepr.database.dbname", "partkeepr-test");
 Configuration::setOption("partkeepr.database.driver", "pdo_sqlite");
