@@ -196,6 +196,8 @@ class PartKeepr {
 		
 		switch ($driver) {
 			case "pdo_mysql":
+				// Force SET NAMES, as PHP/PDO <5.3.6 silently ignores "charset" 
+				$connectionOptions["driverOptions"] = array(1002=>'SET NAMES utf8');
 			case "pdo_pgsql":
 			case "pdo_oci":
 			case "oci8":
