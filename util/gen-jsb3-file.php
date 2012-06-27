@@ -22,6 +22,9 @@ if ($_SERVER["argc"] !== 3) {
 
 // Extract the path and check if the path is actually a directory
 $path = $_SERVER["argv"][1];
+if (substr($path, -1) !== "/") {
+	$path .= "/";
+}
 
 if (!is_dir($path)) {
 	echo "Sorry, we can't read the path $path.\n\n";
@@ -29,8 +32,10 @@ if (!is_dir($path)) {
 }
 
 $extjspath = $_SERVER["argv"][2];
-
-if (!is_dir($path)) {
+if (substr($extjspath, -1) !== "/") {
+	$extjspath .= "/";
+}
+if (!is_dir($extjspath)) {
 	echo "Sorry, we can't read the ExtJS path $extjspath.\n\n";
 	exit(-1);
 }
