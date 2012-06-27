@@ -107,9 +107,16 @@ Configuration::setOption("partkeepr.frontend.autologin.username", null);
 Configuration::setOption("partkeepr.frontend.autologin.password", null);
 
 /**
- * Specifies if frontend debugging should be turned on
+ * Specifies if frontend debugging should be turned on. This will create a non-minified, single JS file
+ * out of all source files
  */
 Configuration::setOption("partkeepr.frontend.debug", false);
+
+/**
+ * Specifies if the frontend should load each single JS file individually, in contrast to merging all JS files
+ * into partkeepr-debug.js.
+ */
+Configuration::setOption("partkeepr.frontend.debug_all", false);
 
 /**
  * Specifies if cronjobs should be checked. Disable this on Windows unless we have an automatic cronjob runner
