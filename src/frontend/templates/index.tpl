@@ -18,9 +18,17 @@
 		
 		<!-- Include the ExtJS JavaScript Library -->
 		{% if debug %}
+			{% if debug_all %}
+			<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
+			{% for i in scripts %}
+			<script type="text/javascript" src="{{ i }}"></script>
+			{% endfor %}
+			<script type="text/javascript" src="js/Ext.ux/Ext.ux.formatter-all-debug.js"></script>
+			{% else %}
 			<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
 			<script type="text/javascript" src="js/partkeepr-debug.js"></script>
 			<script type="text/javascript" src="js/Ext.ux/Ext.ux.formatter-all-debug.js"></script>
+			{% endif %}
 		{% else %}
 			<script type="text/javascript" src="extjs/ext-all.js"></script>
 			<script type="text/javascript" src="js/partkeepr.js"></script>

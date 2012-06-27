@@ -146,8 +146,20 @@ class ExtJSFile {
 		return implode(",\n", $aData);
 	}
 	
+	public function getArray () {
+		$aData = array($this->filename);
+		
+		foreach ($this->childs as $child) {
+			$aData = array_merge($aData, $child->getArray());	
+		}
+		
+		return $aData;
+	}
+	
 	/**
 	 * Returns the JSB Entry for the class
+	 * 
+	 * @return String A single JSB entry with PATH and NAME.
 	 */
 	private function getJSBEntry () {
 		$template = '{"path": "[PATH]","name": "[NAME]"}';
