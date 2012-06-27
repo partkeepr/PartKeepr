@@ -55,7 +55,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -ptgo
+				<exec dir="." passthru="true" command="rsync -ptgo
 				                         --include=/bootstrap.js
 				                         --include=/ext-all.js
 				                         --include=/ext-all-debug.js
@@ -85,7 +85,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -a --delete 3rdparty/ext-wizard/Ext.ux.Wizard/ setup/js/wizard/" checkreturn="true" />
+				<exec dir="." passthru="true" command="rsync -a --delete 3rdparty/ext-wizard/Ext.ux.Wizard/ setup/js/wizard/" checkreturn="true" />
 			</then>
 			<else>
 				<copy overwrite="true" todir="setup/js/wizard">
@@ -100,7 +100,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -a src/setup/ setup/" checkreturn="true" />
+				<exec dir="." passthru="true" command="rsync -a src/setup/ setup/" checkreturn="true" />
 			</then>
 			<else>
 				<copy overwrite="true" todir="setup/">
@@ -122,7 +122,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -ptgo -r
+				<exec dir="." passthru="true" command="rsync -ptgo -r
 				                         --include=/bootstrap.js
 				                         --include=/ext-all.js
 				                         --include=/ext-all-debug.js
@@ -154,7 +154,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -a --delete ${extjs.path}/examples/ux/statusbar/ frontend/js/Ext.ux/statusbar/" checkreturn="true" />
+				<exec dir="." passthru="true" command="rsync -a --delete ${extjs.path}/examples/ux/statusbar/ frontend/js/Ext.ux/statusbar/" checkreturn="true" />
 			</then>
 			<else>
 				<copy overwrite="false" todir="frontend/js/Ext.ux/">
@@ -169,7 +169,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -a ${extjs.path}/examples/ux/TabCloseMenu.js frontend/js/Ext.ux/" checkreturn="true" />
+				<exec dir="." passthru="true" command="rsync -a ${extjs.path}/examples/ux/TabCloseMenu.js frontend/js/Ext.ux/" checkreturn="true" />
 			</then>
 			<else>
 				<copy overwrite="false" todir="frontend/js/Ext.ux/">
@@ -185,7 +185,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -a 3rdparty/phpjs/php.default.min.js frontend/js/org.phpjs.lib/" checkreturn="true" />
+				<exec dir="." passthru="true" command="rsync -a 3rdparty/phpjs/php.default.min.js frontend/js/org.phpjs.lib/" checkreturn="true" />
 			</then>
 			<else>
 				<copy overwrite="false" todir="frontend/js/org.phpjs.lib">
@@ -200,7 +200,7 @@
 		<if>
 			<isset property="build.fast" />
 			<then>
-				<exec dir="." command="rsync -a --exclude=.git src/frontend/ frontend/" checkreturn="true" />
+				<exec dir="." passthru="true" command="rsync -a --exclude=.git src/frontend/ frontend/" checkreturn="true" />
 			</then>
 			<else>
 				<copy overwrite="true" todir="frontend/">
