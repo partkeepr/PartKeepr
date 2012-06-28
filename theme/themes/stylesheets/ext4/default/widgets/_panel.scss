@@ -1,14 +1,14 @@
 /**
-  * @class Ext.Panel
-  * Used to create the base structure of an Ext.Panel
-  */
+ * Create the base structure of an Ext.Panel
+ * @member Ext.panel.Panel
+ */
 @mixin extjs-panel {
     .#{$prefix}panel,
     .#{$prefix}plain {
         overflow: hidden;
         position: relative;
     }
-    
+
      @if $include-ie {
         // Workaround for disappearing right edge in IE6
         .#{$prefix}ie {
@@ -32,24 +32,32 @@
             }
         }
     }
-    
+
     //panel header
-    .#{$prefix}panel-header {
+    .#{$prefix}panel-header-horizontal {
         padding: $panel-header-padding;
     }
-    
+    .#{$prefix}panel-header-vertical {
+        padding: $panel-header-vertical-padding;
+    }
+
     .#{$prefix}panel-header-icon,
     .#{$prefix}window-header-icon {
-        width:16px;
-        height:16px;
+        width: $panel-header-icon-width;
+        height: $panel-header-icon-height;
         background-repeat:no-repeat;
         background-position:0 0;
         vertical-align:middle;
         margin-right:4px;
-        margin-top:-1px;
-        margin-bottom:-1px;
     }
-    
+
+    .#{$prefix}vertical {
+        .#{$prefix}panel-header-icon,
+        .#{$prefix}window-header-icon {
+            margin: 0 0 4px;
+        }
+    }
+
     .#{$prefix}panel-header-draggable,
     .#{$prefix}panel-header-draggable .#{$prefix}panel-header-text,
     .#{$prefix}window-header-draggable,
@@ -76,12 +84,10 @@
         }
     }
 
-    // Vertical headers must be inline blocks so that they acquire width from the content
-    .#{$prefix}panel-header-vertical, .#{$prefix}panel-header-vertical .#{$prefix}panel-header-body,
-    .#{$prefix}btn-group-header-vertical, .#{$prefix}btn-group-header-vertical .#{$prefix}btn-group-header-body,
-    .#{$prefix}window-header-vertical, .#{$prefix}window-header-vertical .#{$prefix}window-header-body {
-        display: -moz-inline-stack;
-        display: inline-block;
+    .#{$prefix}panel-header-text-container {
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
     }
 
     .#{$prefix}panel-header-text {
@@ -100,23 +106,25 @@
     .#{$prefix}panel-body {
         overflow: hidden;
         position: relative;
-        
+
         font-size: $panel-body-font-size;
     }
 
     .#{$prefix}panel-header-vertical {
         .#{$prefix}surface {
-            margin-top: 2px;
+            padding-left: 1px;
         }
     }
-    
-    .#{$prefix}panel-header-plain-vertical {
-        .#{$prefix}surface {
-            margin-top: 0;
+
+    .#{$prefix}opera,
+    .#{$prefix}strict .#{$prefix}ie9 {
+        .#{$prefix}panel-header-vertical {
+            .#{$prefix}surface {
+                padding-left: 2px;
+            }
         }
     }
-    
-        
+
     .#{$prefix}panel-collapsed {
         .#{$prefix}panel-header-collapsed-border-top {
             border-bottom-width: $panel-header-border-width !important;
@@ -148,7 +156,7 @@
             $ui-border-width: $panel-border-width,
             $ui-border-color: $panel-border-color,
             $ui-border-radius: $panel-border-radius,
-            
+
             $ui-header-color: $panel-header-color,
             $ui-header-font-size: $panel-header-font-size,
             $ui-header-font-weight: $panel-header-font-weight,
@@ -161,7 +169,7 @@
             $ui-body-border-width: 1px,
             $ui-body-background-color: $panel-body-background-color
         );
-        
+
         @include extjs-panel-ui(
             'default-framed',
 
@@ -180,21 +188,22 @@
             $ui-body-color: $panel-body-color,
             $ui-body-border-color: $panel-body-border-color,
             $ui-body-border-width: 0,
-            $ui-body-background-color: $panel-frame-background-color
+            $ui-body-background-color: $panel-frame-background-color,
+            $ui-image-label-with-border-radius: 'default'
         );
     }
 
-    .x-panel-header-plain,
-    .x-panel-body-plain {
+    .#{$prefix}panel-header-plain,
+    .#{$prefix}panel-body-plain {
         border: 0;
         padding: 0;
     }
 }
 
 /**
-  * @class Ext.Panel
-  * Used to create a visual theme for an Ext.Panel
-  */
+ * Creates a visual theme for an Ext.Panel
+ * @member Ext.panel.Panel
+ */
 @mixin extjs-panel-ui(
     $ui-label,
 
@@ -208,6 +217,7 @@
     $ui-header-font-family: $panel-header-font-family,
     $ui-header-font-size: $panel-header-font-size,
     $ui-header-font-weight: $panel-header-font-weight,
+    $ui-header-line-height: $panel-header-line-height,
     $ui-header-border-color: $ui-border-color,
     $ui-header-background-color: null,
     $ui-header-background-gradient: matte,
@@ -219,7 +229,10 @@
     $ui-body-border-style: solid,
     $ui-body-background-color: null,
     $ui-body-font-size: null,
-    $ui-body-font-weight: null
+    $ui-body-font-weight: null,
+    // optional image label to use when background header images are required (no linear-gradient),
+    // but border-radius is supported (no framing els) e.g. IE9.
+    $ui-image-label-with-border-radius: null
 ){
     @if $ui-base-color != null {
         @if $ui-border-color == null { $ui-border-color: $ui-base-color; }
@@ -227,7 +240,7 @@
         @if $ui-header-color == null { $ui-header-color: #fff; }
         @if $ui-header-background-color == null { $ui-header-background-color: lighten($ui-base-color, 15); }
     }
-    
+
     @if $ui-header-inner-border-color == null and $ui-header-background-color != null {
         $ui-header-inner-border-color: lighten($ui-header-background-color, 10);
     }
@@ -239,7 +252,6 @@
     // header
     .#{$prefix}panel-header-#{$ui-label} {
         @if $ui-header-font-size != null { font-size: $ui-header-font-size; }
-        line-height: $panel-header-line-height;
 
         @if $ui-header-border-color != null {
             border-color: $ui-header-border-color;
@@ -258,28 +270,70 @@
             }
         }
     }
-    
+
     // header background images
     @if $ui-header-background-color != null and $ui-header-background-gradient != null {
         @if not $supports-gradients or $compile-all {
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-top {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-top-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-top-bg.gif');
             }
-            
+
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-bottom {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-bottom-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-bottom-bg.gif');
             }
 
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-left {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-left-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-left-bg.gif');
             }
 
             .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-right {
-                background-image: theme-image($theme-name, 'panel-header/panel-header-#{$ui-label}-right-bg.gif');
+                background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-label}-right-bg.gif');
+            }
+
+            .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-right {
+                background-position: top right;
+            }
+
+            .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-bottom {
+                background-position: bottom left;
+            }
+
+            @if $ui-border-radius != null {
+                .#{$prefix}nbr {
+                    // If framing elements are used to achieve rounded corners remove the background image from the header element since the framing elements
+                    // already have the background image, and a background image on the main header element bleeds through the corner framing elements.
+                    .#{$prefix}panel-header-#{$ui-label} {
+                        background-image: none;
+                    }
+                }
+            }
+
+
+            @if $ui-image-label-with-border-radius != null {
+                // IE9 strict, Opera < 11.10, and Safari 3 are the only currently supported browsers that support border-radius, but do not support linear-gradient.
+                .#{$prefix}strict .#{$prefix}ie9,
+                .#{$prefix}nlg.#{$prefix}opera,
+                .#{$prefix}nlg.#{$prefix}safari {
+                    .#{$prefix}panel-header-#{$ui-label}-top {
+                        background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-image-label-with-border-radius}-top-bg.gif');
+                    }
+
+                    .#{$prefix}panel-header-#{$ui-label}-bottom {
+                        background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-image-label-with-border-radius}-bottom-bg.gif');
+                    }
+
+                    .#{$prefix}panel-header-#{$ui-label}-left {
+                        background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-image-label-with-border-radius}-left-bg.gif');
+                    }
+
+                    .#{$prefix}panel-header-#{$ui-label}-right {
+                        background-image: theme-background-image($theme-name, 'panel-header/panel-header-#{$ui-image-label-with-border-radius}-right-bg.gif');
+                    }
+                }
             }
         }
     }
-    
+
     // header text
     .#{$prefix}panel-header-text-#{$ui-label} {
         @if $ui-header-color != null { color: $ui-header-color; }
@@ -287,6 +341,7 @@
         @if $ui-header-font-size != null {   font-size: $ui-header-font-size; }
         @if $ui-header-font-weight != null { font-weight: $ui-header-font-weight; }
         @if $ui-header-font-family != null { font-family: $ui-header-font-family; }
+        @if $ui-header-line-height != null { line-height: $ui-header-line-height; }
     }
 
     // body
@@ -296,13 +351,13 @@
         @if $ui-body-color != null {            color: $ui-body-color; }
         @if $ui-body-font-size != null {        font-size: $ui-body-font-size; }
         @if $ui-body-font-weight != null {      font-size: $ui-body-font-weight; }
-        
+
         @if $ui-body-border-width != null {
             border-width: $ui-body-border-width;
             @if $ui-body-border-style != null { border-style: $ui-body-border-style; }
         }
     }
-    
+
     .#{$prefix}panel-collapsed {
         .#{$prefix}window-header-#{$ui-label},
         .#{$prefix}panel-header-#{$ui-label} {
@@ -336,11 +391,11 @@
         );
 
 
-        @include x-frame('panel-header', '#{$ui-label}-top',    top($ui-border-radius) right($ui-border-radius) 0 0,    $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient);
-        @include x-frame('panel-header', '#{$ui-label}-right',  0 right($ui-border-radius) bottom($ui-border-radius) 0, $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient, false, right);
-        @include x-frame('panel-header', '#{$ui-label}-bottom', 0 0 bottom($ui-border-radius) left($ui-border-radius),  $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient);
-        @include x-frame('panel-header', '#{$ui-label}-left',   top($ui-border-radius) 0 0 left($ui-border-radius),     $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient, false, right);
-        
+        @include x-frame('panel-header', '#{$ui-label}-top',    top($ui-border-radius) right($ui-border-radius) 0 0,    top($ui-border-width) right($ui-border-width) 0 left($ui-border-width), $panel-header-padding, $ui-header-background-color, $ui-header-background-gradient);
+        @include x-frame('panel-header', '#{$ui-label}-right',  0 right($ui-border-radius) bottom($ui-border-radius) 0, top($ui-border-width) right($ui-border-width) bottom($ui-border-width) 0, $panel-header-vertical-padding, $ui-header-background-color, $ui-header-background-gradient, false, right);
+        @include x-frame('panel-header', '#{$ui-label}-bottom', 0 0 bottom($ui-border-radius) left($ui-border-radius),  0 right($ui-border-width) bottom($ui-border-width) left($ui-border-width), $panel-header-padding, $ui-header-background-color, $ui-header-background-gradient);
+        @include x-frame('panel-header', '#{$ui-label}-left',   top($ui-border-radius) 0 0 left($ui-border-radius),     top($ui-border-width) 0 bottom($ui-border-width) left($ui-border-width), $panel-header-vertical-padding, $ui-header-background-color, $ui-header-background-gradient, false, right);
+
         .#{$prefix}panel-header-#{$ui-label}-top {
             @include inner-border(1px 1px 0 1px, $ui-header-inner-border-color);
         }
@@ -374,11 +429,8 @@
                 @include border-right-radius($ui-border-radius);
             }
         }
-        
-        .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-right {
-            background-position: top right;
-        }
-        
+
+
         .#{$prefix}panel-header-#{$ui-label}-top {
             @include inner-border(1px 0 0 0, $ui-header-inner-border-color);
         }
@@ -395,11 +447,7 @@
             @include inner-border(0 0 0 1px, $ui-header-inner-border-color);
         }
     }
-    
-    .#{$prefix}nlg .#{$prefix}panel-header-#{$ui-label}-bottom {
-        background-position: bottom left;
-    }
-    
+
     @if $ui-border-radius != null {
         .#{$prefix}panel .#{$prefix}panel-header-#{$ui-label}-top {
             border-bottom-width: 1px !important;
@@ -416,24 +464,24 @@
         .#{$prefix}panel .#{$prefix}panel-header-#{$ui-label}-left {
             border-right-width: 1px !important;
         }
-        
+
         .#{$prefix}panel-header-#{$ui-label}-collapsed {
             @include border-radius($ui-border-radius);
         }
-        
-        @include x-frame('panel-header', '#{$ui-label}-collapsed-top',    top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient);
-        @include x-frame('panel-header', '#{$ui-label}-collapsed-right',  top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient, false, right);
-        @include x-frame('panel-header', '#{$ui-label}-collapsed-bottom', top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient);
-        @include x-frame('panel-header', '#{$ui-label}-collapsed-left',   top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, 4px 5px 4px 5px, $ui-header-background-color, $ui-header-background-gradient, false, right);
+
+        @include x-frame('panel-header', '#{$ui-label}-collapsed-top',    top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, $panel-header-padding, $ui-header-background-color, $ui-header-background-gradient);
+        @include x-frame('panel-header', '#{$ui-label}-collapsed-right',  top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, $panel-header-vertical-padding, $ui-header-background-color, $ui-header-background-gradient, false, right);
+        @include x-frame('panel-header', '#{$ui-label}-collapsed-bottom', top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, $panel-header-padding, $ui-header-background-color, $ui-header-background-gradient);
+        @include x-frame('panel-header', '#{$ui-label}-collapsed-left',   top($ui-border-radius) right($ui-border-radius) bottom($ui-border-radius) left($ui-border-radius), $ui-border-width, $panel-header-vertical-padding, $ui-header-background-color, $ui-header-background-gradient, false, right);
     }
-    
+
     //background positioning of images
     .#{$prefix}panel-header-#{$ui-label}-right-tc,
     .#{$prefix}panel-header-#{$ui-label}-right-mc,
     .#{$prefix}panel-header-#{$ui-label}-right-bc {
         background-position: right 0;
     }
-    
+
     .#{$prefix}panel-header-#{$ui-label}-bottom-tc,
     .#{$prefix}panel-header-#{$ui-label}-bottom-mc,
     .#{$prefix}panel-header-#{$ui-label}-bottom-bc {

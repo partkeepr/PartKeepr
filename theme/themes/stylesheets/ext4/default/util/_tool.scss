@@ -12,7 +12,7 @@
 
             background-color: transparent;
             background-repeat: no-repeat;
-            @include theme-background-image($theme-name, 'tools/tool-sprites.gif');
+            background-image: theme-background-image($theme-name, 'tools/tool-sprites.gif');
 
             margin: 0;
         }
@@ -28,9 +28,19 @@
     .#{$prefix}panel-header-vertical,
     .#{$prefix}window-header-vertical {
         .#{$prefix}tool {
-                margin-bottom: 2px;
+                margin-top: 2px;
         }
     }
+
+    .#{$prefix}panel-header-vertical,
+    .#{$prefix}window-header-vertical {
+        // this assumes that there will only ever be one tool that shows at the top of a vertical header (the collapse tool)
+        // we should revisit this if it is decided that we want to support multiple tools at the top
+        .#{$prefix}tool-top {
+            margin: 0 0 4px;
+        }
+    }
+
 
 .#{$prefix}tool-placeholder {
         visibility: hidden;
@@ -133,14 +143,6 @@
 
     .#{$prefix}tool-down {
         background-position: 0 -195px;
-    }
-    
-    .#{$prefix}tool-move {
-        background-position: 0 -375px;
-    }
-
-    .#{$prefix}tool-resize {
-        background-position: 0 -360px;
     }
     
     .#{$prefix}tool-collapse {
@@ -262,14 +264,6 @@
 
         .#{$prefix}tool-collapse {
             background-position: -15px -345px;
-        }
-    
-        .#{$prefix}tool-resize {
-            background-position: -15px -360px;
-        }
-    
-        .#{$prefix}tool-move {
-            background-position: -15px -375px;
         }
         
         .#{$prefix}tool-expand-bottom,

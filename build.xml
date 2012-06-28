@@ -27,13 +27,13 @@
 		<copy file="theme/css/partkeepr.css" tofile="src/frontend/css/partkeepr-theme.css" />
 		<copy file="theme/css/partkeepr.css" tofile="src/setup/css/partkeepr-theme.css" />
 
-		<copy todir="src/frontend/resources/themes/images/">
+		<copy todir="src/frontend/themes/images/">
 			<fileset dir="theme/themes/images/">
 				<include name="**/*" />
 			</fileset>
 		</copy>
 
-		<copy todir="src/setup/resources/themes/images/">
+		<copy todir="src/setup/themes/images/">
 			<fileset dir="theme/themes/images/">
 				<include name="**/*" />
 			</fileset>

@@ -1,3 +1,7 @@
+/**
+ * Creates the base structure of Ext.form.Panel.
+ * @member Ext.form.Panel
+ */
 @mixin extjs-form {
     /*misc*/
     .#{$prefix}webkit {
@@ -7,67 +11,114 @@
             }
         }
     }
-    
-    //form items
+
+    // form items
     .#{$prefix}form-item {
-        display: block;
-        zoom: 1;
-        position: relative;
+        vertical-align: top;
+        table-layout: fixed;
+    }
+
+    // form items within auto, anchor, vbox checkboxgroup, and table layouts have bottom margin of 5px
+    .#{$prefix}autocontainer-form-item,
+    .#{$prefix}anchor-form-item,
+    .#{$prefix}vbox-form-item,
+    .#{$prefix}checkboxgroup-form-item,
+    .#{$prefix}table-form-item {
         margin-bottom: 5px;
     }
-    
-    .#{$prefix}form-item-label {
-        float: left;
-        padding: 3px 0 0;
-        z-index: 2;
+
+    // form items within form layout have 5px margin around them
+    .#{$prefix}form-layout-table {
+        border-collapse: separate;
+        border-spacing: 0 2px;
+    }
+
+    // Allow for positioned child elements, e.g. custom icons
+    .#{$prefix}form-item-body {
         position: relative;
+    }
+
+    .#{$prefix}form-form-item {
+        td {
+            border-top: 1px solid transparent;
+        }
+    }
+
+    // IE6 cannot do border-spacing 0 2px;
+    // IE6 cannot do border-color: transparent
+    // So we revert pack to a pad row for IE6
+    .#{$prefix}ie6 {
+        .#{$prefix}form-layout-table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        .#{$prefix}form-form-item {
+            td {
+                border-top-width: 0;
+            }
+        }
+
+        // Padding row for IE6 when Labelable Fields are in a form layout
+        td.#{$prefix}form-item-pad {
+            height: 5px;
+        }
+    }
+
+    // No padding when inside an Editor
+    .#{$prefix}editor .#{$prefix}form-item-body {
+        padding-bottom: 0;
+    }
+
+    .#{$prefix}form-item-label {
+        display: block;
+        padding: 3px 0 0;
         font-size: $form-label-font-size;
         @include no-select;
     }
 
     .#{$prefix}form-item-label-top {
-        float: none;
-        clear: none;
         padding: 0;
-        display: block;
     }
 
     .#{$prefix}form-item-label-right {
-        float: left;
         text-align: right;
     }
 
-    .#{$prefix}form-item-body {
-        position: relative;
-        float: left;
-    }
-
     .#{$prefix}form-invalid-under {
-        padding: 2px 2px 2px 18px;
-        clear: left;
+        padding: 2px 2px 2px $form-error-icon-width;
 
         color: $form-error-msg-color;
         font: $form-error-msg-font;
         line-height: $form-error-msg-line-height;
 
-        background: theme-image($theme-name, $form-exclamation-icon) no-repeat 0 2px;
+        background: no-repeat 0 2px;
+        background-image: theme-background-image($theme-name, $form-exclamation-icon);
     }
-    
-    .#{$prefix}form-invalid-icon {
-        width: 18px;
-        height: 18px;
-        overflow: hidden;
-        text-indent: -9999px;
-        
-        position: absolute;
-        left: 0;
-        top: 0;
-        
-        background: theme-image($theme-name, $form-exclamation-icon) no-repeat 2px 3px;
 
+    .#{$prefix}external-error-icon {
+        position: absolute;
+        right: 10px;
+        height: $form-field-height;
+    }
+
+    @if $include-ie {
+        .#{$prefix}quirks .#{$prefix}ie .#{$prefix}external-error-icon {
+            right: 0;
+        }
+    }
+
+    .#{$prefix}form-invalid-icon {
+        width: $form-error-icon-width;
+        background: no-repeat 2px 3px;
+        background-image: theme-background-image($theme-name, $form-exclamation-icon);
+        overflow: hidden;
         ul {
-            /* prevent inner elements from interfering with QuickTip hovering */
-            display: none;
+            display: block;
+            width: $form-error-icon-width;
+            li {
+                /* prevent inner elements from interfering with QuickTip hovering */
+                display: none;
+            }
         }
     }
 }

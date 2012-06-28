@@ -23,10 +23,10 @@ $tab-font-size-over: $tab-font-size !default;
 $tab-font-size-active: $tab-font-size !default;
 $tab-font-size-disabled: $tab-font-size !default;
 
-$tab-font-family: $font-family;
-$tab-font-family-over: $tab-font-family;
-$tab-font-family-active: $tab-font-family;
-$tab-font-family-disabled: $tab-font-family;
+$tab-font-family: $font-family !default;
+$tab-font-family-over: $tab-font-family !default;
+$tab-font-family-active: $tab-font-family !default;
+$tab-font-family-disabled: $tab-font-family !default;
 
 $tab-font-weight: bold !default;
 $tab-font-weight-over: $tab-font-weight !default;
@@ -60,13 +60,13 @@ $tabbar-border-color: $panel-header-border-color !default;
 
 //size
 $tab-height: 20px !default;
-$tab-spacing: 2px;
+$tab-spacing: 2px !default;
 
 //tab bar body border and padding
 $tabbar-top-body-border-width: 1px 1px 0 !default;
 $tabbar-top-body-padding: 1px 0 3px !default;
 $tabbar-top-plain-body-border-width: 0 !default;
-$tabbar-top-plain-body-padding: 0 0 3px !default;
+$tabbar-top-plain-body-padding: 0 0 2px !default;
 $tabbar-bottom-body-border-width: 0 1px 1px !default;
 $tabbar-bottom-body-padding: 3px 0 1px !default;
 $tabbar-bottom-plain-body-border-width: 0 !default;
@@ -76,8 +76,10 @@ $tabbar-bottom-plain-body-padding: 3px 0 0 !default;
 $tab-closable-icon: 'tab/tab-default-close.gif' !default;
 $tab-closable-icon-width: 11px !default;
 $tab-closable-icon-height: 11px !default;
-$tab-closable-icon-top: 3px !default;
-$tab-closable-icon-right: 3px !default;
+$tab-closable-icon-top: 2px !default;
+$tab-closable-icon-right: 2px !default;
+$nbr-tab-closable-icon-top: 0px !default;
+$nbr-tab-closable-icon-right: 0px !default;
 
 //tab bar strip
 $tabbar-strip-height: 3px !default;

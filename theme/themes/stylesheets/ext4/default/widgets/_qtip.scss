@@ -1,3 +1,7 @@
+/**
+ * Creates the base structure of QuickTip.
+ * @member Ext.tip.QuickTip
+ */
 @mixin extjs-qtip {
     .#{$prefix}tip {
         position: absolute;
@@ -14,7 +18,7 @@
             }
         }
     }
-    
+
     @include x-frame(
         $cls: 'tip',
         $border-radius: $tip-border-radius,
@@ -94,7 +98,7 @@
         border-bottom-color: transparent;
         border-left-color: transparent;
         border-right-color: transparent;
-        
+
         @if $include_ie {
             _border-bottom-color: pink;
             _border-left-color: pink;
@@ -102,12 +106,12 @@
             _filter: chroma(color=pink);
         }
     }
-    
+
     .#{$prefix}tip-anchor-left {
         border-top-color: transparent;
         border-bottom-color: transparent;
         border-left-color: transparent;
-        
+
         @if $include-ie {
             _border-top-color: pink;
             _border-bottom-color: pink;
@@ -115,12 +119,12 @@
             _filter: chroma(color=pink);
         }
     }
-    
+
     .#{$prefix}tip-anchor-right {
         border-top-color: transparent;
         border-bottom-color: transparent;
         border-right-color: transparent;
-        
+
         @if $include-ie {
             _border-top-color: pink;
             _border-bottom-color: pink;
@@ -128,11 +132,11 @@
             _filter: chroma(color=pink);
         }
     }
-    
+
     //error qtip
     .#{$prefix}form-invalid-tip {
         border-color: $tip-error-border-color;
-        
+
         @include inner-border(
             $width: 1px,
             $color: $tip-error-inner-border-color
@@ -141,7 +145,7 @@
 
     .#{$prefix}form-invalid-tip-body {
         background: 1px 1px no-repeat;
-        @include theme-background-image($theme-name, 'form/exclamation.gif');
+        background-image: theme-background-image($theme-name, 'form/exclamation.gif');
         padding-left: 22px;
 
         li {

@@ -1,5 +1,11 @@
 /**
+ * Creates color from background color.
  *
+ * @param {Color} $bg-color The background color.
+ * @param {Percentage} [$contrast=70%]
+ * @param {Color} [$default-color=null]
+ * @param {Color} [$bevel-text=true]
+ * @member Global_CSS
  */
 @mixin color-by-background($bg-color, $contrast: 70%, $default-color: null, $bevel-text: true) {
     @if ($default-color != null) {

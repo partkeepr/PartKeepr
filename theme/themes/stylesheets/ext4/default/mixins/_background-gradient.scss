@@ -1,27 +1,31 @@
 /**
- * @mixin background-gradient
- * 
- * @param {Color} $background-color The background color of the gradient
- * @param {String/List} $type The type of gradient to be used. Can either be a String which is a predefined gradient, or it can
- *                            can be a list of color_stops. If none is set, it will still set the `background-color` to the $background-color.
- * @param {String} $direction The direction of the gradient. Can either me `top` or `left`. (defaults to `top`)
+ * Creates a background gradient.
+ *
+ * @param {Color} $bg-color The background color of the gradient
+ * @param {String/List} [$type] The type of gradient to be used. Can either
+ * be a String which is a predefined gradient, or it can can be a list of
+ * color_stops. If none is set, it will still set the `background-color`
+ * to the $background-color.
+ * @param {String} [$direction=top] The direction of the gradient. Can either be
+ * `top` or `left`.
+ * @member Global_CSS
  */
 @mixin background-gradient($bg-color, $type: $base-gradient, $direction: top) {
     background-image: none;
     background-color: $bg-color;
-    
+
     @if $base-gradient != null and $bg-color != transparent {
         //color_stops
         @if type-of($type) == "list" {
             @include background-image(linear-gradient($direction, $type));
         }
-        
+
         //default gradients
         @else if $type == bevel {
             @include background-image(linear-gradient($direction, color_stops(
-                lighten($bg-color, 15%), 
-                lighten($bg-color, 8%) 30%, 
-                $bg-color 65%, 
+                lighten($bg-color, 15%),
+                lighten($bg-color, 8%) 30%,
+                $bg-color 65%,
                 darken($bg-color, 6%)
             )));
         } @else if $type == glossy {
@@ -35,12 +39,12 @@
         } @else if $type == glossy-toolbar {
             @include background-image(linear-gradient($direction, color_stops(#F0F5FA, #DAE6F4 2%, #CEDDEF)));
         }
-        
+
         //ext3.3 gradients
         @else if $type == panel-header {
             @include background-image(linear-gradient($direction, color_stops(
-                adjust-color($bg-color, $hue: -0.857deg, $saturation: -1.63%, $lightness: 3.529%), 
-                adjust-color($bg-color, $hue: 0.158deg, $saturation: -1.21%, $lightness: 0.392%) 45%, 
+                adjust-color($bg-color, $hue: -0.857deg, $saturation: -1.63%, $lightness: 3.529%),
+                adjust-color($bg-color, $hue: 0.158deg, $saturation: -1.21%, $lightness: 0.392%) 45%,
                 adjust-color($bg-color, $hue: 1.154deg, $saturation: 0.607%, $lightness: -7.647%) 46%,
                 adjust-color($bg-color, $hue: 1.154deg, $saturation: 0.607%, $lightness: -7.647%) 50%,
                 adjust-color($bg-color, $hue: 1.444deg, $saturation: -1.136%, $lightness: -4.706%) 51%,
