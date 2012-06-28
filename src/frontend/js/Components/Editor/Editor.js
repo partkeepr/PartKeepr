@@ -139,6 +139,7 @@ Ext.define('PartKeepr.Editor', {
 		}
 	},
 	_setTitle: function (title) {
-		this.setTitle(title);
+		// Not sure why this was here - in ExtJS 4.1, this creates a title bar, which we do not want.
+		//this.setTitle(title);
 	}
 });
