@@ -11,7 +11,8 @@ Ext.define("PartKeepr.CategoryTree", {
     	animate: false
     },
     loaded: false,
-    rootVisible: true,
+    rootVisible: false,
+    
 	initComponent: function () {
 		this.store = new Ext.data.TreeStore({
 			root: {
@@ -40,12 +41,12 @@ Ext.define("PartKeepr.CategoryTree", {
 		/* Store expand/collapse state for all nodes */
 		var expandedNodes = this.getExpandedNodes(this.getRootNode());
 		
-		//this.getRootNode().removeAll();
+		this.getRootNode().removeAll();
 		
 		this.buildCategoryTree(this.getRootNode(), result, expandedNodes);
 		this.loaded = true;
 		
-		//this.getRootNode().expandChildren();
+		this.getRootNode().expandChildren();
 		
 		this.getStore().sort("name", "ASC");
 		
@@ -99,32 +100,18 @@ Ext.define("PartKeepr.CategoryTree", {
 		 * count. However, it doesn't do that in our case and always shows the "expand"
 		 * button unless clicked once.
 		 */
-		
-		/*if (data.children.length === 0) {
-			nodeData.leaf = true;
-		} else {
-			nodeData.leaf = false;
-		}*/
-		
-		//nodeData.leaf = false;
-		//nodeData.loaded = true;
-		
-        //console.log(insertNode);
+		nodeData.leaf = false;
         
 		Ext.data.NodeInterface.decorate(this.categoryModel);
 		
-		var model = Ext.create(this.categoryModel, nodeData);
+		var newNode = Ext.create(this.categoryModel, nodeData);
 		
-		
-		console.log(model);
-		model.childNodes = [];
-		
-		var newNode = root.appendChild(model);
-		return;
-		/*for ( var i = 0; i < data.children.length; i++) {
+		newNode = root.appendChild(newNode);
+
+		for ( var i = 0; i < data.children.length; i++) {
 			this.buildCategoryTree(newNode, data.children[i], expandedNodes);
 		}
 		
-		return newNode;*/
+		return newNode;
 	}
 });
