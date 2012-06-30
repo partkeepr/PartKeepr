@@ -86,7 +86,13 @@ if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === 
 /* Load and render the template */
 $template = $twig->loadTemplate("index.tpl");
 
-echo $template->render(array(
-		"debug" => Configuration::getOption("partkeepr.frontend.debug", false),
-		"parameters" => $aParameters
-		));
+$renderParams = array();
+$renderParams["debug_all"] = Configuration::getOption("partkeepr.frontend.debug_all", false);
+$renderParams["debug"] = Configuration::getOption("partkeepr.frontend.debug", false);
+$renderParams["parameters"] = $aParameters;
+
+if ($renderParams["debug_all"]) {
+	$renderParams["scripts"] = unserialize(file_get_contents(PartKeepr::getRootDirectory() . "/partkeepr.jsfiles"));
+}
+
+echo $template->render($renderParams);

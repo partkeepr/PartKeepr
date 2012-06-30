@@ -13,11 +13,18 @@
 // Check if the path argument was given. If not, bail out.
 if ($_SERVER["argc"] !== 3) {
 	echo "Usage: gen-jsb3-filelist.php <path> <extjspath>\n\n";
+	echo "This script generates two files:\n";
+	echo "- partkeepr.jsb3 (Used with jsb to build minimized JS builds)\n";
+	echo "- partkeepr.jsfiles (Used by the frontend when you set partkeepr.frontend.debug_all)\n";
+			
 	exit(-1);
 }
 
 // Extract the path and check if the path is actually a directory
 $path = $_SERVER["argv"][1];
+if (substr($path, -1) !== "/") {
+	$path .= "/";
+}
 
 if (!is_dir($path)) {
 	echo "Sorry, we can't read the path $path.\n\n";
@@ -25,8 +32,10 @@ if (!is_dir($path)) {
 }
 
 $extjspath = $_SERVER["argv"][2];
-
-if (!is_dir($path)) {
+if (substr($extjspath, -1) !== "/") {
+	$extjspath .= "/";
+}
+if (!is_dir($extjspath)) {
 	echo "Sorry, we can't read the ExtJS path $extjspath.\n\n";
 	exit(-1);
 }
@@ -93,16 +102,24 @@ foreach ($records as $key => $record) {
 		}
 	}
 	
-	
 }
 
 $aData = array();
+$aData2  = array();
 
 foreach ($rootList as $item) {
 	$aData[] = $item->getJSB();
+	$aData2 = array_merge($aData2, $item->getArray());
 }
 
 $template = file_get_contents(__DIR__."/../partkeepr.jsb3.template");
 $template = str_replace("{{FILES}}", implode(",\n", $aData), $template);
 
+foreach ($aData2 as $key => $p) {
+	$p = str_replace($path, "", $p);
+	$p = str_replace("/examples/ux", "/js/Ext.ux", $p);
+	$aData2[$key]= str_replace($extjspath, "", $p);
+}
+
 file_put_contents(__DIR__."/../partkeepr.jsb3", $template);
+file_put_contents(__DIR__."/../partkeepr.jsfiles", serialize($aData2));
