@@ -118,6 +118,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
         }];
     	
     	this.callParent();
+    	
     },
     setIcon : function(icon) {
         this.iconComponent.removeCls(this.iconCls);
@@ -206,6 +207,9 @@ Ext.define('PartKeepr.ExceptionWindow', {
     	this.show();
     	this.topContainer.layout.setActiveItem(0);
     	this.doLayout();
+    	
+    	var keyMap = this.getKeyMap();
+    	keyMap.on(Ext.EventObject.ENTER, function () { this.hide(); }, this);
     },
     
     statics: {
