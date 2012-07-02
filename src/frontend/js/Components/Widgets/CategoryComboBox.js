@@ -33,8 +33,6 @@ Ext.define("PartKeepr.CategoryComboBox",{
      * function for 100 milliseconds until the picker data has been loaded.
      */
     expand: function () {
-    	console.log(this.picker);
-    	
     	if (!this.picker.loaded) {
     		Ext.defer(this.expand, 100, this);
     		return;

@@ -15,7 +15,6 @@ Ext.override(Ext.form.field.Trigger, {
             me.trigger1Cls = me.triggerCls;
         }
 
-        console.log("FOO");
         // Create as many trigger elements as we have trigger<n>Cls configs, but always at least one
         for (i = 0; (triggerCls = me['trigger' + (i + 1) + 'Cls']) || i < 1; i++) {
             triggerConfigs.push({

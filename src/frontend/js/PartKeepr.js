@@ -387,7 +387,6 @@ Ext.application({
     	this.menuBar = Ext.create("PartKeepr.MenuBar");
     	
     	this.menuBar.disable();
-        console.log("FOO");
     	Ext.create('Ext.container.Viewport', {
     		layout: 'fit',
     		items: [{
