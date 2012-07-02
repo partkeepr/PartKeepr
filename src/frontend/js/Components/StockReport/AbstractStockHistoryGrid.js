@@ -58,6 +58,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 	          },{
 	        	  header: i18n("Comment"),
 	        	  dataIndex: 'comment',
+	        	  renderer: Ext.util.Format.htmlEncode,
 	        	  width: 60,
 	        	  editor: {
                       xtype:'textfield',

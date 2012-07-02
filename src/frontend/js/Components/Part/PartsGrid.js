@@ -178,13 +178,16 @@ Ext.define('PartKeepr.PartsGrid', {
 					  header: i18n("Description"),
 					  dataIndex: 'description',
 					  flex: 2,
-					  minWidth: 150
+					  minWidth: 150,
+					  renderer: Ext.util.Format.htmlEncode
 		          },{
 		        	  header: i18n("Storage Location"),
-		        	  dataIndex: 'storageLocationName'
+		        	  dataIndex: 'storageLocationName',
+		        	  renderer: Ext.util.Format.htmlEncode
 		          },{
 		        	  header: i18n("Status"),
-		        	  dataIndex: "status"
+		        	  dataIndex: "status",
+		        	  renderer: Ext.util.Format.htmlEncode
 		          },{
 		        	  header: i18n("Stock"),
 		        	  dataIndex: 'stockLevel',
@@ -204,10 +207,12 @@ Ext.define('PartKeepr.PartsGrid', {
 		        	  renderer: this.averagePriceRenderer
 		          },{
 		        	  header: i18n("Footprint"),
-		        	  dataIndex: 'footprintName'
+		        	  dataIndex: 'footprintName',
+		        	  renderer: Ext.util.Format.htmlEncode
 		          },{
 		        	  header: i18n("Category"),
 		        	  dataIndex: 'categoryPath',
+		        	  renderer: Ext.util.Format.htmlEncode,
 		        	  hidden: true
 		          },{
 		        	  header: i18n("Create Date"),
