@@ -19,20 +19,20 @@ class ImageRenderer {
 	 * @param int $h Height of the image
 	 */
 	public static function outputRenderNotFoundImage ($w, $h) {
-		$image = imagecreate($w, $h);
-		$white = imagecolorallocate($image, 255,255,255);
-		$black = imagecolorallocate($image, 0,0,0);
+		$image = \imagecreate($w, $h);
+		$white = \imagecolorallocate($image, 255,255,255);
+		$black = \imagecolorallocate($image, 0,0,0);
 		
 		header("Content-Type: image/png");
 		
-		$w = $_REQUEST["w"]-1;
-		$h = $_REQUEST["h"]-1;
-		imagefill($image, 0,0, $white);
+		$w = $w-1;
+		$h = $h-1;
+		\imagefill($image, 0,0, $white);
 		
 		/* Draw the X */
-		imageline($image, 0,0,$w,$h, $black);
-		imageline($image, $w,0,0,$h, $black);
-		imagepng($image);
+		\imageline($image, 0,0,$w,$h, $black);
+		\imageline($image, $w,0,0,$h, $black);
+		\imagepng($image);
 	}
 	
 	/**
