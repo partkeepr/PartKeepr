@@ -34,6 +34,10 @@ class UserPreferenceService extends Service implements RestfulService {
 			$user = SessionManager::getCurrentSession()->getUser();
 		}
 		
+		if ($user === null) {
+			return array("data" => array()); 
+		}
+		
 		$aPreferences = array();
 		
 		foreach ($user->getPreferences() as $result) {
