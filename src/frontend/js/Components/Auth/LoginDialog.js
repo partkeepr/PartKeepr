@@ -49,7 +49,7 @@ Ext.define('PartKeepr.LoginDialog', {
 			],
 			dockedItems: [{
 			       xtype: 'toolbar',
-			       enableOverflow: true,
+			       enableOverflow: false,
 			       dock: 'bottom',
 			       ui: 'footer',
 			       pack: 'start',
