@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="../3rdparty/extjs/resources/css/ext-all.css"/>
+		<title>PartKeepr</title>
+		<script type="text/javascript" src="../../../3rdparty/extjs/ext-all-debug.js"></script>
+		
+		<script type="text/javascript">
+		Ext.define('TestWindow', {
+			extend: 'Ext.Window',
+			
+			initComponent: function () {
+				this.dockedItems = [{
+				       xtype: 'toolbar',
+				       enableOverflow: true
+				}];
+				
+				this.callParent(arguments);
+			}
+		});
+		
+		Ext.application({
+		    name: 'Test',
+		    launch: function() {
+		   		var j = Ext.create("TestWindow");
+		   		try {
+		   			j.destroy();
+		   			document.getElementById("test").style.background = "green";
+		   		} catch (Err) {
+		   			document.getElementById("test").style.background = "red";
+		   		}
+		   			
+		    }
+		});
+		</script>
+		</head>
+	<body id="test">
+	</body>
+</html>

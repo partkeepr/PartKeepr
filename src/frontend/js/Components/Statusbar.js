@@ -6,14 +6,13 @@ Ext.define('PartKeepr.Statusbar', {
 	iconCls: 'x-status-valid',
 	autoClear: 3000,
 	initComponent: function () {
-		
 		this.connectionButton = new PartKeepr.ConnectionButton();
 		this.connectionButton.on("click", this.onConnectionButtonClick, this);
-		this.timeDisplay = new PartKeepr.TimeDisplay();
-		this.currentUserDisplay = Ext.create("Ext.toolbar.TextItem");
-		
+		this.timeDisplay = Ext.create("PartKeepr.TimeDisplay");
+        this.currentUserDisplay = Ext.create("Ext.toolbar.TextItem");
+
 		this.currentUserDisplay.setText(i18n("Not logged in"));
-		
+
 		this.showMessageLog = Ext.create("Ext.Button",{
 			icon: 'resources/silkicons/application_osx_terminal.png',
 			cls: 'x-btn-icon',
@@ -21,11 +20,11 @@ Ext.define('PartKeepr.Statusbar', {
 				PartKeepr.getApplication().toggleMessageLog();
 			}
 		});
-		
+
 		this.systemNoticeButton = Ext.create("PartKeepr.SystemNoticeButton", {
 			hidden: true
 		});
-		
+
 		Ext.apply(this, {
 			items: [
 			        this.currentUserDisplay,
@@ -36,7 +35,7 @@ Ext.define('PartKeepr.Statusbar', {
 			        { xtype: 'tbseparator' },
 			        this.connectionButton,
 			        this.systemNoticeButton
-			        
+
 			        ]
 		});
 		

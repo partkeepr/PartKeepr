@@ -1,3 +1,7 @@
+/**
+ * Creates base structure for a Grid.
+ * @member Ext.grid.Panel
+ */
 @mixin extjs-grid {
     //main grid view
     .#{$prefix}panel {
@@ -9,10 +13,16 @@
             border-top-color: $grid-header-background-color;
         }
 
-        // Still needs left and right border even if it's not visible so that its available width can be calculated correctly
+        // Hide using visibility so that its available width can be calculated correctly
         .#{$prefix}grid-header-ct-hidden {
-            border-top-width: 0 !important;
+            visibility: hidden;
         }
+    }
+
+    .#{$prefix}grid-empty {
+        padding: 10px;
+        color: gray;
+        font: normal 11px tahoma, arial, helvetica, sans-serif;
     }
 
     .#{$prefix}grid-header-hidden .#{$prefix}grid-body {
@@ -30,6 +40,13 @@
         border-collapse: separate;
     }
 
+    // Tree with a default single column is auto width
+    // Override any inline width style set by the widget itself (through its ColumnModel) to force it to be auto width.
+    .#{$prefix}autowidth-table table.#{$prefix}grid-table {
+        table-layout: auto;
+        width: auto!important;
+    }
+
     .#{$prefix}grid-row .#{$prefix}grid-table {
         border-collapse: collapse;
     }
@@ -45,23 +62,16 @@
         padding: 0;
         border: 1px solid $panel-body-border-color;
 
+        // Body border provided by headerCt only when in accordion layout.
+        border-bottom-color: $grid-header-background-color;
+
         @if $supports-gradients or $compile-all {
             @include background-gradient($grid-header-background-color, $grid-header-background-gradient);
         }
     }
 
-    @if $include-ie or $compile-all {
-        .#{$prefix}border-box .#{$prefix}ie9 {
-            .#{$prefix}grid-header-ct {
-                padding-left: 1px;
-            }
-        }
-        .#{$prefix}ie6, .#{$prefix}ie7 {
-            .#{$prefix}grid-header-ct {
-                padding-left: 1px;
-            }
-        }
-
+    .#{$prefix}accordion-item .#{$prefix}grid-header-ct {
+        border-width: 0 0 1px 0!important;
     }
 
     .#{$prefix}column-header {
@@ -69,13 +79,12 @@
         position: absolute;
         overflow: hidden;
 
-        border-right: 1px solid $grid-header-over-border-color;
+        border-right: 1px solid $grid-header-background-color;
         border-left: 0 none;
         border-top: 0 none;
         border-bottom: 0 none;
 
         text-shadow: 0 1px 0 rgba(255, 255, 255, .3);
-        font: normal 11px/15px $font-family;
 
         @if $grid-header-color {
             color: $grid-header-color;
@@ -101,7 +110,7 @@
         zoom: 1;
         position: relative;
         white-space: nowrap;
-        line-height: 22px;
+        line-height: $grid-header-line-height;
         padding: $grid-header-padding;
 
         .#{$prefix}column-header-text {
@@ -115,8 +124,6 @@
         border-left-color: $grid-header-over-border-color;
         border-right-color: $grid-header-over-border-color;
 
-		text-shadow: 0 1px 0 rgba(255, 255, 255, .3);
-		
         @if $supports-gradients or $compile-all {
             @include background-gradient($grid-header-over-background-color, $grid-header-over-background-gradient);
         }
@@ -127,14 +134,14 @@
             .#{$prefix}grid-header-ct,
             .#{$prefix}column-header {
                 background: repeat-x 0 top;
-                @include theme-background-image($theme-name, 'grid/column-header-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/column-header-bg.gif');
             }
 
             .#{$prefix}column-header-over,
             .#{$prefix}column-header-sort-ASC,
             .#{$prefix}column-header-sort-DESC {
                 background: #ebf3fd repeat-x 0 top;
-                @include theme-background-image($theme-name, 'grid/column-header-over-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/column-header-over-bg.gif');
             }
         }
     }
@@ -144,11 +151,8 @@
         height: 100%;
         width: $grid-header-trigger-width;
         background: no-repeat left center;
-        //background-color: #c3daf9;
-        @if $supports-gradients or $compile-all {
-            @include background-gradient($grid-header-over-background-color, $grid-header-over-background-gradient);
-        }
-        @include theme-background-image($theme-name, 'grid/grid3-hd-btn.gif');
+        background-color: #c3daf9;
+        background-image: theme-background-image($theme-name, 'grid/grid3-hd-btn.gif');
         position: absolute;
         right: 0;
         top: 0;
@@ -181,37 +185,32 @@
     .#{$prefix}column-header-sort-ASC .#{$prefix}column-header-text {
         padding-right: 16px;
         background: no-repeat right 2px;
-        @include theme-background-image($theme-name, 'grid/sort_asc.png');
+        background-image: theme-background-image($theme-name, 'grid/sort_asc.png');
     }
     .#{$prefix}column-header-sort-DESC .#{$prefix}column-header-text {
         padding-right: 16px;
         background: no-repeat right 2px;
-        @include theme-background-image($theme-name, 'grid/sort_desc.png');
+        background-image: theme-background-image($theme-name, 'grid/sort_desc.png');
     }
 
     //grid rows
     .#{$prefix}grid-row {
-        line-height: 13px;
-
         vertical-align: top;
-
-        padding: $grid-row-padding;
-
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: ignore;
-
         .#{$prefix}grid-cell {
             @if $grid-row-cell-color {
                 color: $grid-row-cell-color;
             }
             font: $grid-row-cell-font;
-
+            background-color: $grid-row-cell-background;
             border-color: $grid-row-cell-border-color;
             border-style: $grid-row-cell-border-style;
-            border-width: $grid-row-cell-border-width;
             border-top-color: lighten($grid-row-cell-border-color, 5);
+            border-width: 0;
         }
+    }
+
+    .#{$prefix}grid-with-row-lines .#{$prefix}grid-cell {
+        border-width: $grid-row-cell-border-width;
     }
 
     .#{$prefix}grid-rowwrap-div {
@@ -286,12 +285,6 @@
     //grid cells
     .#{$prefix}grid-cell {
         overflow: hidden;
-
-        font: $grid-cell-font;
-
-        -moz-user-select: none;
-        -khtml-user-select:none;
-        -webkit-user-select:ignore;
     }
 
     .#{$prefix}grid-cell-inner {
@@ -300,31 +293,38 @@
         -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
 
-        padding: $grid-cell-inner-padding;
+        padding: $grid-cell-inner-padding-top $grid-cell-inner-padding-horizontal $grid-cell-inner-padding-bottom;
 
         white-space: nowrap;
     }
 
-    // Action columns with a standard, 16x16 icon require less padding
-    .#{$prefix}action-col-cell .#{$prefix}grid-cell-inner {
-        padding: 1px 2px 0 2px;
+    .#{$prefix}grid-with-row-lines .#{$prefix}grid-cell-inner {
+        line-height: $grid-row-cell-line-height - 2;
+        padding-bottom: $grid-cell-inner-padding-bottom + 1;
     }
 
-    .#{$prefix}ie6,
-    .#{$prefix}ie7,
-    .#{$prefix}quirks .#{$prefix}ie9,
-    .#{$prefix}quirks .#{$prefix}ie8,
-    .#{$prefix}strict .#{$prefix}ie8 {
-        .#{$prefix}action-col-cell .#{$prefix}grid-cell-inner {
-            padding: 2px 2px 1px 2px;
-        }
+    // Action columns with a standard, 16x16 icon require less padding
+    .#{$prefix}action-col-cell .#{$prefix}grid-cell-inner {
+        line-height: 0;
+        padding: 2px;
+    }
+
+    .#{$prefix}action-col-cell .#{$prefix}item-disabled {
+        @include opacity(0.3);
+    }
+
+    .#{$prefix}grid-with-row-lines .#{$prefix}action-col-cell .#{$prefix}grid-cell-inner {
+        padding-top: 1px;
     }
 
     .#{$prefix}grid-row .#{$prefix}grid-cell-special {
         padding: 0;
         border-right: 1px solid $grid-cell-with-col-lines-border-color;
-
         @include background-gradient(#f6f6f6, 'grid-cell-special');
+    }
+
+    .#{$prefix}grid-row .#{$prefix}grid-cell-row-checker {
+        vertical-align: middle;
     }
 
     /*
@@ -336,8 +336,7 @@
 
     .#{$prefix}ie6,
     .#{$prefix}ie7,
-    .#{$prefix}quirks .#{$prefix}ie8,
-    .#{$prefix}strict .#{$prefix}ie8 {
+    .#{$prefix}quirks .#{$prefix}ie8 {
         .#{$prefix}grid-header-row {
             position: absolute;
         }
@@ -350,7 +349,7 @@
     }
 
     .#{$prefix}grid-dirty-cell {
-        @include theme-background-image($theme-name, 'grid/dirty.gif');
+        background-image: theme-background-image($theme-name, 'grid/dirty.gif');
         background-position: 0 0;
         background-repeat: no-repeat;
     }
@@ -368,41 +367,35 @@
 
             .#{$prefix}grid-row .#{$prefix}grid-cell-special,
             .#{$prefix}grid-row-over .#{$prefix}grid-cell-special {
-                @include theme-background-image($theme-name, 'grid/cell-special-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/cell-special-bg.gif');
 
             }
 
             .#{$prefix}grid-row-focused .#{$prefix}grid-cell-special,
             .#{$prefix}grid-row-selected .#{$prefix}grid-cell-special {
-                @include theme-background-image($theme-name, 'grid/cell-special-selected-bg.gif');
+                background-image: theme-background-image($theme-name, 'grid/cell-special-selected-bg.gif');
             }
         }
     }
 
-    //this is panel as gridpanel doesn't use a baseCls
-    .#{$prefix}panel-with-col-lines .#{$prefix}grid-row .#{$prefix}grid-cell {
+    .#{$prefix}grid-with-col-lines .#{$prefix}grid-cell {
         padding-right: 0;
         border-right: 1px solid $grid-cell-with-col-lines-border-color;
     }
 
-    @if $include-ie {
-        .#{$prefix}ie {
-            .#{$prefix}grid-cell-special {
-                border-right-width: 0 !important;
-            }
-        }
-    }
-
     .#{$prefix}property-grid {
-        .#{$prefix}grid-row .#{$prefix}grid-cell-inner {
-            padding: 3px 6px 5px;
-        }
-
         .#{$prefix}grid-row .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner,
         .#{$prefix}grid-row-over .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner {
             padding-left: 12px;
-            @include theme-background-image($theme-name, 'grid/property-cell-bg.gif');
+            background-image: theme-background-image($theme-name, 'grid/property-cell-bg.gif');
             background-repeat: no-repeat;
+            background-position: -16px 2px;
+        }
+    }
+
+    .#{$prefix}grid-with-row-lines.#{$prefix}property-grid {
+        .#{$prefix}grid-row .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner,
+        .#{$prefix}grid-row-over .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner {
             background-position: -16px 1px;
         }
     }
@@ -414,9 +407,7 @@
     }
 
     .#{$prefix}unselectable {
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: ignore;
+        @include no-select;
     }
 
     .#{$prefix}grid-row-body-hidden {
@@ -447,7 +438,7 @@
     }
 
     .#{$prefix}grid-row-expander {
-        @include theme-background-image($theme-name, 'grid/group-collapse.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-collapse.gif');
         background-color: transparent;
 
         width: 9px;
@@ -461,7 +452,7 @@
 
     .#{$prefix}grid-row-collapsed {
         .#{$prefix}grid-row-expander {
-            @include theme-background-image($theme-name, 'grid/group-expand.gif');
+            background-image: theme-background-image($theme-name, 'grid/group-expand.gif');
         }
     }
 
@@ -488,11 +479,11 @@
     }
 
     .col-move-top {
-        @include theme-background-image($theme-name, 'grid/col-move-top.gif');
+        background-image: theme-background-image($theme-name, 'grid/col-move-top.gif');
     }
 
     .col-move-bottom {
-        @include theme-background-image($theme-name, 'grid/col-move-bottom.gif');
+        background-image: theme-background-image($theme-name, 'grid/col-move-bottom.gif');
     }
 
     //pading toolbar
@@ -523,19 +514,22 @@
         }
     }
 
-    .#{$prefix}grid-group-title {
-        background: transparent no-repeat 0 -1px;
-        @include theme-background-image($theme-name, 'grid/group-collapse.gif');
+    .#{$prefix}grid-group-hd-collapsible {
+        .#{$prefix}grid-group-title {
+            background: transparent no-repeat 0 -1px;
+            background-image: theme-background-image($theme-name, 'grid/group-collapse.gif');
+            padding: 0 0 0 14px;
+        }
+    }
 
+    .#{$prefix}grid-group-title {
         color: $grid-grouped-title-color;
         font: $grid-grouped-title-font;
-
-        padding: 0 0 0 14px;
     }
 
     .#{$prefix}grid-group-hd-collapsed {
         .#{$prefix}grid-group-title {
-            @include theme-background-image($theme-name, 'grid/group-expand.gif');
+            background-image: theme-background-image($theme-name, 'grid/group-expand.gif');
         }
     }
 
@@ -544,30 +538,32 @@
     }
 
     .#{$prefix}grid-group-collapsed .#{$prefix}grid-group-title {
-        @include theme-background-image($theme-name, 'grid/group-expand.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-expand.gif');
     }
 
     .#{$prefix}group-by-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     .#{$prefix}show-groups-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     .#{$prefix}column-header-checkbox .#{$prefix}column-header-inner {
-        padding: 1px;
+        padding: 0;
     }
 
     .#{$prefix}grid-cell-special .#{$prefix}grid-cell-inner {
-        padding: 4px;
+        padding-left: 4px;
+        padding-right: 4px;
     }
 
     .#{$prefix}grid-row-checker,
     .#{$prefix}column-header-checkbox .#{$prefix}column-header-text {
         height: 14px;
         width: 14px;
-        @include theme-background-image($theme-name, 'grid/unchecked.gif');
+        line-height: 0;
+        background-image: theme-background-image($theme-name, 'grid/unchecked.gif');
         background-position: -1px -1px;
         background-repeat: no-repeat;
         background-color: transparent;
@@ -577,21 +573,13 @@
     // Header checkbox element needs centering
     .#{$prefix}column-header-checkbox .#{$prefix}column-header-text {
         display: block;
-        margin-top: 4px;
-        margin-left: 4px;
+        margin: 0 5px;
     }
 
     @if $include-ie or $compile-all {
-        /* All IE Quirks mode need to squish the header height or the line-height will become too tall */
-        /* IE6 always needs the hack regardless of quirks/strict */
-        .#{$prefix}quirks .#{$prefix}ie, .#{$prefix}ie6 {
-            .#{$prefix}column-header-checkbox .#{$prefix}column-header-inner {
-                line-height: 18px;
-            }
-        }
-
-        /* IE 6, 7 & 9 are 1px too far to the right when centering, drop the margin 1px. */
-        .#{$prefix}ie6, .#{$prefix}ie7, .#{$prefix}ie9 {
+        /* IE6, IE7, and all IE Quirks mode need line-height to be the same as checkbox height or the header/row height will be too tall */
+        .#{$prefix}quirks .#{$prefix}ie, .#{$prefix}ie7m {
+            .#{$prefix}grid-row-checker,
             .#{$prefix}column-header-checkbox .#{$prefix}column-header-text {
                 margin-left: 3px;
             }
@@ -599,9 +587,17 @@
     }
 
     .#{$prefix}grid-hd-checker-on .#{$prefix}column-header-text {
-        @include theme-background-image($theme-name, 'grid/checked.gif');
+        background-image: theme-background-image($theme-name, 'grid/checked.gif');
     }
 
+    .#{$prefix}grid-cell-row-checker .#{$prefix}grid-cell-inner {
+        padding-top: 4px;
+        padding-bottom: 2px;
+        line-height: $grid-row-height - 6;
+    }
+    .#{$prefix}grid-with-row-lines .#{$prefix}grid-cell-row-checker .#{$prefix}grid-cell-inner {
+        padding-top: 3px;
+    }
     .#{$prefix}grid-row-checker {
         margin-left: 1px;
 
@@ -610,79 +606,79 @@
 
     .#{$prefix}grid-row-selected .#{$prefix}grid-row-checker,
     .#{$prefix}grid-row-checked .#{$prefix}grid-row-checker {
-        @include theme-background-image($theme-name, 'grid/checked.gif');
+        background-image: theme-background-image($theme-name, 'grid/checked.gif');
     }
 
     //grid icons
     .#{$prefix}tbar-page-first {
-        background-image: theme-image($theme-name, 'grid/page-first.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-first.gif') !important;
     }
 
     .#{$prefix}tbar-loading {
-        background-image: theme-image($theme-name, 'grid/refresh.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/refresh.gif') !important;
     }
 
     .#{$prefix}tbar-page-last {
-        background-image: theme-image($theme-name, 'grid/page-last.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-last.gif') !important;
     }
 
     .#{$prefix}tbar-page-next {
-        background-image: theme-image($theme-name, 'grid/page-next.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-next.gif') !important;
     }
 
     .#{$prefix}tbar-page-prev {
-        background-image: theme-image($theme-name, 'grid/page-prev.gif') !important;
+        background-image: theme-background-image($theme-name, 'grid/page-prev.gif') !important;
     }
 
     .#{$prefix}item-disabled {
         .#{$prefix}tbar-loading {
-            background-image: theme-image($theme-name, 'grid/refresh-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/refresh-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-first {
-            background-image: theme-image($theme-name, 'grid/page-first-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-first-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-last {
-            background-image: theme-image($theme-name, 'grid/page-last-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-last-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-next {
-            background-image: theme-image($theme-name, 'grid/page-next-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-next-disabled.gif') !important;
         }
 
         .#{$prefix}tbar-page-prev {
-            background-image: theme-image($theme-name, 'grid/page-prev-disabled.gif') !important;
+            background-image: theme-background-image($theme-name, 'grid/page-prev-disabled.gif') !important;
         }
     }
 
     //menu icons
-    .xg-hmenu-sort-asc .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-asc.gif');
+    .#{$prefix}hmenu-sort-asc .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-asc.gif');
     }
 
-    .xg-hmenu-sort-desc .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-desc.gif');
+    .#{$prefix}hmenu-sort-desc .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-desc.gif');
     }
 
-    .xg-hmenu-lock .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-lock.gif');
+    .#{$prefix}hmenu-lock .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-lock.gif');
     }
 
-    .xg-hmenu-unlock .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/hmenu-unlock.gif');
+    .#{$prefix}hmenu-unlock .#{$prefix}menu-item-icon {
+        background-image: theme-background-image($theme-name, 'grid/hmenu-unlock.gif');
     }
 
     .#{$prefix}group-by-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     .#{$prefix}cols-icon .#{$prefix}menu-item-icon {
-        @include theme-background-image($theme-name, 'grid/columns.gif');
+        background-image: theme-background-image($theme-name, 'grid/columns.gif');
     }
 
     .#{$prefix}show-groups-icon {
-        @include theme-background-image($theme-name, 'grid/group-by.gif');
+        background-image: theme-background-image($theme-name, 'grid/group-by.gif');
     }
 
     // Drag/drop indicator styles
@@ -697,7 +693,7 @@
             position: absolute;
             top: -8px;
             left: -12px;
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-right.png');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-right.png');
             height: 16px;
             width: 16px;
         }
@@ -706,7 +702,7 @@
             position: absolute;
             top: -8px;
             right: -11px;
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-left.png');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-left.png');
             height: 16px;
             width: 16px;
         }
@@ -714,11 +710,22 @@
 
     .#{$prefix}ie6 {
         .#{$prefix}grid-drop-indicator-left {
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-right.gif');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-right.gif');
         }
 
         .#{$prefix}grid-drop-indicator-right {
-            @include theme-background-image($theme-name, 'grid/dd-insert-arrow-left.gif');
+            background-image: theme-background-image($theme-name, 'grid/dd-insert-arrow-left.gif');
+        }
+    }
+
+    // Cell Editor
+    .#{$prefix}grid-editor {
+        // Position editor text over underlying grid cell text
+        .#{$prefix}form-text {
+            padding: 0 $grid-cell-editor-field-padding-horizontal;
+        }
+        .#{$prefix}form-cb-wrap {
+            padding-top: $grid-cell-editor-checkbox-padding-top;
         }
     }
 
@@ -729,12 +736,19 @@
         zoom: 1;
         overflow: visible !important;
 
-        .#{$prefix}form-field {
-            font: $grid-row-editor-font;
+        .#{$prefix}form-text {
+            padding: 0 $grid-row-editor-field-padding-horizontal;
+        }
+        .#{$prefix}form-cb-wrap {
+            padding-top: $grid-row-editor-cb-wrap-padding-top;
+        }
+        .#{$prefix}form-checkbox {
+            margin-left: $grid-row-editor-checkbox-margin-left;
         }
         .#{$prefix}form-display-field {
-            font: $grid-row-editor-font;
+            font: $grid-editor-font;
             padding-top: 0;
+            padding-left: $grid-row-editor-field-padding-horizontal;
         }
 
         .#{$prefix}panel-body {
@@ -744,81 +758,143 @@
         }
     }
 
-    // Perfect alignment of input text with cell text
-    .#{$prefix}grid-row-editor {
-        // Align input text with text value in cell
-        .#{$prefix}form-text {
-            padding-left: 2px;
-        }
-    }
-    .#{$prefix}grid-editor {
-        // Align checkboxes input
+    // Row/Cell Editor Shared Styles
+    .#{$prefix}grid-editor, .#{$prefix}grid-row-editor {
+        // Align checkbox input
         .#{$prefix}form-cb-wrap {
             text-align: center;
         }
+        .#{$prefix}form-trigger {
+            height: $grid-row-height - $form-field-border-width;
+        }
+        .#{$prefix}form-trigger-wrap {
+            .#{$prefix}form-spinner-up, .#{$prefix}form-spinner-down {
+                background-image: theme-background-image($theme-name, 'form/spinner-small.gif');
+                height: 10px !important;
+            }
+        }
+    }
+    .#{$prefix}grid-editor, .#{$prefix}grid-row-editor {
+        .#{$prefix}form-text {
+            font: $grid-editor-font;
+            height: $grid-row-height - 2;
+        }
     }
 
-.#{$prefix}grid-row-editor-buttons {
+    .#{$prefix}border-box .#{$prefix}grid-editor,
+    .#{$prefix}border-box .#{$prefix}grid-row-editor {
+        .#{$prefix}form-trigger {
+            height: $grid-row-height;
+        }
+        .#{$prefix}form-text {
+            height: $grid-row-height;
+            padding-bottom: 1px; // fix for firefox/opera since they ignore line-height on inputs
+        }
+    }
+
+    @if $include-ie {
+        .#{$prefix}ie {
+            .#{$prefix}grid-editor .#{$prefix}form-text {
+                padding-left: $grid-cell-editor-field-padding-horizontal + 1;
+            }
+            .#{$prefix}grid-row-editor .#{$prefix}form-text {
+                padding-left: $grid-row-editor-field-padding-horizontal + 1;
+            }
+        }
+        .#{$prefix}ie8m {
+            .#{$prefix}grid-editor .#{$prefix}form-text,
+            .#{$prefix}grid-row-editor .#{$prefix}form-text {
+                padding-top: 1px;
+            }
+        }
+        .#{$prefix}strict .#{$prefix}ie6,
+        .#{$prefix}strict .#{$prefix}ie7 {
+            .#{$prefix}grid-editor .#{$prefix}form-text,
+            .#{$prefix}grid-row-editor .#{$prefix}form-text {
+                height: $grid-row-height - ($form-field-border-width * 3);
+            }
+        }
+        .#{$prefix}quirks .#{$prefix}ie9 {
+            .#{$prefix}grid-editor, .#{$prefix}grid-row-editor {
+                .#{$prefix}form-text {
+                    line-height: $grid-editor-line-height + 2;
+                }
+            }
+        }
+    }
+
+    @if $include-opera {
+        .#{$prefix}opera {
+            .#{$prefix}grid-editor .#{$prefix}form-text {
+                padding-left: $grid-cell-editor-field-padding-horizontal + 1;
+            }
+            .#{$prefix}grid-row-editor .#{$prefix}form-text {
+                padding-left: $grid-row-editor-field-padding-horizontal + 1;
+            }
+        }
+    }
+
+
+    .#{$prefix}grid-row-editor-buttons {
         background-color: $grid-row-editor-background-color;
         position: absolute;
         bottom: -31px;
         padding: 4px;
-        width: 200px;
         height: 32px;
 
-        .#{$prefix}strict & {
+        .#{$prefix}strict .#{$prefix}ie7m & {
             width: 192px;
             height: 24px;
         }
+    }
 
-        &-ml,
-        &-mr,
-        &-bl,
-        &-br,
-        &-bc {
-            position: absolute;
-            overflow: hidden;
-        }
+    .#{$prefix}grid-row-editor-buttons-ml,
+    .#{$prefix}grid-row-editor-buttons-mr,
+    .#{$prefix}grid-row-editor-buttons-bl,
+    .#{$prefix}grid-row-editor-buttons-br,
+    .#{$prefix}grid-row-editor-buttons-bc {
+        position: absolute;
+        overflow: hidden;
+    }
 
-        &-bl,
-        &-br {
-            width: 4px;
-            height: 4px;
-            bottom: 0px;
-            @include theme-background-image($theme-name, 'panel/panel-default-framed-corners.gif');
-        }
-        &-bl {
-            left: 0px;
-            background-position: 0px -16px;
-        }
-        &-br {
-            right: 0px;
-            background-position: 0px -20px;
-        }
+    .#{$prefix}grid-row-editor-buttons-bl,
+    .#{$prefix}grid-row-editor-buttons-br {
+        width: 4px;
+        height: 4px;
+        bottom: 0px;
+        background-image: theme-background-image($theme-name, 'panel/panel-default-framed-corners.gif');
+    }
+    .#{$prefix}grid-row-editor-buttons-bl {
+        left: 0px;
+        background-position: 0px -16px;
+    }
+    .#{$prefix}grid-row-editor-buttons-br {
+        right: 0px;
+        background-position: 0px -20px;
+    }
 
-        &-bc {
-            position: absolute;
-            left: 4px;
-            bottom: 0px;
-            width: 192px;
-            height: 1px;
-            background-color: $grid-row-editor-border-color;
-        }
+    .#{$prefix}grid-row-editor-buttons-bc {
+        position: absolute;
+        left: 4px;
+        bottom: 0px;
+        width: 192px;
+        height: 1px;
+        background-color: $grid-row-editor-border-color;
+    }
 
-        &-ml,
-        &-mr {
-            height: 27px;
-            width: 1px;
-            top: 1px;
-            background-color: $grid-row-editor-border-color;
-        }
-        &-ml {
-            left: 0px
-        }
-        &-mr {
-            background-position: 0px -20px;
-            right: 0px;
-        }
+    .#{$prefix}grid-row-editor-buttons-ml,
+    .#{$prefix}grid-row-editor-buttons-mr {
+        height: 27px;
+        width: 1px;
+        top: 1px;
+        background-color: $grid-row-editor-border-color;
+    }
+    .#{$prefix}grid-row-editor-buttons-ml {
+        left: 0px
+    }
+    .#{$prefix}grid-row-editor-buttons-mr {
+        background-position: 0px -20px;
+        right: 0px;
     }
 
     .#{$prefix}grid-row-editor-errors {

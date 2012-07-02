@@ -13,17 +13,21 @@ $grid-header-over-border-color: adjust-color(#C0D4ED, $hue: -0.175deg, $saturati
 $grid-header-over-background-color: $grid-header-over-border-color !default;
 $grid-header-over-background-gradient: 'grid-header-over' !default;
 $grid-header-background-color: $grid-base-color !default;
-$grid-header-padding: 0px 6px !default;
+$grid-header-line-height: 15px !default;
+$grid-header-padding: 3px 6px 4px !default;
 $grid-header-trigger-height: 22px !default;
-$grid-header-trigger-width: 15px !default;
+$grid-header-trigger-width: 14px !default;
 $grid-header-color: null !default;
 
 // ===============================
 // ========= GRID ROWS ===========
 // ===============================
+$grid-row-height: 20px !default;
 $grid-row-cell-color: null !default;
-$grid-row-cell-font: normal ceil($font-size * .9) $font-family !default;
-$grid-row-padding: 0 1px !default;
+$grid-row-cell-font-size: ceil($font-size * .9) !default;
+$grid-row-cell-line-height: $grid-row-cell-font-size + 4 !default;
+$grid-row-cell-font: normal #{$grid-row-cell-font-size}/#{$grid-row-cell-line-height} $font-family !default;
+//$grid-row-padding: 0 1px !default;
 
 //row wrap
 $grid-row-wrap-border-color: #ededed !default;
@@ -59,8 +63,9 @@ $grid-row-cell-focus-background-color: adjust-color($neutral-color, $hue: 0deg, 
 $grid-row-cell-focus-background-gradient: 'grid-row-over' !default;
 
 //standard cells
-$grid-cell-font: normal 13px $font-family !default;
-$grid-cell-inner-padding: 3px 6px !default;
+$grid-cell-inner-padding-top: 2px !default;
+$grid-cell-inner-padding-horizontal: 6px !default;
+$grid-cell-inner-padding-bottom: 3px !default;
 
 //special cell
 $grid-cell-special-over-background-color: adjust-color($base-color, $hue: -0.476deg, $saturation: 25.214%, $lightness: 5.686%) !default;
@@ -71,15 +76,21 @@ $grid-cell-with-col-lines-border-color: adjust-color($base-color, $hue: 0deg, $s
 // ===============================
 // ======== GROUPED GRID =========
 // ===============================
-$grid-grouped-header-background-color: #fff;
-$grid-grouped-header-border-width: 0 0 2px 0;
-$grid-grouped-header-border-style: solid;
-$grid-grouped-header-border-color: adjust-color($base-color, $hue: 0.844deg, $saturation: 7.644%, $lightness: -8.627%);
-$grid-grouped-header-padding: 6px 0 0 0;
+$grid-grouped-header-background-color: #fff !default;
+$grid-grouped-header-border-width: 0 0 2px 0 !default;
+$grid-grouped-header-border-style: solid !default;
+$grid-grouped-header-border-color: adjust-color($base-color, $hue: 0.844deg, $saturation: 7.644%, $lightness: -8.627%) !default;
+$grid-grouped-header-padding: 6px 0 0 0 !default;
 
-$grid-grouped-title-color: adjust-color($base-color, $hue: 0.952deg, $saturation: -6.718%, $lightness: -41.961%);
-$grid-grouped-title-font: bold ceil($font-size * .9) $font-family;
-$grid-grouped-title-padding: 4px 4px 4px 17px;
+$grid-grouped-title-color: adjust-color($base-color, $hue: 0.952deg, $saturation: -6.718%, $lightness: -41.961%) !default;
+$grid-grouped-title-font: bold ceil($font-size * .9) $font-family !default;
+$grid-grouped-title-padding: 4px 4px 4px 17px !default;
+
+// ===============================
+// ========= EDITOR ==========
+// ===============================
+$grid-editor-line-height: $grid-row-height - 5 !default;
+$grid-editor-font: normal #{$grid-row-cell-font-size}/#{$grid-editor-line-height} $font-family !default;
 
 // ===============================
 // ========= ROW EDITOR ==========
@@ -87,5 +98,13 @@ $grid-grouped-title-padding: 4px 4px 4px 17px;
 $grid-row-editor-background-color: adjust-color($base-color, $hue: 1deg, $saturation: 11%, $lightness: 11%) !default;
 $grid-row-editor-border-color: $panel-border-color !default;
 $grid-row-editor-border-width: 1px !default;
-$grid-row-editor-border: $grid-row-editor-border-width solid $grid-row-editor-border-color !important;
-$grid-row-editor-font: $grid-row-cell-font !important;
+$grid-row-editor-border: $grid-row-editor-border-width solid $grid-row-editor-border-color !important !default;
+$grid-row-editor-field-padding-horizontal: 2px !default;
+$grid-row-editor-cb-wrap-padding-top: 0 !default;
+$grid-row-editor-checkbox-margin-left: -4px !default;
+
+// ===============================
+// ========= CELL EDITOR =========
+// ===============================
+$grid-cell-editor-field-padding-horizontal: 4px !default;
+$grid-cell-editor-checkbox-padding-top: 3px !default;

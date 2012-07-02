@@ -1,3 +1,7 @@
+/**
+ * Creates base structure for Ext.picker.Color
+ * @member Ext.picker.Color
+ */
 @mixin extjs-colorpicker {
     .#{$prefix}color-picker {
         width: 144px;
@@ -7,16 +11,16 @@
 
     .#{$prefix}color-picker a {
         border: 1px solid #fff;
-        
+
         float: left;
-        
+
         padding: 2px;
-        
+
         text-decoration: none;
-        
+
         -moz-outline: 0 none;
         outline: 0 none;
-        
+
         cursor: pointer;
     }
 
@@ -28,18 +32,18 @@
 
     .#{$prefix}color-picker em {
         display: block;
-        
+
         border: 1px solid $colorpicker-item-border-color;
     }
 
     .#{$prefix}color-picker em span {
         cursor: pointer;
-        
+
         display: block;
-        
+
         height: 10px;
         width: 10px;
-        
+
         line-height: 10px;
     }
 }

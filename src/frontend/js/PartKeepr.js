@@ -11,9 +11,9 @@ Ext.application({
     launch: function() {
     	Ext.get("loading").hide();
     	Ext.setLocale('en_US');
-    	
+
     	this.createLayout();
-    	
+
     	PartKeepr.application = this;
     	
     	// Set static data of the server
@@ -387,22 +387,22 @@ Ext.application({
     	this.menuBar = Ext.create("PartKeepr.MenuBar");
     	
     	this.menuBar.disable();
-    	
+        console.log("FOO");
     	Ext.create('Ext.container.Viewport', {
     		layout: 'fit',
     		items: [{
     			xtype: 'panel',
     			border: false,
-    			layout: 'border',
-    			items: [
-    			       this.centerPanel,
-    			       this.messageLog
-    			       ],
+                layout: 'border',
+                items: [
+                    this.centerPanel,
+                    this.messageLog
+                ],
                 bbar: this.statusBar,
                 tbar: this.menuBar
     		}]
-    		
-        });    	
+
+        });
     },
     addItem: function (item) {
     	this.centerPanel.add(item);

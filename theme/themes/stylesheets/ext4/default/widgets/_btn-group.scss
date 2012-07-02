@@ -1,3 +1,7 @@
+/**
+ * Creates the base structure of a button group.
+ * @member Ext.container.ButtonGroup
+ */
 @mixin extjs-btn-group {
     .#{$prefix}btn-group {
         position: relative;
@@ -21,8 +25,8 @@
 }
 
 /**
- * @mixin extjs-btn-group-ui
- * @class Ext.ButtonGroup
+ * Creates a visual theme of a button group.
+ * @member Ext.container.ButtonGroup
  */
 @mixin extjs-btn-group-ui(
     $ui-label,

@@ -5,16 +5,9 @@ Ext.define('PartKeepr.TimeDisplay', {
     enable:Ext.emptyFn,
     disable:Ext.emptyFn,
     focus:Ext.emptyFn,
-    constructor: function () {
-    	var s = document.createElement("span");
-        s.className = "ytb-text";
-        var dt = new Date();
-        s.innerHTML = Ext.Date.format(dt, Ext.getDateFormat());
-        
+    beforeRender: function () {
+        this.callParent();
         Ext.defer(this.onUpdate, 240, this);
-        this.el = s;
-        
-    	this.callParent(arguments);
     },
     onUpdate: function (obj) {
 		var dt = new Date();

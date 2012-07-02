@@ -1,46 +1,55 @@
 /**
-  * @class Ext.Button
-  * Used to create the base structure of an Ext.Button
-  */
+ * Creates the base structure of an Ext.Button
+ * @member Ext.button.Button
+ */
 @mixin extjs-button {
     .#{$prefix}btn {
         display: inline-block;
         zoom: 1;
         *display: inline;
         position: relative;
-        
+
         cursor: pointer;
         cursor: hand;
-        
+
         white-space: nowrap;
-        
+
         vertical-align: middle;
-        
+
         * {
             cursor: pointer;
             cursor: hand;
         }
-        
-        @include box-shadow(inset 0 1px 1px 0 #ffffff);
-        
+
         background-repeat: no-repeat;
-        
+
         em {
             background-repeat: no-repeat;
 
             // Styles for an anchor button.
             a {
                 text-decoration: none;
-                display: inline-block;
+                display: block;
                 color: inherit;
+
+                // 100% rather than auto for consistency with the button element
+                width: 100%;
+
+                // This is needed for IE7 in strict mode to ensure that the icon element has the correct opacity on a
+                // disabled link button. It seems only to be needed for buttons that are narrower than their icon
+                // element
+                zoom: 1;
             }
         }
-        
+
         button {
+            // 100% rather than auto so that IE7 renders file upload and date picker buttons correctly
+            width: 100%;
+
+            display: block;
             margin: 0;
-            padding: 0;      
-            border: 0;  
-            width: auto;    
+            padding: 0;
+            border: 0;
             background: none;
             outline: 0 none;
             overflow: hidden;
@@ -56,17 +65,25 @@
         .#{$prefix}btn-inner {
             display: block;
             white-space: nowrap;
-            text-align: center;
             background-color: transparent;
             background-repeat: no-repeat;
             background-position: left center;
+            overflow: hidden;
+        }
+
+        .#{$prefix}btn-left .#{$prefix}btn-inner {
+            text-align: left;
+        }
+
+        .#{$prefix}btn-center .#{$prefix}btn-inner {
+            text-align: center;
+        }
+
+        .#{$prefix}btn-right .#{$prefix}btn-inner {
+            text-align: right;
         }
     }
-    
-    .#{$prefix}btn-disabled {
-        @include opacity(1);
-    }
-    
+
     .#{$prefix}btn-disabled span {
         @include opacity(.5);
 
@@ -75,7 +92,7 @@
             filter:none;
         }
     }
-    
+
     //remove the opacity rule of IE8
     .#{$prefix}ie7 .#{$prefix}btn-disabled,
     .#{$prefix}ie8 .#{$prefix}btn-disabled {
@@ -89,8 +106,13 @@
             @include opacity(.6);
         }
     }
-    
+
     @if $include-ie {
+        /* IE9 shows scrollbars in a button unless this is set  */
+        .#{$prefix}ie9 .#{$prefix}btn button {
+            overflow: visible!important;
+        }
+
         * html .#{$prefix}ie {
             .#{$prefix}btn button {
                 width: 1px;
@@ -107,20 +129,25 @@
             .#{$prefix}btn .#{$prefix}frame-mc {
                 height: 100%;
             }
-        }  
+        }
     }
-  
+
     @if not $supports-border-radius or $compile-all {
-        .#{$prefix}nbr {
-            .#{$prefix}btn {
-                .#{$prefix}frame-mc {
-                    vertical-align: middle;
-                    white-space: nowrap;
-                    text-align: center;
-                    cursor: pointer;
-                }
+        /* Keep the selector simple ".x-btn .x-frame-mc" is enough to target the center frame of the button table */
+        .#{$prefix}btn {
+            .#{$prefix}frame-mc {
+                vertical-align: middle;
+                white-space: nowrap;
+                cursor: pointer;
             }
-        }    
+        }
+
+        /* Only center when all there is is text. Otherwise solo icons get centered. */
+        .#{$prefix}btn-noicon {
+            .#{$prefix}frame-mc {
+                text-align: center;
+            }
+        }
     }
 
     .#{$prefix}btn-icon-text-left .#{$prefix}btn-icon {
@@ -149,11 +176,11 @@
             }
         }
     }
-  
+
     .#{$prefix}btn-arrow-right {
         background: transparent no-repeat right center;
         padding-right: $button-arrow-size;
-        
+
         .#{$prefix}btn-inner {
             padding-right: 0 !important;
         }
@@ -169,7 +196,7 @@
     }
 
     .#{$prefix}btn-arrow {
-        @include theme-background-image($theme-name, 'button/arrow.gif');    
+        background-image: theme-background-image($theme-name, 'button/arrow.gif');
         display: block;
     }
 
@@ -178,30 +205,30 @@
     .#{$prefix}btn-split-right,
     .#{$prefix}btn-over .#{$prefix}btn-split-right {
         background: transparent no-repeat right center;
-        @include theme-background-image($theme-name, 'button/s-arrow.gif');
+        background-image: theme-background-image($theme-name, 'button/s-arrow.gif');
         padding-right: $button-split-size !important;
     }
-  
+
     .#{$prefix}btn-split-bottom,
     .#{$prefix}btn-over .#{$prefix}btn-split-bottom {
         background: transparent no-repeat center bottom;
-        @include theme-background-image($theme-name, 'button/s-arrow-b.gif');
+        background-image: theme-background-image($theme-name, 'button/s-arrow-b.gif');
         padding-bottom: $button-split-size;
     }
-    
+
     .#{$prefix}toolbar .#{$prefix}btn-split-right {
-        @include theme-background-image($theme-name, 'button/s-arrow-noline.gif');
+        background-image: theme-background-image($theme-name, 'button/s-arrow-noline.gif');
         padding-right: $button-toolbar-split-size !important;
     }
-    
+
     .#{$prefix}toolbar .#{$prefix}btn-split-bottom {
-        @include theme-background-image($theme-name, 'button/s-arrow-b-noline.gif');
+        background-image: theme-background-image($theme-name, 'button/s-arrow-b-noline.gif');
     }
-  
+
     .#{$prefix}btn-split {
         display: block;
     }
-           
+
     .#{$prefix}item-disabled,
     .#{$prefix}item-disabled * {
         cursor: default;
@@ -211,22 +238,22 @@
         text-align: inherit;
     }
 
-    .#{$prefix}btn-over .#{$prefix}btn-split-right { @include theme-background-image($theme-name, 'button/s-arrow-o.gif'); }
-    .#{$prefix}btn-over .#{$prefix}btn-split-bottom { @include theme-background-image($theme-name, 'button/s-arrow-bo.gif'); }
-    
+    .#{$prefix}btn-over .#{$prefix}btn-split-right { background-image: theme-background-image($theme-name, 'button/s-arrow-o.gif'); }
+    .#{$prefix}btn-over .#{$prefix}btn-split-bottom { background-image: theme-background-image($theme-name, 'button/s-arrow-bo.gif'); }
+
     @include extjs-button-ui(
         /* UI + Scale */
         'default-small',
-        
+
         $button-small-border-radius,
-        $button-small-border-width,    
-        
+        $button-small-border-width,
+
         $button-default-border-color,
         $button-default-border-color-over,
         $button-default-border-color-focus,
         $button-default-border-color-pressed,
         $button-default-border-color-disabled,
-        
+
         $button-small-padding,
         $button-small-text-padding,
 
@@ -235,7 +262,7 @@
         $button-default-background-color-focus,
         $button-default-background-color-pressed,
         $button-default-background-color-disabled,
-        
+
         $button-default-background-gradient,
         $button-default-background-gradient-over,
         $button-default-background-gradient-focus,
@@ -247,40 +274,40 @@
         $button-default-color-focus,
         $button-default-color-pressed,
         $button-default-color-disabled,
-                
+
         $button-small-font-size,
         $button-small-font-size-over,
         $button-small-font-size-focus,
         $button-small-font-size-pressed,
         $button-small-font-size-disabled,
-        
+
         $button-small-font-weight,
         $button-small-font-weight-over,
         $button-small-font-weight-focus,
         $button-small-font-weight-pressed,
         $button-small-font-weight-disabled,
-        
+
         $button-small-font-family,
         $button-small-font-family-over,
         $button-small-font-family-focus,
         $button-small-font-family-pressed,
         $button-small-font-family-disabled,
-        
+
         $button-small-icon-size
     );
-        
+
     @include extjs-button-ui(
         'default-medium',
-        
+
         $button-medium-border-radius,
-        $button-medium-border-width,    
-        
+        $button-medium-border-width,
+
         $button-default-border-color,
         $button-default-border-color-over,
         $button-default-border-color-focus,
         $button-default-border-color-pressed,
         $button-default-border-color-disabled,
-        
+
         $button-medium-padding,
         $button-medium-text-padding,
 
@@ -289,7 +316,7 @@
         $button-default-background-color-focus,
         $button-default-background-color-pressed,
         $button-default-background-color-disabled,
-        
+
         $button-default-background-gradient,
         $button-default-background-gradient-over,
         $button-default-background-gradient-focus,
@@ -301,40 +328,40 @@
         $button-default-color-focus,
         $button-default-color-pressed,
         $button-default-color-disabled,
-                
+
         $button-medium-font-size,
         $button-medium-font-size-over,
         $button-medium-font-size-focus,
         $button-medium-font-size-pressed,
         $button-medium-font-size-disabled,
-        
+
         $button-medium-font-weight,
         $button-medium-font-weight-over,
         $button-medium-font-weight-focus,
         $button-medium-font-weight-pressed,
         $button-medium-font-weight-disabled,
-        
+
         $button-medium-font-family,
         $button-medium-font-family-over,
         $button-medium-font-family-focus,
         $button-medium-font-family-pressed,
         $button-medium-font-family-disabled,
-        
+
         $button-medium-icon-size
     );
-    
+
     @include extjs-button-ui(
         'default-large',
-        
+
         $button-large-border-radius,
-        $button-large-border-width,    
-        
+        $button-large-border-width,
+
         $button-default-border-color,
         $button-default-border-color-over,
         $button-default-border-color-focus,
         $button-default-border-color-pressed,
         $button-default-border-color-disabled,
-        
+
         $button-large-padding,
         $button-large-text-padding,
 
@@ -343,7 +370,7 @@
         $button-default-background-color-focus,
         $button-default-background-color-pressed,
         $button-default-background-color-disabled,
-        
+
         $button-default-background-gradient,
         $button-default-background-gradient-over,
         $button-default-background-gradient-focus,
@@ -355,40 +382,40 @@
         $button-default-color-focus,
         $button-default-color-pressed,
         $button-default-color-disabled,
-                
+
         $button-large-font-size,
         $button-large-font-size-over,
         $button-large-font-size-focus,
         $button-large-font-size-pressed,
         $button-large-font-size-disabled,
-        
+
         $button-large-font-weight,
         $button-large-font-weight-over,
         $button-large-font-weight-focus,
         $button-large-font-weight-pressed,
         $button-large-font-weight-disabled,
-        
+
         $button-large-font-family,
         $button-large-font-family-over,
         $button-large-font-family-focus,
         $button-large-font-family-pressed,
         $button-large-font-family-disabled,
-        
+
         $button-large-icon-size
     );
-    
+
     @include extjs-button-ui(
         'default-toolbar-small',
-        
+
         $button-small-border-radius,
-        $button-small-border-width,    
-        
+        $button-small-border-width,
+
         $button-toolbar-border-color,
         $button-toolbar-border-color-over,
         $button-toolbar-border-color-focus,
         $button-toolbar-border-color-pressed,
         $button-toolbar-border-color-disabled,
-        
+
         $button-small-padding,
         $button-small-text-padding,
 
@@ -397,7 +424,7 @@
         $button-toolbar-background-color-focus,
         $button-toolbar-background-color-pressed,
         $button-toolbar-background-color-disabled,
-        
+
         $button-toolbar-background-gradient,
         $button-toolbar-background-gradient-over,
         $button-toolbar-background-gradient-focus,
@@ -409,40 +436,40 @@
         $button-toolbar-color-focus,
         $button-toolbar-color-pressed,
         $button-toolbar-color-disabled,
-                
+
         $button-small-font-size,
         $button-small-font-size-over,
         $button-small-font-size-focus,
         $button-small-font-size-pressed,
         $button-small-font-size-disabled,
-        
+
         $button-small-font-weight,
         $button-small-font-weight-over,
         $button-small-font-weight-focus,
         $button-small-font-weight-pressed,
         $button-small-font-weight-disabled,
-        
+
         $button-small-font-family,
         $button-small-font-family-over,
         $button-small-font-family-focus,
         $button-small-font-family-pressed,
         $button-small-font-family-disabled,
-        
+
         $button-small-icon-size
     );
-    
+
     @include extjs-button-ui(
         'default-toolbar-medium',
-        
+
         $button-medium-border-radius,
-        $button-medium-border-width,    
-        
+        $button-medium-border-width,
+
         $button-toolbar-border-color,
         $button-toolbar-border-color-over,
         $button-toolbar-border-color-focus,
         $button-toolbar-border-color-pressed,
         $button-toolbar-border-color-disabled,
-        
+
         $button-medium-padding,
         $button-medium-text-padding,
 
@@ -451,7 +478,7 @@
         $button-toolbar-background-color-focus,
         $button-toolbar-background-color-pressed,
         $button-toolbar-background-color-disabled,
-        
+
         $button-toolbar-background-gradient,
         $button-toolbar-background-gradient-over,
         $button-toolbar-background-gradient-focus,
@@ -463,40 +490,40 @@
         $button-toolbar-color-focus,
         $button-toolbar-color-pressed,
         $button-toolbar-color-disabled,
-                
+
         $button-medium-font-size,
         $button-medium-font-size-over,
         $button-medium-font-size-focus,
         $button-medium-font-size-pressed,
         $button-medium-font-size-disabled,
-        
+
         $button-medium-font-weight,
         $button-medium-font-weight-over,
         $button-medium-font-weight-focus,
         $button-medium-font-weight-pressed,
         $button-medium-font-weight-disabled,
-        
+
         $button-medium-font-family,
         $button-medium-font-family-over,
         $button-medium-font-family-focus,
         $button-medium-font-family-pressed,
         $button-medium-font-family-disabled,
-        
+
         $button-medium-icon-size
     );
-    
+
     @include extjs-button-ui(
         'default-toolbar-large',
-        
+
         $button-large-border-radius,
-        $button-large-border-width,    
-        
+        $button-large-border-width,
+
         $button-toolbar-border-color,
         $button-toolbar-border-color-over,
         $button-toolbar-border-color-focus,
         $button-toolbar-border-color-pressed,
         $button-toolbar-border-color-disabled,
-        
+
         $button-large-padding,
         $button-large-text-padding,
 
@@ -505,7 +532,7 @@
         $button-toolbar-background-color-focus,
         $button-toolbar-background-color-pressed,
         $button-toolbar-background-color-disabled,
-        
+
         $button-toolbar-background-gradient,
         $button-toolbar-background-gradient-over,
         $button-toolbar-background-gradient-focus,
@@ -517,98 +544,102 @@
         $button-toolbar-color-focus,
         $button-toolbar-color-pressed,
         $button-toolbar-color-disabled,
-                
+
         $button-large-font-size,
         $button-large-font-size-over,
         $button-large-font-size-focus,
         $button-large-font-size-pressed,
         $button-large-font-size-disabled,
-        
+
         $button-large-font-weight,
         $button-large-font-weight-over,
         $button-large-font-weight-focus,
         $button-large-font-weight-pressed,
         $button-large-font-weight-disabled,
-        
+
         $button-large-font-family,
         $button-large-font-family-over,
         $button-large-font-family-focus,
         $button-large-font-family-pressed,
         $button-large-font-family-disabled,
-        
+
         $button-large-icon-size
     );
-    
+
     .#{$prefix}btn-default-toolbar-small-disabled,
     .#{$prefix}btn-default-toolbar-medium-disabled,
     .#{$prefix}btn-default-toolbar-large-disabled {
         border-color: transparent;
-        
+
         background-image: none;
         background: transparent;
     }
 }
 
+/**
+ * Creates a visual theme of an Ext.Button
+ * @member Ext.button.Button
+ */
 @mixin extjs-button-ui(
-    $ui,  
-    
+    $ui,
+
     $border-radius: 0px,
-    
+
     $border-width: 0px,
-            
+
     $border-color: null,
     $border-color-over: null,
     $border-color-focus: null,
     $border-color-pressed: null,
     $border-color-disabled: null,
-    
+
     $padding: null,
     $text-padding: null,
-    
+
     $background-color: null,
     $background-color-over: null,
     $background-color-focus: null,
     $background-color-pressed: null,
     $background-color-disabled: null,
-    
+
     $background-gradient: null,
     $background-gradient-over: null,
     $background-gradient-focus: null,
     $background-gradient-pressed: null,
     $background-gradient-disabled: null,
-    
+
     $color: null,
     $color-over: null,
     $color-focus: null,
     $color-pressed: null,
     $color-disabled: null,
-    
+
     $font-size: null,
     $font-size-over: null,
     $font-size-focus: null,
     $font-size-pressed: null,
     $font-size-disabled: null,
-    
+
     $font-weight: null,
     $font-weight-over: null,
     $font-weight-focus: null,
     $font-weight-pressed: null,
     $font-weight-disabled: null,
-    
+
     $font-family: null,
     $font-family-over: null,
     $font-family-focus: null,
     $font-family-pressed: null,
     $font-family-disabled: null,
-    
+
     $icon-size: null
 ) {
     .#{$prefix}btn-#{$ui} {
         border-color: $border-color;
     }
-    
+
     @include x-frame('btn', $ui, $border-radius, $border-width, $padding, $background-color, $background-gradient, true);
-    
+
     .#{$prefix}btn-#{$ui} .#{$prefix}btn-inner {
         font-size: $font-size;
         font-weight: $font-weight;
@@ -617,10 +648,11 @@
         background-repeat: no-repeat;
         padding: 0 $text-padding;
     }
-    
+
     .#{$prefix}btn-#{$ui}-icon,
     .#{$prefix}btn-#{$ui}-noicon {
         button,
+        a,
         .#{$prefix}btn-inner {
             height: $icon-size;
             line-height: $icon-size;
@@ -629,10 +661,15 @@
 
     //icons
     .#{$prefix}btn-#{$ui}-icon {
-        button {
+        button,
+        a {
             padding: 0;
-            width: $icon-size !important;
-            height: $icon-size;
+        }
+
+        .#{$prefix}btn-inner {
+            /* even though there is no text we set a width and padding as buttons shrink-wrap around this element */
+            width: $icon-size;
+            padding: 0;
         }
 
         .#{$prefix}btn-icon {
@@ -644,9 +681,10 @@
             right: 0;
         }
     }
-    
+
     .#{$prefix}btn-#{$ui}-icon-text-left {
-        button {
+        button,
+        a {
             height: $icon-size;
         }
         .#{$prefix}btn-inner {
@@ -671,7 +709,8 @@
     }
 
     .#{$prefix}btn-#{$ui}-icon-text-right {
-        button {
+        button,
+        a {
             height: $icon-size;
         }
         .#{$prefix}btn-inner {
@@ -694,7 +733,7 @@
             }
         }
     }
-    
+
     .#{$prefix}btn-#{$ui}-icon-text-top {
         .#{$prefix}btn-inner {
             padding-top: $icon-size + 4px;
@@ -709,12 +748,12 @@
             right: 0;
 
             .#{$prefix}ie6 &,
-            .#{$prefix}quirks & {
+            .#{$prefix}quirks .#{$prefix}ie & {
                 width: $icon-size;
             }
         }
     }
-    
+
     .#{$prefix}btn-#{$ui}-icon-text-bottom {
         .#{$prefix}btn-inner {
             padding-bottom: $icon-size + 4px;
@@ -729,12 +768,12 @@
             right: 0;
 
             .#{$prefix}ie6 &,
-            .#{$prefix}quirks & {
+            .#{$prefix}quirks .#{$prefix}ie & {
                 width: $icon-size;
             }
         }
     }
-    
+
     .#{$prefix}btn-#{$ui}-over {
         @if $border-color-over != $border-color {
             border-color: $border-color-over;
@@ -755,10 +794,10 @@
             }
             @if $font-family-over != $font-family {
                 font-family: $font-family-over;
-            } 
+            }
         }
     }
-    
+
     .#{$prefix}btn-#{$ui}-focus {
         @if $border-color-focus != $border-color {
             border-color: $border-color-focus;
@@ -779,14 +818,12 @@
             }
             @if $font-family-focus != $font-family {
                 font-family: $font-family-focus;
-            } 
+            }
         }
     }
 
     .#{$prefix}btn-#{$ui}-menu-active,
     .#{$prefix}btn-#{$ui}-pressed {
-    	@include box-shadow(inset 0 1px 1px 0 #dddddd);
-    
         @if $border-color-pressed != $border-color {
             border-color: $border-color-pressed;
         }
@@ -806,13 +843,11 @@
             }
             @if $font-family-pressed != $font-family {
                 font-family: $font-family-pressed;
-            } 
+            }
         }
     }
-    
+
     .#{$prefix}btn-#{$ui}-disabled {
-    	@include box-shadow(inset 0 0px 0px 0 #ffffff);
-    
         @if $border-color-disabled != $border-color {
             border-color: $border-color-disabled;
         }
@@ -832,10 +867,10 @@
             }
             @if $font-family-disabled != $font-family {
                 font-family: $font-family-disabled;
-            } 
+            }
         }
     }
-    
+
     .#{$prefix}ie .#{$prefix}btn-#{$ui}-disabled {
         .#{$prefix}btn-inner {
             @if $color-disabled != $color {
@@ -843,7 +878,7 @@
             }
         }
     }
-    
+
     .#{$prefix}ie6 .#{$prefix}btn-#{$ui}-disabled {
         .#{$prefix}btn-inner {
             @if $color-disabled != $color {
@@ -851,9 +886,9 @@
             }
         }
     }
-    
-    @if not $supports-border-radius or $compile-all {    
-        .#{$prefix}nbr { 
+
+    @if not $supports-border-radius or $compile-all {
+        .#{$prefix}nbr {
             .#{$prefix}btn-#{$ui}-over {
                 .#{$prefix}frame-tl,
                 .#{$prefix}frame-bl,
@@ -861,20 +896,20 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-corners.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-sides.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-over;
                     @if $background-gradient-over != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
                     }
                 }
             }
-            
+
             .#{$prefix}btn-#{$ui}-focus {
                 .#{$prefix}frame-tl,
                 .#{$prefix}frame-bl,
@@ -882,20 +917,20 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-corners.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-sides.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-focus;
                     @if $background-gradient-focus != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
                     }
                 }
             }
-            
+
             .#{$prefix}btn-#{$ui}-menu-active,
             .#{$prefix}btn-#{$ui}-pressed {
                 .#{$prefix}frame-tl,
@@ -904,20 +939,20 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-corners.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-sides.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-pressed;
                     @if $background-gradient-pressed != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
                     }
                 }
             }
-            
+
             .#{$prefix}btn-#{$ui}-disabled {
                 .#{$prefix}frame-tl,
                 .#{$prefix}frame-bl,
@@ -925,65 +960,65 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-corners.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-sides.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-disabled;
                     @if $background-gradient-disabled != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
+                        background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
                     }
-                }  
+                }
             }
         }
     }
-    
+
     @if not $supports-gradients or $compile-all {
         @if $background-gradient != null {
-            .#{$prefix}nlg { 
+            .#{$prefix}nlg {
                 .#{$prefix}btn-#{$ui} {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-bg.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-bg.gif');
                 }
             }
         }
-        
+
         @if $background-gradient-over != null {
-            .#{$prefix}nlg { 
+            .#{$prefix}nlg {
                 .#{$prefix}btn-#{$ui}-over {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
                 }
             }
         }
-        
+
         @if $background-gradient-focus != null {
-            .#{$prefix}nlg { 
+            .#{$prefix}nlg {
                 .#{$prefix}btn-#{$ui}-focus {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
                 }
             }
         }
 
         @if $background-gradient-pressed != null {
-            .#{$prefix}nlg { 
+            .#{$prefix}nlg {
                 .#{$prefix}btn-#{$ui}-menu-active,
                 .#{$prefix}btn-#{$ui}-pressed {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
                 }
             }
         }
-        
+
         @if $background-gradient-disabled != null {
             .#{$prefix}nlg {
                 .#{$prefix}btn-#{$ui}-disabled {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
+                    background-image: theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
                 }
             }
         }

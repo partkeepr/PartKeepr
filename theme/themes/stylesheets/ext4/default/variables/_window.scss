@@ -15,5 +15,6 @@ $window-body-color: #000 !default;
 
 $window-header-padding: 5px 5px 0 !default;
 $window-header-font-size: ceil($font-size * .9) !default; //11px
+$window-header-line-height: 17px !default;
 $window-header-color: adjust-color($window-base-color, $hue: -2.451deg, $saturation: 38.889%, $lightness: -55.882%) !default;
 $window-header-font-weight: bold !default;

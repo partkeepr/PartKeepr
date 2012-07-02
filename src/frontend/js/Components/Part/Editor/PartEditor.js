@@ -83,8 +83,6 @@ Ext.define('PartKeepr.PartEditor', {
 				listeners: {
 					scope: this,
 					change: function (field, newValue) {
-						console.log(newValue);
-						
 						if (newValue !== 0) {
 							this.footprintSet.setValue(true);
 						}
@@ -263,7 +261,7 @@ Ext.define('PartKeepr.PartEditor', {
 					iconCls: 'icon-brick',
 					xtype: 'panel',
 					border: false,
-					autoScroll: true,
+					autoScroll: false,
 					layout: 'anchor',
 					defaults: {
 				        anchor: '100%',

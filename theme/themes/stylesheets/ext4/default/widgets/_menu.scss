@@ -1,11 +1,21 @@
 /**
-  * @class Ext.menu.*
-  */
+ * Creates the base structure of a Menu
+ * @member Ext.menu.Menu
+ */
 @mixin extjs-menu {
     .#{$prefix}menu-body {
         @include no-select;
         background: $menu-background-color !important;
         padding: $menu-padding;
+    }
+
+    .#{$prefix}menu-item .#{$prefix}form-text {
+        user-select: text;
+        -webkit-user-select: text;
+        -o-user-select: text;
+        -ie-user-select: text;
+        -moz-user-select: text;
+        -ie-user-select: text;
     }
 
     .#{$prefix}menu-icon-separator {
@@ -16,7 +26,6 @@
         border-left: solid 1px $menu-separator-border-color;
         background-color: $menu-separator-background-color;
         width: 2px;
-        height: 100%;
         overflow: hidden;
     }
 
@@ -47,13 +56,13 @@
 
     .#{$prefix}menu-item-link {
         display: block;
-        padding: 0px $menu-padding;
         margin: 1px;
+        padding: $menu-link-padding;
         text-decoration: none !important;
         line-height: 16px;
         cursor: default;
     }
-    
+
     @if $include-opera {
         .#{$prefix}opera {
             // Opera 10.5 absolute positioning of submenu arrow has issues
@@ -67,29 +76,29 @@
     .#{$prefix}menu-item-icon {
         width: 16px;
         height: 16px;
-        margin: 4px 11px 0px 2px;
+        position: absolute;
+        top: 5px;
+        left: 4px;
         background: no-repeat center center;
     }
 
     .#{$prefix}menu-item-text {
-        position: relative;
         font-size: ceil($font-size * .9);
         color: $menu-text-color;
-        top: -4px;
     }
 
     .#{$prefix}menu-item-checked {
         .#{$prefix}menu-item-icon {
-            background-image: theme-image($theme-name, $menu-icon-checked);
+            background-image: theme-background-image($theme-name, $menu-icon-checked);
         }
         .#{$prefix}menu-group-icon {
-            background-image: theme-image($theme-name, $menu-icon-group-checked);
+            background-image: theme-background-image($theme-name, $menu-icon-group-checked);
         }
     }
 
     .#{$prefix}menu-item-unchecked {
         .#{$prefix}menu-item-icon {
-            background-image: theme-image($theme-name, $menu-icon-unchecked);
+            background-image: theme-background-image($theme-name, $menu-icon-unchecked);
         }
         .#{$prefix}menu-group-icon {
             background-image: none;
@@ -110,7 +119,8 @@
         height: 9px;
         top: 9px;
         right: 0px;
-        background: theme-image($theme-name, $menu-icon-arrow) no-repeat center center;
+        background: no-repeat center center;
+        background-image: theme-background-image($theme-name, $menu-icon-arrow);
     }
 
     .#{$prefix}menu-item-indent {
@@ -121,7 +131,7 @@
         cursor: pointer;
 
         .#{$prefix}menu-item-link {
-            @include background-gradient($menu-item-active-background-color, $menu-item-active-background-gradient);
+            @include background-gradient($menu-item-active-background-color, 'matte');
             margin: 0px;
             border: 1px solid $menu-item-active-border-color;
             cursor: pointer;
@@ -135,11 +145,6 @@
 
     @if $include-ie {
         .#{$prefix}ie {
-            .#{$prefix}menu-item-link {
-                line-height: 17px;
-                padding-bottom: 1px;
-            }
-
             .#{$prefix}menu-item-disabled {
                 .#{$prefix}menu-item-icon {
                     @include opacity(.5);
@@ -147,21 +152,21 @@
 
                 .#{$prefix}menu-item-text {
                     // IE opacity/cleartype bug workaround
-                    background-color: $menu-background-color;
+                    background-color: transparent;
                 }
             }
-            
-            .#{$prefix}strict & {
+
+            .#{$prefix}strict .#{$prefix}ie7m & {
                 .#{$prefix}menu-icon-separator {
                     width: 1px;
                 }
-                
+
                 .#{$prefix}menu-item-separator {
                     height: 1px;
                 }
             }
         }
-        
+
         .#{$prefix}ie6,
         .#{$prefix}ie7,
         .#{$prefix}quirks .#{$prefix}ie8 {
@@ -174,11 +179,12 @@
     @if not $supports-gradients or $compile-all {
         .#{$prefix}nlg {
             .#{$prefix}menu-item-active .#{$prefix}menu-item-link {
-                background: $menu-item-active-background-color theme-image($theme-name, $menu-item-active-background-image) repeat-x left top;
+                background: $menu-item-active-background-color repeat-x left top;
+                background-image: theme-background-image($theme-name, $menu-item-active-background-image);
             }
         }
     }
-    
+
     .#{$prefix}menu-date-item {
         border-color: #99BBE8;
     }

@@ -133,8 +133,6 @@
         
         @if $width-top > 0 {
             $shadow-top: $color-top 0 $width-top $blur 0 inset;
-        } @else {
-        	$shadow-top: 0;
         }
         @if $width-right > 0 {
             $shadow-right: $color-right (-1 * $width-right) 0 $blur 0 inset;

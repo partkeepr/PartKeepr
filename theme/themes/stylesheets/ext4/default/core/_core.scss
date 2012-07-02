@@ -4,17 +4,32 @@
     font-family: $font-family;
 }
 
+.#{$prefix}rtl {
+    direction: rtl;
+}
+
+.#{$prefix}ltr {
+    direction: ltr;
+}
+
 .#{$prefix}clear {
     overflow: hidden;
     clear: both;
-    height: 0;
-    width: 0;
     font-size: 0;
     line-height: 0;
+    display: table;
+}
+
+.#{$prefix}strict .#{$prefix}ie7 .#{$prefix}clear {
+    // In IE7 strict the clear element has to have both a height and width of 0, otherwise the height of its parent element gets
+    // increased by 1px.  We cannot simply add the zero height/width for all browsers, because in IE quirks the height
+    // of the clear element's parent element gets increased by 1px if the clear element has either height:0 or width:0.
+    height: 0;
+    width: 0;
 }
 
 .#{$prefix}layer {
-    position: absolute;
+    position: absolute !important;
     overflow: hidden;
     zoom: 1;
 }
@@ -35,8 +50,11 @@
     visibility:hidden !important;
 }
 
-.#{$prefix}item-disabled {
-    @include opacity(0.4);
+.#{$prefix}item-disabled .#{$prefix}form-item-label,
+.#{$prefix}item-disabled .#{$prefix}form-field,
+.#{$prefix}item-disabled .#{$prefix}form-cb-label,
+.#{$prefix}item-disabled .#{$prefix}form-trigger {
+    @include opacity(0.3);
 }
 
 .#{$prefix}ie6 .#{$prefix}item-disabled {
@@ -45,7 +63,10 @@
 
 .#{$prefix}hidden,
 .#{$prefix}hide-offsets {
+    // to deal with inline elements that can't be position:absolute
     display: block !important;
+    // ensure the browser disallows tabbing into this element
+    visibility: hidden !important;
     position: absolute!important;
     left: -10000px!important;
     top: -10000px!important;
@@ -67,12 +88,13 @@
     }
 }
 
-// Styles for the three schemes for showing shadows under an element: CSS3, IE blur transform, or 9 point framing with images.
+// Element shadows for browsers that support CSS3 box-shadow
 .#{$prefix}css-shadow {
     position: absolute;
     @include border-radius($window-border-radius);
 }
 
+// Element shadows for IE 8 and below
 .#{$prefix}ie-shadow {
     background-color:#777;
     display: none;
@@ -81,237 +103,154 @@
     zoom: 1;
 }
 
-.#{$prefix}frame-shadow {
-    display: none;
-    position: absolute;
-    overflow: hidden;
-}
-
-.#{$prefix}frame-shadow * {
-    overflow: hidden;
-}
-
-.#{$prefix}frame-shadow * {
-    padding: 0;
-    border: 0;
-    margin: 0;
-    clear: none;
-    zoom: 1;
-}
-
-/* top  bottom */
-.#{$prefix}frame-shadow .xstc,
-.#{$prefix}frame-shadow .xsbc {
-    height: 6px;
-    float: left;
-}
-
-.#{$prefix}frame-shadow .xsc {
-    width: 100%;
-}
-
-.#{$prefix}frame-shadow .xsml {
-    background: transparent repeat-y 0 0;
-}
-
-.#{$prefix}frame-shadow .xsmr {
-    background: transparent repeat-y -6px 0;
-}
-
-.#{$prefix}frame-shadow .xstl {
-    background: transparent no-repeat 0 0;
-}
-
-.#{$prefix}frame-shadow .xstc {
-    background: transparent repeat-x 0 -30px;
-}
-
-.#{$prefix}frame-shadow .xstr {
-    background: transparent repeat-x 0 -18px;
-}
-
-.#{$prefix}frame-shadow .xsbl {
-    background: transparent no-repeat 0 -12px;
-}
-
-.#{$prefix}frame-shadow .xsbc {
-    background: transparent repeat-x 0 -36px;
-}
-
-.#{$prefix}frame-shadow .xsbr {
-    background: transparent repeat-x 0 -6px;
-}
-.#{$prefix}frame-shadow .xstl,
-.#{$prefix}frame-shadow .xstc,
-.#{$prefix}frame-shadow .xstr,
-.#{$prefix}frame-shadow .xsbl,
-.#{$prefix}frame-shadow .xsbc,
-.#{$prefix}frame-shadow .xsbr {
-    width: 6px;
-    height: 6px;
-    float: left;
-
-    @if $include-shadow-images {
-        @include theme-background-image($theme-name, 'shared/shadow.png');
-    }
-}
-
-.#{$prefix}frame-shadow .xsml,
-.#{$prefix}frame-shadow .xsmr {
-    width: 6px;
-    float: left;
-    height: 100%;
-
-    @if $include-shadow-images {
-        @include theme-background-image($theme-name, 'shared/shadow-lr.png');
-    }
-}
-
-.#{$prefix}frame-shadow .xsmc {
-    float: left;
-    height: 100%;
-
-    @if $include-shadow-images {
-        @include theme-background-image($theme-name, 'shared/shadow-c.png');
-    }
-}
-
-.#{$prefix}frame-shadow .xst,
-.#{$prefix}frame-shadow .xsb {
-    height: 6px;
-    overflow: hidden;
-    width: 100%;
-}
-
 //box wrap - Ext.get("foo").boxWrap();
-.x-box-tl {
+.#{$prefix}box-tl {
     background: transparent no-repeat 0 0;
     zoom:1;
 }
 
-.x-box-tc {
+.#{$prefix}box-tc {
     height: 8px;
     background: transparent repeat-x 0 0;
     overflow: hidden;
 }
 
-.x-box-tr {
+.#{$prefix}box-tr {
     background: transparent no-repeat right -8px;
 }
 
-.x-box-ml {
+.#{$prefix}box-ml {
     background: transparent repeat-y 0;
     padding-left: 4px;
     overflow: hidden;
     zoom:1;
 }
 
-.x-box-mc {
+.#{$prefix}box-mc {
     background: repeat-x 0 -16px;
     padding: 4px 10px;
 }
 
-.x-box-mc h3 {
+.#{$prefix}box-mc h3 {
     margin: 0 0 4px 0;
     zoom:1;
 }
 
-.x-box-mr {
+.#{$prefix}box-mr {
     background: transparent repeat-y right;
     padding-right: 4px;
     overflow: hidden;
 }
 
-.x-box-bl {
+.#{$prefix}box-bl {
     background: transparent no-repeat 0 -16px;
     zoom:1;
 }
 
-.x-box-bc {
+.#{$prefix}box-bc {
     background: transparent repeat-x 0 -8px;
     height: 8px;
     overflow: hidden;
 }
 
-.x-box-br {
+.#{$prefix}box-br {
     background: transparent no-repeat right -24px;
 }
 
-.x-box-tl, .x-box-bl {
+.#{$prefix}box-tl, .#{$prefix}box-bl {
     padding-left: 8px;
     overflow: hidden;
 }
 
-.x-box-tr, .x-box-br {
+.#{$prefix}box-tr, .#{$prefix}box-br {
     padding-right: 8px;
     overflow: hidden;
 }
 
-.x-box-tl {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+.#{$prefix}box-tl {
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
-.x-box-tc {
-    @include theme-background-image($theme-name, 'box/tb.gif');
+.#{$prefix}box-tc {
+    background-image: theme-background-image($theme-name, 'box/tb.gif');
 }
 
-.x-box-tr {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+.#{$prefix}box-tr {
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
-.x-box-ml {
-    @include theme-background-image($theme-name, 'box/l.gif');
+.#{$prefix}box-ml {
+    background-image: theme-background-image($theme-name, 'box/l.gif');
 }
 
-.x-box-mc {
+.#{$prefix}box-mc {
     background-color: #eee;
-    @include theme-background-image($theme-name, 'box/tb.gif');
+    background-image: theme-background-image($theme-name, 'box/tb.gif');
     font-family: "Myriad Pro","Myriad Web","Tahoma","Helvetica","Arial",sans-serif;
     color: #393939;
     font-size: 15px;
 }
 
-.x-box-mc h3 {
+.#{$prefix}box-mc h3 {
     font-size: 18px;
     font-weight: bold;
 }
 
-.x-box-mr {
-    @include theme-background-image($theme-name, 'box/r.gif');
+.#{$prefix}box-mr {
+    background-image: theme-background-image($theme-name, 'box/r.gif');
 }
 
-.x-box-bl {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+.#{$prefix}box-bl {
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
-.x-box-bc {
-    @include theme-background-image($theme-name, 'box/tb.gif');
+.#{$prefix}box-bc {
+    background-image: theme-background-image($theme-name, 'box/tb.gif');
 }
 
-.x-box-br {
-    @include theme-background-image($theme-name, 'box/corners.gif');
+.#{$prefix}box-br {
+    background-image: theme-background-image($theme-name, 'box/corners.gif');
 }
 
-.x-box-blue .x-box-bl, .x-box-blue .x-box-br, .x-box-blue .x-box-tl, .x-box-blue .x-box-tr {
-    @include theme-background-image($theme-name, 'box/corners-blue.gif');
+.#{$prefix}box-blue .#{$prefix}box-bl, .#{$prefix}box-blue .#{$prefix}box-br, .#{$prefix}box-blue .#{$prefix}box-tl, .#{$prefix}box-blue .#{$prefix}box-tr {
+    background-image: theme-background-image($theme-name, 'box/corners-blue.gif');
 }
 
-.x-box-blue .x-box-bc, .x-box-blue .x-box-mc, .x-box-blue .x-box-tc {
-    @include theme-background-image($theme-name, 'box/tb-blue.gif');
+.#{$prefix}box-blue .#{$prefix}box-bc, .#{$prefix}box-blue .#{$prefix}box-mc, .#{$prefix}box-blue .#{$prefix}box-tc {
+    background-image: theme-background-image($theme-name, 'box/tb-blue.gif');
 }
 
-.x-box-blue .x-box-mc {
+.#{$prefix}box-blue .#{$prefix}box-mc {
     background-color: #c3daf9;
 }
 
-.x-box-blue .x-box-mc h3 {
+.#{$prefix}box-blue .#{$prefix}box-mc h3 {
     color: #17385b;
 }
 
-.x-box-blue .x-box-ml {
-    @include theme-background-image($theme-name, 'box/l-blue.gif');
+.#{$prefix}box-blue .#{$prefix}box-ml {
+    background-image: theme-background-image($theme-name, 'box/l-blue.gif');
 }
 
-.x-box-blue .x-box-mr {
-    @include theme-background-image($theme-name, 'box/r-blue.gif');
+.#{$prefix}box-blue .#{$prefix}box-mr {
+    background-image: theme-background-image($theme-name, 'box/r-blue.gif');
+}
+
+.#{$prefix}container {
+    // zoom:1 prevents margins of child elements from collapsing in old IE, this is needed to prevent
+    // the top margin of the first child element from collapsing.
+    zoom: 1;
+    // In modern browsers, we can use a pseudo :before element to prevent the top margin of the first child element from collapsing
+    &:before {
+        content: "";
+        clear: both;
+        display: table;
+    }
+}
+// when the container class is used on a table, tbody, or tr (form layout),
+// inserting content using the :before selector can cause problems
+table.#{$prefix}container:before,
+tbody.#{$prefix}container:before,
+tr.#{$prefix}container:before {
+    display: none;
 }
