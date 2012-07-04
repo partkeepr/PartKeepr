@@ -385,11 +385,34 @@ Ext.define('PartKeepr.PartEditor', {
 	_onItemSaved: function () {
 		this.fireEvent("partSaved", this.record);
 		
-		if (this.keepOpenCheckbox.getValue() !== true) {
+		if (this.keepOpenCheckbox.getValue() !== true && this.createCopyCheckbox.getValue() !== true) {
 			this.fireEvent("editorClose", this);
 		} else {
-			var newItem = Ext.create("PartKeepr.Part", this.partDefaults);
-			this.editItem(newItem);
+			var newItem;
+			if (this.partMode == "create") {
+				if (this.copyPartDataCheckbox.getValue() === true) {
+					data = this.record.getData(true);
+					data.id = null;
+					newItem = Ext.create("PartKeepr.Part");
+					newItem.setDataWithAssociations(data);
+
+					this.editItem(newItem);
+				} else {
+					newItem = Ext.create("PartKeepr.Part", this.partDefaults);
+					this.editItem(newItem);
+				}
+			} else {
+				var data = this.record.getData(true);
+				data.id = null;
+				newItem = Ext.create("PartKeepr.Part");
+				newItem.setDataWithAssociations(data);
+
+				this.editItem(newItem);
+			}
+			
+			
+			
+			
 		}
 	},
 	bindChildStores: function () {

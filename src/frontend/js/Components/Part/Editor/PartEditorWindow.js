@@ -79,16 +79,43 @@ Ext.define('PartKeepr.PartEditorWindow', {
 			boxLabel: i18n("Create blank item after save")
 		});
 		
+		this.createCopyCheckbox = Ext.create("Ext.form.field.Checkbox", {
+			boxLabel: i18n("Create Copy after save")
+		});
+		
+		this.copyPartDataCheckbox = Ext.create("Ext.form.field.Checkbox", {
+			boxLabel: i18n("Takeover all data"),
+			disabled: true
+		});
+		
 		if (this.partMode == "create") {
 			this.bottomToolbar.add(this.keepOpenCheckbox);
+			this.bottomToolbar.add(this.copyPartDataCheckbox);
+		} else {
+			this.bottomToolbar.add(this.createCopyCheckbox);
 		}
 		
+		this.keepOpenCheckbox.on("change", this.onKeepOpenCheckboxClick, this);
+		
 		this.editor.keepOpenCheckbox = this.keepOpenCheckbox;
+		this.editor.copyPartDataCheckbox = this.copyPartDataCheckbox;
+		this.editor.createCopyCheckbox = this.createCopyCheckbox;
 		
 		this.callParent();
 	},
 	onCancelEdit: function () {
 		this.editor.onCancelEdit();
+	},
+	/**
+	 * Listens to the keepOpenCheckbox clicks and enables/disables the copyPartDataCheckbox
+	 * @param value
+	 */
+	onKeepOpenCheckboxClick: function (field, value) {
+		if (value) {
+			this.copyPartDataCheckbox.enable();
+		} else {
+			this.copyPartDataCheckbox.disable();
+		}
 	},
 	/**
 	 * Called when the save button was clicked
