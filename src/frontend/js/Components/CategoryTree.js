@@ -65,7 +65,10 @@ Ext.define("PartKeepr.CategoryTree", {
 	},
 	buildCategoryTree : function(root, data, expandedNodes) {
 		var label;
-		if ((data.id > 1) && (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === true)) {
+		if (data.id > 1 &&
+			data.description &&
+			PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === true)
+		{
 			label = data.name + " - " + data.description;
 		} else {
 			label = data.name;
