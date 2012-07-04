@@ -62,6 +62,15 @@ if (!class_exists("\\Imagick")) {
 }
 
 /*
+ * Check for the gd extension.
+*/
+if (!function_exists("imagecreate")) {
+	$errorMessage = "You are missing the GD library for PHP. Please install and activate it.";
+	echo json_encode(array("error" => true, "message" => $errorMessage));
+	exit;
+}
+
+/*
  * Check if the timezone settings are valid.
  */
 if (!isTimezoneSetAndValid()) {
