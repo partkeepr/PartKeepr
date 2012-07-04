@@ -4,6 +4,7 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
     displayField: 'name',
     valueField: 'id',
     queryMode: 'local',
+    forceSelection: true,
     triggerAction: 'all',
     
     trigger2Cls: Ext.baseCSSPrefix + 'form-reload-trigger',
