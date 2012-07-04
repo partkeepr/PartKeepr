@@ -208,8 +208,13 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 	 * @return string The extension
 	 */
 	public function getExtension () {
-		list($category, $type) = explode("/", $this->getMimeType());
-		return $type;
+		$data = explode("/", $this->getMimeType());
+		
+		if (array_key_exists(1, $data)) {
+			return $data[1];
+		} else {
+			return "undefined";
+		}
 	}
 	
 	/**
