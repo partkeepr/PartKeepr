@@ -95,6 +95,13 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	        buttonText: this.uploadButtonText
     	    });
     	
+    	this.uploadSizeButton = Ext.create("Ext.button.Button", {
+			xtype: 'button',
+			icon: 'resources/fugue-icons/icons/information-frame.png',
+			handler: this.showUploadSizeInformation,
+			scope: this
+		});
+    	
     	this.form = Ext.create('Ext.form.Panel', {
     	    width: 400,
     	    bodyPadding: 10,
@@ -106,12 +113,23 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	    },
     	    this.fileField,
     	    {
-    	    	html: sprintf(i18n("Maximum upload size: %s"), PartKeepr.bytesToSize(PartKeepr.getMaxUploadSize())),
-    	    	style: 'margin-bottom: 10px;',
-    	    	border: false
+    	    	border: false,
+    	    	style: 'margin-bottom: 20px;margin-left: 55px;',
+    	    	layout: {
+    	    		type: 'hbox',
+    	    		pack: 'start',
+    	    		align: 'middle'
+    	    	},
+    	    	items: [
+						{
+							html: sprintf(i18n("Maximum upload size: %s"), PartKeepr.bytesToSize(PartKeepr.getMaxUploadSize())),
+							style: 'margin-right: 10px;',
+							border: false
+						},
+						this.uploadSizeButton
+    	    	        ]
     	    },
     	    this.urlField],
-
     	    buttons: this.tbButtons
     	});
     	
@@ -121,11 +139,33 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	this.callParent();
     },
     /**
+     * Displays a little hint regarding the maximum upload size
+     */
+    showUploadSizeInformation: function () {
+    	if (!this.uploadSizeTip) {
+    		this.uploadSizeTip = Ext.create("Ext.tip.ToolTip", {
+        		title: i18n("Upload Size Information"),
+        		anchor: 'left',
+        		width: 350,
+        		height: 132,
+        		autoScroll: true,
+        		target: this.uploadSizeButton.getEl(),
+        		closable: true,
+        		html: i18n("The maximum upload size can be configured in your php.ini file. There are two separate options:<br/>- post_max_size<br/>- upload_max_filesize<br/><br/>You need to set both values high enough.")+
+        			  '<br/><br/><a target="_blank" href="http://de2.php.net/manual/en/ini.core.php#ini.post-max-size">'+i18n("More Information")+'</a>',
+        		autoHide: false
+        	});	
+    	}
+    	
+    	
+    	this.uploadSizeTip.show();
+    },
+    /**
      * Shows a tooltip for all available image formats.
      */
     showAvailableFormats: function () {
-    	if (!this.tip) {
-    		this.tip = Ext.create("Ext.tip.ToolTip", {
+    	if (!this.imageFormatsTip) {
+    		this.imageFormatsTip = Ext.create("Ext.tip.ToolTip", {
         		title: i18n("Available Image Formats"),
         		anchor: 'left',
         		width: 200,
@@ -139,11 +179,15 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	}
     	
     	
-    	this.tip.show();
+    	this.imageFormatsTip.show();
     },
     onBeforeDestroy: function () {
-    	if (this.tip) {
-    		this.tip.destroy();	
+    	if (this.imageFormatsTip) {
+    		this.imageFormatsTip.destroy();	
+    	}
+    	
+    	if (this.uploadSizeTip) {
+    		this.uploadSizeTip.destroy();
     	}
     }
 });
