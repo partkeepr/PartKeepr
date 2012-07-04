@@ -8,7 +8,8 @@ include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 
-ServiceManager::sendHeaders();
+ServiceManager::getInstance()->initialize();
+ServiceManager::getInstance()->sendHeaders();
 
 $timingStart = microtime(true);
 
@@ -52,7 +53,7 @@ try {
 	$response = array();
 	$response["status"] = "ok";
 	$response["success"] = true;
-	$response["response"] = ServiceManager::call();
+	$response["response"] = ServiceManager::getInstance()->call();
 	$response["timing"] = microtime(true) - $timingStart;
 	
 	echo json_encode($response);

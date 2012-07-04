@@ -8,7 +8,8 @@ include("../src/backend/PartKeepr/PartKeepr.php");
 
 PartKeepr::initialize("");
 
-ServiceManager::sendHeaders();
+ServiceManager::getInstance()->initialize();
+ServiceManager::getInstance()->sendHeaders();
 
 $timingStart = microtime(true);
 
@@ -24,7 +25,7 @@ try {
 	
 	$response = array();
 	$response["status"] = "ok";
-	$response["response"] = ServiceManager::call($request);
+	$response["response"] = ServiceManager::getInstance()->call($request);
 	$response["timing"] = microtime(true) - $timingStart;
 	
 } catch (PartKeepr\Util\SerializableException $e) {
