@@ -138,7 +138,6 @@ Ext.define("PartKeepr.FootprintTree", {
 					iconCls:'icon-footprint'
 			};
 			
-			console.log(record.getRecordName());
 			var newNode = Ext.create("PartKeepr.Footprint", nodeData);
 			
 			if (record.get("category") === 0) {
