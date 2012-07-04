@@ -146,7 +146,7 @@ Ext.define('PartKeepr.EditorGrid', {
 		this.callParent();
 		
 		if (this.automaticPageSize) {
-			this.on("afterlayout", this.reassignPageSize, this);
+			this.on("resize", this.reassignPageSize, this);
 		}
 	},
 	/**
