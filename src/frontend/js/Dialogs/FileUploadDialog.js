@@ -25,8 +25,6 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	        	handler: Ext.bind(function() {
     	        		var form = this.form.getForm();
     	        		
-    	        		var values = form.getValues();
-    	        		
     	        		if (this.fileField.getValue() === "" && this.urlField.getValue() === "") {
     	        			Ext.Msg.alert(i18n("Error"), i18n("Please select a file to upload or enter an URL"));
     	        			return;
@@ -45,7 +43,6 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	                    	this.close();
     	                    },this),
     	                    failure: function(form, action) {
-    	                    	
     	                    	 var data = Ext.decode(action.response.responseText);
     	                         
     	                         request = {

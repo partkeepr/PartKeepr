@@ -10,12 +10,28 @@ class TempFileService extends Service {
 	public function upload () {
 		$tmpFile = new TempUploadedFile();
 		
-		if (array_key_exists("userfile", $_FILES) && file_exists($_FILES["userfile"]["tmp_name"])) {
-			$file = $_FILES['userfile']['tmp_name'];
-			$filename = $_FILES['userfile']['name'];
+		if (array_key_exists("userfile", $_FILES))
+		{
+			switch ($_FILES["userfile"]["error"]) {
+				case 1:
+				case 2:
+					throw new \Exception("Uploaded file is too big");
+					break;
+				case 3:
+					throw new \Exception("File was only partially uploaded. Report this as a bug.");
+					break;
+				default:
+					if (file_exists($_FILES["userfile"]["tmp_name"])) {
+						$file = $_FILES['userfile']['tmp_name'];
+						$filename = $_FILES['userfile']['name'];
+					
+						$tmpFile->replace($file);
+						$tmpFile->setOriginalFilename(basename($filename));
+					} else {
+						throw new \Exception("Unknown error occured while uploading the file");
+					}
+			}
 			
-			$tmpFile->replace($file);
-			$tmpFile->setOriginalFilename(basename($filename));
 		} elseif (array_key_exists("url", $_REQUEST)) {
 			$tmpFile->replaceFromURL($_REQUEST["url"]);
 		} else {

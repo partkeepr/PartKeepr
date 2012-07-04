@@ -139,7 +139,11 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 		$data = curl_exec($curl);
 		
 		if ($data === false) {
-			throw new \Exception("replaceFromURL error: ".curl_error($curl));
+			$curlError = curl_error($curl);
+			// Strip ANY tags from the error message. curl tends to spit out <url> is not valid, which then
+			// confuses the error message parser on the client side.
+			$curlError = str_replace(array(">", "<"), "", $curlError);
+			throw new \Exception("replaceFromURL error: ".$curlError);
 		}
 		
 		curl_close($curl);
