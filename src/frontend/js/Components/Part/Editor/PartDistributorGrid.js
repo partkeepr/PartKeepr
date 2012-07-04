@@ -95,7 +95,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 									this);
 		this.on("edit", this.onEdit, this);
 	},
-	onEdit : function(data) {
+	onEdit : function(editor, data) {
 		var id = data.record.get("distributor_id");
 
 		var rec = PartKeepr.getApplication().getDistributorStore().findRecord("id", id);

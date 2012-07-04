@@ -132,11 +132,11 @@ Ext.define('PartKeepr.PartParameterGrid', {
         this.deleteButton.setDisabled(selections.length === 0);
     },
     onBeforeEdit: function (editor, e, o) {
-    	var header = this.headerCt.getHeaderAtIndex(editor.colIdx);
+    	var header = this.headerCt.getHeaderAtIndex(e.colIdx);
     	var edit = this.editing.getEditor(editor.record, header);
     	
-    	if (editor.field == "prefixedValue") {
-    		var unit = PartKeepr.getApplication().getUnitStore().getById(editor.record.get("unit_id"));
+    	if (e.field == "prefixedValue") {
+    		var unit = PartKeepr.getApplication().getUnitStore().getById(e.record.get("unit_id"));
     		if (unit) {
     			edit.field.setStore(unit.prefixes());
     		}

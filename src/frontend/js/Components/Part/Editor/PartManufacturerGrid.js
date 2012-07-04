@@ -67,7 +67,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
 		this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
 		this.on("edit", this.onEdit, this);
 	},
-	onEdit: function (data) {
+	onEdit: function (editor, data) {
 		var id = data.record.get("manufacturer_id");
 		
 		var rec = PartKeepr.getApplication().getManufacturerStore().findRecord("id", id);
