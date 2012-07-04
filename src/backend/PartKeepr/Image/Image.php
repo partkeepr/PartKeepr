@@ -154,7 +154,7 @@ abstract class Image extends UploadedFile implements RenderableImage {
 	 * @return string The path to the scaled file
 	 */
 	public function fitWithinPadding ($w, $h) {
-		return $this->fitWithin($w, $h);
+		return $this->fitWithin($w, $h, true);
 	}
 	
 	/**
