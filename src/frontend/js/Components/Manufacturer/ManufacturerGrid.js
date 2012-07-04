@@ -7,5 +7,6 @@ Ext.define('PartKeepr.ManufacturerGrid', {
 	addButtonText: i18n("Add Manufacturer"),
 	addButtonIcon: 'resources/silkicons/building_add.png',
     deleteButtonText: i18n("Delete Manufacturer"),
-    deleteButtonIcon: 'resources/silkicons/building_delete.png'
+    deleteButtonIcon: 'resources/silkicons/building_delete.png',
+    automaticPageSize: true
 });

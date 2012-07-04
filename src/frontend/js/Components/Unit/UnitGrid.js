@@ -9,6 +9,7 @@ Ext.define('PartKeepr.UnitGrid', {
 	addButtonIcon: 'resources/icons/unit_add.png',
     deleteButtonText: i18n("Delete Unit"),
     deleteButtonIcon: 'resources/icons/unit_delete.png',
+    automaticPageSize: true,
     initComponent: function () {
     	this.callParent();
     }

@@ -10,6 +10,7 @@ Ext.define('PartKeepr.PartUnitGrid', {
     deleteButtonText: i18n("Delete Part Measurement Unit"),
     deleteButtonIcon: "resources/fugue-icons/icons/ruler--minus.png",
     defaultButtonIcon: "resources/fugue-icons/icons/ruler--pencil.png",
+    automaticPageSize: true,
     initComponent: function () {
     	this.callParent();
     	

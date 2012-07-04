@@ -10,5 +10,6 @@ Ext.define('PartKeepr.ProjectGrid', {
 	addButtonText: i18n("Add Project"),
 	addButtonIcon: 'resources/fugue-icons/icons/drill--plus.png',
     deleteButtonText: i18n("Delete Project"),
-    deleteButtonIcon: 'resources/fugue-icons/icons/drill--minus.png'
+    deleteButtonIcon: 'resources/fugue-icons/icons/drill--minus.png',
+    automaticPageSize: true
 });
