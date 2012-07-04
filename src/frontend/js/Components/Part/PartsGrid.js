@@ -85,15 +85,35 @@ Ext.define('PartKeepr.PartsGrid', {
 			}
 		});
 		
-
-		this.addFromTemplateButton = Ext.create("Ext.button.Button", {
+		var duplicateBasicData = i18n("Duplicates the selected part with the data found in the \"basic\" tab and opens the editor. Doesn't immediately saves the duplicate, in order to allow editing.");
+		var duplicateAllData = i18n("Duplicates the selected part with all data including attachments, distributors etc. Doesn't immediately saves the duplicate, in order to allow editing.");
+		
+		this.addFromTemplateButton = Ext.create("Ext.button.Split", {
 			disabled: true,
 			handler: Ext.bind(function () {
-        		this.fireEvent("itemCreateFromTemplate");
+        		this.fireEvent("duplicateItemWithBasicData");
         	}, this),
-			tooltip: i18n("Add a new part, using the selected part as template"),
-			text: i18n("Create from Template"),
-			icon: 'resources/silkicons/brick_link.png'
+			tooltip: duplicateBasicData,
+			text: i18n("Duplicate"),
+			icon: 'resources/silkicons/brick_link.png',
+			menu: new Ext.menu.Menu({
+				items: [{
+					text: i18n("Duplicate with all data"),
+					tooltip: duplicateAllData,
+					handler: function () {
+						this.fireEvent("duplicateItemWithAllData");
+					},
+					scope: this
+				},{
+					text: i18n("Duplicate basic data only"),
+					tooltip: duplicateBasicData,
+					handler: function () {
+						this.fireEvent("duplicateItemWithBasicData");
+					},
+					scope: this
+				}
+				        ]
+			})
 		});
 		
 		this.topToolbar.insert(2, this.addFromTemplateButton);

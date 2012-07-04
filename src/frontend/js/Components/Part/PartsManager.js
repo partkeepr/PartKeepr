@@ -58,7 +58,8 @@ Ext.define('PartKeepr.PartManager', {
 		this.grid.on("itemDeselect", this.onItemSelect, this);
 		this.grid.on("itemAdd", this.onItemAdd, this);
 		this.grid.on("itemDelete", this.onItemDelete, this);
-		this.grid.on("itemCreateFromTemplate", this.onItemCreateFromTemplate, this);
+		this.grid.on("duplicateItemWithBasicData", this.onDuplicateItemWithBasicData, this);
+		this.grid.on("duplicateItemWithAllData", this.onDuplicateItemWithAllData, this);
 		this.tree.on("syncCategory", this.onSyncCategory, this);
 		
 		// Listen on the partChanged event, which is fired when the users edits the part
@@ -129,16 +130,28 @@ Ext.define('PartKeepr.PartManager', {
 		Ext.Msg.confirm(i18n("Delete Part"), sprintf(i18n("Do you really wish to delete the part %s?"),r.get("name")), this.deletePart, this);
 	},
 	/**
-	 * Creates a duplicate from the selected item. Loads the selected part and calls createPartDuplicate
+	 * Creates a duplicate with the basic data only from the selected item. Loads the selected part and calls
+	 * createPartDuplicate after the part was loaded.
+	 * 
+	 * @param none
+	 * @return nothing
+	 */
+	onDuplicateItemWithBasicData: function () {
+		var r = this.grid.getSelectionModel().getLastSelected();
+		
+		this.loadPart(r.get("id"), Ext.bind(this.createPartDuplicate, this));
+	},
+	/**
+	 * Creates a full duplicate from the selected item. Loads the selected part and calls createPartDuplicate
 	 * after the part was loaded.
 	 * 
 	 * @param none
 	 * @return nothing
 	 */
-	onItemCreateFromTemplate: function () {
+	onDuplicateItemWithAllData: function () {
 		var r = this.grid.getSelectionModel().getLastSelected();
 		
-		this.loadPart(r.get("id"), Ext.bind(this.createPartDuplicate, this));
+		this.loadPart(r.get("id"), Ext.bind(this.createFullPartDuplicate, this));
 	},
 	/**
 	 * Creates a part duplicate from the given record and opens the editor window.
@@ -155,6 +168,24 @@ Ext.define('PartKeepr.PartManager', {
 		
 		j.editor.on("partSaved", this.onPartSaved, this);
 		j.editor.editItem(copy);
+		j.show();
+	},
+	/**
+	 * Creates a part duplicate from the given record and opens the editor window.
+	 * @param rec The record to duplicate
+	 */
+	createFullPartDuplicate: function (rec) {
+		var data = rec.getData(true);
+		data.id = null;
+		newItem = Ext.create("PartKeepr.Part");
+		newItem.setDataWithAssociations(data);
+
+		var j = Ext.create("PartKeepr.PartEditorWindow", {
+			partMode: 'create'
+		});
+		
+		j.editor.on("partSaved", this.onPartSaved, this);
+		j.editor.editItem(newItem);
 		j.show();
 	},
 	/**
