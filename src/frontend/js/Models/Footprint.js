@@ -3,6 +3,7 @@ Ext.define("PartKeepr.Footprint", {
 	fields: [
 	         {	id: 'id', name: 'id',	type: 'int' 	},
 	         {	name: 'name',			type: 'string'	},
+	         {	name: 'text',			type: 'string'	},
 	         {	name: 'description',	type: 'string'	},
 		     // image_id needs to be a string because we need to be able to push TMP:<id> back
 	         {	name: 'image_id',		type: 'string'	},

@@ -3,6 +3,7 @@ Ext.define("PartKeepr.FootprintCategory", {
 	fields: [
 	         {	name: 'id',	type: 'int' },
 	         {	name: 'name',	type: 'string' },
+	         {	name: 'text',	type: 'string' },
 	         {  name: 'description', type: 'string' },
 	         {  name: 'parent', type: 'int' }
 	         ],
