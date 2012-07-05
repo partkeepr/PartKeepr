@@ -128,6 +128,20 @@ class PartService extends Service implements RestfulService {
 				// Do nothing for now
 			}
 		}
+		
+		if ($this->getParameter("withoutStockRemovals", false) === true || $this->getParameter("withoutStockRemovals", false) === "true") {
+			$q = PartKeepr::getEM()->createQueryBuilder();
+			$q->select("p.id")->from("PartKeepr\Part\Part", "p")->leftJoin("p.stockLevels", "sl")->where("sl.stockLevel < 0");
+			$query = $q->getQuery();
+			
+			$result = $query->getResult();
+			$filter = array();
+			foreach ($result as $res) {
+				$filter[] = $res["id"];
+			}
+			
+			$queryBuilder->andWhere("q.id NOT IN (".implode(",", $filter).")");
+		}
 	}
 	
 	/**

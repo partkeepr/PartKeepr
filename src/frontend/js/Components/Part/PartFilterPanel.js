@@ -23,7 +23,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
             	        this.storageLocationFilter,
             	        this.categoryFilter,
             	        this.partsWithoutPrice,
-            	        this.createDateFilter
+            	        this.createDateFilter,
+            	        this.partsWithoutStockRemovals
             	        ]
 		};
 		
@@ -87,6 +88,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.categoryFilter.setValue({ category: 'all'});
 		this.stockFilter.setValue({ stock: 'any'});
 		this.distributorOrderNumberFilter.setValue("");
+		
+		this.createDateFilterSelect.setValue("");
+		this.createDateField.setValue("");
+		this.partsWithoutStockRemovals.setValue(false);
+		this.partsWithoutPrice.setValue(false);
 		
 		this.onApply();
 	},
@@ -187,6 +193,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
 				items: [ this.createDateFilterSelect, this.createDateField ]
 		};
 		
+		this.partsWithoutStockRemovals = Ext.create("Ext.form.field.Checkbox", {
+			fieldLabel: i18n("Stock Settings"),
+			boxLabel: i18n("Show Parts without stock removals only")
+		});
+		
 	},
 	/**
 	 * Applies the filter parameters to the passed extraParams object.
@@ -209,7 +220,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		
 		extraParams.createDateRestriction = this.createDateFilterSelect.getValue();
 		extraParams.createDate = Ext.util.Format.date(this.createDateField.getValue(), "Y-m-d H:i:s");
-		
+		extraParams.withoutStockRemovals =  this.partsWithoutStockRemovals.getValue();
 		
 	}
 	
