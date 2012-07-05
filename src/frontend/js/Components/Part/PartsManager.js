@@ -32,6 +32,8 @@ Ext.define('PartKeepr.PartManager', {
 			categoryModel: 'PartKeepr.PartCategory',
 			categoryService: 'PartCategory',
 			split: true,
+			floatable: false,
+			titleCollapse: true,
 			title: i18n("Categories"),
 			ddGroup: 'CategoryTree',
 			width: 300,			// @todo Make this configurable
