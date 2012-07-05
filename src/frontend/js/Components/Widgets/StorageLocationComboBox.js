@@ -27,7 +27,7 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
 		this.callParent();
     },
     setValue: function (val) {
-    	if (val == 0) {
+    	if (val === 0) {
     		return;
     	}
     	this.callParent(arguments);
