@@ -3,6 +3,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
 	alias: 'widget.PartFilterPanel',
 	bodyPadding: '10px',
 	layout: 'column',
+	autoScroll: true,
+	animCollapse: false,
+	panelCollapseAnimate: false,
 	bodyStyle: 'background:#DBDBDB;',
 	initComponent: function () {
 		
@@ -19,7 +22,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
             	items: [
             	        this.storageLocationFilter,
             	        this.categoryFilter,
-            	        this.partsWithoutPrice
+            	        this.partsWithoutPrice,
+            	        this.createDateFilter
             	        ]
 		};
 		
@@ -94,6 +98,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		// Create the storage location filter field
 		this.storageLocationFilter = Ext.create("PartKeepr.StorageLocationComboBox", {
 			fieldLabel: i18n("Storage Location"),
+			anchor: '-10',
 			forceSelection: true
 		});
 		
@@ -146,6 +151,42 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.distributorOrderNumberFilter = Ext.create("Ext.form.field.Text", {
 			fieldLabel: i18n("Order Number")
 		});
+		
+		this.createDateField = Ext.create("Ext.form.field.Date", {
+			flex: 1
+		});
+		
+		var filter = Ext.create('Ext.data.Store', {
+		    fields: ['type', 'name'],
+		    data : [
+		        {"type":"<", "name":"before"},
+		        {"type":">", "name":"after"},
+		        {"type":"=", "name":"on"},
+		        {"type":"", "name": "- none -"}
+		    ]
+		});
+		
+		this.createDateFilterSelect = Ext.create('Ext.form.ComboBox', {
+		    store: filter,
+		    queryMode: 'local',
+		    forceSelection: true,
+		    editable: false,
+		    width: 60,
+		    value: '',
+		    triggerAction: 'all',
+		    displayField: 'name',
+		    valueField: 'type'
+		});
+		
+		this.createDateFilter = {
+				xtype: 'fieldcontainer',
+				anchor: '-10',
+				fieldLabel: i18n("Create date"),
+				layout: 'hbox',
+				border: false,
+				items: [ this.createDateFilterSelect, this.createDateField ]
+		};
+		
 	},
 	/**
 	 * Applies the filter parameters to the passed extraParams object.
@@ -165,6 +206,10 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		} else {
 			delete extraParams.storageLocation;
 		}
+		
+		extraParams.createDateRestriction = this.createDateFilterSelect.getValue();
+		extraParams.createDate = Ext.util.Format.date(this.createDateField.getValue(), "Y-m-d H:i:s");
+		
 		
 	}
 	

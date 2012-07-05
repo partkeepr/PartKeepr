@@ -101,6 +101,33 @@ class PartService extends Service implements RestfulService {
 		if ($this->getParameter("withoutPrice") === true || $this->getParameter("withoutPrice") === "true") {
 			$queryBuilder->andWhere("q.averagePrice IS NULL");
 		}
+		
+		if ($this->getParameter("createDateRestriction") !== "") {
+			try {
+				$dateTime = new \DateTime($this->getParameter("createDate"));
+				$date = $dateTime->format("Y-m-d");
+				
+				switch ($this->getParameter("createDateRestriction")) {
+					case ">":
+						$queryBuilder->andWhere("q.createDate > :createDate");
+						$queryBuilder->setParameter("createDate", $date);
+						break;
+					case "<":
+						$queryBuilder->andWhere("q.createDate < :createDate");
+						$queryBuilder->setParameter("createDate", $date);
+						break;
+					case "=":
+						$queryBuilder->andWhere("q.createDate > :createDate AND q.createDate < :createDate2");
+						$queryBuilder->setParameter("createDate", $date. " 00:00:00");
+						$queryBuilder->setParameter("createDate2", $date. " 23:59:59");
+						break;
+					default:
+						break;
+				}
+			} catch (\Exception $e) {
+				// Do nothing for now
+			}
+		}
 	}
 	
 	/**
