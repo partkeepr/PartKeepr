@@ -124,7 +124,7 @@ Ext.define('PartKeepr.PartManager', {
 		
 		var htmlNode = new Ext.Element(this.tree.getView().getNode(node));
 		
-		htmlNode.highlight("2aaad3");
+		htmlNode.first().highlight("2aaad3");
 	},
 	/**
      * Called when the delete button was clicked.
