@@ -73,6 +73,8 @@ Ext.define('PartKeepr.PartManager', {
 			collapsed: true,
 			collapsible: true,
 			region: 'east',
+			floatable: false,
+			titleCollapse: true,
 			split: true,
 			width: 300,
 			animCollapse: false,
@@ -80,9 +82,12 @@ Ext.define('PartKeepr.PartManager', {
 		});
 		
 		this.filterPanel = Ext.create("PartKeepr.PartFilterPanel", {
-			region: 'south',
 			title: i18n("Filter"),
-			height: 200,
+			region: 'south',
+			height: 225,
+			animCollapse: false,
+			floatable: false,
+			titleCollapse: true,
 			split: true,
 			collapsed: true,
 			collapsible: true,
