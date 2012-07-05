@@ -4,7 +4,6 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
     displayField: 'name',
     valueField: 'id',
     queryMode: 'local',
-    forceSelection: true,
     triggerAction: 'all',
     
     trigger2Cls: Ext.baseCSSPrefix + 'form-reload-trigger',
@@ -26,6 +25,12 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
 			});
 		
 		this.callParent();
+    },
+    setValue: function (val) {
+    	if (val == 0) {
+    		return;
+    	}
+    	this.callParent(arguments);
     }
 });
 
