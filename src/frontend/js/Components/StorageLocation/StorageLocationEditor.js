@@ -56,6 +56,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 			items: [{
 			        	xtype: 'textfield',
 			        	name: 'name',
+			        	anchor: '100%',
 			        	labelWidth: 110,
 			        	fieldLabel: i18n("Storage Location")
 					},
