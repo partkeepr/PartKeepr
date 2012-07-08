@@ -37,12 +37,6 @@ Ext.define('PartKeepr.LoginDialog', {
         });
 		
 		Ext.apply(this, {
-			// Login when "enter" was hit
-			keys: [{
-				key: Ext.EventObject.ENTER,
-				handler: this.login,
-				scope: this
-			}],
 			items: [
 			        	this.loginField,
 			        	this.passwordField
@@ -69,9 +63,17 @@ Ext.define('PartKeepr.LoginDialog', {
 		
 		this.callParent(arguments);
 
+		this.on("render", this.assignEnterKey, this);
 		// Focus the login field on show
 		// @workaround Set the focus 100ms after the dialog has been shown.
 		this.on("show", function () { this.loginField.focus(); }, this, { delay: 100 });
+	},
+	/**
+	 * Assigns the enter key to the login window.
+	 */
+	assignEnterKey: function () {
+		var keyMap = this.getKeyMap();
+    	keyMap.on(Ext.EventObject.ENTER, this.login, this);
 	},
 	/**
 	 * Fires the "login" event
