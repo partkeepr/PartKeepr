@@ -13,7 +13,7 @@ Ext.define('PartKeepr.RememberChoiceMessageBox', {
     		boxLabel: i18n("Don't ask again")
     	});
     	
-    	this.topContainer.add(this.rememberChoiceCheckbox);
+    	this.promptContainer.add(this.rememberChoiceCheckbox);
     },
     onEsc: function() {
     	
