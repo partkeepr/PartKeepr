@@ -138,10 +138,14 @@ Ext.define('PartKeepr.ExceptionWindow', {
      * @see showException
      * 
      * @param exception The exception data
-     * @param requestData The request data
+     * @param requestData The request data. May be empty.
      */
     _showException: function (exception, requestData) {
     	var separator = "==================================";
+		
+		if (!requestData) {
+			requestData = {};
+		}
     	
     	this.setIcon(Ext.MessageBox.ERROR);
     	
