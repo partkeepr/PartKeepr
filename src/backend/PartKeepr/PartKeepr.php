@@ -136,6 +136,7 @@ class PartKeepr {
 		$versions = json_decode($data, true);
 		
 		if (PartKeeprVersion::PARTKEEPR_VERSION == "{V_GIT}") { return; }
+		if (substr(PartKeeprVersion::PARTKEEPR_VERSION,0,17) == "partkeepr-nightly") { return; }
 		
 		if (version_compare(PartKeepr::getVersion(), $versions[0]["version"], '<')) {
 			
