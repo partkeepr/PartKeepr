@@ -201,8 +201,6 @@ class PartKeepr {
 				break;
 		}
 		
-		echo get_class($cache);
-		
 		$config->setMetadataCacheImpl($cache);
 
 		$config->setQueryCacheImpl($cache);
