@@ -4,7 +4,9 @@
  * Calls a specific PHP file on the server via AJAX and interprets the response.
  */
 Ext.define('PartKeeprSetup.AbstractTest', {
-	extend: 'Ext.util.Observable',
+	mixins: {
+        observable: 'Ext.util.Observable'
+    },
 	
 	/**
 	 * Defines the URL to call
@@ -46,10 +48,10 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 	/**
 	 * Constructs the test
 	 */
-	constructor: function () {
-		this.addEvents({
-            "complete" : true
-        });
+	constructor: function (config) {
+		this.mixins.observable.constructor.call(this, config);
+		
+		this.addEvents("complete");
 	},
 	/**
 	 * Runs a given test, and processes the response
