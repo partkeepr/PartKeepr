@@ -6,35 +6,63 @@ Ext.define('PartKeepr.PartsGrid', {
 	extend: 'PartKeepr.EditorGrid',
 	alias: 'widget.PartsGrid',
 	
-	// We want to display the texts for the add/delete buttons
+	/**
+     * Display button texts by default
+     */
 	buttonTextMode: 'show',
 	
+	/**
+     * @cfg {String} Defines the text of the "Add" button
+     */
 	addButtonText: i18n("Add Part"),
+	
+	/**
+     * @cfg {String} Defines the icon of the "Add" button
+     */
 	addButtonIcon: 'resources/silkicons/brick_add.png',
-    deleteButtonText: i18n("Delete Part"),
-    deleteButtonIcon: 'resources/silkicons/brick_delete.png',
+	
+	/**
+     * @cfg {String} Defines the text of the "Delete" button
+     */
+	deleteButtonText: i18n("Delete Part"),
+	
+	/**
+     * @cfg {String} Defines the icon of the "Add" button
+     */
+	deleteButtonIcon: 'resources/silkicons/brick_delete.png',
     
-    expandRowButtonIcon: 'resources/icons/group-expand.png',
-    collapseRowButtonIcon: 'resources/icons/group-collapse.png',
+	/**
+     * @cfg {String} Defines the icon of the "Expand Row" button
+     */
+	expandRowButtonIcon: 'resources/icons/group-expand.png',
+	
+	/**
+     * @cfg {String} Defines the icon of the "Collapse Row" button
+     */
+	collapseRowButtonIcon: 'resources/icons/group-collapse.png',
     
+	/**
+	 * Configure drag'n'drop.
+	 * @todo Check if this messes up with the Part Dropdown in the project view
+	 */
 	viewConfig: {
-        plugins: {
-            ddGroup: 'CategoryTree',
-            ptype: 'gridviewdragdrop',
-            enableDrop: false
-        }
-    },
-    enableDragDrop   : true,
-    stripeRows       : true,
-    multiSelect		 : true,
-    autoScroll: false,
-    invalidateScrollerOnRefresh: true,
+		plugins: {
+			ddGroup: 'CategoryTree',
+			ptype: 'gridviewdragdrop',
+			enableDrop: false
+		}
+	},
+	enableDragDrop	: true,
+	stripeRows		: true,
+	multiSelect		: true,
+	autoScroll		: false,
+	invalidateScrollerOnRefresh: true,
 	initComponent: function () {
 		
 		this.groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
 			//enableGroupingMenu: false,
-	        groupHeaderTpl: '{name} ({rows.length} ' + i18n("Part(s)")+")"
-	    });
+			groupHeaderTpl: '{name} ({rows.length} ' + i18n("Part(s)")+")"
+		});
 
 		// Create the columns
 		this.defineColumns();
@@ -49,17 +77,21 @@ Ext.define('PartKeepr.PartsGrid', {
 		// Bugfix for scroller becoming detached.
 		// @todo Remove with ExtJS 4.1
 		this.on('scrollershow', function(scroller) {
-			  if (scroller && scroller.scrollEl) {
-			    scroller.clearManagedListeners(); 
-			    scroller.mon(scroller.scrollEl, 'scroll', scroller.onElScroll, scroller); 
-			  }
+			if (scroller && scroller.scrollEl) {
+				scroller.clearManagedListeners(); 
+				scroller.mon(scroller.scrollEl, 'scroll', scroller.onElScroll, scroller); 
+			}
+		});
+		
+		if (this.enableEditing) {
+			this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+				clicksToEdit: 1
 			});
-		
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-            clicksToEdit: 1
-        });
-		
-		this.editing.on("edit", this.onEdit, this);
+
+			this.editing.on("edit", this.onEdit, this);
+			
+			this.plugins = [ this.editing ];
+		}
 		
 		// Initialize the panel
 		this.callParent();
@@ -91,8 +123,8 @@ Ext.define('PartKeepr.PartsGrid', {
 		this.addFromTemplateButton = Ext.create("Ext.button.Split", {
 			disabled: true,
 			handler: Ext.bind(function () {
-        		this.fireEvent("duplicateItemWithBasicData");
-        	}, this),
+				this.fireEvent("duplicateItemWithBasicData");
+			}, this),
 			tooltip: duplicateBasicData,
 			text: i18n("Duplicate"),
 			icon: 'resources/silkicons/brick_link.png',
@@ -112,11 +144,14 @@ Ext.define('PartKeepr.PartsGrid', {
 					},
 					scope: this
 				}
-				        ]
+				]
 			})
 		});
 		
-		this.topToolbar.insert(2, this.addFromTemplateButton);
+		if (this.editingEnabled) {
+			this.topToolbar.insert(2, this.addFromTemplateButton);
+		}
+		
 		
 		this.mapSearchHotkey();
 	},
@@ -182,65 +217,65 @@ Ext.define('PartKeepr.PartsGrid', {
 	 */
 	defineColumns: function () {
 		this.columns = [
-		          {
-		        	  header: "",
-		        	  dataIndex: "",
-		        	  width: 30,
-		        	  renderer: this.iconRenderer
-		          },
-		          {
-		        	  header: i18n("Name"),
-		        	  dataIndex: 'name',
-		        	  flex: 1,
-		        	  minWidth: 150,
-		        	  renderer: Ext.util.Format.htmlEncode
-		          },{
-					  header: i18n("Description"),
-					  dataIndex: 'description',
-					  flex: 2,
-					  minWidth: 150,
-					  renderer: Ext.util.Format.htmlEncode
-		          },{
-		        	  header: i18n("Storage Location"),
-		        	  dataIndex: 'storageLocationName',
-		        	  renderer: Ext.util.Format.htmlEncode
-		          },{
-		        	  header: i18n("Status"),
-		        	  dataIndex: "status",
-		        	  renderer: Ext.util.Format.htmlEncode
-		          },{
-		        	  header: i18n("Stock"),
-		        	  dataIndex: 'stockLevel',
-		        	  editor: {
-	                      xtype:'numberfield',
-	                      allowBlank:false
-	                  },
-		        	  renderer: this.stockLevelRenderer
-		          },{
-		        	  header: i18n("Min. Stock"),
-		        	  dataIndex: 'minStockLevel',
-		        	  renderer: this.stockLevelRenderer
-		          },{
-		        	  header: i18n("Avg. Price"),
-		        	  dataIndex: 'averagePrice',
-		        	  align: 'right',
-		        	  renderer: this.averagePriceRenderer
-		          },{
-		        	  header: i18n("Footprint"),
-		        	  dataIndex: 'footprintName',
-		        	  renderer: Ext.util.Format.htmlEncode
-		          },{
-		        	  header: i18n("Category"),
-		        	  dataIndex: 'categoryPath',
-		        	  renderer: Ext.util.Format.htmlEncode,
-		        	  hidden: true
-		          },{
-		        	  header: i18n("Create Date"),
-		        	  dataIndex: 'createDate',
-		        	  hidden: true
-		          }
+		{
+			header: "",
+			dataIndex: "",
+			width: 30,
+			renderer: this.iconRenderer
+		},
+		{
+			header: i18n("Name"),
+			dataIndex: 'name',
+			flex: 1,
+			minWidth: 150,
+			renderer: Ext.util.Format.htmlEncode
+		},{
+			header: i18n("Description"),
+			dataIndex: 'description',
+			flex: 2,
+			minWidth: 150,
+			renderer: Ext.util.Format.htmlEncode
+		},{
+			header: i18n("Storage Location"),
+			dataIndex: 'storageLocationName',
+			renderer: Ext.util.Format.htmlEncode
+		},{
+			header: i18n("Status"),
+			dataIndex: "status",
+			renderer: Ext.util.Format.htmlEncode
+		},{
+			header: i18n("Stock"),
+			dataIndex: 'stockLevel',
+			editor: {
+				xtype:'numberfield',
+				allowBlank:false
+			},
+			renderer: this.stockLevelRenderer
+		},{
+			header: i18n("Min. Stock"),
+			dataIndex: 'minStockLevel',
+			renderer: this.stockLevelRenderer
+		},{
+			header: i18n("Avg. Price"),
+			dataIndex: 'averagePrice',
+			align: 'right',
+			renderer: this.averagePriceRenderer
+		},{
+			header: i18n("Footprint"),
+			dataIndex: 'footprintName',
+			renderer: Ext.util.Format.htmlEncode
+		},{
+			header: i18n("Category"),
+			dataIndex: 'categoryPath',
+			renderer: Ext.util.Format.htmlEncode,
+			hidden: true
+		},{
+			header: i18n("Create Date"),
+			dataIndex: 'createDate',
+			hidden: true
+		}
 		          
-		          ];
+		];
 	},
 	/**
 	 * Used as renderer for the stock level columns.
@@ -279,7 +314,9 @@ Ext.define('PartKeepr.PartsGrid', {
 		proxy.extraParams.category = category;
 		
 		this.store.currentPage = 1;
-		this.store.load({ start: 0});
+		this.store.load({
+			start: 0
+		});
 	},
 	/**
 	 * Handles editing of the grid fields. Right now, only the stock level editing is supported.
@@ -289,8 +326,11 @@ Ext.define('PartKeepr.PartsGrid', {
 	 */
 	onEdit: function (editor, e) {
 		switch (e.field) {
-			case "stockLevel": this.handleStockFieldEdit(e); break;
-			default: break;
+			case "stockLevel":
+				this.handleStockFieldEdit(e);
+				break;
+			default:
+				break;
 		}
 	},
 	/**
@@ -319,15 +359,15 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		if (e.value < 0) {
 			confirmText = sprintf(	i18n("You wish to remove <b>%s %s</b> of the part <b>%s</b>. Is this correct?"),
-									abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
+				abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
 			
 			// Set the stock level to a temporary calculated value. 
 			e.record.set("stockLevel", (e.originalValue - abs(e.value)));
 			headerText = i18n("Remove Part(s)");
 		} else {
 			confirmText = sprintf(
-							i18n("You wish to set the stock level to <b>%s %s</b> of part <b>%s</b>. Is this correct?"),
-							abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
+				i18n("You wish to set the stock level to <b>%s %s</b> of part <b>%s</b>. Is this correct?"),
+				abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
 			
 			headerText = i18n("Set Stock Level for Part(s)");
 		}
@@ -339,14 +379,14 @@ Ext.define('PartKeepr.PartsGrid', {
 		});
 		
 		j.show({
-                title : headerText,
-                msg : confirmText,
-                buttons: Ext.Msg.OKCANCEL,
-                fn: this.afterConfirmStockChange,
-                scope : this,
-                originalOnEdit: e,
-                dialog: j
-            });
+			title : headerText,
+			msg : confirmText,
+			buttons: Ext.Msg.OKCANCEL,
+			fn: this.afterConfirmStockChange,
+			scope : this,
+			originalOnEdit: e,
+			dialog: j
+		});
 	},
 	/**
 	 * Callback for the stock removal confirm window. 
@@ -391,12 +431,12 @@ Ext.define('PartKeepr.PartsGrid', {
 		}
 		
 		var call = new PartKeepr.ServiceCall(
-    			"Part", 
-    			mode);
+			"Part", 
+			mode);
 		call.setParameter("stock", quantity);
 		call.setParameter("part", e.record.get("id"));
-    	call.setHandler(Ext.bind(this.reloadPart, this, [ e ]));
-    	call.doCall();
+		call.setHandler(Ext.bind(this.reloadPart, this, [ e ]));
+		call.doCall();
 	},
 	/**
 	 * Reloads the current part
@@ -410,7 +450,7 @@ Ext.define('PartKeepr.PartsGrid', {
 	loadPart: function (id, opts) {
 		PartKeepr.Part.load(id, {
 			scope: this,
-		    success: this.onPartLoaded
+			success: this.onPartLoaded
 		});
 	},
 	/**

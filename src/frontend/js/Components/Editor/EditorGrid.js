@@ -51,6 +51,11 @@ Ext.define('PartKeepr.EditorGrid', {
 	 */
 	automaticPageSizeRowHeight: 21,
 	
+	/**
+	 * @cfg {Boolean} boolean Defines if the list should be read-only, or if the list can be edited. Defaults to true.
+	 */
+	enableEditing: true,
+	
 	initComponent: function () {
 		
 		this.addEvents(
@@ -116,14 +121,20 @@ Ext.define('PartKeepr.EditorGrid', {
 				store: this.store
 			});
 		
+		var topToolbarItems = [];
+		
+		if (this.enableEditing) {
+			topToolbarItems.push(this.addButton);
+			topToolbarItems.push(this.deleteButton);
+		}
+		
+		topToolbarItems.push({ xtype: 'tbfill' });
+		topToolbarItems.push(this.searchField);
+		
 		this.topToolbar = Ext.create("Ext.toolbar.Toolbar",{
 			dock: 'top',
 			enableOverflow: true,
-			items: [
-			        this.addButton,
-			        this.deleteButton,
-			        { xtype: 'tbfill' },
-			        this.searchField]
+			items: topToolbarItems
 		});
 		
 		this.bottomToolbar = Ext.create("Ext.toolbar.Paging", {
@@ -141,7 +152,11 @@ Ext.define('PartKeepr.EditorGrid', {
 			this.dockedItems.push(this.topToolbar);	
 		}
 		
-		this.plugins = [ 'gridmenu' ];
+		if (!this.plugins instanceof Array) {
+			this.plugins = [];
+		}
+		
+		this.plugins.push('gridmenu');
 		
 		this.callParent();
 		
