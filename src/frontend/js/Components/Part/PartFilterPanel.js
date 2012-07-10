@@ -1,23 +1,47 @@
+/**
+ * Defines the part filter panel.
+ * 
+ * 
+ */
 Ext.define('PartKeepr.PartFilterPanel', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.PartFilterPanel',
+	
+	/**
+	 * Define a padding of 10px
+	 */
 	bodyPadding: '10px',
+	
+	/**
+	 * The items are aligned in a wrappable column layout
+	 */
 	layout: 'column',
+	
+	/**
+	 * Automatically scroll the container if the items exceed the container size.
+	 */
 	autoScroll: true,
-	animCollapse: false,
-	panelCollapseAnimate: false,
+	
+	/**
+	 * Fixed body background color style
+	 */
 	bodyStyle: 'background:#DBDBDB;',
+	
+	/**
+	 * Initializes the component
+	 */
 	initComponent: function () {
 		
 		// Create the filter fields
 		this.createFilterFields();
 		
-
 		// Creates the left column of the filter panel
 		this.leftColumn = {
 				xtype: 'container',
             	anchor: '100%',
             	layout: 'anchor',
+				minWidth: 340,
+				style: 'margin-right: 10px',
             	columnWidth: 0.5,
             	items: [
             	        this.storageLocationFilter,
@@ -32,6 +56,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.rightColumn = {
 				xtype: 'container',
             	anchor: '100%',
+				minWidth: 340,
             	columnWidth: 0.5,
             	layout: 'anchor',
             	items: [
@@ -73,8 +98,15 @@ Ext.define('PartKeepr.PartFilterPanel', {
 	/**
 	 * Applies the parameters from the filter panel to the proxy, then
 	 * reload the store to refresh the grid.
+	 * 
+	 * @param none
+	 * @return nothing
 	 */
 	onApply: function () {
+		if (!this.store) {
+			PartKeepr.getApplication().raiseRuntimeError("PartFilterPanel.store is not set");
+			return;
+		}
 		this.applyFilterParameters(this.store.getProxy().extraParams);
 		this.store.currentPage = 1;
 		this.store.load({ start: 0});
@@ -104,7 +136,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		// Create the storage location filter field
 		this.storageLocationFilter = Ext.create("PartKeepr.StorageLocationComboBox", {
 			fieldLabel: i18n("Storage Location"),
-			anchor: '-10',
+			minWidth: 300,
+			anchor: '100%',
 			forceSelection: true
 		});
 		
@@ -186,7 +219,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		
 		this.createDateFilter = {
 				xtype: 'fieldcontainer',
-				anchor: '-10',
+				anchor: '100%',
 				fieldLabel: i18n("Create date"),
 				layout: 'hbox',
 				border: false,
