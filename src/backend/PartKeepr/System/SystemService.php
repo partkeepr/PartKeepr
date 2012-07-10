@@ -32,7 +32,13 @@ class SystemService extends Service {
 		$aData[] = new SystemInformationRecord("upload_max_filesize", ini_get("upload_max_filesize"), "PHP");
 		$aData[] = new SystemInformationRecord("allow_url_fopen", ini_get("allow_url_fopen"), "PHP");
 		$aData[] = new SystemInformationRecord("max_execution_time", ini_get("max_execution_time"), "PHP");
-		$aData[] = new SystemInformationRecord("APC enabled", (extension_loaded("apc") ? PartKeepr::i18n("Yes") : PartKeepr::i18n("No")), "PHP");
+
+		$queryCache = get_class(PartKeepr::getEM()->getConfiguration()->getQueryCacheImpl());
+		$metadataCache = get_class(PartKeepr::getEM()->getConfiguration()->getMetadataCacheImpl());
+		
+		$aData[] = new SystemInformationRecord("Query Cache Implementation", $queryCache, "PHP");
+		$aData[] = new SystemInformationRecord("Metadata Cache Implementation", $metadataCache, "PHP");
+		
 		
 		$aData[] = new SystemInformationRecord("PartKeepr Version", PartKeepr::getVersion(), "PartKeepr");
 		
