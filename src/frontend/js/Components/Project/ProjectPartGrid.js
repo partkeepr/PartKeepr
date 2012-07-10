@@ -20,13 +20,18 @@ Ext.define('PartKeepr.ProjectPartGrid', {
 			xtype: 'RemotePartComboBox'
 		},
 		renderer: function (val,p,rec) {
-			return rec.get("part_name");
+			return Ext.util.Format.htmlEncode(rec.get("part_name"));
 		}
 	},{
 		header: i18n("Remarks"), dataIndex: 'remarks',
 		flex: 1,
 		editor: {
-			xtype: 'textfield'
+			xtype: 'textfield',
+			listeners: {
+				focus: function () {
+					console.log("TEXTFIELDFOCUS");
+				}
+			}
 		}
 	}],
 	
@@ -36,7 +41,19 @@ Ext.define('PartKeepr.ProjectPartGrid', {
 	initComponent: function () {
 		
 		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-	        clicksToEdit: 1
+	        clicksToEdit: 1,
+			listeners: {
+				beforeedit: function (editor, e, eOpts) {
+					if (e.field == "part_id") {
+						e.value = e.record.get("part_name");
+						var header = this.headerCt.getHeaderAtIndex(e.colIdx);
+						var edit = this.editing.getEditor(editor.record, header);
+					
+						edit.field.setDisplayValue(e.record.get("part_name"));
+					}
+				},
+				scope: this
+			}
 	    });
 		
 		this.plugins = [ this.editing ];
