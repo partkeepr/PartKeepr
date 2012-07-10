@@ -166,11 +166,42 @@ class PartKeepr {
 		
 		$connectionOptions = PartKeepr::createConnectionOptionsFromConfig();
 		
-		if (extension_loaded("apc")) {
-			$cache = new \Doctrine\Common\Cache\ApcCache();
-		} else {
-			$cache = new \Doctrine\Common\Cache\ArrayCache();
+		switch (strtolower(PartKeeprConfiguration::getOption("partkeepr.cache.implementation", "default"))) {
+			case "apc":
+				$cache = new \Doctrine\Common\Cache\ApcCache();
+				break;
+			case "xcache":
+				if (php_sapi_name() !== "cli") {
+					$cache = new \Doctrine\Common\Cache\XcacheCache();
+				} else {
+					// For CLI SAPIs, revert to the ArrayCache as Xcache spits out strange warnings when running in CLI.
+					$cache = new \Doctrine\Common\Cache\ArrayCache(); 
+				}
+				
+				break;
+			case "memcache":
+				$memcache = new \Memcache();
+				$memcache->connect(	PartKeeprConfiguration::getOption("partkeepr.cache.memcache.host", "localhost"),
+									PartKeeprConfiguration::getOption("partkeepr.cache.memcache.port", "11211"));
+				$cache = new \Doctrine\Common\Cache\MemcacheCache();
+				$cache->setMemcache($memcache);
+				break;
+			case "default":
+			case "auto":
+				if (extension_loaded("xcache")) {
+					$cache = new \Doctrine\Common\Cache\XcacheCache();
+				} else if (extension_loaded("apc")) {
+					$cache = new \Doctrine\Common\Cache\ApcCache();
+				} else {
+					$cache = new \Doctrine\Common\Cache\ArrayCache();
+				}
+				break;
+			case "none":
+				$cache = new \Doctrine\Common\Cache\ArrayCache();
+				break;
 		}
+		
+		echo get_class($cache);
 		
 		$config->setMetadataCacheImpl($cache);
 

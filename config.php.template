@@ -161,3 +161,25 @@ Configuration::setOption("partkeepr.logger.enable", false);
  * You need to make sure that the path to the file exists and that the file is writable.
  */
 Configuration::setOption("partkeepr.logger.outputfile", "/tmp/partkeepr.log");
+
+/**
+ * Specifies the cache implementation. You can choose from one of these:
+ * 
+ * - none
+ * - APC
+ * - MemCache
+ * - XCache
+ * 
+ * Please note that you need additional options for memcache.
+ */
+Configuration::setOption("partkeepr.cache.implementation", "APC");
+
+/**
+ * Specifies the memcache hostname. Defaults to localhost
+ */
+Configuration::setOption("partkeepr.cache.memcache.host", "localhost");
+
+/**
+ * Specifies the memcache port. Defaults to 11211
+ */
+Configuration::setOption("partkeepr.cache.memcache.port", "11211");
