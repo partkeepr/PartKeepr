@@ -12,4 +12,5 @@ config.php
 partkeepr.jsb3
 theme/sass/.sass-cache/
 /reports
-/nbproject/private/
+/nbproject/
+.idea
