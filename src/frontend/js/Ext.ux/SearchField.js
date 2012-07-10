@@ -14,11 +14,19 @@ Ext.define('Ext.ux.form.SearchField', {
         this.callParent(arguments);
         this.on('specialkey', function(f, e){
             if(e.getKey() == e.ENTER){
-                this.onTrigger2Click();
+                this.startSearch();
             }
         }, this);
     },
-    
+    setValue: function (value) {
+		this.callParent(arguments);
+		
+		/*if (value.length < 1) {
+			this.resetSearch();
+		} else {
+			this.startSearch();
+		}*/
+	},
     afterRender: function(){
         this.callParent();
         this.triggerEl.item(0).setDisplayed('none');
@@ -26,7 +34,15 @@ Ext.define('Ext.ux.form.SearchField', {
     },
     
     onTrigger1Click : function(){
-        var me = this,
+        this.resetSearch();
+    },
+
+    onTrigger2Click : function(){
+       this.startSearch();
+    },
+	
+	resetSearch: function () {
+		var me = this,
             store = me.store,
             proxy = store.getProxy(),
             val;
@@ -41,16 +57,15 @@ Ext.define('Ext.ux.form.SearchField', {
             me.triggerEl.item(0).setDisplayed('none');
             me.doComponentLayout();
         }
-    },
-
-    onTrigger2Click : function(){
-        var me = this,
+	},
+	startSearch: function () {
+		 var me = this,
             store = me.store,
             proxy = store.getProxy(),
             value = me.getValue();
             
         if (value.length < 1) {
-            me.onTrigger1Click();
+            me.resetSearch();
             return;
         }
         proxy.extraParams[me.paramName] = value;
@@ -60,5 +75,5 @@ Ext.define('Ext.ux.form.SearchField', {
         me.hasSearch = true;
         me.triggerEl.item(0).setDisplayed('block');
         me.doComponentLayout();
-    }
+	}
 });
