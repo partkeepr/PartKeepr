@@ -100,39 +100,76 @@ class PartManager extends AbstractManager {
 	 */
 	protected function getResult (Query $query) {
 		$result = parent::getResult($query);
-
-		/* Add attachment counts to the result set and re-format the date */
+		
+		$partIds = array();
 		foreach ($result as $key => $item) {
-			$dql = "SELECT COUNT(pa) FROM PartKeepr\Part\PartAttachment pa WHERE pa.part = :part";
-			$query = PartKeepr::getEM()->createQuery($dql);
-			$query->setParameter("part", $item["id"]);
-			
-			$result[$key]["attachmentCount"] = $query->getSingleScalarResult();
-			
-			$result[$key]["createDate"] = $result[$key]["createDate"]->format("Y-m-d H:i:s");
+			$partIds[] = $item["id"];
 		}
+
+		$attachmentCounts = $this->getAttachmentCounts($partIds);;
+		$projects = $this->getProjects($partIds);
 		
 		foreach ($result as $key => $item) {
-			$dql = "SELECT pr.name FROM PartKeepr\Project\Project pr JOIN pr.parts ppart WHERE ppart.part = :part";
-			
-			$query = PartKeepr::getEM()->createQuery($dql);
-			$query->setParameter("part", $item["id"]);
-				
-			$projectNames = array();
-			foreach ($query->getArrayResult() as $project) {
-				$projectNames[] = $project["name"];
+			if (array_key_exists($item["id"], $attachmentCounts)) {
+				$result[$key]["attachmentCount"] = $attachmentCounts[$item["id"]];
+			} else {
+				$result[$key]["attachmentCount"] = 0;
 			}
 			
-			$result[$key]["projects"] = implode(", ", $projectNames);
+			if (array_key_exists($item["id"], $projects)) {
+				$result[$key]["projects"] = implode(", ", $projects[$item["id"]]);
+			}
 			
-		}
-		
-		foreach ($result as $key => $item) {
+			$result[$key]["createDate"] = $result[$key]["createDate"]->format("Y-m-d H:i:s");
+			
 			$part = Part::loadById($item["id"]);
 			$result[$key]["attachments"] = $part->serializeChildren($part->getAttachments()); 
 		}
-		
+
 		return $result;
+	}
+	
+	/**
+	 * Returns a list of projects for a list of part ids.
+	 * 
+	 * @param $partIds Array an array of part ids to get the project names for
+	 * @return Array an array where the key is the part id and the value is an array of project names
+	 */
+	private function getProjects (array $partIds) {
+		$dql2 = "SELECT pr.name, part.id FROM PartKeepr\Project\Project pr JOIN pr.parts ppart JOIN ppart.part part WHERE ppart.part IN (:partids)";
+		$projectQuery = PartKeepr::getEM()->createQuery($dql2);
+		$projectQuery->setParameter("partids", $partIds);
+
+		$projects = array();
+		
+		foreach ($projectQuery->getResult() as $projectResult) {
+			if (!array_key_exists($projectResult["id"], $projects)) {
+				$projects[$projectResult["id"]] = array();
+			}
+			$projects[$projectResult["id"]][] = $projectResult["name"];
+		}
+		
+		return $projects;
+	}
+	
+	/**
+	 * Returns a list of attachment counts for a list of part ids.
+	 * 
+	 * @param $partIds Array an array of part ids to get the attachment counts for
+	 * @return Array an array where the key is the part id and the value is the attachment count
+	 */
+	private function getAttachmentCounts (array $partIds) {
+		$dql = "SELECT p.id, COUNT(pa) AS cnt FROM PartKeepr\Part\PartAttachment pa JOIN pa.part p WHERE pa.part IN (:partids) GROUP BY pa.part";
+		$partAttachmentQuery = PartKeepr::getEM()->createQuery($dql);
+		$partAttachmentQuery->setParameter("partids", $partIds);
+		
+		$attachmentCounts = array();
+		
+		foreach ($partAttachmentQuery->getResult() as $attachmentResult) {
+			$attachmentCounts[$attachmentResult["id"]] = intval($attachmentResult["cnt"]);
+		}
+		
+		return $attachmentCounts;
 	}
 	
 	public function addOrUpdatePart ($aParameters) {
