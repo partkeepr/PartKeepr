@@ -7,6 +7,40 @@
 	padding: 3px;
 }
 
+.x-trigger-cell:last-child .x-form-trigger {
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1px solid #B5B8C8;
+	border-left-width: 0;
+}
+
+.x-form-spinner-up {
+	border-top-right-radius: 5px;
+	border-right: 1px solid #B5B8C8 !important;
+	border-bottom: 0 !important;
+	border-top: 1px solid #B5B8C8 !important;
+}
+
+.x-form-spinner-down {
+	border-bottom-right-radius: 5px;
+	border-bottom-width: 1px !important;
+	border-top: 0 !important;
+	border-right: 1px solid #B5B8C8 !important;
+	border-bottom: 1px solid #B5B8C8 !important;
+	
+}
+.x-form-trigger {
+	background-color: white;
+	border: 1px solid #B5B8C8;
+	border-left-width: 0;
+	border-right-width: 0;
+}
+
+.x-form-trigger-input-cell .x-form-field {
+	border-right-width: 0;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
 .manufacturer-ic-logos .thumb-wrap{
 	display: inline-block;
 	margin: 4px;

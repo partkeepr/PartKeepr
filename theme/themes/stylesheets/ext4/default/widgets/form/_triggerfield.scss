@@ -5,25 +5,19 @@
 @mixin extjs-form-triggerfield {
     .#{$prefix}form-trigger-wrap {
         vertical-align: top;
-        float: left;
     }
 
     .#{$prefix}form-trigger {
-        background-image: theme-background-image($theme-name, 'form/trigger.png');
+        background-image: theme-background-image($theme-name, 'form/trigger.png'), -moz-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/trigger.png'), -webkit-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/trigger.png'), -o-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/trigger.png'), -ms-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/trigger.png'), linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
 		background-position: 0 0;
 
 		width: $form-trigger-width;
 		height: $form-trigger-height;
-		float: left;
-		position: relative;
 		
-		// foo
-		//border-bottom: 1px solid $form-field-border-color;
-    	//border-top: 1px solid $form-field-border-color;
-
-    	//top: -1px;
-		//background-color: white;
-		//left: -5px;
 		border: 0;
 
         cursor: pointer;
@@ -100,7 +94,11 @@
     }
 
     .#{$prefix}form-date-trigger {
-        background-image: theme-background-image($theme-name, 'form/date-trigger.png');
+        background-image: theme-background-image($theme-name, 'form/date-trigger.png'), -moz-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/date-trigger.png'), -webkit-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/date-trigger.png'), -o-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/date-trigger.png'), -ms-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/date-trigger.png'), linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
     }
 
     $spinner-btn-height: $form-trigger-height / 2;
@@ -113,8 +111,6 @@
             height: $spinner-btn-height !important;
 
             font-size: 0; /*for IE*/
-
-            border-bottom: 0;
         }
         .#{$prefix}form-spinner-down {
             background-position: 0 (-$spinner-btn-height);
@@ -174,14 +170,26 @@
 
 
     .#{$prefix}form-clear-trigger {
-        background-image: theme-background-image($theme-name, 'form/clear-trigger.png');
+        background-image: theme-background-image($theme-name, 'form/clear-trigger.png'), -moz-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/clear-trigger.png'), -webkit-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/clear-trigger.png'), -o-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/clear-trigger.png'), -ms-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/clear-trigger.png'), linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
     }
     .#{$prefix}form-search-trigger {
-        background-image: theme-background-image($theme-name, 'form/search-trigger.png');
+        background-image: theme-background-image($theme-name, 'form/search-trigger.png'), -moz-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/search-trigger.png'), -webkit-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/search-trigger.png'), -o-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/search-trigger.png'), -ms-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/search-trigger.png'), linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
     }
 
 	.#{$prefix}form-reload-trigger {
-        background-image: theme-image($theme-name, 'form/reload-trigger.png');
+        background-image: theme-background-image($theme-name, 'form/reload-trigger.png'), -moz-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/reload-trigger.png'), -webkit-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/reload-trigger.png'), -o-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/reload-trigger.png'), -ms-linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
+		background-image: theme-background-image($theme-name, 'form/reload-trigger.png'), linear-gradient(top, #dee3e6 0%,#fcfcfd 12%,#ffffff 100%);
     }
     
     @if $include-ie {
