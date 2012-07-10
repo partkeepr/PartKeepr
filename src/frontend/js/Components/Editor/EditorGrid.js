@@ -152,7 +152,7 @@ Ext.define('PartKeepr.EditorGrid', {
 			this.dockedItems.push(this.topToolbar);	
 		}
 		
-		if (!this.plugins instanceof Array) {
+		if (!Ext.isArray(this.plugins)) {
 			this.plugins = [];
 		}
 		
