@@ -177,6 +177,19 @@ Ext.application({
     	this.centerPanel.removeAll(true);
     	this.getSessionManager().logout();
     },
+	/**
+	 * Handles a runtime error.
+	 * 
+	 * @param error A string indicating which error has occured.
+	 */
+	raiseRuntimeError: function (error) {
+		var exception = {
+			message: i18n("Runtime Error"),
+			detail: error
+		};
+                	
+		PartKeepr.ExceptionWindow.showException(exception);
+	},
     createGlobalStores: function () {
     	this.footprintStore = Ext.create("Ext.data.Store",
     			{
