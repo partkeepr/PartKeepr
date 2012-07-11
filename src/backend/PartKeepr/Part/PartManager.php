@@ -136,6 +136,10 @@ class PartManager extends AbstractManager {
 	 * @return Array an array where the key is the part id and the value is an array of project names
 	 */
 	private function getProjects (array $partIds) {
+		if (count($partIds) == 0) {
+			return array();
+		}
+		
 		$dql2 = "SELECT pr.name, part.id FROM PartKeepr\Project\Project pr JOIN pr.parts ppart JOIN ppart.part part WHERE ppart.part IN (:partids)";
 		$projectQuery = PartKeepr::getEM()->createQuery($dql2);
 		$projectQuery->setParameter("partids", $partIds);
@@ -159,6 +163,10 @@ class PartManager extends AbstractManager {
 	 * @return Array an array where the key is the part id and the value is the attachment count
 	 */
 	private function getAttachmentCounts (array $partIds) {
+		if (count($partIds) == 0) {
+			return array();
+		}
+		
 		$dql = "SELECT p.id, COUNT(pa) AS cnt FROM PartKeepr\Part\PartAttachment pa JOIN pa.part p WHERE pa.part IN (:partids) GROUP BY pa.part";
 		$partAttachmentQuery = PartKeepr::getEM()->createQuery($dql);
 		$partAttachmentQuery->setParameter("partids", $partIds);
