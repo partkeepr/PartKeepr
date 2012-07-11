@@ -47,10 +47,26 @@ class PartService extends Service implements RestfulService {
 		 * Applies filtering by the storage location name
 		 */
 		if ($this->getParameter("storageLocation") !== null) {
-			$queryBuilder->andWhere("st.name = :storageLocation");
+			$queryBuilder->andWhere("st.id = :storageLocation");
 			$queryBuilder->setParameter("storageLocation", $this->getParameter("storageLocation"));
 		}
 		
+		// We need that join multiple times. Not exactly nice, as this should get pulled in only when needed.
+		// @todo Refactor so that this join only gets inside when needed
+		$queryBuilder->leftJoin("q.distributors", "di");
+		
+		if ($this->getParameter("distributor") !== null) {
+			$queryBuilder->leftJoin("di.distributor", "did");
+			$queryBuilder->andWhere("did.id = :distributor");
+			$queryBuilder->setParameter("distributor", $this->getParameter("distributor"));
+		}
+		
+		if ($this->getParameter("manufacturer") !== null) {
+			$queryBuilder->leftJoin("q.manufacturers", "ma");
+			$queryBuilder->leftJoin("ma.manufacturer", "mam");
+			$queryBuilder->andWhere("mam.id = :manufacturer");
+			$queryBuilder->setParameter("manufacturer", $this->getParameter("manufacturer"));
+		}
 		/**
 		 * Filter by the category id and set the category mode
 		 * 
@@ -90,7 +106,6 @@ class PartService extends Service implements RestfulService {
 		 * Query by the distributor's order number
 		 */
 		if ($this->getParameter("distributorOrderNumber")) {
-			$queryBuilder->leftJoin("q.distributors", "di");
 			$queryBuilder->andWhere("LOWER(di.orderNumber) LIKE :orderNumber");
 			$queryBuilder->setParameter("orderNumber", "%".strtolower($this->getParameter("distributorOrderNumber"))."%");
 		}

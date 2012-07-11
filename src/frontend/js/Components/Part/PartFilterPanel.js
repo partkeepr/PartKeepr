@@ -44,7 +44,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 				style: 'margin-right: 10px',
             	columnWidth: 0.5,
             	items: [
-            	        this.storageLocationFilter,
+            	        this.storageLocationContainer,
             	        this.categoryFilter,
             	        this.partsWithoutPrice,
             	        this.createDateFilter,
@@ -61,7 +61,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
             	layout: 'anchor',
             	items: [
             	        this.stockFilter,
-            	        this.distributorOrderNumberFilter
+            	        this.distributorOrderNumberFilter,
+						this.distributorFilter,
+						this.manufacturerFilter
             	        ]
 		};
 		
@@ -117,6 +119,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
 	 */
 	onReset: function () {
 		this.storageLocationFilter.setValue("");
+		this.storageLocationFilterCheckbox.setValue(false);
+		
 		this.categoryFilter.setValue({ category: 'all'});
 		this.stockFilter.setValue({ stock: 'any'});
 		this.distributorOrderNumberFilter.setValue("");
@@ -125,6 +129,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.createDateField.setValue("");
 		this.partsWithoutStockRemovals.setValue(false);
 		this.partsWithoutPrice.setValue(false);
+		
+		this.distributorFilterCombo.setValue("");
+		this.distributorFilterCheckbox.setValue(false);
+		this.manufacturerFilterCombo.setValue("");
+		this.manufacturerFilterCheckbox.setValue(false);
 		
 		this.onApply();
 	},
@@ -135,10 +144,35 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		
 		// Create the storage location filter field
 		this.storageLocationFilter = Ext.create("PartKeepr.StorageLocationComboBox", {
-			fieldLabel: i18n("Storage Location"),
-			minWidth: 300,
+			flex: 1,
+			forceSelection: true,
+			listeners: {
+				select: function () {
+					this.storageLocationFilterCheckbox.setValue(true);
+				},
+				scope: this
+			}
+		});
+		
+		this.storageLocationFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
+			style: 'margin-right: 5px',
+			listeners: {
+				change: function (obj, value) {
+					
+					if (!value) {
+						this.storageLocationFilter.setValue("");
+					}
+				},
+				scope: this
+			}
+		});
+		
+		this.storageLocationContainer = Ext.create("Ext.form.FieldContainer", {
+			layout: 'hbox',
+			items: [ this.storageLocationFilterCheckbox, this.storageLocationFilter  ],
 			anchor: '100%',
-			forceSelection: true
+			minWidth: 300,
+			fieldLabel: i18n("Storage Location")
 		});
 		
 		// Create the category scope field
@@ -188,7 +222,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		});
 		
 		this.distributorOrderNumberFilter = Ext.create("Ext.form.field.Text", {
-			fieldLabel: i18n("Order Number")
+			fieldLabel: i18n("Order Number"),
+			anchor: '100%'
 		});
 		
 		this.createDateField = Ext.create("Ext.form.field.Date", {
@@ -231,6 +266,65 @@ Ext.define('PartKeepr.PartFilterPanel', {
 			boxLabel: i18n("Show Parts without stock removals only")
 		});
 		
+		this.manufacturerFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
+			style: 'margin-right: 5px',
+			listeners: {
+				change: function (obj, value) {
+					
+					if (!value) {
+						this.manufacturerFilterCombo.setValue("");
+					}
+				},
+				scope: this
+			}
+		});
+		
+		this.manufacturerFilterCombo = Ext.create("PartKeepr.ManufacturerComboBox", {
+			flex: 1,
+			listeners: {
+				select: function () {
+					this.manufacturerFilterCheckbox.setValue(true);
+				},
+				scope: this
+			}
+		});
+		
+		this.manufacturerFilter = Ext.create("Ext.form.FieldContainer", {
+			layout: 'hbox',
+			items: [ this.manufacturerFilterCheckbox, this.manufacturerFilterCombo  ],
+			fieldLabel: i18n("Manufacturer")
+		});
+		
+		this.distributorFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
+			style: 'margin-right: 5px',
+			listeners: {
+				change: function (obj, value) {
+					if (!value) {
+						this.distributorFilterCombo.setValue("");
+					}
+				},
+				scope: this
+			}
+		});
+		
+		this.distributorFilterCombo = Ext.create("PartKeepr.DistributorComboBox",{
+			flex: 1,
+			listeners: {
+				select: function () {
+					this.distributorFilterCheckbox.setValue(true);
+				},
+				scope: this
+			}
+		});
+		
+		this.distributorFilter = Ext.create("Ext.form.FieldContainer", {
+			layout: 'hbox',
+			items: [ this.distributorFilterCheckbox, this.distributorFilterCombo ],
+			fieldLabel: i18n("Distributor")
+		});
+		
+		
+		
 	},
 	/**
 	 * Applies the filter parameters to the passed extraParams object.
@@ -246,13 +340,32 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		 * distinct than entered values.
 		 */ 
 		if (this.storageLocationFilter.getRawValue() !== "") {
-			extraParams.storageLocation = this.storageLocationFilter.getRawValue();
+			extraParams.storageLocation = this.storageLocationFilter.getValue();
 		} else {
 			delete extraParams.storageLocation;
 		}
 		
+		if (this.manufacturerFilterCombo.getRawValue() !== "") {
+			extraParams.manufacturer = this.manufacturerFilterCombo.getValue();
+		} else {
+			delete extraParams.manufacturer;
+		}
+		
+		if (this.distributorFilterCombo.getRawValue() !== "") {
+			extraParams.distributor = this.distributorFilterCombo.getValue();
+		} else {
+			delete extraParams.distributor;
+		}
+		
 		extraParams.createDateRestriction = this.createDateFilterSelect.getValue();
-		extraParams.createDate = Ext.util.Format.date(this.createDateField.getValue(), "Y-m-d H:i:s");
+		var createDate = Ext.util.Format.date(this.createDateField.getValue(), "Y-m-d H:i:s");
+		
+		if (createDate !== "") {
+			extraParams.createDate = createDate;
+		} else {
+			delete extraParams.createDate;
+		}
+		
 		extraParams.withoutStockRemovals =  this.partsWithoutStockRemovals.getValue();
 		
 	}
