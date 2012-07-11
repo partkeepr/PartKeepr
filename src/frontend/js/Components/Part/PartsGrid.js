@@ -148,7 +148,7 @@ Ext.define('PartKeepr.PartsGrid', {
 			})
 		});
 		
-		if (this.editingEnabled) {
+		if (this.enableEditing) {
 			this.topToolbar.insert(2, this.addFromTemplateButton);
 		}
 		

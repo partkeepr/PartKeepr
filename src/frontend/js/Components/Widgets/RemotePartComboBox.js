@@ -64,7 +64,7 @@ Ext.define("PartKeepr.RemotePartComboBox",{
     createPicker: function(){
 		this.partsGrid = Ext.create("PartKeepr.PartsGrid", {
             enableTopToolbar: true,
-			editingEnabled: false,
+			enableEditing: false,
 			store: this.store,
 			region: 'center'
         });
