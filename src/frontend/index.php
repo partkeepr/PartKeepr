@@ -95,4 +95,10 @@ if ($renderParams["debug_all"]) {
 	$renderParams["scripts"] = unserialize(file_get_contents(PartKeepr::getRootDirectory() . "/partkeepr.jsfiles"));
 }
 
+if (isset($_SERVER['HTTPS'])) {
+	$renderParams["https"] = true;
+} else {
+	$renderParams["https"] = false;
+}
+		
 echo $template->render($renderParams);

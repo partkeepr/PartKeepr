@@ -5,7 +5,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<title>PartKeepr</title>
 		
-		<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700italic' rel='stylesheet' type='text/css'>
+		
+		<link href="{% if https %}https{% else %}http{% endif %}://fonts.googleapis.com/css?family=Ubuntu:400,700italic" rel="stylesheet" type="text/css">
 		
 		<!-- Include the ExtJS CSS Theme -->
 		<link rel="stylesheet" type="text/css" href="css/partkeepr-theme.css"/>
