@@ -107,8 +107,11 @@ Ext.define('PartKeepr.MenuBar', {
 		{
 			xtype: 'tbtext',
 			cls: 'partkeepr-logo-align',
-			text: '<div class="partkeepr-logo">PartKeepr</div>',
-			width: 200
+			text: '<div class="partkeepr-logo">PartKeepr</div>'
+		},
+		{
+			xtype: 'tbtext',
+			text: '<img style="float: left;" src="resources/images/partkeepr-logo.png"/>'
 		}];
 		
 		
