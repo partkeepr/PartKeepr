@@ -8,7 +8,7 @@ Ext.define("PartKeepr.PartManufacturer", {
 	         {	name: 'manufacturer_name',			type: 'string' },
 	         { name: 'partNumber', type: 'string' }
 	         ],
-	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Part', primaryKey: 'id', foreignKey: 'part_id'},
-	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Manufacturer', primaryKey: 'id', foreignKey: 'manufacturer_id'},
+	belongsTo: [{ type: 'belongsTo', model: 'PartKeepr.Part', primaryKey: 'id', foreignKey: 'part_id'},
+				{ type: 'belongsTo', model: 'PartKeepr.Manufacturer', primaryKey: 'id', foreignKey: 'manufacturer_id'}],
 	proxy: PartKeepr.getRESTProxy("PartManufacturer")
 });

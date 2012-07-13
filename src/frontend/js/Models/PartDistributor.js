@@ -9,9 +9,12 @@ Ext.define("PartKeepr.PartDistributor", {
 	         { name: 'price',            type: 'float' },
 	         { name: 'orderNumber',      type: 'string' },
 	         { name: 'packagingUnit',    type: 'int'},
-	         { name: 'sku',              type: 'string' }
+	         { name: 'sku',              type: 'string' },
+			 
+			 // Virtual field for the packagePrice.
+			 { name: 'packagePrice', type: 'float' }
 	         ],
-	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Part', primaryKey: 'id', foreignKey: 'part_id'},
-	belongsTo: { type: 'belongsTo', model: 'PartKeepr.Distributor', primaryKey: 'id', foreignKey: 'distributor_id'},
+	belongsTo: [{ type: 'belongsTo', model: 'PartKeepr.Part', primaryKey: 'id', foreignKey: 'part_id'},
+				{ type: 'belongsTo', model: 'PartKeepr.Distributor', primaryKey: 'id', foreignKey: 'distributor_id'}],
 	proxy: PartKeepr.getRESTProxy("PartDistributor")
 });

@@ -14,8 +14,21 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 
 		});
 
-		this.editing = Ext.create('Ext.grid.plugin.RowEditing', {
-			clicksToEdit : 1
+		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+			clicksToEdit : 1,
+			listeners: {
+				beforeedit: function (editor, e, eOpts) {
+					if (e.field == "packagePrice") {
+						e.record.set("packagePrice", e.record.get("price") * e.record.get("packagingUnit"));
+					}
+				},
+				edit: function (editor, e, eOpts) {
+					if (e.field == "packagePrice" && e.record.get("packagingUnit")) {
+						e.record.set("price", e.value / e.record.get("packagingUnit"));
+					}
+				},
+				scope: this
+			}
 		});
 
 		this.plugins = [ this.editing ];
@@ -44,7 +57,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 			dataIndex : 'distributor_id',
 			xtype : 'templatecolumn',
 			tpl : '{distributor_name}',
-			flex : 0.3,
+			flex : 1,
 			editor : {
 				xtype : 'DistributorComboBox',
 				allowBlank : true
@@ -52,7 +65,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 		}, {
 			header : i18n("Order Number"),
 			dataIndex : 'orderNumber',
-			flex : 0.2,
+			flex : 1,
 			editor : {
 				xtype : 'textfield',
 				allowBlank : true
@@ -60,7 +73,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 		}, {
 			header : i18n("Packaging Unit"),
 			dataIndex : 'packagingUnit',
-			flex : 0.2,
+			flex : 1,
 			editor : {
 				xtype : 'numberfield',
 				allowDecimals : false,
@@ -70,7 +83,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 		}, {
 			header : i18n("Price per Item"),
 			dataIndex : 'price',
-			flex : 0.2,
+			flex : 1,
 			renderer : function(val, p, rec) {
 				return PartKeepr.getApplication().formatCurrency(val);
 			},
@@ -79,9 +92,20 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 				allowBlank : false
 			}
 		}, {
+			header: i18n("Package Price"),
+			flex: 1,
+			dataIndex: 'packagePrice',
+			renderer : function(val, p, rec) {
+				return PartKeepr.getApplication().formatCurrency(rec.get("price") * rec.get("packagingUnit"));
+			},
+			editor : {
+				xtype : 'CurrencyField',
+				allowBlank : true
+			}
+		},{
 			header : i18n("SKU"),
 			dataIndex : 'sku',
-			flex : 0.1,
+			flex : 1,
 			editor : {
 				xtype : 'textfield',
 				allowBlank : true
