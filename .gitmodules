@@ -23,3 +23,6 @@
 [submodule "3rdparty/Ext.ux.Exporter"]
 	path = 3rdparty/Ext.ux.Exporter
 	url = git://github.com/partkeepr/Ext.ux.Exporter.git
+[submodule "3rdparty/jsmin"]
+	path = 3rdparty/jsmin
+	url = git@github.com:partkeepr/jsmin-php.git
