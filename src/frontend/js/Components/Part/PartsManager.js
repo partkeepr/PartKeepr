@@ -11,6 +11,17 @@ Ext.define('PartKeepr.PartManager', {
 	id: 'partkeepr-partmanager',
 	border: false,
 	padding: 5,
+
+    /**
+     * Defines if the border layout should be compact or regular.
+     *
+     * Compact style stacks the tree panel and the part detail panel on top of each other to save space, which is a bit
+     * odd in terms of usability. Regular style means that the layout will be Category Tree->Part List->Part details.
+     *
+     * @var boolean True if compact layout should be used, false otherwise.
+     */
+    compactLayout: true,
+
 	initComponent: function () {
 		
 		/**
@@ -25,20 +36,26 @@ Ext.define('PartKeepr.PartManager', {
 				 direction:'ASC'
 			 }] 
 		 });
-		
+
+        var treeConfig = {
+            region: 'west',
+            categoryModel: 'PartKeepr.PartCategory',
+            categoryService: 'PartCategory',
+            ddGroup: 'CategoryTree'
+        };
+
+        if (this.compactLayout) {
+            treeConfig.region = 'center';
+        } else {
+            treeConfig.floatable = false;
+            treeConfig.split = true;
+            treeConfig.width = 300; // @todo Make this configurable
+            treeConfig.title = i18n("Categories");
+            treeConfig.collapsible = true; // We want to collapse the tree panel on small screens
+        }
+
 		// Create the tree
-		this.tree = Ext.create("PartKeepr.PartCategoryTree", {
-			region: 'west',
-			categoryModel: 'PartKeepr.PartCategory',
-			categoryService: 'PartCategory',
-			split: true,
-			floatable: false,
-			titleCollapse: true,
-			title: i18n("Categories"),
-			ddGroup: 'CategoryTree',
-			width: 300,			// @todo Make this configurable
-			collapsible: true	// We want to collapse the tree panel on small screens
-		});
+		this.tree = Ext.create("PartKeepr.PartCategoryTree", treeConfig);
 		
 		// Trigger a grid reload on category change
 		this.tree.on("selectionchange", Ext.bind(function (t,s) {
@@ -69,20 +86,28 @@ Ext.define('PartKeepr.PartManager', {
 		
 		// Create the stock level panel
 		this.stockLevel = Ext.create("PartKeepr.PartStockHistory", { title: "Stock History"});
-		
-		this.detailPanel = Ext.create("Ext.tab.Panel", {
-			title: i18n("Part Details"),
-			collapsed: true,
-			collapsible: true,
-			region: 'east',
-			floatable: false,
-			titleCollapse: true,
-			split: true,
-			width: 300,
-			animCollapse: false,
-			items: [ this.detail, this.stockLevel ]
-		});
-		
+
+        var detailPanelConfig = {
+            title: i18n("Part Details"),
+            collapsed: true,
+            collapsible: true,
+            region: 'east',
+            floatable: false,
+            titleCollapse: true,
+            split: true,
+            animCollapse: false,
+            items: [ this.detail, this.stockLevel ]
+        };
+
+        if (this.compactLayout) {
+            detailPanelConfig.height = 300;
+            detailPanelConfig.region = 'south';
+        } else {
+            detailPanelConfig.width = 300;
+        }
+
+		this.detailPanel = Ext.create("Ext.tab.Panel", detailPanelConfig);
+
 		this.filterPanel = Ext.create("PartKeepr.PartFilterPanel", {
 			title: i18n("Filter"),
 			region: 'south',
@@ -95,13 +120,38 @@ Ext.define('PartKeepr.PartManager', {
 			collapsible: true,
 			store: this.store
 		});
-		
-		this.items = [ this.tree, {
-			layout: 'border',
-			border: false,
-			region: 'center',
-			items: [ this.grid, this.filterPanel ]
-		}, this.detailPanel ]; 
+
+        if (this.compactLayout) {
+            // Create two border layouts: One for the center panel and one for the left panel. Each border layout
+            // has two columns each, containing Categories+Part Details and Part List+Part Filter Panel.
+            this.items = [{
+                layout: 'border',
+                border: false,
+                region: 'west',
+                animCollapse: false,
+                width: 300,
+                split: true,
+                title: i18n("Categories / Part Details"),
+                titleCollapse: true,
+                collapsed: false,
+                collapsible: true,
+                items: [ this.tree, this.detailPanel ]
+            }, {
+                layout: 'border',
+                border: false,
+                region: 'center',
+                items: [ this.grid, this.filterPanel ]
+            } ];
+        } else {
+            // The regular 3-column layout. The tree, then the part list+part filter, then the part details.
+            this.items = [ this.tree, {
+                layout: 'border',
+                border: false,
+                region: 'center',
+                items: [ this.grid, this.filterPanel ]
+            }, this.detailPanel ];
+        }
+
 		
 		
 		this.callParent();

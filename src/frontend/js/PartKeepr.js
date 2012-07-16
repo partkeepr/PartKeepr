@@ -40,6 +40,9 @@ Ext.application({
     	
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
     },
+    getPartManager: function () {
+        return this.partManager;
+    },
     onContextMenu: function (e, target) {
     	if (!e.ctrlKey) {
     		e.preventDefault();
@@ -63,13 +66,13 @@ Ext.application({
     	
     	this.reloadStores();
 		
-		var j = Ext.create("PartKeepr.PartManager", {
+		this.partManager = Ext.create("PartKeepr.PartManager", {
 			title: i18n("Part Manager"),
 			iconCls: 'icon-brick',
 			closable: false
 		});
 		
-		this.addItem(j);
+		this.addItem(this.partManager);
 		this.menuBar.enable();
 		
 		this.doSystemStatusCheck();
