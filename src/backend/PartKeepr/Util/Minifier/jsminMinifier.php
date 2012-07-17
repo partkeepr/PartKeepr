@@ -20,7 +20,7 @@ class jsminMinifier extends Minifier {
      */
     public function minify (array $sourceFiles, $outputFile) {
         if (!class_exists("\\JSMin")) {
-            require_once(PartKeepr::getRootDirectory() . self::JSMIN_SCRIPT);
+            require_once(PartKeepr::getRootDirectory() . "/" . self::JSMIN_SCRIPT);
         }
         if (file_exists($outputFile)) {
             unlink($outputFile);
