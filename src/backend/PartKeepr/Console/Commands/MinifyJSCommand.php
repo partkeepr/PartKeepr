@@ -239,9 +239,16 @@ EOT
 	 */
 	protected function getJSFilesForPath($path)
 	{
-		$call = 'find ' . $path . ' -name "*.js" -type f';
-		exec($call, $output);
+		if (is_dir($path)) {
+			$call = 'find ' . $path . ' -name "*.js" -type f';
+			exec($call, $output);
+			return $output;
+		}
 
-		return $output;
+		if (is_file($path)) {
+			return array($path);
+		}
+
+		return array();
 	}
 }
