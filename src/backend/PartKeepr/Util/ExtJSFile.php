@@ -1,5 +1,9 @@
 <?php
+namespace PartKeepr\Util;
 
+/**
+ * Represents an ExtJS file including references.
+ */
 class ExtJSFile {
 	/**
 	 * The source code

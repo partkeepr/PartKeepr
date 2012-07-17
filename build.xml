@@ -349,11 +349,10 @@
 
 	<!-- Builds the jsb3 file and build the minified JS files -->
 	<target name="jsbuilder">
-		<exec command="php util/gen-jsb3-file.php src/frontend/ ${extjs.path}" />
-		<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/partkeepr.jsb3 --deployDir ${project.basedir}/frontend/js" passthru="true" />
-
-		<exec command="${extjs.path}/jsbuilder/JSBuilder.sh --projectFile ${project.basedir}/3rdparty/Ext.ux.Exporter/Ext.ux.Exporter.jsb --deployDir ${project.basedir}/frontend/js/Ext.ux" passthru="true" />
-	</target>
+        <property name="jsbuilder.sources" value="--source=${project.basedir}/3rdparty/extjs/examples/ux --source=${project.basedir}/src/frontend/js --source=${project.basedir}/3rdparty/ext-wizard/Ext.ux.Wizard/ --source=${project.basedir}/3rdparty/Ext.ux.Exporter/ --source ${project.basedir}/3rdparty/extjs/examples/ux/statusbar/"/>
+		<exec passthru="true" command="php doctrine.php partkeepr:js-minify ${project.basedir}/frontend/js/partkeepr-debug.js ${jsbuilder.sources}" />
+        <exec passthru="true" command="php doctrine.php partkeepr:js-minify ${project.basedir}/frontend/js/partkeepr.js --compress ${jsbuilder.sources}" />
+    </target>
 
 	<!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->
 	<target name="jslint">

@@ -1,5 +1,5 @@
 <?php
-namespace PartKeepr\Foo;
+namespace PartKeepr\Console;
 
 use PartKeepr\PartKeepr;
 
@@ -11,7 +11,7 @@ $helpers = array();
 
 require __DIR__ . '/cli-config.php';
 
-$cli = new \Symfony\Component\Console\Application('Doctrine Command Line Interface', \Doctrine\Common\Version::VERSION);
+$cli = new \Symfony\Component\Console\Application('PartKeepr Console', \PartKeepr\PartKeeprVersion::PARTKEEPR_VERSION);
 $cli->setCatchExceptions(true);
 $helperSet = $cli->getHelperSet();
 foreach ($helpers as $name => $helper) {
@@ -50,5 +50,10 @@ new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
 new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
 new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
 new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand()
+));
+
+$cli->addCommands(array(
+    new \PartKeepr\Console\Commands\MinifyJSCommand()
+
 ));
 $cli->run();
