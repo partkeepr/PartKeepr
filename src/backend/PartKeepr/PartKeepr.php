@@ -286,7 +286,7 @@ class PartKeepr {
 	 */
 	public static function getEntityManager () {
 		if (!self::$entityManager instanceof EntityManager) {
-			throw new Exception("No EntityManager found. Make sure you called initializeDoctrine() or initialize().");
+			throw new \Exception("No EntityManager found. Make sure you called initializeDoctrine() or initialize().");
 		}
 		return self::$entityManager;
 	}
