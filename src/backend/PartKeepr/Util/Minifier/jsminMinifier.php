@@ -27,7 +27,7 @@ class jsminMinifier extends Minifier {
         }
 
         foreach ($sourceFiles as $sourceFile) {
-            $minifiedJS = JSMin::minify(file_get_contents($sourceFile));
+            $minifiedJS = \JSMin::minify(file_get_contents($sourceFile));
             file_put_contents($outputFile, $minifiedJS, FILE_APPEND);
         }
     }
