@@ -280,7 +280,6 @@
 				<exclude name="partkeepr.jsb3.template" />
 				<exclude name="pre-commit.hook" />
 				<exclude name="RELEASE-TODO" />
-				<exclude name="doctrine.php" />
 				<exclude name="build.properties" />
 				<exclude name="build.xml" />
 				<exclude name="cli-config.php" />
@@ -350,8 +349,8 @@
 	<!-- Builds the jsb3 file and build the minified JS files -->
 	<target name="jsbuilder">
         <property name="jsbuilder.sources" value="--source=${project.basedir}/3rdparty/extjs/examples/ux/TabCloseMenu.js --source=${project.basedir}/src/frontend/js --source=${project.basedir}/3rdparty/ext-wizard/Ext.ux.Wizard/ --source=${project.basedir}/3rdparty/Ext.ux.Exporter/ --source ${project.basedir}/3rdparty/extjs/examples/ux/statusbar/"/>
-		<exec passthru="true" command="php doctrine.php partkeepr:js-minify ${project.basedir}/frontend/js/partkeepr-debug.js ${jsbuilder.sources}" />
-        <exec passthru="true" command="php doctrine.php partkeepr:js-minify ${project.basedir}/frontend/js/partkeepr.js --compress ${jsbuilder.sources}" />
+		<exec passthru="true" command="php partkeepr.php partkeepr:js-minify ${project.basedir}/frontend/js/partkeepr-debug.js ${jsbuilder.sources}" />
+        <exec passthru="true" command="php partkeepr.php partkeepr:js-minify ${project.basedir}/frontend/js/partkeepr.js --compress ${jsbuilder.sources}" />
     </target>
 
 	<!-- Checks all JavaScript files for common mistakes. Requires JSLint from http://www.javascriptlint.com -->

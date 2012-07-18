@@ -32,7 +32,8 @@ class MinifyJSCommand extends Console\Command\Command
 			->addOption('minify', null, InputOption::VALUE_NONE,
 						'Specifies if the files should be minified (removal of whitespaces and line breaks). If not ' .
 						'specified, this only merges the JS files.')
-			->setDescription(<<<EOT
+			->setDescription('Minifies JavaScript files in their correct order')
+			->setHelp(<<<EOT
 Minifies JavaScript files in their correct order. To do this correctly, we parse all JavaScript files and look for the ExtJS-specific 'extend' directives. With that information,
 we can build a hierarchical tree of files which represent the dependencies and output a parsed tree. That tree is then converted into an ordered list, which is then compressed.
 EOT

@@ -43,8 +43,7 @@ class PartKeepr {
 	 */
 	public static function initializeClassLoaders() {
 		require_once 'Doctrine/Common/ClassLoader.php';
-		
-		
+
 		$classLoader = new ClassLoader('PartKeepr', self::getRootDirectory() . "/src/backend");
 		$classLoader->register();
 		
@@ -96,9 +95,13 @@ class PartKeepr {
 	 */
 	public static function initializeConfig ($environment = null) {
 		if ($environment != null) {
-			include(self::getRootDirectory()."/config-$environment.php");
+			$config = self::getRootDirectory()."/config-$environment.php";
 		} else {
-			include(self::getRootDirectory()."/config.php");
+			$config = self::getRootDirectory()."/config.php";
+		}
+
+		if (file_exists($config)) {
+			include($config);
 		}
 		
 		// Check if the files path is set. If not, fall back to <partkeepr-root>/data/
@@ -221,7 +224,7 @@ class PartKeepr {
 	
 	public static function createConnectionOptionsFromConfig () {
 		$connectionOptions = array();
-		
+
 		$driver = PartKeeprConfiguration::getOption("partkeepr.database.driver");
 		
 		switch ($driver) {
