@@ -1,9 +1,5 @@
 Ext.namespace('PartKeepr'); 
 		
-Ext.Loader.setPath({
-    'PartKeepr': 'js'
-});
-
 PartKeepr.application = null;
 
 Ext.application({
@@ -65,14 +61,9 @@ Ext.application({
     	}
     	
     	this.reloadStores();
-		
-		this.partManager = Ext.create("PartKeepr.PartManager", {
-			title: i18n("Part Manager"),
-			iconCls: 'icon-brick',
-			closable: false
-		});
-		
-		this.addItem(this.partManager);
+
+        this.createPartManager();
+
 		this.menuBar.enable();
 		
 		this.doSystemStatusCheck();
@@ -87,6 +78,33 @@ Ext.application({
 		
 		this.getStatusbar().getConnectionButton().setConnected();
 		
+    },
+    /**
+     * Re-creates the part manager. This is usually called when the "compactLayout" configuration option has been
+     * changed.
+     *
+     * @param none
+     * @return nothing
+     */
+    recreatePartManager: function () {
+        this.centerPanel.remove(this.partManager);
+        this.getPartManager().destroy();
+
+        this.createPartManager();
+    },
+    /**
+     * Creates the part manager. While this is usually only done after login, it can also happen when the user changes
+     * the "compact" preference.
+     */
+    createPartManager: function () {
+        this.partManager = Ext.create("PartKeepr.PartManager", {
+            title: i18n("Part Manager"),
+            compactLayout: PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false),
+            iconCls: 'icon-brick',
+            closable: false
+        });
+
+        this.centerPanel.insert(0, this.partManager);
     },
     /**
      * Sets the initial user preferences, which are applied into the userPreferenceStore after login.

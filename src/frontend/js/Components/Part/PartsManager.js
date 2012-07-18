@@ -20,7 +20,7 @@ Ext.define('PartKeepr.PartManager', {
      *
      * @var boolean True if compact layout should be used, false otherwise.
      */
-    compactLayout: true,
+    compactLayout: false,
 
 	initComponent: function () {
 		
@@ -152,8 +152,6 @@ Ext.define('PartKeepr.PartManager', {
             }, this.detailPanel ];
         }
 
-		
-		
 		this.callParent();
 	},
 	/**
