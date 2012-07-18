@@ -4,6 +4,8 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
 	bodyStyle: 'background:#DBDBDB;padding: 10px;',
 	initComponent: function () {
 		this.showDescriptionsCheckbox = Ext.create("Ext.form.field.Checkbox", {
+            labelWidth: 120,
+            hideEmptyLabel: false,
 			boxLabel: i18n("Show category descriptions"),
 			handler: Ext.bind(this.showDescriptionsHandler, this)
 		});

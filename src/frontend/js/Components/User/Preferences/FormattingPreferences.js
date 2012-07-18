@@ -64,7 +64,7 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 		this.priceNumDecimalsField = Ext.create("Ext.form.field.Number", {
 			name: 'priceNumDecimalsField',
 			fieldLabel: i18n('Decimal precision'),
-			labelWidth: 150,
+			labelWidth: 120,
 			columnWidth: 0.5,
 			minValue: 0,
 			maxValue: 4,
@@ -81,6 +81,8 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 		
 		this.useThousandSeparatorCheckbox = Ext.create("Ext.form.field.Checkbox", {
 			boxLabel: i18n("Separate thousands"),
+            labelWidth: 120,
+            hideEmptyLabel: false,
 			listeners: {
 				change: function(field, newValue) {
 					if (!this.loading) {
@@ -93,6 +95,7 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 		
 		this.currencySymbolField = Ext.create("Ext.form.field.Text", {
 			fieldLabel: i18n("Currency Symbol"),
+            labelWidth: 120,
 			maxLength: 5,
 			listeners: {
 				change: function(field, newValue) {
@@ -105,7 +108,9 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
 		});
 		
 		this.currencyAtEndCheckbox =  Ext.create("Ext.form.field.Checkbox", {
-			boxLabel: i18n("Currency at end"),
+			boxLabel: i18n("Currency Symbol after value"),
+            labelWidth: 120,
+            hideEmptyLabel: false,
 			listeners: {
 				change: function(field, newValue) {
 					if (!this.loading) {
