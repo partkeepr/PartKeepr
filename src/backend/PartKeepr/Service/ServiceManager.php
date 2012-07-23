@@ -163,5 +163,11 @@ class ServiceManager extends Singleton {
 			throw new InvalidLoginDataException();
 		}
 	}
+
+	public function getRegisteredServices () {
+		return array(
+			"PartKeepr\\Auth\\AuthService"
+		);
+	}
 	
 }

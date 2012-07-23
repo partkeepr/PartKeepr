@@ -13,12 +13,14 @@ use PartKeepr\Service\AnonService,
 
 
 /**
+ * Implements the AuthService
  * @ServiceDescription(description="Manages authentication against PartKeepr")
  */
 class AuthService extends AnonService {
 	/**
 	 * Logs in the given user. If the login was successful, a session is automatically started.
-	 * 
+	 *
+	 * @return array The data
 	 * @throws InvalidLoginDataException
 	 *
 	 * @ServiceCall(description="Authenticates a user against the system",

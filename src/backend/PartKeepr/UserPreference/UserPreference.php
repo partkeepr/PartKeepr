@@ -8,7 +8,10 @@ use PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException,
 	PartKeepr\Util\Exceptions\EntityNotPersistantException,
-	Doctrine\ORM\NoResultException;
+	Doctrine\ORM\NoResultException,
+	PartKeepr\Service\Annotations\ApiType,
+	PartKeepr\Service\Annotations\ApiTypeOutput,
+	PartKeepr\Service\Annotations\ApiTypeOutputs;
 
 /**
  * Represents a user preference entry.
@@ -17,7 +20,9 @@ use PartKeepr\Util\Serializable,
  * specify the key and value himself.
  * 
  * Note that values are stored internally as serialized PHP values to keep their type.
- * 
+ *
+ * @ApiType(description="Represents a user preference",
+ *			documentation="User preferences are user-specific settings, which are identified by keys and values. Think of them as an associative array.")
  * @Entity
  **/
 class UserPreference implements Serializable {
@@ -96,6 +101,12 @@ class UserPreference implements Serializable {
 	/**
 	 * (non-PHPdoc)
 	 * @see PartKeepr\Util.Serializable::serialize()
+	 *
+	 * @ApiTypeOutputFields(outputFields={
+	 * 		@ApiTypeOutputField(name="key", type="string:255", description="The preference key"),
+	 * 		@ApiTypeOutputField(name="value", type="text", description="The preference value"),
+	 * 		@ApiTypeOutputField(name="user_id", type="integer", description="The user ID this preference belongs to")
+	 * 	})
 	 */
 	public function serialize () {
 		return array(
