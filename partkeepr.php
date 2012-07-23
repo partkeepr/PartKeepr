@@ -28,8 +28,12 @@ try {
 } catch (\Exception $e) {
 
 }
-$cli->addCommands(array(
-					  new \PartKeepr\Console\Commands\MinifyJSCommand()
 
+$cli->addCommands(array(
+					  new \PartKeepr\Console\Commands\MinifyJSCommand(),
+					  new \PartKeepr\Console\Commands\ListServicesCommand(),
+					  new \PartKeepr\Console\Commands\ListCallsCommand(),
+					  new \PartKeepr\Console\Commands\DescribeCallCommand(),
+					  new \PartKeepr\Console\Commands\DescribeTypeCommand()
 				  ));
 $cli->run();
