@@ -78,7 +78,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 		this.callParent();
 	},
 	onStartEdit: function () {
-		this.store.getProxy().extraParams.storageLocation = this.record.get("name");
+		this.store.getProxy().extraParams.storageLocation = this.record.get("id");
 		this.store.load();
 	}
 	

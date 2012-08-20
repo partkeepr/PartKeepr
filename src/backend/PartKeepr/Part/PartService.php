@@ -44,7 +44,7 @@ class PartService extends Service implements RestfulService {
 		}
 		
 		/**
-		 * Applies filtering by the storage location name
+		 * Applies filtering by the storage location id
 		 */
 		if ($this->getParameter("storageLocation") !== null) {
 			$queryBuilder->andWhere("st.id = :storageLocation");
