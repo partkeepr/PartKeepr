@@ -67,7 +67,9 @@ Ext.define('PartKeeprSetup.SetupWizard', {
             items: [{
                 border: false,
                 bodyStyle: 'background:none;',
-                html: 'This wizard guides you through the setup of <b>PartKeepr</b>.'
+                html: 'This wizard guides you through the setup of <b>PartKeepr</b>.<br/><br/>Note that you can '+
+                      're-start setup any time, even if you already have an existing database. No existing data will '+
+                      'be overwritten.'
             }]
         }));
     	
