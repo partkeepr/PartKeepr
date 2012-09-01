@@ -39,23 +39,12 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Sets the username.
-	 * 
-	 * Forces the username to have
-	 * lowercase a-z characters. 
-	 * 
-	 * Replaces space with an underscore.
-	 * Replaces dot with nothing.
-	 * 
-	 * @param string $username	The username to set. Applies automatic username modification.
+	 *
+	 * @param string $username	The username to set.
 	 * @return nothing
 	 */
 	public function setUsername ($username) {
-		$username = strtolower($username);
-		$username = str_replace(" ", "_", $username);
-		$username = str_replace(".", "", $username);
-		
 		$this->username = $username;
-		
 	}
 	
 	/**
