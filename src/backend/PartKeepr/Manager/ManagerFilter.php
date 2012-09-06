@@ -177,7 +177,11 @@ class ManagerFilter {
 			}
 			
 			if ($service->hasParameter("sort")) {
-				$tmp = json_decode($service->getParameter("sort"), true);
+				if (!is_array($service->getParameter("sort"))) {
+					$tmp = json_decode($service->getParameter("sort"), true);
+				} else {
+					$tmp = $service->getParameter("sort");
+				}
 			
 				$aSorters = array();
 				
