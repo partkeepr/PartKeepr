@@ -51,6 +51,8 @@ pear config-set auto_discover 1
 pear install pear.phpunit.de/PHPUnit pear.phpunit.de/phpcpd pear.phing.info/phing pear.doctrine-project.org/DoctrineORM pear.doctrine-project.org/DoctrineSymfonyYaml pear.doctrine-project.org/DoctrineSymfonyConsole pear.twig-project.org/Twig
 pear install --alldeps phpmd/PHP_PMD-alpha
 
+# You'll also need jsl, the JavaScript lint
+# Unfortunately, you need to compile this manually.
 ------------------
 # PARTKEEPR CONFIG
 ------------------
@@ -109,7 +111,7 @@ php SetupDatabase.php --yes
 # ==== Issuing migrations ====
 # Ignore all messages about "was executed but did not result in any SQL statements"
 cd /var/www/PartKeepr/
-php doctrine.php migrations:migrate
+php partkeepr.php migrations:migrate
 
 # Build the frontend
 phing build
