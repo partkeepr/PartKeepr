@@ -10,7 +10,7 @@ Ext.define('PartKeeprSetup.ConfigFileActionCard', {
 	title: 'Configuration File',
 	showTitle: true,
 	titleCls: '',
-	titleStyle: 'font-size: 2.5em;',
+    titleStyle: 'font-size: 2.5em;line-height: 30px;',
 	cls: 'x-partkeepr-setup-basecard',
     id: 'config-action-card',
     autoScroll: true,

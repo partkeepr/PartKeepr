@@ -36,7 +36,7 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
 	 */
 	showTitle: true,
 	titleCls: '',
-	titleStyle: 'font-size: 2.5em;',
+    titleStyle: 'font-size: 2.5em;line-height: 30px;',
 	cls: 'x-partkeepr-setup-basecard',
     autoScroll: true,
     rerunTestText: "Re-run checks",
