@@ -128,6 +128,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
 				items: [
 				 this.showHintCheckbox,
 				{
+                    xtype: 'container',
 					border: false,
 					style: 'overflow: auto;',
 					width: "450px",
@@ -159,16 +160,16 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
 				host = "&lt;YOUR-CONNECTING-IP&gt;";
 			}
 			
-			this.createHintTemplate.overwrite(Ext.get("postgresql-parameters-hint"), {
+			this.createHintTemplate.overwrite(Ext.get("postgresql-parameters-hint").getEl(), {
 				localhost: host,
 				user: this.username.getValue(),
 				password: this.password.getValue(),
 				dbname: this.databaseName.getValue()
 			});
 			
-			this.masterTemplate.append(Ext.get("postgresql-parameters-hint"));
+			this.masterTemplate.append(Ext.getCmp("postgresql-parameters-hint").getEl());
 		} else {
-			this.masterTemplate.overwrite(Ext.get("postgresql-parameters-hint"));
+			this.masterTemplate.overwrite(Ext.getCmp("postgresql-parameters-hint").getEl());
 		}
 		
 		if (this.hostname.getValue() !== "" && this.username.getValue() !== "" && this.password.getValue() !== "" &&
