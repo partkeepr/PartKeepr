@@ -43,9 +43,9 @@
 	</target>
 
 	<target name="git-update-submodules">
-		<exec command="git submodule sync" checkreturn="true" />
-		<exec command="git submodule init" checkreturn="true" />
-		<exec command="git submodule update" checkreturn="true" />
+		<exec command="git submodule sync" passthru="true" checkreturn="true" />
+		<exec command="git submodule init" passthru="true" checkreturn="true" />
+		<exec command="git submodule update" passthru="true" checkreturn="true" />
 	</target>
 
 	<!-- Build the end-user 'setup' directory -->
