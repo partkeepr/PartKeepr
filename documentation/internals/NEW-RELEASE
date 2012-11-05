@@ -1,5 +1,7 @@
 The following steps describe how a new PartKeepr release is being built:
 
+* Check if any unit tests have failed
+
 * Create a new GIT tag using:
   
   git tag -s <version>
