@@ -128,6 +128,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 				items: [
 				 this.showHintCheckbox,
 				{
+                    xtype: 'container',
 					border: false,
 					style: 'overflow: auto;',
 					width: "450px",
@@ -159,18 +160,18 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 				host = "&lt;YOUR-CONNECTING-IP&gt;";
 			}
 			
-			this.createHintTemplate.overwrite(Ext.get("mysql-parameters-hint"), {
+			this.createHintTemplate.overwrite(Ext.getCmp("mysql-parameters-hint").getEl(), {
 				localhost: host,
 				user: this.username.getValue(),
 				password: this.password.getValue(),
 				dbname: this.databaseName.getValue()
 			});
 			
-			this.masterTemplate.append(Ext.get("mysql-parameters-hint"));
+			this.masterTemplate.append(Ext.getCmp("mysql-parameters-hint").getEl());
 		} else {
-			this.masterTemplate.overwrite(Ext.get("mysql-parameters-hint"));
+			this.masterTemplate.overwrite(Ext.getCmp("mysql-parameters-hint").getEl());
 		}
-		
+
 		if (this.hostname.getValue() !== "" && this.username.getValue() !== "" && this.password.getValue() !== "" &&
 			this.databaseName.getValue() !== "") {
 			

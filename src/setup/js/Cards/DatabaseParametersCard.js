@@ -12,7 +12,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
 	title: 'Database Parameters',
 	showTitle: true,
 	titleCls: '',
-	titleStyle: 'font-size: 2.5em;',
+    titleStyle: 'font-size: 2.5em;line-height: 30px;',
 	cls: 'x-partkeepr-setup-basecard',
     id: 'database-parameters-card',
     autoScroll: true,

@@ -28,12 +28,10 @@
 			{% else %}
 			<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
 			<script type="text/javascript" src="js/partkeepr-debug.js"></script>
-			<script type="text/javascript" src="js/Ext.ux/Ext.ux.formatter-all-debug.js"></script>
 			{% endif %}
 		{% else %}
 			<script type="text/javascript" src="extjs/ext-all.js"></script>
 			<script type="text/javascript" src="js/partkeepr.js"></script>
-			<script type="text/javascript" src="js/Ext.ux/Ext.ux.formatter-all.js"></script>
 		{% endif %}
 		
 		<script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js"></script>
