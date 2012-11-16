@@ -93,6 +93,8 @@ cp config.php.template config.php
 # You have now two choices: Proceed with or without sample data.
 
 # ==== WITH SAMPLE DATA ====
+# Yes, this is really a separate database! partdb is another software, and we're using the existing partdb data.
+# You may remove the partdb database after migration has been taken place.
 mysql -uroot -p
 CREATE DATABASE partdb;
 grant usage on *.* to partdb@localhost identified by 'partdb';
