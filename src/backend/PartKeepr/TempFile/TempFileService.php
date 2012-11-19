@@ -10,7 +10,7 @@ class TempFileService extends Service {
 	public function upload () {
 		$tmpFile = new TempUploadedFile();
 		
-		if (array_key_exists("userfile", $_FILES))
+		if (array_key_exists("userfile", $_FILES) && array_key_exists("error", $_FILES["userfile"]))
 		{
 			switch ($_FILES["userfile"]["error"]) {
 				case 1:
@@ -28,7 +28,7 @@ class TempFileService extends Service {
 						$tmpFile->replace($file);
 						$tmpFile->setOriginalFilename(basename($filename));
 					} else {
-						throw new \Exception("Unknown error occured while uploading the file");
+						throw new \Exception(sprintf("Unknown error occurred while uploading the file. Errno %d", $_FILES["userfile"]["error"]));
 					}
 			}
 			
