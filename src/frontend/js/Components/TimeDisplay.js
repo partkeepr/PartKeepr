@@ -1,22 +1,92 @@
 Ext.define('PartKeepr.TimeDisplay', {
 	extend: 'Ext.Toolbar.TextItem',
-	el: null,
-	dt: null,
-    enable:Ext.emptyFn,
-    disable:Ext.emptyFn,
-    focus:Ext.emptyFn,
+
+    /**
+     * Holds the time update task
+     * @var object
+     */
+    updateTimeTask: null,
+
+    /**
+     * Holds the layout task
+     * @var object
+     */
+    updateLayoutTask: null,
+
+    /**
+     * Stores the currently assigned date format
+     * @var string
+     */
+    dateFormat: null,
+
+    /**
+     * Inits the component. Sets up two timers for updating the time and updating the widget's layout.
+     *
+     * @param none
+     * @return nothing
+     */
+    initComponent: function () {
+        this.callParent();
+
+        this.dateFormat = Ext.getDateFormat();
+
+        this.updateTimeTask = {
+            run: this.updateTime,
+            interval: 280, // Update every 280ms. This is NOT 1 second due to overhead, causing skipping seconds
+            scope: this
+        };
+
+        this.updateLayoutTask = {
+            run: this.updateLayoutPriv,
+            interval: 10000,
+            scope: this
+        };
+    },
+    /**
+     * Start both updating tasks just before rendering starts.
+     * @param none
+     * @return nothing
+     */
     beforeRender: function () {
         this.callParent();
-        Ext.defer(this.onUpdate, 240, this);
+        Ext.TaskManager.start(this.updateTimeTask);
+        Ext.TaskManager.start(this.updateLayoutTask);
     },
-    onUpdate: function (obj) {
-		var dt = new Date();
-		this.setText(Ext.Date.format(dt, Ext.getDateFormat())); 
-    	delete dt;
-    	/* Sometimes the time display seems to be "stuck" (=skipping one second)
-    	 * because of micro-delays due to the "overhead" of calling this method.
-    	 */
-    	Ext.defer(this.onUpdate, 240, this);
-	}
+    /**
+     * Assigns the new dateFormat, updates the time and calls updateLayout().
+     *
+     * @param none
+     * @return nothing
+     */
+    updateLayoutPriv: function () {
+        this.dateFormat = Ext.getDateFormat();
+        this.updateTime();
+        this.updateLayout();
+    },
+    /**
+     * Updates the time. Avoids setText because it's slow.
+     *
+     * @param none
+     * @return nothing
+     */
+    updateTime: function () {
+        var dt = new Date();
+
+        var format = Ext.getDateFormat();
+        var string = Ext.Date.format(dt, format);
+
+        this.el.update(string);
+        delete dt;
+	},
+    /**
+     * When the widget is removed, destroy both tasks.
+     * 
+     * @param none
+     * @return nothing
+     */
+    onDestroy: function () {
+        Ext.TaskManager.stop(this.updateTimeTask);
+        Ext.TaskManager.stop(this.updateLayoutTask);
+    }
 });
 
