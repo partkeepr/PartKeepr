@@ -68,7 +68,6 @@ if (\Doctrine\ORM\Version::compare("2.3.0") <= 0) {
  * Check for the Symfony YAML component. This component is required to parse YAML files and is used during installation
  * of footprints.
  */
-
 if (!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Yaml\\Yaml")) {
 	
 	$yamlErrorMessage = "The YAML component of symfony is not installed. This component is required; please install ";
@@ -81,6 +80,20 @@ if (!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Yaml\\Yam
 	
 	echo json_encode(array("error" => true, "message" => $yamlErrorMessage));
 	exit;
+}
+
+/**
+ * Check for the Symfony Console component.
+ * of footprints.
+ */
+if (!$doctrineClassLoader->canLoadClass("Doctrine\\Symfony\\Component\\Console\\Command\\Command")) {
+
+    $consoleErrorMessage = "The Console component of symfony is not installed. This component is required; please install ";
+    $consoleErrorMessage .= "it using:<br/><br/>";
+    $consoleErrorMessage .= "<code>pear install pear.doctrine-project.org/DoctrineSymfonyConsole</code><br/><br/>";
+
+    echo json_encode(array("error" => true, "message" => $consoleErrorMessage));
+    exit;
 }
 
 echo json_encode(array("error" => false, "warnings" => $aWarnings));
