@@ -7,10 +7,27 @@ use PartKeepr\PartKeepr;
 
 class TempFileService extends Service {
 
-	public function upload () {
+    /**
+     * Handles file uploads.
+     *
+     * This method can handle one upload per call; the file data needs to be in the "userfile" form variable - OR - be
+     * passed as "url" parameter, in which case this method will download the remote file.
+     *
+     * @return array An array containing the following information:
+     *               - id: The id of the temporary file
+     *               - extension: The extension of the temporary file
+     *               - size: The size of the temporary file
+     *               - originalFilename: The original file name
+     * @throws \Exception If something went wrong (yes, this needs refactoring!)
+     *
+     * @todo Refactoring this method needs to be done - it's bad, but mostly bad due to the bad handling of the $_FILES
+     *       array. Probably some wrapper method would help?
+     */
+    public function upload () {
 		$tmpFile = new TempUploadedFile();
-		
-		if (array_key_exists("userfile", $_FILES) && array_key_exists("error", $_FILES["userfile"]))
+
+		if (array_key_exists("userfile", $_FILES) && array_key_exists("error", $_FILES["userfile"]) &&
+            $_FILES["userfile"]["name"] != "")
 		{
 			switch ($_FILES["userfile"]["error"]) {
 				case 1:
@@ -43,7 +60,7 @@ class TempFileService extends Service {
     	
     	return array("id" => $tmpFile->getId(), "extension" => $tmpFile->getExtension(), "size" => $tmpFile->getSize(), "originalFilename" => $tmpFile->getOriginalFilename());
 	}
-	
+
 	/**
 	 * Receives a file via the service call.
 	 *
