@@ -18,16 +18,16 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 		
 	},
 	deleteRecord: function (r) {
-		var editor = this.findEditor(r.get("footprintId"));
+		var editor = this.findEditor(r.get("id"));
 		
 		if (editor !== null) {
 			this.editorTabPanel.remove(editor);
 		}
 		
 		var call = new PartKeepr.ServiceCall("Footprint", "destroy");
-		call.setParameter("id", r.get("footprintId"));
+		call.setParameter("id", r.get("id"));
 		call.setHandler(Ext.bind(function () {
-			var oldRecordIndex = PartKeepr.getApplication().getFootprintStore().find("id", r.get("footprintId"));
+			var oldRecordIndex = PartKeepr.getApplication().getFootprintStore().find("id", r.get("id"));
 			
 			PartKeepr.getApplication().getFootprintStore().removeAt(oldRecordIndex);
 			this.navigation.loadCategories();
