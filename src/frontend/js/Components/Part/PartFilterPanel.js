@@ -63,7 +63,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
             	        this.stockFilter,
             	        this.distributorOrderNumberFilter,
 						this.distributorFilter,
-						this.manufacturerFilter
+						this.manufacturerFilter,
+                        this.footprintFilter
             	        ]
 		};
 		
@@ -132,8 +133,12 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		
 		this.distributorFilterCombo.setValue("");
 		this.distributorFilterCheckbox.setValue(false);
+
 		this.manufacturerFilterCombo.setValue("");
 		this.manufacturerFilterCheckbox.setValue(false);
+
+        this.footprintFilterCombo.setValue("");
+        this.footprintFilterCheckbox.setValue(false);
 		
 		this.onApply();
 	},
@@ -322,8 +327,34 @@ Ext.define('PartKeepr.PartFilterPanel', {
 			items: [ this.distributorFilterCheckbox, this.distributorFilterCombo ],
 			fieldLabel: i18n("Distributor")
 		});
-		
-		
+
+        this.footprintFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
+            style: 'margin-right: 5px',
+            listeners: {
+                change: function (obj, value) {
+                    if (!value) {
+                        this.footprintFilterCombo.setValue("");
+                    }
+                },
+                scope: this
+            }
+        });
+
+		this.footprintFilterCombo = Ext.create("PartKeepr.FootprintComboBox", {
+            flex: 1,
+            listeners: {
+                select: function () {
+                    this.footprintFilterCheckbox.setValue(true);
+                },
+                scope: this
+            }
+        });
+
+        this.footprintFilter = Ext.create("Ext.form.FieldContainer", {
+            layout: 'hbox',
+            items: [ this.footprintFilterCheckbox, this.footprintFilterCombo ],
+            fieldLabel: i18n("Footprint")
+        });
 		
 	},
 	/**
@@ -356,6 +387,12 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		} else {
 			delete extraParams.distributor;
 		}
+
+        if (this.footprintFilterCombo.getRawValue() !== "") {
+            extraParams.footprint = this.footprintFilterCombo.getValue();
+        } else {
+            delete extraParams.footprint;
+        }
 		
 		extraParams.createDateRestriction = this.createDateFilterSelect.getValue();
 		var createDate = Ext.util.Format.date(this.createDateField.getValue(), "Y-m-d H:i:s");

@@ -67,6 +67,12 @@ class PartService extends Service implements RestfulService {
 			$queryBuilder->andWhere("mam.id = :manufacturer");
 			$queryBuilder->setParameter("manufacturer", $this->getParameter("manufacturer"));
 		}
+
+        if ($this->getParameter("footprint") !== null) {
+            $queryBuilder->andWhere("f.id = :footprintId");
+            $queryBuilder->setParameter("footprintId", $this->getParameter("footprint"));
+        }
+
 		/**
 		 * Filter by the category id and set the category mode
 		 * 
