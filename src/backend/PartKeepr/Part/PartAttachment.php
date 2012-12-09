@@ -159,8 +159,8 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 	 * @param string $path	The path to the original file
 	 */
 	public function replace ($path) {
-		$this->isImage = $this->canImagickParseImage();
 		parent::replace($path);
+        $this->isImage = $this->canImagickParseImage();
 	}
 	
 	/**
@@ -168,7 +168,20 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 	 * @param string $url
 	 */
 	public function replaceFromURL ($url) {
-		$this->isImage = $this->canImagickParseImage();
 		parent::replaceFromURL($url);
+        $this->isImage = $this->canImagickParseImage();
 	}
+
+    /**
+     * Replaces the file with a given temporary file.
+     *
+     * Additionally checks if the attachment is an image and flags the attachment as such.
+     *
+     * @param string $id The temporary id (prefixed with TMP:)
+     */
+    public function replaceFromTemporaryFile ($id) {
+        parent::replaceFromTemporaryFile($id);
+
+        $this->isImage = $this->canImagickParseImage();
+    }
 }
