@@ -48,7 +48,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
             	        this.categoryFilter,
             	        this.partsWithoutPrice,
             	        this.createDateFilter,
-            	        this.partsWithoutStockRemovals
+            	        this.partsWithoutStockRemovals,
+			this.needsReview
             	        ]
 		};
 		
@@ -64,7 +65,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
             	        this.distributorOrderNumberFilter,
 						this.distributorFilter,
 						this.manufacturerFilter,
-                        this.footprintFilter
+                        this.footprintFilter,
+			this.statusFilter,
+			this.conditionFilter
             	        ]
 		};
 		
@@ -129,6 +132,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.createDateFilterSelect.setValue("");
 		this.createDateField.setValue("");
 		this.partsWithoutStockRemovals.setValue(false);
+		this.needsReview.SetValue(false);
 		this.partsWithoutPrice.setValue(false);
 		
 		this.distributorFilterCombo.setValue("");
@@ -139,6 +143,10 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.footprintFilterCombo.setValue("");
         this.footprintFilterCheckbox.setValue(false);
+	
+	this.statusFilter.setValue("");
+	
+	this.conditionFilter.setValue("");
 		
 		this.onApply();
 	},
@@ -271,6 +279,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
 			boxLabel: i18n("Show Parts without stock removals only")
 		});
 		
+		this.needsReview = Ext.create("Ext.form.field.Checkbox", {
+			fieldLabel: i18n("Needs Review"),
+			boxLabel: i18n("Show Parts that need to reviewed only")
+		});		
+		
 		this.manufacturerFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
 			style: 'margin-right: 5px',
 			listeners: {
@@ -355,6 +368,18 @@ Ext.define('PartKeepr.PartFilterPanel', {
             items: [ this.footprintFilterCheckbox, this.footprintFilterCombo ],
             fieldLabel: i18n("Footprint")
         });
+	
+	/** **/
+	
+	this.statusFilter = Ext.create("Ext.form.field.Text", {
+		fieldLabel: i18n("Status"),
+		anchor: '100%'
+	});
+		
+	this.conditionFilter = Ext.create("Ext.form.field.Text", {
+		fieldLabel: i18n("Condition"),
+		anchor: '100%'
+	});
 		
 	},
 	/**
@@ -393,6 +418,10 @@ Ext.define('PartKeepr.PartFilterPanel', {
         } else {
             delete extraParams.footprint;
         }
+	
+	extraParams.status = this.statusFilter.getValue();
+	extraParams.condition = this.conditionFilter.getValue();
+	
 		
 		extraParams.createDateRestriction = this.createDateFilterSelect.getValue();
 		var createDate = Ext.util.Format.date(this.createDateField.getValue(), "Y-m-d H:i:s");
@@ -405,6 +434,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		
 		extraParams.withoutStockRemovals =  this.partsWithoutStockRemovals.getValue();
 		
+		extraParams.needsReview =  this.needsReview.getValue();
 	}
 	
 });

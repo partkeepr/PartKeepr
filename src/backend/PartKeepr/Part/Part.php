@@ -150,6 +150,13 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * @var boolean
 	 */
 	private $needsReview;
+
+	/**
+	 * Defines the condition of the part
+	 * @Column(type="string",nullable=true)
+	 * @var string
+	 */
+	private $partCondition;
 	
 	/**
 	 * The create date+time for this part
@@ -279,6 +286,23 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	public function getReviewFlag () {
 		return $this->needsReview;
 	}
+
+	/**
+	 * Sets the condition for this part
+	 * @param string $partCondition The part's condition
+	 */
+	public function setCondition ($partCondition) {
+		$this->partCondition = $partCondition;
+	}
+
+	/**
+	 * Returns the condition of this part
+	 * @return string The part condition
+	 */
+	public function getCondition () {
+		return $this->partCondition;
+	}
+	
 	
 	/**
 	 * Set the minimum stock level for this part
@@ -491,6 +515,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					"parameters" => $this->serializeChildren($this->getParameters()),
 					"createDate" => $this->getCreateDate()->format("Y-m-d H:i:s"),
 					"needsReview" => $this->getReviewFlag(),
+					"partCondition" => $this->getCondition(),
 					"internalPartNumber" => $this->getInternalPartNumber(),
 					// Additional things we serialize to make displaying stuff in the frontend easier
 					"categoryName" => is_object($this->category) ?  $this->category->getName() : null,
@@ -568,6 +593,9 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					break;
 				case "needsReview":
 					$this->setReviewFlag($value);
+					break;
+				case "partCondition":
+					$this->setCondition($value);
 					break;
 				case "attachments":
 					$this->deserializeChildren($value, $this->getAttachments(), "PartKeepr\Part\PartAttachment");

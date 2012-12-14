@@ -222,8 +222,12 @@ Ext.define('PartKeepr.PartsGrid', {
 			dataIndex: "",
 			width: 30,
 			renderer: this.iconRenderer
-		},
-		{
+		},{
+			header: i18n("R"),
+			dataIndex: "",
+			width: 30,
+			renderer: this.reviewRenderer
+		},{
 			header: i18n("Name"),
 			dataIndex: 'name',
 			flex: 1,
@@ -242,6 +246,12 @@ Ext.define('PartKeepr.PartsGrid', {
 		},{
 			header: i18n("Status"),
 			dataIndex: "status",
+			width: 80,
+			renderer: Ext.util.Format.htmlEncode
+		},{
+			header: i18n("Condition"),
+			dataIndex: "partCondition",
+			width: 80,
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Stock"),
@@ -250,19 +260,23 @@ Ext.define('PartKeepr.PartsGrid', {
 				xtype:'numberfield',
 				allowBlank:false
 			},
+			width: 60,
 			renderer: this.stockLevelRenderer
 		},{
 			header: i18n("Min. Stock"),
 			dataIndex: 'minStockLevel',
+			width: 70,
 			renderer: this.stockLevelRenderer
 		},{
 			header: i18n("Avg. Price"),
 			dataIndex: 'averagePrice',
 			align: 'right',
+			width: 65,
 			renderer: this.averagePriceRenderer
 		},{
 			header: i18n("Footprint"),
 			dataIndex: 'footprintName',
+			minWidth: 150,
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Category"),
@@ -303,6 +317,18 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		return ret;
 	},
+	/**
+	 * Used as renderer for the review column.
+	 */
+	 reviewRenderer: function (val,q,rec)
+	 {
+	 	var ret = "";
+		if (rec.get("needsReview") === true) {
+			ret += '<img src="resources/diagona-icons/icons/10/071.png" style="margin-top: 2px;" alt="'+i18n("Needs review")+'" title="'+i18n("Needs review")+'"/>';
+		}
+		
+		return ret;
+	 },
 	/**
 	 * Sets the category. Triggers a store reload with a category filter.
 	 */
