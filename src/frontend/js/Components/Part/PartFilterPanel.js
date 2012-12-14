@@ -132,7 +132,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.createDateFilterSelect.setValue("");
 		this.createDateField.setValue("");
 		this.partsWithoutStockRemovals.setValue(false);
-		this.needsReview.SetValue(false);
+		this.needsReview.setValue(false);
 		this.partsWithoutPrice.setValue(false);
 		
 		this.distributorFilterCombo.setValue("");
