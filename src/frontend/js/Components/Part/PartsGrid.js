@@ -231,11 +231,13 @@ Ext.define('PartKeepr.PartsGrid', {
 		},{
 			header: i18n("Name"),
 			dataIndex: 'name',
+			flex: 1,
 			minWidth: 150,
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Description"),
 			dataIndex: 'description',
+			flex: 2,
 			minWidth: 150,
 			renderer: Ext.util.Format.htmlEncode
 		},{
