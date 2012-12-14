@@ -223,20 +223,19 @@ Ext.define('PartKeepr.PartsGrid', {
 			width: 30,
 			renderer: this.iconRenderer
 		},{
-			header: i18n("R"),
-			dataIndex: "",
-			width: 30,
+			header: '<img src="resources/diagona-icons/icons/10/102.png">',
+			dataIndex: "needsReview",
+			width: 25,
+			tooltip: "Needs Reviewed?",
 			renderer: this.reviewRenderer
 		},{
 			header: i18n("Name"),
 			dataIndex: 'name',
-			flex: 1,
 			minWidth: 150,
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Description"),
 			dataIndex: 'description',
-			flex: 2,
 			minWidth: 150,
 			renderer: Ext.util.Format.htmlEncode
 		},{
@@ -246,12 +245,10 @@ Ext.define('PartKeepr.PartsGrid', {
 		},{
 			header: i18n("Status"),
 			dataIndex: "status",
-			width: 80,
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Condition"),
 			dataIndex: "partCondition",
-			width: 80,
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Stock"),
@@ -260,23 +257,19 @@ Ext.define('PartKeepr.PartsGrid', {
 				xtype:'numberfield',
 				allowBlank:false
 			},
-			width: 60,
 			renderer: this.stockLevelRenderer
 		},{
 			header: i18n("Min. Stock"),
 			dataIndex: 'minStockLevel',
-			width: 70,
 			renderer: this.stockLevelRenderer
 		},{
 			header: i18n("Avg. Price"),
 			dataIndex: 'averagePrice',
 			align: 'right',
-			width: 65,
 			renderer: this.averagePriceRenderer
 		},{
 			header: i18n("Footprint"),
 			dataIndex: 'footprintName',
-			minWidth: 150,
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Category"),
