@@ -1,6 +1,5 @@
 Ext.define('PartKeepr.picker.Char', {
-    extend: 'Ext.Component',
-    requires: 'Ext.XTemplate',
+    extend: 'Ext.picker.Color',
     alias: 'widget.charpicker',
 
     /**
@@ -74,54 +73,12 @@ Ext.define('PartKeepr.picker.Char', {
     ],
 
     // private
-    initComponent : function(){
+    initRenderData : function(){
         var me = this;
-
-        me.callParent(arguments);
-        me.addEvents(
-            /**
-             * @event select
-             * Fires when a char is selected
-             * @param {Ext.picker.Char} this
-             * @param {String} char The char
-             */
-            'select');
-
-        if (me.handler) {
-            me.on('select', me.handler, me.scope, true);
-        }
-    },
-
-
-    // private
-    onRender : function(container, position){
-        var me = this,
-            clickEvent = me.clickEvent;
-
-        Ext.apply(me.renderData, {
-            itemCls: me.itemCls,
+        return Ext.apply(me.callParent(), {
+            iitemCls: me.itemCls,
             chars: me.chars
         });
-        me.callParent(arguments);
-
-        me.mon(me.el, clickEvent, me.handleClick, me, {delegate: 'a'});
-        // always stop following the anchors
-        if(clickEvent != 'click'){
-            me.mon(me.el, 'click', Ext.emptyFn, me, {delegate: 'a', stopEvent: true});
-        }
-    },
-
-    // private
-    afterRender : function(){
-        var me = this,
-            value;
-
-        me.callParent(arguments);
-        if (me.value) {
-            value = me.value;
-            me.value = null;
-            me.select(value, true);
-        }
     },
 
     // private
@@ -154,24 +111,10 @@ Ext.define('PartKeepr.picker.Char', {
 
 
         if (chr != value || me.allowReselect) {
-            /*el = me.el;
-
-            if (me.value) {
-                el.down('a.char-' + value).removeCls(selectedCls);
-            }
-            el.down('a.char-' + chr).addCls(selectedCls);*/
             me.value = chr;
             if (suppressEvent !== true) {
                 me.fireEvent('select', me, chr);
             }
         }
-    },
-
-    /**
-     * Get the currently selected char value.
-     * @return {String} value The selected value. Null if nothing is selected.
-     */
-    getValue: function(){
-        return this.value || null;
     }
 });
