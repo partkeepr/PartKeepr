@@ -218,12 +218,13 @@ Ext.define('PartKeepr.PartsGrid', {
 	defineColumns: function () {
 		this.columns = [
 		{
-			header: "",
+			header: '<img src="resources/diagona-icons/icons/10/190.png"/>',
 			dataIndex: "",
 			width: 30,
+            tooltip: i18n("Has attachments?"),
 			renderer: this.iconRenderer
 		},{
-			header: '<img src="resources/diagona-icons/icons/10/102.png">',
+			header: '<img src="resources/diagona-icons/icons/10/102.png"/>',
 			dataIndex: "needsReview",
 			width: 25,
 			tooltip: i18n("Needs Review?"),
