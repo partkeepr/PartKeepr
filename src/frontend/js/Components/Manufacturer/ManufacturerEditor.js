@@ -6,16 +6,14 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 	initComponent: function () {
 		this.on("startEdit", Ext.bind(this.onEditStart, this));
 		
-		this.tpl = [
+		this.tpl = new Ext.XTemplate(
 				'<tpl for=".">',
 		            '<div class="thumb-wrap" id="{id}">',
-				    '<div class="thumb"><img src="image.php?type=iclogo&id={id}&w=64&h=64&tmpId={tmp_id}"></div>',
+				    '<div class="thumb"><img src="image.php?type=iclogo&id={id}&w=64&h=64&tmpId={tmp_id}"/></div>',
 				    '</div>',
 		        '</tpl>',
-		        '</tpl>',
-		        '<div class="x-clear"></div>'
-		        ];
-		
+		        '<div class="x-clear"></div>');
+
 		this.addLogoButton = Ext.create("Ext.button.Button", {
 	        icon: "resources/silkicons/add.png",
 	        text: i18n("Add Logo"),
@@ -51,7 +49,6 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 						this.deleteLogoButton.disable();
 					}
 				}, this) 
-					//this.onLogoSelectionChange.createDelegate(this)
 			}
 		});
 		
