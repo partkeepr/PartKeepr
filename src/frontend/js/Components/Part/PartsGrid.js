@@ -222,8 +222,13 @@ Ext.define('PartKeepr.PartsGrid', {
 			dataIndex: "",
 			width: 30,
 			renderer: this.iconRenderer
-		},
-		{
+		},{
+			header: '<img src="resources/diagona-icons/icons/10/102.png">',
+			dataIndex: "needsReview",
+			width: 25,
+			tooltip: "Needs Reviewed?",
+			renderer: this.reviewRenderer
+		},{
 			header: i18n("Name"),
 			dataIndex: 'name',
 			flex: 1,
@@ -242,6 +247,10 @@ Ext.define('PartKeepr.PartsGrid', {
 		},{
 			header: i18n("Status"),
 			dataIndex: "status",
+			renderer: Ext.util.Format.htmlEncode
+		},{
+			header: i18n("Condition"),
+			dataIndex: "partCondition",
 			renderer: Ext.util.Format.htmlEncode
 		},{
 			header: i18n("Stock"),
@@ -303,6 +312,18 @@ Ext.define('PartKeepr.PartsGrid', {
 		
 		return ret;
 	},
+	/**
+	 * Used as renderer for the review column.
+	 */
+	 reviewRenderer: function (val,q,rec)
+	 {
+	 	var ret = "";
+		if (rec.get("needsReview") === true) {
+			ret += '<img src="resources/diagona-icons/icons/10/071.png" style="margin-top: 2px;" alt="'+i18n("Needs review")+'" title="'+i18n("Needs review")+'"/>';
+		}
+		
+		return ret;
+	 },
 	/**
 	 * Sets the category. Triggers a store reload with a category filter.
 	 */

@@ -47,7 +47,7 @@ class PartManager extends AbstractManager {
 					"minStockLevel", "comment", "st.id AS storageLocation_id", "c.categoryPath AS categoryPath",
 					"st.name as storageLocationName", "f.id AS footprint_id", "f.name AS footprintName",
 					"c.id AS category", "c.name AS categoryName", "pu.id AS partUnit", "pu.name AS partUnitName",
-					"pu.is_default AS partUnitDefault"			 
+					"pu.is_default AS partUnitDefault", "partCondition"
 				);
 	}
 	

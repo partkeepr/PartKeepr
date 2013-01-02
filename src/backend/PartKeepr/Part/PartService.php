@@ -163,6 +163,29 @@ class PartService extends Service implements RestfulService {
 			
 			$queryBuilder->andWhere("q.id NOT IN (".implode(",", $filter).")");
 		}
+		
+		/**
+		 * Query by the review flag
+		 */
+		if ($this->getParameter("needsReview") === true || $this->getParameter("needsReview") === "true") {
+			$queryBuilder->andWhere("q.needsReview = true");
+		}		
+		
+		/**
+		 * Query by the status
+		 */
+		if ($this->getParameter("status")) {
+			$queryBuilder->andWhere("LOWER(q.status) LIKE :status");
+			$queryBuilder->setParameter("status", "%".strtolower($this->getParameter("status"))."%");
+		}
+		
+		/**
+		 * Query by the condition
+		 */
+		if ($this->getParameter("condition")) {
+			$queryBuilder->andWhere("LOWER(q.partCondition) LIKE :condition");
+			$queryBuilder->setParameter("condition", "%".strtolower($this->getParameter("condition"))."%");
+		}
 	}
 	
 	/**
