@@ -226,7 +226,7 @@ Ext.define('PartKeepr.PartsGrid', {
 			header: '<img src="resources/diagona-icons/icons/10/102.png">',
 			dataIndex: "needsReview",
 			width: 25,
-			tooltip: "Needs Reviewed?",
+			tooltip: i18n("Needs Review?"),
 			renderer: this.reviewRenderer
 		},{
 			header: i18n("Name"),
