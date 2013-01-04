@@ -39,7 +39,7 @@ Ext.define('PartKeepr.ProjectEditor', {
 		Ext.Object.merge(config, {
 			autoLoad: false,
 			model: "PartKeepr.ProjectPart",
-			autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
+			autoSync: false, // Do not change. If true, new (empty) records would be immediately committed to the database.
 			remoteFilter: false,
 			remoteSort: false
 			});

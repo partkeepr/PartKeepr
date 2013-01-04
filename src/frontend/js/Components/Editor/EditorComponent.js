@@ -173,7 +173,7 @@ Ext.define('PartKeepr.EditorComponent', {
 		Ext.Object.merge(config, {
 				autoLoad: true,
 				model: this.model,
-				autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
+				autoSync: false, // Do not change. If true, new (empty) records would be immediately committed to the database.
 				remoteFilter: true,
 				remoteSort: true,
 				pageSize: 15});
