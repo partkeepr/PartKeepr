@@ -182,6 +182,30 @@
 			</else>
 		</if>
 
+        <echo>Copying Ext.ux.Wizard</echo>
+        <copy overwrite="false" todir="frontend/js/Ext.ux/">
+            <fileset dir="3rdparty/ext-wizard/Ext.ux.Wizard/">
+                <include name="Ext.ux.Wizard.Card.js" />
+                <include name="Ext.ux.Wizard.CardLayout.js" />
+                <include name="Ext.ux.Wizard.Header.js" />
+                <include name="Ext.ux.Wizard.js" />
+            </fileset>
+        </copy>
+
+        <echo>Copying Ext.ux.Exporter</echo>
+        <copy overwrite="false" todir="frontend/js/Ext.ux.Exporter/">
+            <fileset dir="3rdparty/Ext.ux.Exporter">
+                <include name="Base64.js" />
+                <include name="Formatter.js" />
+                <include name="Button.js" />
+                <include name="Exporter.js" />
+                <include name="downloadify.min.js" />
+                <include name="wikiFormatter/*" />
+                <include name="excelFormatter/*" />
+                <include name="csvFormatter/*" />
+            </fileset>
+        </copy>
+
 		<echo>Copying phpjs</echo>
 		<mkdir dir="frontend/js/org.phpjs.lib/" />
 		<if>

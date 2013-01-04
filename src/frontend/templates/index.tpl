@@ -24,7 +24,6 @@
 			{% for i in scripts %}
 			<script type="text/javascript" src="{{ i }}"></script>
 			{% endfor %}
-			<script type="text/javascript" src="js/Ext.ux/Ext.ux.formatter-all-debug.js"></script>
 			{% else %}
 			<script type="text/javascript" src="extjs/ext-all-debug.js"></script>
 			<script type="text/javascript" src="js/partkeepr-debug.js"></script>

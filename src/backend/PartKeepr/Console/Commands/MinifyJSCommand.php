@@ -4,6 +4,7 @@ namespace PartKeepr\Console\Commands;
 use Symfony\Component\Console\Input\InputArgument,
 	Symfony\Component\Console\Input\InputOption,
 	Symfony\Component\Console,
+    PartKeepr\PartKeepr,
 	PartKeepr\Util\Minifier\Minifier,
 	PartKeepr\Util\Minifier\jsminMinifier,
 	PartKeepr\Util\Minifier\yuiCompressorMinifier,
@@ -54,6 +55,23 @@ EOT
 		}
 
 		$orderedFileList = $this->getOrderedFileList($sourceDirs);
+
+        // Write out the used JS files which are required for the full debug frontend mode.
+        // @todo Fix that some time - it's a bit ugly.
+
+        $frontendFiles = array();
+
+        foreach ($orderedFileList as $orderedFile) {
+            $orderedFile = str_replace(PartKeepr::getRootDirectory()."/src/frontend/", "", $orderedFile);
+            $orderedFile = str_replace(PartKeepr::getRootDirectory()."/3rdparty/extjs/examples/ux/", "js/Ext.ux/", $orderedFile);
+            $orderedFile = str_replace(PartKeepr::getRootDirectory()."/3rdparty/ext-wizard/Ext.ux.Wizard/", "js/Ext.ux/", $orderedFile);
+            $orderedFile = str_replace(PartKeepr::getRootDirectory()."/3rdparty/Ext.ux.Exporter/", "js/Ext.ux.Exporter/", $orderedFile);
+
+            $frontendFiles[] = $orderedFile;
+        }
+        file_put_contents(
+            PartKeepr::getRootDirectory() . "/partkeepr.jsfiles",
+            serialize($frontendFiles));
 
 		if (count($orderedFileList) == 0) {
 			throw new \RuntimeException("No files in the source directories found.");
