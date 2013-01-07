@@ -38,6 +38,11 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 					handler: this.exportWiki,
 					scope: this
 				}]
+			},{
+				icon: 'resources/fugue-icons/icons/printer.png',
+				text: i18n('Print ...'),
+				handler: this.exportPrint,
+				scope: this
 			}]
 		});
 		
@@ -68,6 +73,21 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 	 */
 	exportXLSX: function () {
 		this.doExport(Ext.ux.exporter.Exporter.exportAny(this.grid, "excel", {}), this.getExportFilename() + ".xlsx");
+	},
+	/**
+	 * Exports selection to print
+	 */
+	exportPrint: function () {
+		selection = this.grid.getSelectionModel().getSelection();
+		var ids = new Array();
+		for (var i=0;i<selection.length;i++) {
+			ids.push(selection[i].get("id"));
+		}
+		
+		var val = Ext.create("PartKeepr.PrintingWindow");
+		val.setObjectType('PartKeepr\\Part\\Part');
+		val.setObjectIds(ids);
+		val.show();
 	},
 	/**
 	 * Returns the filename without extension for the grid. Defaults to the grid's title
