@@ -26,8 +26,9 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 			'barcodeWithText' => false,
 			'barcode2D' => false,
 			'fontFamily' => 'times',
-			'fontStyle' => 'B',
-			'fontSize' => 12
+			'fontStyle' => '',
+			'fontSize' => 12,
+			'text' => '<dl><dt><b>Name:</b></dt><dd>!!name!!</dd><dt><b>Description:</b></dt><dd>!!description!!</dd><dt><b>Footprint:</b></dt><dd>!!footprintName!!</dd></dl>'
 			);
 	
 	public function __construct (PageBasicLayout $layout, array $configuration ) {
@@ -152,11 +153,17 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 		$this->initNextCell();
 	
 		$padding = 3;
-	
-		$name = $part->getName();
-		$description = $part->getDescription();
 		
-		$text = "Name: $name <br>Description: $description";
+		$dataReplacement = array(
+				'!!name!!' => $part->getName(),
+				'!!internalNumber!!' => $part->getInternalPartNumber(),
+				'!!description!!' => $part->getDescription(),
+				'!!categoryFull!!' => $part->getCategory()->getCategoryPath(),
+				'!!categoryLast!!' => $part->getCategory()->getName(),
+				'!!footprintName!!' => $part->getFootprint() === null ? '': $part->getFootprint()->getName()
+				);
+		
+		$text = strtr($this->configuration['text'], $dataReplacement);
 	
 		$this->pdf->SetCellPadding($padding);
 		$this->pdf->SetFont( $this->configuration['fontFamily'],
