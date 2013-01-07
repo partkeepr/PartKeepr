@@ -29,8 +29,10 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
 			listeners: {
 				scope: this,
 				change: function (field, newValue) {
-					this.rendererStore.getProxy().extraParams.objectType = newValue;
-					this.rendererStore.load();
+					if (newValue){
+						this.rendererStore.getProxy().extraParams.objectType = newValue;
+						this.rendererStore.load();
+					}
 					// We will always clear the value to have a clean box, also if the
 					// loaded store does not contain the actually selected value.
 					this.rendererSelector.clearValue();
