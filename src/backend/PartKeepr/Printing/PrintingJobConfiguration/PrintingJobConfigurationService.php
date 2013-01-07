@@ -1,33 +1,36 @@
 <?php
 namespace PartKeepr\Printing\PrintingJobConfiguration;
 
-use PartKeepr\Service\RestfulService,
-	PartKeepr\Service\Service,
+use PartKeepr\PartKeepr,
+	PartKeepr\Manager\ManagerFilter,
 	PartKeepr\Printing\PrintingJobConfiguration\PrintingJobConfiguration,
 	PartKeepr\Printing\PrintingJobConfiguration\PrintingJobConfigurationManager,
-	PartKeepr\PartKeepr;
+	PartKeepr\Service\RestfulService,
+	PartKeepr\Service\FilterExtractor,
+	PartKeepr\Service\Service;
 
 class PrintingJobConfigurationService extends Service implements RestfulService {
-	
 	public function get () {
 		if ($this->hasParameter("id")) {
-			return  array("data" => PrintingJobConfigurationManager::getInstance()->getObjectById($this->getParameter("id"))->serialize());
-		} else {
-			if ($this->hasParameter("sort")) {
-				$tmp = json_decode($this->getParameter("sort"), true);
+			return array("data" => PrintingJobConfigurationManager::getInstance()->getEntity($this->getParameter("id"))->serialize());
+		} else {				
+			$filter = new ManagerFilter($this);
+			$filter->setFilterCallback(array($this, "filterCallback"));
 				
-				$aSortParams = $tmp[0];
-			} else {
-				$aSortParams = array(
-					"property" => "name",
-					"direction" => "ASC");
-			}
-			return PrintingJobConfigurationManager::getInstance()->getMultipleObjects(
-				$this->getParameter("start", $this->getParameter("start", 0)),
-				$this->getParameter("limit", $this->getParameter("limit", 25)),
-				$this->getParameter("sortby", $aSortParams["property"]),
-				$this->getParameter("dir", $aSortParams["direction"]),
-				$this->getParameter("query", ""));
+			return PrintingJobConfigurationManager::getInstance()->getList($filter);
+		}
+	}	
+	
+	/**
+	 * Advanced filtering for the list
+	 * @param QueryBuilder The $queryBuilder
+	 */
+	public function filterCallback ($queryBuilder) {
+		$filter = new FilterExtractor($this);
+		
+		if ($filter->has("objectType") && $filter->get("objectType") != "") {	
+			$queryBuilder->andWhere("q.objectType = :objtype");
+			$queryBuilder->setParameter("objtype", $filter->get("objectType") );
 		}
 	}
 	
@@ -46,7 +49,7 @@ class PrintingJobConfigurationService extends Service implements RestfulService 
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
-		$obj = PrintingJobConfigurationManager::getInstance()->getObjectById($this->getParameter("id"));
+		$obj = PrintingJobConfigurationManager::getInstance()->getEntity($this->getParameter("id"));
 		$obj->deserialize($this->getParameters());
 		
 		PartKeepr::getEM()->flush();
@@ -58,7 +61,7 @@ class PrintingJobConfigurationService extends Service implements RestfulService 
 	public function destroy () {
 		$this->requireParameter("id");
 		
-		PrintingJobConfigurationManager::getInstance()->deleteObjectById($this->getParameter("id"));
+		PrintingJobConfigurationManager::getInstance()->deleteEntity($this->getParameter("id"));
 		
 		return array("data" => null);
 	}

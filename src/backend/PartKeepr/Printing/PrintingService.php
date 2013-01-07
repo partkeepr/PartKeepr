@@ -48,7 +48,7 @@ class PrintingService extends Service {
 			throw new RendererNotFoundException("Object type is forbidden!", $objectType, array_keys($this->availableObjectTypes));
 		}
 		
-		$configuration = PrintingJobConfigurationManager::getInstance()->getObjectById( $configurationId );
+		$configuration = PrintingJobConfigurationManager::getInstance()->getEntity( $configurationId );
 		if ($configuration->getPageLayout() == null ){
 			throw new InvalidArgumentException( PartKeepr::i18n('Page Layout is emtpy!'));
 		}
