@@ -28,6 +28,8 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 
 	initComponent: function () {
 		this.createStores();
+		
+		this.printExecutor = Ext.create('PartKeepr.PrintingExecutor');
 
 		this.upperGridEditing = Ext.create('Ext.grid.plugin.CellEditing', {
 	        clicksToEdit: 1
@@ -71,7 +73,7 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 			labelWidth: 140,
 			margins: { left: 10 }
 			} );
-		
+
 		this.items = [
 		              {
 		            	  title: i18n("Choose locations to print label for"),
@@ -105,30 +107,14 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 		this.callParent();
 	},
 	onPrintClick: function () {
-		configId = this.layoutSelector.getValue();
-		if (configId==null){
-			Ext.Msg.alert(i18n("Error"),i18n("No Layout selected for printing. Please select a layout and try again."));
-			return;
-		}
-		
 		selection = this.locationList.getSelectionModel().getSelection();
-		
-		var params = new Array();
-		
+		var ids = new Array();
 		for (var i=0;i<selection.length;i++) {
-			params.push(selection[i].get("id"));
+			ids.push(selection[i].get("id"));
 		}
-        
-		this.storePrintingService.getProxy().extraParams.configuration = configId;
-		this.storePrintingService.getProxy().extraParams.ids = params.join(",");
-		this.storePrintingService.load({
-			callback : function(r, options, success) {
-				if (success ){			
-					window.open('file.php?id=' + r[0].data.fileid + '&type=Print');
-				}
-            }
-		}
-		);
+
+		configId = this.layoutSelector.getValue();
+		this.printExecutor.executePrint( configId, 'PartKeepr\\StorageLocation\\StorageLocation', ids);
 	},
 	/**
 	 * Creates the store used in this view.
@@ -141,31 +127,8 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 		};
 
 		this.storeStorageLocation = Ext.create('Ext.data.Store', config);
-		
-		this.storePrintingService = Ext.create("Ext.data.Store", {			
-    		model: 'PartKeepr.PrintingResponse',
-    		proxy: {
-    	        type: 'ajax',
-    	        reader: {
-    	            type: 'json',
-    	            root: 'response'
-    	        },
-    	        url : 'service.php',
-    	        extraParams: {
-    	        	"service": "Printing",
-    	        	"call": "startExport",
-   	        		"ids": "",
-   	        		"objectType":"PartKeepr\\StorageLocation\\StorageLocation",
-   	        		"configuration": ""
-   	        	},
-    	        headers: {
-    	        	session :PartKeepr.getApplication().getSession()
-    	        }
-    	    },
-    	    autoLoad: false
-    	});
-		
-		this.configurationStore = Ext.create("Ext.data.Store", {			
+
+		this.configurationStore = Ext.create("Ext.data.Store", {
 			autoLoad: true,
     		model: 'PartKeepr.Printing.PrintingJobConfiguration',
 			pageSize: -1
