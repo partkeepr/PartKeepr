@@ -1,8 +1,8 @@
 <?php
 namespace PartKeepr\Printing\Renderer;
 
-use PartKeepr\Printing\RendererFactoryRegistry,
-    PartKeepr\Printing\RendererNotFoundException,
+use PartKeepr\Part\Part,
+	PartKeepr\Printing\RendererFactoryRegistry,
     PartKeepr\Printing\SimpleRendererFactory,
     PartKeepr\Printing\Exceptions\RendererNotFoundException,
 	PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
@@ -46,6 +46,8 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 				$elem = reset($data);
 				if ($elem instanceof StorageLocation){
 					$this->renderStorageLocations($data);
+				} elseif ($elem instanceof Part){
+					$this->renderParts($data);
 				}
 				else{
 					throw new RendererNotFoundException("Unable to handle object type with renderer PDFLabelRenderer.",
@@ -129,6 +131,56 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 			}
 		}
 	}
+	
+	/**
+	 * This method renders an array of Parts to our sheet.
+	 * @param array $parts
+	 */
+	private function renderParts( array $parts ){
+		foreach ($parts as $part){
+			$this->renderCellFromPart( $part );
+		}
+	}
+	
+	/**
+	 * This method just renders the next single cell with a part
+	 * as content.
+	 */
+	private function renderCellFromPart( Part $part ){
+		// Move the pointer to the next cell and initialize PDF class
+		// correctly. Also draws the grid if necessary.
+		$this->initNextCell();
+	
+		$padding = 3;
+	
+		$name = $part->getName();
+		$description = $part->getDescription();
+		
+		$text = "Name: $name <br>Description: $description";
+	
+		$this->pdf->SetCellPadding($padding);
+		$this->pdf->SetFont( $this->configuration['fontFamily'],
+				$this->configuration['fontStyle'],
+				$this->configuration['fontSize']);
+		$this->pdf->SetXY( $this->xCellPos,$this->yCellPos );
+	
+		// Start clipping. Every thing with StartTransform and StopTransform
+		// will be clipped to the Rect. This is a cool feature if one field is
+		// too long, it will not destroy the rest of your page and it is partial
+		// usable.
+		$this->pdf->StartTransform();
+		// Draw clipping rectangle to match html cell.
+		$this->pdf->Rect($this->xCellPos, $this->yCellPos, $this->layout->getCellWidthInMM(),
+				$this->layout->getCellHeightInMM(), 'CNZ');
+	
+		$this->pdf->WriteHTMLCell( $this->layout->getCellWidthInMM(),
+				$this->layout->getCellHeightInMM(), 
+				$this->xCellPos, 
+				$this->yCellPos,
+				$text);
+	
+		$this->pdf->StopTransform();
+	}
 }
 
 // We have to register this class to the registry.
@@ -137,6 +189,7 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 RendererFactoryRegistry::getInstance()->registerFactory(
 	 new SimpleRendererFactory("Default PDF renderer",
 				"PartKeepr\Printing\Renderer\PDFDefaultRenderer",
-				array("PartKeepr\StorageLocation\StorageLocation") 
+				array("PartKeepr\StorageLocation\StorageLocation",
+					"PartKeepr\Part\Part") 
 				)
 	 );
