@@ -14,18 +14,6 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 
 	layout: 'border',
 
-	listeners: {
-	    activate: function(tab, eOpts) {
-	    	// Everytime we enter teh panel, we requery our storage to ensure
-	    	// a consistent state with other tabs.
-	    	this.configurationStore.reload();
-
-	    	// TODO: this should also be reloaded, but if we do so, we losse our
-	    	// selections. So we must implement a way to keep them or something else?
-	    	// this.storeStorageLocation.reload();
-	    }
-	},
-
 	initComponent: function () {
 		this.createStores();
 		
@@ -63,17 +51,6 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 
 		});
 
-
-		this.layoutSelector = Ext.create('Ext.form.field.ComboBox',{
-			store: this.configurationStore,
-		    valueField: 'id',
-		    displayField: 'name',
-			fieldLabel: i18n("Printing Configuration"),
-			allowBlank: false,
-			labelWidth: 140,
-			margins: { left: 10 }
-			} );
-
 		this.items = [
 		              {
 		            	  title: i18n("Choose locations to print label for"),
@@ -99,7 +76,7 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 										},
 										border: false,
 										bodyStyle: 'background:#DBDBDB',
-										items: [ this.printIt, this.layoutSelector]
+										items: [ this.printIt]
 									}
 		            	          ]
 		              }];
@@ -113,8 +90,10 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 			ids.push(selection[i].get("id"));
 		}
 
-		configId = this.layoutSelector.getValue();
-		this.printExecutor.executePrint( configId, 'PartKeepr\\StorageLocation\\StorageLocation', ids);
+		var val = Ext.create("PartKeepr.PrintingWindow");
+		val.setObjectType('PartKeepr\\StorageLocation\\StorageLocation');
+		val.setObjectIds(ids);
+		val.show();
 	},
 	/**
 	 * Creates the store used in this view.
@@ -127,16 +106,5 @@ Ext.define('PartKeepr.PrintStorageLocations', {
 		};
 
 		this.storeStorageLocation = Ext.create('Ext.data.Store', config);
-
-		this.configurationStore = Ext.create("Ext.data.Store", {
-			autoLoad: true,
-    		model: 'PartKeepr.Printing.PrintingJobConfiguration',
-			pageSize: -1
-			// TODO: Findout why this does not work??
-//			filters: [{
-//		         property: 'objectType',
-//		         value: 'PartKeepr\\StorageLocation\\StorageLocation'
-//		     }]
-    	});
 	}
 });
