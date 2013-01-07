@@ -31,11 +31,6 @@ Ext.define('PartKeepr.PrintingWindow', {
 			autoLoad: true,
     		model: 'PartKeepr.Printing.PrintingJobConfiguration',
 			pageSize: -1
-			// TODO: Findout why this does not work??
-			//			filters: [{
-			//		         property: 'objectType',
-			//		         value: 'PartKeepr\\StorageLocation\\StorageLocation'
-			//		     }]
     	});
 		
 		this.configurationSelector = Ext.create('Ext.form.field.ComboBox',{
@@ -80,6 +75,7 @@ Ext.define('PartKeepr.PrintingWindow', {
 	 */
 	setObjectType: function( objectType ) {
 		this.objectType = objectType;
+		this.configurationStore.filter('objectType', objectType );		
 	},
 	/**
 	 * Set the ids of the objects which should be printed/exported
