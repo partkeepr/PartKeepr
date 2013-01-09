@@ -52,6 +52,15 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 	protected $configuration;
 	
 	/**
+	 * This boolean can be set to true to not trigger an error on startup.
+	 * We implement it this way, to ensure the implementer of the plugin has
+	 * thought of this potential security risk.
+	 * 
+	 * @var unknown
+	 */
+	protected $doNotErrorIfTCPDFSetsCalls = false;
+	
+	/**
 	 * Our default configuration for this label renderer.
 	 * @var array
 	 */
@@ -66,6 +75,9 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 		
 		$this->cellsRendered = $this->configuration['startingCell'];
 		
+		if (K_TCPDF_CALLS_IN_HTML && !$doNotErrorIfTCPDFSetsCalls){
+			trigger_error("TCPDF has set K_TCPDF_CALLS_IN_HTML to true, which is a security issue with this class since the user can modify the html text!",E_USER_ERROR);
+		}
 		$this->pdf = new \TCPDF( $layout->getPaperPortrait() ? 'P': 'L' 
 				, 'mm', $layout->getPaperSize(), true, 'UTF-8', false);
 		
