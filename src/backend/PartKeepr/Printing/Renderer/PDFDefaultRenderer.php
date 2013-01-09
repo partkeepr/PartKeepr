@@ -7,6 +7,7 @@ use PartKeepr\Part\Part,
     PartKeepr\Printing\Exceptions\RendererNotFoundException,
 	PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
 	PartKeepr\Printing\Renderer\TCPDFAbstractRenderer,
+	PartKeepr\Printing\Renderer\PercentOrNumericHelper,
     PartKeepr\StorageLocation\StorageLocation
 	;
 
@@ -21,21 +22,25 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 	 */
 	private $defaultConfiguration = array( 
 			'barcodeEnable' => false,
-			'barcodeType' => 'C128',
-			'barcodeWidth' => 30,
+			'barcodeType' => 'QRCODE,L',
+			'textBarcode' => "PA/!!id!!",
+			'barcodeWidth' => "12",
+			'barcodeHeight' => "12",
+			'barcodeXPos' => "-7",
+			'barcodeYPos' => "-7",
 			'barcodeWithText' => false,
-			'barcode2D' => false,
+			'barcode2D' => true,
 			'fontFamily' => 'times',
 			'fontStyle' => '',
 			'fontSize' => 12,
-			'text' => '<dl><dt><b>Name:</b></dt><dd>!!name!!</dd><dt><b>Description:</b></dt><dd>!!description!!</dd><dt><b>Footprint:</b></dt><dd>!!footprintName!!</dd></dl>'
+			'text' => '<span style="font-size: 11pt;"><b>!!name!!</b></span><br><span style="font-size: 8pt;">!!description!!</span>'
 			);
 	
 	public function __construct (PageBasicLayout $layout, array $configuration ) {
 		// Apply the personal default configuration here.
 		// The base will apply the base default parameters for you.
 		$configuration = array_merge( $this->defaultConfiguration, $configuration );
-		parent::__construct( $layout, $configuration);		
+		parent::__construct( $layout, $configuration);	
 	}	
 
 	public function passRenderingData( $data ){
@@ -155,6 +160,7 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 		$padding = 3;
 		
 		$dataReplacement = array(
+				'!!id!!' => $part->getId(),
 				'!!name!!' => $part->getName(),
 				'!!internalNumber!!' => $part->getInternalPartNumber(),
 				'!!description!!' => $part->getDescription(),
@@ -164,13 +170,84 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 				);
 		
 		$text = strtr($this->configuration['text'], $dataReplacement);
-	
+		$barcodeId = strtr($this->configuration['textBarcode'], $dataReplacement);
 		$this->pdf->SetCellPadding($padding);
 		$this->pdf->SetFont( $this->configuration['fontFamily'],
 				$this->configuration['fontStyle'],
 				$this->configuration['fontSize']);
 		$this->pdf->SetXY( $this->xCellPos,$this->yCellPos );
 	
+		if ($this->configuration['barcodeEnable']){	
+			$widthParameter = new PercentOrNumericHelper($this->configuration['barcodeWidth']);
+			$heightParameter = new PercentOrNumericHelper($this->configuration['barcodeHeight']);
+			$xPosParameter = new PercentOrNumericHelper($this->configuration['barcodeXPos']);
+			$yPosParameter = new PercentOrNumericHelper($this->configuration['barcodeYPos']);
+			
+			$xPos = $xPosParameter->getValueWrap(0, $this->layout->getCellWidthInMM() );
+			$yPos = $yPosParameter->getValueWrap(0, $this->layout->getCellHeightInMM() );
+			$width = $widthParameter->getValue(0,$this->layout->getCellWidthInMM());
+			$height = $heightParameter->getValue(0,$this->layout->getCellHeightInMM());
+			
+			$regions = array();
+			
+			$this->pdf->resetInternalMargins();
+	
+			if ($this->configuration['barcode2D']){
+				$this->pdf->write2DBarcode($barcodeId, $this->configuration['barcodeType'],
+						$this->xCellPos + $xPos - $width / 2 ,
+						$this->yCellPos + $yPos - $height / 2,
+						$width,
+						$height
+				);
+			}
+			
+			// This region will add a "do not write text here" over our barcode This is a kind
+			// of hack to make text fluently moving around :)
+			$textMarginX = 7;
+			$textMarginY = 7;
+			
+			$left = $xPos < $this->layout->getCellWidthInMM() / 2;
+			$top = $yPos < $this->layout->getCellHeightInMM() / 2;
+			
+			// $this->pdf->writeHTML("LEFT: $left TOP: $top XPOS: $xPos YPOS: $yPos WIDTH: ".$this->layout->getCellWidthInMM()." HEIGHT: ".$this->layout->getCellHeightInMM(), true, false, true, false, '');
+			if( $left  )
+			{
+				if( $top ){
+					$regions[] = array('page' => ''
+							, 'xt' => $xPos + $this->xCellPos + $textMarginX
+							, 'yt' =>  0
+							, 'xb' => $xPos + $this->xCellPos + $textMarginX
+							, 'yb' => $yPos + $this->yCellPos + $textMarginY, 'side' => 'L');
+				}else
+				{
+					$regions[] = array('page' => ''
+							, 'xt' => $xPos + $this->xCellPos + $textMarginX
+							, 'yt' => $yPos + $this->yCellPos - $textMarginY
+							, 'xb' => $xPos + $this->xCellPos + $textMarginX
+							, 'yb' => $this->yCellPos + $this->layout->getCellHeightInMM()
+							, 'side' => 'L');
+				}
+			}else
+			{
+				if( $top ){
+					$regions[] = array('page' => ''
+							, 'xt' => $xPos + $this->xCellPos - $textMarginX
+							, 'yt' =>  0
+							, 'xb' => $xPos + $this->xCellPos - $textMarginX
+							, 'yb' => $yPos + $this->yCellPos + $textMarginY, 'side' => 'R');
+				}else
+				{
+					$regions[] = array('page' => ''
+							, 'xt' => $xPos + $this->xCellPos - $width / 2 - $textMarginX
+							, 'yt' => $yPos + $this->yCellPos - $height/ 2 - $textMarginY
+							, 'xb' => $xPos + $this->xCellPos - $width / 2 - $textMarginX
+							, 'yb' => $this->yCellPos + $this->layout->getCellHeightInMM()
+							, 'side' => 'R');
+				}				
+			}
+ 			$this->pdf->setPageRegions($regions);
+		}
+		
 		// Start clipping. Every thing with StartTransform and StopTransform
 		// will be clipped to the Rect. This is a cool feature if one field is
 		// too long, it will not destroy the rest of your page and it is partial
@@ -187,6 +264,8 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 				$text);
 	
 		$this->pdf->StopTransform();
+		
+		$this->pdf->setPageRegions();
 	}
 }
 

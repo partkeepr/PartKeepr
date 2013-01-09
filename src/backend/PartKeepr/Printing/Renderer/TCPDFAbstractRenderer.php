@@ -12,6 +12,23 @@ use PartKeepr\Printing\RendererIfc,
 require_once('tcpdf/tcpdf.php');
 
 /**
+ * This wrapper class can be used to remove some bugs from the 
+ * TCPDF. https://sourceforge.net/p/tcpdf/bugs/773/
+ * @author sven
+ *
+ */
+class TCPDFWrapper extends \TCPDF{
+	public function __construct($orientation, $unit, $format){
+		parent::__construct($orientation, $unit, $format);
+	}
+	
+	public function resetInternalMargins(){
+		$this->crMargin = $this->rMargin = $this->original_rMargin;
+		$this->clMargin = $this->lMargin = $this->original_lMargin;
+	}
+}
+
+/**
  * This class is a abstract renderer to help somebody by creating its
  * own plugins. Use the PDFDefaultRenderer as an example.
  */
@@ -78,8 +95,9 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 		if (K_TCPDF_CALLS_IN_HTML && !$doNotErrorIfTCPDFSetsCalls){
 			trigger_error("TCPDF has set K_TCPDF_CALLS_IN_HTML to true, which is a security issue with this class since the user can modify the html text!",E_USER_ERROR);
 		}
-		$this->pdf = new \TCPDF( $layout->getPaperPortrait() ? 'P': 'L' 
-				, 'mm', $layout->getPaperSize(), true, 'UTF-8', false);
+		
+		$this->pdf = new TCPDFWrapper( $layout->getPaperPortrait() ? 'P': 'L' 
+				, 'mm', $layout->getPaperSize() );
 		
 		// set document information
 		$this->pdf->SetCreator(PDF_CREATOR);
