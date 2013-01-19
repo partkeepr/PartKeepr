@@ -76,6 +76,8 @@ class AuthService extends AnonService {
 			/* Start Session */
 			$session = SessionManager::getInstance()->startSession($authenticatedUser);
 			
+			$session->getUser()->updateSeen();
+			
 			$aPreferences = array();
 			
 			foreach ($session->getUser()->getPreferences() as $result) {
