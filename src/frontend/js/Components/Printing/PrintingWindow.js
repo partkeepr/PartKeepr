@@ -40,7 +40,15 @@ Ext.define('PartKeepr.PrintingWindow', {
 		this.targetStore = Ext.create("Ext.data.Store", {
 			autoLoad: true,
     		model: 'PartKeepr.User',
-			pageSize: -1
+			pageSize: -1,
+			remoteFilter: true,
+			filters: [{
+		         property: 'lastSeenMax',
+		         value: '60'
+		     },{
+		    	 property: 'hideCurrentUser',
+		    	 value: '1'
+		     }]
     	});
 		
 		this.configurationSelector = Ext.create('Ext.form.field.ComboBox',{
@@ -95,7 +103,7 @@ Ext.define('PartKeepr.PrintingWindow', {
 	 */
 	setObjectType: function( objectType ) {
 		this.objectType = objectType;
-		this.configurationStore.filter('objectType', objectType );		
+		this.configurationStore.filter('objectType', objectType );
 	},
 	/**
 	 * Set the ids of the objects which should be printed/exported

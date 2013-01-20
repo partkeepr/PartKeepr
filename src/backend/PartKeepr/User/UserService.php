@@ -44,6 +44,18 @@ class UserService extends Service implements RestfulService {
 			$queryBuilder->andWhere("LOWER(q.username) LIKE :query");
 			$queryBuilder->setParameter("query", $query );
 		}
+		
+		if ( $filter->has("lastSeenMax") 
+			&& $lastSeenMax = $filter->get('lastSeenMax') ){			
+			$queryBuilder->andWhere("q.lastSeen > :lastSeenMax");
+			$queryBuilder->setParameter("lastSeenMax", new \DateTime('- '.$lastSeenMax.' seconds'));	
+		}
+		
+		if( $filter->has('hideCurrentUser') 
+			&& $filter->get('hideCurrentUser') == '1'){
+			$queryBuilder->andWhere("q.id != :currentUserId");
+			$queryBuilder->setParameter("currentUserId", SessionManager::getCurrentSession()->getUser()->getId() );
+		}
 	}
 	
 	/**
