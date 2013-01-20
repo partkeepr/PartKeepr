@@ -104,6 +104,9 @@ Ext.define('PartKeepr.PrintingWindow', {
 	setObjectType: function( objectType ) {
 		this.objectType = objectType;
 		this.configurationStore.filter('objectType', objectType );
+		
+		this.configurationSelector.setValue( PartKeepr.getApplication().getUserPreference("partkeepr.printing.lastUsedConfiguration."+objectType),'' );
+		this.targetSelector.setValue( PartKeepr.getApplication().getUserPreference("partkeepr.printing.lastUsedTarget."+objectType),'' );
 	},
 	/**
 	 * Set the ids of the objects which should be printed/exported
@@ -123,6 +126,11 @@ Ext.define('PartKeepr.PrintingWindow', {
 		target = this.targetSelector.getValue();
 		if (config!==null){
 			executor.executePrint( config, this.objectType, this.objectIds, target);
+			if (this.objectType!==null){
+				PartKeepr.getApplication().setUserPreference("partkeepr.printing.lastUsedConfiguration."+this.objectType, this.configurationSelector.getValue() );
+				PartKeepr.getApplication().setUserPreference("partkeepr.printing.lastUsedTarget."+this.objectType, this.targetSelector.getValue() );
+			}
+
 			this.close();
 		}
 	}
