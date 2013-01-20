@@ -9,6 +9,7 @@ use PartKeepr\PartKeepr,
 	PartKeepr\Printing\PageBasicLayout\PageBasicLayoutManager,
 	PartKeepr\Printing\PDFLabelRenderer,
 	PartKeepr\Printing\PrintingJobConfiguration\PrintingJobConfigurationManager,
+	PartKeepr\Printing\Utils\DecodeConfiguration,
 	PartKeepr\Service\Service,
 	PartKeepr\StorageLocation\StorageLocation,
 	PartKeepr\UploadedFile\TempUploadedFile,
@@ -62,16 +63,7 @@ class PrintingService extends Service {
 		$query->setParameter(1,$ids);
 		$dataToRender = $query->getResult();
 		
-		$cfgText = trim($configuration->getRendererConfiguration());
-		$rendererConfig = json_decode($cfgText, true);
-		if ($rendererConfig===null){
-			if (strlen($cfgText) == 0 ){
-				$rendererConfig = array();
-			}
-			else{
-				throw new InvalidArgumentException( PartKeepr::i18n('Extended rendering configuration contains an error!'));
-			}
-		}
+		$rendererConfig = DecodeConfiguration::decode($configuration->getRendererConfiguration());
 		
 		$renderingObjects = array();
 		if ($configuration->getPageLayout() !== null ){
