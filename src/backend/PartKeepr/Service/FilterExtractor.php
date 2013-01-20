@@ -10,17 +10,16 @@ use PartKeepr\Service\Service;
 class FilterExtractor{
 	private $filters;
 	
-	public function construct__( Service $service ){
+	public function __construct( Service $service ){
 		$this->filters = array();
 		
 		if ($service->hasParameter("filter")) {
 			$tmp = json_decode($service->getParameter("filter"), true);
 		
 			foreach ($tmp as $item) {
-				if (array_key_exists("property", $item)) {
-					if (array_key_exists("value", $item)) {
-						$this->filter[ $item['property'] ] = $item["value"];
-					}
+				if (   array_key_exists("property", $item) 
+					&& array_key_exists("value", $item)) {
+					$this->filters[ $item['property'] ] = $item["value"];
 				}
 			}
 		}
@@ -31,7 +30,7 @@ class FilterExtractor{
 	}
 	
 	public function has( $property ){
-		return empty( $this->filters );
+		return array_key_exists( $property, $this->filters );
 	}
 }
 
