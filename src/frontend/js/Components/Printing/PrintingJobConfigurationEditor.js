@@ -4,6 +4,7 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
 	saveText: i18n("Save Configuration"),
 
 	layout: 'column',
+	inSetRecordPhase: false,
 
 	initComponent: function () {
 		this.createStores();
@@ -18,28 +19,6 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
 			labelWidth: 130
 			} );
 
-		this.typeSelector = Ext.create('Ext.form.field.ComboBox',{
-			store: this.typeStore,
-			name: 'objectType',
-			valueField: 'id',
-			displayField: 'name',
-			fieldLabel: i18n("Datatype"),
-			allowBlank: false,
-			labelWidth: 130,
-			listeners: {
-				scope: this,
-				change: function (field, newValue) {
-					if (newValue){
-						this.rendererStore.getProxy().extraParams.objectType = newValue;
-						this.rendererStore.load();
-					}
-					// We will always clear the value to have a clean box, also if the
-					// loaded store does not contain the actually selected value.
-					this.rendererSelector.clearValue();
-				}
-			}
-		} );
-
 		this.rendererSelector = Ext.create('Ext.form.field.ComboBox',{
 			store: this.rendererStore,
 			name: 'exportRenderer',
@@ -47,8 +26,27 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
 			displayField: 'name',
 			fieldLabel: i18n("Renderer"),
 			allowBlank: false,
+			labelWidth: 130,
+			listeners: {
+				scope: this,
+				change: function (field, newValue) {
+					if (newValue){						
+						this.onChangeRenderer( newValue );						
+					}
+				}
+			}
+		} );
+		
+		this.typeSelector = Ext.create('Ext.form.field.ComboBox',{
+			store: this.typeStore,
+			name: 'objectType',
+			valueField: 'id',
+			displayField: 'name',
+			fieldLabel: i18n("Datatype"),
+			allowBlank: false,
 			labelWidth: 130
 		} );
+
 
 		this.items =  [{
 			columnWidth: 1,
@@ -70,9 +68,9 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
 						labelWidth: 130,
 						fieldLabel: i18n("Comment")
 					},
+					this.rendererSelector,
 					this.layoutSelector,
 					this.typeSelector,
-					this.rendererSelector,
 					{
 						xtype: 'textarea',
 						name: 'rendererConfiguration',
@@ -87,6 +85,46 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
 		this.on("startEdit", this.onStartEdit, this);
 		this.callParent();
 	},
+	editItem: function (record) {
+		this.inSetRecordPhase = true;
+		
+		// FIXME: How can a base method can be called in Javascript?
+		this.record = record;
+		this.getForm().loadRecord(this.record);
+		this.show();
+		if (this.record.getRecordName() !== "") {
+			this._setTitle(this.record.getRecordName());
+		}
+		
+		this.change = false;
+		this.fireEvent("startEdit", this);
+		
+		this.inSetRecordPhase = false;
+	},
+	onChangeRenderer: function( renderer ) {
+		this.typeStore.getProxy().extraParams.renderer = renderer;
+		this.typeStore.load();
+		if (!this.inSetRecordPhase)
+			this.typeSelector.clearValue();
+		
+		var call = new PartKeepr.ServiceCall(
+				"Printing", 
+				"getNeededParameters");
+		call.setParameter("renderer",renderer);
+		
+		call.setHandler(Ext.bind(this.onReceivedNeededParameters, this));
+		call.doCall();
+	},
+	onReceivedNeededParameters: function (data) {
+		var needPageBasicLayout = data.data.indexOf('PartKeepr\\Printing\\PageBasicLayout\\PageBasicLayout') != -1;
+		
+		if (needPageBasicLayout) {
+			this.layoutSelector.show();
+		} else {
+			this.layoutSelector.hide();
+			this.layoutSelector.clearValue();
+		}
+	},	
 	onStartEdit: function () {
 		this.store.getProxy().extraParams.PrintingJobConfiguration = this.record.get("id");
 		this.store.load();
@@ -109,13 +147,14 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
     	        url : 'service.php',
     	        extraParams: {
     	        	"service": "Printing",
-    	        	"call": "getAvailableTypes"
+    	        	"call": "getAvailableTypes",
+    	        	"renderer": ""
     	        },
     	        headers: {
     	        	session :PartKeepr.getApplication().getSession()
     	        }
     	    },
-    	    autoLoad: true
+    	    autoLoad: false
     	});
 
 
@@ -130,14 +169,13 @@ Ext.define('PartKeepr.Printing.PrintingJobConfigurationEditor', {
 				url : 'service.php',
 				extraParams: {
 					"service": "Printing",
-					"call": "getAvailableRenderer",
-					"objectType": ""
+					"call": "getAvailableRenderer"
 				},
 				headers: {
 					session :PartKeepr.getApplication().getSession()
 				}
 			},
-			autoLoad: false
+			autoLoad: true
 		});
 
 

@@ -57,9 +57,6 @@ class PrintingService extends Service {
 		}
 		
 		$configuration = PrintingJobConfigurationManager::getInstance()->getEntity( $configurationId );
-		if ($configuration->getPageLayout() == null ){
-			throw new InvalidArgumentException( PartKeepr::i18n('Page Layout is emtpy!'));
-		}
 		
 		$query = PartKeepr::getEM()->createQuery("SELECT s FROM $objectType s WHERE s.id IN (?1)");
 		$query->setParameter(1,$ids);
@@ -76,8 +73,13 @@ class PrintingService extends Service {
 			}
 		}
 		
+		$renderingObjects = array();
+		if ($configuration->getPageLayout() !== null ){
+			$renderingObjects[] = $configuration->getPageLayout();
+		}
+		
 		$renderer = RendererFactoryRegistry::getInstance()->getRendererFactory( $configuration->getExportRenderer())
-						->createInstance( $configuration->getPageLayout(), $rendererConfig );
+						->createInstance( $renderingObjects, $rendererConfig );
 
 		$renderer->passRenderingData($dataToRender);
 		
@@ -127,14 +129,47 @@ class PrintingService extends Service {
 		return array("data" => $data );
 	}
 	
+	/**
+	 * Retrieve the available types which can be used with the given renderer.
+	 * If no renderer parameter is passed, we will return all types which are supported in
+	 * general.
+	 */
 	public function getAvailableTypes() {
+		$rendererName = $this->getParameter("renderer", "");
 		$data = array();
-		foreach ($this->availableObjectTypes as $type => $userType){
-			$data[] = array("id" => $type
-					,"name" => $userType );
+		
+		if ($rendererName==""){		
+			foreach ($this->availableObjectTypes as $type => $userType){
+				$data[] = array("id" => $type
+						,"name" => $userType );
+			}
+		}else{
+			$factory = RendererFactoryRegistry::getInstance()->getRendererFactory($rendererName);
+			$supportedTypes = $factory->getSupportedClassesForRendering();
+			
+			//var_dump($supportedTypes);
+			
+			foreach ($supportedTypes as $type ){
+				if ( array_key_exists( $type, $this->availableObjectTypes ) ){				
+					$data[] = array("id" => $type
+							,"name" => $this->availableObjectTypes[$type] );
+				}
+			}
 		}
 		
 		return array("data" => $data );
+	}
+	
+	/**
+	 * Retrieve the needed parameters for the renderer class.
+	 */
+	public function getNeededParameters(){
+		$this->requireParameter("renderer");
+		$rendererName = $this->getParameter("renderer", "");
+		$data = array();
+		
+		$factory = RendererFactoryRegistry::getInstance()->getRendererFactory($rendererName);
+		return array("data" => $factory->getParameterObjectTypes() );
 	}
 	
 }

@@ -36,11 +36,11 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 			'text' => '<span style="font-size: 11pt;"><b>!!name!!</b></span><br><span style="font-size: 8pt;">!!description!!</span>'
 			);
 	
-	public function __construct (PageBasicLayout $layout, array $configuration ) {
+	public function __construct (array $objects, array $configuration ) {
 		// Apply the personal default configuration here.
 		// The base will apply the base default parameters for you.
 		$configuration = array_merge( $this->defaultConfiguration, $configuration );
-		parent::__construct( $layout, $configuration);	
+		parent::__construct( $objects, $configuration);	
 	}	
 
 	public function passRenderingData( $data ){
@@ -276,6 +276,7 @@ RendererFactoryRegistry::getInstance()->registerFactory(
 	 new SimpleRendererFactory("Default PDF renderer",
 				"PartKeepr\Printing\Renderer\PDFDefaultRenderer",
 				array("PartKeepr\StorageLocation\StorageLocation",
-					"PartKeepr\Part\Part") 
+					"PartKeepr\Part\Part"),
+				array("PartKeepr\Printing\PageBasicLayout\PageBasicLayout")
 				)
 	 );

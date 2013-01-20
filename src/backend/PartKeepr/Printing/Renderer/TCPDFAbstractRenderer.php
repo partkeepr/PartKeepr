@@ -36,7 +36,7 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 	/**
 	 * This contains our layout for the page to be rendered.
 	 */
-	protected $layout;
+	protected $layout = null;
 	
 	/**
 	 * Our internal used pdf generator.
@@ -86,8 +86,17 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 			'startingCell' => 0 
 			);
 	
-	public function __construct (PageBasicLayout $layout, array $configuration ) {
-		$this->layout = $layout;
+	public function __construct ( array $objects, array $configuration ) {
+		foreach( $objects as $obj ){
+			if ($obj instanceof \PartKeepr\Printing\PageBasicLayout\PageBasicLayout){
+				$this->layout = $obj;
+			}			
+		}
+		
+		if ($this->layout === null){
+			throw new \PartKeepr\Printing\Exceptions\InvalidArgumentException("Required object not passed!");
+		}	
+		
 		$this->configuration = array_merge( $this->basedefaultConfiguration, $configuration );
 		
 		$this->cellsRendered = $this->configuration['startingCell'];
@@ -96,8 +105,8 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 			trigger_error("TCPDF has set K_TCPDF_CALLS_IN_HTML to true, which is a security issue with this class since the user can modify the html text!",E_USER_ERROR);
 		}
 		
-		$this->pdf = new TCPDFWrapper( $layout->getPaperPortrait() ? 'P': 'L' 
-				, 'mm', $layout->getPaperSize() );
+		$this->pdf = new TCPDFWrapper( $this->layout->getPaperPortrait() ? 'P': 'L' 
+				, 'mm', $this->layout->getPaperSize() );
 		
 		// set document information
 		$this->pdf->SetCreator(PDF_CREATOR);

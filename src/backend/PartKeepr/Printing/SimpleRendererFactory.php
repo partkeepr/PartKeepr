@@ -22,6 +22,8 @@ class SimpleRendererFactory implements RendererFactoryIfc{
 	
 	private $supportedClasses;
 	
+	private $neededParameterObjectTypes;
+	
 	/**
 	 * Constructas a new simple factory for the given class.
 	 * 
@@ -29,14 +31,15 @@ class SimpleRendererFactory implements RendererFactoryIfc{
 	 * @param string $className
 	 * @param array $supportedClasses
 	 */
-	public function __construct( $name, $className, array $supportedClasses){
+	public function __construct( $name, $className, array $supportedClasses, array $neededParameterObjectTypes){
 		$this->name = $name;
 		$this->className = $className;
 		$this->supportedClasses = $supportedClasses;
+		$this->neededParameterObjectTypes = $neededParameterObjectTypes;
 	}
 	
-	public function createInstance(PageBasicLayout $layout, array $configuration){
-		return new $this->className($layout, $configuration);
+	public function createInstance(array $objects, array $configuration){
+		return new $this->className($objects, $configuration);
 	}
 	
 	public function getName(){
@@ -50,5 +53,9 @@ class SimpleRendererFactory implements RendererFactoryIfc{
 	public function getSupportedClassesForRendering(){
 		return $this->supportedClasses;
 	}	
+	
+	public function getParameterObjectTypes(){
+		return $this->neededParameterObjectTypes;
+	}
 }
 

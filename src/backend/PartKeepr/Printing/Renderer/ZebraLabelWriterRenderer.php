@@ -57,7 +57,7 @@ EOD
      */
     protected $configurationIn;
     
-    public function __construct (PageBasicLayout $layout, array $configuration ) {
+    public function __construct (array $obj, array $configuration ) {
         $this->configurationIn = $configuration;
     }    
 
@@ -135,6 +135,7 @@ EOD
 RendererFactoryRegistry::getInstance()->registerFactory(
      new SimpleRendererFactory("Zebra Label Renderer",
                 "PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer",
-                array("PartKeepr\Part\Part") 
+                array("PartKeepr\Part\Part"),
+                array()
                 )
      );

@@ -2,8 +2,6 @@
 
 namespace PartKeepr\Printing;
 
-use PartKeepr\Printing\PageBasicLayout\PageBasicLayout;
-
 /**
  * This interface can be used to support different
  * sets of renderer. One set of renderer is often used
@@ -16,11 +14,12 @@ interface RendererFactoryIfc{
 	 * use. The returned renderer will always support the RenderingIfc which
 	 * can be used to pass the data to the renderer. 
 	 * 
-	 * @param PrintingPageBasicLayout $layout
+	 * @param array $objects An Array of object instances. Must contain at least all 
+	 *				objects which are requested by getParameterObjectTypes()
 	 * @param array $configuration
 	 * @return RenderingIfc New renderer to use for rendering.
 	 */
-	public function createInstance(PageBasicLayout $layout, array $configuration);
+	public function createInstance(array $objects, array $configuration);
 	
 	/**
 	 * Returns a name for the renderer which is readable to humans.
@@ -37,4 +36,10 @@ interface RendererFactoryIfc{
 	 * via passRenderingdata($data).
 	 */
 	public function getSupportedClassesForRendering();
+	
+	/**
+	 * Returns the object types, which are required for operation.
+	 * @return An array holding the names of the type instances needed.
+	 */
+	public function getParameterObjectTypes();
 }
