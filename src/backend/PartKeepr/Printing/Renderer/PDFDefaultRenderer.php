@@ -2,12 +2,13 @@
 namespace PartKeepr\Printing\Renderer;
 
 use PartKeepr\Part\Part,
-	PartKeepr\Printing\RendererFactoryRegistry,
-    PartKeepr\Printing\SimpleRendererFactory,
     PartKeepr\Printing\Exceptions\RendererNotFoundException,
 	PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
+	PartKeepr\Printing\RendererFactoryRegistry,
 	PartKeepr\Printing\Renderer\TCPDFAbstractRenderer,
 	PartKeepr\Printing\Renderer\PercentOrNumericHelper,
+    PartKeepr\Printing\SimpleRendererFactory,
+    PartKeepr\Printing\Utils\Placeholder,
 	PartKeepr\Printing\Utils\DecodeConfiguration,
     PartKeepr\StorageLocation\StorageLocation
 	;
@@ -162,18 +163,11 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 	
 		$padding = 3;
 		
-		$dataReplacement = array(
-				'!!id!!' => $part->getId(),
-				'!!name!!' => $part->getName(),
-				'!!internalNumber!!' => $part->getInternalPartNumber(),
-				'!!description!!' => $part->getDescription(),
-				'!!categoryFull!!' => $part->getCategory()->getCategoryPath(),
-				'!!categoryLast!!' => $part->getCategory()->getName(),
-				'!!footprintName!!' => $part->getFootprint() === null ? '': $part->getFootprint()->getName()
-				);
+		$dataReplacement = new Placeholder( $part, "!!", "!!" );
 		
-		$text = strtr($this->configuration['text'], $dataReplacement);
-		$barcodeId = strtr($this->configuration['textBarcode'], $dataReplacement);
+		$text = $dataReplacement->apply($this->configuration['text']);
+		$barcodeId = $dataReplacement->apply($this->configuration['textBarcode'] );
+		
 		$this->pdf->SetCellPadding($padding);
 		$this->pdf->SetFont( $this->configuration['fontFamily'],
 				$this->configuration['fontStyle'],

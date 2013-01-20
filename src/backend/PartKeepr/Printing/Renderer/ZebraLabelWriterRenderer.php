@@ -8,6 +8,7 @@ use PartKeepr\Part\Part,
     PartKeepr\Printing\SimpleRendererFactory,
     PartKeepr\Printing\Exceptions\RendererNotFoundException,
     PartKeepr\Printing\Utils\DecodeConfiguration,
+    PartKeepr\Printing\Utils\Placeholder,
     PartKeepr\StorageLocation\StorageLocation
     ;
 
@@ -102,18 +103,8 @@ EOD
     
 
     private function renderSinglePart( Part $part ){
-    	$dataReplacement = array(
-    			'<<id>>' => $part->getId(),
-    			'<<name>>' => $part->getName(),
-    			'<<internalNumber>>' => $part->getInternalPartNumber(),
-    			'<<description>>' => $part->getDescription(),
-    			'<<categoryFull>>' => $part->getCategory()->getCategoryPath(),
-    			'<<categoryLast>>' => $part->getCategory()->getName(),
-    			'<<footprintName>>' => $part->getFootprint() === null ? '': $part->getFootprint()->getName()
-    	);
-    	
-    	$label = strtr($this->configuration['template'], $dataReplacement);
-		$this->out .= $label."\n";
+    	$dataReplacement = new Placeholder( $part, "<<", ">>");
+		$this->out .= $dataReplacement->apply($this->configuration['template']) . "\n";
     }
     
     public function getSuggestedExtension(){

@@ -18,7 +18,7 @@ class DecodeConfiguration{
 	public static function decode( $string ){
 		$jsonDecoded = json_decode(trim($string), true);
 		if ($jsonDecoded===null){
-			if (strlen($cfgText) == 0 ){
+			if (strlen($string) == 0 ){
 				$jsonDecoded = array();
 			}
 			else{
