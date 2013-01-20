@@ -21,7 +21,8 @@ Ext.define('PartKeepr.PrintingExecutor', {
     	        	"call": "startExport",
    	        		"ids": "",
    	        		"objectType":"",
-   	        		"configuration": ""
+   	        		"configuration": "",
+   	        		"target" : ""
    	        	},
     	        headers: {
     	        	session :PartKeepr.getApplication().getSession()
@@ -38,7 +39,7 @@ Ext.define('PartKeepr.PrintingExecutor', {
 	 * @param objectType The object type (full path) the ids are from
 	 * @param ids The ids of the objects which should be printed.
 	 */
-	executePrint: function (configId, objectType, ids) {
+	executePrint: function (configId, objectType, ids, target) {
 		if (configId===null){
 			Ext.Msg.alert(i18n("Error"),i18n("No Layout selected for printing. Please select a layout and try again."));
 			return;
@@ -46,11 +47,16 @@ Ext.define('PartKeepr.PrintingExecutor', {
 
 		this.storePrintingService.getProxy().extraParams.objectType = objectType;
 		this.storePrintingService.getProxy().extraParams.configuration = configId;
+		this.storePrintingService.getProxy().extraParams.target = target;
 		this.storePrintingService.getProxy().extraParams.ids = ids.join(",");
 		this.storePrintingService.load({
 			callback : function(r, options, success) {
 				if (success ){
-					window.open('file.php?id=' + r[0].data.fileid + '&type=Print');
+					if (target === null ) {
+						window.open('file.php?id=' + r[0].data.fileid + '&type=Print');
+					}
+				}else{
+					Ext.Msg.alert(i18n("Error"),i18n("Printing request to server failed."));
 				}
             }
 		}

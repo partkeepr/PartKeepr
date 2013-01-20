@@ -1,6 +1,8 @@
 <?php
 namespace PartKeepr\Printing;
 
+use PartKeepr\Printing\PrintingJob\PrintingJob;
+
 use PartKeepr\PartKeepr,
 	PartKeepr\Printing\Exceptions\InvalidArgumentException,
 	PartKeepr\Printing\Exceptions\RendererNotFoundException,
@@ -10,6 +12,7 @@ use PartKeepr\PartKeepr,
 	PartKeepr\Service\Service,
 	PartKeepr\StorageLocation\StorageLocation,
 	PartKeepr\UploadedFile\TempUploadedFile,
+	PartKeepr\User\UserManager,
 	PartKeepr\Util\Configuration as PartKeeprConfiguration;
 
 /**
@@ -41,6 +44,11 @@ class PrintingService extends Service {
 		$ids = explode(',',$this->getParameter("ids"));
 		$configurationId = $this->getParameter("configuration");
 		$objectType = $this->getParameter("objectType");
+		
+		$printerUser = null;
+		if ($this->hasParameter("target") && $this->getParameter("target") != "") {
+			$printerUser = UserManager::getInstance()->getUser($this->getParameter("target"));
+		}		
 		
 		// check object type for valid object types for security reasons.
 		// See Select query below and be aware of SQL injection!
@@ -79,9 +87,17 @@ class PrintingService extends Service {
 		$tmpFile = new TempUploadedFile();
 		$tmpFile->replace($tempFile);
 		$tmpFile->setOriginalFilename("generatedFile.".$renderer->getSuggestedExtension());
-		
 		PartKeepr::getEM()->persist($tmpFile);
 		PartKeepr::getEM()->flush();
+		
+		//Create a job if we have a valid printer target
+		if ($printerUser !== null){
+			$job = new PrintingJob();
+			$job->setData($tmpFile);
+			$job->setTarget($printerUser);
+			PartKeepr::getEM()->persist($job);
+			PartKeepr::getEM()->flush();
+		}
 
 		return array("fileid" => $tmpFile->getId() );
 	}

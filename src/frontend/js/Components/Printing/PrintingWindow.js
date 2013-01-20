@@ -37,6 +37,12 @@ Ext.define('PartKeepr.PrintingWindow', {
 			pageSize: -1
     	});
 		
+		this.targetStore = Ext.create("Ext.data.Store", {
+			autoLoad: true,
+    		model: 'PartKeepr.User',
+			pageSize: -1
+    	});
+		
 		this.configurationSelector = Ext.create('Ext.form.field.ComboBox',{
 			store: this.configurationStore,
 		    valueField: 'id',
@@ -46,7 +52,17 @@ Ext.define('PartKeepr.PrintingWindow', {
 			labelWidth: 140
 			} );
 		
-		this.items = [ this.configurationSelector ];
+		
+		this.targetSelector = Ext.create('Ext.form.field.ComboBox',{
+			store: this.targetStore,
+		    valueField: 'id',
+		    displayField: 'username',
+			fieldLabel: i18n("Choose Target"),
+			allowBlank: true,
+			labelWidth: 140
+			} );
+		
+		this.items = [ this.configurationSelector, this.targetSelector ];
 		
 		this.executeButton = Ext.create("Ext.button.Button", {
 			text: this.executeText,
@@ -96,8 +112,9 @@ Ext.define('PartKeepr.PrintingWindow', {
 			Ext.Msg.alert(i18n("Error"),i18n("Unable to handle request: Missing data! This is a Bug, please report it!"));
 		}
 		config = this.configurationSelector.getValue();
+		target = this.targetSelector.getValue();
 		if (config!==null){
-			executor.executePrint( config, this.objectType, this.objectIds);
+			executor.executePrint( config, this.objectType, this.objectIds, target);
 			this.close();
 		}
 	}
