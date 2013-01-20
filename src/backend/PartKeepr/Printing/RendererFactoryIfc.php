@@ -16,10 +16,10 @@ interface RendererFactoryIfc{
 	 * 
 	 * @param array $objects An Array of object instances. Must contain at least all 
 	 *				objects which are requested by getParameterObjectTypes()
-	 * @param array $configuration
+	 * @param string $configuration
 	 * @return RenderingIfc New renderer to use for rendering.
 	 */
-	public function createInstance(array $objects, array $configuration);
+	public function createInstance(array $objects, $configuration);
 	
 	/**
 	 * Returns a name for the renderer which is readable to humans.

@@ -38,7 +38,7 @@ class SimpleRendererFactory implements RendererFactoryIfc{
 		$this->neededParameterObjectTypes = $neededParameterObjectTypes;
 	}
 	
-	public function createInstance(array $objects, array $configuration){
+	public function createInstance(array $objects, $configuration){
 		return new $this->className($objects, $configuration);
 	}
 	

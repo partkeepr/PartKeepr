@@ -8,6 +8,7 @@ use PartKeepr\Part\Part,
 	PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
 	PartKeepr\Printing\Renderer\TCPDFAbstractRenderer,
 	PartKeepr\Printing\Renderer\PercentOrNumericHelper,
+	PartKeepr\Printing\Utils\DecodeConfiguration,
     PartKeepr\StorageLocation\StorageLocation
 	;
 
@@ -36,7 +37,9 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 			'text' => '<span style="font-size: 11pt;"><b>!!name!!</b></span><br><span style="font-size: 8pt;">!!description!!</span>'
 			);
 	
-	public function __construct (array $objects, array $configuration ) {
+	public function __construct (array $objects, $cfgString ) {
+		$configuration = DecodeConfiguration::decode($cfgString);
+		
 		// Apply the personal default configuration here.
 		// The base will apply the base default parameters for you.
 		$configuration = array_merge( $this->defaultConfiguration, $configuration );

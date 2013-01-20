@@ -63,15 +63,13 @@ class PrintingService extends Service {
 		$query->setParameter(1,$ids);
 		$dataToRender = $query->getResult();
 		
-		$rendererConfig = DecodeConfiguration::decode($configuration->getRendererConfiguration());
-		
 		$renderingObjects = array();
 		if ($configuration->getPageLayout() !== null ){
 			$renderingObjects[] = $configuration->getPageLayout();
 		}
 		
 		$renderer = RendererFactoryRegistry::getInstance()->getRendererFactory( $configuration->getExportRenderer())
-						->createInstance( $renderingObjects, $rendererConfig );
+						->createInstance( $renderingObjects, $configuration->getRendererConfiguration() );
 
 		$renderer->passRenderingData($dataToRender);
 		

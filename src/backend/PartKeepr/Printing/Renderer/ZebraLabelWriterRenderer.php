@@ -7,6 +7,7 @@ use PartKeepr\Part\Part,
     PartKeepr\Printing\RendererIfc,
     PartKeepr\Printing\SimpleRendererFactory,
     PartKeepr\Printing\Exceptions\RendererNotFoundException,
+    PartKeepr\Printing\Utils\DecodeConfiguration,
     PartKeepr\StorageLocation\StorageLocation
     ;
 
@@ -57,7 +58,8 @@ EOD
      */
     protected $configurationIn;
     
-    public function __construct (array $obj, array $configuration ) {
+    public function __construct (array $obj, $cfgString ) {
+    	$configuration = DecodeConfiguration::decode($cfgString);
         $this->configurationIn = $configuration;
     }    
 
