@@ -1,11 +1,14 @@
 <?php
 namespace PartKeepr\User;
 
-use PartKeepr\Service\RestfulService,
-	PartKeepr\Service\Service,
+use
 	PartKeepr\PartKeepr,
-	PartKeepr\User\User,
-	PartKeepr\Session\SessionManager;
+	PartKeepr\Service\FilterExtractor,
+	PartKeepr\Manager\ManagerFilter,
+	PartKeepr\Service\RestfulService,
+	PartKeepr\Service\Service,
+	PartKeepr\Session\SessionManager,
+	PartKeepr\User\User;
 
 class UserService extends Service implements RestfulService {
 	
@@ -25,21 +28,21 @@ class UserService extends Service implements RestfulService {
 			
 			return array("data" => UserManager::getInstance()->getUser($this->getParameter("id"))->serialize());
 		} else {
-			if ($this->hasParameter("sort")) {
-				$tmp = json_decode($this->getParameter("sort"), true);
-				
-				$aSortParams = $tmp[0];
-			} else {
-				$aSortParams = array(
-					"property" => "username",
-					"direction" => "ASC");
-			}
-			return UserManager::getInstance()->getUsers(
-			$this->getParameter("start", $this->getParameter("start", 0)),
-			$this->getParameter("limit", $this->getParameter("limit", 25)),
-			$this->getParameter("sortby", $aSortParams["property"]),
-			$this->getParameter("dir", $aSortParams["direction"]),
-			$this->getParameter("query", ""));
+			$filter = new ManagerFilter($this);
+			$filter->setFilterCallback(array($this, "filterCallback"));
+			return UserManager::getInstance()->getList($filter);
+		}
+	}
+	
+
+	public function filterCallback ($queryBuilder) {
+		$filter = new FilterExtractor($this);
+		
+		if ( $this->hasParameter("query") 
+			&& $query = $this->getParameter("query") ){
+			
+			$queryBuilder->andWhere("LOWER(q.username) LIKE :query");
+			$queryBuilder->setParameter("query", $query );
 		}
 	}
 	
