@@ -6,11 +6,15 @@ Ext.define('PartKeepr.PrintingWindow', {
 	extend: 'Ext.window.Window',
 	
 	constrainHeader: true,
-	layout: 'fit',
+	layout: {
+	    type: 'vbox',
+	    align: 'left'
+	},
+	buttonAlign:'center',
 
 	width: 400,
 	minWidth: 400,
-	minHeight: 150,
+	minHeight: 50,
 	height: 150,
 	
 	modal: true,
@@ -65,7 +69,7 @@ Ext.define('PartKeepr.PrintingWindow', {
 			items: [ this.executeButton, this.cancelButton ]
 		});
 		
-		this.dockedItems = [ this.bottomToolbar ];
+		this.buttons = [ this.bottomToolbar ];
 		
 		this.callParent();
 	},
