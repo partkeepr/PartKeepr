@@ -1,5 +1,5 @@
 <?php 
-namespace PartKeepr\Printing\Renderer;
+namespace PartKeepr\Printing\Utils;
 
 /**
  * This is a helper class to extract a number or a percentage
