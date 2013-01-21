@@ -48,7 +48,13 @@ Ext.define('PartKeepr.PrintingWindow', {
 		     },{
 		    	 property: 'hideCurrentUser',
 		    	 value: '1'
-		     }]
+		     }],
+		     listeners: {
+		    	scope: this,
+	    	    load: function( xstore ,  record , option ) {
+	    	        xstore.add({  id : '-1', username: i18n('Download as file')  }, true);
+	    	    }
+	    	}
     	});
 		
 		this.configurationSelector = Ext.create('Ext.form.field.ComboBox',{
@@ -66,10 +72,9 @@ Ext.define('PartKeepr.PrintingWindow', {
 		    valueField: 'id',
 		    displayField: 'username',
 			fieldLabel: i18n("Choose Target"),
-			allowBlank: true,
+			allowBlank: false,
 			labelWidth: 140
 			} );
-		
 		this.items = [ this.configurationSelector, this.targetSelector ];
 		
 		this.executeButton = Ext.create("Ext.button.Button", {
@@ -123,7 +128,7 @@ Ext.define('PartKeepr.PrintingWindow', {
 			Ext.Msg.alert(i18n("Error"),i18n("Unable to handle request: Missing data! This is a Bug, please report it!"));
 		}
 		config = this.configurationSelector.getValue();
-		target = this.targetSelector.getValue();
+		target = this.targetSelector.getValue() == -1 ? null : this.targetSelector.getValue();
 		if (config!==null){
 			executor.executePrint( config, this.objectType, this.objectIds, target);
 			if (this.objectType!==null){
