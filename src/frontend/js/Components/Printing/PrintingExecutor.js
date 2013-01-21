@@ -4,32 +4,6 @@
  */
 Ext.define('PartKeepr.PrintingExecutor', {
 	constructor: function () {
-		 // TODO: Is there a better way of requesting this service? I think we
-		 // do not need a store here, since it is only a single request without
-		 // the need to store data for a longer time.
-		this.storePrintingService = Ext.create("Ext.data.Store", {
-    		model: 'PartKeepr.PrintingResponse',
-    		proxy: {
-    			type: 'ajax',
-    	        reader: {
-    	            type: 'json',
-    	            root: 'response'
-    	        },
-    	        url : 'service.php',
-    	        extraParams: {
-    	        	"service": "Printing",
-    	        	"call": "startExport",
-   	        		"ids": "",
-   	        		"objectType":"",
-   	        		"configuration": "",
-   	        		"target" : ""
-   	        	},
-    	        headers: {
-    	        	session :PartKeepr.getApplication().getSession()
-    	        }
-    	    },
-    	    autoLoad: false
-    	});
 	},
 	/**
 	 * Send the print request to the server and get the incoming response.
@@ -44,22 +18,21 @@ Ext.define('PartKeepr.PrintingExecutor', {
 			Ext.Msg.alert(i18n("Error"),i18n("No Layout selected for printing. Please select a layout and try again."));
 			return;
 		}
-
-		this.storePrintingService.getProxy().extraParams.objectType = objectType;
-		this.storePrintingService.getProxy().extraParams.configuration = configId;
-		this.storePrintingService.getProxy().extraParams.target = target;
-		this.storePrintingService.getProxy().extraParams.ids = ids.join(",");
-		this.storePrintingService.load({
-			callback : function(r, options, success) {
-				if (success ){
-					if (target === null ) {
-						window.open('file.php?id=' + r[0].data.fileid + '&type=Print');
-					}
-				}else{
-					Ext.Msg.alert(i18n("Error"),i18n("Printing request to server failed."));
-				}
-            }
+		
+		var call = new PartKeepr.ServiceCall(
+				"Printing", 
+				"startExport");
+		call.setParameter("objectType",objectType);
+		call.setParameter("configuration",configId);
+		call.setParameter("target",target);
+		call.setParameter("ids",ids.join(","));
+		
+		call.setHandler(Ext.bind(this.onPrintingFinished, this, [target === null], true ));
+		call.doCall();
+	},
+	onPrintingFinished: function(reply, downloadDirectly) {
+		if (downloadDirectly ) {
+			window.open('file.php?id=' + reply.fileid + '&type=Print');
 		}
-		);
 	}
 });
