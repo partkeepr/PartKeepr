@@ -1,17 +1,17 @@
 <?php 
 namespace PartKeepr\Printing\PrintingJob;
 
+use PartKeepr\EventNotification\EventManager;
 use	PartKeepr\Session\SessionManager,
 	PartKeepr\UploadedFile\TempUploadedFile,
 	PartKeepr\User\User,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable;
-
 /**
  * This is a single job waiting for beeing processed.
  * 
- * @Entity
+ * @Entity @HasLifecycleCallbacks
  */
 class PrintingJob extends BaseEntity implements Serializable {
 	/**
@@ -50,6 +50,18 @@ class PrintingJob extends BaseEntity implements Serializable {
 		$this->created = new \DateTime();
 		$this->done = false;
 		$this->owner = SessionManager::getInstance()->getCurrentSession()->getUser();
+	}
+	
+	/** 
+	 * This method is a callback for the PostPersist event. We will add it to our database
+	 * dependent eventNotification.
+	 * 
+	 * @PostPersist @PostUpdate
+	 */
+	public function onPostPersist(){
+		if (!$this->done) {
+			EventManager::getInstance()->getOrCreateByName("Printing.pendingJob")->emit();
+		}
 	}
 	
 	public function getCreated(){

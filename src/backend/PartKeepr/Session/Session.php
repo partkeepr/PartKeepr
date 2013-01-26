@@ -38,6 +38,10 @@ class Session {
 		$this->sessionid = session_id();
 	}
 	
+	public function getId(){
+		return $this->id;
+	}
+	
 	public function getSessionID () {
 		return $this->sessionid;
 	}
