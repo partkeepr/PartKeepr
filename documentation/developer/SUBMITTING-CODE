@@ -52,7 +52,7 @@ JavaScript code should be checked with jslint prior to committing in git.
 Get and install 'JavaScript Lint' (jsl)
 	- Linux
 		- Download jsl source tarball
-			http://http://www.javascriptlint.com/download.htm
+			http://www.javascriptlint.com/download.htm
 		- Extract the tarball
 			tar -xzf jsl-0.3.0-src.tar.gz
 		- Switch to the src directory
@@ -67,7 +67,7 @@ Get and install 'JavaScript Lint' (jsl)
 		- As per Linux
 	- Windows
 		- Download jsl
-			http://http://www.javascriptlint.com/download.htm
+			http://www.javascriptlint.com/download.htm
 		- Extract 'jsl.exe' from the zip file
 		- Move 'jsl.exe' to a location on the system path
 

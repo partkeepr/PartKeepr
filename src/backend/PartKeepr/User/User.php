@@ -19,6 +19,9 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	/** @Column(type="boolean") */
 	private $admin;
 	
+	/** @Column(type="datetime",nullable=true) */
+	private $lastSeen;
+	
 	/**
 	 * Creates a new user object.
 	 * 
@@ -139,6 +142,21 @@ class User extends BaseEntity implements Serializable, Deserializable {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Updates the last seen field to the current time.
+	 */
+	public function updateSeen() {
+		$this->lastSeen = new \DateTime("now");
+	}
+	
+	/**
+	 * Retrieve the last seen flag for a user.
+	 * @return \DateTime
+	 */
+	public function getLastSeen() {
+		return $this->lastSeen;
 	}
 	
 	/**

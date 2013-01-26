@@ -4,6 +4,7 @@ use PartKeepr\Footprint\FootprintAttachment,
 	PartKeepr\Project\ProjectAttachment,
 	PartKeepr\Part\PartAttachment,
 	PartKeepr\UploadedFile\TempUploadedFile,
+	PartKeepr\UploadedFile\UploadedFile,
 	PartKeepr\PartKeepr,
 	PartKeepr\Image\Image,
 	PartKeepr\Manufacturer\ManufacturerICLogo;
@@ -32,6 +33,9 @@ if (substr($id, 0, 4) === "TMP:") {
 			case "ProjectAttachment":
 			case "PartKeepr.ProjectAttachment":
 				$file = ProjectAttachment::loadById($id);
+				break;
+			case "Print":
+				$file = TempUploadedFile::loadById($id);
 				break;
 			default:
 				$file = null;

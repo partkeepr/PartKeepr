@@ -1,58 +1,26 @@
 <?php
 namespace PartKeepr\User;
 
-use PartKeepr\Util\Singleton,
-	PartKeepr\User\User,
+use 
+	PartKeepr\Category\CategoryManager,
+	PartKeepr\Manager\AbstractManager,
 	PartKeepr\PartKeepr,
 	PartKeepr\User\Exceptions\InvalidLoginDataException,
-	PartKeepr\Category\CategoryManager,
 	PartKeepr\User\Exceptions\UserAlreadyExistsException,
-	PartKeepr\User\Exceptions\UserNotFoundException;
+	PartKeepr\User\Exceptions\UserNotFoundException,
+	PartKeepr\User\User;
 
-class UserManager extends Singleton {
-	/**
-	 * Returns a list of users.
-	 *  
-	 * @param int $start Start of the list, default 0
-	 * @param int $limit Number of users to list, default 10
-	 * @param string $sort The field to sort by, default "name"
-	 * @param string $dir The direction to sort (ASC or DESC), default ASC
-	 * @param string $filter A string to filter the user's name by, default empty
-	 */
-	public function getUsers ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
-			
-		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select("st.id, st.username")->from("PartKeepr\User\User","st");
-
-		if ($filter != "") {
-			$qb = $qb->where("LOWER(st.username) LIKE :filter");
-			$qb->setParameter("filter", "%".strtolower($filter)."%");
-		}
-				
-		if ($limit > -1) {
-			$qb->setMaxResults($limit);
-			$qb->setFirstResult($start);
-		}
-		
-		$qb->orderBy("st.".$sort, $dir);
-		
-		$query = $qb->getQuery();
-		
-		$result = $query->getResult();
-		
-		$totalQueryBuilder = PartKeepr::getEM()->createQueryBuilder();
-		$totalQueryBuilder->select("COUNT(st.id)")->from("PartKeepr\User\User","st");
-		
-		
-		
-		if ($filter != "") {
-			$totalQueryBuilder = $totalQueryBuilder->where("LOWER(st.username) LIKE :filter");
-			$totalQueryBuilder->setParameter("filter", "%".strtolower($filter)."%");
-		}
-		
-		$totalQuery = $totalQueryBuilder->getQuery();
-		
-		return array("data" => $result, "totalCount" => $totalQuery->getSingleScalarResult());
+class UserManager extends AbstractManager {
+	public function getEntityName () {
+		return 'PartKeepr\User\User';
+	}
+	
+	public function getQueryFields () {
+		return array("id","username");
+	}
+	
+	public function getDefaultSortField () {
+		return "username";
 	}
 	
 	/**

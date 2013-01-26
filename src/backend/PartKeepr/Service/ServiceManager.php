@@ -111,6 +111,14 @@ class ServiceManager extends Singleton {
 			if (!$this->service->mayCall($call)) {
 				$allowCall = false;
 			}
+			
+			// Update Seen flag of the current user.
+			if ($session !== null) {
+				$user = $session->getUser();
+				if ($user !== null) {
+					$user->updateSeen();
+				}
+			}
 		}
 		
 		if (!$allowCall) {
