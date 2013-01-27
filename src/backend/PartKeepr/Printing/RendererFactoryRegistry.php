@@ -11,8 +11,17 @@ use PartKeepr\Util\Singleton,
  * and provide an interface to fetch them as needed.
  */
 class RendererFactoryRegistry extends Singleton {
+	/**
+	 * Our list of known factories.
+	 * 
+	 * @var array of RendererFactoryIfc instances.
+	 */
 	var $factories = array();
 	
+	/**
+	 * Indicates wheather the renderer finding has been exectued so far.
+	 * @var unknown
+	 */
 	var $findRendererAlreadyRun = false;
 	
 	/**
@@ -62,7 +71,8 @@ class RendererFactoryRegistry extends Singleton {
 	
 	/**
 	 * This method searches for the renderer in den Renderer directory and
-	 * loads them.
+	 * loads them. The class itself ensures to run this method once before
+	 * the data from this run is needed.
 	 */
 	public function findRenderer(){
 		if (!$this->findRendererAlreadyRun){

@@ -10,6 +10,9 @@ use PartKeepr\PartKeepr,
 	PartKeepr\Service\Service,
 	PartKeepr\Session\SessionManager;
 
+/**
+ * This is the exposed restful service for working with the PrintingJobs.
+ */
 class PrintingJobService extends Service implements RestfulService {
 	/**
 	 * Checks the permission and throws an exception if the access is denied.
@@ -21,6 +24,10 @@ class PrintingJobService extends Service implements RestfulService {
 			throw new \Exception("Permission denied!");
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Service\RestfulService::get()
+	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
 			$job = PrintingJobManager::getInstance()->getEntity($this->getParameter("id"));
@@ -34,6 +41,10 @@ class PrintingJobService extends Service implements RestfulService {
 		}
 	}	
 	
+	/**
+	 * 
+	 * @param unknown $queryBuilder
+	 */
 	public function filterCallback ($queryBuilder) {
 		$filter = new FilterExtractor($this);
 		
@@ -50,6 +61,10 @@ class PrintingJobService extends Service implements RestfulService {
 		}
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Service\RestfulService::create()
+	 */
 	public function create () {
 		throw new \Exception("Creation of printing jobs cannot be done by this service!");
 	}
@@ -71,6 +86,10 @@ class PrintingJobService extends Service implements RestfulService {
 		return array("data" => $obj->serialize());		
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Service\RestfulService::destroy()
+	 */
 	public function destroy () {
 		$this->requireParameter("id");		
 		$id = $this->getParameter("id");

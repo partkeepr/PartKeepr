@@ -137,18 +137,33 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 		// ---------------------------------------------------------
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Printing\RendererIfc::getSuggestedExtension()
+	 */
 	public function getSuggestedExtension(){
 		return "pdf";
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Printing\RendererIfc::storeResult()
+	 */
 	public function storeResult( $outFile ){
 		$this->pdf->Output($outFile, 'F');
 	}
 
+	/**
+	 * 
+	 * @param unknown $filename
+	 */
 	public function outputResult($filename){
 		$this->pdf->Output($filename, 'I');
 	}
 
+	/**
+	 * Renders a border grid which is based on the layout.
+	 */
 	protected function renderBorderGrid(){
 		$colYStart = $this->layout->getTopLeftYInMM();
 		$colYEnd =  $this->layout->getRowCount() * $this->layout->getCellHeightInMM() + $this->layout->getTopLeftYInMM();

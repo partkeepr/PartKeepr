@@ -59,11 +59,19 @@ EOD
      */
     protected $configurationIn;
     
+    /**
+     * @param array $obj dummy, not needed.
+     * @param unknown $cfgString The configuration string.
+     */
     public function __construct (array $obj, $cfgString ) {
     	$configuration = DecodeConfiguration::decode($cfgString);
         $this->configurationIn = $configuration;
     }    
 
+    /**
+     * (non-PHPdoc)
+     * @see \PartKeepr\Printing\RendererIfc::passRenderingData()
+     */
     public function passRenderingData( $data ){
         // Here we got our data passed. We have to decide how we want
         // to render the data, so we dispatch it to our internal rendering
@@ -102,21 +110,39 @@ EOD
     }
     
 
+    /**
+     * Just renders a single part to the output.
+     * 
+     * @param Part $part
+     */
     private function renderSinglePart( Part $part ){
     	$dataReplacement = new Placeholder( $part, "<<", ">>");
 		$this->out .= $dataReplacement->apply($this->configuration['template']) . "\n";
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \PartKeepr\Printing\RendererIfc::getSuggestedExtension()
+     */
     public function getSuggestedExtension(){
     	return "zpl";
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \PartKeepr\Printing\RendererIfc::storeResult()
+     */
     public function storeResult( $outFile ){
     	$file = fopen($outFile,'w');
     	fwrite( $file, $this->out );
     	fclose( $file );
     }
     
+    /**
+     * 
+     * @param unknown $filename
+     * @return string
+     */
     public function outputResult($filename){
     	return $this->out;
     }

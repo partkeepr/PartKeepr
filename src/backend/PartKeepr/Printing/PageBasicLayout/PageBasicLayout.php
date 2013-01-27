@@ -89,86 +89,170 @@ class PageBasicLayout extends BaseEntity implements Serializable, Deserializable
 	 */
 	private $topLeftYInMM = 0;
 	
+	/**
+	 * Sets name.
+	 * @param string $name
+	 */
 	public function setName( $name ){
 		$this->name = $name;
 	}
 	
+	/**
+	 * Retrives name.
+	 * @return string
+	 */
 	public function getName(){
 		return $this->name;
 	}
 	
+	/**
+	 * Sets the comment.
+	 * @param unknown $comment
+	 */
 	public function setComment( $comment ){
 		$this->comment = $comment;
 	}
 	
+	/**
+	 * Retrieve comment.
+	 * @return unknown
+	 */
 	public function getComment(){
 		return $this->comment;
 	}
 	
+	/**
+	 * Sets column count.
+	 * @param unknown $count
+	 */
 	public function setColumnCount( $count ){
 		$this->columnCount = $count;
 	}
 	
+	/**
+	 * Retrieve column count.
+	 * @return number
+	 */
 	public function getColumnCount(){
 		return $this->columnCount;
 	}	
 
+	/**
+	 * Sets row count.
+	 * @param unknown $count
+	 */
 	public function setRowCount( $count ){
 		$this->rowCount = $count;
 	}
 	
+	/**
+	 * Retrieve row count.
+	 * @return number
+	 */
 	public function getRowCount(){
 		return $this->rowCount;
 	}
 	
+	/**
+	 * Sets paper size
+	 * @param unknown $size
+	 */
 	public function setPaperSize( $size ){
 		$this->paperSize = $size;
 	}
 
+	/**
+	 * Retrieve paper size.
+	 * @return string
+	 */
 	public function getPaperSize(){
 		return $this->paperSize;
 	}
 	
+	/**
+	 * Sets Paper portrait.
+	 * @param unknown $portrait
+	 */
 	public function setPaperPortrait( $portrait ){
 		$this->paperPortrait = $portrait;
 	}
 	
+	/**
+	 * Retrieves paper portrait.
+	 * @return boolean
+	 */
 	public function getPaperPortrait(){
 		return $this->paperPortrait;
 	}
 	
+	/**
+	 * Sets cell width in mm
+	 * @param unknown $size
+	 */
 	public function setCellWidthInMM( $size ){
 		$this->cellWidthInMM = $size;
 	}
 	
+	/**
+	 * Retrieves cell width in mm.
+	 * @return number
+	 */
 	public function getCellWidthInMM( ){
 		return $this->cellWidthInMM;
 	}
 	
+	/**
+	 * Sets cell height in mm
+	 * @param unknown $size
+	 */
 	public function setCellHeightInMM( $size ){
 		$this->cellHeightInMM = $size;
 	}
 	
+	/**
+	 * retrieves cell height in mm.
+	 * @return number
+	 */
 	public function getCellHeightInMM( ){
 		return $this->cellHeightInMM;
 	}	
 	
+	/**
+	 * Sets top left position x in mm.
+	 * @param unknown $pos
+	 */
 	public function setTopLeftXInMM( $pos ){
 		$this->topLeftXInMM = $pos;
 	}
 	
+	/**
+	 * Gets top left position x in mm.
+	 * @return number
+	 */
 	public function getTopLeftXInMM(){
 		return $this->topLeftXInMM;
 	}	
 	
+	/**
+	 * Sets top left position y in mm.
+	 * @param unknown $pos
+	 */
 	public function setTopLeftYInMM( $pos ){
 		$this->topLeftYInMM = $pos;
 	}
-	
+
+	/**
+	 * Retrieves top left y position in mm.
+	 * @return number
+	 */
 	public function getTopLeftYInMM(){
 		return $this->topLeftYInMM;
 	}	
 
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Util\Serializable::serialize()
+	 */
 	public function serialize () {
 		return array(
 			"id" => $this->getId(),
@@ -185,6 +269,10 @@ class PageBasicLayout extends BaseEntity implements Serializable, Deserializable
 		);
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Util\Deserializable::deserialize()
+	 */
 	public function deserialize (array $parameters) {
 		foreach ($parameters as $key => $value) {
 			switch ($key) {

@@ -35,10 +35,18 @@ class Event extends BaseEntity{
 		$this->lastOccured = new \DateTime("now");
 	}	
 	
+	/**
+	 * Sets the event name.
+	 * @param unknown $name
+	 */
 	public function setName( $name ){
 		$this->name = $name;
 	}
 	
+	/**
+	 * Retrieves the event name.
+	 * @return string
+	 */
 	public function getName(){
 		return $this->name;
 	}

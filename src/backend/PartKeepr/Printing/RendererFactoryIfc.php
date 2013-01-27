@@ -32,13 +32,15 @@ interface RendererFactoryIfc{
 	public function getCreatedClassname();
 	
 	/**
-	 * Retruns the supported classes which can be passed to the renderer
+	 * Returns the supported classes which can be passed to the renderer
 	 * via passRenderingdata($data).
 	 */
 	public function getSupportedClassesForRendering();
 	
 	/**
-	 * Returns the object types, which are required for operation.
+	 * Returns the object types, which are required for operation. They
+	 * must be passed to the $configuration parameter as an array.
+	 * 
 	 * @return An array holding the names of the type instances needed.
 	 */
 	public function getParameterObjectTypes();

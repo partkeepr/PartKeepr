@@ -38,6 +38,10 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 			'text' => '<span style="font-size: 11pt;"><b>!!name!!</b></span><br><span style="font-size: 8pt;">!!description!!</span>'
 			);
 	
+	/**
+	 * @param array $objects needs at least an instance of the PageBasicLayout.
+	 * @param unknown $cfgString The configuration string.
+	 */
 	public function __construct (array $objects, $cfgString ) {
 		$configuration = DecodeConfiguration::decode($cfgString);
 		
