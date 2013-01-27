@@ -36,10 +36,17 @@ class Request {
     		$this->controller = $_REQUEST["service"];
     	}
     	
-    	$serviceName = $this->controller."Service";
-    	$namespace = 'PartKeepr\\';
-    	$cat = $this->controller . "\\";
-    	$fullName= $namespace . $cat . $serviceName;
+    	// Here we split our controller path. We got then elements:
+    	//  - The element is used for the class name too.
+    	//  - All elements will be used to build the path to the class
+    	// Foo.Bar => PartKeepr\\Foo\\Bar\\BarService 
+    	$serviceClassPath = explode( '.', $this->controller );      	
+    	array_unshift($serviceClassPath,'PartKeepr' );    	
+    	$serviceName = end($serviceClassPath)."Service";
+    	reset($serviceClassPath);
+    	array_push($serviceClassPath, $serviceName);
+
+    	$fullName = implode("\\",$serviceClassPath);
     	
     	$class = new $fullName($this->getParams()); 
     	
@@ -88,10 +95,10 @@ class Request {
         }
         // Quickndirty PATH_INFO parser
         if (isset($_SERVER["PATH_INFO"])){
-            $cai = '/^\/([A-Za-z]+\w)\/([A-Za-z]+\w)\/([0-9]+)$/';  // /controller/action/id
-            $ca =  '/^\/([A-Za-z]+\w)\/([A-Za-z]+)$/';              // /controller/action
-            $ci = '/^\/([A-Za-z]+\w)\/([0-9]+)$/';               // /controller/id
-            $c =  '/^\/([A-Za-z]+\w)$/';                             // /controller
+            $cai = '/^\/([A-Za-z.]+\w)\/([A-Za-z]+\w)\/([0-9]+)$/';  // /controller/action/id
+            $ca =  '/^\/([A-Za-z.]+\w)\/([A-Za-z]+)$/';              // /controller/action
+            $ci = '/^\/([A-Za-z.]+\w)\/([0-9]+)$/';               // /controller/id
+            $c =  '/^\/([A-Za-z.]+\w)$/';                             // /controller
             $i =  '/^\/([0-9]+)$/';                             // /id
             $matches = array();
             if (preg_match($cai, $_SERVER["PATH_INFO"], $matches)) {

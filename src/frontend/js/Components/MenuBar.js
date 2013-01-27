@@ -74,9 +74,21 @@ Ext.define('PartKeepr.MenuBar', {
 						text: i18n("Stock History"),
 						handler: this.showStockHistory,
 						icon: 'resources/fugue-icons/icons/notebook.png'
-					}
-					
-			        ]
+					},{
+						text: i18n("Print and Labeling"),
+						icon: 'resources/fugue-icons/icons/printer.png',
+						menu: [
+							{
+								text: i18n("Storage Locations"),
+								handler: this.showPrintStorageLocations
+							},{
+								text : i18n("Edit Label Layout"),
+								handler : this.editPrintingPageBasicLayout
+							},{
+								text : i18n("Edit Configuration"),
+								handler : this.editPrintingJobConfiguration
+							}]					
+					}]
 		});
 		
 		this.systemMenu = Ext.create('Ext.menu.Menu', {
@@ -280,6 +292,36 @@ Ext.define('PartKeepr.MenuBar', {
 			title: component.title,
 			iconCls: component.iconCls,
 			closable: component.closable 
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	showPrintStorageLocations: function () {
+		var j = Ext.create("PartKeepr.PrintStorageLocations", {
+			title: i18n("Printing and Labeling: Storage Locations"),
+			iconCls: 'icon-drill',
+			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	editPrintingPageBasicLayout: function () {
+		var j = Ext.create("PartKeepr.Printing.PageBasicLayoutEditorComponent", {
+			title: i18n("Labeling Layout"),
+			iconCls: 'icon-drill',
+			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	editPrintingJobConfiguration: function () {
+		var j = Ext.create("PartKeepr.Printing.PrintingJobConfigurationEditorComponent", {
+			title: i18n("Printing Configuration"),
+			iconCls: 'icon-drill',
+			closable: true
 		});
 		
 		PartKeepr.getApplication().addItem(j);

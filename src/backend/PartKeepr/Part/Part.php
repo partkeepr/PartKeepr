@@ -372,6 +372,13 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	}
 	
 	/**
+	 * Retrieves the footrpint
+	 */
+	public function getFootprint () {
+		return $this->footprint;
+	}
+	
+	/**
 	 * Sets the comment for this part
 	 * @param string $comment The comment for this part
 	 */

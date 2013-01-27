@@ -27,12 +27,12 @@ class AuthService extends AnonService {
 	 * 				documentation="Authenticates a user and starts a new session upon success.",
 	 * 				returnValues={
 	 * 					@ServiceReturnValue(
-	 * 											name="sessionid",
+	 * 											name="username",
 	 * 											type="string:50",
 	 * 											description="The logged in username"
 	 * 										),
 	 * 					@ServiceReturnValue(
-	 * 											name="username",
+	 * 											name="sessionid",
 	 * 											type="string:50",
 	 * 											description="The session ID"
 	 * 										),
@@ -75,6 +75,8 @@ class AuthService extends AnonService {
 		if ($authenticatedUser !== false) {
 			/* Start Session */
 			$session = SessionManager::getInstance()->startSession($authenticatedUser);
+			
+			$session->getUser()->updateSeen();
 			
 			$aPreferences = array();
 			
