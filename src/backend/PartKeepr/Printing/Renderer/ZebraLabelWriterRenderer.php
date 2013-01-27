@@ -120,15 +120,23 @@ EOD
     public function outputResult($filename){
     	return $this->out;
     }
+
+    /**
+     * Registers this renderer class to the registry.
+     *
+     * @param RendererFactoryRegistry $registry
+     */
+    public static function onRegister( RendererFactoryRegistry $registry ){
+		// We have to register this class to the registry.
+		// Only if the class is registered, it can be found by the
+		// registry and you will see it in the application.
+	$registry->registerFactory(
+			new SimpleRendererFactory("Zebra Label Renderer",
+					"PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer",
+					array("PartKeepr\Part\Part"),
+					array()
+			)
+	);
+    }
 }
 
-// We have to register this class to the registry.
-// Only if the class is registered, it can be found by the
-// registry and you will see it in the application.
-RendererFactoryRegistry::getInstance()->registerFactory(
-     new SimpleRendererFactory("Zebra Label Renderer",
-                "PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer",
-                array("PartKeepr\Part\Part"),
-                array()
-                )
-     );

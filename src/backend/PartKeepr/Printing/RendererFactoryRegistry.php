@@ -68,7 +68,29 @@ class RendererFactoryRegistry extends Singleton {
 		if (!$this->findRendererAlreadyRun){
 			foreach (glob(dirname(__FILE__).DIRECTORY_SEPARATOR."Renderer".DIRECTORY_SEPARATOR."*.php") as $filename) {
 				if (is_file($filename)) {
-					require_once($filename);
+					$className = 'PartKeepr\\Printing\\Renderer\\'.basename($filename,'.php');
+					$exists = class_exists($className);
+					if ( $exists
+						&& is_subclass_of($className, "\PartKeepr\Printing\RendererIfc") ){
+						try {
+							$onRegister = new \ReflectionMethod($className,'onRegister');
+							if ($onRegister->isStatic()){
+								// Enough sanity checks, if now something goes wrong, we will fail.
+								$onRegister->invoke(null,$this);
+							}else{
+								trigger_error("Method onRegister in class $className is not static, ignoring class.",E_USER_WARNING );
+							}
+						} catch( \ReflectionException $e)
+						{
+							trigger_error("Method onRegister in class $className gave an error: ".$e->getMessage().". Ignoring class.",E_USER_WARNING );
+						}
+					}else{
+						if ($exists){
+							trigger_error("Class $className is not using the RenderingIfc.",E_USER_WARNING );
+						} else {
+							trigger_error("File $filename does not contain a class with $className.",E_USER_WARNING );
+						}
+					}
 				}
 			}
 			

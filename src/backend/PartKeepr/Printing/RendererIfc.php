@@ -5,6 +5,9 @@ namespace PartKeepr\Printing;
  * The rendering interface is used to pass data to a renderer and
  * retrieve the rendered results afterwards. How the data is rendered
  * and which data can be processed is implementation specific.
+ *
+ * Add a static method onRegister( \PartKeepr\Printing\RendererFactoryRegistry $registry ) to your class which
+ * will be called to integrate your plugin.
  */
 interface RendererIfc{
 	/**
