@@ -48,6 +48,12 @@ class Placeholder{
 					'footprintName' => $object->getFootprint() === null ? '': $object->getFootprint()->getName(),
 					'storageLocationName' => $object->getStorageLocation() === null ? '': $object->getStorageLocation()->getName()
 			);			
+		}else if ( $object instanceof StorageLocation ){
+			$replace = array(
+					'id' => $object->getId(),
+					'barcodeId' => $object->getId() * 10 + 2,
+					'name' => $object->getName()
+			);			
 		}
 		
 		$this->beginToken = $begin;
