@@ -2,6 +2,7 @@
 namespace PartKeepr\Printing\Utils;
 
 use PartKeepr\Printing\Exceptions\InvalidArgumentException;
+use PartKeepr\PartKeepr;
 
 /**
  * Helper class which enables us to decode a configuration which was passed as JSON
