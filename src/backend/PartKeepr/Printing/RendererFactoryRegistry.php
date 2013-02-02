@@ -98,7 +98,8 @@ class RendererFactoryRegistry extends Singleton {
 						if ($exists){
 							trigger_error("Class $className is not using the RenderingIfc.",E_USER_WARNING );
 						} else {
-							trigger_error("File $filename does not contain a class with $className.",E_USER_WARNING );
+							// Sanemly ignore this case, because this may arise often if a needed library is not present.
+							// trigger_error("File $filename does not contain a class with $className.",E_USER_WARNING );
 						}
 					}
 				}

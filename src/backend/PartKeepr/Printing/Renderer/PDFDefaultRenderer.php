@@ -1,6 +1,10 @@
 <?php
 namespace PartKeepr\Printing\Renderer;
 
+if (!\PartKeepr\Util\Configuration::getOption("partkeepr.libs.hasTcpdf",false)){
+	return;
+}
+
 use PartKeepr\Part\Part,
     PartKeepr\Printing\Exceptions\RendererNotFoundException,
 	PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
