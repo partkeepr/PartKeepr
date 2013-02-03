@@ -331,6 +331,10 @@ class PartKeepr {
 			'PartKeepr\Part\PartImage',
 			'PartKeepr\Part\PartAttachment',
 			'PartKeepr\PartCategory\PartCategory',
+				
+			'PartKeepr\Printing\PageBasicLayout\PageBasicLayout',
+			'PartKeepr\Printing\PrintingJob\PrintingJob',
+			'PartKeepr\Printing\PrintingJobConfiguration\PrintingJobConfiguration',
 		
 			'PartKeepr\Project\Project',
 			'PartKeepr\Project\ProjectPart',
