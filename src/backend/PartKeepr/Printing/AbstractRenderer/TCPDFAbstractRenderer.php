@@ -127,10 +127,10 @@ abstract class TCPDFAbstractRenderer implements RendererIfc{
 		$this->pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 		//set margins
-		$this->pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$this->pdf->SetMargins(0, 0, 0);
 
 		//set auto page breaks
-		$this->pdf->SetAutoPageBreak(FALSE, PDF_MARGIN_BOTTOM);
+		$this->pdf->SetAutoPageBreak(FALSE, 0);
 
 		//set image scale factor
 		$this->pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
