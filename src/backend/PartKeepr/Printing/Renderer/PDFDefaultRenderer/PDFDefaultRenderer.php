@@ -1,15 +1,11 @@
 <?php
-namespace PartKeepr\Printing\Renderer;
-
-if (!\PartKeepr\Util\Configuration::getOption("partkeepr.libs.hasTcpdf",false)){
-	return;
-}
+namespace PartKeepr\Printing\Renderer\PDFDefaultRenderer;
 
 use PartKeepr\Part\Part,
     PartKeepr\Printing\Exceptions\RendererNotFoundException,
 	PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
 	PartKeepr\Printing\RendererFactoryRegistry,
-	PartKeepr\Printing\AbstractRenderer\TCPDFAbstractRenderer,
+	PartKeepr\Printing\Renderer\PDFDefaultRenderer\TCPDFAbstractRenderer,
     PartKeepr\Printing\SimpleRendererFactory,
 	PartKeepr\Printing\Utils\PercentOrNumericHelper,
     PartKeepr\Printing\Utils\Placeholder,
@@ -33,7 +29,7 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 			'barcodeWidth' => "12",
 			'barcodeHeight' => "12",
 			'barcodeXPos' => "-7",
-			'barcodeYPos' => "-7",
+			'barcodeYPos' => "7",
 			'barcodeWithText' => false,
 			'barcode2D' => true,
 			'fontFamily' => 'times',
@@ -227,7 +223,7 @@ class PDFDefaultRenderer extends TCPDFAbstractRenderer{
 		// registry and you will see it in the application.
 		$registry->registerFactory(
 			 new SimpleRendererFactory("Default PDF renderer",
-						"PartKeepr\Printing\Renderer\PDFDefaultRenderer",
+						"PartKeepr\Printing\Renderer\PDFDefaultRenderer\PDFDefaultRenderer",
 						array("PartKeepr\StorageLocation\StorageLocation",
 							"PartKeepr\Part\Part"),
 						array("PartKeepr\Printing\PageBasicLayout\PageBasicLayout")

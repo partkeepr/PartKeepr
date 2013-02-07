@@ -1,9 +1,5 @@
 <?php
-namespace PartKeepr\Printing\AbstractRenderer;
-
-if (!\PartKeepr\Util\Configuration::getOption("partkeepr.libs.hasTcpdf",false)){
-	return;
-}
+namespace PartKeepr\Printing\Renderer\PDFDefaultRenderer;
 
 use PartKeepr\Printing\RendererIfc,
     PartKeepr\Printing\RendererFactoryRegistry,

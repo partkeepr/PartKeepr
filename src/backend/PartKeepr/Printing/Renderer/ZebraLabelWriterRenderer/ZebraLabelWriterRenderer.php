@@ -1,5 +1,5 @@
 <?php
-namespace PartKeepr\Printing\Renderer;
+namespace PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer;
 
 use PartKeepr\Part\Part,
     PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
@@ -153,13 +153,13 @@ EOD
 		// We have to register this class to the registry.
 		// Only if the class is registered, it can be found by the
 		// registry and you will see it in the application.
-	$registry->registerFactory(
+		$registry->registerFactory(
 			new SimpleRendererFactory("Zebra Label Renderer",
-					"PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer",
+					"PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer\ZebraLabelWriterRenderer",
 					array("PartKeepr\Part\Part","PartKeepr\StorageLocation\StorageLocation"),
 					array()
 			)
-	);
+		);
     }
 }
 

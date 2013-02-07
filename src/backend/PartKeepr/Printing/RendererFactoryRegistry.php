@@ -28,18 +28,18 @@ class RendererFactoryRegistry extends Singleton {
 	 * Returns a renderer factory by its class name.
 	 * @param string className The name of the class to fetch the factory for.
 	 */
-	public function getRendererFactory( $className ){
+	public function getRendererFactory( $classNameWithNamespace ){
 		$this->findRenderer();
 		
-		if ($className===null){
+		if ($classNameWithNamespace===null){
 			return $this->factories;
 		}
 	
-		if (!array_key_exists($className, $this->factories) ){
-			throw new RendererNotFoundException("No renderer found in registry.",$className, array_keys($this->factories));
+		if (!array_key_exists($classNameWithNamespace, $this->factories) ){
+			throw new RendererNotFoundException("No renderer found in registry.",$classNameWithNamespace, array_keys($this->factories));
 		}
 		
-		return $this->factories[ $className ];
+		return $this->factories[ $classNameWithNamespace ];
 	}
 	
 	/**
@@ -76,31 +76,28 @@ class RendererFactoryRegistry extends Singleton {
 	 */
 	public function findRenderer(){
 		if (!$this->findRendererAlreadyRun){
-			foreach (glob(dirname(__FILE__).DIRECTORY_SEPARATOR."Renderer".DIRECTORY_SEPARATOR."*.php") as $filename) {
+			foreach (glob(dirname(__FILE__).DIRECTORY_SEPARATOR."Renderer".DIRECTORY_SEPARATOR."*Renderer") as $filename) {
+				$filename = $filename . DIRECTORY_SEPARATOR . basename($filename) . ".php";
 				if (is_file($filename)) {
-					$className = 'PartKeepr\\Printing\\Renderer\\'.basename($filename,'.php');
-					$exists = class_exists($className);
-					if ( $exists
-						&& is_subclass_of($className, "\PartKeepr\Printing\RendererIfc") ){
+					$className = basename($filename,'.php');
+					$classNameWithNamespace = 'PartKeepr\\Printing\\Renderer\\'.$className.'\\'.$className;
+					$exists = class_exists($classNameWithNamespace);
+					if ( $exists ){
 						try {
-							$onRegister = new \ReflectionMethod($className,'onRegister');
+							$onRegister = new \ReflectionMethod($classNameWithNamespace,'onRegister');
 							if ($onRegister->isStatic()){
 								// Enough sanity checks, if now something goes wrong, we will fail.
 								$onRegister->invoke(null,$this);
 							}else{
-								trigger_error("Method onRegister in class $className is not static, ignoring class.",E_USER_WARNING );
+								trigger_error("Method onRegister in class $classNameWithNamespace is not static, ignoring class.",E_USER_WARNING );
 							}
 						} catch( \ReflectionException $e)
 						{
-							trigger_error("Method onRegister in class $className gave an error: ".$e->getMessage().". Ignoring class.",E_USER_WARNING );
+							trigger_error("Method onRegister in class $classNameWithNamespace gave an error: ".$e->getMessage().". Ignoring class.",E_USER_WARNING );
 						}
 					}else{
-						if ($exists){
-							trigger_error("Class $className is not using the RenderingIfc.",E_USER_WARNING );
-						} else {
-							// Sanemly ignore this case, because this may arise often if a needed library is not present.
-							// trigger_error("File $filename does not contain a class with $className.",E_USER_WARNING );
-						}
+						// Sanely ignore this case, because this may arise often if a needed library is not present.
+						// trigger_error("File $filename does not contain a class with $classNameWithNamespace.",E_USER_WARNING );
 					}
 				}
 			}
