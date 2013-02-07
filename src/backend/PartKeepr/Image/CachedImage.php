@@ -4,7 +4,7 @@ namespace PartKeepr\Image;
 use PartKeepr\PartKeepr;
 
 /**
- * Represtends a cached image. Cached images are used for scale/resize
+ * Represents a cached image. Cached images are used for scale/resize
  * operations, so that the resize/scale operation doesn't need to be done
  * every time a scaled/resized image is requested.
  * 
