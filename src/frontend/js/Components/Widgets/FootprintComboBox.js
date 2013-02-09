@@ -11,15 +11,15 @@ Ext.define("PartKeepr.FootprintComboBox",{
     initComponent: function () {
 		this.store = PartKeepr.getApplication().getFootprintStore();
 		
-		/* Workaround to remember the value when loading */
-		this.store.on("beforeload", function () {
-			this._oldValue = this.getValue();
-		}, this);
+		this.listenersStore = this.store.mon({
+				item: this,
+				scope: this,
+				// Workaround to remember the value when loading 
+				beforeload: function () { this._oldValue = this.getValue(); },
+				// Set the old value when load is complete
+				load: function () { this.setValue(this._oldValue); }
+    		});
 		
-		/* Set the old value when load is complete */
-		this.store.on("load", function () {
-			this.setValue(this._oldValue);
-		}, this);
 		
 		this.callParent();
     }
