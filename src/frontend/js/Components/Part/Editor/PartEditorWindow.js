@@ -27,6 +27,8 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	partMode: 'edit',
 	title: i18n("Add Part"),
 	
+	saveButtonReenableTask: null,
+	
 	/**
 	 * Creates the part editor and put it into the window.
 	 */
@@ -141,8 +143,12 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		this.saveButton.disable();
 		
 		// Sanity: If the save process fails, re-enable the button after 30 seconds
-		Ext.defer(function () { this.saveButton.enable(); }, 30000, this);
-		
+		if (this.saveButtonReenableTask === null){
+			this.saveButtonReenableTask = new Ext.util.DelayedTask(function(){ this.saveButton.enable(); }, this);
+			this.on( 'destroy', function(){ this.saveButtonReenableTask.cancel(); }, this );
+		}
+		this.saveButtonReenableTask.delay(30000);
+
 		this.editor._onItemSave();
 	},
 	/**
