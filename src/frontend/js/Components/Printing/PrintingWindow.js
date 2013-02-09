@@ -19,6 +19,8 @@ Ext.define('PartKeepr.PrintingWindow', {
 	
 	modal: true,
 	
+	context: "",
+	
 	executeText: i18n("Print"),
 	cancelText: i18n("Cancel"),
 	
@@ -109,9 +111,20 @@ Ext.define('PartKeepr.PrintingWindow', {
 	setObjectType: function( objectType ) {
 		this.objectType = objectType;
 		this.configurationStore.filter('objectType', objectType );
-		
-		this.configurationSelector.setValue( PartKeepr.getApplication().getUserPreference("partkeepr.printing.lastUsedConfiguration."+objectType),'' );
-		this.targetSelector.setValue( PartKeepr.getApplication().getUserPreference("partkeepr.printing.lastUsedTarget."+objectType),'' );
+		this.loadLastUsed();
+	},
+	/**
+	 * Sets the window context to store last used values for this context.
+	 * Context needs to be a string, which identifies it.
+	 */
+	setContext: function( context ) {
+		this.context = context;
+		this.loadLastUsed();
+	},
+	loadLastUsed: function() {
+		var context = this.context.length > 0 ? this.context : this.objectType;
+		this.configurationSelector.setValue( PartKeepr.getApplication().getUserPreference("partkeepr.printing.lastUsedConfiguration."+context),'' );
+		this.targetSelector.setValue( PartKeepr.getApplication().getUserPreference("partkeepr.printing.lastUsedTarget."+context),'' );
 	},
 	/**
 	 * Set the ids of the objects which should be printed/exported
@@ -132,8 +145,8 @@ Ext.define('PartKeepr.PrintingWindow', {
 		if (config!==null){
 			executor.executePrint( config, this.objectType, this.objectIds, target);
 			if (this.objectType!==null){
-				PartKeepr.getApplication().setUserPreference("partkeepr.printing.lastUsedConfiguration."+this.objectType, this.configurationSelector.getValue() );
-				PartKeepr.getApplication().setUserPreference("partkeepr.printing.lastUsedTarget."+this.objectType, this.targetSelector.getValue() );
+				PartKeepr.getApplication().setUserPreference("partkeepr.printing.lastUsedConfiguration."+this.context, this.configurationSelector.getValue() );
+				PartKeepr.getApplication().setUserPreference("partkeepr.printing.lastUsedTarget."+this.context, this.targetSelector.getValue() );
 			}
 
 			this.close();
