@@ -318,12 +318,15 @@ class PartKeepr {
 		return array(
 			'PartKeepr\User\User',
 			'PartKeepr\Session\Session',
-		
+				
+			'PartKeepr\EventNotification\Event',
+			'PartKeepr\EventNotification\LastNotification',
+
 			'PartKeepr\Footprint\Footprint',
 			'PartKeepr\Footprint\FootprintImage',
 			'PartKeepr\Footprint\FootprintAttachment',
 			'PartKeepr\FootprintCategory\FootprintCategory',
-		
+
 			'PartKeepr\Part\Part',
 			'PartKeepr\Part\PartUnit',
 			'PartKeepr\Part\PartManufacturer',
