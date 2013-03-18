@@ -59,7 +59,7 @@ class PartKeepr {
 		$classLoader = new ClassLoader('Doctrine\Common');
 		$classLoader->register();
 		
-		$classLoader = new ClassLoader('Symfony', 'Doctrine');
+		$classLoader = new ClassLoader('Symfony');
 		$classLoader->register();
 		
 		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", self::getRootDirectory() ."/3rdparty/doctrine2-nestedset/lib");
