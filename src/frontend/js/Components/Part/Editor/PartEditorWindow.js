@@ -19,11 +19,15 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	height: 415,
 	
 	saveText: i18n("Save"),
+	saveAndPrintText: i18n("Save + Print"),
+	printText: i18n("Print"),
 	cancelText: i18n("Cancel"),
 	
 	/* Default edit mode. If mode = "create", we show additional fields */
 	partMode: 'edit',
 	title: i18n("Add Part"),
+	
+	saveButtonReenableTask: null,
 	
 	/**
 	 * Creates the part editor and put it into the window.
@@ -64,13 +68,25 @@ Ext.define('PartKeepr.PartEditorWindow', {
 			handler: Ext.bind(this.onCancelEdit, this)
 		});
 		
+		this.saveAndPrintButton = Ext.create("Ext.button.Button", {
+			text: this.saveAndPrintText,
+			icon: 'resources/fugue-icons/icons/printer.png',
+			handler: Ext.bind(this.onItemSaveAndPrint, this)
+		});
+		
+		this.printButton = Ext.create("Ext.button.Button", {
+			text: this.printText,
+			icon: 'resources/fugue-icons/icons/printer.png',
+			handler: Ext.bind(this.onItemPrint, this)
+		});
+		
 		this.bottomToolbar = Ext.create("Ext.toolbar.Toolbar", {
 			enableOverflow: true,
 			defaults: {minWidth: 100},
 			dock: 'bottom',
 			ui: 'footer',
 			pack: 'start',
-			items: [ this.saveButton, this.cancelButton ]
+			items: [ this.saveButton, this.cancelButton, this.partMode == "create" ? this.saveAndPrintButton : this.printButton ]
 		});
 		
 		this.dockedItems = [ this.bottomToolbar ];
@@ -127,9 +143,36 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		this.saveButton.disable();
 		
 		// Sanity: If the save process fails, re-enable the button after 30 seconds
-		Ext.defer(function () { this.saveButton.enable(); }, 30000, this);
-		
+		if (this.saveButtonReenableTask === null){
+			this.saveButtonReenableTask = new Ext.util.DelayedTask(function(){ this.saveButton.enable(); }, this);
+			this.on( 'destroy', function(){ this.saveButtonReenableTask.cancel(); }, this );
+		}
+		this.saveButtonReenableTask.delay(30000);
+
 		this.editor._onItemSave();
+	},
+	/**
+	 * Prints the currently shown part. Only possible if the part was saved before.
+	 */
+	onItemPrint: function() {
+		this.printItem(this.editor.record.data.id);
+	},
+	/**
+	 * Prints a single part which is identified by its id.
+	 */
+	printItem: function( id ){
+		var val = Ext.create("PartKeepr.PrintingWindow");
+		val.setObjectType('PartKeepr\\Part\\Part');
+		val.setContext("PartEditor");
+		val.setObjectIds([id]);
+		val.show();
+	},
+	/**
+	 * Called if one presses the save and print button.
+	 */
+	onItemSaveAndPrint: function () {
+		this.editor.on("itemSaved", function(record){ this.printItem(record.data.id);}, this, {"single": true});
+		this.onItemSave();		
 	},
 	/**
 	 * Called when the item was saved

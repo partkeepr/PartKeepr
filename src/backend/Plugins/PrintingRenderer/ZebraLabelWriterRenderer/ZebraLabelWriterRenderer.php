@@ -1,5 +1,5 @@
 <?php
-namespace PartKeepr\Printing\Renderer;
+namespace PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer;
 
 use PartKeepr\Part\Part,
     PartKeepr\Printing\PageBasicLayout\PageBasicLayout,
@@ -24,7 +24,7 @@ class ZebraLabelWriterRenderer implements RendererIfc{
      * @var array
      */
     private $defaultConfiguration = array( 
-            'part' => array( 'template' => 
+            'template' => 
 <<<'EOD'
 CT~~CD,~CC^~CT~
 ^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR3,3~SD8^JUS^LRN^CI0^XZ
@@ -36,10 +36,9 @@ CT~~CD,~CC^~CT~
 ^FT16,44^A0N,34,33^FH\^FD<<name>>^FS
 ^FT16,76^A0N,23,24^FH\^FD<<description>>^FS
 ^BY3,3,33^FT49,146^BCN,,Y,N
-^FD>;<<id>>^FS
+^FD>;<<barcodeId,%06d>>^FS
 ^PQ1,0,1,Y^XZ
 EOD
- 				)
             );
     
     /**
@@ -59,11 +58,19 @@ EOD
      */
     protected $configurationIn;
     
+    /**
+     * @param array $obj dummy, not needed.
+     * @param unknown $cfgString The configuration string.
+     */
     public function __construct (array $obj, $cfgString ) {
     	$configuration = DecodeConfiguration::decode($cfgString);
         $this->configurationIn = $configuration;
     }    
 
+    /**
+     * (non-PHPdoc)
+     * @see \PartKeepr\Printing\RendererIfc::passRenderingData()
+     */
     public function passRenderingData( $data ){
         // Here we got our data passed. We have to decide how we want
         // to render the data, so we dispatch it to our internal rendering
@@ -71,14 +78,12 @@ EOD
         if ( is_array( $data ) ){
             if (count($data)>0){
                 $elem = reset($data);
-                if ($elem instanceof StorageLocation){
-                    $this->renderStorageLocations($data);
-                } elseif ($elem instanceof Part){
-                    $this->renderParts($data);
+                if ($elem instanceof StorageLocation || $elem instanceof Part){
+                    $this->renderObjects($data);
                 }
                 else{
                     throw new RendererNotFoundException("Unable to handle object type with this renderer.",
-                            get_class($elem),array("StorageLocation"));
+                            get_class($elem),array("StorageLocation","Part"));
                 }
             }
         }
@@ -90,45 +95,71 @@ EOD
     }
     
     /**
-     * This method renders an array of Parts to our sheet.
-     * @param array $parts
+     * This method renders an array of Objects to our labels.
+     * @param array $objects
      */
-    private function renderParts( array $parts ){
-    	$this->configuration = array_merge( $this->defaultConfiguration['part'], $this->configurationIn );
+    private function renderObjects( array $objects ){
+    	$this->configuration = array_merge( $this->defaultConfiguration, $this->configurationIn );
     	
-        foreach ($parts as $part){
-            $this->renderSinglePart( $part );
+        foreach ($objects as $obj){
+            $this->renderSingleObject( $obj );
         }
     }
     
 
-    private function renderSinglePart( Part $part ){
-    	$dataReplacement = new Placeholder( $part, "<<", ">>");
+    /**
+     * Just render a single object to the output.
+     * 
+     * @param $object
+     */
+    private function renderSingleObject( $object ){
+    	$dataReplacement = new Placeholder( $object, "<<", ">>");
 		$this->out .= $dataReplacement->apply($this->configuration['template']) . "\n";
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \PartKeepr\Printing\RendererIfc::getSuggestedExtension()
+     */
     public function getSuggestedExtension(){
     	return "zpl";
     }
     
+    /**
+     * (non-PHPdoc)
+     * @see \PartKeepr\Printing\RendererIfc::storeResult()
+     */
     public function storeResult( $outFile ){
     	$file = fopen($outFile,'w');
     	fwrite( $file, $this->out );
     	fclose( $file );
     }
     
+    /**
+     * 
+     * @param unknown $filename
+     * @return string
+     */
     public function outputResult($filename){
     	return $this->out;
     }
+
+    /**
+     * Registers this renderer class to the registry.
+     *
+     * @param RendererFactoryRegistry $registry
+     */
+    public static function onRegister( RendererFactoryRegistry $registry ){
+		// We have to register this class to the registry.
+		// Only if the class is registered, it can be found by the
+		// registry and you will see it in the application.
+		$registry->registerFactory(
+			new SimpleRendererFactory("Zebra Label Renderer",
+					"PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer\ZebraLabelWriterRenderer",
+					array("PartKeepr\Part\Part","PartKeepr\StorageLocation\StorageLocation"),
+					array()
+			)
+		);
+    }
 }
 
-// We have to register this class to the registry.
-// Only if the class is registered, it can be found by the
-// registry and you will see it in the application.
-RendererFactoryRegistry::getInstance()->registerFactory(
-     new SimpleRendererFactory("Zebra Label Renderer",
-                "PartKeepr\Printing\Renderer\ZebraLabelWriterRenderer",
-                array("PartKeepr\Part\Part"),
-                array()
-                )
-     );

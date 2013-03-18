@@ -54,54 +54,94 @@ class PrintingJobConfiguration extends BaseEntity implements Serializable, Deser
 	 */
 	private $rendererConfiguration;
 	
+	/**
+	 * Sets the name.
+	 */
 	public function setName( $name ){
 		$this->name = $name;
 	}
 	
+	/**
+	 * Retrieves the name
+	 */
 	public function getName(){
 		return $this->name;
 	}
 	
+	/**
+	 * Sets comment.
+	 */
 	public function setComment( $comment ){
 		$this->comment = $comment;
 	}
-	
+
+	/**
+	 * Rerieve comment.
+	 */
 	public function getComment(){
 		return $this->comment;
 	}
 	
+	/**
+	 * Sets object type.
+	 */
 	public function setObjectType( $type ){
 		$this->objectType = $type;
 	}
-	
+
+	/**
+	 * Retrieve object type.
+	 */
 	public function getObjectType(  ){
 		return $this->objectType;
 	}
 	
+	/**
+	 * Sets the export renderer to use for this job.
+	 */
 	public function setExportRenderer( $rendererName ){
 		$this->exportRenderer = $rendererName;
 	}
-	
+
+	/**
+	 * Retrieve the export renderer.
+	 */
 	public function getExportRenderer(){
 		return $this->exportRenderer;
 	}
 	
+	/**
+	 * Sets the page layout.
+	 */
 	public function setPageLayout( $layout ){
 		$this->pageLayout = $layout;
 	}
-	
+
+	/**
+	 * Retrieves page layout.
+	 */
 	public function getPageLayout(){
 		return $this->pageLayout;
 	}
 	
+	/**
+	 * Set render configuration.
+	 */
 	public function setRendererConfiguration( $cfg ){
 		$this->rendererConfiguration = $cfg;
 	}
 	
+	/**
+	 * Retrieve render configuration.
+	 */
 	public function getRendererConfiguration(){
 		return $this->rendererConfiguration;
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Util\Serializable::serialize()
+	 */
 	public function serialize () {
 		return array(
 				"id" => $this->getId(),
@@ -114,6 +154,10 @@ class PrintingJobConfiguration extends BaseEntity implements Serializable, Deser
 		);
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Util\Deserializable::deserialize()
+	 */
 	public function deserialize (array $parameters) {
 		foreach ($parameters as $key => $value) {
 			switch ($key) {

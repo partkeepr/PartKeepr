@@ -9,7 +9,14 @@ use PartKeepr\PartKeepr,
 	PartKeepr\Service\FilterExtractor,
 	PartKeepr\Service\Service;
 
+/**
+ * This is our restful service to work with the printing job configurations.
+ */
 class PrintingJobConfigurationService extends Service implements RestfulService {
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Service\RestfulService::get()
+	 */
 	public function get () {
 		if ($this->hasParameter("id")) {
 			return array("data" => PrintingJobConfigurationManager::getInstance()->getEntity($this->getParameter("id"))->serialize());
@@ -34,6 +41,10 @@ class PrintingJobConfigurationService extends Service implements RestfulService 
 		}
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Service\RestfulService::create()
+	 */
 	public function create () {
 		$this->requireParameter("name");
 		
@@ -46,6 +57,10 @@ class PrintingJobConfigurationService extends Service implements RestfulService 
 		return array("data" => $obj->serialize());
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Service\RestfulService::update()
+	 */
 	public function update () {
 		$this->requireParameter("id");
 		$this->requireParameter("name");
@@ -58,6 +73,10 @@ class PrintingJobConfigurationService extends Service implements RestfulService 
 		
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Service\RestfulService::destroy()
+	 */
 	public function destroy () {
 		$this->requireParameter("id");
 		

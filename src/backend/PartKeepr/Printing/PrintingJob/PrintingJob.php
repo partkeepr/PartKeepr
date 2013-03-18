@@ -64,42 +64,81 @@ class PrintingJob extends BaseEntity implements Serializable {
 		}
 	}
 	
+	/**
+	 * Retrieve created field.
+	 */
 	public function getCreated(){
 		return $this->created;
 	}
 	
+	/**
+	 * Sets done to new value.
+	 * @param boolean $done
+	 */
 	public function setDone( $done ){
 		$this->done = $done;
 	}
 	
+	/**
+	 * Retrieve done field.
+	 * @return boolean
+	 */
 	public function getDone(){
 		return $this->done;
 	}
 	
+	/**
+	 * Sets data field to a file.
+	 * @param TempUploadedFile $data
+	 */
 	public function setData( TempUploadedFile $data ){
 		$this->data = $data;
 	}
 	
+	/**
+	 * Retrieve data file.
+	 * @return TempUploadedFile
+	 */
 	public function getData(  ){
 		return $this->data;
 	}
 	
+	/**
+	 * Sets the owner of this job.
+	 * @param User $user
+	 */
 	public function setOwner( User $user ) {
 		$this->owner = $user;
 	} 
 	
+	/**
+	 * Retrieves owner of this job.
+	 * @return User
+	 */
 	public function getOwner() {
 		return $this->owner;
 	}
 	
+	/**
+	 * Sets the target of this job.
+	 * @param User $user
+	 */
 	public function setTarget( User $user ){
 		$this->target = $user;
 	}
 	
+	/**
+	 * Retrieve target for this job.
+	 * @return User
+	 */
 	public function getTarget() {
 		return $this->target;
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see \PartKeepr\Util\Serializable::serialize()
+	 */
 	public function serialize () {
 		return array(
 				"id" => $this->getId(),
