@@ -84,15 +84,26 @@ class UserManager extends AbstractManager {
 	* @param User $user The user to authenticate
 	* @throws InvalidLoginDataException Thrown if the user's credentials are not valid
 	*/
-	public function authenticate (User $user) {
-		$result = 	PartKeepr::getEM()
-			->getRepository("PartKeepr\User\User")
-			->findOneBy(
-				array(
-					"username" => $user->getUsername(),
-					"password" => $user->getHashedPassword()
-				)
-			);
+	public function authenticate (User $user, $authMethod) {
+
+		if ($authMethod == 'ldap') {
+			$result = PartKeepr::getEM()
+				->getRepository("PartKeepr\User\User")
+				->findOneBy(
+					array(
+						"username" => $user->getUsername()
+					)
+				);
+		} else {
+			$result = PartKeepr::getEM()
+				->getRepository("PartKeepr\User\User")
+				->findOneBy(
+					array(
+						"username" => $user->getUsername(),
+						"password" => $user->getHashedPassword()
+					)
+				);
+		}
 	
 		if ($result == null) {
 			throw new InvalidLoginDataException();

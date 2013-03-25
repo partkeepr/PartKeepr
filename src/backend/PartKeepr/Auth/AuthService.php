@@ -6,10 +6,12 @@ use PartKeepr\Service\AnonService,
 	PartKeepr\User\UserManager,
 	PartKeepr\User\Exceptions\InvalidLoginDataException,
 	PartKeepr\Session\SessionManager,
+	PartKeepr\Auth\LDAP\LDAP,
 	PartKeepr\Service\Annotations\ServiceParameter as ServiceParameter,
 	PartKeepr\Service\Annotations\ServiceCall as ServiceCall,
 	PartKeepr\Service\Annotations\ServiceReturnValue as ServiceReturnValue,
-	PartKeepr\Service\Annotations\Service as ServiceDescription;
+	PartKeepr\Service\Annotations\Service as ServiceDescription,
+	PartKeepr\Util\Configuration as PartKeeprConfiguration;
 
 
 /**
@@ -69,29 +71,45 @@ class AuthService extends AnonService {
 		$user = new User;
 		$user->setRawUsername($this->getParameter("username"));
 		$user->setHashedPassword($this->getParameter("password"));
+
+		/* Check for another authentification */
+		if (PartKeeprConfiguration::getOption("partkeepr.auth.method") == 'internal') {
+			$extAuthenticatedUser = true;
+		} elseif (PartKeeprConfiguration::getOption("partkeepr.auth.method") == 'ldap') {
+			$ldap = new LDAP;
+			$extAuthenticatedUser = $ldap->authenticate($this->getParameter("username"), $this->getParameter("password"));
+		}
+
+		// First authentificate user via LDAP etc.
+		if ($extAuthenticatedUser !== false) {
 		
-		$authenticatedUser = UserManager::getInstance()->authenticate($user);
-		
-		if ($authenticatedUser !== false) {
-			/* Start Session */
-			$session = SessionManager::getInstance()->startSession($authenticatedUser);
+			$authenticatedUser = UserManager::getInstance()->authenticate($user, PartKeeprConfiguration::getOption("partkeepr.auth.method"));
 			
-			$session->getUser()->updateSeen();
-			
-			$aPreferences = array();
-			
-			foreach ($session->getUser()->getPreferences() as $result) {
-				$aPreferences[] = $result->serialize();
+			// Next check if user exist in partkeepr database
+			if ($authenticatedUser !== false) {
+				/* Start Session */
+				$session = SessionManager::getInstance()->startSession($authenticatedUser);
+				
+				$session->getUser()->updateSeen();
+				
+				$aPreferences = array();
+				
+				foreach ($session->getUser()->getPreferences() as $result) {
+					$aPreferences[] = $result->serialize();
+				}
+				
+				return array(
+					"sessionid" => $session->getSessionID(),
+					"username" => $this->getParameter("username"),
+					"admin" => $session->getUser()->isAdmin(),
+					"userPreferences" => array(
+							"response" => array(
+								"data" => $aPreferences
+							)));
+			} else {
+				throw new InvalidLoginDataException();
 			}
-			
-			return array(
-				"sessionid" => $session->getSessionID(),
-				"username" => $this->getParameter("username"),
-				"admin" => $session->getUser()->isAdmin(),
-				"userPreferences" => array(
-						"response" => array(
-							"data" => $aPreferences
-						)));
+
 		} else {
 			throw new InvalidLoginDataException();
 		}

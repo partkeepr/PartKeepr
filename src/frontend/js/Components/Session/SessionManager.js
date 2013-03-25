@@ -59,7 +59,13 @@ Ext.define("PartKeepr.SessionManager", {
 	onLogin: function (username, password) {
 		var k = new PartKeepr.ServiceCall("Auth", "login");
 		k.setParameter("username", username);
-		k.setParameter("password", md5(password));
+
+		if (window.parameters.authMethod == "internal") {
+			k.setParameter("password", md5(password));
+		} else if (window.parameters.authMethod == "ldap") {
+			k.setParameter("password", password);
+		}
+
 		
 		k.enableAnonymous();
 		k.setHandler(Ext.bind(this.onAfterLogin, this));

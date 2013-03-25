@@ -77,6 +77,10 @@ if (!class_exists("Imagick")) {
 $imagick = new \Imagick();
 $aParameters["availableImageFormats"] = $imagick->queryFormats();
 
+/* Authentification method */
+$aParameters["authMethod"] = Configuration::getOption("partkeepr.auth.method");
+
+
 /* Automatic Login */
 if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === true) {
 	$aParameters["autoLoginUsername"] = Configuration::getOption("partkeepr.frontend.autologin.username");
