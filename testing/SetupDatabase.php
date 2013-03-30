@@ -1,8 +1,6 @@
 <?php
 namespace PartKeepr\Testing;
 
-declare(encoding = 'UTF-8');
-
 use PartKeepr\PartKeepr,
     PartKeepr\Setup\Migration\PartDB\PartDBMigration,
     PartKeepr\Util\Configuration,
@@ -10,8 +8,6 @@ use PartKeepr\PartKeepr,
 
 
 use PartKeepr\Setup\Setup;
-
-declare(encoding = 'UTF-8');
 
 include("../src/backend/PartKeepr/PartKeepr.php");
 
