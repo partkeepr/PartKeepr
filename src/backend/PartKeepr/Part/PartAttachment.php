@@ -98,10 +98,12 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 			if (substr($parameters["id"], 0, 4) === "TMP:") {
 				$this->replaceFromTemporaryFile($parameters["id"]);
 			} else {
-				/* Attachment already exists, but seems to belong to another part. Copy the data. */
-				$otherAttachment = PartAttachment::loadById($parameters["id"]);
-				$this->replace($otherAttachment->getFilename());
-				$this->setOriginalFilename($otherAttachment->getOriginalFilename());
+                // In case the part has been copied, the ID doesn't match. In that case we copy the attachment
+                if ($this->getId() !== $parameters["id"]) {
+                    $otherAttachment = PartAttachment::loadById($parameters["id"]);
+                    $this->replace($otherAttachment->getFilename());
+                    $this->setOriginalFilename($otherAttachment->getOriginalFilename());
+                }
 			}
 		}
 
