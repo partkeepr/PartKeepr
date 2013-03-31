@@ -167,7 +167,9 @@ class PartManager extends AbstractManager {
 			return array();
 		}
 		
-		$dql = "SELECT p.id, COUNT(pa) AS cnt FROM PartKeepr\Part\PartAttachment pa JOIN pa.part p WHERE pa.part IN (:partids) GROUP BY pa.part";
+		$dql = "SELECT p.id, COUNT(pa) AS cnt FROM PartKeepr\Part\PartAttachment pa JOIN pa.part p WHERE pa.part IN ";
+        $dql .= "(:partids) GROUP BY pa.part, p.id";
+
 		$partAttachmentQuery = PartKeepr::getEM()->createQuery($dql);
 		$partAttachmentQuery->setParameter("partids", $partIds);
 		
