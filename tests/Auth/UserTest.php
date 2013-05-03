@@ -12,7 +12,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
 		
 		$user->setUsername("Timo A. Hummel");
 		
-		$this->assertEquals($user->getUsername(), "timo_a_hummel");
+		$this->assertEquals($user->getUsername(), "Timo A. Hummel");
 		
 		$user->setPassword("foobar");
 		$hashedPassword = "3858f62230ac3c915f300c664312c63f";
