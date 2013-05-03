@@ -160,7 +160,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
 				host = "&lt;YOUR-CONNECTING-IP&gt;";
 			}
 			
-			this.createHintTemplate.overwrite(Ext.get("postgresql-parameters-hint").getEl(), {
+			this.createHintTemplate.overwrite(Ext.getCmp("postgresql-parameters-hint").getEl(), {
 				localhost: host,
 				user: this.username.getValue(),
 				password: this.password.getValue(),
