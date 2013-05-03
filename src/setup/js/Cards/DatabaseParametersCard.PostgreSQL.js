@@ -24,7 +24,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
 			"<code>CREATE USER {user} WITH UNENCRYPTED PASSWORD '{password}'; CREATE DATABASE {dbname} OWNER {user};<br/><br/></code>"
 			]);
 		
-		this.masterTemplate = Ext.create("Ext.Template", ["The database must be manually created prior installation." ]);	                                                
+		this.masterTemplate = Ext.create("Ext.Template", ["The database must be manually created prior installation.<br/><br/><b>POSTGRES IS UNSUPPORTED; PROCEED AT YOUR OWN RISK</b>" ]);
 		                                                
 		this.hostname = Ext.create("Ext.form.field.Text", {
 			fieldLabel: 'Database Hostname',
