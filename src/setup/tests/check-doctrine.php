@@ -58,12 +58,6 @@ if (\Doctrine\ORM\Version::compare("2.2.0") > 0) {
 	
 }
 
-if (\Doctrine\ORM\Version::compare("2.3.0") <= 0) {
-	$aWarnings[] = 	sprintf(	"You are using Doctrine %s, which PartKeepr isn't tested against. If you encounter any ".
-								"problems, please report them.",
-								\Doctrine\ORM\Version::VERSION);
-}
-
 /**
  * Check for the Symfony YAML component. This component is required to parse YAML files and is used during installation
  * of footprints.
