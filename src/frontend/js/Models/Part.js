@@ -23,6 +23,8 @@ Ext.define("PartKeepr.Part", {
 	         {	name: 'initialStockLevelPrice',	type: 'float'},
 	         {	name: 'initialStockLevelPricePerItem',	type: 'boolean'},
 	         {	name: 'partUnitName',		type: 'string'},
+             {	name: 'partUnitShortName',	type: 'string'},
+
 	         {	name: 'footprintName',		type: 'string'},
 	         {	name: 'storageLocationName',type: 'string'},
 	         {	name: 'categoryName',		type: 'string'},
