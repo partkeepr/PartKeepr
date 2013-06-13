@@ -83,6 +83,10 @@ if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === 
 	$aParameters["autoLoginPassword"] = Configuration::getOption("partkeepr.frontend.autologin.password");
 }
 
+if (Configuration::getOption("partkeepr.frontend.motd", false) !== false) {
+    $aParameters["motd"] = Configuration::getOption("partkeepr.frontend.motd");
+}
+
 /* Load and render the template */
 $template = $twig->loadTemplate("index.tpl");
 

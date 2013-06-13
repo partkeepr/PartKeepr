@@ -57,6 +57,11 @@ Configuration::setOption("partkeepr.database.mysql_socket", null);
 Configuration::setOption("partkeepr.database.driver", "pdo_mysql");
 
 
+/**
+ * Specifies a message of the day (MOTD) to display on login. Simply replace false with any string.
+ */
+Configuration::setOption("partkeepr.frontend.motd", false);
+
 /***********************************************************************************************************************
  * CONFIGURATION SETTINGS FOR MIGRATING FROM PARTDB TO PARTKEEPR. LEAVE UNTOUCHED IF YOU DON'T HAVE PARTDB TO MIGRATE
  **********************************************************************************************************************/

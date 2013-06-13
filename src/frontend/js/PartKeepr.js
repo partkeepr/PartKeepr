@@ -73,7 +73,11 @@ Ext.application({
 		/* @todo Load user preferences directly on login and not via delayed task */
 		this.displayTipWindowTask = new Ext.util.DelayedTask(this.displayTipOfTheDayWindow, this);
 		this.displayTipWindowTask.delay(100);
-		
+
+        if (window.parameters.motd) {
+            this.displayMOTD();
+        }
+
 		this.setSession(this.getSessionManager().getSession());
 		
 		this.getStatusbar().getConnectionButton().setConnected();
@@ -131,6 +135,12 @@ Ext.application({
     			j.show();
     		}
     	}
+    },
+    /**
+     * Displays a message-of-the-day
+     */
+    displayMOTD: function () {
+        Ext.MessageBox.alert(i18n("Message of the day"), window.parameters.motd);
     },
     /**
      * Does a schema status call against the PartKeepr installation, in order to verify if the schema is up-to-date.
