@@ -36,10 +36,26 @@ class PartService extends Service implements RestfulService {
 		 */
 		if ($this->hasParameter("query") && $this->getParameter("query") != "") {
 
+            // Special case: If the user passes id:<number>, we retrieve that number only.
+            // This is
+
+            $additionalResults = array();
+
+            $regExp = "id:[0-9]+";
+            if (preg_match_all("/id:[0-9]+/", $this->getParameter("query"), $pregResults) === 1) {
+                foreach ($pregResults as $match) {
+                    foreach ($match as $result) {
+                        $additionalResults[] = str_replace("id:", "", $result);
+                    }
+                }
+            }
+
 			$fulltextSearch = new PartFulltextSearch($this->getParameter("query"));
 			$fulltextSearchResults = $fulltextSearch->query();
-			
-			$queryBuilder->andWhere("q.id IN (".implode(",", $fulltextSearchResults).")");
+
+            $ids = array_merge($fulltextSearchResults, $additionalResults);
+
+			$queryBuilder->andWhere("q.id IN (".implode(",", $ids).")");
 			
 		}
 		
