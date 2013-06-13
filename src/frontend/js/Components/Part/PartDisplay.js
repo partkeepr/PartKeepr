@@ -59,9 +59,13 @@ Ext.define('PartKeepr.PartDisplay', {
 					'<td class="e">'+i18n("Needs Review")+':</td>',
 					'<td class="e">{needsReview}</td>',
 				'</tr>',
+                '<tr>',
+                    '<td class="o">'+i18n("Internal ID")+':</td>',
+                    '<td class="o">{id}</td>',
+                '</tr>',
 				'<tr>',
-					'<td class="o">'+i18n("Used in projects")+':</td>',
-					'<td class="o">{[ (values.projects == "") ? "'+i18n("none")+'" : values.projects ]}</td>',
+					'<td class="e">'+i18n("Used in projects")+':</td>',
+					'<td class="e">{[ (values.projects == "") ? "'+i18n("none")+'" : values.projects ]}</td>',
 				'</tr>',
 				'</table>');
 		

@@ -170,9 +170,23 @@ Ext.define('PartKeepr.PartEditor', {
 				fieldLabel: i18n("Condition"),
 				name: 'partCondition'
 			},{
-				xtype: 'textfield',
-				fieldLabel: i18n("Internal Part Number"),
-				name: 'internalPartNumber'
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                items : [{
+                    xtype: 'textfield',
+                    labelWidth: 150,
+                    fieldLabel: i18n("Internal Part Number"),
+                    name: 'internalPartNumber',
+                    flex: 1
+                },{
+                    xtype: 'displayfield',
+                    margins: {
+                        left: 5
+                    },
+                    fieldLabel: i18n("Internal ID"),
+                    name: 'id'
+                }]
+
 			}];
 		
 		// Creates the distributor grid
