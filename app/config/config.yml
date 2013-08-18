@@ -21,11 +21,6 @@ framework:
     fragments:       ~
     http_method_override: true
 
-# Twig Configuration
-twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
-
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -56,11 +51,3 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
-
-# Swiftmailer Configuration
-swiftmailer:
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
-    spool:     { type: memory }
