@@ -22,6 +22,7 @@ Ext.application({
     	if (window.parameters.auto_start_session) {
     		this.getSessionManager().setSession(window.parameters.auto_start_session);
     		this.getStatusbar().connectionButton.hide();
+            this.setUsername(window.parameters.autoLoginUsername);
     		this.onLogin();
     	} else {
         	// If auto login is wanted (for e.g. demo systems), put it in here
