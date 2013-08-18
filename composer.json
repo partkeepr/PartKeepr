@@ -1,0 +1,31 @@
+{
+    "name": "partkeepr/partkeepr",
+    "description": "Open Source Inventory Software",
+    "type": "project",
+
+    "homepage": "http://www.partkeepr.org",
+    "license": "GPL-3.0+",
+
+    "authors": [
+        {
+            "name": "Timo A. Hummel",
+            "email": "felicitus@felicitus.org",
+            "homepage": "http://www.felicitus.org",
+            "role": "Project Lead, Developer"
+        }
+    ],
+
+    "support": {
+        "issues": "https://github.com/partkeepr/PartKeepr/issues",
+        "irc": "irc://irc.freenode.org/partkeepr",
+        "wiki": "http://wiki.partkeepr.org",
+        "forum": "http://forum.partkeepr.org",
+        "source": "https://github.com/partkeepr/PartKeepr",
+        "faq" : "http://faq.partkeepr.org"
+    },
+    "require": {
+        "doctrine/orm": "2.3.4",
+        "symfony/console": "2.3.x-dev",
+        "symfony/symfony": "2.3.x-dev"
+    }
+}
