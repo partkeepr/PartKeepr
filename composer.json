@@ -36,7 +36,8 @@
         "sensio/framework-extra-bundle": "~2.3",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/rest-bundle": "0.13.1"
+        "friendsofsymfony/rest-bundle": "0.13.1",
+        "jms/serializer-bundle": "0.12.0"
     },
     "autoload": {
         "psr-0": { "": "src/" }
