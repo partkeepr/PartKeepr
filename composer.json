@@ -40,7 +40,8 @@
         "jms/serializer-bundle": "0.12.0"
     },
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "": "src/",
+                    "PartKeepr": "src/backend"}
     },
     "minimum-stability": "dev",
     "scripts": {

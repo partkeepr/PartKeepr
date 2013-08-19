@@ -557,12 +557,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "605c32dbb384e25117625a7cb4db4e7319a16bae"
+                "reference": "cc83ac6ce8d11f0c6c421cd4afd3503c8a69c35f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/605c32dbb384e25117625a7cb4db4e7319a16bae",
-                "reference": "605c32dbb384e25117625a7cb4db4e7319a16bae",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/cc83ac6ce8d11f0c6c421cd4afd3503c8a69c35f",
+                "reference": "cc83ac6ce8d11f0c6c421cd4afd3503c8a69c35f",
                 "shasum": ""
             },
             "require": {
@@ -600,7 +600,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/"
                 },
@@ -624,7 +624,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-08-16 04:36:22"
+            "time": "2013-08-19 04:33:45"
         },
         {
             "name": "friendsofsymfony/rest",
