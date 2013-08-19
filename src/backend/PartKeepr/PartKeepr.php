@@ -42,6 +42,7 @@ class PartKeepr {
 	 * @return nothing
 	 */
 	public static function initializeClassLoaders() {
+        return;
 		require_once 'Doctrine/Common/ClassLoader.php';
 
 		$classLoader = new ClassLoader('PartKeepr', self::getRootDirectory() . "/src/backend");

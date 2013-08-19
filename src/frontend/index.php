@@ -5,10 +5,19 @@ use PartKeepr\User\User,
 	PartKeepr\Service\ServiceManager,
 	PartKeepr\PartKeepr,
 	PartKeepr\Session\SessionManager,
-	PartKeepr\Util\Configuration;
+	PartKeepr\Util\Configuration,
+    Symfony\Component\ClassLoader\ApcClassLoader,
+    Symfony\Component\HttpFoundation\Request;
+
 
 include("../src/backend/PartKeepr/PartKeepr.php");
-include_once 'Twig/Autoloader.php';
+
+$loader = require_once __DIR__.'/../app/bootstrap.php.cache';
+
+require_once __DIR__.'/../app/AppKernel.php';
+
+$kernel = new AppKernel('dev', false);
+$kernel->loadClassCache();
 
 PartKeepr::initialize("");
 
