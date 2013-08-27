@@ -139,7 +139,9 @@ Ext.define('PartKeepr.PartDisplay', {
 		this.record = r;
 		
 		var values = {};
-		for (var i in r.data) {
+        var i;
+
+		for (i in r.data) {
 			if (r.data[i] !== null) {
 				values[i] = htmlentities(r.data[i]);
 			} else {
@@ -149,7 +151,7 @@ Ext.define('PartKeepr.PartDisplay', {
 
         values.processedAttachments = this.record.attachments().data;
 
-        for (var i=0;i<values.processedAttachments.getCount();i++) {
+        for (i=0;i<values.processedAttachments.getCount();i++) {
             var data = values.processedAttachments.getAt(i);
 
             data.link = "file.php?type=PartAttachment&id="+data.internalId;
