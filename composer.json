@@ -38,7 +38,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/rest-bundle": "0.13.1",
         "jms/serializer-bundle": "0.12.0",
-        "cbsi/doctrine2-nestedset": "dev-master"
+        "cbsi/doctrine2-nestedset": "dev-master",
+        "doctrine/migrations": "dev-master"
     },
     "autoload": {
         "psr-0": { "": "src/",

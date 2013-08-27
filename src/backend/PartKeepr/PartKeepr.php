@@ -51,9 +51,6 @@ class PartKeepr {
 		$classLoader = new ClassLoader('Doctrine\ORM');
 		$classLoader->register();
 		
-		$classLoader = new ClassLoader("Doctrine\DBAL\Migrations", self::getRootDirectory() ."/3rdparty/doctrine-migrations/lib");
-		$classLoader->register();
-		
 		$classLoader = new ClassLoader('Doctrine\DBAL');
 		$classLoader->register();
 		
