@@ -30,7 +30,7 @@ Ext.define('PartKeepr.picker.Char', {
      * @cfg {Boolean} allowReselect
      * If set to true then reselecting a char that is already selected fires the {@link #select} event
      */
-    allowReselect : false,
+    allowReselect : true,
 
     /**
      * @property {String[]} chars
