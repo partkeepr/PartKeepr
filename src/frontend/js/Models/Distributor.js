@@ -8,7 +8,8 @@ Ext.define("PartKeepr.Distributor", {
 	         {	name: 'address',	type: 'string'},
 	         {	name: 'phone',	type: 'string'},
 	         {	name: 'fax',	type: 'string'},
-	         {	name: 'email',	type: 'string'}
+	         {	name: 'email',	type: 'string'},
+	         {	name: 'skuurl',	type: 'string'}
 	         ],
 	proxy: PartKeepr.getRESTProxy("Distributor"),
 	getRecordName: function () {
