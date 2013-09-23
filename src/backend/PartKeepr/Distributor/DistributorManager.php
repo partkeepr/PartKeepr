@@ -20,7 +20,7 @@ class DistributorManager extends Singleton {
 	public function getDistributors ($start = 0, $limit = 10, $sort = "name", $dir = "asc", $filter = "") {
 			
 		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select("st.id, st.name, st.url, st.email, st.comment, st.address")->from("PartKeepr\Distributor\Distributor","st");
+		$qb->select("st.id, st.name, st.url, st.email, st.comment, st.address, st.skuurl")->from("PartKeepr\Distributor\Distributor","st");
 
 		if ($filter != "") {
 			$qb = $qb->where("LOWER(st.name) LIKE :filter");

@@ -106,9 +106,20 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 			header : i18n("SKU"),
 			dataIndex : 'sku',
 			flex : 1,
+			renderer : function(val, p, rec) {
+				var editor =  this.down('[dataIndex=sku]').editor;
+				var skuurl = PartKeepr.getApplication().
+						getDistributorStore().
+						findRecord("id", rec.get("distributor_id")).
+						get("skuurl");
+
+				editor.linkUrl = skuurl.replace("%s", val);
+				return val;
+			},
 			editor : {
-				xtype : 'textfield',
-				allowBlank : true
+				xtype : 'linkField',
+				allowBlank : true,
+				triggerCls : 'x-form-search-trigger',
 			}
 		} ];
 
