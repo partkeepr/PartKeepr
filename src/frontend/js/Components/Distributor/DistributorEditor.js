@@ -15,6 +15,10 @@ Ext.define('PartKeepr.DistributorEditor', {
 		fieldLabel: i18n("Website")
 	},{
 		xtype: 'textfield',
+		name: 'skuurl',
+		fieldLabel: i18n("SKU URL")
+	},{
+		xtype: 'textfield',
 		name: 'email',
 		fieldLabel: i18n("Email")
 	},{
