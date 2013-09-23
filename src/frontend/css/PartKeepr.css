@@ -216,3 +216,7 @@ td.o2 {
 	width:18px;
 	line-height:18px
 }
+
+.x-form-trigger-help {
+    background-image: url('../resources/images/trigger-help.gif'),-webkit-linear-gradient(top, #dee3e6 0%, #fcfcfd 12%, #fff 100%);
+}
