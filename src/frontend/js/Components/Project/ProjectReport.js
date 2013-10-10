@@ -58,12 +58,18 @@ Ext.define('PartKeepr.ProjectReportView', {
 				header: i18n("Quantity"), dataIndex: 'quantity',
 				width: 50
 			},{
-				header: i18n("Part"),
+				header: i18n("Part Name"),
 				renderer: function (val, p, rec) {
 					return rec.part().getAt(0).get("name");
 				},
 				flex: 1
 			},{
+                header: i18n("Part Description"),
+                renderer: function (val, p, rec) {
+                    return rec.part().getAt(0).get("description");
+                },
+                flex: 1
+            },{
 				header: i18n("Remarks"),
 				dataIndex: 'remarks',
 				flex: 1
