@@ -5,12 +5,13 @@ use PartKeepr\PartKeepr,
 	PartKeepr\UploadedFile\UploadedFile,
 	PartKeepr\Util\Configuration,
 	PartKeepr\TempImage\TempImage,
-	PartKeepr\Image\Exceptions\InvalidImageTypeException;
+	PartKeepr\Image\Exceptions\InvalidImageTypeException,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * This is only a storage class; actual image rendering is done by the ImageRenderer.
  * 
- * @MappedSuperclass
+ * @ORM\MappedSuperclass
  */
 abstract class Image extends UploadedFile implements RenderableImage {
 	const IMAGE_ICLOGO = "iclogo";

@@ -6,17 +6,18 @@ use PartKeepr\Util\SerializableException,
 	PartKeepr\Util\Serializable,
 	PartKeepr\PartKeepr,
 	PartKeepr\UploadedFile\TempUploadedFile,
-	PartKeepr\Util\Configuration;
+	PartKeepr\Util\Configuration,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MappedSuperclass
+ * @ORM\MappedSuperclass
  */
 abstract class UploadedFile extends BaseEntity implements Serializable {
 	/**
 	 * Specifies the type of the file.
 	 *
 	 * @var string
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 **/
 	private $type;
 	
@@ -24,13 +25,13 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 	 * The unique filename of the file
 	 *
 	 * @var string
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 */
 	private $filename;
 	
 	/**
 	 * The original name of the file
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $originalname;
@@ -38,13 +39,13 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 	/**
 	 * The mimetype for the file
 	 * @var string
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 */
 	private $mimetype;
 	
 	/**
 	 * The size of the uploaded file
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var integer
 	 */
 	private $size;

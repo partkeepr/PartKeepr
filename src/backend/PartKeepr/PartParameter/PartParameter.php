@@ -5,25 +5,26 @@ use PartKeepr\PartKeepr,
 PartKeepr\Util\Exceptions\OutOfRangeException,
 PartKeepr\Unit\Unit,
 PartKeepr\Part\Part,
-PartKeepr\SiPrefix\SiPrefix;
+PartKeepr\SiPrefix\SiPrefix,
+    Doctrine\ORM\Mapping as ORM;
 
 
 /**
  * This object represents a parameter. Each parameter can have an unit (defined by the class "Unit") associated with
  * a numeric value.
  *
- * @Entity @HasLifecycleCallbacks
+ * @ORM\Entity @ORM\HasLifecycleCallbacks
  **/
 class PartParameter {
 	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
+	 * @ORM\Id @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @var integer
 	 */
 	private $id;
 
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Part\Part")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="parameters")
 	 * The part this parameter is bound to
 	 * @var Part
 	 */
@@ -31,14 +32,14 @@ class PartParameter {
 
 	/**
 	 * The name of the parameter (e.g. Resistance, Voltage)
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $name;
 
 	/**
 	 * A description for this parameter
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $description;
@@ -46,7 +47,7 @@ class PartParameter {
 	/**
 	 * The unit for this type. May be null.
 	 *
-	 * @ManyToOne(targetEntity="PartKeepr\Unit\Unit")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Unit\Unit")
 	 * @var Unit
 	 */
 	private $unit;
@@ -56,21 +57,21 @@ class PartParameter {
 	 *
 	 * Example: If you have 10µ, the value field will contain "10", the prefix object is linked to the SiPrefix
 	 * representing "µ" and the rawValue field will contain 0.000001
-	 * @Column(type="float")
+	 * @ORM\Column(type="float")
 	 * @var float
 	 */
 	private $value;
 
 	/**
 	 * The SiPrefix of the unit
-	 * @ManyToOne(targetEntity="PartKeepr\SiPrefix\SiPrefix")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefix\SiPrefix")
 	 * @var object
 	 */
 	private $siPrefix;
 
 	/**
 	 * The raw value of the unit.
-	 * @Column(type="float")
+	 * @ORM\Column(type="float")
 	 * @var float
 	 */
 	private $rawValue;

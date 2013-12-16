@@ -4,41 +4,42 @@ namespace PartKeepr\Project;
 use PartKeepr\User\User,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\Deserializable,
-	PartKeepr\Util\BaseEntity;
+	PartKeepr\Util\BaseEntity,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
- * @Entity **/
+ * @ORM\Entity **/
 class Project extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Specifies the name of the project
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 */
 	private $name;
 	
 	/**
 	 * Specifies the user this project belongs to
-	 * @ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
 	 */
 	private $user;
 	
 	/**
 	 * Holds the parts needed for this project
-	 * @OneToMany(targetEntity="PartKeepr\Project\ProjectPart",mappedBy="project",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Project\ProjectPart",mappedBy="project",cascade={"persist", "remove"})
 	 * @var ArrayCollection
 	 */
 	private $parts;
 	
 	/**
 	 * Holds the description of this project
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $description;
 	
 	/**
 	 * Holds the project attachments
-	 * @OneToMany(targetEntity="PartKeepr\Project\ProjectAttachment",mappedBy="project",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Project\ProjectAttachment",mappedBy="project",cascade={"persist", "remove"})
 	 * @var ProjectAttachment
 	 */
 	private $attachments;

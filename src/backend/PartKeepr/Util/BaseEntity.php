@@ -2,13 +2,14 @@
 namespace PartKeepr\Util;
 
 use PartKeepr\Util\Exceptions\EntityNotFoundException,
-	PartKeepr\PartKeepr;
+	PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM;
 
-/** @MappedSuperclass */
+/** @ORM\MappedSuperclass */
 class BaseEntity {
 	/**
-	* @Id @Column(type="integer")
-	* @GeneratedValue(strategy="AUTO")
+	* @ORM\Id @ORM\Column(type="integer")
+	* @ORM\GeneratedValue(strategy="AUTO")
 	* @var unknown_type
 	*/
 	private $id;

@@ -3,27 +3,28 @@ namespace PartKeepr\Statistic;
 
 use PartKeepr\Statistic\StatisticSnapshot,
 	PartKeepr\Part\PartUnit,
-	PartKeepr\PartKeepr;
+	PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM;
 
 
-/** @Entity **/
+/** @ORM\Entity **/
 class StatisticSnapshotUnit {
 	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
+	 * @ORM\Id @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @var integer
 	 */
 	private $id;
 	
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Statistic\StatisticSnapshot")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Statistic\StatisticSnapshot",inversedBy="units")
 	 * The statistic snapshot this entity belongs to
 	 * @var StatisticSnapshot
 	 */
 	private $statisticSnapshot;
 	
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Part\PartUnit")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\PartUnit")
 	 * The statistic snapshot this entity belongs to
 	 * @var StatisticSnapshot
 	 */
@@ -31,7 +32,7 @@ class StatisticSnapshotUnit {
 	
 	/**
 	 * The stockLevel for the unit
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var int
 	 */
 	private $stockLevel;

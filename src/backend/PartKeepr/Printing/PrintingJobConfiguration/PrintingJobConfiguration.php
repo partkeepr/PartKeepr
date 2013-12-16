@@ -5,7 +5,9 @@ use PartKeepr\Printing\PageBasicLayout\PageBasicLayout;
 
 use PartKeepr\Util\BaseEntity,
 	PartKeepr\Util\Deserializable,
-	PartKeepr\Util\Serializable;
+	PartKeepr\Util\Serializable,
+    Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * This is a configuration for a specific job to export.
@@ -13,36 +15,36 @@ use PartKeepr\Util\BaseEntity,
  * holds all additional configuration options to execute
  * the job correctly.
  * 
- * @Entity
+ * @ORM\Entity
  */
 class PrintingJobConfiguration extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The name of this layout.
-	 * @Column(type="text") 
+	 * @ORM\Column(type="text")
 	 */
 	private $name;
 	
 	/**
 	 * The comment for this layout.
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 */
 	private $comment;
 	
 	/**
 	 * This holds the object type this configuration is used for.
-	 * @Column(type="text") 
+	 * @ORM\Column(type="text")
 	 */
 	private $objectType;
 	
 	/**
 	 * The classname of the export renderer.
-	 * @Column(type="text") 
+	 * @ORM\Column(type="text")
 	 */
 	private $exportRenderer;
 	
 	/**
 	 * This is the layout to use if we are in printing mode.
-	 * @ManyToOne(targetEntity="PartKeepr\Printing\PageBasicLayout\PageBasicLayout")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Printing\PageBasicLayout\PageBasicLayout")
 	 */
 	private $pageLayout;
 	
@@ -50,7 +52,7 @@ class PrintingJobConfiguration extends BaseEntity implements Serializable, Deser
 	 * This field holds additional renderer configuration data. This configuration
 	 * is very renderer specific and can be used to parametrize the output more.
 	 *  
-	 * @Column(type="text") 
+	 * @ORM\Column(type="text")
 	 */
 	private $rendererConfiguration;
 	

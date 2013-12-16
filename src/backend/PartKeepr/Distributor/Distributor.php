@@ -4,64 +4,65 @@ namespace PartKeepr\Distributor;
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
-	PartKeepr\PartKeepr;
+	PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Represents a distributor
- * @Entity **/
+ * @ORM\Entity **/
 class Distributor extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Holds the name of the distributor
-	 * @Column(type="string",unique=true)
+	 * @ORM\Column(type="string",unique=true)
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * Holds the address of the distributor
-	 * @Column(type="text",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 * @var string
 	 */
 	private $address;
 	
 	/**
 	 * Holds the URL of the distributor
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $url;
 	
 	/**
 	 * Holds the phone number of the distributor
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $phone;
 	
 	/**
 	 * Holds the fax number of the distributor
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $fax;
 	
 	/**
 	 * Holds the email of the distributor
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $email;
 	
 	/**
 	 * Holds a comment for the distributor
-	 * @Column(type="text",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 * @var string
 	 */
 	private $comment;
 	
 	/**
 	 * Holds the SKU lookup URL of the distributor
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $skuurl;

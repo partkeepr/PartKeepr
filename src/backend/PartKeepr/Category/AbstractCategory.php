@@ -3,11 +3,12 @@ namespace PartKeepr\Category;
 
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Serializable;
-use DoctrineExtensions\NestedSet\Node;
+use DoctrineExtensions\NestedSet\Node,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
- * @MappedSuperclass
- * @Table(indexes={@index(columns={"lft"}),@index(columns={"rgt"})})
+ * @ORM\MappedSuperclass
+ * @ORM\Table(indexes={@ORM\Index(columns={"lft"}),@ORM\Index(columns={"rgt"})})
  * 
  * Represents an abstract category. This class isn't directly usable; you need to inherit it to take advantage of
  * the AbstractCategoryManager.
@@ -17,28 +18,28 @@ use DoctrineExtensions\NestedSet\Node;
 class AbstractCategory extends BaseEntity implements Node, Serializable {
     /**
      * The "left" property of the nested set
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      * @var integer
      */
     private $lft;
 
     /**
      * The "right" property of the nested set
-     * @Column(type="integer")
+     * @ORM\Column(type="integer")
      * @var integer
      */
     private $rgt;
     
 	/**
 	 * The name of the category
-	 * @Column(length=128)
+	 * @ORM\Column(length=128)
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * The description of the category
-	 * @Column(type="text",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 * @var string
 	 */
 	private $description;
@@ -54,7 +55,7 @@ class AbstractCategory extends BaseEntity implements Node, Serializable {
 	/**
 	 * Holds the category path.
 	 * 
-	 * @Column(type="text",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 * 
 	 * @var string
 	 */

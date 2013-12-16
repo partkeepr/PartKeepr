@@ -3,16 +3,17 @@ namespace PartKeepr\Manufacturer;
 
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
-	PartKeepr\Image\Image;
+	PartKeepr\Image\Image,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a manufacturer IC logo
- * @Entity
+ * @ORM\Entity
  **/
 class ManufacturerICLogo extends Image implements Serializable, Deserializable {
 	/**
 	 * The manufacturer object
-	 * @ManyToOne(targetEntity="PartKeepr\Manufacturer\Manufacturer")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Manufacturer\Manufacturer", inversedBy="icLogos")
 	 * @var Manufacturer
 	 */
 	private $manufacturer = null;

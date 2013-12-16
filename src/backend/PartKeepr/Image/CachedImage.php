@@ -1,23 +1,24 @@
 <?php
 namespace PartKeepr\Image;
 
-use PartKeepr\PartKeepr;
+use PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Represents a cached image. Cached images are used for scale/resize
  * operations, so that the resize/scale operation doesn't need to be done
  * every time a scaled/resized image is requested.
  * 
- * @Entity 
+ * @ORM\Entity
  */
 class CachedImage {
 	/**
 	 * Specifies the ID of the cached image.
 	 *
 	 * @var integer
-	 * @Id
-	 * @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 **/
 	private $id;
 	
@@ -25,7 +26,7 @@ class CachedImage {
 	 * Specifies the ID of the original image
 	 * 
 	 * @var integer
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 */
 	private $originalId;
 	
@@ -33,7 +34,7 @@ class CachedImage {
 	 * Specifies the type of the original image.
 	 *
 	 * @var string
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 **/
 	private $originalType;
 	
@@ -41,7 +42,7 @@ class CachedImage {
 	 * The cache filename of the image
 	 * 
 	 * @var string
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 */
 	private $cacheFile;
 	

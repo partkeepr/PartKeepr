@@ -2,16 +2,17 @@
 namespace PartKeepr\Footprint;
 
 use PartKeepr\Util\Serializable,
-	PartKeepr\Image\Image;
+	PartKeepr\Image\Image,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a footprint image
- * @Entity
+ * @ORM\Entity
  **/
 class FootprintImage extends Image implements Serializable {
 	/**
 	 * The footprint object
-	 * @OneToOne(targetEntity="PartKeepr\Footprint\Footprint",inversedBy="image")
+	 * @ORM\OneToOne(targetEntity="PartKeepr\Footprint\Footprint",inversedBy="image")
 	 * @var Footprint 
 	 */
 	private $footprint = null;

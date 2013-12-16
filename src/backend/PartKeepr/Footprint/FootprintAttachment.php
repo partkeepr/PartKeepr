@@ -3,16 +3,17 @@ namespace PartKeepr\Footprint;
 
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
-	PartKeepr\UploadedFile\UploadedFile;
+	PartKeepr\UploadedFile\UploadedFile,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a footprint attachment
- * @Entity
+ * @ORM\Entity
  **/
 class FootprintAttachment extends UploadedFile implements Serializable, Deserializable {
 	/**
 	 * The description of this attachment
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 * @var string
 	 */
 	private $description;
@@ -26,7 +27,7 @@ class FootprintAttachment extends UploadedFile implements Serializable, Deserial
 	}
 	/**
 	 * The footprint object
-	 * @ManyToOne(targetEntity="PartKeepr\Footprint\Footprint")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Footprint\Footprint",inversedBy="attachments")
 	 * @var Footprint
 	 */
 	private $footprint = null;

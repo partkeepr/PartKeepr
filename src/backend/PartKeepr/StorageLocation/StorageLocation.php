@@ -3,20 +3,21 @@ namespace PartKeepr\StorageLocation;
 
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
-	PartKeepr\Util\BaseEntity;
+	PartKeepr\Util\BaseEntity,
+    Doctrine\ORM\Mapping as ORM;
 
-/** @Entity **/
+/** @ORM\Entity **/
 class StorageLocation extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Holds the name for our storage location
-	 * @Column(type="string",unique=true)
+	 * @ORM\Column(type="string",unique=true)
 	 * @var string
 	 */
 	private $name;
 
 	/**
 	 * Holds the storage location image
-	 * @OneToOne(targetEntity="PartKeepr\StorageLocation\StorageLocationImage",mappedBy="storageLocation",cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="PartKeepr\StorageLocation\StorageLocationImage",mappedBy="storageLocation",cascade={"persist", "remove"})
 	 * @var StorageLocationImage
 	 */
 	private $image;

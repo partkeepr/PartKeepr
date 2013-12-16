@@ -3,7 +3,8 @@ namespace PartKeepr\Printing\PageBasicLayout;
 
 use PartKeepr\Util\BaseEntity,
 	PartKeepr\Util\Deserializable,
-	PartKeepr\Util\Serializable;
+	PartKeepr\Util\Serializable,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * This class is a layout which can be used to describe a typical page
@@ -16,31 +17,31 @@ use PartKeepr\Util\BaseEntity,
  *  - Width and height of the cells (every cell has the same size)
  *  - Number of cells in columns an rows.
  *  
- *  @Entity
+ *  @ORM\Entity
  */
 class PageBasicLayout extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The name of this layout.
-	 * @Column(type="text") 
+	 * @ORM\Column(type="text")
 	 */
 	private $name;
 	
 	/**
 	 * The comment for this layout.
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 */
 	private $comment;
 	
 	/**
 	 * The numbers of columns on the page
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var integer
 	 */
 	private $columnCount = 1;
 
 	/**
 	 * The numbers of rows on the page
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var integer
 	 */	
 	private $rowCount = 1;
@@ -48,27 +49,27 @@ class PageBasicLayout extends BaseEntity implements Serializable, Deserializable
 	/**
 	 * The size of the entire paper
 	 * 
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 */
 	private $paperSize = "A4";
 	
 	/**
 	 * Indicates the orientation of the paper or better, the orientation 
 	 * of the final text.
-	 * @Column(type="boolean")
+	 * @ORM\Column(type="boolean")
 	 */
 	private $paperPortrait = true;
 	
 	/**
 	 * This is the cell width in mm.
-	 * @Column(type="float")
+	 * @ORM\Column(type="float")
 	 * @var float
 	 */
 	private $cellWidthInMM = 100;
 	
 	/**
 	 * This is the cell height in mm.
-	 * @Column(type="float")
+	 * @ORM\Column(type="float")
 	 * @var float
 	 */
 	private $cellHeightInMM = 100;
@@ -76,7 +77,7 @@ class PageBasicLayout extends BaseEntity implements Serializable, Deserializable
 	/**
 	 * This is the top left X position of the first cell on the
 	 * sheet.
-	 * @Column(type="float")
+	 * @ORM\Column(type="float")
 	 * @var float
 	 */
 	private $topLeftXInMM = 0;
@@ -84,7 +85,7 @@ class PageBasicLayout extends BaseEntity implements Serializable, Deserializable
 	/**
 	 * This is the top left Y position of the first cell on the
 	 * sheet.
-	 * @Column(type="float")
+	 * @ORM\Column(type="float")
 	 * @var float
 	 */
 	private $topLeftYInMM = 0;

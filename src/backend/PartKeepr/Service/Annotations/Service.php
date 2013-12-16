@@ -25,4 +25,21 @@ class Service
 	public function getDescription () {
 		return $this->description;
 	}
+
+    /**
+     * The documentation of the service
+     *
+     * @var string
+     */
+    public $documentation;
+
+    /**
+     * Returns the documentation of the service
+     *
+     * @return string
+     */
+    public function getDocumentation()
+    {
+        return $this->documentation;
+    }
 }

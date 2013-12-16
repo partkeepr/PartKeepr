@@ -11,39 +11,41 @@ use PartKeepr\StorageLocation\StorageLocation,
 	PartKeepr\PartKeepr,
 	PartKeepr\Part\Exceptions\CategoryNotAssignedException,
 	PartKeepr\Util\Exceptions\OutOfRangeException,
-	PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
+	PartKeepr\Part\Exceptions\StorageLocationNotAssignedException,
+    Doctrine\ORM\Mapping as ORM,
+    Doctrine\ORM\Mapping\HasLifecycleCallbacks ;
 
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  * 
- * @Entity @HasLifecycleCallbacks
+ * @ORM\Entity @ORM\HasLifecycleCallbacks
  */
 class Part extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The category of the part
-	 * @ManyToOne(targetEntity="PartKeepr\PartCategory\PartCategory")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartCategory\PartCategory")
 	 * @var Category 
 	 */
 	private $category;
 	
 	/**
 	 * The part's name
-	 * @Column
+	 * @ORM\Column
 	 * @var string
 	 */
 	private $name;
 
 	/**
 	 * The part's short description
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $description;
 
 	/**
 	 * The footprint of this part
-	 * @ManyToOne(targetEntity="PartKeepr\Footprint\Footprint")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Footprint\Footprint")
 	 * @var Footprint
 	 */
 	private $footprint;
@@ -51,56 +53,56 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The unit in which the part's "amount" is calculated. This is necessary to count parts
 	 * in "pieces", "meters" or "grams".
-	 * @ManyToOne(targetEntity="PartKeepr\Part\PartUnit")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\PartUnit", inversedBy="parts")
 	 * @var PartUnit
 	 */
 	private $partUnit;
 	
 	/**
 	 * Defines the storage location of this part
-	 * @ManyToOne(targetEntity="PartKeepr\StorageLocation\StorageLocation")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocation\StorageLocation")
 	 * @var StorageLocation
 	 */
 	private $storageLocation;
 	
 	/**
 	 * Holds the manufacturers which can manufacture this part
-	 * @OneToMany(targetEntity="PartKeepr\Part\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
 	 * @var ArrayCollection
 	 */
 	private $manufacturers;
 	
 	/**
 	 * Holds the distributors from where we can buy the part
-	 * @OneToMany(targetEntity="PartKeepr\Part\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
 	 * @var ArrayCollection
 	 */
 	private $distributors;
 	
 	/**
 	 * Holds the part images
-	 * @OneToMany(targetEntity="PartKeepr\Part\PartImage",mappedBy="part",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartImage",mappedBy="part",cascade={"persist", "remove"})
 	 * @var PartImage
 	 */
 	private $images;
 	
 	/**
 	* Holds the part attachments
-	* @OneToMany(targetEntity="PartKeepr\Part\PartAttachment",mappedBy="part",cascade={"persist", "remove"})
+	* @ORM\OneToMany(targetEntity="PartKeepr\Part\PartAttachment",mappedBy="part",cascade={"persist", "remove"})
 	* @var PartAttachment
 	*/
 	private $attachments;
 	
 	/**
 	 * The comment for this part
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 */
 	private $comment = "";
 	
 	/**
 	 * The stock level. Note that this is a cached value, because it makes our summary queries easier.
 	 * @todo It would be nice if we could get rid of that.
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var integer
 	 */
 	private $stockLevel = 0;
@@ -109,7 +111,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * The minimum stock level for this part. If we run out of this part (e.g. stockLevel < minStockLevel),
 	 * we can see that in the system and re-order parts.
 	 * 
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var integer
 	 */
 	private $minStockLevel = 0;
@@ -118,61 +120,61 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * The average price for the part. Note that this is a cached value.
 	 * 
 	 * @todo It would be nice if we could get rid of that
-	 * @Column(type="decimal",precision=13,scale=4,nullable=true)
+	 * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
 	 * @var float
 	 */
 	private $averagePrice = null;
 	
 	/**
 	 * The stock level history
-	 * @OneToMany(targetEntity="PartKeepr\Stock\StockEntry",mappedBy="part",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Stock\StockEntry",mappedBy="part",cascade={"persist", "remove"})
 	 * @var ArrayCollection
 	 */
 	private $stockLevels;
 	
 	/**
 	 * The parameters for this part
-	 * @OneToMany(targetEntity="PartKeepr\PartParameter\PartParameter",mappedBy="part",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\PartParameter\PartParameter",mappedBy="part",cascade={"persist", "remove"})
 	 * @var ArrayCollection
 	 */
 	private $parameters;
 	
 	/**
 	 * The part status for this part
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $status;
 	
 	/**
 	 * Defines if the part needs review
-	 * @Column(type="boolean")
+	 * @ORM\Column(type="boolean")
 	 * @var boolean
 	 */
 	private $needsReview;
 
 	/**
 	 * Defines the condition of the part
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $partCondition;
 	
 	/**
 	 * The create date+time for this part
-	 * @Column(type="datetime",nullable=true)
+	 * @ORM\Column(type="datetime",nullable=true)
 	 * @var \DateTime
 	 */
 	private $createDate;
 	
 	/**
-	 * @OneToMany(targetEntity="PartKeepr\Project\Project", mappedBy="part")
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Project\ProjectPart", mappedBy="part")
 	 **/
-	private $projects;
+	private $projectParts;
 	
 	/**
 	 * The internal part number
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $internalPartNumber;
@@ -337,14 +339,6 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 */
 	public function getCategory () {
 		return $this->category;
-	}
-	
-	/**
-	 * Returns all projects this part is used
-	 * @return ArrayCollection the projects
-	 */
-	public function getProjects () {
-		return $this->projects;
 	}
 	
 	/**
@@ -642,7 +636,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * @throws CategoryNotAssignedException			Thrown if no category is set
 	 * @throws StorageLocationNotAssignedException	Thrown if no storage location is set
 	 * 
-	 * @PrePersist
+	 * @ORM\PrePersist
 	 */
 	public function onPrePersist () {
 		$this->checkCategoryConsistency();
@@ -656,7 +650,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * For a list of exceptions, see
 	 * @see PartKeepr\Part.Part::onPrePersist()
 	 * 
-	 * @PreUpdate */
+	 * @ORM\PreUpdate */
 	public function onPreUpdate () {
 		$this->checkCategoryConsistency();
 		$this->checkStorageLocationConsistency();

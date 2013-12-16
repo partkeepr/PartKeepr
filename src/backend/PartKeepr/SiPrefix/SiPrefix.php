@@ -3,28 +3,29 @@ namespace PartKeepr\SiPrefix;
 
 use PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
-	PartKeepr\Util\Exceptions\OutOfRangeException;
+	PartKeepr\Util\Exceptions\OutOfRangeException,
+    Doctrine\ORM\Mapping as ORM;
 
 
-/** @Entity **/
+/** @ORM\Entity **/
 class SiPrefix extends BaseEntity {
 	/**
 	 * The prefix of the Si-Prefix (e.g. yotta, deca, deci, centi)
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $prefix;
 	
 	/**
 	 * The symbol of the Si-Prefix (e.g. m, M, G)
-	 * @Column(type="string",length=2)
+	 * @ORM\Column(type="string",length=2)
 	 * @var string
 	 */
 	private $symbol;
 	
 	/**
 	 * The power of the Si-Prefix (e.g. milli = 10^-3)
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var int
 	 */
 	private $power;
