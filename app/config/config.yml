@@ -11,7 +11,7 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enabled: true, enable_annotations: true }
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
@@ -51,3 +51,10 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+
+        mappings:
+          model:
+            type: annotation
+            dir: %kernel.root_dir%/../src/backend/PartKeepr/
+            prefix: PartKeepr
+            is_bundle: false
