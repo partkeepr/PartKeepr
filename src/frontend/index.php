@@ -32,32 +32,32 @@ $aParameters["php_version"] = phpversion();
 if (Configuration::getOption("partkeepr.auth.http", false) === true) {
 	if (!isset($_SERVER["PHP_AUTH_USER"])) {
 		// @todo Redirect to permission denied page
-		die("Permission denied"); 
+		die("Permission denied");
 	}
-	
+
 	try {
 		$user = User::loadByName($_SERVER['PHP_AUTH_USER']);
 	} catch (\Doctrine\ORM\NoResultException $e) {
 		$user = new User;
 		$user->setUsername($_SERVER['PHP_AUTH_USER']);
 		$user->setPassword("invalid");
-		
+
 		PartKeepr::getEM()->persist($user);
 		PartKeepr::getEM()->flush();
 	}
-	
+
 
 	$session = SessionManager::getInstance()->startSession($user);
-	
+
 	$aParameters["autoLoginUsername"] = $user->getUsername();
 	$aParameters["auto_start_session"] = $session->getSessionID();
-	
+
 	$aPreferences = array();
-	
+
 	foreach ($user->getPreferences() as $result) {
 		$aPreferences[] = $result->serialize();
 	}
-	
+
 	$aParameters["userPreferences"] = array("response" => array("data" => $aPreferences));
 }
 
@@ -113,5 +113,5 @@ if (isset($_SERVER['HTTPS'])) {
 } else {
 	$renderParams["https"] = false;
 }
-		
+
 echo $template->render($renderParams);
