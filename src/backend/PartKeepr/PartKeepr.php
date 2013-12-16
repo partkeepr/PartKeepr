@@ -162,7 +162,8 @@ class PartKeepr {
 		$config = new Configuration;
 		
 		$driverImpl = $config->newDefaultAnnotationDriver(
-			array(__DIR__)
+			array(__DIR__),
+            false
 			);
 		$config->setMetadataDriverImpl($driverImpl);
 		
