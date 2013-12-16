@@ -6,7 +6,7 @@ use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
 	PartKeepr\Util\Exceptions\OutOfRangeException,
-	PartKeepr\SiPrefix\SiPrefix,
+	PartKeepr\SiPrefixBundle\Model\SiPrefix,
     Doctrine\ORM\Mapping as ORM;
 
 
@@ -32,7 +32,7 @@ class Unit extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Defines the allowed SiPrefixes for this parameter unit
-	 * @ORM\ManyToMany(targetEntity="PartKeepr\SiPrefix\SiPrefix")
+	 * @ORM\ManyToMany(targetEntity="PartKeepr\SiPrefixBundle\Model\SiPrefix")
 	 * @ORM\JoinTable(name="UnitSiPrefixes",
 	 * 			joinColumns={@ORM\JoinColumn(name="unit_id", referencedColumnName="id")},
 	 * 			inverseJoinColumns={@ORM\JoinColumn(name="siprefix_id", referencedColumnName="id")}

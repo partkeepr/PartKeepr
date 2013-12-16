@@ -22,14 +22,14 @@ class SiPrefixManager extends Singleton {
 	}
 	
 	private function createSiPrefixSymbolCache () {
-		$dql = "SELECT sip FROM PartKeepr\SiPrefix\SiPrefix sip";
+		$dql = "SELECT sip FROM PartKeepr\SiPrefixBundle\Model\SiPrefix sip";
 		$query = PartKeepr::getEM()->createQuery($dql);
 		
 		$this->siPrefixSymbolCache = $query->getResult();
 	}
 	
 	public function siPrefixExists ($prefix) {
-		$dql = "SELECT COUNT(sip) FROM PartKeepr\SiPrefix\SiPrefix sip WHERE sip.prefix = :prefix";
+		$dql = "SELECT COUNT(sip) FROM PartKeepr\SiPrefixBundle\Model\SiPrefix sip WHERE sip.prefix = :prefix";
 		$query = PartKeepr::getEM()->createQuery($dql);
 		$query->setParameter("prefix", $prefix);
 	

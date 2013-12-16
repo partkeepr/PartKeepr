@@ -5,7 +5,7 @@ use PartKeepr\PartKeepr,
 PartKeepr\Util\Exceptions\OutOfRangeException,
 PartKeepr\Unit\Unit,
 PartKeepr\Part\Part,
-PartKeepr\SiPrefix\SiPrefix,
+PartKeepr\SiPrefixBundle\Model\SiPrefix,
     Doctrine\ORM\Mapping as ORM;
 
 
@@ -64,7 +64,7 @@ class PartParameter {
 
 	/**
 	 * The SiPrefix of the unit
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefix\SiPrefix")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Model\SiPrefix")
 	 * @var object
 	 */
 	private $siPrefix;

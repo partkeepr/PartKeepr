@@ -56,6 +56,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             new PartKeepr\FrontendBundle\PartKeeprFrontendBundle(),
+
+            new PartKeepr\SiPrefixBundle\PartKeeprSiPrefixBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

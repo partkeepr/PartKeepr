@@ -2,8 +2,8 @@
 namespace PartKeepr\Setup;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\SiPrefix\SiPrefix,
-	PartKeepr\SiPrefix\SiPrefixManager;
+	PartKeepr\SiPrefixBundle\Model\SiPrefix,
+	PartKeepr\SiPrefixBundle\Model\SiPrefixManager;
 
 class SiPrefixSetup extends AbstractSetup {
 	
