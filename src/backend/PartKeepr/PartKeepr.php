@@ -210,7 +210,7 @@ class PartKeepr {
 		$config->setProxyDir(self::getRootDirectory() . '/data/proxies');
 		$config->setProxyNamespace('Proxies');
 		$config->setEntityNamespaces(self::getEntityClasses());
-		$config->setAutoGenerateProxyClasses(false);
+		$config->setAutoGenerateProxyClasses(true);
 		
 		if (PartKeeprConfiguration::getOption("partkeepr.database.echo_sql_log", false) === true) {
 			$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
