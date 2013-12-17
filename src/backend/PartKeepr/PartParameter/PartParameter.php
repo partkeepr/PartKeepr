@@ -5,7 +5,7 @@ use PartKeepr\PartKeepr,
 PartKeepr\Util\Exceptions\OutOfRangeException,
 PartKeepr\Unit\Unit,
 PartKeepr\Part\Part,
-PartKeepr\SiPrefixBundle\Model\SiPrefix,
+PartKeepr\SiPrefixBundle\Entity\SiPrefix,
     Doctrine\ORM\Mapping as ORM;
 
 
@@ -64,7 +64,7 @@ class PartParameter {
 
 	/**
 	 * The SiPrefix of the unit
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Model\SiPrefix")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
 	 * @var object
 	 */
 	private $siPrefix;
@@ -160,7 +160,8 @@ class PartParameter {
 
 	/**
 	 * Sets the si prefix for this parameter
-	 * @param SiPrefix $prefix The prefix to set, or null
+	 *
+*@param \PartKeepr\SiPrefixBundle\Entity\SiPrefix $prefix The prefix to set, or null
 	 */
 	public function setSiPrefix (SiPrefix $prefix = null) {
 		$this->siPrefix = $prefix;
@@ -170,7 +171,8 @@ class PartParameter {
 
 	/**
 	 * Returns the si prefix for this parameter
-	 * @return SiPrefix the si prefix or null
+	 *
+*@return \PartKeepr\SiPrefixBundle\Entity\SiPrefix the si prefix or null
 	 */
 	public function getSiPrefix () {
 		return $this->siPrefix;

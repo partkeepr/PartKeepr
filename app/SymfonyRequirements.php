@@ -648,6 +648,8 @@ class SymfonyRequirements extends RequirementCollection
             ||
             (extension_loaded('apc') && ini_get('apc.enabled'))
             ||
+            (extension_loaded('Zend Optimizer+') && ini_get('zend_optimizerplus.enable'))
+            ||
             (extension_loaded('Zend OPcache') && ini_get('opcache.enable'))
             ||
             (extension_loaded('xcache') && ini_get('xcache.cacher'))
@@ -660,6 +662,16 @@ class SymfonyRequirements extends RequirementCollection
             'a PHP accelerator should be installed',
             'Install and enable a <strong>PHP accelerator</strong> like APC (highly recommended).'
         );
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $this->addPhpIniRecommendation(
+                'realpath_cache_size',
+                create_function('$cfgValue', 'return (int) $cfgValue > 1000;'),
+                false,
+                'realpath_cache_size should be above 1024 in php.ini',
+                'Set "<strong>realpath_cache_size</strong>" to e.g. "<strong>1024</strong>" in php.ini<a href="#phpini">*</a> to improve performance on windows.'
+            );
+        }
 
         $this->addPhpIniRecommendation('short_open_tag', false);
 

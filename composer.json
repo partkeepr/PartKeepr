@@ -36,8 +36,9 @@
         "sensio/framework-extra-bundle": "~2.3",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/rest-bundle": "0.13.1",
-        "jms/serializer-bundle": "0.12.0",
+        "nelmio/api-doc-bundle": "2.4.3",
+        "friendsofsymfony/rest-bundle": "1.1.0",
+        "jms/serializer-bundle": "0.13.0",
         "cbsi/doctrine2-nestedset": "dev-master",
         "doctrine/migrations": "dev-master"
     },

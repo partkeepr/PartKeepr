@@ -1,5 +1,5 @@
 <?php
-namespace PartKeepr\SiPrefixBundle\Model;
+namespace PartKeepr\SiPrefixBundle\Entity;
 
 use PartKeepr\Util\BaseEntity,
     Doctrine\ORM\Mapping as ORM,

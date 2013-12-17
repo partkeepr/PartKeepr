@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\SiPrefixBundle\Tests\Model;
 
-use PartKeepr\SiPrefixBundle\Model\SiPrefix;
+use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
 
 class SiPrefixTest extends \PHPUnit_Framework_TestCase {
 

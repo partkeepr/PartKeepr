@@ -2,6 +2,26 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+fos_rest:
+    format_listener: true
+    param_fetcher_listener: true
+    view:
+        default_engine: php
+        formats:
+            json: true
+            xml: true
+        templating_formats:
+            html: false
+        view_response_listener: force
+    format_listener:
+        rules:
+            - { fallback_format: 'json' }
+
+
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
