@@ -39,14 +39,24 @@ class SiPrefix extends BaseEntity
     private $symbol;
 
     /**
-     * The power of the Si-Prefix (e.g. milli = 10^-3)
+     * The exponent of the Si-Prefix (e.g. milli = 10^-3)
      *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
      *
      * @var int
      */
-    private $power;
+    private $exponent;
+
+    /**
+     * The base of the Si-Prefix (e.g. 2^-3)
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     *
+     * @var int
+     */
+    private $base;
 
     /**
      * Sets the prefix name.
@@ -90,23 +100,55 @@ class SiPrefix extends BaseEntity
     }
 
     /**
-     * Sets the power in a 10^n power (n=power)
+     * Sets the exponent
      *
-     * @param int $power The 10^power
+     * @param int $exponent The exponent
      */
-    public function setPower($power)
+    public function setExponent($exponent)
     {
-        $this->power = $power;
+        $this->exponent = $exponent;
     }
 
     /**
-     * Returns the power (10^n)
+     * Returns the exponent
      *
-     * @return int The power
+     * @return int The exponent
      */
-    public function getPower()
+    public function getExponent()
     {
-        return $this->power;
+        return $this->exponent;
+    }
+
+    /**
+     * Sets the base
+     *
+     * @param int $base The base
+     */
+    public function setBase($base)
+    {
+        $this->base = $base;
+    }
+
+    /**
+     * Returns the base
+     *
+     * @return int The base
+     */
+    public function getBase()
+    {
+        return $this->base;
+    }
+
+    /**
+     * Calculates the product for a given value
+     *
+     * @param $value float The value to calculate the product
+     *
+     * @return float The resulting value
+     */
+    public function calculateProduct($value)
+    {
+        return $value * pow($this->base, $this->exponent);
     }
 
     /**
@@ -120,7 +162,7 @@ class SiPrefix extends BaseEntity
             "id" => $this->getId(),
             "symbol" => $this->getSymbol(),
             "prefix" => $this->getPrefix(),
-            "power" => $this->getPower()
+            "exponent" => $this->getExponent()
         );
     }
 }

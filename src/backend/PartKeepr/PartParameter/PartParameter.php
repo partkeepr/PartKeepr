@@ -187,7 +187,7 @@ class PartParameter {
 
 	private function recalculateRawValue () {
 		if (is_object($this->getSiPrefix())) {
-			$power = $this->getSiPrefix()->getPower();
+			$power = $this->getSiPrefix()->getExponent();
 		} else {
 			$power = 0;
 		}
@@ -210,7 +210,7 @@ class PartParameter {
 			"prefixedValue" => array(
 		/* We duplicate most data because of strange ExtJS stuff... */
 				"value" => $this->getValue(),
-				"power" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getPower() : 0,
+				"exponent" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getExponent() : 0,
 				"symbol" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getSymbol() : "",
 				"siprefix_id" => is_object($this->getSiPrefix()) ? $this->getSiPrefix()->getId() : null
 		),

@@ -1,63 +1,63 @@
 yotta:
   symbol: Y
-  power: 24
+  exponent: 24
 zetta:
   symbol: Z
-  power: 21
+  exponent: 21
 exa:
   symbol: E
-  power: 18
+  exponent: 18
 peta:
   symbol: P
-  power: 15
+  exponent: 15
 tera:
   symbol: T
-  power: 12
+  exponent: 12
 giga:
   symbol: G
-  power: 9
+  exponent: 9
 mega:
   symbol: M
-  power: 6
+  exponent: 6
 kilo:
   symbol: k
-  power: 3
+  exponent: 3
 hecto:
   symbol: h
-  power: 2
+  exponent: 2
 deca:
   symbol: da
-  power: 1
+  exponent: 1
 "-":
   symbol: ""
-  power: 0
+  exponent: 0
 deci:
   symbol: d
-  power: -1
+  exponent: -1
 centi:
   symbol: c
-  power: -2
+  exponent: -2
 milli:
   symbol: m
-  power: -3
+  exponent: -3
 micro:
   symbol: μ
-  power: -6
+  exponent: -6
 nano:
   symbol: n
-  power: -9
+  exponent: -9
 pico:
   symbol: p
-  power: -12
+  exponent: -12
 femto:
   symbol: f
-  power: -15
+  exponent: -15
 atto:
   symbol: a
-  power: -18
+  exponent: -18
 zepto:
   symbol: z
-  power: -21
+  exponent: -21
 yocto:
   symbol: y
-  power: -24
+  exponent: -24
