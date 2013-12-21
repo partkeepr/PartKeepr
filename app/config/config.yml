@@ -13,9 +13,7 @@ fos_rest:
         templating_formats:
             html: false
         view_response_listener: force
-    format_listener:
-        rules:
-            - { fallback_format: 'json' }
+
 
 
 sensio_framework_extra:

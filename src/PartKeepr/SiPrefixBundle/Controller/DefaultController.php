@@ -9,13 +9,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations\View;
 
-class DefaultController extends FOSRestController {
+class DefaultController extends FOSRestController
+{
     /**
-     * @Route("/siprefix/get/", defaults={"method" = "get"})
+     * @Route("/siprefix/get/", defaults={"method" = "get","_format" = "json"})
      * @ApiDoc(description="Retrieves all SI Prefixes in the database")
      * @View()
      */
-    public function getSiPrefixesAction () {
+    public function getSiPrefixesAction()
+    {
         $siPrefixes = SiPrefixManager::getInstance()->getList(new ManagerFilter());
 
         $data = array();
@@ -23,7 +25,6 @@ class DefaultController extends FOSRestController {
         foreach ($siPrefixes["data"] as $siPrefix) {
             $data[] = SiPrefixManager::getInstance()->getEntity($siPrefix["id"]);
         }
-       return $data;
+        return $data;
     }
-
 }
