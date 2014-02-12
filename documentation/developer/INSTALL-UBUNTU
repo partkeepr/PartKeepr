@@ -53,6 +53,20 @@ pear install --alldeps phpmd/PHP_PMD-alpha
 
 # You'll also need jsl, the JavaScript lint
 # Unfortunately, you need to compile this manually.
+
+#jslint installation process
+
+sudo apt-get install nodejs
+sudo apt-get install npm
+npm config set registry http://registry.npmjs.org/
+Install node-jslint. either globally:
+
+sudo npm install -g jslint
+or locally, and include it in $PATH:
+
+npm install jslint
+
+
 ------------------
 # PARTKEEPR CONFIG
 ------------------
