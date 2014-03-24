@@ -437,7 +437,10 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 		$query = PartKeepr::getEM()->createQuery("SELECT SUM(s.stockLevel) FROM PartKeepr\Stock\StockEntry s WHERE s.part = :part");
 		$query->setParameter("part", $this);
 		
-		return $query->getSingleScalarResult();
+		$count = $query->getSingleScalarResult();
+	        if ($count == null)
+              		$count = 0;
+  		return $count;
 	}
 
 	/**
