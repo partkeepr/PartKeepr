@@ -63,7 +63,8 @@ Ext.define('PartKeepr.PartParameterGrid', {
 		                	renderer: function (val,p,rec) {
 		                		if (!Ext.isObject(val)) { return ""; }
 		                		
-		                		var foundRec = PartKeepr.getApplication().getUnitStore().findRecord("id", rec.get("unit_id"));
+								var unitStore = PartKeepr.getApplication().getUnitStore();
+								var foundRec = unitStore.findRecord("id", rec.get("unit_id"), 0, false, false, true);
 		                		
 		                		if (foundRec) {
 		                			return val.value + " "+val.symbol + foundRec.get("symbol");
