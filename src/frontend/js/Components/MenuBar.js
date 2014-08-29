@@ -28,6 +28,10 @@ Ext.define('PartKeepr.MenuBar', {
 			        	icon: 'resources/silkicons/lorry.png',
 			        	handler: this.editDistributors
 			        },{
+			        	text: i18n('Request'),
+			        	icon: 'resources/silkicons/lorry.png',
+			        	handler: this.editRequest
+			        },{
 			        	text: i18n('Users'),
 			        	id: 'edit-users',
 			        	handler: this.editUsers,
@@ -180,6 +184,16 @@ Ext.define('PartKeepr.MenuBar', {
 	editStorageLocations: function () {
 		var j = Ext.create("PartKeepr.StorageLocationEditorComponent", {
 			title: i18n("Storage Locations"),
+			iconCls: 'icon-wooden-box',
+			closable: true
+		});
+		
+		PartKeepr.getApplication().addItem(j);
+		j.show();
+	},
+	editRequest: function () {
+		var j = Ext.create("PartKeepr.RequestEditorComponent", {
+			title: i18n("Request"),
 			iconCls: 'icon-wooden-box',
 			closable: true
 		});
