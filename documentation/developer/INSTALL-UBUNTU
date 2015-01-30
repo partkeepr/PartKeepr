@@ -19,6 +19,18 @@ CONTENTS
 - Partkeepr config
 - Submitting code
 
+-------------
+PREREQUISITES
+-------------
+
+# Install apache, mysql, php, imagemagick and git
+apt-get install apache2 mysql-server mysql-client libapache2-mod-php5 php5-mysql php5-curl php5-cli php5-intl php-pear php5-imagick php5-xsl php-apc php5-dev imagemagick git
+
+# Install composer: Follow instructions on https://getcomposer.org/ and then run:
+
+composer.phar install
+
+# Resolve any errors
 
 -------------
 SYSTEM CONFIG
@@ -28,7 +40,7 @@ SYSTEM CONFIG
 # Prefix all commands with 'sudo' or run as the root user.
 
 # Install apache, mysql, php, imagemagick and git
-apt-get install apache2 mysql-server mysql-client libapache2-mod-php5 php5-mysql php5-curl php5-cli php-pear php5-imagick php5-xsl php-apc php5-dev imagemagick git
+apt-get install apache2 mysql-server mysql-client libapache2-mod-php5 php5-mysql php5-curl php5-cli php5-intl php-pear php5-imagick php5-xsl php-apc php5-dev imagemagick git
 
 # On Ubuntu Server, you need to install ia32-libs (installed automatically on Ubuntu Desktop)
 # Note: This is only required with 64-bit Ubuntu (not 32-bit)
