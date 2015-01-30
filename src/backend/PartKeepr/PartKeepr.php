@@ -194,7 +194,7 @@ class PartKeepr {
 			
 			'PartKeepr\Statistic\StatisticSnapshot',
 			'PartKeepr\Statistic\StatisticSnapshotUnit',
-			'PartKeepr\SiPrefixBundle\Model\SiPrefix',
+			'PartKeepr\SiPrefixBundle\Entity\SiPrefix',
 			'PartKeepr\Unit\Unit',
 			'PartKeepr\PartParameter\PartParameter',
 			
