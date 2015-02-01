@@ -13,3 +13,8 @@ web_profiler:
     intercept_redirects: false
 
 
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        charset:     UTF8
+        memory:    true
