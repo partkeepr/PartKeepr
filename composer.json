@@ -68,6 +68,9 @@
     "extra": {
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
+        },
+        "installer-paths": {
+            "web/js/packages/{$name}": ["zendmaniacs/extjs5"]
         }
     }
 }

@@ -1,0 +1,21 @@
+# This file defines the order in which the plugin files must be loaded.
+# It is used by the Ext MVC's ruby plugin builder, which which can be invoked from your application's base directory like this:
+
+#   ruby script/plugin build Exporter
+
+# This will generate a file named Exporter-all.js in this directory, which is just a concatenation of all the files you list here
+# NOTE: This is only used by the plugin builder, not the app itself. You must always ensure that your plugin is compiled to
+# Exporter-all.js by some other means if you do not use the plugin builder, as it is that file that will be loaded by your app
+
+Base64.js
+
+Exporter.js
+Button.js
+
+Formatter.js
+
+excelFormatter/ExcelFormatter.js
+excelFormatter/Workbook.js
+excelFormatter/Worksheet.js
+excelFormatter/Cell.js
+excelFormatter/Style.js

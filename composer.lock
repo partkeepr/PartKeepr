@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c300c6220e55036c39d1f09dcc68cc7e",
+    "hash": "3864152761705eb89257f9257c60f505",
     "packages": [
         {
             "name": "cbsi/doctrine2-nestedset",

@@ -6,35 +6,246 @@
     <title>PartKeepr</title>
 
 
-    <link href="{% if https %}https{% else %}http{% endif %}://fonts.googleapis.com/css?family=Ubuntu:400,700italic" rel="stylesheet" type="text/css">
+    <link href="{% if https %}https{% else %}http{% endif %}://fonts.googleapis.com/css?family=Ubuntu:400,700italic"
+          rel="stylesheet" type="text/css">
 
     <!-- Include the ExtJS CSS Theme -->
-    <link rel="stylesheet" type="text/css" href="css/partkeepr-theme.css"/>
-
-    <link rel="stylesheet" type="text/css" href="js/Ext.ux/statusbar/css/statusbar.css"/>
-
-    <link rel="stylesheet" type="text/css" href="css/PartKeepr.css"/>
+    {% stylesheets
+    filter='cssrewrite'
+    '@PartKeeprFrontendBundle/Resources/public/css/*'
+    'js/packages/extjs5/packages/extux/statusbar/css/statusbar.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
 
     <link rel="icon" href="favicon.ico"/>
 
-    <!-- Include the ExtJS JavaScript Library -->
-    {% if debug %}
-    {% if debug_all %}
-        <script type="text/javascript" src="extjs/ext-all-debug.js"></script>
-        {% for i in scripts %}
-        <script type="text/javascript" src="{{ i }}"></script>
-        {% endfor %}
-    {% else %}
-        <script type="text/javascript" src="extjs/ext-all-debug.js"></script>
-        <script type="text/javascript" src="js/partkeepr-debug.js"></script>
-    {% endif %}
-    {% else %}
-        <script type="text/javascript" src="extjs/ext-all.js"></script>
-        <script type="text/javascript" src="js/partkeepr.js"></script>
-    {% endif %}
+    <script type="javascript">
+        var Ext = Ext || {};
+        Ext.manifest = { // the same content as "app.json"
+            compatibility: {
+                ext: '4.2'
+            }
+        }
+    </script>
+    {% javascripts
+    output='js/compiled/main.js'
+    'js/packages/extjs5/build/ext-all-debug.js'
+    'js/packages/extjs5/packages/ext-charts/build/ext-charts.js'
+    'js/packages/extjs5/packages/extux/statusbar/StatusBar.js'
+    'js/packages/extjs5/packages/extux/statusbar/ValidationStatus.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Util/JsonWithAssociationsWriter.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/PartKeepr.js'
+    'js/packages/extjs5/packages/extux/TabCloseMenu.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/compat.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/NumericField.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/CurrencyNumberField.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/SearchField.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Iframe.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/ClearableComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Util/ServiceCall.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/org.jerrymouse.util.locale/locale.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Dialogs/ExceptionWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Dialogs/FileUploadDialog.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Dialogs/RememberChoiceMessageBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Statusbar.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.input.CharContextMenu.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.Connection-sessionInjection.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.tree.View-missingMethods.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.Model-setDataWithAssociations.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.grid.Column-injectDefaultRenderer.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.form.field.Trigger-themeAdjustment.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.grid.feature.Grouping.expandCollapseAll.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.reader.Json-exceptionHandling.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.selection.RowModel-EXTJSIV-4312.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.panel.Table-scrollDelta.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/LoginDialog.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PrintingExecutor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PrintingWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PrintStorageLocations.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartImageDisplay.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartsManager.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartEditorWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartDisplay.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartStockWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartFilterPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/MenuBar.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Grid/BaseGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartParameterGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartDistributorGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartManufacturerGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/StockReport/AbstractStockHistoryGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartStockHistory.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/StockReport/StockHistoryGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/UserPreferenceGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/AttachmentGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartAttachmentGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Footprint/FootprintAttachmentGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Project/ProjectAttachmentGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Editor/EditorGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Distributor/DistributorGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PrintingJobConfigurationGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PageBasicLayoutGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartsGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Manufacturer/ManufacturerGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/PartUnit/PartUnitGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Unit/UnitGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/UserGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemNotice/SystemNoticeGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/StorageLocation/StorageLocationGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Project/ProjectGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/MessageLog.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Project/ProjectPartGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemInformation/SystemInformationGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Grid/GridMenuPlugin.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/TimeDisplay.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Menu.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Session/SessionManager.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/DisplayPreferencesPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/UserPasswordChangePanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/StockPreferences.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/FormattingPreferences.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/TipOfTheDayPreferences.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/UserPreferences.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/RemotePartComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/FadingButton.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/SystemNoticeButton.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/ConnectionButton.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/SiUnitList.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/SiUnitField.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/CategoryComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PartParameterComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/RemoteImageField.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/WebcamPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/ReloadableComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/DistributorComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/UserComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/FootprintComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/ManufacturerComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/UnitComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PartUnitComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/StorageLocationComboBox.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/ResistorCalculator.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/ContextMenu/CharPickerMenu.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Editor/Editor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Distributor/DistributorEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PageBasicLayoutEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PrintingJobConfigurationEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Manufacturer/ManufacturerEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/PartUnit/PartUnitEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Unit/UnitEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Footprint/FootprintEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/UserEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemNotice/SystemNoticeEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/StorageLocation/StorageLocationEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Project/ProjectEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Editor/EditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Distributor/DistributorEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PageBasicLayoutEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Printing/PrintingJobConfigurationEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Manufacturer/ManufacturerEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/PartUnit/PartUnitEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Unit/UnitEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Footprint/FootprintEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/UserEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemNotice/SystemNoticeEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/StorageLocation/StorageLocationEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Project/ProjectEditorComponent.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/StorageLocation/StorageLocationMultiAddWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/StorageLocation/StorageLocationMultiAddDialog.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Project/ProjectReport.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Statistics/StatisticsChart.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Statistics/StatisticsChartPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Statistics/CurrentStatisticsPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryStore.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/TipOfTheDay/TipOfTheDayWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryTree.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryEditor/CategoryEditorTree.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartCategoryTree.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Footprint/FootprintTree.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryEditor/CategoryEditorWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryEditor/CategoryEditorForm.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Picker/CharPicker.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/webcam.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartParameter.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartAttachment.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/StockEntry.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/SiPrefix.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/TipOfTheDay.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/User.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingRenderer.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/UserPreference.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/FootprintAttachment.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/Distributor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingPageBasicLayout.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingResponse.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/SystemInformationRecord.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/Part.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/Manufacturer.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/AbstractCategory.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartCategory.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/FootprintCategory.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReportList.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/Project.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartUnit.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingType.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/Message.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/StorageLocation.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingPrintingJobConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectPart.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/StatisticSample.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartDistributor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartManufacturer.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/ManufacturerICLogo.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectAttachment.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/Unit.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/SystemNotice.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/Footprint.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReport.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Card.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Header.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.CardLayout.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Cell.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Style.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Workbook.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Worksheet.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Button.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Formatter.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/ExcelFormatter.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/csvFormatter/CsvFormatter.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/wikiFormatter/WikiFormatter.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Base64.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/downloadify.min.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Exporter.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/webcam.js'
+    %}
 
-    <script type="text/javascript" src="js/org.phpjs.lib/php.default.min.js"></script>
-    <script type="text/javascript" src="js/webcam.js"></script>
+    {#
+
+'@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.layout.component.field.Trigger-theme.js'
+
+
+
+
+
+
+
+
+
+
+
+
+
+#}
+
+
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
 </head>
 <body>
 <div id="loading"><span class="logo"></span></div>
