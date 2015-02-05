@@ -44,6 +44,7 @@ class AppKernel extends Kernel
 
     public function registerBundles()
     {
+        // Base 3rd party bundles required for PartKeepr operation
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
@@ -55,17 +56,18 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-
-            new PartKeepr\FrontendBundle\PartKeeprFrontendBundle(),
-
-            new PartKeepr\SiPrefixBundle\PartKeeprSiPrefixBundle()
         );
 
+        // Developer bundles
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
+
+        // PartKeepr bundles
+        $bundles[] = new PartKeepr\FrontendBundle\PartKeeprFrontendBundle();
+        $bundles[] = new PartKeepr\SiPrefixBundle\PartKeeprSiPrefixBundle();
 
         return $bundles;
     }
