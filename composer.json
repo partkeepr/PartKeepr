@@ -25,11 +25,11 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.4",
+        "symfony/symfony": "~2.6",
         "incenteev/composer-parameter-handler": "~2.0",
-        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/orm": "~2.4",
         "doctrine/doctrine-bundle": "~1.2",
-        "twig/extensions": "~1.0",
+        "twig/extensions": "*",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
@@ -37,17 +37,17 @@
         "sensio/framework-extra-bundle": "~2.3",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
-        "nelmio/api-doc-bundle": "2.4.3",
-        "friendsofsymfony/rest-bundle": "1.1.0",
+        "nelmio/api-doc-bundle": "2.7.0",
+        "friendsofsymfony/rest-bundle": "1.5.0",
         "jms/serializer-bundle": "0.13.0",
         "cbsi/doctrine2-nestedset": "dev-master",
-        "doctrine/migrations": "dev-master"
+        "zendmaniacs/extjs5": "dev-master"
     },
     "autoload": {
         "psr-0": { "": "src/",
                     "PartKeepr": "src/backend"}
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
