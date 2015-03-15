@@ -73,7 +73,7 @@ Ext.define('PartKeepr.LoginDialog', {
 	 */
 	assignEnterKey: function () {
 		var keyMap = this.getKeyMap();
-    	keyMap.on(Ext.EventObject.ENTER, this.login, this);
+    	keyMap.on(Ext.event.Event.ENTER, this.login, this);
 	},
 	/**
 	 * Fires the "login" event

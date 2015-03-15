@@ -8,7 +8,7 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
 		this.form = Ext.create("PartKeepr.CategoryEditorForm");
 		
 		this.keys = [{
-			key: Ext.EventObject.ENTER,
+			key: Ext.event.Event.ENTER,
 			handler: this.onEnter,
 			scope: this
 		}];

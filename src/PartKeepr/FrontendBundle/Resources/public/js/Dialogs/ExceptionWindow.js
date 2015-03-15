@@ -213,7 +213,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
     	this.doLayout();
     	
     	var keyMap = this.getKeyMap();
-    	keyMap.on(Ext.EventObject.ENTER, function () { this.hide(); }, this);
+    	keyMap.on(Ext.event.Event.ENTER, function () { this.hide(); }, this);
     },
     
     statics: {
