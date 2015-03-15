@@ -18,7 +18,9 @@
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 
-    <link rel="icon" href="favicon.ico"/>
+    {% image '@PartKeeprFrontendBundle/Resources/public/images/favicon.ico' %}
+    <link rel="icon" href="{{ asset_url }}"/>
+    {% endimage %}
 
     <script type="javascript">
         var Ext = Ext || {};
