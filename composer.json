@@ -41,7 +41,8 @@
         "friendsofsymfony/rest-bundle": "1.5.0",
         "jms/serializer-bundle": "0.13.0",
         "cbsi/doctrine2-nestedset": "dev-master",
-        "zendmaniacs/extjs5": "dev-master"
+        "zendmaniacs/extjs5": "dev-master",
+        "fortawesome/font-awesome": "4.1.0"
     },
     "autoload": {
         "psr-0": { "": "src/",

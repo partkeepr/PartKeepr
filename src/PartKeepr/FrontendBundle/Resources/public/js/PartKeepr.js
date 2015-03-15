@@ -5,6 +5,7 @@ PartKeepr.application = null;
 Ext.application({
     name: 'PartKeepr',
     launch: function() {
+        Ext.setGlyphFontFamily('FontAwesome');
     	Ext.get("loading").hide();
     	Ext.setLocale('en_US');
 
