@@ -3,21 +3,21 @@
  */
 Ext.define('PartKeepr.LoginDialog', {
 	extend: 'Ext.Window',
-	/* Various style settings */
+
 	title: i18n("PartKeepr: Login"),
 	
-	width: 400,
-	height: 125,
-	
+	maxWidth: 400,
+
 	modal: true,
 	resizable: false,
 	
 	layout: 'anchor',
-	
 	bodyStyle: 'padding: 5px;',
 	
 	/**
-	 * Initializes the login dialog component 
+	 * Initializes the login dialog component
+     *
+     * @todo Get rid of this stuff and implement it ExtJS5 (modern style)
 	 */
 	initComponent: function () {
 		
@@ -51,12 +51,12 @@ Ext.define('PartKeepr.LoginDialog', {
 			       items: [
 			       	{
 			       		text: i18n("Connect"),
-			       		icon: 'resources/silkicons/connect.png',
+                        glyph: 0xf090,
 			       		handler: Ext.bind(this.login, this)
 			       	},{
 			       		text: i18n("Close"),
-			       		handler: Ext.bind(this.close, this),
-			       		icon: 'resources/silkicons/cancel.png'
+                        glyph: 0xf00d,
+			       		handler: Ext.bind(this.close, this)
 			       	}]
 			}]
 		});
