@@ -1,15 +1,11 @@
 <?php
 namespace PartKeepr\Auth;
 
-use PartKeepr\Service\AnonService,
-	PartKeepr\User\User,
-	PartKeepr\User\UserManager,
-	PartKeepr\User\Exceptions\InvalidLoginDataException,
-	PartKeepr\Session\SessionManager,
-	PartKeepr\Service\Annotations\ServiceParameter as ServiceParameter,
-	PartKeepr\Service\Annotations\ServiceCall as ServiceCall,
-	PartKeepr\Service\Annotations\ServiceReturnValue as ServiceReturnValue,
-	PartKeepr\Service\Annotations\Service as ServiceDescription;
+use PartKeepr\AuthBundle\Entity\User\Exceptions\InvalidLoginDataException;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User\UserManager;
+use PartKeepr\Service\AnonService;
+use PartKeepr\Session\SessionManager;
 
 
 /**

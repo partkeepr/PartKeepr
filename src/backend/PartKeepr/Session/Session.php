@@ -1,9 +1,9 @@
 <?php
 namespace PartKeepr\Session;
 
-use PartKeepr\User\User,
-	PartKeepr\PartKeepr,
-    Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
 
 /** @ORM\Entity */
 class Session {
@@ -17,7 +17,7 @@ class Session {
 	private $sessionid;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
      */
 	private $user;
 	

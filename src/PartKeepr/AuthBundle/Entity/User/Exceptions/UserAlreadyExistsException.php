@@ -1,8 +1,8 @@
 <?php
-namespace PartKeepr\User\Exceptions;
+namespace PartKeepr\AuthBundle\Entity\User\Exceptions;
 
-use PartKeepr\Util\SerializableException,
-	PartKeepr\PartKeepr;
+use PartKeepr\PartKeepr;
+use PartKeepr\Util\SerializableException;
 
 /**
 * Is thrown when the user already exists. This usually happens

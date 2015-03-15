@@ -1,13 +1,13 @@
 <?php
 namespace PartKeepr\Stock;
 
-use PartKeepr\Part\Part,
-	PartKeepr\User\User,
-	PartKeepr\PartKeepr,
-	PartKeepr\Util\BaseEntity,
-	PartKeepr\Util\Serializable,
-    Doctrine\ORM\Mapping as ORM,
-    Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\Part\Part;
+use PartKeepr\PartKeepr;
+use PartKeepr\Util\BaseEntity;
+use PartKeepr\Util\Serializable;
 
 /** @ORM\Entity @ORM\HasLifecycleCallbacks **/
 class StockEntry extends BaseEntity implements Serializable {
@@ -22,7 +22,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	private $part;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
 	 */
 	private $user;
 	

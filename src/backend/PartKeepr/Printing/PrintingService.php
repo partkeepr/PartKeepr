@@ -1,20 +1,14 @@
 <?php
 namespace PartKeepr\Printing;
 
+use PartKeepr\AuthBundle\Entity\User\UserManager;
+use PartKeepr\PartKeepr;
+use PartKeepr\Printing\Exceptions\RendererNotFoundException;
+use PartKeepr\Printing\PDFLabelRenderer;
 use PartKeepr\Printing\PrintingJob\PrintingJob;
-
-use PartKeepr\PartKeepr,
-	PartKeepr\Printing\Exceptions\InvalidArgumentException,
-	PartKeepr\Printing\Exceptions\RendererNotFoundException,
-	PartKeepr\Printing\PageBasicLayout\PageBasicLayoutManager,
-	PartKeepr\Printing\PDFLabelRenderer,
-	PartKeepr\Printing\PrintingJobConfiguration\PrintingJobConfigurationManager,
-	PartKeepr\Printing\Utils\DecodeConfiguration,
-	PartKeepr\Service\Service,
-	PartKeepr\StorageLocation\StorageLocation,
-	PartKeepr\UploadedFile\TempUploadedFile,
-	PartKeepr\User\UserManager,
-	PartKeepr\Util\Configuration as PartKeeprConfiguration;
+use PartKeepr\Printing\PrintingJobConfiguration\PrintingJobConfigurationManager;
+use PartKeepr\Service\Service;
+use PartKeepr\UploadedFile\TempUploadedFile;
 
 /**
  * This service is the entry point for our printing/exporting

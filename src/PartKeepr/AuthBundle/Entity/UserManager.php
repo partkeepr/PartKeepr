@@ -1,18 +1,17 @@
 <?php
-namespace PartKeepr\User;
+namespace PartKeepr\AuthBundle\Entity;
 
-use 
-	PartKeepr\Category\CategoryManager,
-	PartKeepr\Manager\AbstractManager,
-	PartKeepr\PartKeepr,
-	PartKeepr\User\Exceptions\InvalidLoginDataException,
-	PartKeepr\User\Exceptions\UserAlreadyExistsException,
-	PartKeepr\User\Exceptions\UserNotFoundException,
-	PartKeepr\User\User;
+use PartKeepr\AuthBundle\Entity\User\Exceptions\InvalidLoginDataException;
+use PartKeepr\AuthBundle\Entity\User\Exceptions\UserAlreadyExistsException;
+use PartKeepr\AuthBundle\Entity\User\Exceptions\UserNotFoundException;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\Category\CategoryManager;
+use PartKeepr\Manager\AbstractManager;
+use PartKeepr\PartKeepr;
 
 class UserManager extends AbstractManager {
 	public function getEntityName () {
-		return 'PartKeepr\User\User';
+		return 'PartKeepr\AuthBundle\Entity\User\User';
 	}
 	
 	public function getQueryFields () {
@@ -29,7 +28,7 @@ class UserManager extends AbstractManager {
 	 * @param $username string The username to check
 	 */
 	public function userExists ($username) {
-		$dql = "SELECT COUNT(u) FROM PartKeepr\User\User u WHERE u.username = :name";
+		$dql = "SELECT COUNT(u) FROM PartKeepr\AuthBundle\Entity\User\User u WHERE u.username = :name";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
 		$query->setParameter("name", $username);
@@ -86,7 +85,7 @@ class UserManager extends AbstractManager {
 	*/
 	public function authenticate (User $user) {
 		$result = 	PartKeepr::getEM()
-			->getRepository("PartKeepr\User\User")
+			->getRepository("PartKeepr\AuthBundle\Entity\User\User")
 			->findOneBy(
 				array(
 					"username" => $user->getUsername(),

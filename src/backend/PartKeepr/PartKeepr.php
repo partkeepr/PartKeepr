@@ -1,10 +1,9 @@
 <?php
 namespace PartKeepr;
 
-use PartKeepr\SystemNotice\SystemNoticeManager,
-    Doctrine\ORM\EntityManager,
-    PartKeepr\Util\Configuration as PartKeeprConfiguration;
-
+use Doctrine\ORM\EntityManager;
+use PartKeepr\SystemNotice\SystemNoticeManager;
+use PartKeepr\Util\Configuration as PartKeeprConfiguration;
 
 
 class PartKeepr {
@@ -149,7 +148,7 @@ class PartKeepr {
 	 */
 	public static function getEntityClasses () {
 		return array(
-			'PartKeepr\User\User',
+			'PartKeepr\AuthBundle\Entity\User\User',
 			'PartKeepr\Session\Session',
 				
 			'PartKeepr\EventNotification\Event',

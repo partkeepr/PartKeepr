@@ -1,12 +1,12 @@
 <?php
 namespace PartKeepr\UserPreference;
 
-use PartKeepr\User\User,
-	PartKeepr\Util\Configuration,
-	PartKeepr\Service\RestfulService,
-	PartKeepr\Session\SessionManager,
-	PartKeepr\Service\Service,
-	PartKeepr\PartKeepr;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
+use PartKeepr\Service\RestfulService;
+use PartKeepr\Service\Service;
+use PartKeepr\Session\SessionManager;
+use PartKeepr\Util\Configuration;
 
 /**
  * Represents the user preference service. This service is implemented as a RestfulService, however,

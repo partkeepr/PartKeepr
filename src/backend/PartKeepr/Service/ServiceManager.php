@@ -1,13 +1,13 @@
 <?php
 namespace PartKeepr\Service;
 
-use PartKeepr\Session\SessionManager,
-	PartKeepr\Service\Exceptions\ServiceException,
-	PartKeepr\Util\Singleton,
-	PartKeepr\PartKeepr,
-	PartKeepr\User\User,
-	PartKeepr\User\UserManager,
-	PartKeepr\REST\Request;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User\UserManager;
+use PartKeepr\PartKeepr;
+use PartKeepr\REST\Request;
+use PartKeepr\Service\Exceptions\ServiceException;
+use PartKeepr\Session\SessionManager;
+use PartKeepr\Util\Singleton;
 
 class ServiceManager extends Singleton {
 	private $request = null;

@@ -1,9 +1,9 @@
 <?php 
 namespace PartKeepr\Tests\UserPreference;
 
-use PartKeepr\PartKeepr,
-	PartKeepr\User\User,
-	PartKeepr\UserPreference\UserPreference;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
+use PartKeepr\UserPreference\UserPreference;
 
 class UserPreferenceTest extends \PHPUnit_Framework_TestCase {
 	protected $user;

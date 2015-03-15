@@ -1,9 +1,9 @@
 <?php
 namespace PartKeepr\Tests;
 
-use PartKeepr\PartCategory\PartCategoryManager,
-	PartKeepr\PartKeepr,
-	PartKeepr\User\User;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartCategory\PartCategoryManager;
+use PartKeepr\PartKeepr;
 
 include(dirname(__DIR__). "/src/backend/PartKeepr/PartKeepr.php");
 

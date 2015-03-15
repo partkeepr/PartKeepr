@@ -1,13 +1,12 @@
 <?php
 namespace PartKeepr\Stock;
 
-use PartKeepr\Stock\StockEntry,
-	PartKeepr\PartKeepr,
-	PartKeepr\User\User,
-	PartKeepr\Manager\ManagerFilter,
-	PartKeepr\Session\SessionManager,
-	PartKeepr\Service\RestfulService,
-	PartKeepr\Service\Service;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\Manager\ManagerFilter;
+use PartKeepr\PartKeepr;
+use PartKeepr\Service\RestfulService;
+use PartKeepr\Service\Service;
+use PartKeepr\Session\SessionManager;
 
 class StockService extends Service implements RestfulService {
 	/**

@@ -3,8 +3,9 @@ imports:
     - { resource: security.yml }
 
 fos_rest:
+    body_listener: true
     format_listener: true
-    param_fetcher_listener: true
+    param_fetcher_listener: force
     view:
         default_engine: php
         formats:
@@ -76,3 +77,6 @@ doctrine:
             dir: %kernel.root_dir%/../src/backend/PartKeepr/
             prefix: PartKeepr
             is_bundle: false
+
+twig:
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'

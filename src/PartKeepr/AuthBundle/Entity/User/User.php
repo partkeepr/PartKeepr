@@ -1,14 +1,13 @@
 <?php
-namespace PartKeepr\User;
+namespace PartKeepr\AuthBundle\Entity\User;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use PartKeepr\PartKeepr;
 use PartKeepr\UserPreference\UserPreference;
-
-use PartKeepr\Util\Deserializable,
-	PartKeepr\Util\Serializable,
-	PartKeepr\Util\BaseEntity,
-	PartKeepr\PartKeepr,
-    Doctrine\ORM\Mapping as ORM,
-    Doctrine\ORM\Mapping\Table;
+use PartKeepr\Util\BaseEntity;
+use PartKeepr\Util\Deserializable;
+use PartKeepr\Util\Serializable;
 
 /** @ORM\Entity @ORM\Table(name="PartKeeprUser") */
 class User extends BaseEntity implements Serializable, Deserializable {
@@ -258,7 +257,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * @throws Doctrine\ORM\NoResultException If no user was found
 	 */
 	public static function loadByName ($username) {
-		$dql = "SELECT u FROM PartKeepr\User\User u WHERE u.username = :username";
+		$dql = "SELECT u FROM PartKeepr\AuthBundle\Entity\User\User u WHERE u.username = :username";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
 		$query->setParameter("username", $username);

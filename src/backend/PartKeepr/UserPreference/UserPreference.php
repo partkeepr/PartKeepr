@@ -1,19 +1,15 @@
 <?php
 namespace PartKeepr\UserPreference;
 
-use PartKeepr\Util\Serializable,
-	PartKeepr\PartKeepr,
-	PartKeepr\User\User,
-	PartKeepr\Util\Configuration,
-	PartKeepr\Util\BaseEntity,
-	PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException,
-	PartKeepr\Util\Exceptions\EntityNotPersistantException,
-	Doctrine\ORM\NoResultException,
-	PartKeepr\Service\Annotations\ApiType,
-    PartKeepr\Service\Annotations\Service,
-	PartKeepr\Service\Annotations\ApiTypeOutput,
-	PartKeepr\Service\Annotations\ApiTypeOutputs,
-    Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\NoResultException;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
+use PartKeepr\Service\Annotations\ApiTypeOutput;
+use PartKeepr\Service\Annotations\ApiTypeOutputs;
+use PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException;
+use PartKeepr\Util\Exceptions\EntityNotPersistantException;
+use PartKeepr\Util\Serializable;
 
 /**
  * Represents a user preference entry.
@@ -45,7 +41,7 @@ class UserPreference implements Serializable {
 	
 	/**
 	 * Defines the user
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
 	 * @ORM\Id
 	 * @var User
 	 */
@@ -62,7 +58,8 @@ class UserPreference implements Serializable {
 	
 	/**
 	 * Returns the user associated with this entry
-	 * @return \PartKeepr\User\User
+	 *
+*@return \PartKeepr\AuthBundle\Entity\User\User
 	 */
 	public function getUser () {
 		return $this->user;

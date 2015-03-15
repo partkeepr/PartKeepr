@@ -1,10 +1,9 @@
 <?php
 namespace PartKeepr\Service;
 
-use PartKeepr\User\User,
-	PartKeepr\Session\Session,
-	PartKeepr\Session\SessionManager,
-	PartKeepr\Service\Exceptions\ServiceException;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\Service\Exceptions\ServiceException;
+use PartKeepr\Session\SessionManager;
 
 class Service {
 	private $params;

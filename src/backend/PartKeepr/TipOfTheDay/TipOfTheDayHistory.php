@@ -1,16 +1,9 @@
 <?php
 namespace PartKeepr\TipOfTheDay;
 
-use PartKeepr\User\User;
-
-use PartKeepr\Util\Serializable;
-
-use PartKeepr\PartKeepr;
-
-use PartKeepr\Util\Configuration;
-
-use PartKeepr\Util\BaseEntity,
-    Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\Util\BaseEntity;
 
 /**
  * Represents a tip of the day history entry.
@@ -28,7 +21,7 @@ class TipOfTheDayHistory extends BaseEntity {
 	
 	/**
 	 * Defines the user
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
 	 * @var StorageLocation
 	 */
 	private $user;

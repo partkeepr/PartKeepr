@@ -1,11 +1,11 @@
 <?php
 namespace PartKeepr\Project;
 
-use PartKeepr\User\User,
-	PartKeepr\Util\Serializable,
-	PartKeepr\Util\Deserializable,
-	PartKeepr\Util\BaseEntity,
-    Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\Util\BaseEntity;
+use PartKeepr\Util\Deserializable;
+use PartKeepr\Util\Serializable;
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
@@ -19,7 +19,7 @@ class Project extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Specifies the user this project belongs to
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
 	 */
 	private $user;
 	

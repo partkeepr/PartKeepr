@@ -1,13 +1,7 @@
 <?php
 namespace PartKeepr\Frontend;
 
-use PartKeepr\User\User,
-	PartKeepr\Service\ServiceManager,
-	PartKeepr\PartKeepr,
-	PartKeepr\Session\SessionManager,
-	PartKeepr\Util\Configuration,
-    Symfony\Component\ClassLoader\ApcClassLoader,
-    Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 
 include("../src/backend/PartKeepr/PartKeepr.php");

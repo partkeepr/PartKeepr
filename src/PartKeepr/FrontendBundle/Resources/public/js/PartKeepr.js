@@ -630,7 +630,7 @@ PartKeepr.getApplication = function () {
 };
 
 PartKeepr.getBasePath = function () {
-	return "rest.php";
+	return "app_dev.php";
 };
 
 PartKeepr.getImagePath = function () {

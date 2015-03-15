@@ -1,7 +1,7 @@
 <?php 
 namespace PartKeepr\Tests\Auth;
 
-use PartKeepr\User\User;
+use PartKeepr\AuthBundle\Entity\User\User;
 
 class UserTest extends \PHPUnit_Framework_TestCase {
 	public function testBasics () {

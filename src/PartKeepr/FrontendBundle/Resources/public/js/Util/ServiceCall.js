@@ -49,9 +49,11 @@ Ext.define('PartKeepr.ServiceCall', {
 	doCall: function () {
 		/* Update the status bar to indicate that the call is in progress. */
 		PartKeepr.getApplication().getStatusbar().startLoad(this.loadMessage);
-		
+
+        this.parameters._format = "json";
+
 		var callDefinition = Ext.encode(this.parameters);
-		
+
 		var headers = {
 			"call": this.call,
 			"lang": Ext.getLocale()
@@ -66,13 +68,15 @@ Ext.define('PartKeepr.ServiceCall', {
 			success: Ext.bind(this.onSuccess, this),
 			failure: Ext.bind(this.onError, this),
 			method: "POST",
-			params: callDefinition,
+            jsonData: this.parameters,
 			headers: headers
 		});
 	},
 	onSuccess: function (responseObj, options) {
 		PartKeepr.getApplication().getStatusbar().endLoad();
-		
+
+        console.log(responseObj);
+
 		try {
 			var response = Ext.decode(responseObj.responseText);	
 		} catch (ex) {
@@ -91,7 +95,7 @@ Ext.define('PartKeepr.ServiceCall', {
         	return;
 		}
 		
-				
+
 		/* Check the status */
 		if (response.status == "error") {
 			this.displayError(response.exception);
@@ -125,20 +129,21 @@ Ext.define('PartKeepr.ServiceCall', {
 		
 		
 		if (this.sHandler) { 
-			this.sHandler(response.response);
+			this.sHandler(response);
 		}
 	},
 	onError: function (response, options) {
 		var request;
-		
+
+        console.log(response);
 		try {
             var data = Ext.decode(response.responseText);
-            
+
             request = {
         			response: response.responseText,
         			request: Ext.encode(options)
         	};
-            
+
         	PartKeepr.ExceptionWindow.showException(data.exception, request);
         } catch (ex) {
         	var exception = {
@@ -146,7 +151,7 @@ Ext.define('PartKeepr.ServiceCall', {
         			detail: i18n("The server returned a response which we were not able to interpret."),
         			backtrace: response.responseText
         	};
-        	
+
         	request = {
         			response: response.responseText,
         			request: Ext.encode(options)

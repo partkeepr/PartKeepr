@@ -53,7 +53,7 @@ Ext.define("PartKeepr.SessionManager", {
 	 * @param password The password, as entered
 	 */
 	onLogin: function (username, password) {
-		var k = new PartKeepr.ServiceCall("Auth", "login");
+		var k = new PartKeepr.ServiceCall("auth", "login");
 		k.setParameter("username", username);
 		k.setParameter("password", md5(password));
 		
@@ -67,6 +67,7 @@ Ext.define("PartKeepr.SessionManager", {
 	 * @param response The session ID
 	 */
 	onAfterLogin: function (response) {
+        console.log(response);
 		this.setSession(response.sessionid);
 		this.loginDialog.destroy();
 		

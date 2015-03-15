@@ -1,14 +1,13 @@
 <?php 
 namespace PartKeepr\Printing\PrintingJob;
 
+use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\AuthBundle\Entity\User\User;
 use PartKeepr\EventNotification\EventManager;
-use	PartKeepr\Session\SessionManager,
-	PartKeepr\UploadedFile\TempUploadedFile,
-	PartKeepr\User\User,
-	PartKeepr\Util\BaseEntity,
-	PartKeepr\Util\Deserializable,
-	PartKeepr\Util\Serializable,
-    Doctrine\ORM\Mapping as ORM;
+use PartKeepr\Session\SessionManager;
+use PartKeepr\UploadedFile\TempUploadedFile;
+use PartKeepr\Util\BaseEntity;
+use PartKeepr\Util\Serializable;
 
 /**
  * This is a single job waiting for beeing processed.
@@ -31,14 +30,14 @@ class PrintingJob extends BaseEntity implements Serializable {
 		
 	/**
 	 * This is the user which has created this printing job.
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
 	 */
 	private $owner;
 	
 	/**
 	 * Target user the printing job is for. This is mostly the printer or output queue
 	 * which should be used to process this job.
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
 	 */
 	private $target;
 	

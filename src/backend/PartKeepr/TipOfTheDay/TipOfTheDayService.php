@@ -1,12 +1,11 @@
 <?php
 namespace PartKeepr\TipOfTheDay;
 
-use PartKeepr\Util\Configuration,
-	PartKeepr\User\User,
-	PartKeepr\Service\RestfulService,
-	PartKeepr\Session\SessionManager,
-	PartKeepr\Service\Service,
-	PartKeepr\PartKeepr;
+use PartKeepr\PartKeepr;
+use PartKeepr\Service\RestfulService;
+use PartKeepr\Service\Service;
+use PartKeepr\Session\SessionManager;
+use PartKeepr\Util\Configuration;
 
 class TipOfTheDayService extends Service implements RestfulService {
 	/**

@@ -1,9 +1,9 @@
 <?php
 namespace PartKeepr\UserPreference\Exceptions;
 
-use PartKeepr\User\User,
-	PartKeepr\Util\SerializableException,
-	PartKeepr\PartKeepr;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
+use PartKeepr\Util\SerializableException;
 
 /**
  * Is thrown when the user has given wrong credentials.

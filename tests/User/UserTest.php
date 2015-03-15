@@ -1,9 +1,9 @@
 <?php 
 namespace PartKeepr\Tests\User;
 
-use PartKeepr\User\UserManager,
-	PartKeepr\PartKeepr,
-	PartKeepr\User\User;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User\UserManager;
+use PartKeepr\PartKeepr;
 
 class UserTest extends \PHPUnit_Framework_TestCase {
 	protected $backupGlobals = false;

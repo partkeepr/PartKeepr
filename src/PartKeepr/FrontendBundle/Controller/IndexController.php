@@ -2,14 +2,11 @@
 
 namespace PartKeepr\FrontendBundle\Controller;
 
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
+use PartKeepr\Session\SessionManager;
+use PartKeepr\Util\Configuration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use PartKeepr\User\User,
-    PartKeepr\Service\ServiceManager,
-    PartKeepr\PartKeepr,
-    PartKeepr\Session\SessionManager,
-    PartKeepr\Util\Configuration;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class IndexController extends Controller
 {

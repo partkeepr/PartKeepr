@@ -1,16 +1,15 @@
 <?php
 namespace PartKeepr\Part;
 
-use PartKeepr\User\User,
-	PartKeepr\Service\RestfulService,
-	PartKeepr\Service\Service,
-	PartKeepr\Manager\ManagerFilter,
-	PartKeepr\Part\PartManager,
-	PartKeepr\Stock\StockEntry,
-	PartKeepr\PartKeepr,
-	PartKeepr\PartCategory\PartCategory,
-	PartKeepr\PartCategory\PartCategoryManager,
-	PartKeepr\Session\SessionManager;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\Manager\ManagerFilter;
+use PartKeepr\PartCategory\PartCategory;
+use PartKeepr\PartCategory\PartCategoryManager;
+use PartKeepr\PartKeepr;
+use PartKeepr\Service\RestfulService;
+use PartKeepr\Service\Service;
+use PartKeepr\Session\SessionManager;
+use PartKeepr\Stock\StockEntry;
 
 class PartService extends Service implements RestfulService {
 	public function get () {

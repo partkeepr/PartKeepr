@@ -1,14 +1,12 @@
 <?php
-namespace PartKeepr\User;
+namespace PartKeepr\AuthBundle\Entity\User;
 
-use
-	PartKeepr\PartKeepr,
-	PartKeepr\Service\FilterExtractor,
-	PartKeepr\Manager\ManagerFilter,
-	PartKeepr\Service\RestfulService,
-	PartKeepr\Service\Service,
-	PartKeepr\Session\SessionManager,
-	PartKeepr\User\User;
+use PartKeepr\Manager\ManagerFilter;
+use PartKeepr\PartKeepr;
+use PartKeepr\Service\FilterExtractor;
+use PartKeepr\Service\RestfulService;
+use PartKeepr\Service\Service;
+use PartKeepr\Session\SessionManager;
 
 class UserService extends Service implements RestfulService {
 	

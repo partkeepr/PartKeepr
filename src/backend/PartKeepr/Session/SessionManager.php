@@ -1,10 +1,10 @@
 <?php
 namespace PartKeepr\Session;
 
-use PartKeepr\Util\Singleton,
-	PartKeepr\User\User,
-	PartKeepr\Session\Exceptions\SessionNotFoundException,
-	PartKeepr\PartKeepr;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
+use PartKeepr\Session\Exceptions\SessionNotFoundException;
+use PartKeepr\Util\Singleton;
 
 class SessionManager extends Singleton {
 	public static $currentSession = null;
