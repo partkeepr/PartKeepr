@@ -19,8 +19,6 @@ use PartKeepr\Util\Serializable;
  * 
  * Note that values are stored internally as serialized PHP values to keep their type.
  *
- * @Service(description="Represents a user preference",
- *			documentation="User preferences are user-specific settings, which are identified by keys and values. Think of them as an associative array.")
  * @ORM\Entity
  **/
 class UserPreference implements Serializable {

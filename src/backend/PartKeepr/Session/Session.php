@@ -17,6 +17,7 @@ class Session {
 	private $sessionid;
 	
 	/**
+     * @var User
 	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
      */
 	private $user;
@@ -51,7 +52,11 @@ class Session {
 		session_id($this->sessionid);
 		session_start();
 	}
-	
+
+    /**
+     * Returns the user object
+     * @return User
+     */
 	public function getUser () {
 		return $this->user;
 	}

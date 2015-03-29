@@ -3,12 +3,17 @@
 namespace PartKeepr\AuthBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Request\ParamFetcher;
-use PartKeepr\AuthBundle\Entity\User\Exceptions\InvalidLoginDataException;
-use PartKeepr\AuthBundle\Entity\User\User;
-use PartKeepr\AuthBundle\Entity\UserManager;
-use PartKeepr\Session\SessionManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
+use PartKeepr\AuthBundle\Entity\User\User;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\RestBundle\Controller\Annotations\View;
+use PartKeepr\Session\SessionManager;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\Request\ParamFetcher;
+use PartKeepr\AuthBundle\Entity\UserManager;
+use PartKeepr\AuthBundle\Entity\User\Exceptions\InvalidLoginDataException;
+use PartKeepr\AuthBundle\Validator\Constraints\Username;
+use PartKeepr\AuthBundle\Validator\Constraints\PasswordMD5Hash;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DefaultController extends FOSRestController

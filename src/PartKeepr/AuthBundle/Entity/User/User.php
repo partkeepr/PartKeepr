@@ -243,7 +243,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * Returns all user preferences for this user
 	 * 
 	 * @param none
-	 * @return Array An array of UserPreference objects
+	 * @return UserPreference[] An array of UserPreference objects
 	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public function getPreferences () {
