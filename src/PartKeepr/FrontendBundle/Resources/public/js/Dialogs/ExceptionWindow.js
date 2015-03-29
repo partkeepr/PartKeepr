@@ -4,6 +4,7 @@
 Ext.define('PartKeepr.ExceptionWindow', {
     extend: 'Ext.window.Window',
     resizable: true,
+    closeAction: 'hide',
     layout: 'fit',
     width: 500,
     autoHeight: true,
@@ -37,7 +38,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
     		minHeight: 65,
     		readOnly: true
         });
-    	
+
     	this.backtraceDetails = Ext.create('Ext.form.field.TextArea', {
     		fieldLabel: i18n("Backtrace"),
     		flex: 1,
@@ -141,7 +142,6 @@ Ext.define('PartKeepr.ExceptionWindow', {
      * @param requestData The request data. May be empty.
      */
     _showException: function (exception, requestData) {
-        console.log(exception);
     	var separator = "==================================";
 		
 		if (!requestData) {
@@ -240,7 +240,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
     		if (!PartKeepr.ExceptionWindow.activeInstance) {
         		PartKeepr.ExceptionWindow.activeInstance = new PartKeepr.ExceptionWindow();
         	}
-    		
+
     		PartKeepr.ExceptionWindow.activeInstance._showException(exception, requestData);
     	}
     	
