@@ -13,12 +13,11 @@ use FOS\RestBundle\Controller\Annotations\View;
 class DefaultController extends FOSRestController
 {
     /**
+     * Retrieves all SI Prefixes in the database
+     *
      * @Routing\Route("/siprefix", defaults={"method" = "get","_format" = "json"})
      * @Routing\Method({"GET"})
-     * @ApiDoc(
-     *  description="Retrieves all SI Prefixes in the database"
-     * )
-     * )
+     * @ApiDoc(output="array<PartKeepr\SiPrefixBundle\Entity\SiPrefix>")
      *
      * @View()
      *
