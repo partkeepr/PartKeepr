@@ -141,6 +141,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
      * @param requestData The request data. May be empty.
      */
     _showException: function (exception, requestData) {
+        console.log(exception);
     	var separator = "==================================";
 		
 		if (!requestData) {

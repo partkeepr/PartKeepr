@@ -52,8 +52,6 @@ Ext.define('PartKeepr.ServiceCall', {
 
         this.parameters._format = "json";
 
-		var callDefinition = Ext.encode(this.parameters);
-
 		var headers = {
 			"call": this.call,
 			"lang": Ext.getLocale()
@@ -74,8 +72,6 @@ Ext.define('PartKeepr.ServiceCall', {
 	},
 	onSuccess: function (responseObj, options) {
 		PartKeepr.getApplication().getStatusbar().endLoad();
-
-        console.log(responseObj);
 
 		try {
 			var response = Ext.decode(responseObj.responseText);	
@@ -135,7 +131,6 @@ Ext.define('PartKeepr.ServiceCall', {
 	onError: function (response, options) {
 		var request;
 
-        console.log(response);
 		try {
             var data = Ext.decode(response.responseText);
 
@@ -144,8 +139,9 @@ Ext.define('PartKeepr.ServiceCall', {
         			request: Ext.encode(options)
         	};
 
-        	PartKeepr.ExceptionWindow.showException(data.exception, request);
+        	PartKeepr.ExceptionWindow.showException(data, request);
         } catch (ex) {
+
         	var exception = {
         			message: i18n("Critical Error"),
         			detail: i18n("The server returned a response which we were not able to interpret."),
@@ -170,7 +166,6 @@ Ext.define('PartKeepr.ServiceCall', {
 			msg: this.getErrorMessage(obj),
 			buttons: Ext.MessageBox.OK,
 			icon: Ext.MessageBox.ERROR
-			
 		});
 	},
 	getErrorMessage: function (obj) {
