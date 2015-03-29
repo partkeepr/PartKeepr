@@ -80,3 +80,6 @@ doctrine:
 
 twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+
+parameters:
+    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy

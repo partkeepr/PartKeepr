@@ -68,10 +68,10 @@ Ext.define("PartKeepr.SessionManager", {
 	 */
 	onAfterLogin: function (response) {
         console.log(response);
-		this.setSession(response.sessionid);
+		this.setSession(response.sessionId);
 		this.loginDialog.destroy();
 		
-		PartKeepr.getApplication().setAdmin(response.admin);
+		PartKeepr.getApplication().setAdmin(response.isAdmin);
 		PartKeepr.getApplication().setUsername(response.username);
 		
 		PartKeepr.getApplication().setInitialUserPreferences(response.userPreferences);

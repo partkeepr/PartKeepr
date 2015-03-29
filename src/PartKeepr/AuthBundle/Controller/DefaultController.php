@@ -3,6 +3,7 @@
 namespace PartKeepr\AuthBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use PartKeepr\AuthBundle\Response\LoginResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use PartKeepr\AuthBundle\Entity\User\User;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -25,12 +26,12 @@ class DefaultController extends FOSRestController
      * @Routing\Method({"POST"})
      * @RequestParam(name="username", strict=true, description="The username, 3-50 characters. Allowed characters: a-z, A-Z, 0-9, an underscore (_), a backslash (\), a slash (/), a dot (.) or a dash (-)", requirements=@Username, allowBlank=false)
      * @RequestParam(name="password", strict=true, description="The password in MD5 format", requirements=@PasswordMD5Hash, allowBlank=false)
-     * @ApiDoc()
+     * @ApiDoc(output="PartKeepr\AuthBundle\Response\LoginResponse")
      * @View()
      *
      * @param ParamFetcher $paramFetcher
      *
-     * @return array
+     * @return LoginResponse
      * @throws InvalidLoginDataException
      */
     public function loginAction(ParamFetcher $paramFetcher)
@@ -57,15 +58,12 @@ class DefaultController extends FOSRestController
             $aPreferences[] = $result->serialize();
         }
 
-        return array(
-            "sessionid" => $session->getSessionID(),
-            "username" => $paramFetcher->get("username"),
-            "admin" => $session->getUser()->isAdmin(),
-            "userPreferences" => array(
-                "response" => array(
-                    "data" => $aPreferences
-                )
-            )
-        );
+        $loginResponse = new LoginResponse();
+        $loginResponse->sessionId = $session->getSessionID();
+        $loginResponse->username = $paramFetcher->get("username");
+        $loginResponse->isAdmin = $session->getUser()->isAdmin();
+        $loginResponse->userPreferences = $session->getUser()->getPreferences();
+
+        return $loginResponse;
     }
 }

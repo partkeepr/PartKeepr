@@ -5,11 +5,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\NoResultException;
 use PartKeepr\AuthBundle\Entity\User\User;
 use PartKeepr\PartKeepr;
-use PartKeepr\Service\Annotations\ApiTypeOutput;
-use PartKeepr\Service\Annotations\ApiTypeOutputs;
 use PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException;
 use PartKeepr\Util\Exceptions\EntityNotPersistantException;
 use PartKeepr\Util\Serializable;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Represents a user preference entry.
@@ -20,12 +19,14 @@ use PartKeepr\Util\Serializable;
  * Note that values are stored internally as serialized PHP values to keep their type.
  *
  * @ORM\Entity
+ * @JMS\ExclusionPolicy("ALL")
  **/
 class UserPreference implements Serializable {
 	/**
 	 * Defines the key of the user preference
 	 * @ORM\Column(type="string",length=255)
 	 * @ORM\Id
+     * @JMS\Expose
 	 * @var string
 	 */
 	private $preferenceKey;
@@ -33,6 +34,7 @@ class UserPreference implements Serializable {
 	/**
 	 * Defines the value. Note that the value is internally stored as a serialized string.
 	 * @ORM\Column(type="text")
+     * @JMS\Expose
 	 * @var mixed
 	 */
 	private $preferenceValue;
@@ -96,14 +98,6 @@ class UserPreference implements Serializable {
 	}
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see PartKeepr\Util.Serializable::serialize()
-	 *
-	 * @ApiTypeOutputFields(outputFields={
-	 * 		@ApiTypeOutputField(name="key", type="string:255", description="The preference key"),
-	 * 		@ApiTypeOutputField(name="value", type="text", description="The preference value"),
-	 * 		@ApiTypeOutputField(name="user_id", type="integer", description="The user ID this preference belongs to")
-	 * 	})
 	 */
 	public function serialize () {
 		return array(
