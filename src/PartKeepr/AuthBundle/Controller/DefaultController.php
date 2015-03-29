@@ -52,12 +52,6 @@ class DefaultController extends FOSRestController
 
         $session->getUser()->updateSeen();
 
-        $aPreferences = array();
-
-        foreach ($session->getUser()->getPreferences() as $result) {
-            $aPreferences[] = $result->serialize();
-        }
-
         $loginResponse = new LoginResponse();
         $loginResponse->sessionId = $session->getSessionID();
         $loginResponse->username = $paramFetcher->get("username");
