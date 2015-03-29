@@ -33,6 +33,8 @@ class UserPreference implements Serializable {
 	
 	/**
 	 * Defines the value. Note that the value is internally stored as a serialized string.
+     *
+     * @JMS\Accessor(getter="getValue",setter="setValue")
 	 * @ORM\Column(type="text")
      * @JMS\Expose
 	 * @var mixed
