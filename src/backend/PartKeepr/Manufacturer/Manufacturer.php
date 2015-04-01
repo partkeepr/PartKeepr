@@ -4,64 +4,65 @@ namespace PartKeepr\Manufacturer;
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
-	PartKeepr\PartKeepr;
+	PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Represents a manufacturer
- * @Entity **/
+ * @ORM\Entity **/
 class Manufacturer extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The name of the manufacturer
-	 * @Column(type="string",unique=true)
+	 * @ORM\Column(type="string",unique=true)
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * The address of the manufacturer
-	 * @Column(type="text",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 * @var string
 	 */
 	private $address;
 	
 	/**
 	 * The URL
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $url;
 	
 	/**
 	 * The email
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $email;
 	
 	/**
 	 * The comment
-	 * @Column(type="text",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 * @var string
 	 */
 	private $comment;
 	
 	/**
 	 * The phone number
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $phone;
 	
 	/**
 	 * The fax number
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $fax;
 	
 	/**
 	 * All ic logos of this manufacturer
-	 * @OneToMany(targetEntity="PartKeepr\Manufacturer\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Manufacturer\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"})
 	 */
 	private $icLogos;
 	

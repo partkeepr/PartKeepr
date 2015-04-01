@@ -22,7 +22,7 @@ class TypeReflector {
 		$this->reflClass = new \ReflectionClass($className);
 
 		$this->className = $className;
-		$this->reader = new \Doctrine\Common\Annotations\SimpleAnnotationReader();
+		$this->reader = new \Doctrine\Common\Annotations\AnnotationReader();
 		$this->reader->addNamespace('Doctrine\ORM\Mapping');
 		$this->reader->addNamespace('PartKeepr\\Service\\Annotations');
 

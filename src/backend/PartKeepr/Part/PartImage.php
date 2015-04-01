@@ -2,16 +2,17 @@
 namespace PartKeepr\Part;
 
 use PartKeepr\Util\Serializable,
-	PartKeepr\Image\Image;
+	PartKeepr\Image\Image,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a part image
- * @Entity
+ * @ORM\Entity
  **/
 class PartImage extends Image implements Serializable {
 	/**
 	 * The part object
-	 * @ManyToOne(targetEntity="PartKeepr\Part\Part")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="images")
 	 * @var Part
 	 */
 	private $part = null;

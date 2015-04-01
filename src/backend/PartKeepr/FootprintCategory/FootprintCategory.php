@@ -1,11 +1,14 @@
 <?php 
 namespace PartKeepr\FootprintCategory;
 
-use PartKeepr\Category\AbstractCategory;
+use PartKeepr\Category\AbstractCategory,
+    Doctrine\ORM\Mapping as ORM,
+    Doctrine\ORM\Mapping\Table,
+    Doctrine\ORM\Mapping\Index;
 
 /**
- * @Entity
- * @Table(indexes={@index(columns={"lft"}),@index(columns={"rgt"})})
+ * @ORM\Entity
+ * @ORM\Table(indexes={@ORM\Index(columns={"lft"}),@ORM\Index(columns={"rgt"})})
  * The entity for our footprint categories
  *
  */

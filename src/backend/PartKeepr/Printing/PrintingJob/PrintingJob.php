@@ -7,42 +7,44 @@ use	PartKeepr\Session\SessionManager,
 	PartKeepr\User\User,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\Util\Deserializable,
-	PartKeepr\Util\Serializable;
+	PartKeepr\Util\Serializable,
+    Doctrine\ORM\Mapping as ORM;
+
 /**
  * This is a single job waiting for beeing processed.
  * 
- * @Entity @HasLifecycleCallbacks
+ * @ORM\Entity @ORM\HasLifecycleCallbacks
  */
 class PrintingJob extends BaseEntity implements Serializable {
 	/**
 	 * The timestamp when the job was created.
-	 * @Column(type="datetime") 
+	 * @ORM\Column(type="datetime")
 	 */
 	private $created;
 	
 	/**
 	 * Will be set if the job was processed successfully by somebody and is marked
 	 * as done.
-	 * @Column(type="boolean")
+	 * @ORM\Column(type="boolean")
 	 */
 	private $done;
 		
 	/**
 	 * This is the user which has created this printing job.
-	 * @ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
 	 */
 	private $owner;
 	
 	/**
 	 * Target user the printing job is for. This is mostly the printer or output queue
 	 * which should be used to process this job.
-	 * @ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
 	 */
 	private $target;
 	
 	/**
 	 * Holds the data which was rendered for printing.
-	 * @OneToOne(targetEntity="PartKeepr\UploadedFile\TempUploadedFile")
+	 * @ORM\OneToOne(targetEntity="PartKeepr\UploadedFile\TempUploadedFile")
 	 */
 	private $data;
 	
@@ -56,7 +58,7 @@ class PrintingJob extends BaseEntity implements Serializable {
 	 * This method is a callback for the PostPersist event. We will add it to our database
 	 * dependent eventNotification.
 	 * 
-	 * @PostPersist @PostUpdate
+	 * @ORM\PostPersist @ORM\PostUpdate
 	 */
 	public function onPostPersist(){
 		if (!$this->done) {

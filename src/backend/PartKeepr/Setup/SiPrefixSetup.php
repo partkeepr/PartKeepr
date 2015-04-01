@@ -2,8 +2,8 @@
 namespace PartKeepr\Setup;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\SiPrefix\SiPrefix,
-	PartKeepr\SiPrefix\SiPrefixManager;
+	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
+	PartKeepr\SiPrefixBundle\Model\SiPrefixManager;
 
 class SiPrefixSetup extends AbstractSetup {
 	
@@ -32,7 +32,7 @@ class SiPrefixSetup extends AbstractSetup {
 			if (!SiPrefixManager::getInstance()->siPrefixExists($prefixName)) {
 				$prefix = new SiPrefix();
 				$prefix->setPrefix($prefixName);
-				$prefix->setPower($prefixData["power"]);
+				$prefix->setExponent($prefixData["exponent"]);
 				$prefix->setSymbol($prefixData["symbol"]);
 				$this->entityManager->persist($prefix);
 				$count++;

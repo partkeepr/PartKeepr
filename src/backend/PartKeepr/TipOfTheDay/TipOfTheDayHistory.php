@@ -9,25 +9,26 @@ use PartKeepr\PartKeepr;
 
 use PartKeepr\Util\Configuration;
 
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\Util\BaseEntity,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Represents a tip of the day history entry.
  * 
  * This entity stores each tip of the day the user has already seen.
  * 
- * @Entity
+ * @ORM\Entity
  **/
 class TipOfTheDayHistory extends BaseEntity {
 	/**
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * Defines the user
-	 * @ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
 	 * @var StorageLocation
 	 */
 	private $user;

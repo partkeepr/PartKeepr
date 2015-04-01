@@ -7,7 +7,8 @@ use PartKeepr\PartKeepr;
 
 use PartKeepr\Util\Configuration;
 
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\Util\BaseEntity,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Represents a tip of the day.
@@ -18,11 +19,11 @@ use PartKeepr\Util\BaseEntity;
  * 
  * Note: If you wish to link against a tip of the day, do it by name and not by id!
  * 
- * @Entity
+ * @ORM\Entity
  **/
 class TipOfTheDay extends BaseEntity implements Serializable {
 	/**
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $name;

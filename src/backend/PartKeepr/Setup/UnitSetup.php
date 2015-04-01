@@ -3,7 +3,7 @@ namespace PartKeepr\Setup;
 
 use	PartKeepr\PartKeepr,
 	PartKeepr\Unit\Unit,
-	PartKeepr\SiPrefix\SiPrefixManager,
+	PartKeepr\SiPrefixBundle\Model\SiPrefixManager,
 	PartKeepr\Unit\UnitManager,
 	PartKeepr\Setup\SiPrefixSetup;
 

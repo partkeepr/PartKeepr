@@ -5,7 +5,7 @@ use PartKeepr\Service\RestfulService,
 	PartKeepr\Service\Service,
 	PartKeepr\PartKeepr,
 	PartKeepr\Part\PartUnit,
-	PartKeepr\SiPrefix\SiPrefix,
+	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
 	PartKeepr\Session\SessionManager;
 
 class UnitService extends Service implements RestfulService {

@@ -67,8 +67,16 @@ Ext.define('PartKeepr.PartDisplay', {
 					'<td class="e">'+i18n("Used in projects")+':</td>',
 					'<td class="e">{[ (values.projects == "") ? "'+i18n("none")+'" : values.projects ]}</td>',
 				'</tr>',
+                '<tr>',
+                    '<td class="o">'+i18n("Attachments")+':</td>',
+                    '<td class="o">' +
+                        '<tpl for="values.processedAttachments">' +
+                        '<p><a href="{link}" target="_blank">{data.originalFilename}</a></p>' +
+                        '</tpl>' +
+                    '</td>' +
+                '</tr>',
 				'</table>');
-		
+
 		/**
 		 * Create the "add stock" button
 		 */
@@ -131,17 +139,27 @@ Ext.define('PartKeepr.PartDisplay', {
 		this.record = r;
 		
 		var values = {};
-		for (var i in r.data) {
+        var i;
+
+		for (i in r.data) {
 			if (r.data[i] !== null) {
 				values[i] = htmlentities(r.data[i]);
 			} else {
 				values[i] = r.data[i];
 			}
 		}
-		
+
+        values.processedAttachments = this.record.attachments().data;
+
+        for (i=0;i<values.processedAttachments.getCount();i++) {
+            var data = values.processedAttachments.getAt(i);
+
+            data.link = "file.php?type=PartAttachment&id="+data.internalId;
+        }
+
 		this.tpl.overwrite(this.infoContainer.getEl(), values);
 		this.imageDisplay.setStore(this.record.attachments());
-		
+
 		this.doLayout();
 		// Scroll the container to top in case the user scrolled the part, then switched to another part
 		this.getTargetEl().scrollTo("top", 0);

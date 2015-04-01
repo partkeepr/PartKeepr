@@ -1,7 +1,7 @@
 <?php 
 namespace PartKeepr\EventNotification;
 
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\Util\BaseEntity, Doctrine\ORM\Mapping as ORM;
 
 /**
  * The event notification conecpt implements the main concept of notifying a 
@@ -13,19 +13,19 @@ use PartKeepr\Util\BaseEntity;
  * The Event class itself represents a type of event we
  * can signal.
  * 
- *  @Entity
+ *  @ORM\Entity
  */
 class Event extends BaseEntity{
 	/**
 	 * Name of the event
-	 * @Column(length=64,unique=true)
+	 * @ORM\Column(length=64,unique=true)
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * This is a counter which counts up, everytime the event is issued.
-	 * @Column(type="datetime")
+	 * @ORM\Column(type="datetime")
 	 * @var datetime
 	 */
 	private $lastOccured;

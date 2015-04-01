@@ -2,21 +2,22 @@
 namespace PartKeepr\Session;
 
 use PartKeepr\User\User,
-	PartKeepr\PartKeepr;
+	PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM;
 
-/** @Entity */
+/** @ORM\Entity */
 class Session {
 	
-	/** @Id @Column(type="integer") 
-	 *  @GeneratedValue(strategy="AUTO")
+	/** @ORM\Id @ORM\Column(type="integer")
+	 *  @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	private $id;
 	
-	/** @Column(length=50) */
+	/** @ORM\Column(length=50) */
 	private $sessionid;
 	
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
      */
 	private $user;
 	

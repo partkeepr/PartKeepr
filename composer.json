@@ -1,0 +1,64 @@
+{
+    "name": "partkeepr/partkeepr",
+    "description": "Open Source Inventory Software",
+    "type": "project",
+
+    "homepage": "http://www.partkeepr.org",
+    "license": "GPL-3.0+",
+
+    "authors": [
+        {
+            "name": "Timo A. Hummel",
+            "email": "felicitus@felicitus.org",
+            "homepage": "http://www.felicitus.org",
+            "role": "Project Lead, Developer"
+        }
+    ],
+
+    "support": {
+        "issues": "https://github.com/partkeepr/PartKeepr/issues",
+        "irc": "irc://irc.freenode.org/partkeepr",
+        "wiki": "http://wiki.partkeepr.org",
+        "forum": "http://forum.partkeepr.org",
+        "source": "https://github.com/partkeepr/PartKeepr",
+        "faq" : "http://faq.partkeepr.org"
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "~2.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~2.3",
+        "sensio/framework-extra-bundle": "~2.3",
+        "sensio/generator-bundle": "~2.3",
+        "incenteev/composer-parameter-handler": "~2.0",
+        "nelmio/api-doc-bundle": "2.4.3",
+        "friendsofsymfony/rest-bundle": "1.1.0",
+        "jms/serializer-bundle": "0.13.0",
+        "cbsi/doctrine2-nestedset": "dev-master",
+        "doctrine/migrations": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "": "src/",
+                    "PartKeepr": "src/backend"}
+    },
+    "minimum-stability": "dev",
+    "scripts": {
+        "post-install-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
+    }
+}

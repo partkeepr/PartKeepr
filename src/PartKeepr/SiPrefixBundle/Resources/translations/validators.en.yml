@@ -1,0 +1,2 @@
+siprefix.prefix.not_blank: The SI prefix may not be empty.
+siprefix.symbol.not_blank: The SI prefix symbol may not be empty.

@@ -9,7 +9,7 @@ use PartKeepr\UploadedFile\TempUploadedFile,
 	PartKeepr\PartParameter\PartParameter,
 	PartKeepr\Manager\AbstractManager,
 	PartKeepr\Unit\Unit,
-	PartKeepr\SiPrefix\SiPrefix,
+	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
 	PartKeepr\Part\PartDistributor,
 	PartKeepr\Part\PartManufacturer,
 	PartKeepr\StorageLocation\StorageLocation,
@@ -140,7 +140,7 @@ class PartManager extends AbstractManager {
 			return array();
 		}
 		
-		$dql2 = "SELECT pr.name, part.id FROM PartKeepr\Project\Project pr JOIN pr.parts ppart JOIN ppart.part part WHERE ppart.part IN (:partids)";
+		$dql2 = "SELECT DISTINCT pr.id, pr.name, part.id FROM PartKeepr\Project\Project pr JOIN pr.parts ppart JOIN ppart.part part WHERE ppart.part IN (:partids)";
 		$projectQuery = PartKeepr::getEM()->createQuery($dql2);
 		$projectQuery->setParameter("partids", $partIds);
 
@@ -152,7 +152,7 @@ class PartManager extends AbstractManager {
 			}
 			$projects[$projectResult["id"]][] = $projectResult["name"];
 		}
-		
+
 		return $projects;
 	}
 	

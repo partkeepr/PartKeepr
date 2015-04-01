@@ -5,25 +5,26 @@ use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
-	PartKeepr\Distributor\Distributor;
+	PartKeepr\Distributor\Distributor,
+    Doctrine\ORM\Mapping as ORM;
 
 /** 
  * This class represents the link between a part and a distributor.
- * @Entity **/
+ * @ORM\Entity **/
 class PartDistributor extends BaseEntity implements Serializable, Deserializable {
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Part\Part")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="distributors")
 	 */
 	private $part;
 	
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Distributor\Distributor")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Distributor\Distributor")
 	 */
 	private $distributor;
 	
 	/**
 	 * The order number for the part and distributor
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $orderNumber;
@@ -32,7 +33,7 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	 * Defines the packaging unit when ordering a part. Some items can't be ordered in a quantity of just one at
 	 * certain manufacturers.
 	 * 
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var integer
 	 */
 	private $packagingUnit;
@@ -41,14 +42,14 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	 * Specifies the price of the part. Note that the price
 	 * needs to be per item, not per packaging unit.
 	 * 
-	 * @Column(type="decimal",precision=13,scale=4,nullable=true) 
+	 * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
 	 * @var float
 	 */
 	private $price;
 	
 	/**
 	 * The distributor's SKU (stock keeping unit) for the part.  Used with barcodes.
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $sku;

@@ -4,21 +4,22 @@ namespace PartKeepr\CronLogger;
 use PartKeepr\UploadedFile\UploadedFile,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\Util\Serializable,
-	PartKeepr\Util\Deserializable;
+	PartKeepr\Util\Deserializable,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a project attachment
- * @Entity
+ * @ORM\Entity
  **/
 class CronLogger extends BaseEntity {
 	/**
-	 * @Column(type="datetime")
+	 * @ORM\Column(type="datetime")
 	 * @var \DateTime
 	 */
 	private $lastRunDate;
 	
 	/**
-	 * @Column(type="string") 
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $cronjob;

@@ -5,22 +5,23 @@ use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
-	PartKeepr\Manufacturer\Manufacturer;
+	PartKeepr\Manufacturer\Manufacturer,
+    Doctrine\ORM\Mapping as ORM;
 
-/** @Entity **/
+/** @ORM\Entity **/
 class PartManufacturer extends BaseEntity implements Serializable, Deserializable {
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Part\Part")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part",inversedBy="manufacturers")
 	 */
 	private $part;
 	
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Manufacturer\Manufacturer")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Manufacturer\Manufacturer")
 	 */
 	private $manufacturer;
 	
 	/**
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * Enter description here ...
 	 * @var unknown_type
 	 */

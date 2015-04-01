@@ -1,41 +1,42 @@
 <?php
 namespace PartKeepr\Statistic;
 
-use PartKeepr\PartKeepr;
+use PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM;
 
-/** @Entity **/
+/** @ORM\Entity **/
 class StatisticSnapshot {
 	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
+	 * @ORM\Id @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @var integer
 	 */
 	private $id;
 	
 	/**
 	 * Defines the date when this snapshot has been taken
-	 * @Column(type="datetime")
+	 * @ORM\Column(type="datetime")
 	 * @var DateTime
 	 */
 	private $dateTime;
 	
 	/**
 	 * Defines the amount of different parts in the database
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var int
 	 */
 	private $parts;
 	
 	/**
 	 * Defines the amount of categories
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 * @var int
 	 */
 	private $categories;
 	
 	/**
 	 * Holds all defined units in the database
-	 * @OneToMany(targetEntity="PartKeepr\Statistic\StatisticSnapshotUnit",mappedBy="statisticSnapshot",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Statistic\StatisticSnapshotUnit",mappedBy="statisticSnapshot",cascade={"persist", "remove"})
 	 */
 	private $units;
 

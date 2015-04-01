@@ -8,7 +8,7 @@ use PartKeepr\Service\RestfulService,
 
 class SiPrefixService extends Service implements RestfulService {
 		public function get () {
-			$query = PartKeepr::getEM()->createQuery("SELECT si.id, si.prefix, si.symbol, si.power FROM PartKeepr\SiPrefix\SiPrefix si");
+			$query = PartKeepr::getEM()->createQuery("SELECT si.id, si.prefix, si.symbol, si.exponent FROM PartKeepr\SiPrefixBundle\Model\SiPrefix si");
 			
 			return array("data" => $query->getArrayResult());
 	}
