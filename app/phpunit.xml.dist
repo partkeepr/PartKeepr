@@ -34,6 +34,9 @@
                 <directory>../src/*/*Bundle/Tests</directory>
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
                 <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/backend</directory>
+                <directory>../src/frontend</directory>
+                <directory>../src/setup</directory>
             </exclude>
         </whitelist>
     </filter>
