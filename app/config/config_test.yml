@@ -21,4 +21,5 @@ doctrine:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
 
-liip_functional_test: ~
+liip_functional_test:
+    cache_sqlite_db: true
