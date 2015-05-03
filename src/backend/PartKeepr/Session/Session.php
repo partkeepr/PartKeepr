@@ -3,8 +3,9 @@ namespace PartKeepr\Session;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User\User;
+use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
 use PartKeepr\PartKeepr;
-
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 /** @ORM\Entity */
 class Session {
 	
@@ -21,23 +22,24 @@ class Session {
 	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
      */
 	private $user;
+
+    private $session;
 	
 	public function __construct () {
-		
 	}
 	
 	public function start () {
-		session_start();
-		session_regenerate_id();
-		session_destroy();
-		unset($_SESSION);
-		session_start();
+        $this->session = new SymfonySession(new MockFileSessionStorage());
+        $this->session->start();
+        $this->session->migrate();
+        $this->session->invalidate();
+        $this->session->start();
 		
 		$query = PartKeepr::getEM()->createQuery("DELETE FROM PartKeepr\\Session\\Session s WHERE s.sessionid = :session");
-		$query->setParameter("session", session_id());
+		$query->setParameter("session", $this->session->getId());
 		$query->execute();
 		
-		$this->sessionid = session_id();
+		$this->sessionid = $this->session->getId();
 	}
 	
 	public function getId(){
@@ -49,8 +51,9 @@ class Session {
 	}
 	
 	public function resume () {
-		session_id($this->sessionid);
-		session_start();
+        $this->session = new SymfonySession(new MockFileSessionStorage());
+        $this->session->setId($this->sessionid);
+        $this->session->start();
 	}
 
     /**
@@ -66,4 +69,3 @@ class Session {
 	}
 	
 }
-?>

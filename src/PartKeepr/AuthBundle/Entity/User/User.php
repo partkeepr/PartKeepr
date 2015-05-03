@@ -93,7 +93,7 @@ class User extends BaseEntity implements Serializable, Deserializable {
 	 * Sets the user's password. Automatically
 	 * applies md5 hashing.
 	 * 
-	 * @param string $password
+	 * @param string $password The unencrypted password
 	 */
 	public function setPassword ($password) {
 		$this->setHashedPassword(md5($password));

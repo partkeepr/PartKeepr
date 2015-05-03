@@ -15,6 +15,10 @@ web_profiler:
 
 doctrine:
     dbal:
-        driver:   pdo_sqlite
-        charset:     UTF8
-        memory:    true
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
+
+liip_functional_test: ~

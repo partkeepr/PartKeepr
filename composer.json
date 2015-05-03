@@ -42,7 +42,9 @@
         "jms/serializer-bundle": "0.13.0",
         "cbsi/doctrine2-nestedset": "dev-master",
         "zendmaniacs/extjs5": "dev-master",
-        "fortawesome/font-awesome": "4.1.0"
+        "fortawesome/font-awesome": "4.1.0",
+        "doctrine/doctrine-fixtures-bundle": "2.2.*",
+        "symfony/doctrine-bridge": "2.7.x-dev"
     },
     "autoload": {
         "psr-0": { "": "src/",
@@ -73,5 +75,8 @@
         "installer-paths": {
             "web/js/packages/{$name}": ["zendmaniacs/extjs5"]
         }
+    },
+    "require-dev": {
+        "liip/functional-test-bundle": "~1.1"
     }
 }

@@ -2,16 +2,38 @@
 
 namespace PartKeepr\AuthBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndex()
+
+    private $repo;
+
+    public function testLogin()
     {
+        $this->loadFixtures(
+            array(
+                'PartKeepr\AuthBundle\DataFixtures\LoadUserData'
+            )
+        );
+
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/hello/Fabien');
+        $request = array("username" => "admin", "password" => md5("admin"));
 
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $client->request(
+            'POST',
+            '/auth/login',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            json_encode($request)
+        );
+
+        $response = json_decode($client->getResponse()->getContent());
+
+        $this->assertObjectHasAttribute("sessionId", $response);
+        $this->assertObjectHasAttribute("username", $response);
+
     }
 }

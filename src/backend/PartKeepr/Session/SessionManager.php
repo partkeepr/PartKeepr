@@ -37,7 +37,7 @@ class SessionManager extends Singleton {
 				PartKeepr::getEM()->persist($session);
 			} 
 		} else {
-			$session = new Session;
+			$session = new Session();
 			$session->setUser(null);
 			$session->start();
 			PartKeepr::getEM()->persist($session);

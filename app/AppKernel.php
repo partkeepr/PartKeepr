@@ -56,7 +56,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-            new PartKeepr\AuthBundle\PartKeeprAuthBundle(),
+            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         );
 
         // Developer bundles
@@ -64,11 +64,13 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 
         // PartKeepr bundles
         $bundles[] = new PartKeepr\FrontendBundle\PartKeeprFrontendBundle();
         $bundles[] = new PartKeepr\SiPrefixBundle\PartKeeprSiPrefixBundle();
+        $bundles[] = new PartKeepr\AuthBundle\PartKeeprAuthBundle();
 
         return $bundles;
     }
