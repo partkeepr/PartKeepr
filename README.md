@@ -14,6 +14,8 @@ Project Status
 This project is currently in alpha stage. Code quality is improving constantly. However, this project is not ready for
 production yet. Please try it out, but handle with care!
 
+Note that currently some major refactoring takes place, if you want to keep track of the new development branch, please visit https://github.com/partkeepr/PartKeepr/tree/sf2migration.
+
 Demo Site
 ---------
 
