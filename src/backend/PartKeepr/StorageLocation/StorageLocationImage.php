@@ -2,16 +2,17 @@
 namespace PartKeepr\StorageLocation;
 
 use PartKeepr\Util\Serializable,
-	PartKeepr\Image\Image;
+	PartKeepr\Image\Image,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a storage location image
- * @Entity
+ * @ORM\Entity
  **/
 class StorageLocationImage extends Image implements Serializable {
 	/**
 	 * The storage location object
-	 * @OneToOne(targetEntity="PartKeepr\StorageLocation\StorageLocation",inversedBy="image")
+	 * @ORM\OneToOne(targetEntity="PartKeepr\StorageLocation\StorageLocation",inversedBy="image")
 	 * @var StorageLocation
 	 */
 	private $storageLocation = null;

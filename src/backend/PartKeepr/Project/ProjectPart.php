@@ -4,32 +4,33 @@ namespace PartKeepr\Project;
 use PartKeepr\Part\Part,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\Deserializable,
-	PartKeepr\Util\BaseEntity;
+	PartKeepr\Util\BaseEntity,
+    Doctrine\ORM\Mapping as ORM;
 	
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
- * @Entity **/
+ * @ORM\Entity **/
 class ProjectPart extends BaseEntity implements Serializable, Deserializable {
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Part\Part")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="projectParts")
 	 */
 	private $part;
 	
 	/**
 	 * Specifies the amount of parts
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 */
 	private $quantity;
 	
 	/**
 	 * Specifies the project which belongs to this project part
-	 * @ManyToOne(targetEntity="PartKeepr\Project\Project")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Project\Project", inversedBy="parts")
 	 */
 	private $project;
 	
 	/**
 	 * Specifies the remarks for this entry
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 */
 	private $remarks;
 	

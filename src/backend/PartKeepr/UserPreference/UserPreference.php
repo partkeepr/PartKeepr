@@ -10,8 +10,10 @@ use PartKeepr\Util\Serializable,
 	PartKeepr\Util\Exceptions\EntityNotPersistantException,
 	Doctrine\ORM\NoResultException,
 	PartKeepr\Service\Annotations\ApiType,
+    PartKeepr\Service\Annotations\Service,
 	PartKeepr\Service\Annotations\ApiTypeOutput,
-	PartKeepr\Service\Annotations\ApiTypeOutputs;
+	PartKeepr\Service\Annotations\ApiTypeOutputs,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Represents a user preference entry.
@@ -21,30 +23,30 @@ use PartKeepr\Util\Serializable,
  * 
  * Note that values are stored internally as serialized PHP values to keep their type.
  *
- * @ApiType(description="Represents a user preference",
+ * @Service(description="Represents a user preference",
  *			documentation="User preferences are user-specific settings, which are identified by keys and values. Think of them as an associative array.")
- * @Entity
+ * @ORM\Entity
  **/
 class UserPreference implements Serializable {
 	/**
 	 * Defines the key of the user preference
-	 * @Column(type="string",length=255)
-	 * @Id
+	 * @ORM\Column(type="string",length=255)
+	 * @ORM\Id
 	 * @var string
 	 */
 	private $preferenceKey;
 	
 	/**
 	 * Defines the value. Note that the value is internally stored as a serialized string.
-	 * @Column(type="text") 
+	 * @ORM\Column(type="text")
 	 * @var mixed
 	 */
 	private $preferenceValue;
 	
 	/**
 	 * Defines the user
-	 * @ManyToOne(targetEntity="PartKeepr\User\User")
-	 * @Id
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\Id
 	 * @var User
 	 */
 	private $user;

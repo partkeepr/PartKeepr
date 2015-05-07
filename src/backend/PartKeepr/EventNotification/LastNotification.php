@@ -4,23 +4,25 @@ namespace PartKeepr\EventNotification;
 use PartKeepr\EventNotification\Event;
 use PartKeepr\Session\Session;
 use PartKeepr\Util\BaseEntity;
+use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * This entity is used to store the last notification of
  * an event.
  * 
- * @Entity
+ * @ORM\Entity
  */
 class LastNotification extends BaseEntity{
 	/**
 	 * This is the associated event.
-	 * @ManyToOne(targetEntity="PartKeepr\EventNotification\Event")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\EventNotification\Event")
 	 */
 	private $event;
 
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Session\Session")
-	 * @JoinColumn(onDelete="CASCADE")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Session\Session")
+	 * @ORM\JoinColumn(onDelete="CASCADE")
 	 */
 	private $session;
 	
@@ -28,7 +30,7 @@ class LastNotification extends BaseEntity{
 	 * This is the last timestamp, the user was notified about
 	 * an occured event.
 	 * 
-	 * @Column(type="datetime")
+	 * @ORM\Column(type="datetime")
 	 * @var datetime
 	 */
 	private $lastNotify;

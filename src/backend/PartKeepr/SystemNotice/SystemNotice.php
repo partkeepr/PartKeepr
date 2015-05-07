@@ -4,42 +4,43 @@ namespace PartKeepr\SystemNotice;
 use PartKeepr\UploadedFile\UploadedFile,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\Util\Serializable,
-	PartKeepr\Util\Deserializable;
+	PartKeepr\Util\Deserializable,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a system notice
- * @Entity
+ * @ORM\Entity
  **/
 class SystemNotice extends BaseEntity implements Serializable {
 	/**
-	 * @Column(type="datetime")
+	 * @ORM\Column(type="datetime")
 	 * @var \DateTime
 	 */
 	private $date;
 	
 	/**
-	 * @Column(type="string") 
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $title;
 	
 	/**
 	 * The description of this attachment
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 * @var string
 	 */
 	private $description;
 	
 	/**
 	 * Defines if the system notice has been acknowledged
-	 * @Column(type="boolean")
+	 * @ORM\Column(type="boolean")
 	 * @var boolean
 	 */
 	private $acknowledged = false;
 	
 	/**
 	 * Specifies the type. This is required for unique notices which shouldn't pop up every time we create them.
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $type;

@@ -102,13 +102,34 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 				xtype : 'CurrencyField',
 				allowBlank : true
 			}
-		},{
+		}, {
 			header : i18n("SKU"),
 			dataIndex : 'sku',
 			flex : 1,
 			editor : {
-				xtype : 'textfield',
-				allowBlank : true
+				xtype : 'trigger',
+				allowBlank : true,
+				triggerCls : 'x-form-trigger-link',
+
+				onTriggerClick: function() {
+
+					var sku = this.value;
+					var distributorId =  this.ownerCt.floatParent.
+						getSelectionModel().
+						getSelection()[0].
+						get("distributor_id");
+
+					var distributorRecord = PartKeepr.getApplication().
+						getDistributorStore().
+						findRecord("id", distributorId);
+
+					var skuurl = distributorRecord.get("skuurl");
+
+					if (skuurl) {
+						skuurl = skuurl.replace("%s", this.value);
+						window.open(skuurl, '_blank');
+					}
+				}
 			}
 		} ];
 

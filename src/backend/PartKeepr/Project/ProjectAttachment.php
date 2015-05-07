@@ -3,16 +3,17 @@ namespace PartKeepr\Project;
 
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
-	PartKeepr\UploadedFile\UploadedFile;
+	PartKeepr\UploadedFile\UploadedFile,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a project attachment
- * @Entity
+ * @ORM\Entity
  **/
 class ProjectAttachment extends UploadedFile implements Serializable, Deserializable {
 	/**
 	 * The description of this attachment
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 * @var string
 	 */
 	private $description;
@@ -26,7 +27,7 @@ class ProjectAttachment extends UploadedFile implements Serializable, Deserializ
 	}
 	/**
 	 * The project object
-	 * @ManyToOne(targetEntity="PartKeepr\Project\Project")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Project\Project", inversedBy="attachments")
 	 * @var Project
 	 */
 	private $project = null;

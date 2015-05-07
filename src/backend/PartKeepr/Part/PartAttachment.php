@@ -3,23 +3,24 @@ namespace PartKeepr\Part;
 
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
-	PartKeepr\UploadedFile\UploadedFile;
+	PartKeepr\UploadedFile\UploadedFile,
+    Doctrine\ORM\Mapping as ORM;
 
 /**
  * Holds a part attachment
- * @Entity
+ * @ORM\Entity
  **/
 class PartAttachment extends UploadedFile implements Serializable, Deserializable {
 	/**
 	 * The description of this attachment
-	 * @Column(type="text")
+	 * @ORM\Column(type="text")
 	 * @var string
 	 */
 	private $description;
 	
 	/**
 	 * Defines if the attachment is an image.
-	 * @Column(type="boolean",nullable=true)
+	 * @ORM\Column(type="boolean",nullable=true)
 	 * @var boolean
 	 */
 	private $isImage;
@@ -35,7 +36,7 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 	
 	/**
 	 * The part object
-	 * @ManyToOne(targetEntity="PartKeepr\Part\Part")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="attachments")
 	 * @var Part
 	 */
 	private $part = null;
@@ -99,7 +100,7 @@ class PartAttachment extends UploadedFile implements Serializable, Deserializabl
 				$this->replaceFromTemporaryFile($parameters["id"]);
 			} else {
                 // In case the part has been copied, the ID doesn't match. In that case we copy the attachment
-                if ($this->getId() !== $parameters["id"]) {
+                if (intval($this->getId()) != intval($parameters["id"])) {
                     $otherAttachment = PartAttachment::loadById($parameters["id"]);
                     $this->replace($otherAttachment->getFilename());
                     $this->setOriginalFilename($otherAttachment->getOriginalFilename());

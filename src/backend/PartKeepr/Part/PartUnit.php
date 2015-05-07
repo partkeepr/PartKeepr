@@ -5,21 +5,22 @@ use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
-	PartKeepr\Util\Exceptions\OutOfRangeException;
+	PartKeepr\Util\Exceptions\OutOfRangeException,
+    Doctrine\ORM\Mapping as ORM;
 
 
-/** @Entity **/
+/** @ORM\Entity **/
 class PartUnit extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Defines the name of the unit
-	 * @Column
+	 * @ORM\Column
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * Defines the short name of the unit
-	 * @Column
+	 * @ORM\Column
 	 * @var string
 	 */
 	private $shortName;
@@ -27,13 +28,13 @@ class PartUnit extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Defines if the unit is default or not.
 	 * 
-	 * @Column(type="boolean")
+	 * @ORM\Column(type="boolean")
 	 * @var boolean
 	 */
 	private $is_default;
 	
 	/**
-	 * @OneToMany(targetEntity="PartKeepr\Part\Part",mappedBy="partUnit")
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Part\Part",mappedBy="partUnit")
 	 */
 	private $parts;
 	

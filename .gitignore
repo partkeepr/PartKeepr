@@ -15,3 +15,15 @@ theme/sass/.sass-cache/
 /nbproject/
 .idea
 partkeepr.jsfiles
+
+
+
+/web/bundles/
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+/build/
+/vendor/
+/bin/
+/composer.phar

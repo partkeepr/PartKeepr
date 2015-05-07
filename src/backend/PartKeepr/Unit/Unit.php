@@ -6,35 +6,36 @@ use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
 	PartKeepr\Util\Exceptions\OutOfRangeException,
-	PartKeepr\SiPrefix\SiPrefix;
+	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
+    Doctrine\ORM\Mapping as ORM;
 
 
 /**
  * This object represents an unit. Units can be: Volt, Hertz etc. 
  *  
- * @Entity
+ * @ORM\Entity
  **/
 class Unit extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * The symbol of the unit (e.g. V, A, F, m)
-	 * @Column(type="string")
+	 * @ORM\Column(type="string")
 	 * @var string
 	 */
 	private $symbol;
 	
 	/**
 	 * Defines the allowed SiPrefixes for this parameter unit
-	 * @ManyToMany(targetEntity="PartKeepr\SiPrefix\SiPrefix")
-	 * @JoinTable(name="UnitSiPrefixes",
-	 * 			joinColumns={@JoinColumn(name="unit_id", referencedColumnName="id")},
-	 * 			inverseJoinColumns={@JoinColumn(name="siprefix_id", referencedColumnName="id")}
+	 * @ORM\ManyToMany(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
+	 * @ORM\JoinTable(name="UnitSiPrefixes",
+	 * 			joinColumns={@ORM\JoinColumn(name="unit_id", referencedColumnName="id")},
+	 * 			inverseJoinColumns={@ORM\JoinColumn(name="siprefix_id", referencedColumnName="id")}
 	 * 			)
 	 * @var ArrayCollection
 	 */

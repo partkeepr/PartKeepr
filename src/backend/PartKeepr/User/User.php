@@ -6,20 +6,22 @@ use PartKeepr\UserPreference\UserPreference;
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
-	PartKeepr\PartKeepr;
+	PartKeepr\PartKeepr,
+    Doctrine\ORM\Mapping as ORM,
+    Doctrine\ORM\Mapping\Table;
 
-/** @Entity @Table(name="PartKeeprUser") */
+/** @ORM\Entity @ORM\Table(name="PartKeeprUser") */
 class User extends BaseEntity implements Serializable, Deserializable {
-	/** @Column(length=50,unique=true) */
+	/** @ORM\Column(length=50,unique=true) */
 	private $username;
 	
-	/** @Column(length=32) */
+	/** @ORM\Column(length=32) */
 	private $password;
 	
-	/** @Column(type="boolean") */
+	/** @ORM\Column(type="boolean") */
 	private $admin;
 	
-	/** @Column(type="datetime",nullable=true) */
+	/** @ORM\Column(type="datetime",nullable=true) */
 	private $lastSeen;
 	
 	/**

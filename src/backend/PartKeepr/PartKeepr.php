@@ -1,22 +1,13 @@
 <?php
 namespace PartKeepr;
 
-use Doctrine\Common\ClassLoader,
-	PartKeepr\SystemNotice\SystemNoticeManager,
-    Doctrine\ORM\Configuration,
+use PartKeepr\SystemNotice\SystemNoticeManager,
     Doctrine\ORM\EntityManager,
     PartKeepr\Util\Configuration as PartKeeprConfiguration;
 
 
 
 class PartKeepr {
-	/**
-	 * 
-	 * Contains the doctrine entity manager.
-	 * @var Doctrine\ORM\EntityManager
-	 */
-	private static $entityManager = null;
-	
 	/**
 	 * Initializes the PartKeepr system
 	 * 
@@ -26,46 +17,9 @@ class PartKeepr {
 	 * Usually, you don't need to pass anything here.
 	 * 
 	 * @param $environment	string	The environment to use, null otherwise.
-	 * @return nothing
 	 */
 	public static function initialize ($environment = null) {
-		self::initializeClassLoaders();
 		self::initializeConfig($environment);
-		self::initializeDoctrine();
-	}
-	
-	/**
-	 * Initializes the doctrine class loader and sets up the
-	 * directories.
-	 * 
-	 * @param none
-	 * @return nothing
-	 */
-	public static function initializeClassLoaders() {
-		require_once 'Doctrine/Common/ClassLoader.php';
-
-		$classLoader = new ClassLoader('PartKeepr', self::getRootDirectory() . "/src/backend");
-		$classLoader->register();
-		
-		$classLoader = new ClassLoader('Doctrine\ORM');
-		$classLoader->register();
-		
-		$classLoader = new ClassLoader("Doctrine\DBAL\Migrations", self::getRootDirectory() ."/3rdparty/doctrine-migrations/lib");
-		$classLoader->register();
-		
-		$classLoader = new ClassLoader('Doctrine\DBAL');
-		$classLoader->register();
-		
-		$classLoader = new ClassLoader('Doctrine\Common');
-		$classLoader->register();
-		
-		$classLoader = new ClassLoader('Symfony');
-		$classLoader->register();
-		
-		$classLoader = new ClassLoader("DoctrineExtensions\NestedSet", self::getRootDirectory() ."/3rdparty/doctrine2-nestedset/lib");
-		$classLoader->register();
-		
-		
 	}
 	
 	/**
@@ -91,7 +45,6 @@ class PartKeepr {
 	 * 
 	 * 
 	 * @param $environment	string	The environment to use, null otherwise.
-	 * @return nothing
 	 */
 	public static function initializeConfig ($environment = null) {
 		if ($environment != null) {
@@ -154,126 +107,8 @@ class PartKeepr {
 	}
 	
 	/**
-	 * Initializes the doctrine framework and
-	 * sets all required configuration options.
-	 * 
-	 * @param none
-	 * @return nothing
-	 */
-	public static function initializeDoctrine () {
-		$config = new Configuration;
-		
-		$driverImpl = $config->newDefaultAnnotationDriver(
-			array(__DIR__)
-			);
-		$config->setMetadataDriverImpl($driverImpl);
-		
-		$connectionOptions = PartKeepr::createConnectionOptionsFromConfig();
-		
-		switch (strtolower(PartKeeprConfiguration::getOption("partkeepr.cache.implementation", "default"))) {
-			case "apc":
-				$cache = new \Doctrine\Common\Cache\ApcCache();
-				break;
-			case "xcache":
-				if (php_sapi_name() !== "cli") {
-					$cache = new \Doctrine\Common\Cache\XcacheCache();
-				} else {
-					// For CLI SAPIs, revert to the ArrayCache as Xcache spits out strange warnings when running in CLI.
-					$cache = new \Doctrine\Common\Cache\ArrayCache(); 
-				}
-				
-				break;
-			case "memcache":
-				$memcache = new \Memcache();
-				$memcache->connect(	PartKeeprConfiguration::getOption("partkeepr.cache.memcache.host", "localhost"),
-									PartKeeprConfiguration::getOption("partkeepr.cache.memcache.port", "11211"));
-				$cache = new \Doctrine\Common\Cache\MemcacheCache();
-				$cache->setMemcache($memcache);
-				break;
-			case "default":
-			case "auto":
-				if (extension_loaded("xcache")) {
-					$cache = new \Doctrine\Common\Cache\XcacheCache();
-				} else if (extension_loaded("apc")) {
-					$cache = new \Doctrine\Common\Cache\ApcCache();
-				} else {
-					$cache = new \Doctrine\Common\Cache\ArrayCache();
-				}
-				break;
-			case "none":
-				$cache = new \Doctrine\Common\Cache\ArrayCache();
-				break;
-		}
-		
-		$config->setMetadataCacheImpl($cache);
-
-		$config->setQueryCacheImpl($cache);
-		
-		$config->setProxyDir(self::getRootDirectory() . '/data/proxies');
-		$config->setProxyNamespace('Proxies');
-		$config->setEntityNamespaces(self::getEntityClasses());
-		$config->setAutoGenerateProxyClasses(false);
-		
-		if (PartKeeprConfiguration::getOption("partkeepr.database.echo_sql_log", false) === true) {
-			$logger = new \Doctrine\DBAL\Logging\EchoSQLLogger();
-			$config->setSQLLogger($logger);
-		}
-		
-		self::$entityManager = EntityManager::create($connectionOptions, $config);
-	}
-	
-	public static function createConnectionOptionsFromConfig () {
-		$connectionOptions = array();
-
-		$driver = PartKeeprConfiguration::getOption("partkeepr.database.driver");
-		
-		switch ($driver) {
-			case "pdo_mysql":
-				// Force SET NAMES, as PHP/PDO <5.3.6 silently ignores "charset" 
-				$connectionOptions["driverOptions"] = array(1002=>'SET NAMES utf8');
-			case "pdo_pgsql":
-			case "pdo_oci":
-			case "oci8":
-			case "pdo_sqlsrv":
-				$connectionOptions["driver"] 	= $driver;
-				$connectionOptions["dbname"] 	= PartKeeprConfiguration::getOption("partkeepr.database.dbname", "partkeepr");
-				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
-				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
-				$connectionOptions["charset"]	= "utf8";
-				/**
-				 * Compatibility with older configuration files. We check for the key "hostname" as well as "host".
-				 */
-				if (PartKeeprConfiguration::getOption("partkeepr.database.hostname", null) !== null) {
-					$connectionOptions["host"] 	= PartKeeprConfiguration::getOption("partkeepr.database.hostname");
-				} else {
-					$connectionOptions["host"] 	= PartKeeprConfiguration::getOption("partkeepr.database.host", "localhost");
-				}
-				
-				
-				if (PartKeeprConfiguration::getOption("partkeepr.database.port") !== null) {
-					$connectionOptions["port"] = PartKeeprConfiguration::getOption("partkeepr.database.port");
-				}
-				
-				if (PartKeeprConfiguration::getOption("partkeepr.database.mysql_socket", null) !== null) {
-					$connectionOptions["unix_socket"] = PartKeeprConfiguration::getOption("partkeepr.database.mysql_socket");
-				}
-				break;
-			case "pdo_sqlite":
-				$connectionOptions["driver"] 	= $driver;
-				$connectionOptions["user"]   	= PartKeeprConfiguration::getOption("partkeepr.database.username", "partkeepr");
-				$connectionOptions["password"] 	= PartKeeprConfiguration::getOption("partkeepr.database.password", "partkeepr");
-				$connectionOptions["path"] 		= PartKeeprConfiguration::getOption("partkeepr.database.sqlite_path", PartKeepr::getRootDirectory() . "/data/partkeepr.sqlite");
-				break;
-			default:
-				throw new \Exception(sprintf("Unknown driver %s", $driver));
-		}
-		
-		return $connectionOptions;
-	}
-	
-	/**
 	 * Returns the EntityManager. Shortcut for getEntityManager().
-	 * @return \Doctrine\ORM\EntityManager The EntityManager
+	 * @return EntityManager The EntityManager
 	 */
 	public static function getEM () {
 		return self::getEntityManager();
@@ -285,13 +120,11 @@ class PartKeepr {
 	
 	/**
 	 * Returns the EntityManager.
-	 * @return Doctrine\ORM\EntityManager The EntityManager
+	 * @return EntityManager The EntityManager
 	 */
 	public static function getEntityManager () {
-		if (!self::$entityManager instanceof EntityManager) {
-			throw new \Exception("No EntityManager found. Make sure you called initializeDoctrine() or initialize().");
-		}
-		return self::$entityManager;
+        $container = \AppKernel::getMigrationContainer();
+        return $container->get('doctrine')->getManager();
 	}
 	
 	/**
@@ -361,7 +194,7 @@ class PartKeepr {
 			
 			'PartKeepr\Statistic\StatisticSnapshot',
 			'PartKeepr\Statistic\StatisticSnapshotUnit',
-			'PartKeepr\SiPrefix\SiPrefix',
+			'PartKeepr\SiPrefixBundle\Model\SiPrefix',
 			'PartKeepr\Unit\Unit',
 			'PartKeepr\PartParameter\PartParameter',
 			

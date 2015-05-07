@@ -18,12 +18,6 @@
 		<delete file="partkeepr.jsb3" />
 	</target>
 
-	<!--  Re-generates the proxies needed by Doctrine2 -->
-	<target name="create-orm-proxies">
-		<mkdir dir="data/" />
-		<exec command="doctrine orm:generate-proxies" passthru="true" />
-	</target>
-
 	<target name="compile-theme">
 		<exec dir="theme/sass" command="compass compile partkeepr.scss" passthru="true" />
 		<copy file="theme/css/partkeepr.css" tofile="src/frontend/css/partkeepr-theme.css" />
@@ -237,11 +231,14 @@
 			</else>
 		</if>
 
-		<phingcall target="create-orm-proxies" />
+		<phingcall target="cache-warmup" />
 
 		<phingcall target="jsbuilder" />
 	</target>
 
+    <target name="cache-warmup">
+        <exec passthru="true" command="php app/console cache:warmup" />
+    </target>
 	<!-- Builds the frontend, regenerates the proxies and minifies the JS -->
 	<target name="build">
 		<phingcall target="git-update-submodules" />

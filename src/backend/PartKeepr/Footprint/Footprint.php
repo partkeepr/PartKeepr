@@ -5,41 +5,42 @@ use PartKeepr\Util\Deserializable;
 use PartKeepr\Util\Serializable;
 use PartKeepr\FootprintCategory\FootprintCategory;
 use PartKeepr\Util\BaseEntity;
+use Doctrine\ORM\Mapping as ORM;
 
-/** @Entity */
+/** @ORM\Entity */
 
 class Footprint extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Holds the footprint name
-	 * @Column(length=64,unique=true)
+	 * @ORM\Column(length=64,unique=true)
 	 * @var string
 	 */
 	private $name;
 	
 	/**
 	 * Holds the footprint description
-	 * @Column(type="text",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 * @var string
 	 */
 	private $description;
 
 	/**
 	 * The category of the footprint
-	 * @ManyToOne(targetEntity="PartKeepr\FootprintCategory\FootprintCategory")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\FootprintCategory\FootprintCategory")
 	 * @var Category 
 	 */
 	private $category;
 	
 	/**
 	 * Holds the footprint image
-	 * @OneToOne(targetEntity="PartKeepr\Footprint\FootprintImage",mappedBy="footprint",cascade={"persist", "remove"})
+	 * @ORM\OneToOne(targetEntity="PartKeepr\Footprint\FootprintImage",mappedBy="footprint",cascade={"persist", "remove"})
 	 * @var FootprintImage
 	 */
 	private $image;
 	
 	/**
 	 * Holds the footprint attachments
-	 * @OneToMany(targetEntity="PartKeepr\Footprint\FootprintAttachment",mappedBy="footprint",cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="PartKeepr\Footprint\FootprintAttachment",mappedBy="footprint",cascade={"persist", "remove"})
 	 * @var FootprintAttachment
 	*/
 	private $attachments;

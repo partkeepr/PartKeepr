@@ -1,9 +1,17 @@
 <?php
-namespace PartKeepr\Console;
-
+use Symfony\Component\ClassLoader\ApcClassLoader;
+use Symfony\Component\HttpFoundation\Request;
 use PartKeepr\PartKeepr;
 
+$loader = require_once __DIR__.'/app/bootstrap.php.cache';
+
+require_once __DIR__.'/app/AppKernel.php';
+
+
 include("src/backend/PartKeepr/PartKeepr.php");
+
+$kernel = new AppKernel('dev', false);
+$kernel->loadClassCache();
 
 PartKeepr::initializeClassLoaders();
 PartKeepr::initializeConfig();

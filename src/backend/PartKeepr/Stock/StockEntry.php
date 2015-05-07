@@ -5,33 +5,35 @@ use PartKeepr\Part\Part,
 	PartKeepr\User\User,
 	PartKeepr\PartKeepr,
 	PartKeepr\Util\BaseEntity,
-	PartKeepr\Util\Serializable;
+	PartKeepr\Util\Serializable,
+    Doctrine\ORM\Mapping as ORM,
+    Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
-/** @Entity @HasLifecycleCallbacks **/
+/** @ORM\Entity @ORM\HasLifecycleCallbacks **/
 class StockEntry extends BaseEntity implements Serializable {
 	/**
-	 * @Column(type="integer")
+	 * @ORM\Column(type="integer")
 	 */
 	private $stockLevel;
 	
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\Part\Part")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="stockLevels")
 	 */
 	private $part;
 	
 	/**
-	 * @ManyToOne(targetEntity="PartKeepr\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\User\User")
 	 */
 	private $user;
 	
 	/**
-	 * @Column(type="decimal",precision=13,scale=4,nullable=true)
+	 * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
 	 * @var float
 	 */
 	private $price;
 
 	/**
-	 * @Column(type="datetime")
+	 * @ORM\Column(type="datetime")
 	 * @var DateTime
 	 */
 	private $dateTime;
@@ -39,13 +41,13 @@ class StockEntry extends BaseEntity implements Serializable {
 	/**
 	 * Indicates if the stock level is a correction entry.
 	 * 
-	 * @Column(type="boolean")
+	 * @ORM\Column(type="boolean")
 	 * @var boolean
 	 */
 	private $correction;
 	
 	/**
-	 * @Column(type="string",nullable=true)
+	 * @ORM\Column(type="string",nullable=true)
 	 * @var string
 	 */
 	private $comment;
@@ -172,7 +174,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	
 	/**
 	 * If the stock level is negative, we can't have a price.
-	 * @PrePersist
+	 * @ORM\PrePersist
 	 */
 	public function checkPrice () {
 		if ($this->getStockLevel()  < 0 && $this->getPrice() !== null) {
@@ -182,7 +184,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	
 	/**
 	 * Updates the stock leve for a part
-	 * @PostPersist
+	 * @ORM\PostPersist
 	 */
 	public function postPersist () {
 		$this->part->updateStockLevel();
