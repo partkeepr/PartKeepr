@@ -151,6 +151,18 @@ Configuration::setOption("partkeepr.category.path_separator", " ➤ ");
 Configuration::setOption("partkeepr.auth.http", false);
 
 /**
+* Specifies the authentification method
+*
+* - internal
+*		Use this for authentification via database
+*
+* - ldap
+*		Use this for authentification via ldap. The user must added in partkeepr too.
+*		It's only for authentification, the user preferences must set in partkeepr.
+*/
+Configuration::setOption("partkeepr.auth.method", "internal");
+
+/**
  * Set to true if logging is wanted.
  *
  * If you leave as-is or set to false, no log will be written at all. If you set this to true, a log will be written
@@ -188,3 +200,18 @@ Configuration::setOption("partkeepr.cache.memcache.host", "localhost");
  * Specifies the memcache port. Defaults to 11211
  */
 Configuration::setOption("partkeepr.cache.memcache.port", "11211");
+
+/**
+* Specifies the ldap hostname
+*/
+Configuration::setOption("partkeepr.ldap.host", "");
+
+/**
+* Specifies the ldap port
+*/
+Configuration::setOption("partkeepr.ldap.port", "389");
+
+/**
+* Specifies the ldap domain
+*/
+Configuration::setOption("partkeepr.ldap.domain", "");
