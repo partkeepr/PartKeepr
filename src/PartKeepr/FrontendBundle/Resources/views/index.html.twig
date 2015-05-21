@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>PartKeepr</title>
 
+    <base href="{{ app.request.getBaseURL() }}"/>
 
     <link href="{% if https %}https{% else %}http{% endif %}://fonts.googleapis.com/css?family=Ubuntu:400,700italic"
           rel="stylesheet" type="text/css">
@@ -171,41 +172,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryEditor/CategoryEditorForm.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Picker/CharPicker.js'
     '@PartKeeprFrontendBundle/Resources/public/js/webcam.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartParameter.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartAttachment.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/StockEntry.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/SiPrefix.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/TipOfTheDay.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/User.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingRenderer.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/UserPreference.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/FootprintAttachment.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/Distributor.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingPageBasicLayout.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingResponse.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/SystemInformationRecord.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/Part.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/Manufacturer.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/AbstractCategory.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartCategory.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/FootprintCategory.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReportList.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/Project.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartUnit.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingType.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/Message.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/StorageLocation.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PrintingPrintingJobConfiguration.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectPart.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/StatisticSample.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartDistributor.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/PartManufacturer.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/ManufacturerICLogo.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectAttachment.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/Unit.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/SystemNotice.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/Footprint.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReport.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Card.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Header.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.js'
@@ -226,28 +193,12 @@
     '@PartKeeprFrontendBundle/Resources/public/js/webcam.js'
     %}
 
-    {#
-
-'@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.layout.component.field.Trigger-theme.js'
-
-
-
-
-
-
-
-
-
-
-
-
-
-#}
-
-
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
+    {% for i in models %}
+        <script type="text/javascript" src="{{ i }}"></script>
+    {% endfor %}
 </head>
 <body>
 <div id="loading"><span class="logo"></span></div>

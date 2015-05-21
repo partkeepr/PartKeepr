@@ -8,7 +8,10 @@ use \PartKeepr\AuthBundle\Entity\User\User,
     PartKeepr\Session\SessionManager,
     PartKeepr\Util\Configuration;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Glob;
+use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends Controller
 {
@@ -73,9 +76,37 @@ class IndexController extends Controller
         } else {
             $renderParams["https"] = false;
         }
-        return $this->render('PartKeeprFrontendBundle::index.html.twig', $renderParams);
+
+
+        $renderParams["models"] = $this->copyModels();
+
+       return $this->render('PartKeeprFrontendBundle::index.html.twig', $renderParams);
     }
 
+    /**
+     * Copies all generated models to the frontend directory
+     *
+     * @todo Refactor to auto-generate models to the correct directory. This is a workaround.
+     */
+    protected function copyModels () {
+        $cacheDir = $this->get("kernel")->getCacheDir();
+
+        $target = $this->get("kernel")->getRootDir()."/../web/bundles/doctrinereflection/";
+        @mkdir($target, 0777, true);
+
+        $finder = new Finder();
+        $finder->files()->in($cacheDir."/doctrinereflection/");
+
+        $models = array();
+
+        foreach ($finder as $file) {
+            /** @var SplFileInfo $file */
+            copy($file->getRealPath(), $target.$file->getBasename());
+            $models[] = "bundles/doctrinereflection/".$file->getBasename();
+        }
+
+        return $models;
+    }
     protected function legacyAuthStuff () {
         /* HTTP auth */
         if (Configuration::getOption("partkeepr.auth.http", false) === true) {

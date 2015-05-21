@@ -15,7 +15,7 @@ use PartKeepr\Util\BaseEntity,
 class SiPrefix extends BaseEntity
 {
     /**
-     * The prefix of the Si-Prefix (e.g. yotta, deca, deci, centi)
+     * The prefix name of the Si-Prefix (e.g. yotta, deca, deci, centi)
      *
      * @ORM\Column(type="string")
      *

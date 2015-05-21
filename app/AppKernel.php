@@ -57,6 +57,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
         );
 
         // Developer bundles

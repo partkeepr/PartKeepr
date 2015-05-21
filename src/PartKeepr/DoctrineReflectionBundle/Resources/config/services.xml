@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="doctrine_reflection_service" class="PartKeepr\DoctrineReflectionBundle\Services\ReflectionService">
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="templating"/>
+        </service>
+
+        <service id="model_cache_warmer" class="PartKeepr\DoctrineReflectionBundle\CacheWarmer\ModelCacheWarmer">
+            <tag name="kernel.cache_warmer"/>
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="doctrine_reflection_service"/>
+        </service>
+    </services>
+</container>

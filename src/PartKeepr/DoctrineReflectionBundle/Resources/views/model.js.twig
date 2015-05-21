@@ -1,0 +1,12 @@
+Ext.define('{{ className }}', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {% for field in fields %}
+        {
+            name: '{{ field.name }}',
+            type: '{{ field.type }}'
+        }{% if not loop.last %},{% endif %}
+
+        {% endfor %}
+    ]
+});
