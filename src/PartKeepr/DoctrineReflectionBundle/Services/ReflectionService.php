@@ -81,6 +81,12 @@ class ReflectionService {
             case "boolean":
                 return "boolean";
                 break;
+            case "float":
+                return "number";
+                break;
+            case "decimal":
+                return "number";
+                break;
         }
 
         return "undefined";
