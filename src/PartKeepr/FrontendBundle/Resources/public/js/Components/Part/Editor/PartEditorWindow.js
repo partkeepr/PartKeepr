@@ -70,13 +70,13 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		
 		this.saveAndPrintButton = Ext.create("Ext.button.Button", {
 			text: this.saveAndPrintText,
-			icon: 'resources/fugue-icons/icons/printer.png',
+			glyph: 0xf02f,
 			handler: Ext.bind(this.onItemSaveAndPrint, this)
 		});
 		
 		this.printButton = Ext.create("Ext.button.Button", {
 			text: this.printText,
-			icon: 'resources/fugue-icons/icons/printer.png',
+			glyph: 0xf02f,
 			handler: Ext.bind(this.onItemPrint, this)
 		});
 		

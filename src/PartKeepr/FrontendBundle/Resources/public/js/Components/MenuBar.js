@@ -76,7 +76,7 @@ Ext.define('PartKeepr.MenuBar', {
 						icon: 'resources/fugue-icons/icons/notebook.png'
 					},{
 						text: i18n("Print and Labeling"),
-						icon: 'resources/fugue-icons/icons/printer.png',
+						glyph: 0xf02f,
 						menu: [
 							{
 								text: i18n("Storage Locations"),
@@ -123,7 +123,7 @@ Ext.define('PartKeepr.MenuBar', {
 		},
 		{
 			xtype: 'tbtext',
-			text: '<img style="float: left;" src="resources/images/partkeepr-logo.png"/>'
+			text: '<img style="float: left;" src="bundles/partkeeprfrontend/images/partkeepr-logo.png"/>'
 		}];
 		
 		

@@ -14,7 +14,7 @@ Ext.define('PartKeepr.Statusbar', {
 		this.currentUserDisplay.setText(i18n("Not logged in"));
 
 		this.showMessageLog = Ext.create("Ext.Button",{
-			icon: 'resources/silkicons/application_osx_terminal.png',
+			glyph: 0xf120,
 			cls: 'x-btn-icon',
 			handler: function () {
 				PartKeepr.getApplication().toggleMessageLog();

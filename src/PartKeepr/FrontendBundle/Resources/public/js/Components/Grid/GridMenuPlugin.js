@@ -21,7 +21,7 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 			renderTo: Ext.getBody(),
 			items: [{
 				text: i18n("Export"),
-				icon: 'resources/fugue-icons/icons/application-export.png',
+				glyph: 0xf152,
 				menu: [{
                     icon: 'resources/mimetypes/csv.png',
                     text: 'Export as semicolon-delimited CSV (.csv)',
@@ -44,7 +44,7 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 					scope: this
 				}]
 			},{
-				icon: 'resources/fugue-icons/icons/printer.png',
+				glypt: 0xf02f,
 				text: i18n('Print ...'),
 				handler: this.exportPrint,
 				scope: this
