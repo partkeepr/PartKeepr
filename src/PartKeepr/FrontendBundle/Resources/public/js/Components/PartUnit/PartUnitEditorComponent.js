@@ -6,7 +6,7 @@ Ext.define('PartKeepr.PartUnitEditorComponent', {
 	newItemText: i18n("New Part Measurement Unit"),
 	deleteMessage: i18n("Do you really wish to delete the part measurement unit'%s'?"),
 	deleteTitle: i18n("Delete Part Measurement Unit"),
-	model: 'PartKeepr.PartUnit',
+	model: 'PartKeepr.Part.PartUnit',
 	initComponent: function () {
 		this.createStore({
 			sorters: [{

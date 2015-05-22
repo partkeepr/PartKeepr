@@ -4,7 +4,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
 	border: false,
 	initComponent: function () {
 		this.store = Ext.create("Ext.data.Store", {
-			model: 'PartKeepr.PartManufacturer',
+			model: 'PartKeepr.Part.PartManufacturer',
 			proxy: {
 				type: 'memory',
 				reader: {
@@ -79,7 +79,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
 	onAddClick: function () {
 		this.editing.cancelEdit();
 		
-		var rec = new PartKeepr.PartManufacturer({
+		var rec = new PartKeepr.Part.PartManufacturer({
 			packagingUnit: 1
 		});
 		

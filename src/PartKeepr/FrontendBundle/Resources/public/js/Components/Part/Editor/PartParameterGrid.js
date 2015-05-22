@@ -4,7 +4,7 @@ Ext.define('PartKeepr.PartParameterGrid', {
 	border: false,
 	initComponent: function () {
 		this.store = Ext.create("Ext.data.Store", {
-			model: 'PartKeepr.PartParameter',
+			model: 'PartKeepr.Part.PartParameter',
 			proxy: {
 				type: 'memory',
 				reader: {
@@ -115,7 +115,7 @@ Ext.define('PartKeepr.PartParameterGrid', {
 	onAddClick: function () {
 		this.editing.cancelEdit();
 		
-		var rec = new PartKeepr.PartParameter({
+		var rec = new PartKeepr.Part.PartParameter({
 			
 		});
 		

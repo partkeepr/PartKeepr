@@ -20,7 +20,7 @@ Ext.define("PartKeepr.RemotePartComboBox",{
 		 * Create the store with the default sorter "name ASC"
 		 */
 		this.createStore({
-			 model: 'PartKeepr.Part',
+			 model: 'PartKeepr.Part.Part',
 			 proxy: PartKeepr.getRESTProxy("Part"),
 			 groupField: 'categoryPath',
 			 sorters: [{

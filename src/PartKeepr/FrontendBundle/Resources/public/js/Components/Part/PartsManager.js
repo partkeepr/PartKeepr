@@ -28,7 +28,7 @@ Ext.define('PartKeepr.PartManager', {
 		 * Create the store with the default sorter "name ASC"
 		 */
 		this.createStore({
-			 model: 'PartKeepr.Part',
+			 model: 'PartKeepr.Part.Part',
 			 proxy: PartKeepr.getRESTProxy("Part"),
 			 groupField: 'categoryPath',
 			 sorters: [{
@@ -232,7 +232,7 @@ Ext.define('PartKeepr.PartManager', {
 	createFullPartDuplicate: function (rec) {
 		var data = rec.getData(true);
 		data.id = null;
-		newItem = Ext.create("PartKeepr.Part");
+		newItem = Ext.create("PartKeepr.Part.Part");
 		newItem.setDataWithAssociations(data);
 
 		var j = Ext.create("PartKeepr.PartEditorWindow", {
@@ -345,7 +345,7 @@ Ext.define('PartKeepr.PartManager', {
      */
 	loadPart: function (id, handler) {
 		// @todo we have this method duplicated in PartEditor
-		var model = Ext.ModelManager.getModel("PartKeepr.Part");
+		var model = Ext.ModelManager.getModel("PartKeepr.Part.Part");
 		
 		model.load(id, {
 			scope: this,

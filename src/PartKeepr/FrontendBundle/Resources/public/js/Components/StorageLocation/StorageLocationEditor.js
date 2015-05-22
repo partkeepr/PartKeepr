@@ -10,7 +10,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 
         Ext.Object.merge(config, {
             autoLoad: false,
-            model: "PartKeepr.Part",
+            model: "PartKeepr.Part.Part",
             autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
             remoteFilter: true,
             remoteSort: true,

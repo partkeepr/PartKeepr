@@ -226,35 +226,35 @@ Ext.application({
     createGlobalStores: function () {
     	this.footprintStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.Footprint',
+    				model: 'PartKeepr.Footprint.Footprint',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.siPrefixStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.SiPrefix',
+    				model: 'PartKeepr.SiPrefixBundle.Entity.SiPrefix',
     				pageSize: -1,
     				autoLoad: true
     			});
     	
     	this.distributorStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.Distributor',
+    				model: 'PartKeepr.Distributor.Distributor',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.manufacturerStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.Manufacturer',
+    				model: 'PartKeepr.Manufacturer.Manufacturer',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.partUnitStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.PartUnit',
+    				model: 'PartKeepr.PartUnit.PartUnit',
     				pageSize: -1,
     				autoLoad: false
     			});
