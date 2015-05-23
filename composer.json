@@ -44,7 +44,8 @@
         "zendmaniacs/extjs5": "dev-master",
         "fortawesome/font-awesome": "4.1.0",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
-        "symfony/doctrine-bridge": "2.7.x-dev"
+        "symfony/doctrine-bridge": "2.7.x-dev",
+        "knplabs/knp-paginator-bundle": "2.4.1"
     },
     "autoload": {
         "psr-0": { "": "src/",
