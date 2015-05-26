@@ -58,6 +58,8 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
+            new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
+            new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle()
         );
 
         // Developer bundles
