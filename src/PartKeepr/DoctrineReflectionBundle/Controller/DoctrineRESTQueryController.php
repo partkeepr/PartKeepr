@@ -209,7 +209,7 @@ class DoctrineRESTQueryController extends FOSRestController
             }
 
             if (!array_key_exists("operator", $filter)) {
-                throw new \Exception("operator parameter has an invalid format");
+                $filter["operator"] = "like";
             }
 
             $filters[] = new Filter($this->getTargetEntity(), $filter["property"], $filter["value"], $filter["operator"]);

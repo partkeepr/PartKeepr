@@ -1,19 +1,22 @@
 <?php
-namespace PartKeepr\Unit;
+namespace PartKeepr\UnitBundle\Entity;
 
+use PartKeepr\Unit\ArrayCollection;
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
 	PartKeepr\Util\Exceptions\OutOfRangeException,
 	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
-    Doctrine\ORM\Mapping as ORM;
+    Doctrine\ORM\Mapping as ORM,
+	PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 
 
 /**
  * This object represents an unit. Units can be: Volt, Hertz etc. 
  *  
  * @ORM\Entity
+ * @TargetService(uri="/unit")
  **/
 class Unit extends BaseEntity implements Serializable, Deserializable {
 	/**

@@ -22,7 +22,9 @@ Ext.define('Ext.ux.form.SearchField', {
 	/**
 	 * Defines the parameter name which is being passed to the store's proxy.
 	 */
-    paramName : 'query',
+    targetField : 'query',
+
+    filter: null,
     
 	/**
 	 * Initializes the component. Binds the enter key to startSearch.
@@ -34,6 +36,12 @@ Ext.define('Ext.ux.form.SearchField', {
                 this.startSearch();
             }
         }, this);
+
+        this.filter = Ext.create("Ext.util.Filter", {
+            property: this.targetField,
+            value: '',
+            operator: 'like'
+        });
     },
 	/**
 	 * Hides the "clear" trigger as soon as the component is rendered.
@@ -41,7 +49,7 @@ Ext.define('Ext.ux.form.SearchField', {
     afterRender: function(){
         this.callParent();
         this.triggerCell.item(0).setDisplayed('none');
-        this.doComponentLayout();
+        //this.doLayout();
     },
     /**
 	 * Handler for the "reset search" trigger
@@ -67,13 +75,14 @@ Ext.define('Ext.ux.form.SearchField', {
             
         if (me.hasSearch) {
             me.setValue('');
-            proxy.extraParams[me.paramName] = '';
+            store.removeFilter(this.filter);
+
             store.currentPage = 1;
             store.load({ start: 0 });
             me.hasSearch = false;
             
             me.triggerCell.item(0).setDisplayed('none');
-            me.doComponentLayout();
+            //me.doComponentLayout();
         }
 	},
 	/**
@@ -89,12 +98,14 @@ Ext.define('Ext.ux.form.SearchField', {
             me.resetSearch();
             return;
         }
-        proxy.extraParams[me.paramName] = value;
+
+        this.filter.setValue("%"+value+"%");
+        store.addFilter(this.filter);
         store.currentPage = 1;
         store.load({ start: 0 });
         
         me.hasSearch = true;
         me.triggerCell.item(0).setDisplayed('block');
-        me.doComponentLayout();
+        //me.doComponentLayout();
 	}
 });

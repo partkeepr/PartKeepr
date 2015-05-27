@@ -59,7 +59,8 @@ class AppKernel extends Kernel
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
-            new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle()
+            new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
+            new PartKeepr\UnitBundle\PartKeeprUnitBundle(),
         );
 
         // Developer bundles

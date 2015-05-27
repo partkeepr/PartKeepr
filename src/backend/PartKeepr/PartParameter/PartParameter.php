@@ -3,7 +3,7 @@ namespace PartKeepr\PartParameter;
 
 use PartKeepr\PartKeepr,
 PartKeepr\Util\Exceptions\OutOfRangeException,
-PartKeepr\Unit\Unit,
+PartKeepr\UnitBundle\Entity\Unit,
 PartKeepr\Part\Part,
 PartKeepr\SiPrefixBundle\Entity\SiPrefix,
     Doctrine\ORM\Mapping as ORM;
@@ -47,8 +47,8 @@ class PartParameter {
 	/**
 	 * The unit for this type. May be null.
 	 *
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Unit\Unit")
-	 * @var Unit
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\UnitBundle\Entity\Unit")
+	 * @var \PartKeepr\UnitBundle\Entity\Unit
 	 */
 	private $unit;
 
@@ -110,7 +110,8 @@ class PartParameter {
 
 	/**
 	 * Sets the unit
-	 * @param Unit $unit The unit to set
+	 *
+*@param \PartKeepr\UnitBundle\Entity\Unit $unit The unit to set
 	 */
 	public function setUnit (Unit $unit = null) {
 		$this->unit = $unit;
@@ -118,7 +119,8 @@ class PartParameter {
 
 	/**
 	 * Returns the unit
-	 * @return Unit the unit
+	 *
+*@return \PartKeepr\UnitBundle\Entity\Unit the unit
 	 */
 	public function getUnit () {
 		return $this->unit;

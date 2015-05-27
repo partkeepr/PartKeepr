@@ -86,9 +86,6 @@ Ext.define('PartKeepr.EditorGrid', {
 	             */
 
 		
-		this.getSelectionModel().on("select", 	this._onItemSelect, 	this);
-		this.getSelectionModel().on("deselect", this._onItemDeselect, 	this);
-		
 		this.on("itemclick", this._onItemEdit, this);
 
 		this.deleteButton = Ext.create("Ext.button.Button", {
@@ -111,7 +108,8 @@ Ext.define('PartKeepr.EditorGrid', {
 		});
 		
 		this.searchField = Ext.create("Ext.ux.form.SearchField",{
-				store: this.store
+				store: this.store,
+                targetField: 'name'
 			});
 		
 		var topToolbarItems = [];
@@ -152,7 +150,10 @@ Ext.define('PartKeepr.EditorGrid', {
 		this.plugins.push('gridmenu');
 		
 		this.callParent();
-		
+
+		this.getSelectionModel().on("select", this._onItemSelect, this);
+		this.getSelectionModel().on("deselect", this._onItemDeselect, this);
+
 		if (this.automaticPageSize) {
 			this.on("resize", this.reassignPageSize, this);
 		}

@@ -7,6 +7,7 @@ use PartKeepr\Service\RestfulService,
 	PartKeepr\Part\PartUnit,
 	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
 	PartKeepr\Session\SessionManager;
+use PartKeepr\UnitBundle\Entity\Unit;
 
 class UnitService extends Service implements RestfulService {
 		public function get () {

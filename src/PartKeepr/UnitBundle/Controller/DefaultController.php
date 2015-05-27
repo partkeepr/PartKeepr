@@ -1,6 +1,6 @@
 <?php
 
-namespace PartKeepr\SiPrefixBundle\Controller;
+namespace PartKeepr\UnitBundle\Controller;
 
 use FOS\RestBundle\Request\ParamFetcher;
 use PartKeepr\DoctrineReflectionBundle\Controller\DoctrineRESTQueryController;
@@ -14,9 +14,9 @@ class DefaultController extends DoctrineRESTQueryController
     /**
      * Retrieves SI Prefixes in the database
      *
-     * @Routing\Route("/siprefix", defaults={"method" = "get","_format" = "json"})
+     * @Routing\Route("/unit", defaults={"method" = "get","_format" = "json"})
      * @Routing\Method({"GET"})
-     * @ApiDoc(output="array<PartKeepr\SiPrefixBundle\Entity\SiPrefix>")
+     * @ApiDoc(output="array<PartKeepr\UnitBundle\Entity\Unit>")
      *
      * @View()
      *
@@ -24,7 +24,7 @@ class DefaultController extends DoctrineRESTQueryController
      */
     public function getQueryResponseAction(ParamFetcher $paramFetcher)
     {
-        $this->setTargetEntity("PartKeepr\\SiPrefixBundle\\Entity\\SiPrefix");
+        $this->setTargetEntity("PartKeepr\\UnitBundle\\Entity\\Unit");
 
         return parent::getQueryResponseAction($paramFetcher);
     }
