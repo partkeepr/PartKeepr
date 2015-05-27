@@ -2,6 +2,7 @@
 namespace PartKeepr\DoctrineReflectionBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\Templating\EngineInterface;
@@ -13,9 +14,12 @@ class ReflectionService {
 
     protected $templateEngine;
 
-    public function __construct (Registry $doctrine, EngineInterface $templateEngine) {
+    protected $reader;
+
+    public function __construct (Registry $doctrine, EngineInterface $templateEngine, Reader $reader) {
         $this->templateEngine = $templateEngine;
         $this->em = $doctrine->getManager();
+        $this->reader = $reader;
     }
 
     /**
@@ -38,27 +42,36 @@ class ReflectionService {
 
     public function getEntity($entity)
     {
-    $entity = $this->convertExtJSToPHPClassName($entity);
+        $entity = $this->convertExtJSToPHPClassName($entity);
 
-    $cm = $this->em->getClassMetadata($entity);
+        $cm = $this->em->getClassMetadata($entity);
 
-    $fields = $cm->getFieldNames();
+        $fields = $cm->getFieldNames();
 
-    $mappings = array();
+        $mappings = array();
 
-    foreach ($fields as $field) {
-        $currentMapping = $cm->getFieldMapping($field);
+        foreach ($fields as $field) {
+            $currentMapping = $cm->getFieldMapping($field);
 
-        $mappings[] = array(
-            "name" => $currentMapping["fieldName"],
-            "type" => $this->getExtJSFieldMapping($currentMapping["type"]),
+            $mappings[] = array(
+                "name" => $currentMapping["fieldName"],
+                "type" => $this->getExtJSFieldMapping($currentMapping["type"]),
+            );
+        }
+
+        $renderParams = array(
+            "fields" => $mappings,
+            "className" => $this->convertPHPToExtJSClassName($entity),
         );
-    }
 
-    $renderParams = array(
-        "fields" => $mappings,
-        "className" => $this->convertPHPToExtJSClassName($entity),
-    );
+        $targetService = $this->reader->getClassAnnotation(
+            $cm->getReflectionClass(),
+            "PartKeepr\DoctrineReflectionBundle\Annotation\TargetService"
+        );
+
+        if ($targetService !== null) {
+            $renderParams["uri"] = $targetService->uri;
+        }
 
         return $this->templateEngine->render('PartKeeprDoctrineReflectionBundle::model.js.twig', $renderParams);
 }

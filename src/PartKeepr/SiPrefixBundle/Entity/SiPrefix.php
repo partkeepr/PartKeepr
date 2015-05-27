@@ -3,7 +3,8 @@ namespace PartKeepr\SiPrefixBundle\Entity;
 
 use PartKeepr\Util\BaseEntity,
     Doctrine\ORM\Mapping as ORM,
-    Symfony\Component\Validator\Constraints as Assert;
+    Symfony\Component\Validator\Constraints as Assert,
+    PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 
 /**
  * Represents an SI Prefix
@@ -11,6 +12,7 @@ use PartKeepr\Util\BaseEntity,
  * @link http://en.wikipedia.org/wiki/Metric_prefix
  *
  * @ORM\Entity
+ * @TargetService(uri="/siprefix")
  */
 class SiPrefix extends BaseEntity
 {

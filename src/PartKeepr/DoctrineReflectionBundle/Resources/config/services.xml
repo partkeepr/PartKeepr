@@ -8,6 +8,7 @@
         <service id="doctrine_reflection_service" class="PartKeepr\DoctrineReflectionBundle\Services\ReflectionService">
             <argument type="service" id="doctrine"/>
             <argument type="service" id="templating"/>
+            <argument type="service" id="annotation_reader"/>
         </service>
 
         <service id="model_cache_warmer" class="PartKeepr\DoctrineReflectionBundle\CacheWarmer\ModelCacheWarmer">

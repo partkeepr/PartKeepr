@@ -8,5 +8,10 @@ Ext.define('{{ className }}', {
         }{% if not loop.last %},{% endif %}
 
         {% endfor %}
-    ]
+    ],
+
+    proxy: {
+        type: "PartKeeprREST",
+        url: '{{ uri|raw }}'
+    }
 });
