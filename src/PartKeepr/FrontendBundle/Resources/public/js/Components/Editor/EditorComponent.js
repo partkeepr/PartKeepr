@@ -103,7 +103,7 @@ Ext.define('PartKeepr.EditorComponent', {
 		}
 		
 		// Still here? OK, we don't have an editor open. Create a new one
-		var model = Ext.ModelManager.getModel(this.model);
+		var model = Ext.data.schema.Schema.get(this.model);
 		
 		model.load(id, {
 			scope: this,

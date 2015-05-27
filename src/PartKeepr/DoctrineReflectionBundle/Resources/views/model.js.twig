@@ -1,5 +1,7 @@
 Ext.define('{{ className }}', {
     extend: 'Ext.data.Model',
+    alias: 'schema.{{ className }}',
+
     fields: [
         {% for field in fields %}
         {
