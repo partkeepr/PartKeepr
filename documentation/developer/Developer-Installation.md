@@ -1,5 +1,6 @@
 # PartKeepr Developer Installation
 
+* Execute `php app/check.php` from the root source directory to check for system requirements
 * Download [composer](https://getcomposer.org/)
 * Execute `composer install` from the root source directory
 * composer might ask you a few questions for the database configuration
