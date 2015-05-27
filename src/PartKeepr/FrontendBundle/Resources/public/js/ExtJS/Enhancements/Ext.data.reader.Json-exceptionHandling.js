@@ -3,7 +3,7 @@ Ext.override(Ext.data.reader.Json, {
         var data;
         try {
             data = Ext.decode(response.responseText);
-            return this.readRecords(data);
+            return data;
         }
         catch (ex) {
             error = new Ext.data.ResultSet({
