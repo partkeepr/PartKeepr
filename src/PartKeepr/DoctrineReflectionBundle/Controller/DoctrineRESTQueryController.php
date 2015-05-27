@@ -134,7 +134,6 @@ class DoctrineRESTQueryController extends FOSRestController
      * @param QueryBuilder $qb
      * @param ParamFetcher $paramFetcher
      *
-     * @throws \Exception
      */
     protected function applySorting (QueryBuilder $qb, ParamFetcher $paramFetcher) {
         $sort = $paramFetcher->get("sort");
@@ -156,6 +155,7 @@ class DoctrineRESTQueryController extends FOSRestController
      *
      * @param $sort string A json string which includes the sorters
      * @return Sorter[]
+     * @throws \Exception
      */
     protected function parseSorters ($sort) {
         $decodedJson = json_decode($sort, true);
@@ -164,9 +164,6 @@ class DoctrineRESTQueryController extends FOSRestController
             throw new \Exception("sort parameter has an invalid format");
         }
 
-        /**
-         * @var $sorters Sorter[]
-         */
         $sorters = array();
 
         foreach ($decodedJson as $sorter) {
@@ -190,6 +187,7 @@ class DoctrineRESTQueryController extends FOSRestController
      * @param $sort string A json string which includes the sorters
      *
      * @return Filter[]
+     * @throws \Exception
      */
     protected function parseFilters($filter)
     {
@@ -199,9 +197,6 @@ class DoctrineRESTQueryController extends FOSRestController
             throw new \Exception("filter parameter has an invalid format");
         }
 
-        /**
-         * @var $sorters Sorter[]
-         */
         $filters = array();
 
         foreach ($decodedJson as $filter) {
