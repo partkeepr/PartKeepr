@@ -130,8 +130,8 @@ Ext.define("PartKeepr.FootprintTree", {
 		for (var i=0;i<store.getCount();i++) {
 			record = store.getAt(i);
 			nodeData = {
-					text: record.getRecordName(),
-                    name: record.getRecordName(),
+					text: record.get("name"),
+                    name: record.get("name"),
 					id: record.get("id"),
 					leaf: true,
 					iconCls:'icon-footprint'

@@ -103,12 +103,12 @@ Ext.define('PartKeepr.EditorComponent', {
 		}
 		
 		// Still here? OK, we don't have an editor open. Create a new one
-		var model = Ext.data.schema.Schema.get(this.model);
-		
+		var model = Ext.ClassManager.get(this.model);
+
 		model.load(id, {
 			scope: this,
 		    success: function(record, operation) {
-		    	editor = this.createEditor(record.getRecordName());
+		    	editor = this.createEditor(record.get("name"));
 				editor.editItem(record);
 				this.editorTabPanel.add(editor).show();
 		    }
@@ -144,7 +144,7 @@ Ext.define('PartKeepr.EditorComponent', {
 		var recordName;
 		
 		if (r.getRecordName) {
-			recordName = r.getRecordName();
+			recordName = r.get("name");
 		} else {
 			recordName = r.get("name");
 		}

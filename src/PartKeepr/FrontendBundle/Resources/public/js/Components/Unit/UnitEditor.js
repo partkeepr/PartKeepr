@@ -15,7 +15,7 @@ Ext.define('PartKeepr.UnitEditor', {
 			columns: [
 			          { text: i18n("Prefix"), dataIndex: "prefix", width: 60 },
 			          { text: i18n("Symbol"), dataIndex: "symbol", width: 60 },
-			          { text: i18n("Power"), dataIndex: "power", flex: 1, renderer: function (val) { return "10<sup>"+val+"</sup>"; } }
+			          { text: i18n("Power"), dataIndex: "exponent", flex: 1, renderer: function (value) { return "10<sup>"+value+"</sup>"; } }
 			          ]
 		});
 
@@ -39,6 +39,7 @@ Ext.define('PartKeepr.UnitEditor', {
 		this.callParent();
 		
 		this.on("startEdit", this.onStartEdit, this);
+		this.on("itemSave", this.onItemSave, this);
 	},
 	onStartEdit: function () {
 		var records = this.record.prefixes().getRange();
@@ -49,9 +50,8 @@ Ext.define('PartKeepr.UnitEditor', {
 		for (var i=0;i<records.length;i++) {
 			toSelect.push(pfxStore.getAt(pfxStore.find("id", records[i].get("id"))));
 		}
-		
-		// @todo I don't like defer too much, can we fix that somehow?
-		Ext.defer(function () { this.gridPanel.getSelectionModel().select(toSelect); }, 100, this);
+
+		this.gridPanel.getSelectionModel().select(toSelect);
 	},
 	onItemSave: function () {
 		var selection = this.gridPanel.getSelectionModel().getSelection();
@@ -59,9 +59,7 @@ Ext.define('PartKeepr.UnitEditor', {
 		this.record.prefixes().removeAll(true);
 		
 		for (var i=0;i<selection.length;i++) {
-			this.record.prefixes().add({id: selection[i].get("id") });
+			this.record.prefixes().add(selection[i]);
 		}
-		
-		this.callParent();
 	}
 });
