@@ -16,7 +16,7 @@ class DefaultController extends DoctrineRESTQueryController
      *
      * @Routing\Route("/siprefix", defaults={"method" = "get","_format" = "json"})
      * @Routing\Method({"GET"})
-     * @ApiDoc(output="array<PartKeepr\SiPrefixBundle\Entity\SiPrefix>")
+     * @ApiDoc(section="siprefix",output="array<PartKeepr\SiPrefixBundle\Entity\SiPrefix>")
      *
      * @View()
      *

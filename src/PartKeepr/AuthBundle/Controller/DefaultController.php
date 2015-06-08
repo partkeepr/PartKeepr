@@ -26,7 +26,7 @@ class DefaultController extends FOSRestController
      * @Routing\Method({"POST"})
      * @RequestParam(name="username", strict=true, description="The username, 3-50 characters. Allowed characters: a-z, A-Z, 0-9, an underscore (_), a backslash (\), a slash (/), a dot (.) or a dash (-)", requirements=@Username, allowBlank=false)
      * @RequestParam(name="password", strict=true, description="The password in MD5 format", requirements=@PasswordMD5Hash, allowBlank=false)
-     * @ApiDoc(output="PartKeepr\AuthBundle\Response\LoginResponse")
+     * @ApiDoc(section="auth",output="PartKeepr\AuthBundle\Response\LoginResponse")
      * @View()
      *
      * @param ParamFetcher $paramFetcher
