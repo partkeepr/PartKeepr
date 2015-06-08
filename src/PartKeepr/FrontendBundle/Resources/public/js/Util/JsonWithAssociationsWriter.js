@@ -6,6 +6,7 @@ Ext.define("PartKeepr.JsonWithAssociations", {
 	 * @cfg {Array} associations Which associations to include.
 	 */
 	associations: [],
+	writeRecordId: false,
 
 	getRecordData: function(record) {
 		var me = this, i, key, subStore,

@@ -5,6 +5,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Templating\EngineInterface;
 
 class ReflectionService {
@@ -48,19 +49,40 @@ class ReflectionService {
 
         $fields = $cm->getFieldNames();
 
-        $mappings = array();
+        $fieldMappings = array();
 
         foreach ($fields as $field) {
             $currentMapping = $cm->getFieldMapping($field);
 
-            $mappings[] = array(
+            $fieldMappings[] = array(
                 "name" => $currentMapping["fieldName"],
                 "type" => $this->getExtJSFieldMapping($currentMapping["type"]),
             );
         }
 
+        $associations = $cm->getAssociationMappings();
+
+        $associationMappings = array();
+
+        foreach ($associations as $association) {
+            $associationType = $association["type"];
+            switch ($association["type"]) {
+                case ClassMetadataInfo::MANY_TO_MANY:
+                    $associationType = "MANY_TO_MANY";
+                    break;
+                //default:
+//                    die("Unknown association ".$association["type"]);
+            }
+
+            $associationMappings[$associationType][] = array(
+                "name" => $association["fieldName"],
+                "target" => $this->convertPHPToExtJSClassName($association["targetEntity"]),
+            );
+        }
+
         $renderParams = array(
-            "fields" => $mappings,
+            "fields" => $fieldMappings,
+            "associations" => $associationMappings,
             "className" => $this->convertPHPToExtJSClassName($entity),
         );
 

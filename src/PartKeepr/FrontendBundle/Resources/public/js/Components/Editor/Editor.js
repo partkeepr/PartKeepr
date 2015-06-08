@@ -1,3 +1,4 @@
+
 Ext.define('PartKeepr.Editor', {
 	extend: 'Ext.form.Panel',
 	alias: 'widget.Editor',

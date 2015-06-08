@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\SiPrefixBundle\Entity;
 
+use JMS\Serializer\Annotation\ReadOnly;
 use PartKeepr\Util\BaseEntity,
     Doctrine\ORM\Mapping as ORM,
     Symfony\Component\Validator\Constraints as Assert,
@@ -23,7 +24,7 @@ class SiPrefix extends BaseEntity
      *
      * @Assert\Type(type="string")
      * @Assert\NotBlank(message="siprefix.prefix.not_blank")
-     *
+     * @ReadOnly()
      * @var string
      */
     private $prefix;
@@ -35,7 +36,7 @@ class SiPrefix extends BaseEntity
      *
      * @Assert\Type(type="string")
      * @Assert\NotBlank(message="siprefix.symbol.not_blank")
-     *
+     * @ReadOnly()
      * @var string
      */
     private $symbol;
@@ -45,7 +46,7 @@ class SiPrefix extends BaseEntity
      *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
-     *
+     * @ReadOnly()
      * @var int
      */
     private $exponent;
@@ -55,7 +56,7 @@ class SiPrefix extends BaseEntity
      *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
-     *
+     * @ReadOnly()
      * @var int
      */
     private $base;

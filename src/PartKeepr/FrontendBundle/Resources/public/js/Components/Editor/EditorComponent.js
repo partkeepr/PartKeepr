@@ -111,7 +111,10 @@ Ext.define('PartKeepr.EditorComponent', {
 		    	editor = this.createEditor(record.get("name"));
 				editor.editItem(record);
 				this.editorTabPanel.add(editor).show();
-		    }
+		    },
+			failure: function(record, operation) {
+				console.log(operation);
+			}
 		});
 	},
 	findEditor: function (id) {
@@ -165,7 +168,7 @@ Ext.define('PartKeepr.EditorComponent', {
 			this.editorTabPanel.remove(editor);
 		}
 		
-		r.destroy();
+		r.erase();
 		this.store.load();
 	},
 	// Creates a store. To be called from child's initComponent

@@ -1,14 +1,12 @@
 <?php
 namespace PartKeepr\UnitBundle\Entity;
 
-use PartKeepr\Unit\ArrayCollection;
-use PartKeepr\Util\Deserializable,
-	PartKeepr\Util\Serializable,
-	PartKeepr\Util\BaseEntity,
-	PartKeepr\PartKeepr,
-	PartKeepr\Util\Exceptions\OutOfRangeException,
+use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use	PartKeepr\Util\BaseEntity,
 	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
     Doctrine\ORM\Mapping as ORM,
+	JMS\Serializer\Annotation\Type,
 	PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 
 
@@ -17,11 +15,14 @@ use PartKeepr\Util\Deserializable,
  *  
  * @ORM\Entity
  * @TargetService(uri="/unit")
+ * @ExclusionPolicy("none")
  **/
-class Unit extends BaseEntity implements Serializable, Deserializable {
+class Unit extends BaseEntity {
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
 	 * @ORM\Column(type="string")
+	 * @Type("string")
+	 *
 	 * @var string
 	 */
 	private $name;
@@ -29,6 +30,7 @@ class Unit extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The symbol of the unit (e.g. V, A, F, m)
 	 * @ORM\Column(type="string")
+	 * @Type("string")
 	 * @var string
 	 */
 	private $symbol;
@@ -40,6 +42,7 @@ class Unit extends BaseEntity implements Serializable, Deserializable {
 	 * 			joinColumns={@ORM\JoinColumn(name="unit_id", referencedColumnName="id")},
 	 * 			inverseJoinColumns={@ORM\JoinColumn(name="siprefix_id", referencedColumnName="id")}
 	 * 			)
+	 * @Type("ArrayCollection<PartKeepr\SiPrefixBundle\Entity\SiPrefix>")
 	 * @var ArrayCollection
 	 */
 	private $prefixes;
@@ -90,45 +93,4 @@ class Unit extends BaseEntity implements Serializable, Deserializable {
 	public function getPrefixes () {
 		return $this->prefixes;
 	}
-
-	/**
-	 * Serializes the user object and returns it as array, suitable
-	 * to process via json_encode.
-	 * @param none
-	 * @return array An array containing the object information
-	 */
-	public function serialize () {
-		return array(
-			"id" => $this->getId(),
-			"name" => $this->getName(),
-			"symbol" => $this->getSymbol(),
-			"prefixes" => $this->serializeChildren($this->getPrefixes())
-		);
-	}
-	
-	/**
-	 * Deserializes the unit
-	 * @param array $parameters The array with the parameters to set
-	 */
-	public function deserialize (array $parameters) {
-		foreach ($parameters as $key => $value) {
-			switch ($key) {
-				case "name":
-					$this->setName($value);
-					break;
-				case "symbol":
-					$this->setSymbol($value);
-					break;
-				case "prefixes":
-					$prefixes = $this->getPrefixes();
-					$prefixes->clear();
-					
-					foreach ($value as $prefix) {
-						$prefix = SiPrefix::loadById($prefix["id"]);
-						$prefixes->add($prefix);
-					}
-					break;
-			}
-		}
-	} 
 }

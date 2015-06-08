@@ -4,14 +4,20 @@
 namespace PartKeepr\DoctrineReflectionBundle\Controller;
 
 
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
+use FOS\RestBundle\View\View;
+use JMS\Serializer\Serializer;
 use PartKeepr\DoctrineReflectionBundle\Filter\Filter;
 use PartKeepr\DoctrineReflectionBundle\Sorter\Sorter;
-use PartKeepr\PartKeepr;
+use PartKeepr\Manager\Exceptions\EntityInUseException;
+use PartKeepr\Util\BaseEntity;
+use Symfony\Component\HttpFoundation\Request;
 
 class DoctrineRESTQueryController extends FOSRestController
 {
@@ -53,7 +59,7 @@ class DoctrineRESTQueryController extends FOSRestController
      * @QueryParam(name="sort", default=null)
      * @QueryParam(name="filter", default=null)
      */
-    public function getQueryResponseAction (ParamFetcher $paramFetcher) {
+    public function listAction (ParamFetcher $paramFetcher) {
         $qb = $this->getQueryBuilder();
 
         $qb->select($this->getQueryAlias())->from($this->getTargetEntity(), $this->getQueryAlias());
@@ -66,10 +72,14 @@ class DoctrineRESTQueryController extends FOSRestController
 
         $paginator = new Paginator($query);
 
-        return array(
-            "totalCount" => count($paginator),
-            "data" => $paginator->getIterator()->getArrayCopy()
-        );
+        $data = array();
+        $data["data"] = $paginator->getIterator()->getArrayCopy();
+        $data["_totalCount"] = count($paginator);
+
+        $view = View::create()
+                ->setStatusCode(200)
+                ->setData($data);
+        return $view;
     }
 
     /**
@@ -243,7 +253,7 @@ class DoctrineRESTQueryController extends FOSRestController
      */
     protected function getQueryBuilder()
     {
-        return PartKeepr::getEM()->createQueryBuilder();
+        return $this->getEM()->createQueryBuilder();
     }
 
     /**
@@ -265,4 +275,69 @@ class DoctrineRESTQueryController extends FOSRestController
 
         return $this->queryAliases[$entity];
     }
+
+    public function getAction ($id) {
+        return array("data" => $this->getEM()->find($this->getTargetEntity(), $id));
+    }
+
+    /**
+     * Returns the entity manager
+     * @return EntityManager
+     */
+    public function getEM () {
+        return $this->get("doctrine")->getEntityManager();
+    }
+
+    public function putAction (Request $request, $id) {
+        $serializer = $this->get("jms_serializer");
+
+        /**
+         * @var $serializer Serializer
+         */
+        $entity = $this->getEM()->find($this->getTargetEntity(), $id);
+
+        $context = new \JMS\Serializer\DeserializationContext();
+        $context->attributes->set('target', $entity);
+
+        $updated = $serializer->deserialize($request->getContent(), $this->getTargetEntity(), 'json', $context);
+
+        $this->getEM()->persist($updated);
+        $this->getEM()->flush();
+
+        return $entity;
+    }
+
+    public function postAction (Request $request) {
+        $serializer = $this->get("jms_serializer");
+
+        /**
+         * @var $serializer Serializer
+         */
+
+        $newEntity = $serializer->deserialize($request->getContent(), $this->getTargetEntity(), 'json');
+
+        $this->getEM()->persist($newEntity);
+        $this->getEM()->flush();
+
+        return $newEntity;
+    }
+
+    public function deleteAction ($id) {
+        /** @var $entity BaseEntity */
+        $entity = $this->getEM()->find($this->getTargetEntity(), $id);
+
+        try {
+            $this->getEM()->remove($entity);
+            $this->getEM()->flush();
+        } catch (ForeignKeyConstraintViolationException $e) {
+            throw new EntityInUseException($entity);
+        }
+
+        $view = View::create()
+            ->setStatusCode(200)
+            ->setData(array("success" => true));
+
+        return $view;
+    }
+
 }

@@ -4,13 +4,22 @@ Ext.define('{{ className }}', {
 
     fields: [
         {% for field in fields %}
-        {
-            name: '{{ field.name }}',
-            type: '{{ field.type }}'
-        }{% if not loop.last %},{% endif %}
+        { name: '{{ field.name }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}}{% if not loop.last %},{% endif %}
 
         {% endfor %}
     ],
+    {% if associations.MANY_TO_MANY|length > 0 %}
+    manyToMany: {
+    {% for association in associations.MANY_TO_MANY %}
+        {{ association.name }}: {
+            type: '{{ association.target }}',
+            role: '{{ association.name }}',
+            field: 'id',
+            right: true
+        } {% if not loop.last %},{% endif %}
+    {% endfor %}
+    },
+    {% endif %}
 
     proxy: {
         type: "PartKeeprREST",

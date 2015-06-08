@@ -22,10 +22,10 @@ class DefaultController extends DoctrineRESTQueryController
      *
      * {@inheritdoc}
      */
-    public function getQueryResponseAction(ParamFetcher $paramFetcher)
+    public function listAction(ParamFetcher $paramFetcher)
     {
         $this->setTargetEntity("PartKeepr\\SiPrefixBundle\\Entity\\SiPrefix");
 
-        return parent::getQueryResponseAction($paramFetcher);
+        return parent::listAction($paramFetcher);
     }
 }
