@@ -19,7 +19,7 @@ class DefaultController extends DoctrineRESTQueryController
      *
      * @Routing\Route("/unit", defaults={"method" = "get","_format" = "json"})
      * @Routing\Method({"GET"})
-     * @ApiDoc(output="array<PartKeepr\UnitBundle\Entity\Unit>")
+     * @ApiDoc(section="unit",output="array<PartKeepr\UnitBundle\Entity\Unit>")
      *
      * @View()
      *
@@ -35,7 +35,7 @@ class DefaultController extends DoctrineRESTQueryController
      *
      * @Routing\Route("/unit/{id}", defaults={"method" = "get","_format" = "json"})
      * @Routing\Method({"GET"})
-     * @ApiDoc()
+     * @ApiDoc(section="unit",output="PartKeepr\UnitBundle\Entity\Unit")
      * @View()
      */
     public function getAction ($id) {
@@ -47,7 +47,7 @@ class DefaultController extends DoctrineRESTQueryController
      *
      * @Routing\Route("/unit/{id}", defaults={"_format" = "json"})
      * @Routing\Method({"PUT"})
-     * @ApiDoc()
+     * @ApiDoc(section="unit",input="PartKeepr\UnitBundle\Entity\Unit",output="PartKeepr\UnitBundle\Entity\Unit")
      *
      * @View()
      */
@@ -57,11 +57,11 @@ class DefaultController extends DoctrineRESTQueryController
     }
 
     /**
-     * Saves a single unit
+     * Creates a single unit
      *
      * @Routing\Route("/unit", defaults={"_format" = "json"})
      * @Routing\Method({"POST"})
-     * @ApiDoc()
+     * @ApiDoc(section="unit",input="PartKeepr\UnitBundle\Entity\Unit",output="PartKeepr\UnitBundle\Entity\Unit")
      *
      * @View()
      */
@@ -75,7 +75,7 @@ class DefaultController extends DoctrineRESTQueryController
      *
      * @Routing\Route("/unit/{id}", defaults={"_format" = "json"})
      * @Routing\Method({"DELETE"})
-     * @ApiDoc()
+     * @ApiDoc(section="unit")
      *
      * @View()
      */
