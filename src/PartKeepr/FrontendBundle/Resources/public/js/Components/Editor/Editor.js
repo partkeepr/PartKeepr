@@ -85,9 +85,9 @@ Ext.define('PartKeepr.Editor', {
 		this.getForm().loadRecord(this.record);
 		this.show();
 		if (this.record.get("name") !== "") {
-			this._setTitle(this.record.get("name"));
+			this.setTitle(this.record.get("name"));
 		}
-		
+
 		this.change = false;
 		this.fireEvent("startEdit", this);
 	},
@@ -126,9 +126,7 @@ Ext.define('PartKeepr.Editor', {
 			this.record = record;
 			this.fireEvent("itemSaved", this.record);			
 		}
-	},
-	_setTitle: function (title) {
-		// Not sure why this was here - in ExtJS 4.1, this creates a title bar, which we do not want.
-		//this.setTitle(title);
+
+        this.editItem(record);
 	}
 });
