@@ -82,13 +82,27 @@ doctrine:
 twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
-services:
-    jms_serializer.object_constructor:
-        alias: jms_serializer.initialized_object_constructor
-        public: false
-    jms_serializer.initialized_object_constructor:
-         class:        PartKeepr\DoctrineReflectionBundle\Services\InitializedObjectConstructor
-         arguments:    ["@jms_serializer.doctrine_object_constructor"]
+dunglas_api:
+    title:       "Your API name"                    # The title of the API.
+    description: "The full description of your API" # The description of the API.
 
-parameters:
-    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+nelmio_api_doc:
+    sandbox:
+        accept_type:        "application/json"
+        body_format:
+            formats:        [ "json" ]
+            default_format: "json"
+        request_format:
+            formats:
+                json:       "application/json"
+
+services:
+    resource.unit:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\UnitBundle\Entity\Unit" ]
+        tags:      [ { name: "api.resource" } ]
+
+    resource.siprefix:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\SiPrefixBundle\Entity\SiPrefix" ]
+        tags:      [ { name: "api.resource" } ]

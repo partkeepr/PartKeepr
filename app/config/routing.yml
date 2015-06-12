@@ -16,3 +16,8 @@ partkeepr_siprefixbundle:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
+
+api:
+    resource: "."
+    type:     "api"
+    prefix:   "/api" # Optional

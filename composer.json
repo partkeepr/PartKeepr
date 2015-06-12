@@ -37,7 +37,7 @@
         "sensio/framework-extra-bundle": "~2.3",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
-        "nelmio/api-doc-bundle": "2.8.0",
+        "nelmio/api-doc-bundle": "2.9.0",
         "friendsofsymfony/rest-bundle": "1.5.0",
         "jms/serializer-bundle": "0.13.0",
         "cbsi/doctrine2-nestedset": "dev-master",
@@ -45,7 +45,9 @@
         "fortawesome/font-awesome": "4.1.0",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "symfony/doctrine-bridge": "2.7.x-dev",
-        "knplabs/knp-paginator-bundle": "2.4.1"
+        "knplabs/knp-paginator-bundle": "2.4.1",
+        "dunglas/api-bundle": "1.0.*@dev",
+        "symfony/serializer": "2.7.1"
     },
     "autoload": {
         "psr-0": { "": "src/",

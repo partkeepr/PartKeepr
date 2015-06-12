@@ -53,7 +53,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new FOS\RestBundle\FOSRestBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
@@ -61,6 +60,7 @@ class AppKernel extends Kernel
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
             new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
             new PartKeepr\UnitBundle\PartKeeprUnitBundle(),
+            new Dunglas\ApiBundle\DunglasApiBundle(),
         );
 
         // Developer bundles

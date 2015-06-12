@@ -15,8 +15,27 @@ use PartKeepr\Util\BaseEntity,
  * @ORM\Entity
  * @TargetService(uri="/siprefix")
  */
-class SiPrefix extends BaseEntity
+class SiPrefix
 {
+    /**
+     * @ORM\Id @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * Returns the ID of this object.
+     *
+     * @param none
+     *
+     * @return int The ID of this object
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * The prefix name of the Si-Prefix (e.g. yotta, deca, deci, centi)
      *

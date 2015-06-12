@@ -9,7 +9,6 @@ use	PartKeepr\Util\BaseEntity,
 	JMS\Serializer\Annotation\Type,
 	PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 
-
 /**
  * This object represents an unit. Units can be: Volt, Hertz etc. 
  *  
@@ -17,7 +16,26 @@ use	PartKeepr\Util\BaseEntity,
  * @TargetService(uri="/unit")
  * @ExclusionPolicy("none")
  **/
-class Unit extends BaseEntity {
+class Unit {
+	/**
+	 * @ORM\Id @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @var integer
+	 */
+	private $id;
+
+	/**
+	 * Returns the ID of this object.
+	 *
+	 * @param none
+	 *
+	 * @return int The ID of this object
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
 	 * @ORM\Column(type="string")
