@@ -11,6 +11,8 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 class DefaultController extends DoctrineRESTQueryController
 {
+    protected $targetEntity = "PartKeepr\\SiPrefixBundle\\Entity\\SiPrefix";
+
     /**
      * Retrieves SI Prefixes in the database
      *
@@ -24,8 +26,6 @@ class DefaultController extends DoctrineRESTQueryController
      */
     public function listAction(ParamFetcher $paramFetcher)
     {
-        $this->setTargetEntity("PartKeepr\\SiPrefixBundle\\Entity\\SiPrefix");
-
         return parent::listAction($paramFetcher);
     }
 }
