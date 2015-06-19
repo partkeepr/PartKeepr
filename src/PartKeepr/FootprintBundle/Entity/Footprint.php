@@ -1,6 +1,5 @@
 <?php 
 namespace PartKeepr\FootprintBundle\Entity;
-use JMS\Serializer\Annotation\ExclusionPolicy;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\Deserializable;
 
@@ -12,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @TargetService(uri="/footprint")
- * @ExclusionPolicy("none")
  */
 
 class Footprint extends BaseEntity implements Serializable, Deserializable {

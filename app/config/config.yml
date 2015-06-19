@@ -25,6 +25,7 @@ sensio_framework_extra:
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
+    serializer:      { enable_annotations: true }
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -85,6 +86,10 @@ twig:
 dunglas_api:
     title:       "Your API name"                    # The title of the API.
     description: "The full description of your API" # The description of the API.
+    collection:
+        pagination:
+            items_per_page:
+                enable_client_request: true
 
 nelmio_api_doc:
     sandbox:
@@ -106,3 +111,6 @@ services:
         parent:    "api.resource"
         arguments: [ "PartKeepr\SiPrefixBundle\Entity\SiPrefix" ]
         tags:      [ { name: "api.resource" } ]
+
+    api.name_converter:
+        class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter

@@ -60,6 +60,7 @@ class AppKernel extends Kernel
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
             new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
             new PartKeepr\UnitBundle\PartKeeprUnitBundle(),
+            new PartKeepr\PartBundle\PartKeeprPartBundle(),
             new Dunglas\ApiBundle\DunglasApiBundle(),
         );
 
@@ -75,6 +76,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\FrontendBundle\PartKeeprFrontendBundle();
         $bundles[] = new PartKeepr\SiPrefixBundle\PartKeeprSiPrefixBundle();
         $bundles[] = new PartKeepr\AuthBundle\PartKeeprAuthBundle();
+        $bundles[] = new PartKeepr\FootprintBundle\PartKeeprFootprintBundle();
 
         return $bundles;
     }

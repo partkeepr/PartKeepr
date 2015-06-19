@@ -3,7 +3,6 @@ namespace PartKeepr\PartBundle\Entity;
 
 use PartKeepr\Category\AbstractCategory,
     Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="PartKeepr\PartBundle\Entity\Repository\PartCategoryRepository")
@@ -16,7 +15,6 @@ class PartCategory extends AbstractCategory {
      * @ORM\ManyToOne(targetEntity="PartCategory", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      *
-     * @Gedmo\TreeParent
      * @var int
      */
     private $parent;

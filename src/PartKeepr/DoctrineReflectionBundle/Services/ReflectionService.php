@@ -54,6 +54,11 @@ class ReflectionService {
         foreach ($fields as $field) {
             $currentMapping = $cm->getFieldMapping($field);
 
+            if ($currentMapping["fieldName"] == "id") {
+                $currentMapping["fieldName"] = "@id";
+                $currentMapping["type"] = "string";
+            }
+
             $fieldMappings[] = array(
                 "name" => $currentMapping["fieldName"],
                 "type" => $this->getExtJSFieldMapping($currentMapping["type"]),

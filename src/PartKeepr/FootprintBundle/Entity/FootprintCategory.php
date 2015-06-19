@@ -18,7 +18,6 @@ class FootprintCategory extends AbstractCategory {
      * @ORM\ManyToOne(targetEntity="FootprintCategory", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      *
-     * @Gedmo\TreeParent
      * @var int
      */
     private $parent;

@@ -2,9 +2,10 @@ Ext.define('{{ className }}', {
     extend: 'Ext.data.Model',
     alias: 'schema.{{ className }}',
 
+    idProperty: "@id",
     fields: [
         {% for field in fields %}
-        { name: '{{ field.name }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}}{% if not loop.last %},{% endif %}
+        { name: '{{ field.name|raw }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}}{% if not loop.last %},{% endif %}
 
         {% endfor %}
     ],

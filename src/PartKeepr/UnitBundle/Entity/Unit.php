@@ -11,7 +11,7 @@ use	PartKeepr\Util\BaseEntity,
  * This object represents an unit. Units can be: Volt, Hertz etc. 
  *  
  * @ORM\Entity
- * @TargetService(uri="/unit")
+ * @TargetService(uri="/api/units")
  **/
 class Unit {
 	/**

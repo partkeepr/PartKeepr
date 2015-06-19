@@ -1,14 +1,13 @@
 <?php 
 namespace PartKeepr\Category;
 
+use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Serializable;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
+use DoctrineExtensions\NestedSet\Node;
 
 /**
- * @Gedmo\Tree(type="nested")
- * @ORM\MappedSuperclass
+ * @ORM\MappedSuperclass()
  * @ORM\Table(indexes={@ORM\Index(columns={"lft"}),@ORM\Index(columns={"rgt"})})
  * 
  * Represents an abstract category. This class isn't directly usable; you need to inherit it to take advantage of
@@ -16,11 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  * If you are interested on how NestedSets work, please read http://en.wikipedia.org/wiki/Nested_set_model
  */
-class AbstractCategory extends BaseEntity {
+class AbstractCategory extends BaseEntity implements Node, Serializable {
     /**
      * The "left" property of the nested set
      * @ORM\Column(type="integer")
-     * @Gedmo\TreeLeft
      * @var integer
      */
     private $lft;
@@ -28,7 +26,6 @@ class AbstractCategory extends BaseEntity {
     /**
      * The "right" property of the nested set
      * @ORM\Column(type="integer")
-     * @Gedmo\TreeRight
      * @var integer
      */
     private $rgt;
@@ -47,17 +44,13 @@ class AbstractCategory extends BaseEntity {
 	 */
 	private $description;
 	
-    /**
-     * @Gedmo\TreeRoot
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $root;
-
-    /**
-     * @Gedmo\TreeLevel
-     * @ORM\Column(name="lvl", type="integer")
-     */
-    private $level;
+	/**
+	 * Holds the parent node ID. Note that this
+	 * is not a persistant value, but rather calculated
+	 * or set on the fly.
+	 * @var int
+	 */
+	private $parent;
 
 	/**
 	 * Holds the category path.

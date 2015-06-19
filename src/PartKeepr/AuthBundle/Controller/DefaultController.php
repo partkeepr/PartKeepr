@@ -56,7 +56,7 @@ class DefaultController extends FOSRestController
         $loginResponse->sessionId = $session->getSessionID();
         $loginResponse->username = $paramFetcher->get("username");
         $loginResponse->isAdmin = $session->getUser()->isAdmin();
-        $loginResponse->userPreferences = $session->getUser()->getPreferences();
+        //$loginResponse->userPreferences = $session->getUser()->getPreferences();
 
         return $loginResponse;
     }
