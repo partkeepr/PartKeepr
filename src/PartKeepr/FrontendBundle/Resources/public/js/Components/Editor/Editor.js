@@ -93,7 +93,7 @@ Ext.define('PartKeepr.Editor', {
 	},
 	getRecordId: function () {
 		if (this.record) {
-			return this.record.get("id");
+			return this.record.getId();
 		} else {
 			return null;
 		}

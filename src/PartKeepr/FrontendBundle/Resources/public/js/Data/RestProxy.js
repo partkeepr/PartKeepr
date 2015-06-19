@@ -3,14 +3,14 @@ Ext.define("PartKeepr.data.RestProxy", {
     alias: 'proxy.PartKeeprREST',
 
     reader: {
-        type: 'json',
-        rootProperty: 'data',
-        totalProperty: '_totalCount'
+        type: 'hydra',
     },
     writer: {
         type: 'jsonwithassociations'
     },
-    appendId: true,
+    appendId: false,
+    limitParam: "itemsPerPage",
+    sortParam: "",
 
     constructor: function (config) {
         config.url = PartKeepr.getBasePath() + config.url;
@@ -52,4 +52,41 @@ Ext.define("PartKeepr.data.RestProxy", {
             }
         }
     },
+    buildUrl: function (request) {
+        var operation = request.getOperation();
+
+        // Set the URI to the ID, as JSON-LD operates on IRIs.
+        if (request.getAction() == "read") {
+            if (operation.getId()) {
+                request.setUrl(operation.getId());
+            }
+        }
+
+        if (request.getAction() == "update") {
+            if (request.getRecords().length > 1) {
+                throw "The amount of records updating must be exactly one";
+            }
+            this.api.update = request.getRecords()[0].getId();
+        }
+
+        return this.callParent([request]);
+    },
+    getParams: function (operation) {
+        if (!operation.isReadOperation) {
+            return {};
+        }
+
+        var params = this.callParent(arguments);
+        var out = [],
+            i,
+            sorters = operation.getSorters();
+
+        if (sorters) {
+            for (i = 0; i < operation.getSorters().length; i++) {
+                params["order[" + sorters[i].getProperty() + "]"] = sorters[i].getDirection();
+            }
+        }
+
+        return params;
+    }
 });

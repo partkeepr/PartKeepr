@@ -91,6 +91,7 @@ Ext.define('PartKeepr.EditorComponent', {
 	 * @param {Record} record The record to edit
 	 */
 	startEdit: function (id) {
+		console.log(id);
 		/* Search for an open editor for the current record. If we
 		 * already have an editor, show the editor instead of loading
 		 * a new record.
@@ -113,6 +114,7 @@ Ext.define('PartKeepr.EditorComponent', {
 				this.editorTabPanel.add(editor).show();
 		    },
 			failure: function(record, operation) {
+				console.log(record);
 				console.log(operation);
 			}
 		});
@@ -162,8 +164,8 @@ Ext.define('PartKeepr.EditorComponent', {
 				},this);
 	},
 	deleteRecord: function (r) {
-		var editor = this.findEditor(r.get("id"));
-		
+		var editor = this.findEditor(r.getId()("id"));
+
 		if (editor !== null) {
 			this.editorTabPanel.remove(editor);
 		}

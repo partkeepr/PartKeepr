@@ -106,11 +106,19 @@ services:
         parent:    "api.resource"
         arguments: [ "PartKeepr\UnitBundle\Entity\Unit" ]
         tags:      [ { name: "api.resource" } ]
-
+        calls:
+            -      method:    "initFilters"
+                   arguments: [ [ "@resource.unit.order_filter" ] ]
+    resource.unit.order_filter:
+        parent:    "api.doctrine.orm.order_filter"
+        arguments: [ ~ ] # This line can also be omitted
     resource.siprefix:
         parent:    "api.resource"
         arguments: [ "PartKeepr\SiPrefixBundle\Entity\SiPrefix" ]
         tags:      [ { name: "api.resource" } ]
+        calls:
+            -      method:    "initFilters"
+                   arguments: [ [ "@resource.unit.order_filter" ] ]
 
     api.name_converter:
         class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter

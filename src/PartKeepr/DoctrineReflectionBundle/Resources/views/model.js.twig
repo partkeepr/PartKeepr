@@ -15,7 +15,7 @@ Ext.define('{{ className }}', {
         {{ association.name }}: {
             type: '{{ association.target }}',
             role: '{{ association.name }}',
-            field: 'id',
+            field: '@id',
             right: true
         } {% if not loop.last %},{% endif %}
     {% endfor %}
