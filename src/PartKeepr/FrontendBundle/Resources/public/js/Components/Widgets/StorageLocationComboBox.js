@@ -18,7 +18,7 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
     initComponent: function () {
 		this.store = Ext.create("Ext.data.Store",
 			{
-				model: 'PartKeepr.StorageLocation',
+				model: 'PartKeepr.StorageLocation.StorageLocation',
 				proxy: PartKeepr.getRESTProxy("StorageLocation"),
 				pageSize: -1,
 				autoLoad: true

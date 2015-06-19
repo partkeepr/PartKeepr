@@ -49,31 +49,22 @@ Ext.define('PartKeepr.RemoteImageField', {
     onRender: function() {
         var me = this;
 
-        me.onLabelableRender();
+        /**
+         * @todo what did we use this for?
+         */
 
-        me.addChildEls('imgEl');
+        //me.onLabelableRender();
+        //me.addChildEls('imgEl');
 
         me.callParent(arguments);
     },
-    /*onRender: function () {
-    	 var me = this,
-         renderSelectors = me.renderSelectors;
-
-    	 Ext.applyIf(renderSelectors, me.getLabelableSelectors());
-
-    	 Ext.applyIf(renderSelectors, {
-    		 imgEl: 'img.remoteimagefield'
-    	 });
-
-    	 me.callParent(arguments);
-    },*/
     /**
      * Applies the image URL to the element after rendering
      */
     afterRender: function () {
-    	this.imgEl.dom.src = this.getImageURL();
+    	//this.imgEl.dom.src = this.getImageURL();
     	
-    	this.imgEl.on("click", this.onClick, this);
+    	//this.imgEl.on("click", this.onClick, this);
     },
     onClick: function () {
     	var j = Ext.create("PartKeepr.FileUploadDialog", { imageUpload: true });

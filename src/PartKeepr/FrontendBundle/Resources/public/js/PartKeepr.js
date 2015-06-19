@@ -51,8 +51,17 @@ Ext.application({
      * enables the menu bar and creates the stores+loads them.
      */
     onLogin: function () {
+		var j = new Ext.create("PartKeepr.FootprintEditorComponent");
+
+		var k = new Ext.create("Ext.Window", {
+			items: j
+		});
+
+		k.show();
+		return;
     	this.createGlobalStores();
-    	
+
+
     	if (window.parameters.userPreferences) {
     		PartKeepr.getApplication().setInitialUserPreferences(window.parameters.userPreferences);
     	}
@@ -226,7 +235,7 @@ Ext.application({
     createGlobalStores: function () {
     	this.footprintStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.Footprint.Footprint',
+    				model: 'PartKeepr.FootprintBundle.Entity.Footprint',
     				pageSize: -1,
     				autoLoad: false
     			});
@@ -254,28 +263,28 @@ Ext.application({
     	
     	this.partUnitStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.PartUnit.PartUnit',
+    				model: 'PartKeepr.Part.PartUnit',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.unitStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.Unit',
+    				model: 'PartKeepr.UnitBundle.Entity.Unit',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.userStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.User',
+    				model: 'PartKeepr.AuthBundle.Entity.User.User',
     				pageSize: -1,
     				autoLoad: false
     			});
     	
     	this.tipOfTheDayStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.TipOfTheDay',
+    				model: 'PartKeepr.TipOfTheDay.TipOfTheDay',
     				pageSize: -1,
     				autoLoad: true,
     				listeners: {
@@ -286,7 +295,7 @@ Ext.application({
     	
     	this.userPreferenceStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.UserPreference',
+    				model: 'PartKeepr.UserPreference.UserPreference',
     				pageSize: -1,
     				autoLoad: false,
     				listeners: {

@@ -157,7 +157,7 @@ class PartKeepr {
 			'PartKeepr\Footprint\Footprint',
 			'PartKeepr\Footprint\FootprintImage',
 			'PartKeepr\Footprint\FootprintAttachment',
-			'PartKeepr\FootprintCategory\FootprintCategory',
+			'PartKeepr\FootprintBundle\Entity\FootprintCategory',
 
 			'PartKeepr\Part\Part',
 			'PartKeepr\Part\PartUnit',
@@ -165,7 +165,7 @@ class PartKeepr {
 			'PartKeepr\Part\PartDistributor',
 			'PartKeepr\Part\PartImage',
 			'PartKeepr\Part\PartAttachment',
-			'PartKeepr\PartCategory\PartCategory',
+			'PartKeepr\PartBundle\Entity\PartCategory',
 				
 			'PartKeepr\Printing\PageBasicLayout\PageBasicLayout',
 			'PartKeepr\Printing\PrintingJob\PrintingJob',

@@ -1,12 +1,12 @@
 <?php
 namespace PartKeepr\Setup;
 
-use PartKeepr\Footprint\FootprintManager,
-	PartKeepr\FootprintCategory\FootprintCategoryManager,
-	PartKeepr\FootprintCategory\FootprintCategory,
-	PartKeepr\Footprint\Footprint,
-	PartKeepr\Footprint\FootprintImage,
-	PartKeepr\Footprint\FootprintAttachment,
+use \PartKeepr\FootprintBundle\Entity\FootprintManager,
+	\PartKeepr\FootprintBundle\Entity\FootprintCategoryManager,
+	\PartKeepr\FootprintBundle\Entity\FootprintCategory,
+	\PartKeepr\FootprintBundle\Entity\Footprint,
+	\PartKeepr\FootprintBundle\Entity\FootprintImage,
+	\PartKeepr\FootprintBundle\Entity\FootprintAttachment,
 	PartKeepr\PartKeepr,
 	PartKeepr\Setup\Setup;
 

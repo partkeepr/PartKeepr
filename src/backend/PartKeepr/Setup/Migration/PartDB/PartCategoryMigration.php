@@ -2,8 +2,8 @@
 namespace PartKeepr\Setup\Migration\PartDB;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\PartCategory\PartCategory,
-	PartKeepr\PartCategory\PartCategoryManager,
+	\PartKeepr\PartBundle\Entity\PartCategory,
+	\PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\Setup\AbstractSetup;
 
 class PartCategoryMigration extends AbstractSetup {

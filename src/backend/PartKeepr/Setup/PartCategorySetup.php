@@ -2,8 +2,8 @@
 namespace PartKeepr\Setup;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\PartCategory\PartCategoryManager,
-	PartKeepr\PartCategory\PartCategory;
+	\PartKeepr\PartBundle\Entity\PartCategoryManager,
+	\PartKeepr\PartBundle\Entity\PartCategory;
 
 class PartCategorySetup extends AbstractSetup {
 	/**

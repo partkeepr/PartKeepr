@@ -23,6 +23,6 @@ Ext.define('{{ className }}', {
 
     proxy: {
         type: "PartKeeprREST",
-        url: '{{ uri|raw }}'
+        url: '{% if uri == "" %}undefined:{{ className }}{% else %}{{ uri|raw }}{% endif %}'
     }
 });

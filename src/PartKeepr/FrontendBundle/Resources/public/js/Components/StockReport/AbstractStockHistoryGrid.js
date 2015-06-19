@@ -66,7 +66,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
                   }
 	          }];
 	},
-    model: 'PartKeepr.StockEntry',
+    model: 'PartKeepr.Stock.StockEntry',
     /**
      * Initializes the stock history grid.
      */
@@ -80,7 +80,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 			remoteFilter: true,
 			remoteSort: true,
 			proxy: PartKeepr.getRESTProxy("Stock"),
-			model: 'PartKeepr.StockEntry',
+			model: this.model,
  			sorters: [{
 	 			property: 'dateTime',
  				direction:'DESC'

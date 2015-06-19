@@ -3,7 +3,7 @@ namespace PartKeepr\Tests\Part;
 
 use PartKeepr\Distributor\DistributorService;
 
-use PartKeepr\PartCategory\PartCategoryManager,
+use \PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\Part\PartService,
 	PartKeepr\PartKeepr,
 	PartKeepr\Part\Part,

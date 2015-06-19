@@ -4,7 +4,7 @@ namespace PartKeepr\Testing;
 use PartKeepr\PartKeepr,
     PartKeepr\Setup\Migration\PartDB\PartDBMigration,
     PartKeepr\Util\Configuration,
-    PartKeepr\PartCategory\PartCategoryManager;
+    \PartKeepr\PartBundle\Entity\PartCategoryManager;
 
 
 use PartKeepr\Setup\Setup;

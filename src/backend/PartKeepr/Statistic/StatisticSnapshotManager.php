@@ -6,7 +6,7 @@ use PartKeepr\Util\Singleton,
 	PartKeepr\Part\PartManager,
 	PartKeepr\PartUnit\PartUnitManager,
 	PartKeepr\PartKeepr,
-	PartKeepr\PartCategory\PartCategoryManager,
+	\PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\PartUnit\Exceptions\PartUnitNotFoundException;
 
 class StatisticSnapshotManager extends Singleton {

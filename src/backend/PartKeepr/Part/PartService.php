@@ -3,8 +3,8 @@ namespace PartKeepr\Part;
 
 use PartKeepr\AuthBundle\Entity\User\User;
 use PartKeepr\Manager\ManagerFilter;
-use PartKeepr\PartCategory\PartCategory;
-use PartKeepr\PartCategory\PartCategoryManager;
+use \PartKeepr\PartBundle\Entity\PartCategory;
+use \PartKeepr\PartBundle\Entity\PartCategoryManager;
 use PartKeepr\PartKeepr;
 use PartKeepr\Service\RestfulService;
 use PartKeepr\Service\Service;

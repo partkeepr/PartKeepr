@@ -5,7 +5,7 @@ use PartKeepr\Part\PartUnit,
 	PartKeepr\Service\Service,
 	PartKeepr\PartKeepr,
 	PartKeepr\Part\PartManager,
-	PartKeepr\PartCategory\PartCategoryManager,
+	\PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\PartUnit\PartUnitManager;
 
 class StatisticService extends Service {

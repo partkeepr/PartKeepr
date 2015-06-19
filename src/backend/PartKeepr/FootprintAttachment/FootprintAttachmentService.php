@@ -1,12 +1,12 @@
 <?php
 namespace PartKeepr\FootprintAttachment;
 
-use PartKeepr\Footprint\FootprintAttachment,
+use \PartKeepr\FootprintBundle\Entity\FootprintAttachment,
 	PartKeepr\UploadedFile\TempUploadedFile,
 	PartKeepr\Service\RestfulService,
 	PartKeepr\Service\Service,
 	PartKeepr\PartKeepr,
-	PartKeepr\Footprint\Footprint,
+	\PartKeepr\FootprintBundle\Entity\Footprint,
 	PartKeepr\Session\SessionManager;
 
 class FootprintAttachmentService extends Service implements RestfulService {
