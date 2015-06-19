@@ -206,7 +206,7 @@ Ext.define('PartKeepr.EditorGrid', {
 	 * Called when an item should be edited
 	 */
 	_onItemEdit: function (view, record) {
-		this.fireEvent("itemEdit", record.get("id"));
+		this.fireEvent("itemEdit", record.getId());
 	},
 	/**
 	 * Called when an item was selected
