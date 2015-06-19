@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr\Util;
 
-use JMS\Serializer\Annotation\Type;
 use Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\MappedSuperclass */
@@ -9,7 +8,6 @@ class BaseEntity {
 	/**
 	* @ORM\Id @ORM\Column(type="integer")
 	* @ORM\GeneratedValue(strategy="AUTO")
-	* @Type("integer")
 	* @var integer
 	*/
 	private $id;

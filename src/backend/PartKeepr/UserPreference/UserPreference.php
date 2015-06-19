@@ -8,7 +8,6 @@ use PartKeepr\PartKeepr;
 use PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException;
 use PartKeepr\Util\Exceptions\EntityNotPersistantException;
 use PartKeepr\Util\Serializable;
-use JMS\Serializer\Annotation as JMS;
 
 /**
  * Represents a user preference entry.
@@ -19,14 +18,13 @@ use JMS\Serializer\Annotation as JMS;
  * Note that values are stored internally as serialized PHP values to keep their type.
  *
  * @ORM\Entity
- * @JMS\ExclusionPolicy("ALL")
+ *
  **/
 class UserPreference implements Serializable {
 	/**
 	 * Defines the key of the user preference
 	 * @ORM\Column(type="string",length=255)
 	 * @ORM\Id
-     * @JMS\Expose
 	 * @var string
 	 */
 	private $preferenceKey;
@@ -34,9 +32,7 @@ class UserPreference implements Serializable {
 	/**
 	 * Defines the value. Note that the value is internally stored as a serialized string.
      *
-     * @JMS\Accessor(getter="getValue",setter="setValue")
 	 * @ORM\Column(type="text")
-     * @JMS\Expose
 	 * @var mixed
 	 */
 	private $preferenceValue;

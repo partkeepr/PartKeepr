@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr\SiPrefixBundle\Entity;
 
-use JMS\Serializer\Annotation\ReadOnly;
 use PartKeepr\Util\BaseEntity,
     Doctrine\ORM\Mapping as ORM,
     Symfony\Component\Validator\Constraints as Assert,
@@ -13,7 +12,7 @@ use PartKeepr\Util\BaseEntity,
  * @link http://en.wikipedia.org/wiki/Metric_prefix
  *
  * @ORM\Entity
- * @TargetService(uri="/siprefix")
+ * @TargetService(uri="/api/si_prefixes")
  */
 class SiPrefix
 {
@@ -43,7 +42,6 @@ class SiPrefix
      *
      * @Assert\Type(type="string")
      * @Assert\NotBlank(message="siprefix.prefix.not_blank")
-     * @ReadOnly()
      * @var string
      */
     private $prefix;
@@ -55,7 +53,6 @@ class SiPrefix
      *
      * @Assert\Type(type="string")
      * @Assert\NotBlank(message="siprefix.symbol.not_blank")
-     * @ReadOnly()
      * @var string
      */
     private $symbol;
@@ -65,7 +62,6 @@ class SiPrefix
      *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
-     * @ReadOnly()
      * @var int
      */
     private $exponent;
@@ -75,7 +71,6 @@ class SiPrefix
      *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
-     * @ReadOnly()
      * @var int
      */
     private $base;

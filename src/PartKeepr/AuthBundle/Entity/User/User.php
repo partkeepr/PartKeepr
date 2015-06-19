@@ -2,7 +2,6 @@
 namespace PartKeepr\AuthBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Table;
 use PartKeepr\PartKeepr;
 use PartKeepr\UserPreference\UserPreference;
 use PartKeepr\Util\BaseEntity;

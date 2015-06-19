@@ -2,11 +2,9 @@
 namespace PartKeepr\UnitBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use JMS\Serializer\Annotation\ExclusionPolicy;
 use	PartKeepr\Util\BaseEntity,
 	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
     Doctrine\ORM\Mapping as ORM,
-	JMS\Serializer\Annotation\Type,
 	PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 
 /**
@@ -14,7 +12,6 @@ use	PartKeepr\Util\BaseEntity,
  *  
  * @ORM\Entity
  * @TargetService(uri="/unit")
- * @ExclusionPolicy("none")
  **/
 class Unit {
 	/**
@@ -39,7 +36,6 @@ class Unit {
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
 	 * @ORM\Column(type="string")
-	 * @Type("string")
 	 *
 	 * @var string
 	 */
@@ -48,7 +44,6 @@ class Unit {
 	/**
 	 * The symbol of the unit (e.g. V, A, F, m)
 	 * @ORM\Column(type="string")
-	 * @Type("string")
 	 * @var string
 	 */
 	private $symbol;
@@ -60,7 +55,6 @@ class Unit {
 	 * 			joinColumns={@ORM\JoinColumn(name="unit_id", referencedColumnName="id")},
 	 * 			inverseJoinColumns={@ORM\JoinColumn(name="siprefix_id", referencedColumnName="id")}
 	 * 			)
-	 * @Type("ArrayCollection<PartKeepr\SiPrefixBundle\Entity\SiPrefix>")
 	 * @var ArrayCollection
 	 */
 	private $prefixes;
