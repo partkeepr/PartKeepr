@@ -19,13 +19,13 @@ use PartKeepr\UploadedFile\TempUploadedFile,
 	PartKeepr\PartUnit\PartUnitManager,
 	PartKeepr\Distributor\Distributor,
 	PartKeepr\Manufacturer\Manufacturer,
-	PartKeepr\Footprint\FootprintManager,
+	\PartKeepr\FootprintBundle\Entity\FootprintManager,
 	PartKeepr\Session\SessionManager,
 	PartKeepr\Stock\StockEntry,
 	PartKeepr\Util\Singleton,
-	PartKeepr\Footprint\Footprint,
+	\PartKeepr\FootprintBundle\Entity\Footprint,
 	PartKeepr\PartKeepr,
-	PartKeepr\PartCategory\PartCategoryManager,
+	\PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\Manufacturer\ManufacturerManager;
 
 class PartManager extends AbstractManager {

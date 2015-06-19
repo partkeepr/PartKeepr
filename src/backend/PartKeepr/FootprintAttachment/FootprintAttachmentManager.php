@@ -2,7 +2,7 @@
 namespace PartKeepr\FootprintAttachment;
 
 use PartKeepr\Util\Singleton,
-	PartKeepr\Footprint\Footprint,
+	\PartKeepr\FootprintBundle\Entity\Footprint,
 	PartKeepr\PartKeepr;
 
 class FootprintAttachmentManager extends Singleton {

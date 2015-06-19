@@ -2,9 +2,9 @@
 namespace PartKeepr\Setup\Migration\PartDB;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\Footprint\Footprint,
-	PartKeepr\Footprint\FootprintManager,
-	PartKeepr\FootprintCategory\FootprintCategoryManager,
+	\PartKeepr\FootprintBundle\Entity\Footprint,
+	\PartKeepr\FootprintBundle\Entity\FootprintManager,
+	\PartKeepr\FootprintBundle\Entity\FootprintCategoryManager,
 	PartKeepr\Setup\FootprintSetup;
 
 class FootprintMigration extends FootprintSetup {

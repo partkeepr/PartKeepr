@@ -2,7 +2,7 @@
 namespace PartKeepr\Tests;
 
 use PartKeepr\AuthBundle\Entity\User\User;
-use PartKeepr\PartCategory\PartCategoryManager;
+use \PartKeepr\PartBundle\Entity\PartCategoryManager;
 use PartKeepr\PartKeepr;
 
 include(dirname(__DIR__). "/src/backend/PartKeepr/PartKeepr.php");

@@ -61,6 +61,8 @@ class AppKernel extends Kernel
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
             new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
             new PartKeepr\UnitBundle\PartKeeprUnitBundle(),
+            new PartKeepr\FootprintBundle\PartKeeprFootprintBundle(),
+            new PartKeepr\PartBundle\PartKeeprPartBundle(),
         );
 
         // Developer bundles

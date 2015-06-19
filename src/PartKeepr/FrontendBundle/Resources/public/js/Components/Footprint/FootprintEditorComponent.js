@@ -4,10 +4,9 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 	navigationClass: 'PartKeepr.FootprintTree',
 	editorClass: 'PartKeepr.FootprintEditor',
 	newItemText: i18n("New Footprint"),
-	model: 'PartKeepr.Footprint',
+	model: 'PartKeepr.FootprintBundle.Entity.Footprint',
 	initComponent: function () {
 		this.createStore({
-			proxy: PartKeepr.getRESTProxy("Footprint"),
 			sorters: [{
 	              property: 'name',
 	              direction:'ASC'
@@ -15,7 +14,6 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 		});
 		
 		this.callParent();
-		
 	},
 	deleteRecord: function (r) {
 		var editor = this.findEditor(r.get("id"));
@@ -34,7 +32,5 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 		}, this));
 		
 		call.doCall();
-		
-		
 	}
 });

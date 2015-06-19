@@ -2,10 +2,10 @@
 namespace PartKeepr\Part;
 
 use PartKeepr\StorageLocation\StorageLocation,
-	PartKeepr\Footprint\Footprint,
-	PartKeepr\PartCategory\PartCategoryManager,
+	\PartKeepr\FootprintBundle\Entity\Footprint,
+	\PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\Util\Deserializable,
-	PartKeepr\PartCategory\PartCategory,
+	\PartKeepr\PartBundle\Entity\PartCategory,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
@@ -24,7 +24,7 @@ use PartKeepr\StorageLocation\StorageLocation,
 class Part extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The category of the part
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartCategory\PartCategory")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartCategory")
 	 * @var Category 
 	 */
 	private $category;
@@ -45,7 +45,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 
 	/**
 	 * The footprint of this part
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Footprint\Footprint")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\FootprintBundle\Entity\Footprint")
+	 *
 	 * @var Footprint
 	 */
 	private $footprint;
@@ -327,7 +328,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Sets the category for this part
-	 * @param \PartKeepr\PartCategory\PartCategory $category The category
+	 *
+*@param \PartKeepr\PartBundle\Entity\PartCategory $category The category
 	 */
 	public function setCategory (PartCategory $category) {
 		$this->category = $category;
@@ -335,7 +337,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Returns the assigned category
-	 * @return \PartKeepr\PartCategory\PartCategory
+	 *
+*@return \PartKeepr\PartBundle\Entity\PartCategory
 	 */
 	public function getCategory () {
 		return $this->category;
@@ -359,7 +362,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Sets the footprint for this part
-	 * @param \PartKeepr\Footprint\Footprint $footprint The footprint to set
+	 *
+*@param \PartKeepr\FootprintBundle\Entity\Footprint $footprint The footprint to set
 	 */
 	public function setFootprint (Footprint $footprint = null) {
 		$this->footprint = $footprint;

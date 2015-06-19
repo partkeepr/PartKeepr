@@ -7,9 +7,9 @@
 namespace PartKeepr\Scripts;
 
 use PartKeepr\PartKeepr,
-	PartKeepr\PartCategory\PartCategoryManager,
+	\PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\Util\Configuration,
-	PartKeepr\FootprintCategory\FootprintCategoryManager;
+	\PartKeepr\FootprintBundle\Entity\FootprintCategoryManager;
 
 include("../src/backend/PartKeepr/PartKeepr.php");
 
