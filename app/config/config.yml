@@ -111,6 +111,9 @@ services:
                     arguments: [ [ "@resource.unit.order_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
     resource.unit.order_filter:
         parent:    "api.doctrine.orm.order_filter"
         arguments: [ ~ ] # This line can also be omitted
@@ -119,8 +122,11 @@ services:
         arguments: [ "PartKeepr\SiPrefixBundle\Entity\SiPrefix" ]
         tags:      [ { name: "api.resource" } ]
         calls:
-            -      method:    "initFilters"
-                   arguments: [ [ "@resource.unit.order_filter" ] ]
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.unit.order_filter" ] ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
 
     api.name_converter:
         class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
