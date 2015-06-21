@@ -42,15 +42,12 @@ Ext.define('PartKeepr.UnitEditor', {
 		this.on("itemSave", this.onItemSave, this);
 	},
 	onStartEdit: function () {
-		console.log(this.record.prefixes());
 		var records = this.record.prefixes().getRange();
-		
 		var toSelect = [];
 		var pfxStore = PartKeepr.getApplication().getSiPrefixStore();
 		
 		for (var i=0;i<records.length;i++) {
-			console.log(pfxStore.getById(records[i].getId()));
-			//toSelect.push(pfxStore.getById(records[i].getId()));
+			toSelect.push(pfxStore.getById(records[i].getId()));
 		}
 
 		this.gridPanel.getSelectionModel().select(toSelect);

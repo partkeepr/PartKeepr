@@ -5,6 +5,7 @@ use PartKeepr\Util\BaseEntity,
     Doctrine\ORM\Mapping as ORM,
     Symfony\Component\Validator\Constraints as Assert,
     PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents an SI Prefix
@@ -20,6 +21,7 @@ class SiPrefix
      * @ORM\Id @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var integer
+     * @Groups({"default"})
      */
     private $id;
 
@@ -43,6 +45,7 @@ class SiPrefix
      * @Assert\Type(type="string")
      * @Assert\NotBlank(message="siprefix.prefix.not_blank")
      * @var string
+     * @Groups({"default"})
      */
     private $prefix;
 
@@ -53,6 +56,7 @@ class SiPrefix
      *
      * @Assert\Type(type="string")
      * @Assert\NotBlank(message="siprefix.symbol.not_blank")
+     * @Groups({"default"})
      * @var string
      */
     private $symbol;
@@ -62,6 +66,7 @@ class SiPrefix
      *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
+     * @Groups({"default"})
      * @var int
      */
     private $exponent;
@@ -71,6 +76,7 @@ class SiPrefix
      *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
+     * @Groups({"default"})
      * @var int
      */
     private $base;

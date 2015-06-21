@@ -107,8 +107,10 @@ services:
         arguments: [ "PartKeepr\UnitBundle\Entity\Unit" ]
         tags:      [ { name: "api.resource" } ]
         calls:
-            -      method:    "initFilters"
-                   arguments: [ [ "@resource.unit.order_filter" ] ]
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.unit.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
     resource.unit.order_filter:
         parent:    "api.doctrine.orm.order_filter"
         arguments: [ ~ ] # This line can also be omitted

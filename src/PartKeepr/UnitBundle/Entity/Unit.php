@@ -6,6 +6,7 @@ use	PartKeepr\Util\BaseEntity,
 	PartKeepr\SiPrefixBundle\Entity\SiPrefix,
     Doctrine\ORM\Mapping as ORM,
 	PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * This object represents an unit. Units can be: Volt, Hertz etc. 
@@ -17,6 +18,7 @@ class Unit {
 	/**
 	 * @ORM\Id @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"default"})
 	 * @var integer
 	 */
 	private $id;
@@ -38,6 +40,7 @@ class Unit {
 	 * @ORM\Column(type="string")
 	 *
 	 * @var string
+	 * @Groups({"default"})
 	 */
 	private $name;
 	
@@ -45,6 +48,7 @@ class Unit {
 	 * The symbol of the unit (e.g. V, A, F, m)
 	 * @ORM\Column(type="string")
 	 * @var string
+	 * @Groups({"default"})
 	 */
 	private $symbol;
 	
@@ -55,6 +59,7 @@ class Unit {
 	 * 			joinColumns={@ORM\JoinColumn(name="unit_id", referencedColumnName="id")},
 	 * 			inverseJoinColumns={@ORM\JoinColumn(name="siprefix_id", referencedColumnName="id")}
 	 * 			)
+	 * @Groups({"default"})
 	 * @var ArrayCollection
 	 */
 	private $prefixes;
