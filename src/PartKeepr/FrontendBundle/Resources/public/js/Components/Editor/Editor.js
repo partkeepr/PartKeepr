@@ -104,7 +104,12 @@ Ext.define('PartKeepr.Editor', {
 			this.saveButton.disable();
 
 			// Sanity: If the save process fails, re-enable the button after 30 seconds
-			Ext.defer(function () { this.saveButton.enable(); }, 30000, this);
+			// @todo This is quite a hack. Needs verification if that's still required
+			Ext.defer(function () {
+				if (this.saveButton.getEl()) {
+					this.saveButton.enable();
+				}
+				}, 30000, this);
 		}
 		
 		this.getForm().updateRecord(this.record);
