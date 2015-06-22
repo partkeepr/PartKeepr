@@ -164,7 +164,7 @@ Ext.define('PartKeepr.EditorComponent', {
 				},this);
 	},
 	deleteRecord: function (r) {
-		var editor = this.findEditor(r.getId()("id"));
+		var editor = this.findEditor(r.getId());
 
 		if (editor !== null) {
 			this.editorTabPanel.remove(editor);

@@ -69,6 +69,10 @@ Ext.define("PartKeepr.data.RestProxy", {
             this.api.update = request.getRecords()[0].getId();
         }
 
+        if (request.getAction() == "destroy") {
+            this.api.destroy = request.getRecords()[0].getId();
+        }
+
         return this.callParent([request]);
     },
     getParams: function (operation) {
