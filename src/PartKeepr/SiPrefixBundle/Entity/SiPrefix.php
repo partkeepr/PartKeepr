@@ -23,19 +23,7 @@ class SiPrefix
      * @var integer
      * @Groups({"default"})
      */
-    private $id;
-
-    /**
-     * Returns the ID of this object.
-     *
-     * @param none
-     *
-     * @return int The ID of this object
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public $id;
 
     /**
      * The prefix name of the Si-Prefix (e.g. yotta, deca, deci, centi)
@@ -172,20 +160,5 @@ class SiPrefix
     public function calculateProduct($value)
     {
         return $value * pow($this->base, $this->exponent);
-    }
-
-    /**
-     * Serializes the object into an array format.
-     *
-     * @return array the object in serialized format.
-     */
-    public function serialize()
-    {
-        return array(
-            "id" => $this->getId(),
-            "symbol" => $this->getSymbol(),
-            "prefix" => $this->getPrefix(),
-            "exponent" => $this->getExponent()
-        );
     }
 }
