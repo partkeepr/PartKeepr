@@ -3,7 +3,7 @@ Ext.define("PartKeepr.data.RestProxy", {
     alias: 'proxy.PartKeeprREST',
 
     reader: {
-        type: 'hydra',
+        type: 'hydra'
     },
     writer: {
         type: 'jsonwithassociations'
@@ -17,38 +17,25 @@ Ext.define("PartKeepr.data.RestProxy", {
         this.callParent(arguments);
     },
     listeners: {
-        exception: function (proxy, response, operation) {
+        exception: function (reader, response, operation, eOpts) {
+            var request = operation.getRequest();
+
+            var requestParams = {
+                method: response.request.options.method,
+                request: response.request.options.jsonData,
+                response: response.responseText
+            };
             try {
                 var data = Ext.decode(response.responseText);
 
-                var requestData = {};
-                requestData.method = operation.request.method;
-                requestData.headers = operation.request.headers;
-                requestData.jsonData = operation.request.jsonData;
-
-                request = {
-                    request: Ext.encode(requestData),
-                    response: response.responseText
-                };
-
-                PartKeepr.ExceptionWindow.showException(data.exception, request);
+                PartKeepr.ExceptionWindow.showException(data.exception, response);
             } catch (ex) {
                 var exception = {
                     message: i18n("Critical Error"),
                     detail: i18n("The server returned a response which we were not able to interpret.")
                 };
 
-
-                requestData.method = operation.request.method;
-                requestData.headers = operation.request.headers;
-                requestData.jsonData = operation.request.jsonData;
-
-                request = {
-                    request: Ext.encode(requestData),
-                    response: response.responseText
-                };
-
-                PartKeepr.ExceptionWindow.showException(exception, request);
+                PartKeepr.ExceptionWindow.showException(exception, response);
             }
         }
     },

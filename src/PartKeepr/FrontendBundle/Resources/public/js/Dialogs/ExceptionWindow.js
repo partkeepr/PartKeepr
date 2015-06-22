@@ -141,13 +141,9 @@ Ext.define('PartKeepr.ExceptionWindow', {
      * @param exception The exception data
      * @param requestData The request data. May be empty.
      */
-    _showException: function (exception, requestData) {
+    _showException: function (exception, response) {
     	var separator = "==================================";
 		
-		if (!requestData) {
-			requestData = {};
-		}
-    	
     	this.setIcon(Ext.MessageBox.ERROR);
     	
     	this.messageDiv.update(exception.message);
@@ -182,25 +178,23 @@ Ext.define('PartKeepr.ExceptionWindow', {
     	} else {
     		this.backtraceDetails.setValue("No backtrace available");
     	}
-    	
-    	if (requestData.request) {
-    		fullDetails += "\n\n"+i18n("Request")+"\n"+separator+"\n";
-    		fullDetails += requestData.request;
+
+		var requestData = response.request.options.method + " " + response.request.options.url;
+
+		if (response.request.jsonData) {
+			requestData += "\n\n"+response.request.jsonData;
+		}
+
+		fullDetails += "\n\n"+i18n("Request")+"\n"+separator+"\n";
+		fullDetails += requestData;
+
+		this.requestDetails.setValue(nl2br(requestData));
+
+		fullDetails += "\n\n"+i18n("Response")+"\n"+separator+"\n";
+		fullDetails += response.responseText;
     		
-    		this.requestDetails.setValue(nl2br(requestData.request));
-    	} else {
-    		this.requestDetails.setValue("No server request information available");
-    	}
-    	
-    	if (requestData.response) {
-    		fullDetails += "\n\n"+i18n("Response")+"\n"+separator+"\n";
-    		fullDetails += requestData.response;
-    		
-    		this.responseDetails.setValue(nl2br(requestData.response));
-    	} else {
-    		this.responseDetails.setValue("No server response information available");
-    	}
-    	
+		this.responseDetails.setValue(nl2br(response.responseText));
+
     	fullDetails += "\n\n"+i18n("Server Configuration")+"\n"+separator+"\n";
     	
     	for (var j in window.parameters) {
@@ -234,14 +228,14 @@ Ext.define('PartKeepr.ExceptionWindow', {
     	 * Any members specified are strings. Any other data type is not supported.
     	 *  
     	 * @param exception 	The exception object 
-    	 * @param requestData	The request data
+    	 * @param response		The response object
     	 */
-    	showException: function (exception, requestData) {
+    	showException: function (exception, response) {
     		if (!PartKeepr.ExceptionWindow.activeInstance) {
         		PartKeepr.ExceptionWindow.activeInstance = new PartKeepr.ExceptionWindow();
         	}
 
-    		PartKeepr.ExceptionWindow.activeInstance._showException(exception, requestData);
+    		PartKeepr.ExceptionWindow.activeInstance._showException(exception, response);
     	}
     	
     }
