@@ -35,6 +35,9 @@ class Unit {
 		return $this->id;
 	}
 
+	public function setId ($id) {
+		$this->id = $id;
+	}
 	/**
 	 * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
 	 * @ORM\Column(type="string")
@@ -60,9 +63,10 @@ class Unit {
 	 * 			inverseJoinColumns={@ORM\JoinColumn(name="siprefix_id", referencedColumnName="id")}
 	 * 			)
 	 * @Groups({"default"})
+	 *
 	 * @var ArrayCollection
 	 */
-	private $prefixes;
+	public $prefixes;
 	
 	/**
 	 * Creates a new Unit.
@@ -102,12 +106,17 @@ class Unit {
 	public function getSymbol () {
 		return $this->symbol;
 	}
-	
+
 	/**
-	 * Returns the si-prefix list for this unit 
+	 * Returns the si-prefix list for this unit
 	 * @return array An array of SiPrefix objects
 	 */
 	public function getPrefixes () {
 		return $this->prefixes;
+	}
+
+	public function setPrefixes ($array) {
+		var_dump($array);
+		$this->prefixes = $array;
 	}
 }
