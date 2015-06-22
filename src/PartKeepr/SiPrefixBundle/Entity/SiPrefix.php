@@ -1,11 +1,11 @@
 <?php
 namespace PartKeepr\SiPrefixBundle\Entity;
 
-use PartKeepr\Util\BaseEntity,
-    Doctrine\ORM\Mapping as ORM,
-    Symfony\Component\Validator\Constraints as Assert,
-    PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
+use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
+use PartKeepr\Util\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents an SI Prefix
@@ -15,16 +15,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @TargetService(uri="/api/si_prefixes")
  */
-class SiPrefix
+class SiPrefix extends BaseEntity
 {
-    /**
-     * @ORM\Id @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer
-     * @Groups({"default"})
-     */
-    public $id;
-
     /**
      * The prefix name of the Si-Prefix (e.g. yotta, deca, deci, centi)
      *
