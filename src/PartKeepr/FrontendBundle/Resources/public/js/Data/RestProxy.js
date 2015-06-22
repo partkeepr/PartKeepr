@@ -50,13 +50,16 @@ Ext.define("PartKeepr.data.RestProxy", {
         }
 
         if (request.getAction() == "update") {
-            if (request.getRecords().length > 1) {
+            if (request.getRecords().length != 1) {
                 throw "The amount of records updating must be exactly one";
             }
             this.api.update = request.getRecords()[0].getId();
         }
 
         if (request.getAction() == "destroy") {
+            if (request.getRecords().length != 1) {
+                throw "The amount of records updating must be exactly one";
+            }
             this.api.destroy = request.getRecords()[0].getId();
         }
 
