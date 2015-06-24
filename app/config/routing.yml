@@ -1,25 +1,5 @@
-part_keepr_part:
-    resource: "@PartKeeprPartBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-part_keepr_footprint:
-    resource: "@PartKeeprFootprintBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-part_keepr_unit:
-    resource: "@PartKeeprUnitBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 part_keepr_auth:
     resource: "@PartKeeprAuthBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-partkeepr_siprefixbundle:
-    resource: "@PartKeeprSiPrefixBundle/Controller/"
     type:     annotation
     prefix:   /
 
