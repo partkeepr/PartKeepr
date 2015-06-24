@@ -33,7 +33,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        	handler: this.editUsers,
 			        	icon: "resources/silkicons/user.png"
 			        },{
-			        	text: i18n('Part Measure Units'),
+			        	text: i18n('Part Measurement Units'),
 			        	handler: this.editPartUnits,
 			        	icon: "resources/fugue-icons/icons/ruler.png"
 			        },{
