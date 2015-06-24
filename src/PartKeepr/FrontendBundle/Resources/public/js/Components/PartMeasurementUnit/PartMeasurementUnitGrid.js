@@ -1,9 +1,9 @@
-Ext.define('PartKeepr.PartUnitGrid', {
+Ext.define('PartKeepr.PartMeasurementUnitGrid', {
 	extend: 'PartKeepr.EditorGrid',
-	alias: 'widget.PartUnitGrid',
+	alias: 'widget.PartMeasurementUnitGrid',
 	columns: [
 	          {header: i18n("Part Measurement Unit"),  dataIndex: 'name', flex: 1},
-	          {header: i18n("Default"),  dataIndex: 'default', width: 60, renderer: function (val) { if (val === true) { return "✓"; } else { return ""; }}}
+	          {header: i18n("Default"),  dataIndex: 'isDefault', width: 60, renderer: function (val) { if (val === true) { return "✓"; } else { return ""; }}}
 	          ],
 	addButtonText: i18n("Add Part Measurement Unit"),
 	addButtonIcon: "resources/fugue-icons/icons/ruler--plus.png",
@@ -36,15 +36,8 @@ Ext.define('PartKeepr.PartUnitGrid', {
     },
     onDefaultClick: function () {
     	var r = this.getSelectionModel().getLastSelected();
-    	
-    	var call = new PartKeepr.ServiceCall(
-    			"PartUnit", 
-    			"setDefault");
-    	
-    	call.setParameter("id", r.get("id"));
-    	
-    	call.setHandler(Ext.bind(this.onDefaultHandler, this));
-		call.doCall();
+
+		r.callAction("setDefault", {}, this.onDefaultHandler.bind(this));
     },
     onDefaultHandler: function () {
     	this.store.load();

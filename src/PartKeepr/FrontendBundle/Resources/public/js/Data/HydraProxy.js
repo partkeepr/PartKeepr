@@ -1,6 +1,6 @@
-Ext.define("PartKeepr.data.RestProxy", {
+Ext.define("PartKeepr.data.HydraProxy", {
     extend: 'Ext.data.proxy.Rest',
-    alias: 'proxy.PartKeeprREST',
+    alias: 'proxy.Hydra',
 
     reader: {
         type: 'hydra'
@@ -82,5 +82,19 @@ Ext.define("PartKeepr.data.RestProxy", {
         }
 
         return params;
+    },
+    callAction: function (record, action, parameters, callback) {
+        var url = record.getId() + "/" + action;
+        var request = Ext.create("Ext.data.Request");
+
+        request.setMethod("PUT");
+        request.setUrl(url);
+        if (typeof parameters == "object") {
+            request.setParams(parameters);
+        }
+
+        request.setCallback(callback);
+
+        this.sendRequest(request);
     }
 });

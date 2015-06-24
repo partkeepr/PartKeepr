@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\Statistic;
 
-use PartKeepr\Part\PartUnit,
+use PartKeepr\PartBundle\Entity\PartMeasurementUnit,
 	PartKeepr\Service\Service,
 	PartKeepr\PartKeepr,
 	PartKeepr\Part\PartManager,
@@ -25,7 +25,7 @@ class StatisticService extends Service {
 		
 		foreach ($result as $row) {
 			$aUnits[] = array(
-				"name" => PartUnit::loadById($row["puid"])->getName(),
+				"name" => PartMeasurementUnit::loadById($row["puid"])->getName(),
 				"stockLevel" => $row["stockLevel"]);
 		}
 		
@@ -84,7 +84,7 @@ class StatisticService extends Service {
 		$queryEndTime = clone $start;
 		$queryEndTime->add(new \DateInterval("PT".$intervalSize."S"));
 		
-		$partUnitQuery = "SELECT pu FROM PartKeepr\Part\PartUnit pu";
+		$partUnitQuery = "SELECT pu FROM PartKeepr\PartBundle\Entity\PartUnit pu";
 		$query = PartKeepr::getEM()->createQuery($partUnitQuery);
 		
 		$aPartUnits = $query->getResult();

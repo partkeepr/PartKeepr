@@ -84,8 +84,8 @@ twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 dunglas_api:
-    title:       "Your API name"                    # The title of the API.
-    description: "The full description of your API" # The description of the API.
+    title:       "PartKeepr"
+    description: "The PartKeepr REST API"
     collection:
         pagination:
             items_per_page:
@@ -102,31 +102,74 @@ nelmio_api_doc:
                 json:       "application/json"
 
 services:
-    resource.unit:
+    resource.order_filter:
+        parent:    "api.doctrine.orm.order_filter"
+        arguments: [ ~ ] # This line can also be omitted
+
+    resource.partmeasurementunit.item_operation.custom_put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.partmeasurementunit"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/part_measurement_units/{id}/setDefault"           # Path
+             -    "PartKeeprPartBundle:PartMeasurementUnit:setDefault"         # Controller
+             -    "my_custom_route"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+    resource.partmeasurementunit.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.partmeasurementunit", "GET" ]
+
+    resource.partmeasurementunit.item_operation.put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.partmeasurementunit", "PUT" ]
+
+    resource.partmeasurementunit:
         parent:    "api.resource"
-        arguments: [ "PartKeepr\UnitBundle\Entity\Unit" ]
+        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartMeasurementUnit" ]
         tags:      [ { name: "api.resource" } ]
         calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.partmeasurementunit.item_operation.custom_put", "@resource.partmeasurementunit.item_operation.get", "@resource.partmeasurementunit.item_operation.put"  ] ]
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.unit.order_filter" ] ]
+                    arguments: [ [ "@resource.order_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
-    resource.unit.order_filter:
-        parent:    "api.doctrine.orm.order_filter"
-        arguments: [ ~ ] # This line can also be omitted
-    resource.siprefix:
+
+
+    resource.unit:
         parent:    "api.resource"
-        arguments: [ "PartKeepr\SiPrefixBundle\Entity\SiPrefix" ]
+        arguments: [ "PartKeepr\\UnitBundle\Entity\Unit" ]
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.unit.order_filter" ] ]
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
 
-    api.name_converter:
-        class: Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
+    resource.siprefix:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\SiPrefixBundle\\Entity\\SiPrefix" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }

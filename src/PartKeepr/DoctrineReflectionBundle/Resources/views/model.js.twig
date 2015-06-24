@@ -1,5 +1,5 @@
 Ext.define('{{ className }}', {
-    extend: 'Ext.data.Model',
+    extend: 'PartKeepr.data.HydraModel',
     alias: 'schema.{{ className }}',
 
     idProperty: "@id",
@@ -23,7 +23,7 @@ Ext.define('{{ className }}', {
     {% endif %}
 
     proxy: {
-        type: "PartKeeprREST",
+        type: "Hydra",
         url: '{% if uri == "" %}undefined:{{ className }}{% else %}{{ uri|raw }}{% endif %}'
     }
 });

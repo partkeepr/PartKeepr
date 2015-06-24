@@ -1,6 +1,6 @@
-Ext.define('PartKeepr.PartUnitEditor', {
+Ext.define('PartKeepr.PartMeasurementUnitEditor', {
 	extend: 'PartKeepr.Editor',
-	alias: 'widget.PartUnitEditor',
+	alias: 'widget.PartMeasurementUnitEditor',
 	items: [{
 		xtype: 'textfield',
 		name: 'name',

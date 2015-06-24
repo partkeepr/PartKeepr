@@ -160,7 +160,7 @@ class PartKeepr {
 			'PartKeepr\FootprintBundle\Entity\FootprintCategory',
 
 			'PartKeepr\Part\Part',
-			'PartKeepr\Part\PartUnit',
+			'PartKeepr\PartBundle\Entity\PartUnit',
 			'PartKeepr\Part\PartManufacturer',
 			'PartKeepr\Part\PartDistributor',
 			'PartKeepr\Part\PartImage',

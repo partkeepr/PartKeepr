@@ -91,7 +91,6 @@ Ext.define('PartKeepr.EditorComponent', {
 	 * @param {Record} record The record to edit
 	 */
 	startEdit: function (id) {
-		console.log(id);
 		/* Search for an open editor for the current record. If we
 		 * already have an editor, show the editor instead of loading
 		 * a new record.

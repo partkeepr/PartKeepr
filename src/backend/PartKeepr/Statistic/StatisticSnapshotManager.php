@@ -1,13 +1,11 @@
 <?php
 namespace PartKeepr\Statistic;
 
-use PartKeepr\Util\Singleton,
-	PartKeepr\Part\PartUnit,
-	PartKeepr\Part\PartManager,
-	PartKeepr\PartUnit\PartUnitManager,
-	PartKeepr\PartKeepr,
-	\PartKeepr\PartBundle\Entity\PartCategoryManager,
-	PartKeepr\PartUnit\Exceptions\PartUnitNotFoundException;
+use PartKeepr\Part\PartManager;
+use PartKeepr\PartBundle\Entity\PartCategoryManager;
+use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
+use PartKeepr\PartKeepr;
+use PartKeepr\Util\Singleton;
 
 class StatisticSnapshotManager extends Singleton {
 	public function createSnapshot () {
@@ -20,7 +18,7 @@ class StatisticSnapshotManager extends Singleton {
 		
 		foreach ($result as $row) {
 			$snapshotUnit = new StatisticSnapshotUnit();
-			$snapshotUnit->setPartUnit(PartUnit::loadById($row["puid"]));
+			$snapshotUnit->setPartUnit(PartMeasurementUnit::loadById($row["puid"]));
 			$snapshotUnit->setStatisticSnapshot($snapshot);
 			
 			if ($row["stockLevel"] !== null) {

@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\Part;
 
+use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
 use PartKeepr\StorageLocation\StorageLocation,
 	\PartKeepr\FootprintBundle\Entity\Footprint,
 	\PartKeepr\PartBundle\Entity\PartCategoryManager,
@@ -54,8 +55,9 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * The unit in which the part's "amount" is calculated. This is necessary to count parts
 	 * in "pieces", "meters" or "grams".
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\PartUnit", inversedBy="parts")
-	 * @var PartUnit
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit", inversedBy="parts")
+	 *
+	 * @var PartMeasurementUnit
 	 */
 	private $partUnit;
 	
@@ -241,10 +243,11 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	/**
 	 * Sets the part unit
 	 * 
-	 * @param PartUnit $partUnit The part unit object to set
-	 * @return nothing
+	 * @param PartMeasurementUnit $partUnit The part unit object to set
+	 *
+*@return nothing
 	 */
-	public function setPartUnit (PartUnit $partUnit) {
+	public function setPartUnit(PartMeasurementUnit $partUnit) {
 		$this->partUnit = $partUnit;
 	}
 	
@@ -252,7 +255,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	 * Returns the part unit
 	 * 
 	 * @param none
-	 * @return PartUnit The part unit object
+	 *
+*@return PartMeasurementUnit The part unit object
 	 */
 	public function getPartUnit () {
 		return $this->partUnit;
@@ -567,7 +571,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 					$this->setMinStockLevel($value);
 					break;
 				case "partUnit":
-					$partUnit = PartUnit::loadById($value);
+					$partUnit = PartMeasurementUnit::loadById($value);
 					$this->setPartUnit($partUnit);
 					break;
 				case "category":

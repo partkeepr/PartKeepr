@@ -1,10 +1,8 @@
 <?php
 namespace PartKeepr\Statistic;
 
-use PartKeepr\Statistic\StatisticSnapshot,
-	PartKeepr\Part\PartUnit,
-	PartKeepr\PartKeepr,
-    Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
 
 
 /** @ORM\Entity **/
@@ -24,7 +22,7 @@ class StatisticSnapshotUnit {
 	private $statisticSnapshot;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\PartUnit")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit")
 	 * The statistic snapshot this entity belongs to
 	 * @var StatisticSnapshot
 	 */
@@ -56,15 +54,17 @@ class StatisticSnapshotUnit {
 	/**
 	 * 
 	 * Sets the part unit for this entity
-	 * @param PartUnit $unit The part unit
+	 *
+*@param PartMeasurementUnit $unit The part unit
 	 */
-	public function setPartUnit (PartUnit $unit) {
+	public function setPartUnit(PartMeasurementUnit $unit) {
 		$this->partUnit = $unit;
 	}
 	
 	/**
 	 * Returns the part unit for this entity
-	 * @return PartUnit The part unit
+	 *
+*@return PartMeasurementUnit The part unit
 	 */
 	public function getPartUnit () {
 		return $this->partUnit;

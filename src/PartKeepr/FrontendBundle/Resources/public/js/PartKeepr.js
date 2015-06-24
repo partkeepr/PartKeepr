@@ -51,13 +51,47 @@ Ext.application({
      * enables the menu bar and creates the stores+loads them.
      */
     onLogin: function () {
-		var j = new Ext.create("PartKeepr.FootprintEditorComponent");
+		var session = new Ext.data.Session();
+		this.siPrefixStore = Ext.create("Ext.data.Store",
+			{
+				storeId: 'myStore',
+				model: 'PartKeepr.SiPrefixBundle.Entity.SiPrefix',
+				pageSize: 999,
+				autoLoad: true
+			});
+
+		this.fooStore = Ext.create("Ext.data.Store",
+			{
+				session: session,
+				model: 'PartKeepr.UnitBundle.Entity.Unit',
+				pageSize: 30,
+				autoLoad: false
+			});
+
+		this.fooStore2 = Ext.create("Ext.data.Store",
+			{
+				session: session,
+				model: 'PartKeepr.UnitBundle.Entity.Unit',
+				pageSize: 20,
+				autoLoad: false
+			});
+
+
+		this.fooStore.load();
+		this.fooStore2.load();
+
+		console.log(this.fooStore);
+		console.log(this.fooStore2);
+
+		/*var j = new Ext.create("PartKeepr.FootprintEditorComponent");
 
 		var k = new Ext.create("Ext.Window", {
+			height: 400,
 			items: j
 		});
 
-		k.show();
+		k.show();*/
+		this.menuBar.enable();
 		return;
     	this.createGlobalStores();
 
@@ -263,7 +297,7 @@ Ext.application({
     	
     	this.partUnitStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.Part.PartUnit',
+    				model: 'PartKeepr.Part.PartMeasurementUnit',
     				pageSize: -1,
     				autoLoad: false
     			});
