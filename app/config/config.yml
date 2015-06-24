@@ -106,6 +106,19 @@ services:
         parent:    "api.doctrine.orm.order_filter"
         arguments: [ ~ ] # This line can also be omitted
 
+    resource.distributor:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\DistributorBundle\Entity\Distributor" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.partmeasurementunit.item_operation.custom_put:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false

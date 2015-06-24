@@ -2,7 +2,7 @@
 namespace PartKeepr\Setup\Migration\PartDB;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\Distributor\Distributor,
+	PartKeepr\DistributorBundle\Entity\Distributor,
 	PartKeepr\Distributor\DistributorManager,
 	PartKeepr\Setup\AbstractSetup;
 

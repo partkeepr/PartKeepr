@@ -183,7 +183,7 @@ class PartKeepr {
 			'PartKeepr\Manufacturer\Manufacturer',
 			'PartKeepr\Manufacturer\ManufacturerICLogo',
 			
-			'PartKeepr\Distributor\Distributor',
+			'PartKeepr\DistributorBundle\Entity\Distributor',
 			
 			'PartKeepr\Image\Image',
 			'PartKeepr\Image\CachedImage',

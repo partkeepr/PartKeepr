@@ -5,7 +5,7 @@ use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
-	PartKeepr\Distributor\Distributor,
+	PartKeepr\DistributorBundle\Entity\Distributor,
     Doctrine\ORM\Mapping as ORM;
 
 /** 
@@ -18,7 +18,7 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	private $part;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Distributor\Distributor")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\DistributorBundle\Entity\Distributor")
 	 */
 	private $distributor;
 	
@@ -113,7 +113,8 @@ class PartDistributor extends BaseEntity implements Serializable, Deserializable
 	
 	/**
 	 * Sets the distributor
-	 * @param Distributor $distributor The distributor
+	 *
+*@param \PartKeepr\DistributorBundle\Entity\Distributor $distributor The distributor
 	 */
 	public function setDistributor (Distributor $distributor) {
 		$this->distributor = $distributor;
