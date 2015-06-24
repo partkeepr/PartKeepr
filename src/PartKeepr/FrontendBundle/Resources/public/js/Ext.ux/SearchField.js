@@ -29,23 +29,41 @@ Ext.define('Ext.ux.form.SearchField', {
     targetField : 'query',
 
     filter: null,
+
+    listeners: {
+        'specialkey': {
+            fn: 'keyHandler',
+            scope: 'this'
+        }
+    },
     
 	/**
 	 * Initializes the component. Binds the enter key to startSearch.
 	 */
     initComponent: function(){
         this.callParent(arguments);
-        this.on('specialkey', function(f, e){
-            if(e.getKey() == e.ENTER){
-                this.startSearch();
-            }
-        }, this);
 
         this.filter = Ext.create("Ext.util.Filter", {
             property: this.targetField,
             value: '',
             operator: 'like'
         });
+    },
+    /**
+     * Handles special keys used in this field.
+     *
+     * Enter: Starts the search
+     * Escape: Removes the search and clears the field contents
+     */
+    keyHandler: function (field, e) {
+        switch (e.getKey()) {
+            case e.ENTER:
+                this.startSearch();
+                break;
+            case e.ESC:
+                this.resetSearch();
+                break;
+        }
     },
  	/**
 	 * Resets the search field to empty and re-triggers the store to load the matching records.
@@ -55,9 +73,11 @@ Ext.define('Ext.ux.form.SearchField', {
             store = me.store,
             proxy = store.getProxy(),
             val;
-            
+
+        me.setValue('');
+
         if (me.hasSearch) {
-            me.setValue('');
+
             store.removeFilter(this.filter);
 
             store.currentPage = 1;
