@@ -4,19 +4,23 @@
  * The "clear" trigger is shown only when text is entered.
  */
 Ext.define('Ext.ux.form.SearchField', {
-    extend: 'Ext.form.field.Trigger',
+    extend: 'Ext.form.field.Text',
     alias: 'widget.searchfield',
 
-	/**
-	 * Define the clear trigger
-	 */
-    trigger1Cls: Ext.baseCSSPrefix + 'form-clear-trigger',
-    
-	/**
-	 * Define the clear trigger
-	 */
-    trigger2Cls: Ext.baseCSSPrefix + 'form-search-trigger',
-    
+    triggers: {
+        clear: {
+            cls: Ext.baseCSSPrefix + 'form-clear-trigger',
+            hidden: true,
+            handler: 'resetSearch',
+            scope: 'this',
+        },
+        search: {
+            cls: Ext.baseCSSPrefix + 'form-search-trigger',
+            handler: 'startSearch',
+            scope: 'this'
+        }
+    },
+
     hasSearch : false,
 	
 	/**
@@ -43,28 +47,7 @@ Ext.define('Ext.ux.form.SearchField', {
             operator: 'like'
         });
     },
-	/**
-	 * Hides the "clear" trigger as soon as the component is rendered.
-	 */
-    afterRender: function(){
-        this.callParent();
-        this.triggerCell.item(0).setDisplayed('none');
-        //this.doLayout();
-    },
-    /**
-	 * Handler for the "reset search" trigger
-	 */
-    onTrigger1Click : function(){
-        this.resetSearch();
-    },
-	/**
-	 * Handler for the "start search" trigger
-	 */
-    onTrigger2Click : function(){
-       this.startSearch();
-    },
-	
-	/**
+ 	/**
 	 * Resets the search field to empty and re-triggers the store to load the matching records.
 	 */
 	resetSearch: function () {
@@ -80,9 +63,8 @@ Ext.define('Ext.ux.form.SearchField', {
             store.currentPage = 1;
             store.load({ start: 0 });
             me.hasSearch = false;
-            
-            me.triggerCell.item(0).setDisplayed('none');
-            //me.doComponentLayout();
+
+            this.getTrigger("clear").hide();
         }
 	},
 	/**
@@ -105,7 +87,6 @@ Ext.define('Ext.ux.form.SearchField', {
         store.load({ start: 0 });
         
         me.hasSearch = true;
-        me.triggerCell.item(0).setDisplayed('block');
-        //me.doComponentLayout();
+        this.getTrigger("clear").show();
 	}
 });
