@@ -1,6 +1,6 @@
 Ext.define('PartKeepr.SystemNoticeButton', {
 	extend: 'PartKeepr.FadingButton',
-	icon: 'resources/fugue-icons/icons/service-bell.png',
+	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/service-bell.png',
 	tooltip: i18n("Unacknowledged System Notices"),
 
     /**

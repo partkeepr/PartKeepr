@@ -8,9 +8,9 @@ Ext.define('PartKeepr.StorageLocationGrid', {
 	          {header: i18n("Storage Location"),  dataIndex: 'name', flex: 1}
 	          ],
 	addButtonText: i18n("Add Storage Location"),
-	addButtonIcon: 'resources/fugue-icons/icons/wooden-box--plus.png',
+	addButtonIcon: 'bundles/brainbitsfugueicons/icons/fugue/16/wooden-box--plus.png',
     deleteButtonText: i18n("Delete Storage Location"),
-    deleteButtonIcon: 'resources/fugue-icons/icons/wooden-box--minus.png',
+    deleteButtonIcon: 'bundles/brainbitsfugueicons/icons/fugue/16/wooden-box--minus.png',
     initComponent: function () {
     	this.callParent();
     	

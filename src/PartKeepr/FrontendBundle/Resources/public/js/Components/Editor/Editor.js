@@ -35,7 +35,7 @@ Ext.define('PartKeepr.Editor', {
 		if (this.enableButtons) {
 			this.saveButton = Ext.create("Ext.button.Button", {
 				text: this.saveText,
-				icon: 'resources/fugue-icons/icons/disk.png',
+				icon: 'bundles/brainbitsfugueicons/icons/fugue/16/disk.png',
 				handler: Ext.bind(this._onItemSave, this)
 			});
 			

@@ -106,14 +106,14 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 	},
 	createToolbar: function () {
 		this.toolbarExpandButton = Ext.create("Ext.button.Button", {
-			icon: 'resources/fugue-icons/icons/toggle-expand.png',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/toggle-expand.png',
 			tooltip: i18n("Expand All"),
 			handler: this._onExpandClick,
 			scope: this
 		});
 		
 		this.toolbarCollapseButton = Ext.create("Ext.button.Button", {
-			icon: 'resources/fugue-icons/icons/toggle.png',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/toggle.png',
 			tooltip: i18n("Collapse All"),
 			handler: this._onCollapseClick,
 			scope: this

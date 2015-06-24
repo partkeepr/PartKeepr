@@ -46,7 +46,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
 			text: i18n("Take image"),
 			handler: this.onWebcamClick,
 			scope: this,
-			icon: 'resources/fugue-icons/icons/webcam.png'
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/webcam.png'
 		});
 		
 		this.dockedItems = [{

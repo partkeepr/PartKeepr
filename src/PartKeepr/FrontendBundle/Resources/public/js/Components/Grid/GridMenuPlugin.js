@@ -33,7 +33,7 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 					handler: this.exportCSV,
 					scope: this
 				},,{
-					icon: 'resources/fugue-icons/icons/blue-document-excel.png',
+					icon: 'bundles/brainbitsfugueicons/icons/fugue/16/blue-document-excel.png',
 					text: i18n('Export as Excel XML (.xlsx)'),
 					handler: this.exportXLSX,
 					scope: this

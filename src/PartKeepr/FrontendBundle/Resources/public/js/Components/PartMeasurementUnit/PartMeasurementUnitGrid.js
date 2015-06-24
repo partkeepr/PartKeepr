@@ -6,10 +6,10 @@ Ext.define('PartKeepr.PartMeasurementUnitGrid', {
 	          {header: i18n("Default"),  dataIndex: 'isDefault', width: 60, renderer: function (val) { if (val === true) { return "✓"; } else { return ""; }}}
 	          ],
 	addButtonText: i18n("Add Part Measurement Unit"),
-	addButtonIcon: "resources/fugue-icons/icons/ruler--plus.png",
+	addButtonIcon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler--plus.png",
     deleteButtonText: i18n("Delete Part Measurement Unit"),
-    deleteButtonIcon: "resources/fugue-icons/icons/ruler--minus.png",
-    defaultButtonIcon: "resources/fugue-icons/icons/ruler--pencil.png",
+    deleteButtonIcon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler--minus.png",
+    defaultButtonIcon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler--pencil.png",
     automaticPageSize: true,
     initComponent: function () {
     	this.callParent();

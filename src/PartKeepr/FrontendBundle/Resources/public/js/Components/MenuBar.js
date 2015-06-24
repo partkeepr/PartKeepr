@@ -8,12 +8,12 @@ Ext.define('PartKeepr.MenuBar', {
 		this.editMenu = Ext.create('Ext.menu.Menu', {
 			items: [{
 						text: i18n('Projects'),
-						icon: 'resources/fugue-icons/icons/drill.png',
+						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png',
 						handler: this.editProjects
 					},
 			        {
 			        	text: i18n('Footprints'),
-			        	icon: 'resources/fugue-icons/icons/fingerprint.png',
+			        	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/fingerprint.png',
 			        	handler: this.editFootprints
 			        },{
 			        	text: i18n('Manufacturers'),
@@ -21,7 +21,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        	handler: this.editManufacturers
 			        },{
 			        	text: i18n('Storage Locations'),
-			        	icon: 'resources/fugue-icons/icons/wooden-box.png',
+			        	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/wooden-box.png',
 			        	handler: this.editStorageLocations
 			        },{
 			        	text: i18n('Distributors'),
@@ -35,7 +35,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        },{
 			        	text: i18n('Part Measurement Units'),
 			        	handler: this.editPartUnits,
-			        	icon: "resources/fugue-icons/icons/ruler.png"
+			        	icon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler.png"
 			        },{
 			        	text: i18n("Units"),
 			        	handler: this.editUnits,
@@ -61,19 +61,19 @@ Ext.define('PartKeepr.MenuBar', {
 					{
 						text: i18n("System Information"),
 						handler: this.showSystemInformation,
-						icon: 'resources/fugue-icons/icons/system-monitor.png'
+						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/system-monitor.png'
 					},{
 						text: i18n("Project Reports"),
 						handler: this.showProjectReports,
-						icon: 'resources/fugue-icons/icons/drill.png'
+						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png'
 					},{
 						text: i18n("System Notices"),
 						handler: this.showSystemNotices,
-						icon: 'resources/fugue-icons/icons/service-bell.png'
+						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/service-bell.png'
 					},{
 						text: i18n("Stock History"),
 						handler: this.showStockHistory,
-						icon: 'resources/fugue-icons/icons/notebook.png'
+						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/notebook.png'
 					},{
 						text: i18n("Print and Labeling"),
 						glyph: 0xf02f,
@@ -99,7 +99,7 @@ Ext.define('PartKeepr.MenuBar', {
 	        	handler: this.disconnect
 	        },{
 	        	text: i18n("User Preferences"),
-	        	icon: 'resources/fugue-icons/icons/gear.png',
+	        	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/gear.png',
 	        	handler: this.showUserPreferences
 	        }
 			]

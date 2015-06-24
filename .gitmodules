@@ -7,9 +7,6 @@
 [submodule "frontend/resources/mimetypes"]
 	path = src/frontend/resources/mimetypes
 	url = git://github.com/partkeepr/splitbrain_mimetypes.git
-[submodule "frontend/resources/fugue-icons"]
-	path = src/frontend/resources/fugue-icons
-	url = git://github.com/yusukekamiyamane/fugue-icons.git
 
 [submodule "3rdparty/extjs"]
 	path = 3rdparty/extjs

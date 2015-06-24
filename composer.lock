@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "377099a71e0b722b77a8b6255c5f54e7",
+    "hash": "c391c64cc6451d5d25a24f1a4911f621",
     "packages": [
+        {
+            "name": "brainbits/fugue-icons-bundle",
+            "version": "3.5.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brainbits/fugue-icons-bundle.git",
+                "reference": "3b621552dd2f3d3172235f69f2963b70a23f4597"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brainbits/fugue-icons-bundle/zipball/3b621552dd2f3d3172235f69f2963b70a23f4597",
+                "reference": "3b621552dd2f3d3172235f69f2963b70a23f4597",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Brainbits": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Stephan Wentz",
+                    "email": "swentz@brainbits.net",
+                    "role": "Packager"
+                },
+                {
+                    "name": "Yusuke Kamiyamane",
+                    "homepage": "http://p.yusukekamiyamane.com/"
+                }
+            ],
+            "description": "Bundle including the fugue icon set.",
+            "homepage": "http://p.yusukekamiyamane.com/",
+            "keywords": [
+                "fugue",
+                "icons"
+            ],
+            "time": "2013-05-15 12:31:26"
+        },
         {
             "name": "cbsi/doctrine2-nestedset",
             "version": "dev-master",
