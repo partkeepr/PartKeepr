@@ -34,12 +34,12 @@ Ext.define('PartKeepr.PartsGrid', {
 	/**
      * @cfg {String} Defines the icon of the "Expand Row" button
      */
-	expandRowButtonIcon: 'resources/icons/group-expand.png',
+	expandRowButtonIcon: 'bundles/partkeeprfrontend/images/icons/group-expand.png',
 	
 	/**
      * @cfg {String} Defines the icon of the "Collapse Row" button
      */
-	collapseRowButtonIcon: 'resources/icons/group-collapse.png',
+	collapseRowButtonIcon: 'bundles/partkeeprfrontend/images/icons/group-collapse.png',
     
 	/**
 	 * Configure drag'n'drop.

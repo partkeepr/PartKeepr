@@ -38,7 +38,7 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 					handler: this.exportXLSX,
 					scope: this
 				},{
-					icon: 'resources/icons/mediawiki_icon.png',
+					icon: 'bundles/partkeeprfrontend/images/icons/mediawiki_icon.png',
 					text: i18n('Export as MediaWiki table (.txt)'),
 					handler: this.exportWiki,
 					scope: this

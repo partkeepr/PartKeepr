@@ -16,7 +16,7 @@ Ext.define('PartKeepr.StorageLocationGrid', {
     	
     	// Adds a button which shows the multi-create window
     	this.multiCreateButton = Ext.create("Ext.button.Button", {
-    		icon: 'resources/icons/storagelocation_multiadd.png',
+    		icon: 'bundles/partkeeprfrontend/images/icons/storagelocation_multiadd.png',
     		tooltip: i18n("Multi-create storage locations"),
     		handler: this.onMultiCreateClick,
     		scope: this

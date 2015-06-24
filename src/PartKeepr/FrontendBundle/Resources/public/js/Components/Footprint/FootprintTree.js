@@ -10,12 +10,12 @@ Ext.define("PartKeepr.FootprintTree", {
 	/**
      * @cfg {String} text The path to the 'add' icon
      */
-	addButtonIcon: 'resources/icons/footprint_add.png',
+	addButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_add.png',
 	
 	/**
      * @cfg {String} text The path to the 'delete' icon
      */
-	deleteButtonIcon: 'resources/icons/footprint_delete.png',
+	deleteButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_delete.png',
 	
 	/**
 	 * Initializes the component
