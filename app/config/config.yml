@@ -119,6 +119,61 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.manufacturer:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ManufacturerBundle\Entity\Manufacturer" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.manufacturer_ic_logo.item_operation.custom_put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.manufacturer_ic_logo"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/manufacturter_i_c_logo/{id}/getImage"           # Path
+             -    "PartKeeprManufacturerBundle:ManufacturerIcLogo:getImage"         # Controller
+             -    "ManufacturerIcLogoGetImage"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.manufacturer_ic_logo.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.manufacturer_ic_logo", "GET" ]
+
+    resource.manufacturer_ic_logo.item_operation.put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.manufacturer_ic_logo", "PUT" ]
+
+    resource.manufacturer_ic_logo:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ManufacturerBundle\Entity\ManufacturerICLogo" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.manufacturer_ic_logo.item_operation.custom_put", "@resource.manufacturer_ic_logo.item_operation.get", "@resource.manufacturer_ic_logo.item_operation.put"  ] ]
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.partmeasurementunit.item_operation.custom_put:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -128,7 +183,7 @@ services:
              -    [ "PUT" ]                 # Methods
              -    "/part_measurement_units/{id}/setDefault"           # Path
              -    "PartKeeprPartBundle:PartMeasurementUnit:setDefault"         # Controller
-             -    "my_custom_route"                 # Route name
+             -    "PartMeasurementUnitSetDefault"                 # Route name
              -    # Context (will be present in Hydra documentation)
                   "@type":       "hydra:Operation"
                   "hydra:title": "A custom operation"

@@ -8,6 +8,7 @@ use PartKeepr\Util\SerializableException,
 	PartKeepr\UploadedFile\TempUploadedFile,
 	PartKeepr\Util\Configuration,
     Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\MappedSuperclass
@@ -16,36 +17,48 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 	/**
 	 * Specifies the type of the file.
 	 *
-	 * @var string
 	 * @ORM\Column(type="string")
+	 * @Groups({"default"})
+	 *
+	 * @var string
 	 **/
 	private $type;
 	
 	/**
 	 * The unique filename of the file
 	 *
-	 * @var string
 	 * @ORM\Column(type="string")
+	 * @Groups({"default"})
+	 *
+	 * @var string
 	 */
 	private $filename;
 	
 	/**
 	 * The original name of the file
-	 * @ORM\Column(type="string",nullable=true)
+	 *
+	 * @ORM\Column(type="string",nullable=true,name="originalname")
+	 * @Groups({"default"})
+	 *
 	 * @var string
 	 */
-	private $originalname;
+	private $originalFilename;
 	
 	/**
-	 * The mimetype for the file
-	 * @var string
+	 * The MimeType for the file
+	 *
 	 * @ORM\Column(type="string")
+	 * @Groups({"default"})
+	 *
+	 * @var string
 	 */
 	private $mimetype;
 	
 	/**
 	 * The size of the uploaded file
 	 * @ORM\Column(type="integer")
+	 * @Groups({"default"})
+	 *
 	 * @var integer
 	 */
 	private $size;
@@ -71,7 +84,7 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 	 * @return string The original filename
 	 */
 	public function getOriginalFilename () {
-		return $this->originalname;
+		return $this->originalFilename;
 	}
 	
 	/**
@@ -79,7 +92,7 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 	 * @param string $filename The original filename
 	 */
 	public function setOriginalFilename ($filename) {
-		$this->originalname = $filename;
+		$this->originalFilename = $filename;
 	}
 	
 	/**

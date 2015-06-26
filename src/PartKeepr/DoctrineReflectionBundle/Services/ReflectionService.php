@@ -70,25 +70,52 @@ class ReflectionService {
         $associationMappings = array();
 
         foreach ($associations as $association) {
+            $getterPlural = false;
             $associationType = $association["type"];
+
             switch ($association["type"]) {
                 case ClassMetadataInfo::MANY_TO_MANY:
                     $associationType = "MANY_TO_MANY";
+                    $getterPlural = true;
                     break;
+                case ClassMetadataInfo::MANY_TO_ONE:
+                     $associationType = "MANY_TO_ONE";
+                    $getterPlural = false;
+                     break;
+                case ClassMetadataInfo::ONE_TO_MANY:
+                    $associationType = "ONE_TO_MANY";
+                    $getterPlural = true;
+                     break;
                 //default:
 //                    die("Unknown association ".$association["type"]);
             }
 
+            $getter = "get".ucfirst($association["fieldName"]);
+            $getterField = lcfirst($cm->getReflectionClass()->getShortName()).str_replace(
+                    ".",
+                    "",
+                    $this->convertPHPToExtJSClassName($association["targetEntity"])
+                );
+            if ($getterPlural) {
+                //$getter .= "s";
+                $getterField .= "s";
+            }
+
+
+
+
             $associationMappings[$associationType][] = array(
                 "name" => $association["fieldName"],
                 "target" => $this->convertPHPToExtJSClassName($association["targetEntity"]),
+                "getter" => $getter,
+                "getterField" => $getterField
             );
         }
 
         $renderParams = array(
             "fields" => $fieldMappings,
             "associations" => $associationMappings,
-            "className" => $this->convertPHPToExtJSClassName($entity),
+            "className" => $this->convertPHPToExtJSClassName($entity)
         );
 
         $targetService = $this->reader->getClassAnnotation(

@@ -4,11 +4,10 @@ Ext.define('PartKeepr.ManufacturerEditorComponent', {
 	navigationClass: 'PartKeepr.ManufacturerGrid',
 	editorClass: 'PartKeepr.ManufacturerEditor',
 	newItemText: i18n("New Manufacturer"),
-	model: 'PartKeepr.Manufacturer',
+	model: 'PartKeepr.ManufacturerBundle.Entity.Manufacturer',
 	initComponent: function () {
 		this.createStore({
 			sorters: [{
-				proxy: PartKeepr.getRESTProxy("Manufacurer"),
 	            property: 'name',
 	            direction:'ASC'
 	          }]

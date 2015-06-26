@@ -2,7 +2,7 @@
 namespace PartKeepr\PartDistributor;
 
 use PartKeepr\Util\Singleton,
-	PartKeepr\Manufacturer\Manufacturer,
+	PartKeepr\ManufacturerBundle\Entity\Manufacturer,
 	PartKeepr\PartKeepr,
 	PartKeepr\Manufacturer\Exceptions\ManufacturerNotFoundException;
 

@@ -180,8 +180,8 @@ class PartKeepr {
 		
 			'PartKeepr\Stock\StockEntry',
 		
-			'PartKeepr\Manufacturer\Manufacturer',
-			'PartKeepr\Manufacturer\ManufacturerICLogo',
+			'PartKeepr\ManufacturerBundle\Entity\Manufacturer',
+			'PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo',
 			
 			'PartKeepr\DistributorBundle\Entity\Distributor',
 			

@@ -5,7 +5,7 @@ use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\PartKeepr,
-	PartKeepr\Manufacturer\Manufacturer,
+	PartKeepr\ManufacturerBundle\Entity\Manufacturer,
     Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\Entity **/
@@ -16,7 +16,7 @@ class PartManufacturer extends BaseEntity implements Serializable, Deserializabl
 	private $part;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Manufacturer\Manufacturer")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\ManufacturerBundle\Entity\Manufacturer")
 	 */
 	private $manufacturer;
 	

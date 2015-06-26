@@ -2,9 +2,9 @@
 namespace PartKeepr\Setup;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\Manufacturer\Manufacturer,
+	PartKeepr\ManufacturerBundle\Entity\Manufacturer,
 	PartKeepr\Manufacturer\ManufacturerManager,
-	PartKeepr\Manufacturer\ManufacturerICLogo,
+	PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo,
 	PartKeepr\Setup\SiPrefixSetup;
 
 /**

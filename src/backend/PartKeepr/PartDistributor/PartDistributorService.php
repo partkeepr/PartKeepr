@@ -1,11 +1,11 @@
 <?php
 namespace PartKeepr\ManufacturerICLogo;
 
-use PartKeepr\Manufacturer\ManufacturerICLogo,
+use PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo,
 	PartKeepr\Service\RestfulService,
 	PartKeepr\Service\Service,
 	PartKeepr\PartKeepr,
-	PartKeepr\Manufacturer\Manufacturer,
+	PartKeepr\ManufacturerBundle\Entity\Manufacturer,
 	PartKeepr\Session\SessionManager;
 
 class PartDistributorService extends Service implements RestfulService {

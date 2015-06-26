@@ -101,7 +101,7 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		
 	},
 	_onItemSaved: function (record) {
-		this.iclogoGrid.bindStore(record.iclogos());
+		this.iclogoGrid.bindStore(record.icLogos());
 	},
 	onFileUploaded: function (response) {
 		this.iclogoGrid.getStore().add({
@@ -118,7 +118,7 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		this.iclogoGrid.store.remove(this.iclogoGrid.getSelectionModel().getLastSelected());
 	},
 	onEditStart: function () {
-		var store = this.record.iclogos();
+		var store = this.record.icLogos();
 		this.iclogoGrid.bindStore(store);
 	}
 });

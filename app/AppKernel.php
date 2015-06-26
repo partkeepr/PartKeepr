@@ -61,6 +61,7 @@ class AppKernel extends Kernel
             new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
             new Dunglas\ApiBundle\DunglasApiBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
         );
 
         // Developer bundles
@@ -79,6 +80,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\UnitBundle\PartKeeprUnitBundle();
         $bundles[] = new PartKeepr\PartBundle\PartKeeprPartBundle();
         $bundles[] = new PartKeepr\DistributorBundle\PartKeeprDistributorBundle();
+        $bundles[] = new PartKeepr\ManufacturerBundle\PartKeeprManufacturerBundle();
 
         return $bundles;
     }

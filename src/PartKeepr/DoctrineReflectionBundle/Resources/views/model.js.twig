@@ -8,7 +8,32 @@ Ext.define('{{ className }}', {
         { name: '{{ field.name|raw }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}}{% if not loop.last %},{% endif %}
 
         {% endfor %}
+        {% if associations.MANY_TO_ONE|length > 0 %}
+            ,
+            {% for association in associations.MANY_TO_ONE %}
+                { name: '{{ association.name }}Id',
+                reference: '{{ association.target }}'
+                }{% if not loop.last %},{% endif %}
+
+            {% endfor %}
+        {% endif %}
+
     ],
+
+    {% if associations.ONE_TO_MANY|length > 0 %}
+    hasMany: [
+    {% for association in associations.ONE_TO_MANY %}
+        {
+        name: '{{ association.name }}',
+        associationKey: '{{ association.name }}',
+        model: '{{ association.target }}'
+        }{% if not loop.last %},{% endif %}
+
+    {% endfor %}
+    ],
+    {% endif %}
+
+
     {% if associations.MANY_TO_MANY|length > 0 %}
     manyToMany: {
     {% for association in associations.MANY_TO_MANY %}
