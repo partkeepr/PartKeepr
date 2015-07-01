@@ -1,9 +1,9 @@
 <?php
 namespace PartKeepr\ManufacturerBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
-use PartKeepr\Manufacturer\ArrayCollection;
 use PartKeepr\Util\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -220,7 +220,7 @@ class Manufacturer extends BaseEntity
      */
     public function setURL($url)
     {
-        $this->url = $url;
+        //$this->url = $url;
     }
 
     /**
@@ -241,5 +241,15 @@ class Manufacturer extends BaseEntity
     public function getICLogos()
     {
         return $this->icLogos;
+    }
+
+    /**
+     * Sets the IC Logos
+     *
+     * @param $array
+     */
+    public function setICLogos($array)
+    {
+        $this->icLogos = $array;
     }
 }

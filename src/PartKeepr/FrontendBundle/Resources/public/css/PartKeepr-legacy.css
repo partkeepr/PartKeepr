@@ -1,0 +1,228 @@
+.x-form-spinner-down {
+	right: 16px;	
+}
+
+.manufacturer-ic-logos .thumb{
+	background: #ffffff;
+	padding: 3px;
+
+}
+
+.x-trigger-cell:last-child .x-form-trigger {
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1px solid #B5B8C8;
+	border-left-width: 0;
+}
+
+.x-form-spinner-up {
+	border-top-right-radius: 5px;
+	border-right: 1px solid #B5B8C8 !important;
+	border-bottom: 0 !important;
+	border-top: 1px solid #B5B8C8 !important;
+}
+
+.x-form-spinner-down {
+	border-bottom-right-radius: 5px;
+	border-bottom-width: 1px !important;
+	border-top: 0 !important;
+	border-right: 1px solid #B5B8C8 !important;
+	border-bottom: 1px solid #B5B8C8 !important;
+	
+}
+.x-form-trigger {
+	background-color: white;
+	border: 1px solid #B5B8C8;
+	border-left-width: 0;
+	border-right-width: 0;
+}
+
+.x-form-trigger-input-cell .x-form-field {
+	border-right-width: 0;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+.manufacturer-ic-logos .thumb-wrap{
+	display: inline-block;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+
+.manufacturer-ic-logos .thumb-wrap span{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+}
+
+.manufacturer-ic-logos .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url(../../../../../frontend/resources/images/over.gif) repeat-x left top;
+	padding: 4px;
+}
+
+.manufacturer-ic-logos .x-item-selected{
+	background: #eff5fb url(../../../../../frontend/resources/images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}
+.manufacturer-ic-logos .x-view-selected .thumb{
+	background:transparent;
+}
+
+.manufacturer-ic-logos .thumb-wrap span {
+	cursor: default;
+}
+
+.partdisplay h1 {
+	font-size: 2em;
+}
+
+div.partdisplay td {
+	padding: 2px;
+	vertical-align: top;
+}
+
+div.partdisplay table {
+	width: 100%;	
+}
+td.e {
+	background-color: #eeeeee;
+}
+
+td.e2 {
+	background-color: #dddddd;	
+}
+
+td.o {
+	background-color: #cccccc;	
+}
+
+td.o2 {
+	background-color: #bbbbbb;	
+}
+
+.remoteimagefield {
+	border: 1px solid black;
+}
+
+#loading { position: absolute; width: 180px; margin: -70px 0 0 -90px; height: 140px; top: 50%; left: 50%; }
+#loading .logo { background: url(../../../../../frontend/resources/images/loading.gif) no-repeat; position: absolute; display: block; top: 25px; left: 22px; width: 120px; height: 120px; }
+
+.icon-footprint {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/fingerprint.png) !important;
+}
+
+.icon-system-monitor {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/system-monitor.png) !important;
+}
+
+.icon-chart-bar {
+	background-image: url(../../../../../frontend/resources/silkicons/chart_bar.png) !important;
+}
+
+.icon-wooden-box {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/wooden-box.png) !important;
+}
+
+.icon-unit {
+	background-image: url(../../../../../frontend/resources/icons/unit.png) !important;
+}
+
+.icon-building {
+	background-image: url(../../../../../frontend/resources/silkicons/building.png) !important;
+}
+
+.icon-lorry {
+	background-image: url(../../../../../frontend/resources/silkicons/lorry.png) !important;
+}
+
+.icon-user {
+	background-image: url(../../../../../frontend/resources/silkicons/user.png) !important;
+}
+
+.icon-ruler {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/ruler.png) !important;
+}
+
+.icon-gear {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/gear.png) !important;
+}
+
+.icon-drive-upload {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/drive-upload.png) !important;
+}
+
+.icon-infocard {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/infocard.png) !important;
+}
+
+.icon-drill {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/drill.png) !important;
+}
+
+.icon-service-bell {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/service-bell.png) !important;
+}
+
+.icon-brick {
+	background-image: url(../../../../../frontend/resources/silkicons/brick.png) !important;
+}
+
+.icon-table {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/table.png) !important;
+}
+
+.icon-attach {
+	background-image: url(../../../../../frontend/resources/silkicons/attach.png) !important;
+}
+
+.icon-notebook {
+	background-image: url(../../../../../frontend/resources/fugue-icons/icons/notebook.png) !important;
+}
+
+.x-char-picker {
+	width:520px;
+	height:286px;
+	cursor:pointer
+}
+
+.x-char-picker a { 
+	border:1px solid #fff;
+	float:left;
+	padding:2px;
+	text-decoration:none;
+	-moz-outline: 0 none;
+	outline:0 none;
+	cursor:pointer;
+	color: black;
+}
+
+.x-char-picker a:hover, .x-char-picker a.x-char-picker-selected {
+	border-color:#8bb8f3;
+	background-color:#deecfd;
+}
+
+.x-char-picker em { 
+	display:block;
+	border:1px solid #aca899
+}
+
+.x-char-picker em span {
+	cursor:pointer;
+	display:block;
+	height:18px;
+	vertical-align: top;
+	text-align: center;
+	width:18px;
+	line-height:18px
+}
+
+.x-form-trigger-help {
+    background-image: url('../../../../../frontend/resources/images/trigger-help.gif'),-webkit-linear-gradient(top, #dee3e6 0%, #fcfcfd 12%, #fff 100%);
+}
+
+.x-form-trigger-link {
+    background-image: url('../../../../../frontend/resources/images/trigger-link.png'),-webkit-linear-gradient(top, #dee3e6 0%, #fcfcfd 12%, #fff 100%);
+}
+

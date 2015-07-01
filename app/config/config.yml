@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: partkeepr.yml }
 
 fos_rest:
     body_listener: true
