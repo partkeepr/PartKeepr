@@ -13,5 +13,4 @@ _configurator:
 _main:
     resource: routing.yml
 
-_frontend:
-    resource: "@PartKeeprFrontendBundle/Resources/config/routing.yml"
+
