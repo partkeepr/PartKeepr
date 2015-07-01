@@ -8,11 +8,8 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		
 		this.tpl = new Ext.XTemplate(
 				'<tpl for=".">',
-		            '<div class="thumb-wrap" id="{id}">',
-				    '<div class="thumb"><img src="image.php?type=iclogo&id={id}&w=64&h=64&tmpId={tmp_id}"/></div>',
-				    '</div>',
-		        '</tpl>',
-		        '<div class="x-clear"></div>');
+				    '<div class="dataview-multisort-item iclogo"><img src="{[values["@id"]]}?maxwidth=100&maxheight=100"/></div>',
+		        '</tpl>');
 
 		this.addLogoButton = Ext.create("Ext.button.Button", {
 	        icon: "resources/silkicons/add.png",
@@ -35,9 +32,8 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 			emptyText: 'No images to display',
 			height: 200,
 			fieldLabel: i18n("Logos"),
-			overItemCls: 'x-view-over',
 			componentCls: 'manufacturer-ic-logos',
-			itemSelector: 'div.thumb-wrap',
+			itemSelector: 'div.dataview-multisort-item',
 			singleSelect: true,
 			anchor: '100%',
 			tpl: this.tpl,
@@ -115,7 +111,7 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		j.show();
 	},
 	deleteImage: function () {
-		this.iclogoGrid.store.remove(this.iclogoGrid.getSelectionModel().getLastSelected());
+		this.iclogoGrid.getStore().remove(this.iclogoGrid.getSelectionModel().getLastSelected());
 	},
 	onEditStart: function () {
 		var store = this.record.icLogos();
