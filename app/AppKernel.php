@@ -61,7 +61,6 @@ class AppKernel extends Kernel
             new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
             new Dunglas\ApiBundle\DunglasApiBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
-            new Liip\ImagineBundle\LiipImagineBundle(),
         );
 
         // Developer bundles

@@ -13,8 +13,10 @@
     <!-- Include the ExtJS CSS Theme -->
     {% stylesheets
     filter='cssrewrite'
-    'js/packages/extjs5/packages/ext-theme-neptune-touch/build/resources/ext-theme-neptune-touch-all-debug.css'
-    'js/packages/extjs5/packages/extux/statusbar/css/statusbar.css'
+    'js/packages/extjs6/build/classic/theme-neptune-touch/resources/theme-neptune-touch-all.css'
+    'js/packages/extjs6/build/packages/ux/classic/neptune/resources/ux-all.css'
+    'js/packages/extjs6/build/packages/charts/classic/neptune/resources/charts-all.css'
+    '@PartKeeprFrontendBundle/Resources/public/css/PartKeepr.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -33,14 +35,12 @@
     </script>
     {% javascripts
     output='js/compiled/main.js'
-    'js/packages/extjs5/build/ext-all-debug.js'
-    'js/packages/extjs5/packages/ext-charts/build/ext-charts.js'
-    'js/packages/extjs5/packages/extux/statusbar/StatusBar.js'
-    'js/packages/extjs5/packages/extux/statusbar/ValidationStatus.js'
+    'js/packages/extjs6/build/ext-all-debug.js'
+    'js/packages/extjs6/build/packages/charts/classic/charts.js'
+    'js/packages/extjs6/build/packages/ux/classic/ux.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/JsonWithAssociationsWriter.js'
     '@PartKeeprFrontendBundle/Resources/public/js/PartKeepr.js'
-    'js/packages/extjs5/packages/extux/TabCloseMenu.js'
     '@PartKeeprFrontendBundle/Resources/public/js/compat.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/NumericField.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/CurrencyNumberField.js'
