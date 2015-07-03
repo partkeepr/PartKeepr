@@ -8,11 +8,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
 }
 
-/* @todo Check if this is needed with ExtJS 6 */
 .x-item-selected {
     outline: 1px solid #157fcc !important;
     outline-offset: -1px;
