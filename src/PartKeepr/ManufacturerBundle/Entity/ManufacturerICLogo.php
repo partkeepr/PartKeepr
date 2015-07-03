@@ -2,7 +2,7 @@
 namespace PartKeepr\ManufacturerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\Image\Image;
+use PartKeepr\ImageBundle\Entity\Image;
 use PartKeepr\Util\Deserializable;
 use PartKeepr\Util\Serializable;
 

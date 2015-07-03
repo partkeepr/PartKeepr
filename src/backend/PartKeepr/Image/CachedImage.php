@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\Image;
 
+use PartKeepr\ImageBundle\Entity\Image;
 use PartKeepr\PartKeepr,
     Doctrine\ORM\Mapping as ORM;
 

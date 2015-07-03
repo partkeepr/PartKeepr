@@ -133,7 +133,7 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
-    resource.manufacturer_ic_logo.item_operation.custom_put:
+    resource.manufacturer_ic_logo.item_operation.custom_get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
@@ -166,7 +166,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.manufacturer_ic_logo.item_operation.custom_put", "@resource.manufacturer_ic_logo.item_operation.get", "@resource.manufacturer_ic_logo.item_operation.put"  ] ]
+                    arguments: [ [ "@resource.manufacturer_ic_logo.item_operation.custom_get", "@resource.manufacturer_ic_logo.item_operation.get", "@resource.manufacturer_ic_logo.item_operation.put"  ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@resource.order_filter" ] ]
             -       method:    "initNormalizationContext"
@@ -242,3 +242,44 @@ services:
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
+
+
+    resource.tempimage.collection_operation.custom_post:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments:
+                 -    "@resource.tempimage"               # Resource
+                 -    [ "POST" ]                 # Methods
+                 -    "/temporaryImage/upload"           # Path
+                 -    "PartKeeprImageBundle:TemporaryImage:upload"         # Controller
+                 -    "TemporaryImageUpload"                 # Route name
+                 -    # Context (will be present in Hydra documentation)
+                      "@type":       "hydra:Operation"
+                      "hydra:title": "A custom operation"
+                      "returns":     "xmls:string"
+
+    resource.tempimage.item_operation.custom_get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.tempimage"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/temporaryImage/{id}/getImage"           # Path
+             -    "PartKeeprImageBundle:TemporaryImage:getImage"         # Controller
+             -    "TemporaryImageGet"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.tempimage:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ImageBundle\\Entity\\TempImage" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.tempimage.collection_operation.custom_post" ] ]
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.tempimage.item_operation.custom_get" ] ]

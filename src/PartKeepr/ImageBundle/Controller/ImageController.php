@@ -2,18 +2,18 @@
 namespace PartKeepr\ImageBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Dunglas\ApiBundle\Controller\ResourceController;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PartKeepr\Image\CachedImage;
-use PartKeepr\Image\Image as PartKeeprImage;
+use PartKeepr\ImageBundle\Entity\Image as PartKeeprImage;
 use PartKeepr\ImageBundle\Response\ImageNotFoundResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class ImageController extends Controller
+abstract class ImageController extends ResourceController
 {
     /**
      *
@@ -46,8 +46,8 @@ abstract class ImageController extends Controller
             return new ImageNotFoundResponse($request->get("width"), $request->get("height"));
         }
 
-        $width = $request->get("width");
-        $height = $request->get("height");
+        $width = $request->get("maxWidth");
+        $height = $request->get("maxHeight");
 
         if ($width == 0) {
             $width = 200;
@@ -129,7 +129,7 @@ abstract class ImageController extends Controller
      */
     public function getFilename(PartKeeprImage $image)
     {
-        return realpath($this->getImageStorageDirectory())."/".$image->getPlainFilename().".png";
+        return realpath($this->getImageStorageDirectory())."/".$image->getPlainFilename().".".$image->getExtension();
     }
 
     /**

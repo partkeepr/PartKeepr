@@ -1,9 +1,12 @@
 <?php
-namespace PartKeepr\Image;
+namespace PartKeepr\ImageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\Image\CachedImage;
 use PartKeepr\Image\Exceptions\InvalidImageTypeException;
-use PartKeepr\TempImage\TempImage;
+use PartKeepr\Image\ImageRenderer;
+use PartKeepr\Image\RenderableImage;
+use PartKeepr\ImageBundle\Entity\TempImage;
 use PartKeepr\UploadedFile\UploadedFile;
 
 /**
@@ -11,7 +14,7 @@ use PartKeepr\UploadedFile\UploadedFile;
  * 
  * @ORM\MappedSuperclass
  */
-abstract class Image extends UploadedFile implements RenderableImage {
+abstract class Image extends UploadedFile {
 	const IMAGE_ICLOGO = "iclogo";
 	const IMAGE_TEMP = "temp";
 	const IMAGE_PART = "part";
@@ -19,25 +22,19 @@ abstract class Image extends UploadedFile implements RenderableImage {
 	const IMAGE_FOOTPRINT = "footprint";
 
 	/**
-	 * Holds the image renderer
-	 * @var object
-	 */
-	private $renderer;
-	
-	/**
 	 * Constructs a new image object.
 	 * 
 	 * @param string $type	The type for the image, one of the IMAGE_ constants.
 	 */
-	public function __construct ($type) {
+	public function __construct ($type = NULL) {
 		parent::__construct();
 		$this->setType($type);
 	}
-	
+
 	/**
 	 * Sets the type of the image. Once the type is set,
 	 * it may not be changed later.
-	 * 
+	 *
 	 * @param string $type	The type for the image, one of the IMAGE_ constants.
 	 * @throws InvalidImageTypeException
 	 */
@@ -54,18 +51,7 @@ abstract class Image extends UploadedFile implements RenderableImage {
 				throw new InvalidImageTypeException($type);
 		}
 	}
-	
-	/**
-	 * Returns the renderer for image manipulations
-	 * @return object
-	 */
-	public function getRenderer () {
-		if (!$this->renderer instanceof ImageRenderer) {
-			$this->renderer = new ImageRenderer($this);
-		}
-		
-		return $this->renderer;
-	}
+
 	/**
 	 * Replaces the current image with a new image.
 	 * 

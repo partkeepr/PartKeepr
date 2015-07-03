@@ -179,7 +179,15 @@ Ext.define('PartKeepr.ExceptionWindow', {
     		this.backtraceDetails.setValue("No backtrace available");
     	}
 
-		var requestData = response.request.options.method + " " + response.request.options.url;
+		if (!response.request) {
+			response.request = {};
+		}
+
+		if (response.request && response.request.options && response.request.options.method && response.request.options.url) {
+			var requestData = response.request.options.method + " " + response.request.options.url;
+		} else {
+			var requestData = "";
+		}
 
 		if (response.request.jsonData) {
 			requestData += "\n\n"+response.request.jsonData;

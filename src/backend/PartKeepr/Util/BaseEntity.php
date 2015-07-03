@@ -4,7 +4,7 @@ namespace PartKeepr\Util;
 use Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\MappedSuperclass */
-class BaseEntity {
+abstract class BaseEntity {
 	/**
 	* @ORM\Id @ORM\Column(type="integer")
 	* @ORM\GeneratedValue(strategy="AUTO")

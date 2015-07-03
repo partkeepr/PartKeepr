@@ -1,11 +1,9 @@
 <?php
-namespace PartKeepr\TempImage;
+namespace PartKeepr\ImageBundle\Entity;
 
-use PartKeepr\Image\Exceptions\InvalidImageTypeException,
-	PartKeepr\Util\Configuration,
-	PartKeepr\Image\Image,
-	PartKeepr\PartKeepr,
-    Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\ImageBundle\Entity\Image;
+use PartKeepr\UploadedFile\UploadedFile;
 
 /**
  * Represents a temporary image. Temporary images are used when

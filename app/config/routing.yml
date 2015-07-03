@@ -3,6 +3,11 @@ part_keepr_auth:
     type:     annotation
     prefix:   /
 
+PartKeeprImageBundle:
+    resource: "@PartKeeprImageBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc

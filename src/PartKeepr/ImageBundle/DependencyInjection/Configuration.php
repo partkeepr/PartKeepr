@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('iclogo')->defaultValue('%kernel.root_dir%/../data/images/iclogo/')->cannotBeEmpty()->info('The directory which contains the uploaded ic logos')->end()
+                        ->scalarNode('temp')->defaultValue('%kernel.root_dir%/../data/temp/')->cannotBeEmpty()->info('The directory which contains the temporary images')->end()
                     ->end()
                 ->end()
             ->end();

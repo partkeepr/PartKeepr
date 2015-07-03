@@ -16,6 +16,7 @@ class PartKeeprExtension extends Extension
 
         $container->setParameter('partkeepr.image_cache_directory', $config['image_cache_directory']);
         $container->setParameter('partkeepr.images.iclogo', $config['images']['iclogo']);
+        $container->setParameter('partkeepr.images.temp', $config['images']['temp']);
     }
 
     public function getAlias () {

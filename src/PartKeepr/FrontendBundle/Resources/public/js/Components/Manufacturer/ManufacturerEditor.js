@@ -8,7 +8,7 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		
 		this.tpl = new Ext.XTemplate(
 				'<tpl for=".">',
-				    '<div class="dataview-multisort-item iclogo"><img src="{[values["@id"]]}?maxwidth=100&maxheight=100"/></div>',
+				    '<div class="dataview-multisort-item iclogo"><img src="{[values["@id"]]}?maxWidth=100&maxHeight=100"/></div>',
 		        '</tpl>');
 
 		this.addLogoButton = Ext.create("Ext.button.Button", {
@@ -100,10 +100,7 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 		this.iclogoGrid.bindStore(record.icLogos());
 	},
 	onFileUploaded: function (response) {
-		this.iclogoGrid.getStore().add({
-			id: "TMP:"+response.id,
-			manufacturer_id: this.record.get("id") 
-		});
+		this.iclogoGrid.getStore().add(response);
 	},
 	uploadImage: function () {
 		var j = Ext.create("PartKeepr.FileUploadDialog", { imageUpload: true });

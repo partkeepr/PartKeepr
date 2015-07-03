@@ -12,7 +12,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
     initComponent: function () {
     	
     	if (this.imageUpload) {
-    		this.uploadURL = PartKeepr.getBasePath()+"/TempImage";
+    		this.uploadURL = PartKeepr.getBasePath() + "/api/temporaryImage/upload";
     	}
     	
     	this.uploadButton = Ext.create("Ext.button.Button",
@@ -33,7 +33,6 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	        			form.submit({
     	        				url: this.uploadURL,
     	        				params: {
-    	        				call: "upload",
     	                    	session: PartKeepr.getApplication().getSession()
     	                    },
     	                    success: Ext.bind(function(fp, o) {
@@ -41,13 +40,19 @@ Ext.define('PartKeepr.FileUploadDialog', {
     	                    	this.close();
     	                    },this),
     	                    failure: function(form, action) {
-    	                    	 var data = Ext.decode(action.response.responseText);
-    	                         
-    	                         request = {
-    	                     			response: action.response.responseText
-    	                     	};
-    	                         
-    	                     	PartKeepr.ExceptionWindow.showException(data.exception, request);
+								var exception = {
+									message: i18n("Critical Error"),
+									detail: i18n("The server returned a response which we were not able to interpret.")
+								};
+
+
+								var requestData = { options: {}};
+
+								request = {
+									responseText: action.response.responseText
+								};
+
+								PartKeepr.ExceptionWindow.showException(exception, request);
     	                    }
     	                });
     	            }

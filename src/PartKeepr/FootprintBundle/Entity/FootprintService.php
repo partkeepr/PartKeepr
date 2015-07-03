@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\FootprintBundle\Entity;
 
-use PartKeepr\TempImage\TempImage,
+use PartKeepr\ImageBundle\Entity\TempImage,
 	\PartKeepr\FootprintBundle\Entity\FootprintCategory,
 	PartKeepr\Service\Service,
 	PartKeepr\Service\RestfulService,

@@ -2,7 +2,7 @@
 namespace PartKeepr\TempImage;
 
 use PartKeepr\Service\Service;
-use PartKeepr\TempImage\TempImage;
+use PartKeepr\ImageBundle\Entity\TempImage;
 use PartKeepr\PartKeepr;
 
 class TempImageService extends Service {

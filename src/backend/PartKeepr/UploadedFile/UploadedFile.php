@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\MappedSuperclass
  */
-abstract class UploadedFile extends BaseEntity implements Serializable {
+abstract class UploadedFile extends BaseEntity {
 	/**
 	 * Specifies the type of the file.
 	 *
@@ -128,7 +128,7 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 		 * Credit goes to Ryan Rampersad from whom I copied most code.
 		 * http://blog.ryanrampersad.com/2008/11/07/get-remote-html-with-curl-and-php/
 		 */
-		$curl = curl_init();
+		$curl = \curl_init();
 		
 		$header[0] = "Accept: text/xml,application/xml,application/xhtml+xml,";
 		$header[0] .= "text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
@@ -150,7 +150,7 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 		curl_setopt($curl, CURLOPT_MAXREDIRS, 7);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 		
-		$data = curl_exec($curl);
+		$data = \curl_exec($curl);
 		
 		if ($data === false) {
 			$curlError = curl_error($curl);
@@ -307,18 +307,5 @@ abstract class UploadedFile extends BaseEntity implements Serializable {
 				throw new SerializableException(
 						sprintf(PartKeepr::i18n("Unable to write to directory %s"), $this->getFilePath()));
 		}
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see PartKeepr\Util.Serializable::serialize()
-	 */
-	public function serialize () {
-		return array(
-				"id" => $this->getId(),
-				"extension" => $this->getExtension(),
-				"size" => $this->getSize(),
-				"originalFilename" => $this->getOriginalFilename()
-				);
 	}
 }

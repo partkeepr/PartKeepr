@@ -2,7 +2,7 @@
 namespace PartKeepr\StorageLocation;
 
 use PartKeepr\Util\Serializable,
-	PartKeepr\Image\Image,
+	PartKeepr\ImageBundle\Entity\Image,
     Doctrine\ORM\Mapping as ORM;
 
 /**
