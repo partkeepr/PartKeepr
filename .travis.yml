@@ -30,5 +30,6 @@ before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; fi
   - composer self-update
   - composer install --prefer-source --no-interaction --no-scripts
+  - app/console cache:warmup --env=test
   - app/console doctrine:database:create --env=test
   - app/console doctrine:schema:create --env=test
