@@ -23,9 +23,6 @@ matrix:
     - php: 7.0
     - php: hhvm
 
-install:
-  - composer update
-
 before_script:
   - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS partkeepr_test;" -U postgres; fi
   - if [[ "$DB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
