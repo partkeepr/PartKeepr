@@ -1,0 +1,32 @@
+language: php
+
+php:
+    - 5.4
+    - 5.5
+    - 5.6
+    - 7.0
+    - nightly
+    - hhvm
+
+script: phpunit -c app/
+
+env:
+    - SYMFONY__TESTDB=mysql
+    - SYMFONY__TESTDB=pgsql
+    - SYMFONY__TESTDB=sqlite
+
+matrix:
+  exclude:
+    - php: hhvm
+      env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
+  allow_failures:
+    - php: 7.0
+    - php: hhvm
+
+before_script:
+  - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS partkeepr_test;" -U postgres; fi
+  - if [[ "$DB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "DROP IF EXISTS partkeepr_test;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; fi
+  - app/console doctrine:database:create --env=test
+  - app/console doctrine:schema:create --env=test

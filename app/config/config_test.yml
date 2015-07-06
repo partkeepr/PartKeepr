@@ -15,11 +15,22 @@ web_profiler:
 
 doctrine:
     dbal:
-        default_connection: default
+        default_connection: %testdb%
         connections:
-            default:
+            sqlite:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
+            mysql:
+                driver:     pdo_mysql
+                dbname:     partkeepr_test
+                host:       localhost
+                user:       travis
+            pgsql:
+                driver:     pdo_pgsql
+                dbname:     partkeepr_test
+                host:       localhost
+                user:       travis
+
 
 liip_functional_test:
     cache_sqlite_db: true
