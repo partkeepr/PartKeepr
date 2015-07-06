@@ -1,13 +1,3 @@
-[submodule "frontend/resources/silkicons"]
-	path = src/frontend/resources/silkicons
-	url = git://github.com/partkeepr/famfamfam_silkicons.git
-[submodule "frontend/resources/flags"]
-	path = src/frontend/resources/flags
-	url = git://github.com/partkeepr/famfamfam_flags.git
-[submodule "frontend/resources/mimetypes"]
-	path = src/frontend/resources/mimetypes
-	url = git://github.com/partkeepr/splitbrain_mimetypes.git
-
 [submodule "3rdparty/extjs"]
 	path = 3rdparty/extjs
 	url = git://github.com/partkeepr/ExtJS4.git
