@@ -28,5 +28,7 @@ before_script:
   - if [[ "$DB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
   - if [[ "$DB" == "mysql" ]]; then mysql -e "DROP IF EXISTS partkeepr_test;" -uroot; fi
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; fi
+  - composer self-update
+  - composer install --prefer-source --no-interaction
   - app/console doctrine:database:create --env=test
   - app/console doctrine:schema:create --env=test
