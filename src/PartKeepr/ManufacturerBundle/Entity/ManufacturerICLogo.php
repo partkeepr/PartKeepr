@@ -3,8 +3,6 @@ namespace PartKeepr\ManufacturerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
-use PartKeepr\Util\Deserializable;
-use PartKeepr\Util\Serializable;
 
 /**
  * Holds a manufacturer IC logo
@@ -16,6 +14,7 @@ class ManufacturerICLogo extends Image
     /**
      * The manufacturer object
      * @ORM\ManyToOne(targetEntity="PartKeepr\ManufacturerBundle\Entity\Manufacturer", inversedBy="icLogos")
+     * @ORM\JoinColumn(name="manufacturer_id",referencedColumnName="id")
      *
      * @var Manufacturer
      */

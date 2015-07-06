@@ -23,17 +23,10 @@ class Configuration implements ConfigurationInterface
         $rootNode->
             children()
                 ->scalarNode('image_cache_directory')->cannotBeEmpty()->isRequired()->info('The image cache directory')->end()
-                ->arrayNode('images')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('iclogo')->defaultValue('%kernel.root_dir%/../data/images/iclogo/')->cannotBeEmpty()->info('The directory which contains the uploaded ic logos')->end()
-                        ->scalarNode('temp')->defaultValue('%kernel.root_dir%/../data/temp/')->cannotBeEmpty()->info('The directory which contains the temporary images')->end()
-                    ->end()
+                ->arrayNode('directories')
+                    ->prototype('scalar')->end()
                 ->end()
             ->end();
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
 
         return $treeBuilder;
     }

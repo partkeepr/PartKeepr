@@ -3,7 +3,7 @@ namespace PartKeepr\Project;
 
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
-	PartKeepr\UploadedFile\UploadedFile,
+	PartKeepr\UploadedFileBundle\Entity\UploadedFile,
     Doctrine\ORM\Mapping as ORM;
 
 /**

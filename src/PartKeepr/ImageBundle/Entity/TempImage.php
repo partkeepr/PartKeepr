@@ -2,8 +2,6 @@
 namespace PartKeepr\ImageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\ImageBundle\Entity\Image;
-use PartKeepr\UploadedFile\UploadedFile;
 
 /**
  * Represents a temporary image. Temporary images are used when
@@ -11,8 +9,10 @@ use PartKeepr\UploadedFile\UploadedFile;
  *
  * @ORM\Entity
  */
-class TempImage extends Image {
-	public function __construct () {
-		parent::__construct(Image::IMAGE_TEMP);
-	}
+class TempImage extends Image
+{
+    public function __construct()
+    {
+        parent::__construct(Image::IMAGE_TEMP);
+    }
 }

@@ -2,6 +2,7 @@
 namespace PartKeepr\UploadedFile;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
  * Represents a temporary file. Temporary files are used when

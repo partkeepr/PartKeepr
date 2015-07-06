@@ -4,6 +4,7 @@ namespace PartKeepr\ManufacturerBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
+use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use PartKeepr\Util\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -80,7 +81,9 @@ class Manufacturer extends BaseEntity
 
     /**
      * All ic logos of this manufacturer
-     * @ORM\OneToMany(targetEntity="PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist","remove"})
+     *
+     * @UploadedFileCollection()
      * @Groups({"default"})
      */
     private $icLogos;
@@ -220,7 +223,7 @@ class Manufacturer extends BaseEntity
      */
     public function setURL($url)
     {
-        //$this->url = $url;
+        $this->url = $url;
     }
 
     /**
@@ -238,7 +241,7 @@ class Manufacturer extends BaseEntity
      *
      * @return ArrayCollection The array with all ic logos
      */
-    public function getICLogos()
+    public function getIcLogos()
     {
         return $this->icLogos;
     }
@@ -246,10 +249,10 @@ class Manufacturer extends BaseEntity
     /**
      * Sets the IC Logos
      *
-     * @param $array
+     * @param array $icLogos The icLogos to set
      */
-    public function setICLogos($array)
+    public function setIcLogos($icLogos)
     {
-        $this->icLogos = $array;
+        $this->icLogos = $icLogos;
     }
 }

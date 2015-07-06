@@ -47,7 +47,9 @@
         "dunglas/api-bundle": "1.0.*@dev",
         "symfony/serializer": "2.7.1",
         "brainbits/fugue-icons-bundle": "^3.5",
-        "imagine/imagine": "^0.6.2"
+        "imagine/imagine": "^0.6.2",
+        "ramsey/uuid": "dev-master",
+        "moontoast/math": "^1.1"
     },
     "autoload": {
         "psr-0": { "": "src/",

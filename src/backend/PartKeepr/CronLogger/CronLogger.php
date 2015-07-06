@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\CronLogger;
 
-use PartKeepr\UploadedFile\UploadedFile,
+use PartKeepr\UploadedFileBundle\Entity\UploadedFile,
 	PartKeepr\Util\BaseEntity,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\Deserializable,

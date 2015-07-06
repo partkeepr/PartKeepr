@@ -65,6 +65,7 @@ abstract class ImageController extends ResourceController
 
     /**
      * Returns the path to the image cache directory.
+     *
      * @return string
      */
     public function getImageCacheDirectory()
@@ -88,9 +89,10 @@ abstract class ImageController extends ResourceController
     /**
      * Scales the image to fit within the given size.
      *
-     * @param int     $width The width
-     * @param int     $height The height
-     * @param boolean $padding If true, pad the output image to the given size (transparent background).
+     * @param PartKeeprImage $image   The image to scale
+     * @param int            $width   The width
+     * @param int            $height  The height
+     * @param boolean        $padding If true, pad the output image to the given size (transparent background).
      *
      * @return string The path to the scaled file
      */
@@ -123,28 +125,31 @@ abstract class ImageController extends ResourceController
 
     /**
      * Returns the full path for the image
+     *
      * @param PartKeeprImage $image
      *
      * @return string
      */
     public function getFilename(PartKeeprImage $image)
     {
-        return realpath($this->getImageStorageDirectory())."/".$image->getPlainFilename().".".$image->getExtension();
+        $storageDirectory = $this->get("partkeepr_uploadedfile_service")->getStorageDirectory($image);
+
+        return $storageDirectory."/".$image->getFilename().".".$image->getExtension();
     }
 
     /**
      * Returns the path to an image which has been cached in a particular width, height and mode.
      *
-     * @param PartKeeprImage $image The image
-     * @param integer        $width The width
+     * @param PartKeeprImage $image  The image
+     * @param integer        $width  The width
      * @param integer        $height The height
-     * @param string         $mode The mode
+     * @param string         $mode   The mode
      *
      * @return string
      */
     public function getImageCacheFilename(PartKeeprImage $image, $width, $height, $mode)
     {
-        $outputFile = realpath($this->getImageCacheDirectory());
+        $outputFile = $this->getImageCacheDirectory();
         $outputFile .= "/".sha1($image->getFilename());
         $outputFile .= $width."x".$height."_".$mode.".png";
 
@@ -156,11 +161,5 @@ abstract class ImageController extends ResourceController
      *
      * @return string
      */
-    abstract public function getEntityClass ();
-
-    /**
-     * Returns the path to the images.
-     * @return string
-     */
-    abstract public function getImageStorageDirectory ();
+    abstract public function getEntityClass();
 }

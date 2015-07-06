@@ -66,36 +66,4 @@ class CachedImage {
 	public function getCacheFile () {
 		return $this->cacheFile;
 	}
-	
-	/**
-	 * Removes all caches for a specific image. This is usually called
-	 * when a new version of an image is uploaded.
-	 * 
-	 * Automatically calls "flush" on the entity manager.
-	 * 
-	 * @param Image $image The image to invalidate
-	 */
-	public static function invalidate (Image $image) {
-		$qb = PartKeepr::getEM()->createQueryBuilder();
-		$qb->select(array("c"))
-			->from('PartKeepr\Image\CachedImage', 'c')
-			->where("c.originalId = :id")
-			->andWhere("c.originalType = :type")
-			->setParameter("id", $image->getId())
-			->setParameter("type", $image->getType());
-			
-		$query = $qb->getQuery();
-		
-		$bImagesRemoved = false;
-		
-		foreach ($query->getResult() as $file) {
-			unlink($file->getCacheFile());
-			PartKeepr::getEM()->remove($file);
-			$bImagesRemoved = true;
-		}
-		
-		if ($bImagesRemoved) {
-			PartKeepr::getEM()->flush();
-		}
-	}
 }

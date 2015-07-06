@@ -72,6 +72,7 @@ class AppKernel extends Kernel
         }
 
         // PartKeepr bundles
+        $bundles[] = new PartKeepr\UploadedFileBundle\PartKeeprUploadedFileBundle();
         $bundles[] = new PartKeepr\FrontendBundle\PartKeeprFrontendBundle();
         $bundles[] = new PartKeepr\SiPrefixBundle\PartKeeprSiPrefixBundle();
         $bundles[] = new PartKeepr\AuthBundle\PartKeeprAuthBundle();

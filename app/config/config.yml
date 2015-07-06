@@ -103,6 +103,13 @@ nelmio_api_doc:
                 json:       "application/json"
 
 services:
+    my_event_listener:
+        class:    "PartKeepr\\UploadedFileBundle\\EventListener\\TemporaryFileEventListener"
+        arguments:
+            - "@partkeepr_uploadedfile_service"
+            - "@annotation_reader"
+            - "@property_accessor"
+        tags:  [ { name: "kernel.event_listener", event: "api.pre_update", method: "onPreUpdate" } ]
     resource.order_filter:
         parent:    "api.doctrine.orm.order_filter"
         arguments: [ ~ ] # This line can also be omitted
@@ -140,7 +147,7 @@ services:
         arguments:
              -    "@resource.manufacturer_ic_logo"               # Resource
              -    [ "GET" ]                 # Methods
-             -    "/manufacturter_i_c_logo/{id}/getImage"           # Path
+             -    "/manufacturer_i_c_logo/{id}/getImage"           # Path
              -    "PartKeeprManufacturerBundle:ManufacturerIcLogo:getImage"         # Controller
              -    "ManufacturerIcLogoGetImage"                 # Route name
              -    # Context (will be present in Hydra documentation)
