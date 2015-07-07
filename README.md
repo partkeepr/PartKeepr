@@ -1,3 +1,5 @@
+[![Sylius](https://partkeepr.org/partkeepr-banner.png)](https://www.partkeepr.org)
+
 [![JSON-LD enabled](http://json-ld.org/images/json-ld-button-88.png)](http://json-ld.org)
 [![Build Status](https://travis-ci.org/partkeepr/PartKeepr.svg?branch=sf2migration)](https://travis-ci.org/partkeepr/PartKeepr)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a9f5bdce-ac86-4c51-b87d-56fd0f241155/mini.png)](https://insight.sensiolabs.com/projects/a9f5bdce-ac86-4c51-b87d-56fd0f241155)
@@ -5,21 +7,10 @@
 [![Test Coverage](https://codeclimate.com/github/partkeepr/PartKeepr/badges/coverage.svg)](https://codeclimate.com/github/partkeepr/PartKeepr/coverage)
 [![Dependency Status](https://www.versioneye.com/user/projects/559c33736166340021000b1f/badge.svg?style=flat)](https://www.versioneye.com/user/projects/559c33736166340021000b1f)
 
-README
-======
+PartKeepr is an [inventory management software](https://en.wikipedia.org/wiki/Inventory_management_software), primarily
+designed for electronic components.
 
-What is PartKeepr?
-----------------
-
-PartKeepr is an electronic part inventory management software. It helps you to keep track of your available parts and
-assist you with re-ordering parts. PartKeepr is designed for hackerspaces with multiple users, but you can also use it
-to manage your personal electronic part inventory.
-
-Project Status
---------------
-
-This project is currently in alpha stage. Code quality is improving constantly. However, this project is not ready for
-production yet. Please try it out, but handle with care!
+PartKeepr is written in **PHP** and using the [**Symfony2**](http://symfony.com) framework.
 
 Demo Site
 ---------
@@ -32,12 +23,9 @@ Requirements
 
 PartKeepr needs:
 
-* PHP 5.3.2 and up
-* APC (see http://www.php.net/manual/en/apc.installation.php how to install it)
-* Tokenizer Support
-* A working PEAR installation
-* A MySQL database (PostgreSQL support has been dropped, try at your own risk. Also, in theory, we support Oracle and MSSQL as well, but you have to install PartKeepr using the CLI setup).
-* The Imagick pecl extension
+* PHP 5.5 and up
+* A MySQL or PostgreSQL database
+
 
 Installation
 ------------
