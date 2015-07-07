@@ -34,5 +34,3 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
-partkeepr:
-  auto_generate_extjs_models: true

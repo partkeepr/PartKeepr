@@ -17,7 +17,6 @@ class PartKeeprExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('partkeepr.image_cache_directory', $config['image_cache_directory']);
-        $container->setParameter('partkeepr.auto_generate_extjs_models', $config['auto_generate_extjs_models']);
 
         foreach ($config["directories"] as $key => $value) {
             $container->setParameter("partkeepr.directories.".$key, $value);
