@@ -5,11 +5,9 @@ php:
     - 5.6
     - 7.0
     - nightly
-    - hhvm
 
 script:
-    - phpunit -c app/
-    - phpunit --coverage-clover build/logs/clover.xml
+    - phpunit -c app/ --coverage-clover build/logs/clover.xml
 
 env:
     - SYMFONY__TESTDB=mysql
