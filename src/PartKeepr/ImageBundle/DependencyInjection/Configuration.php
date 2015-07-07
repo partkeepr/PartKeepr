@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('partkeepr');
 
         $rootNode->
-            children()->
+            children()
                 ->booleanNode('auto_generate_extjs_models')->defaultFalse()->end()
                 ->scalarNode('image_cache_directory')->cannotBeEmpty()->isRequired()->info('The image cache directory')->end()
                 ->arrayNode('directories')
