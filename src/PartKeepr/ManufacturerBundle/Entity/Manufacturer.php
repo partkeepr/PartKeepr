@@ -3,7 +3,6 @@ namespace PartKeepr\ManufacturerBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use PartKeepr\Util\BaseEntity;
@@ -250,10 +249,14 @@ class Manufacturer extends BaseEntity
     /**
      * Adds an IC Logo.
      *
-     * @param ManufacturerICLogo $icLogo
+     * @param object $icLogo Either a ManufacturerICLogo or a TempImage
      */
-    public function addIcLogo(ManufacturerICLogo $icLogo) {
-        $icLogo->setManufacturer($this);
+    public function addIcLogo($icLogo)
+    {
+        if ($icLogo instanceof ManufacturerICLogo) {
+            $icLogo->setManufacturer($this);
+        }
+
         $this->icLogos->add($icLogo);
     }
 
@@ -262,7 +265,8 @@ class Manufacturer extends BaseEntity
      *
      * @param ManufacturerICLogo $icLogo
      */
-    public function removeIcLogo(ManufacturerICLogo $icLogo) {
+    public function removeIcLogo(ManufacturerICLogo $icLogo)
+    {
         $icLogo->setManufacturer(null);
         $this->icLogos->removeElement($icLogo);
     }
