@@ -3,6 +3,7 @@ namespace PartKeepr\ManufacturerBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use PartKeepr\Util\BaseEntity;
@@ -81,7 +82,7 @@ class Manufacturer extends BaseEntity
 
     /**
      * All ic logos of this manufacturer
-     * @ORM\OneToMany(targetEntity="PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"}, orphanRemoval=true)
      *
      * @UploadedFileCollection()
      * @Groups({"default"})
@@ -247,12 +248,22 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the IC Logos
+     * Adds an IC Logo.
      *
-     * @param array $icLogos The icLogos to set
+     * @param ManufacturerICLogo $icLogo
      */
-    public function setIcLogos($icLogos)
-    {
-        $this->icLogos = $icLogos;
+    public function addIcLogo(ManufacturerICLogo $icLogo) {
+        $icLogo->setManufacturer($this);
+        $this->icLogos->add($icLogo);
+    }
+
+    /**
+     * Removes an IC Logo.
+     *
+     * @param ManufacturerICLogo $icLogo
+     */
+    public function removeIcLogo(ManufacturerICLogo $icLogo) {
+        $icLogo->setManufacturer(null);
+        $this->icLogos->removeElement($icLogo);
     }
 }

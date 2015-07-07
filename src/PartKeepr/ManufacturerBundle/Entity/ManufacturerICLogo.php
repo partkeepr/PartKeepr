@@ -33,7 +33,7 @@ class ManufacturerICLogo extends Image
      *
      * @param Manufacturer $manufacturer The manufacturer to set
      */
-    public function setManufacturer(Manufacturer $manufacturer)
+    public function setManufacturer(Manufacturer $manufacturer = null)
     {
         $this->manufacturer = $manufacturer;
     }
