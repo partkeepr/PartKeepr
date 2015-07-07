@@ -67,10 +67,6 @@ class IndexController extends Controller
         $renderParams["debug"] = Configuration::getOption("partkeepr.frontend.debug", false);
         $renderParams["parameters"] = $aParameters;
 
-        if ($renderParams["debug_all"]) {
-            $renderParams["scripts"] = unserialize(file_get_contents(PartKeepr::getRootDirectory() . "/partkeepr.jsfiles"));
-        }
-
         if (isset($_SERVER['HTTPS'])) {
             $renderParams["https"] = true;
         } else {
