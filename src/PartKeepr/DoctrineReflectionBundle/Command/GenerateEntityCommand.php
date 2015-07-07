@@ -5,7 +5,8 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateEntityCommand extends ContainerAwareCommand {
+class GenerateEntityCommand extends ContainerAwareCommand
+{
     public function configure()
     {
         parent::configure();
