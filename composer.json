@@ -1,85 +1,86 @@
 {
-    "name": "partkeepr/partkeepr",
-    "description": "Open Source Inventory Software",
-    "type": "project",
-
-    "homepage": "http://www.partkeepr.org",
-    "license": "GPL-3.0+",
-
-    "authors": [
-        {
-            "name": "Timo A. Hummel",
-            "email": "felicitus@felicitus.org",
-            "homepage": "http://www.felicitus.org",
-            "role": "Project Lead, Developer"
-        }
-    ],
-
-    "support": {
-        "issues": "https://github.com/partkeepr/PartKeepr/issues",
-        "irc": "irc://irc.freenode.org/partkeepr",
-        "wiki": "http://wiki.partkeepr.org",
-        "forum": "http://forum.partkeepr.org",
-        "source": "https://github.com/partkeepr/PartKeepr",
-        "faq" : "http://faq.partkeepr.org"
-    },
-    "require": {
-        "php": ">=5.3.3",
-        "symfony/symfony": "~2.7",
-        "incenteev/composer-parameter-handler": "~2.0",
-        "doctrine/orm": "~2.5",
-        "doctrine/doctrine-bundle": "~1.2",
-        "twig/extensions": "*",
-        "symfony/assetic-bundle": "~2.3",
-        "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~4.0.0",
-        "sensio/framework-extra-bundle": "~3.0",
-        "sensio/generator-bundle": "~2.3",
-        "nelmio/api-doc-bundle": "2.9.0",
-        "friendsofsymfony/rest-bundle": "~1.7.1",
-        "cbsi/doctrine2-nestedset": "dev-master",
-        "partkeepr/extjs6": "dev-master",
-        "fortawesome/font-awesome": "4.3.0",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*",
-        "symfony/doctrine-bridge": "2.7.x-dev",
-        "dunglas/api-bundle": "1.0.*@dev",
-        "symfony/serializer": "2.7.1",
-        "brainbits/fugue-icons-bundle": "^3.5",
-        "imagine/imagine": "^0.6.2",
-        "ramsey/uuid": "dev-master",
-        "moontoast/math": "^1.1",
-        "codeclimate/php-test-reporter": "dev-master"
-    },
-    "autoload": {
-        "psr-0": { "": "src/",
-                    "PartKeepr": "src/backend"}
-    },
-    "minimum-stability": "stable",
-    "scripts": {
-        "post-install-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
-        ],
-        "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
-
-        ]
-    },
-    "extra": {
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
-        },
-        "installer-paths": {
-            "web/js/packages/{$name}": ["partkeepr/extjs6"]
-        }
-    },
-    "require-dev": {
-        "liip/functional-test-bundle": "~1.1"
+  "name": "partkeepr/partkeepr",
+  "description": "Open Source Inventory Software",
+  "type": "project",
+  "homepage": "http://www.partkeepr.org",
+  "license": "GPL-3.0+",
+  "authors": [
+    {
+      "name": "Timo A. Hummel",
+      "email": "felicitus@felicitus.org",
+      "homepage": "http://www.felicitus.org",
+      "role": "Project Lead, Developer"
     }
+  ],
+  "support": {
+    "issues": "https://github.com/partkeepr/PartKeepr/issues",
+    "irc": "irc://irc.freenode.org/partkeepr",
+    "wiki": "http://wiki.partkeepr.org",
+    "forum": "http://forum.partkeepr.org",
+    "source": "https://github.com/partkeepr/PartKeepr",
+    "faq": "http://faq.partkeepr.org"
+  },
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/symfony": "~2.7",
+    "incenteev/composer-parameter-handler": "~2.0",
+    "doctrine/orm": "~2.5",
+    "doctrine/doctrine-bundle": "~1.2",
+    "twig/extensions": "*",
+    "symfony/assetic-bundle": "~2.3",
+    "symfony/swiftmailer-bundle": "~2.3",
+    "symfony/monolog-bundle": "~2.4",
+    "sensio/distribution-bundle": "~4.0.0",
+    "sensio/framework-extra-bundle": "~3.0",
+    "sensio/generator-bundle": "~2.3",
+    "nelmio/api-doc-bundle": "2.9.0",
+    "friendsofsymfony/rest-bundle": "~1.7.1",
+    "cbsi/doctrine2-nestedset": "dev-master",
+    "partkeepr/extjs6": "dev-master",
+    "fortawesome/font-awesome": "4.3.0",
+    "doctrine/doctrine-fixtures-bundle": "2.2.*",
+    "symfony/doctrine-bridge": "2.7.x-dev",
+    "dunglas/api-bundle": "1.0.*@dev",
+    "symfony/serializer": "2.7.1",
+    "brainbits/fugue-icons-bundle": "^3.5",
+    "imagine/imagine": "^0.6.2",
+    "ramsey/uuid": "dev-master",
+    "moontoast/math": "^1.1",
+    "codeclimate/php-test-reporter": "dev-master",
+    "phpunit/phpunit": "4.7.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "": "src/",
+      "PartKeepr": "src/backend"
+    }
+  },
+  "minimum-stability": "stable",
+  "scripts": {
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+    ]
+  },
+  "extra": {
+    "incenteev-parameters": {
+      "file": "app/config/parameters.yml"
+    },
+    "installer-paths": {
+      "web/js/packages/{$name}": [
+        "partkeepr/extjs6"
+      ]
+    }
+  },
+  "require-dev": {
+    "liip/functional-test-bundle": "~1.1"
+  }
 }
