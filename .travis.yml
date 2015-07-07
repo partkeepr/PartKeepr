@@ -25,7 +25,7 @@ matrix:
 before_script:
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS partkeepr_test;" -U postgres; fi
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
-  - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "DROP TABLE IF EXISTS partkeepr_test;" -uroot; fi
+  - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS partkeepr_test;" -uroot; fi
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; echo "OK"; fi
   - composer self-update
   - composer install --prefer-source --no-interaction
