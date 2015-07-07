@@ -7,7 +7,9 @@ php:
     - nightly
     - hhvm
 
-script: phpunit -c app/
+script:
+    - phpunit -c app/
+    - phpunit --coverage-clover build/logs/clover.xml
 
 env:
     - SYMFONY__TESTDB=mysql
@@ -22,12 +24,18 @@ matrix:
     - php: 7.0
     - php: hhvm
 
+addons:
+  code_climate:
+    repo_token: 9bf99f3d5903f9f2ae2280f49cc469ef219bb965205cd324847f22d4698257d9
 before_script:
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS partkeepr_test;" -U postgres; fi
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS partkeepr_test;" -uroot; fi
-  - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; echo "OK"; fi
+  - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; fi
   - composer self-update
   - composer install --prefer-source --no-interaction
   - app/console cache:warmup --env=test
   - app/console doctrine:schema:create --env=test
+
+after_script:
+  - vendor/bin/test-reporter
