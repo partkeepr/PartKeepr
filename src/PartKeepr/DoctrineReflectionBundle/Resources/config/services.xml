@@ -15,6 +15,7 @@
             <tag name="kernel.cache_warmer"/>
             <argument type="service" id="doctrine"/>
             <argument type="service" id="doctrine_reflection_service"/>
+            <argument type="service" id="service_container"/>
         </service>
     </services>
 </container>

@@ -34,3 +34,6 @@ doctrine:
 
 liip_functional_test:
     cache_sqlite_db: true
+
+partkeepr:
+  auto_generate_extjs_models: false
