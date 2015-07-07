@@ -14,7 +14,7 @@ class Session {
 	 */
 	private $id;
 	
-	/** @ORM\Column(length=50) */
+	/** @ORM\Column(length=64) */
 	private $sessionid;
 	
 	/**
