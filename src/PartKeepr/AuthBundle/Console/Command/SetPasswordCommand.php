@@ -50,7 +50,7 @@ class SetPasswordCommand extends ContainerAwareCommand
          */
         $entityManager = $this->getContainer()->get('doctrine')->getManager();
         $repository = $entityManager->getRepository(
-            "PartKeepr\AuthBundle\Entity\User\User"
+            'PartKeepr\AuthBundle\Entity\User\User'
         );
 
         /**
