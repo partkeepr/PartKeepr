@@ -86,6 +86,20 @@ Ext.define('PartKeepr.data.operation.Update', {
     }
 });
 
+Ext.define('PartKeepr.data.operation.Create', {
+    override: 'Ext.data.operation.Create',
+
+    action: 'create',
+
+    isCreateOperation: true,
+
+    order: 10,
+    doProcess: Ext.emptyFn,
+    doExecute: function() {
+        return this.getProxy().create(this);
+    }
+});
+
 Ext.define("PartKeepr.data.schema.Role", {
     override: "Ext.data.schema.Role",
 
@@ -176,7 +190,6 @@ Ext.define("PartKeepr.data.proxy.Proxy", {
     override: "Ext.data.proxy.Proxy",
 
     batch: function (options, /* deprecated */listeners) {
-        console.log(options);
         return this.callParent(arguments);
     }
 });
