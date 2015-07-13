@@ -9,241 +9,279 @@ Ext.define('PartKeepr.ExceptionWindow', {
     width: 500,
     autoHeight: true,
     maxHeight: 800,
+    constrain: true,
     cls: Ext.baseCSSPrefix + 'message-box',
-    
-    initComponent: function () {
-    	
-    	this.iconComponent = Ext.create('Ext.Component', {
-            cls: 'ext-mb-icon',
-            width: 40,
-            height: 35,
-            style: {
-                'float': 'left'
-            }
-        });
-    	
-    	this.messageDiv = Ext.create('Ext.Component', {                            autoEl: { tag: 'div' },
-            cls: 'ext-mb-text',
-            style: 'margin-left: 40px;'
-        });
-    	
-    	this.detailDiv = Ext.create('Ext.Component', {                            autoEl: { tag: 'div' },
-            cls: 'ext-mb-text',
-            style: 'margin-left: 40px; margin-top: 20px;'
-        });
-    	
-    	this.exceptionDetails = Ext.create('Ext.form.field.TextArea', {
-    		fieldLabel: i18n("Exception Details"),
-    		flex: 1,
-    		minHeight: 65,
-    		readOnly: true
+
+    initComponent: function ()
+    {
+        this.iconComponent = Ext.create('Ext.Component', {
+            baseCls: Ext.baseCSSPrefix + 'message-box-icon' + " " + Ext.baseCSSPrefix + 'message-box-error'
         });
 
-    	this.backtraceDetails = Ext.create('Ext.form.field.TextArea', {
-    		fieldLabel: i18n("Backtrace"),
-    		flex: 1,
-    		minHeight: 65,
-    		readOnly: true
-    	});
-    	
-    	this.requestDetails = Ext.create('Ext.form.field.TextArea', {
-    		fieldLabel: i18n("Request"),
-    		flex: 1,
-    		minHeight: 65,
-    		readOnly: true
+        this.messageDiv = Ext.create('Ext.Component', {
+            autoEl: {tag: 'div'},
+            cls: 'ext-mb-text',
+            height: 20
         });
-    	
-    	this.responseDetails = Ext.create('Ext.form.field.TextArea', {
-    		fieldLabel: i18n("Response"),
-    		flex: 1,
-    		minHeight: 65,
-    		readOnly: true
+
+        this.detailDiv = Ext.create('Ext.Component', {
+            flex: 1,
+            autoEl: {tag: 'div'},
+            cls: 'ext-mb-text',
+            style: 'margin-top: 20px;overflow: auto;'
         });
-    		
-    	this.basicTab = Ext.create("Ext.panel.Panel", {
-    		style: 'padding: 10px',
-    		layout: 'anchor',
-    		anchor: '100% 100%',
-    		title: i18n("Basic"),
-    		items: [this.iconComponent, this.messageDiv, this.detailDiv ]
-    	});
-    	
-    	this.detailTab = Ext.create("Ext.form.Panel", {
-    		style: 'padding: 10px',
-    		layout: 'anchor',
-    		autoScroll: true,
-    		title: i18n("Detail"),
-    		items: [{
-    			xtype: 'panel',
-    			height: 300,
-    			border: false,
-    			layout: {
-        		    type: 'vbox',
-        		    align : 'stretch',
-        		    pack  : 'start'
-        		},
-    			items: [ this.exceptionDetails, this.backtraceDetails, this.requestDetails, this.responseDetails ]
-    		}]
-    	});
-    	
-    	this.fullReport = Ext.create("Ext.form.field.TextArea", {
-    		readOnly: true,
-    		height: 300
-    	});
-    	
-    	this.backtraceTab = Ext.create("Ext.panel.Panel", {
-    		style: 'padding: 10px',
-    		layout: 'fit',
-    		anchor: '100% 100%',
-    		title: i18n("Full Report"),
-    		items: [ this.fullReport ]
-    	});
-    	
-    	this.topContainer = Ext.create("Ext.tab.Panel", {
-    		items: [ this.basicTab, this.detailTab, this.backtraceTab ]
-    	});
-    	
-    	this.items = this.topContainer;
-    	
-    	this.dockedItems = [{
-            xtype: 'toolbar',
-            dock: 'bottom',
-            ui: 'footer',
-            defaults: {minWidth: 80},
+
+        this.backtraceDetails = Ext.create('Ext.tree.Panel', {
+            rootVisible: false
+        });
+
+        this.requestDetails = Ext.create('Ext.form.field.TextArea', {
+            fieldLabel: i18n("Request"),
+            height: 65,
+            minHeight: 65,
+            readOnly: true
+        });
+
+        this.responseDetails = Ext.create('Ext.form.field.TextArea', {
+            fieldLabel: i18n("Response"),
+            height: 65,
+            minHeight: 65,
+            readOnly: true
+        });
+
+        this.basicTab = Ext.create("Ext.panel.Panel", {
+            style: 'padding: 10px;',
             layout: {
-                pack: 'center'
+                type: 'hbox',
+                align: 'stretch'
             },
+            title: i18n("Basic"),
             items: [
-                { xtype: 'button', text: 'OK', handler: Ext.bind(function () { this.hide(); }, this) }
+                this.iconComponent,
+                {
+                    border: false,
+                    flex: 1,
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
+
+                    items: [this.messageDiv, this.detailDiv]
+                }
             ]
-        }];
-    	
-    	this.callParent();
-    	
-    },
-    setIcon : function(icon) {
-        this.iconComponent.removeCls(this.iconCls);
-        
-        if (icon) {
-            this.iconComponent.show();
-            this.iconComponent.addCls(Ext.baseCSSPrefix + 'dlg-icon');
-            this.iconComponent.addCls(icon);
-        } else {
-            this.iconComponent.removeCls(Ext.baseCSSPrefix + 'dlg-icon');
-            this.iconComponent.hide();
-        }
+        });
+
+        this.detailTab = Ext.create("Ext.form.Panel", {
+            style: 'padding: 10px;',
+            height: 300,
+            width: 500,
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            title: i18n("Detail"),
+            items: [
+                this.requestDetails,
+                this.responseDetails,
+                {
+                    xtype: 'fieldcontainer',
+                    layout: "fit",
+                    fieldLabel: i18n("Backtrace"),
+                    flex: 1,
+                    minHeight: 65,
+                    readOnly: true,
+                    items: this.backtraceDetails
+                }
+            ]
+
+        });
+
+        this.fullReport = Ext.create("Ext.form.field.TextArea", {
+            readOnly: true,
+            height: 300
+        });
+
+        this.backtraceTab = Ext.create("Ext.panel.Panel", {
+            style: 'padding: 10px',
+            layout: 'fit',
+            anchor: '100% 100%',
+            title: i18n("Full Report"),
+            items: [this.fullReport]
+        });
+
+        this.topContainer = Ext.create("Ext.tab.Panel", {
+            layout: "fit",
+            items: [this.basicTab, this.detailTab, this.backtraceTab]
+        });
+
+        this.items = this.topContainer;
+
+        this.dockedItems = [
+            {
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                defaults: {minWidth: 80},
+                layout: {
+                    pack: 'center'
+                },
+                items: [
+                    {
+                        xtype: 'button', text: 'OK', handler: Ext.bind(function ()
+                    {
+                        this.hide();
+                    }, this)
+                    }
+                ]
+            }
+        ];
+
+        this.callParent();
+
     },
     /**
      * Private. Updates the exception dialog with the exception data.
-     * 
+     *
      * @see showException
-     * 
-     * @param exception The exception data
-     * @param requestData The request data. May be empty.
+     *
+     * @param {PartKeepr.data.HydraException} exception The exception data
+     * @param {Object} response The response data
      */
-    _showException: function (exception, response) {
-    	var separator = "==================================";
-		
-    	this.setIcon(Ext.MessageBox.ERROR);
-    	
-    	this.messageDiv.update(exception.message);
-    	this.setTitle(exception.message);
-    	
-    	var fullDetails = exception.message;
-    	
-    	if (exception.detail) {
-    		fullDetails += "\n\n"+i18n("Details")+"\n"+separator+"\n";
-    		fullDetails += exception.detail;
-    		
-    		this.detailDiv.update(exception.detail);
-    	} else {
-    		this.detailDiv.update("");
-    	}
-    	
-    	
-    	if (exception.exception) {
-    		fullDetails += "\n\n"+i18n("Exception")+"\n"+separator+"\n";
-    		fullDetails += exception.exception;
-    		
-    		this.exceptionDetails.setValue(exception.exception);
-    	} else {
-    		this.exceptionDetails.setValue("No information available");
-    	}
-    	
-    	if (exception.backtrace) {
-    		fullDetails += "\n\n"+i18n("Backtrace")+"\n"+separator+"\n";
-    		fullDetails += exception.exception;
-    		
-    		this.backtraceDetails.setValue(nl2br(exception.backtrace));
-    	} else {
-    		this.backtraceDetails.setValue("No backtrace available");
-    	}
+    _showException: function (exception, response)
+    {
+        var separator = "==================================";
 
-		if (!response.request) {
-			response.request = {};
-		}
+        this.messageDiv.update('<strong>' + exception.getTitle() + '</strong>');
+        this.setTitle(exception.getTitle());
 
-		if (response.request && response.request.options && response.request.options.method && response.request.options.url) {
-			var requestData = response.request.options.method + " " + response.request.options.url;
-		} else {
-			var requestData = "";
-		}
+        var fullDetails = exception.getTitle();
 
-		if (response.request.jsonData) {
-			requestData += "\n\n"+response.request.jsonData;
-		}
+        if (exception.getDescription()) {
+            fullDetails += "\n\n" + i18n("Details") + "\n" + separator + "\n";
+            fullDetails += exception.getDescription();
 
-		fullDetails += "\n\n"+i18n("Request")+"\n"+separator+"\n";
-		fullDetails += requestData;
+            this.detailDiv.update(exception.getDescription());
+        } else {
+            this.detailDiv.update("");
+        }
 
-		this.requestDetails.setValue(nl2br(requestData));
+        if (exception.getTrace()) {
+            var traceData = this.convertTraceToTree(exception.getTrace());
 
-		fullDetails += "\n\n"+i18n("Response")+"\n"+separator+"\n";
-		fullDetails += response.responseText;
-    		
-		this.responseDetails.setValue(nl2br(response.responseText));
+            var store = Ext.create("Ext.data.TreeStore", {
+                root: traceData
+            });
 
-    	fullDetails += "\n\n"+i18n("Server Configuration")+"\n"+separator+"\n";
-    	
-    	for (var j in window.parameters) {
-    		fullDetails += j+": " + window.parameters[j]+"\n"; 
-    	}
-    	
-    	this.fullReport.setValue(fullDetails);
-    	
-    	this.show();
-    	this.topContainer.layout.setActiveItem(0);
+            this.backtraceDetails.setStore(store);
+        }
 
-    	var keyMap = this.getKeyMap();
-    	keyMap.on(Ext.event.Event.ENTER, function () { this.hide(); }, this);
+        if (!response.request) {
+            response.request = {};
+        }
+
+        var requestData;
+
+        if (response.request && response.request.options && response.request.options.method && response.request.options.url) {
+            requestData = response.request.options.method + " " + response.request.options.url;
+        } else {
+            requestData = "";
+        }
+
+        if (response.request.jsonData) {
+            requestData += "\n\n" + response.request.jsonData;
+        }
+
+        fullDetails += "\n\n" + i18n("Request") + "\n" + separator + "\n";
+        fullDetails += requestData;
+
+        this.requestDetails.setValue(nl2br(requestData));
+
+        fullDetails += "\n\n" + i18n("Response") + "\n" + separator + "\n";
+        fullDetails += response.responseText;
+
+        this.responseDetails.setValue(nl2br(response.responseText));
+
+        fullDetails += "\n\n" + i18n("Server Configuration") + "\n" + separator + "\n";
+
+        for (var j in window.parameters) {
+            fullDetails += j + ": " + window.parameters[j] + "\n";
+        }
+
+        this.fullReport.setValue(fullDetails);
+
+        this.show();
+        this.topContainer.layout.setActiveItem(0);
+
+        var keyMap = this.getKeyMap();
+        keyMap.on(Ext.event.Event.ENTER, function ()
+        {
+            this.hide();
+        }, this);
     },
-    
-    statics: {
-    	/**
-    	 * Displays the exception window.
-    	 * 
-    	 * The exception object may contain the following members:
-    	 * - message:   The message to display    [mandatory]
-    	 * - detail:    Details about the message [optional]
-    	 * - exception: Exception details         [optional]
-    	 * - backtrace: The backtrace             [optional]
-    	 * 
-    	 * The request data object may contain the following members:
-    	 * - request:  The request data
-    	 * - response: The response data
-    	 *  
-    	 * Any members specified are strings. Any other data type is not supported.
-    	 *  
-    	 * @param exception 	The exception object 
-    	 * @param response		The response object
-    	 */
-    	showException: function (exception, response) {
-    		if (!PartKeepr.ExceptionWindow.activeInstance) {
-        		PartKeepr.ExceptionWindow.activeInstance = new PartKeepr.ExceptionWindow();
-        	}
+    /**
+     * Recursively converts a trace to an ExtJS tree
+     *
+     * @param {Object} node The current node to process
+     * @param {String} prefixText A text to prefix the data with. If undefined, uses the type of the given node
+     * @return {Object} An object comptable with {Ext.data.NodeInterface}
+     */
+    convertTraceToTree: function (node, prefixText)
+    {
+        if (!Ext.isDefined(prefixText)) {
+            prefixText = typeof node;
+        }
 
-    		PartKeepr.ExceptionWindow.activeInstance._showException(exception, response);
-    	}
-    	
+        var treeNode = {
+            text: prefixText
+        };
+
+
+        if (Ext.isArray(node)) {
+            treeNode.children = [];
+            for (var j = 0; j < node.length; j++) {
+                treeNode.children.push(this.convertTraceToTree(node[j], j));
+            }
+
+            if (treeNode.children.length === 0) {
+                treeNode.leaf = true;
+            }
+            return treeNode;
+        }
+
+        if (Ext.isObject(node)) {
+            treeNode.children = [];
+
+            for (var property in node) {
+                treeNode.children.push(this.convertTraceToTree(node[property], property));
+            }
+
+            if (treeNode.children.length === 0) {
+                treeNode.leaf = true;
+            }
+
+            return treeNode;
+        }
+
+        treeNode.text += ": " + node;
+        treeNode.leaf = true;
+
+        return treeNode;
+    },
+    statics: {
+        /**
+         * Displays the exception window.
+         *
+         * @param {PartKeepr.data.HydraException} exception The exception object
+         * @param {Object}                        response The response object
+         */
+        showException: function (exception, response)
+        {
+            if (!PartKeepr.ExceptionWindow.activeInstance) {
+                PartKeepr.ExceptionWindow.activeInstance = new PartKeepr.ExceptionWindow();
+            }
+
+            PartKeepr.ExceptionWindow.activeInstance._showException(exception, response);
+        }
+
     }
 });
