@@ -3,10 +3,10 @@ Ext.define("PartKeepr.FootprintTree", {
 	alias: 'widget.FootprintTree',
 	
 	ddGroup: 'FootprintTree',
-	categoryModel: 'PartKeepr.FootprintCategory',
-	categoryService: 'FootprintCategory',
 	folderSort: true,
-	
+
+	categoryModel: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
+
 	/**
      * @cfg {String} text The path to the 'add' icon
      */
@@ -121,11 +121,12 @@ Ext.define("PartKeepr.FootprintTree", {
 	 */
 	_onCategoriesLoaded: function () {
 		this.callParent(arguments);
-		
+		return;
+
 		var store = PartKeepr.getApplication().getFootprintStore();
 		var nodeData, record;
 		
-		Ext.data.NodeInterface.decorate("PartKeepr.Footprint");
+		Ext.data.NodeInterface.decorate("PartKeepr.FootprintBundle.Entity.FootprintCategory");
 		
 		for (var i=0;i<store.getCount();i++) {
 			record = store.getAt(i);

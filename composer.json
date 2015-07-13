@@ -46,8 +46,14 @@
     "imagine/imagine": "^0.6.2",
     "ramsey/uuid": "dev-master",
     "moontoast/math": "^1.1",
+    "doctrine/migrations": "dev-master",
+    "doctrine/doctrine-migrations-bundle": "dev-master",
+    "stof/doctrine-extensions-bundle": "~1.1@dev"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.7.*",
     "codeclimate/php-test-reporter": "dev-master",
-    "phpunit/phpunit": "4.7.*"
+    "liip/functional-test-bundle": "~1.1"
   },
   "autoload": {
     "psr-0": {
@@ -79,8 +85,5 @@
         "partkeepr/extjs6"
       ]
     }
-  },
-  "require-dev": {
-    "liip/functional-test-bundle": "~1.1"
   }
 }

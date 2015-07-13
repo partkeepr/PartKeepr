@@ -72,17 +72,37 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
 
-        mappings:
-          model:
-            type: annotation
-            dir: %kernel.root_dir%/../src/backend/PartKeepr/
-            prefix: PartKeepr
-            is_bundle: false
+        entity_managers:
+          default:
+            auto_mapping: true
+            mappings:
+              model:
+                type: annotation
+                dir: %kernel.root_dir%/../src/backend/PartKeepr/
+                prefix: PartKeepr
+                is_bundle: false
+              gedmo_tree:
+                type: annotation
+                prefix: Gedmo\Tree\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            tree: true
 
 twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+
+doctrine_migrations:
+    dir_name: %kernel.root_dir%/../src/PartKeepr/CoreBundle/DoctrineMigrations
+    namespace: PartKeepr\CoreBundle\DoctrineMigrations
+    table_name: SchemaVersions
+    name: Application Migrations
 
 dunglas_api:
     title:       "PartKeepr"
@@ -109,7 +129,7 @@ services:
             - "@partkeepr_uploadedfile_service"
             - "@annotation_reader"
             - "@property_accessor"
-        tags:  [ { name: "kernel.event_listener", event: "api.pre_update", method: "onPreUpdate" } ]
+        tags:  [ { name: "kernel.event_listener", event: "api.pre_update", method: "replaceTemporaryImage" }, { name: "kernel.event_listener", event: "api.pre_create", method: "replaceTemporaryImage" } ]
     resource.order_filter:
         parent:    "api.doctrine.orm.order_filter"
         arguments: [ ~ ] # This line can also be omitted
@@ -121,6 +141,91 @@ services:
         calls:
             -       method:    "initFilters"
                     arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.footprint:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\FootprintBundle\Entity\Footprint" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.footprint_image:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintImage" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.footprint_attachment:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintAttachment" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@resource.order_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.footprint_category.item_operation.move:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.footprint_category"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/footprint_categories/{id}/move"           # Path
+             -    "PartKeeprFootprintBundle:FootprintCategory:move"         # Controller
+             -    "FootprintCategoryMove"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.footprint_category.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.footprint_category", "GET" ]
+
+    resource.footprint_category.item_operation.put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.footprint_category", "PUT" ]
+
+    resource.footprint_category.item_operation.delete:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.footprint_category", "DELETE" ]
+
+    resource.footprint_category:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintCategory" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.footprint_category.item_operation.get", "@resource.footprint_category.item_operation.put", "@resource.footprint_category.item_operation.delete", "@resource.footprint_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"

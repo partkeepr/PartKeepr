@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Templating\EngineInterface;
 
-class ReflectionService {
+class ReflectionService
+{
 
     /** @var EntityManager */
     protected $em;
@@ -17,7 +18,8 @@ class ReflectionService {
 
     protected $reader;
 
-    public function __construct (Registry $doctrine, EngineInterface $templateEngine, Reader $reader) {
+    public function __construct(Registry $doctrine, EngineInterface $templateEngine, Reader $reader)
+    {
         $this->templateEngine = $templateEngine;
         $this->em = $doctrine->getManager();
         $this->reader = $reader;
@@ -25,6 +27,7 @@ class ReflectionService {
 
     /**
      * Returns a list of all registered entities, converted to the ExtJS naming scheme (. instead of \)
+     *
      * @return array
      */
     public function getEntities()
@@ -43,9 +46,20 @@ class ReflectionService {
 
     public function getEntity($entity)
     {
+        $bIsTree = false;
+
+        $parentClass = "PartKeepr.data.HydraModel";
+
         $entity = $this->convertExtJSToPHPClassName($entity);
 
         $cm = $this->em->getClassMetadata($entity);
+
+
+        if ($cm->getReflectionClass()->isSubclassOf("PartKeepr\CategoryBundle\Entity\AbstractCategory")) {
+            $parentClass = "PartKeepr.data.HydraTreeModel";
+            $bIsTree = true;
+        }
+
 
         $fields = $cm->getFieldNames();
 
@@ -79,43 +93,44 @@ class ReflectionService {
                     $getterPlural = true;
                     break;
                 case ClassMetadataInfo::MANY_TO_ONE:
-                     $associationType = "MANY_TO_ONE";
+                    $associationType = "MANY_TO_ONE";
                     $getterPlural = false;
-                     break;
+                    break;
                 case ClassMetadataInfo::ONE_TO_MANY:
                     $associationType = "ONE_TO_MANY";
                     $getterPlural = true;
-                     break;
-                //default:
-//                    die("Unknown association ".$association["type"]);
+                    break;
             }
 
             $getter = "get".ucfirst($association["fieldName"]);
             $getterField = lcfirst($cm->getReflectionClass()->getShortName()).str_replace(
-                    ".",
-                    "",
-                    $this->convertPHPToExtJSClassName($association["targetEntity"])
-                );
+                ".",
+                "",
+                $this->convertPHPToExtJSClassName($association["targetEntity"])
+            );
+
             if ($getterPlural) {
-                //$getter .= "s";
                 $getterField .= "s";
             }
 
 
-
-
-            $associationMappings[$associationType][] = array(
-                "name" => $association["fieldName"],
-                "target" => $this->convertPHPToExtJSClassName($association["targetEntity"]),
-                "getter" => $getter,
-                "getterField" => $getterField
-            );
+            // The self-referencing association may not be written for trees, because ExtJS can't load all nodes
+            // in one go.
+            if (!($bIsTree && $association["targetEntity"] == $entity)) {
+                $associationMappings[$associationType][] = array(
+                    "name" => $association["fieldName"],
+                    "target" => $this->convertPHPToExtJSClassName($association["targetEntity"]),
+                    "getter" => $getter,
+                    "getterField" => $getterField,
+                );
+            }
         }
 
         $renderParams = array(
             "fields" => $fieldMappings,
             "associations" => $associationMappings,
-            "className" => $this->convertPHPToExtJSClassName($entity)
+            "className" => $this->convertPHPToExtJSClassName($entity),
+            "parentClass" => $parentClass,
         );
 
         $targetService = $this->reader->getClassAnnotation(
@@ -128,7 +143,7 @@ class ReflectionService {
         }
 
         return $this->templateEngine->render('PartKeeprDoctrineReflectionBundle::model.js.twig', $renderParams);
-}
+    }
 
     protected function getExtJSFieldMapping($type)
     {

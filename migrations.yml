@@ -1,5 +1,0 @@
----
-name: PartKeepr
-migrations_namespace: DoctrineMigrations
-table_name: SchemaVersions
-migrations_directory: src/backend/PartKeepr/Versions

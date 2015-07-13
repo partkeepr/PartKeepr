@@ -10,36 +10,22 @@ Ext.define("PartKeepr.data.HydraProxy", {
     },
     appendId: false,
     limitParam: "itemsPerPage",
+    defaultListenerScope: true,
     sortParam: "",
 
-    constructor: function (config) {
+    constructor: function (config)
+    {
         config.url = PartKeepr.getBasePath() + config.url;
         this.callParent(arguments);
     },
     listeners: {
-        exception: function (reader, response, operation, eOpts) {
-            var request = operation.getRequest();
-
-            var requestParams = {
-                method: response.request.options.method,
-                request: response.request.options.jsonData,
-                response: response.responseText
-            };
-            try {
-                var data = Ext.decode(response.responseText);
-
-                PartKeepr.ExceptionWindow.showException(data.exception, response);
-            } catch (ex) {
-                var exception = {
-                    message: i18n("Critical Error"),
-                    detail: i18n("The server returned a response which we were not able to interpret.")
-                };
-
-                PartKeepr.ExceptionWindow.showException(exception, response);
-            }
+        exception: function (reader, response, operation, eOpts)
+        {
+            this.showException(response);
         }
     },
-    buildUrl: function (request) {
+    buildUrl: function (request)
+    {
         var operation = request.getOperation();
 
         // Set the URI to the ID, as JSON-LD operates on IRIs.
@@ -65,7 +51,8 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         return this.callParent([request]);
     },
-    getParams: function (operation) {
+    getParams: function (operation)
+    {
         if (!operation.isReadOperation) {
             return {};
         }
@@ -83,18 +70,56 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         return params;
     },
-    callAction: function (record, action, parameters, callback) {
+    /**
+     * Calls a specific action on the record.
+     * @todo Document on how we call actions on entities
+     *
+     *
+     */
+    callAction: function (record, action, parameters, callback)
+    {
         var url = record.getId() + "/" + action;
         var request = Ext.create("Ext.data.Request");
 
         request.setMethod("PUT");
         request.setUrl(url);
-        if (typeof parameters == "object") {
+        if (Ext.isObject(parameters)) {
             request.setParams(parameters);
         }
 
-        request.setCallback(callback);
+        request.setCallback(function (options, success, response)
+        {
+            this.processCallActionResponse(options, success, response);
+
+            if (Ext.isFunction(callback)) {
+                callback(options, success, response);
+            }
+        }.bind(this));
 
         this.sendRequest(request);
+    },
+    processCallActionResponse: function (options, success, response)
+    {
+        if (success !== false) {
+            return;
+        }
+
+        this.showException(response);
+    },
+    showException: function (response) {
+        try {
+            var data = Ext.decode(response.responseText);
+
+            var exception = Ext.create("PartKeepr.data.HydraException", data);
+
+            PartKeepr.ExceptionWindow.showException(exception, response);
+        } catch (ex) {
+            var exception = Ext.create("PartKeepr.data.HydraException", {
+                title: i18n("Critical Error"),
+                description: i18n("The server returned a response which we were not able to interpret.")
+            });
+
+            PartKeepr.ExceptionWindow.showException(exception, response);
+        }
     }
 });

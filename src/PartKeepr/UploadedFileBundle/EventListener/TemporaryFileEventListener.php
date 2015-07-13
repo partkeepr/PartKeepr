@@ -43,7 +43,7 @@ class TemporaryFileEventListener
      *
      * @param DataEvent $event The event
      */
-    public function onPreUpdate(DataEvent $event)
+    public function replaceTemporaryImage (DataEvent $event)
     {
         $data = $event->getData();
 

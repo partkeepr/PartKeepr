@@ -2,16 +2,18 @@
 
 namespace PartKeepr\FrontendBundle\Controller;
 
+use Doctrine\ORM\NoResultException;
+use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\PartKeepr;
+use PartKeepr\Session\SessionManager;
+use PartKeepr\Util\Configuration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use \PartKeepr\AuthBundle\Entity\User\User,
-    PartKeepr\PartKeepr,
-    PartKeepr\Session\SessionManager,
-    PartKeepr\Util\Configuration;
-
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\Glob;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\Version as ORMVersion;
+use Doctrine\DBAL\Version as DBALVersion;
+use Doctrine\Common\Version as DoctrineCommonVersion;
 
 class IndexController extends Controller
 {
@@ -26,9 +28,9 @@ class IndexController extends Controller
         $this->legacyAuthStuff();
 
         $aParameters = array();
-        $aParameters["doctrine_orm_version"] = \Doctrine\ORM\Version::VERSION;
-        $aParameters["doctrine_dbal_version"] = \Doctrine\DBAL\Version::VERSION;
-        $aParameters["doctrine_common_version"] = \Doctrine\Common\Version::VERSION;
+        $aParameters["doctrine_orm_version"] = ORMVersion::VERSION;
+        $aParameters["doctrine_dbal_version"] = DBALVersion::VERSION;
+        $aParameters["doctrine_common_version"] = DoctrineCommonVersion::VERSION;
         $aParameters["php_version"] = phpversion();
 
         $maxPostSize = PartKeepr::getBytesFromHumanReadable(ini_get("post_max_size"));
@@ -36,7 +38,8 @@ class IndexController extends Controller
 
         $aParameters["maxUploadSize"] = min($maxPostSize, $maxFileSize);
 
-        if (!class_exists("Imagick")) {
+        if (!class_exists("Imagick"))
+        {
             // @todo This check is deprecated and shouldn't be done here. Sf2 should automatically take care of this
 
             return $this->render('PartKeeprFrontendBundle::error.html.twig',
@@ -44,8 +47,9 @@ class IndexController extends Controller
                     "title" => PartKeepr::i18n("ImageMagick is not installed"),
                     "error" => PartKeepr::i18n(
                         "You are missing the ImageMagick extension. Please install it and restart the setup to verify that the library was installed correctly."
-                    )
-                ));
+                    ),
+                )
+            );
         }
 
         /* ImageMagick formats */
@@ -76,7 +80,7 @@ class IndexController extends Controller
 
         $renderParams["models"] = $this->copyModels();
 
-       return $this->render('PartKeeprFrontendBundle::index.html.twig', $renderParams);
+        return $this->render('PartKeeprFrontendBundle::index.html.twig', $renderParams);
     }
 
     /**
@@ -84,7 +88,8 @@ class IndexController extends Controller
      *
      * @todo Refactor to auto-generate models to the correct directory. This is a workaround.
      */
-    protected function copyModels () {
+    protected function copyModels()
+    {
         $cacheDir = $this->get("kernel")->getCacheDir();
 
         $target = $this->get("kernel")->getRootDir()."/../web/bundles/doctrinereflection/";
@@ -103,7 +108,9 @@ class IndexController extends Controller
 
         return $models;
     }
-    protected function legacyAuthStuff () {
+
+    protected function legacyAuthStuff()
+    {
         /* HTTP auth */
         if (Configuration::getOption("partkeepr.auth.http", false) === true) {
             if (!isset($_SERVER["PHP_AUTH_USER"])) {
@@ -113,7 +120,7 @@ class IndexController extends Controller
 
             try {
                 $user = User::loadByName($_SERVER['PHP_AUTH_USER']);
-            } catch (\Doctrine\ORM\NoResultException $e) {
+            } catch (NoResultException $e) {
                 $user = new User;
                 $user->setUsername($_SERVER['PHP_AUTH_USER']);
                 $user->setPassword("invalid");

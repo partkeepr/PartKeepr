@@ -1,23 +1,50 @@
 <?php
 namespace PartKeepr\FootprintBundle\Controller;
 
+use Dunglas\ApiBundle\Controller\ResourceController;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
+use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
+use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-use DoctrineExtensions\NestedSet\Config;
-use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\Routing\Annotation\Route;
-
-class FootprintCategoryController extends FOSRestController
+class FootprintCategoryController extends ResourceController
 {
     /**
-     * @Route("/FootprintCategory/getAll", defaults={"method" = "get","_format" = "json"})
+     * Moves a node to another node
+     *
+     * @RequestParam(name="parent",description="The ID of the new parent")
+     * @param Request $request The request object
+     * @param int     $id      The ID of the node to move
+     *
+     * @return Response
+     *
+     * @throws MissingParentCategoryException If the parent category is not specified or invalid
+     * @throws RootMayNotBeMovedException If it is attempted to move the root category
      */
-    public function getAllAction()
+    public function moveAction(Request $request, $id)
     {
-        $repository = $this->get("doctrine")->getEntityManager()->getRepository('PartKeepr\FootprintBundle\Entity\FootprintCategory');
+        $resource = $this->getResource($request);
+        $entity = $this->findOrThrowNotFound($resource, $id);
+        $parentId = $request->request->get("parent");
 
-        var_dump($repository->verify());
-        $repository->recover();
-        $this->get("doctrine")->getEntityManager()->flush();
-        return $repository->childrenHierarchy();
+        $parentEntity = $this->get("api.iri_converter")->getItemFromIri($parentId);
+
+
+        if ($parentEntity === null) {
+            throw new MissingParentCategoryException($parentId);
+        }
+
+        if ($entity->getLevel() === 0) {
+            throw new RootMayNotBeMovedException();
+        }
+
+        $entity->setParent($parentEntity);
+
+        $this->get("doctrine")->getManager()->flush();
+
+        return new Response($request->request->get("parent"));
+
+
     }
 }

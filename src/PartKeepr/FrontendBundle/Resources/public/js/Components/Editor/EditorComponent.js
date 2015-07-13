@@ -39,7 +39,12 @@ Ext.define('PartKeepr.EditorComponent', {
 	 * Contains the associated model to load a record for.
 	 */
 	model: null,
-	
+
+	/**
+	 * Defines the store to use. Defaults to {Ext.data.Store}
+	 */
+	storeType: "Ext.data.Store",
+
 	/**
 	 * Some default text messages. Can be overridden by sub classes.
 	 */
@@ -174,7 +179,7 @@ Ext.define('PartKeepr.EditorComponent', {
 	},
 	// Creates a store. To be called from child's initComponent
 	createStore: function (config) {
-		Ext.Object.merge(config, {
+		Ext.applyIf(config, {
 				autoLoad: true,
 				model: this.model,
 				autoSync: false, // Do not change. If true, new (empty) records would be immediately committed to the database.
@@ -182,7 +187,7 @@ Ext.define('PartKeepr.EditorComponent', {
 				remoteSort: true,
 				pageSize: 15});
 		
-		this.store = Ext.create('Ext.data.Store', config);
+		this.store = Ext.create(this.storeType, config);
 		
 		// Workaround for bug http://www.sencha.com/forum/showthread.php?133767-Store.sync()-does-not-update-dirty-flag&p=607093#post607093
 		this.store.on('write', function(store, operation) {

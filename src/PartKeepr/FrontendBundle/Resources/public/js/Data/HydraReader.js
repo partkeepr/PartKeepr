@@ -7,7 +7,7 @@ Ext.define("PartKeepr.data.HydraReader", {
     getResponseData: function (response) {
         var data = this.callParent([response]);
 
-        if (data["@type"] == "hydra:PagedCollection") {
+        if (data["@type"] == "hydra:PagedCollection" || data["@type"] == "hydra:Collection") {
             this.setRootProperty("hydra:member");
         } else {
             this.setRootProperty("");

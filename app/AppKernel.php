@@ -16,10 +16,12 @@ class AppKernel extends Kernel
      * Temporary constructor to inject the service container.
      *
      * @todo Remove this after successful migration to SF2
+     *
      * @param string $environment
      * @param bool   $debug
      */
-    public function __construct ($environment, $debug) {
+    public function __construct($environment, $debug)
+    {
         parent::__construct($environment, $debug);
 
         AppKernel::$kernel = $this;
@@ -31,11 +33,13 @@ class AppKernel extends Kernel
      * @todo Remove this after successful migration to SF2
      * @return null|\Symfony\Component\DependencyInjection\ContainerInterface
      */
-    public static function getMigrationContainer () {
+    public static function getMigrationContainer()
+    {
         if (self::$kernel instanceof \AppKernel) {
             if (!self::$kernel->getContainer() instanceof Container) {
                 self::$kernel->boot();
             }
+
             return self::$kernel->getContainer();
         }
 
@@ -60,7 +64,9 @@ class AppKernel extends Kernel
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
             //new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
             new Dunglas\ApiBundle\DunglasApiBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         );
 
         // Developer bundles
@@ -72,6 +78,7 @@ class AppKernel extends Kernel
         }
 
         // PartKeepr bundles
+        $bundles[] = new PartKeepr\CategoryBundle\PartKeeprCategoryBundle();
         $bundles[] = new PartKeepr\UploadedFileBundle\PartKeeprUploadedFileBundle();
         $bundles[] = new PartKeepr\FrontendBundle\PartKeeprFrontendBundle();
         $bundles[] = new PartKeepr\SiPrefixBundle\PartKeeprSiPrefixBundle();
