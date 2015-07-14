@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\FootprintBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
@@ -29,16 +30,17 @@ class FootprintCategory extends AbstractCategory
      * @ORM\OrderBy({"lft" = "ASC"})
      * @Groups({"default"})
      */
-    public $children;
+    protected $children;
 
     /**
-     * ORM\OneToMany(targetEntity="Footprint", mappedBy="category")
-     * Groups({"default"})
+     * @ORM\OneToMany(targetEntity="Footprint", mappedBy="category")
+     * @Groups({"default"})
      */
-    public $footprints;
+    protected $footprints;
 
     /**
      * Sets the parent category
+     *
      * @param AbstractCategory|null $parent
      */
     public function setParent(AbstractCategory $parent = null)
@@ -48,10 +50,31 @@ class FootprintCategory extends AbstractCategory
 
     /**
      * Returns the parent category
+     *
      * @return mixed
      */
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Returns the footprints
+     *
+     * @return ArrayCollection
+     */
+    public function getFootprints()
+    {
+        return $this->footprints;
+    }
+
+    /**
+     * Returns the children
+     *
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }
