@@ -71,7 +71,6 @@ Ext.define('Ext.ux.form.SearchField', {
 	resetSearch: function () {
 		var me = this,
             store = me.store,
-            proxy = store.getProxy(),
             val;
 
         me.setValue('');
@@ -93,7 +92,6 @@ Ext.define('Ext.ux.form.SearchField', {
 	startSearch: function () {
 		 var me = this,
             store = me.store,
-            proxy = store.getProxy(),
             value = me.getValue();
             
         if (value.length < 1) {
