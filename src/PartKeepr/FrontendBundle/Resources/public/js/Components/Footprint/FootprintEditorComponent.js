@@ -14,23 +14,5 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 		});
 
         this.callParent();
-    },
-    deleteRecord: function (r) {
-        var editor = this.findEditor(r.getId());
-
-        if (editor !== null) {
-            this.editorTabPanel.remove(editor);
-        }
-
-        var call = new PartKeepr.ServiceCall("Footprint", "destroy");
-        call.setParameter("id", r.get("id"));
-        call.setHandler(Ext.bind(function () {
-            var oldRecordIndex = PartKeepr.getApplication().getFootprintStore().find("id", r.get("id"));
-
-            PartKeepr.getApplication().getFootprintStore().removeAt(oldRecordIndex);
-            this.navigation.loadCategories();
-        }, this));
-
-        call.doCall();
     }
 });

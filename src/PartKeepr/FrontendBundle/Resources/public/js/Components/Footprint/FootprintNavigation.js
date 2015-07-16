@@ -49,6 +49,11 @@ Ext.define("PartKeepr.FootprintNavigation", {
         this.down("partkeepr\\.FootprintTree").on("itemclick", this.onCategoryClick, this);
         this.down("partkeepr\\.FootprintGrid").setStore(this.store);
         this.down("partkeepr\\.FootprintGrid").on("itemAdd", this.onAddFootprint, this);
+        this.down("partkeepr\\.FootprintGrid").on("itemDelete", function (id)
+        {
+            this.fireEvent("itemDelete", id);
+        }, this
+        );
         this.down("partkeepr\\.FootprintGrid").on("itemEdit", function (id)
         {
             this.fireEvent("itemEdit", id);
@@ -85,6 +90,10 @@ Ext.define("PartKeepr.FootprintNavigation", {
 	},
     syncChanges: function () {
         this.down("partkeepr\\.FootprintGrid").getStore().load();
+    },
+    getSelectionModel: function () {
+        "use strict";
+        return this.down("partkeepr\\.FootprintGrid").getSelectionModel();
     }
 
 
