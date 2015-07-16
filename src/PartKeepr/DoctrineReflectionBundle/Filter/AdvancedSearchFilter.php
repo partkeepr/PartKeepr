@@ -1,0 +1,289 @@
+<?php
+namespace PartKeepr\DoctrineReflectionBundle\Filter;
+
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
+use Dunglas\ApiBundle\Api\IriConverterInterface;
+use Dunglas\ApiBundle\Api\ResourceInterface;
+use Dunglas\ApiBundle\Doctrine\Orm\Filter\AbstractFilter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+
+/**
+ * Class AdvancedSearchFilter
+ *
+ * Allows filtering by different operators and nested associations. Expects a query parameter "filter" which includes
+ * JSON in the following format:
+ *
+ * [{
+ *      property: 'comments.authors.name',
+ *      operator: 'LIKE',
+ *      value: '%heiner%'
+ * }]
+ *
+ * You can also specify multiple filters with different operators and values.
+ */
+class AdvancedSearchFilter extends AbstractFilter
+{
+    /**
+     * @var IriConverterInterface
+     */
+    private $iriConverter;
+
+    /**
+     * @var PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
+    const OPERATOR_LESS_THAN = "<";
+    const OPERATOR_GREATER_THAN = ">";
+    const OPERATOR_EQUALS = "=";
+    const OPERATOR_GREATER_THAN_EQUALS = ">=";
+    const OPERATOR_LESS_THAN_EQUALS = ">=";
+    const OPERATOR_NOT_EQUALS = "!=";
+    const OPERATOR_IN = "in";
+    const OPERATOR_LIKE = "like";
+
+    const OPERATORS = array(
+        self::OPERATOR_LESS_THAN,
+        self::OPERATOR_GREATER_THAN,
+        self::OPERATOR_EQUALS,
+        self::OPERATOR_GREATER_THAN_EQUALS,
+        self::OPERATOR_LESS_THAN_EQUALS,
+        self::OPERATOR_NOT_EQUALS,
+        self::OPERATOR_IN,
+        self::OPERATOR_LIKE,
+    );
+
+    private $aliases = array();
+
+    private $parameterCount = 0;
+
+    private $joins = array();
+
+    /**
+     * @param ManagerRegistry           $managerRegistry
+     * @param IriConverterInterface     $iriConverter
+     * @param PropertyAccessorInterface $propertyAccessor
+     * @param null|array                $properties Null to allow filtering on all properties with the exact strategy
+     *                                              or a map of property name with strategy.
+     */
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        IriConverterInterface $iriConverter,
+        PropertyAccessorInterface $propertyAccessor,
+        array $properties = null
+    ) {
+        parent::__construct($managerRegistry, $properties);
+
+        $this->iriConverter = $iriConverter;
+        $this->propertyAccessor = $propertyAccessor;
+    }
+
+    public function getDescription(ResourceInterface $resource)
+    {
+        return array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function apply(ResourceInterface $resource, QueryBuilder $queryBuilder, Request $request)
+    {
+        $metadata = $this->getClassMetadata($resource);
+        $fieldNames = array_flip($metadata->getFieldNames());
+
+        $filters = $this->extractProperties($request);
+
+        foreach ($filters as $filter) {
+            if (isset($fieldNames[$filter["property"]]) && $filter["association"] === null) {
+                $queryBuilder
+                    ->andWhere(
+                        $this->getFilterExpression($queryBuilder, $filter)
+                    );
+
+            } else {
+                // Pull in associations
+                $this->addJoins($queryBuilder, $filter);
+
+                $queryBuilder->andWhere(
+                    $this->getFilterExpression($queryBuilder, $filter)
+                );
+            }
+        }
+    }
+
+    /**
+     * Adds all required joins to the queryBuilder.
+     *
+     * @param QueryBuilder $queryBuilder
+     * @param              $filter
+     */
+    private function addJoins(QueryBuilder $queryBuilder, $filter)
+    {
+        if (in_array($filter["association"], $this->joins)) {
+            // Association already added, return
+            return;
+        }
+
+        $associations = explode(".", $filter["association"]);
+
+        $fullAssociation = "o";
+
+        foreach ($associations as $key => $association) {
+            if (isset($associations[$key - 1])) {
+                $parent = $associations[$key - 1];
+            } else {
+                $parent = "o";
+            }
+
+            $fullAssociation .= ".".$association;
+
+            $alias = $this->getAlias($fullAssociation);
+
+            $queryBuilder->join($parent.".".$association, $alias);
+        }
+
+        $this->joins[] = $filter["association"];
+    }
+
+    /**
+     * Returns the expression for a specific filter.
+     * @param QueryBuilder $queryBuilder
+     * @param              $filter
+     *
+     * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
+     * @throws \Exception
+     */
+    private function getFilterExpression(QueryBuilder $queryBuilder, $filter)
+    {
+        if ($filter["association"] !== null) {
+            $alias = $this->getAlias("o.".$filter["association"]).".".$filter["property"];
+        } else {
+            $alias = "o.".$filter["property"];
+        }
+
+        if ($filter["operator"] == self::OPERATOR_IN) {
+            if (!is_array($filter["value"])) {
+                throw new \Exception("Value needs to be an array for the IN operator");
+            }
+
+            return $queryBuilder->expr()->in($alias, $filter["value"]);
+        } else {
+            $paramName = ":param".$this->parameterCount;
+            $this->parameterCount++;
+            $queryBuilder->setParameter($paramName, $filter["value"]);
+
+            switch ($filter["operator"]) {
+                case self::OPERATOR_EQUALS:
+                    return $queryBuilder->expr()->eq($alias, $paramName);
+                    break;
+                case self::OPERATOR_GREATER_THAN:
+                    return $queryBuilder->expr()->gt($alias, $paramName);
+                    break;
+                case self::OPERATOR_GREATER_THAN_EQUALS:
+                    return $queryBuilder->expr()->gte($alias, $paramName);
+                    break;
+                case self::OPERATOR_LESS_THAN:
+                    return $queryBuilder->expr()->lt($alias, $paramName);
+                    break;
+                case self::OPERATOR_LESS_THAN_EQUALS:
+                    return $queryBuilder->expr()->lte($alias, $paramName);
+                    break;
+                case self::OPERATOR_NOT_EQUALS:
+                    return $queryBuilder->expr()->neq($alias, $paramName);
+                    break;
+                case self::OPERATOR_LIKE:
+                    return $queryBuilder->expr()->like($alias, $paramName);
+                    break;
+                default:
+                    throw new \Exception("Unknown filter");
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function extractProperties(Request $request)
+    {
+        $filters = array();
+
+        if ($request->query->has("filter")) {
+            $data = json_decode($request->query->get("filter"));
+
+            if (is_array($data)) {
+                foreach ($data as $filter) {
+                    $filters[] = $this->extractJSONFilters($filter);
+                }
+            } elseif (is_object($data)) {
+                $filters[] = $this->extractJSONFilters($data);
+            }
+        }
+
+        return $filters;
+    }
+
+    /**
+     * Returns an alias for the given association property.
+     *
+     * @param string $property The property in FQDN format, e.g. "comments.authors.name"
+     *
+     * @return string The table alias
+     */
+    private function getAlias($property)
+    {
+        if (!array_key_exists($property, $this->aliases)) {
+            $this->aliases[$property] = "t".count($this->aliases);
+        }
+
+        return $this->aliases[$property];
+    }
+
+    /**
+     * Extracts the filters from the JSON object.
+     *
+     * @param $data
+     *
+     * @return array An array containing the property, operator and value keys
+     * @throws \Exception
+     */
+    private function extractJSONFilters($data)
+    {
+        $filter = array();
+
+        if ($data->property) {
+            if (strpos($data->property, ".") !== false) {
+                $associations = explode(".", $data->property);
+
+                $property = array_pop($associations);
+
+                $filter["association"] = implode(".", $associations);
+                $filter["property"] = $property;
+            } else {
+                $filter["association"] = null;
+                $filter["property"] = $data->property;
+            }
+
+        } else {
+            throw new \Exception("You need to set the filter property");
+        }
+
+        if ($data->operator) {
+            if (!in_array($data->operator, self::OPERATORS)) {
+                throw new \Exception(sprintf("Invalid operator %s", $data->operator));
+            }
+            $filter["operator"] = $data->operator;
+        } else {
+            $filter["operator"] = self::OPERATOR_EQUALS;
+        }
+
+        if ($data->value) {
+            $filter["value"] = $data->value;
+        } else {
+            throw new \Exception("No value specified");
+        }
+
+        return $filter;
+    }
+}
