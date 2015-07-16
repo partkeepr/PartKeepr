@@ -89,6 +89,7 @@ Ext.define('PartKeepr.EditorComponent', {
 		
 		var editor = this.createEditor(this.newItemText);
 		editor.newItem(defaults);
+		console.log(defaults);
 		this.editorTabPanel.add(editor).show();
 	},
 	/**

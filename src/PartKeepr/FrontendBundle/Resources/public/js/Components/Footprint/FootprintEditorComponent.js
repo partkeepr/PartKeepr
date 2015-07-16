@@ -1,39 +1,22 @@
 Ext.define('PartKeepr.FootprintEditorComponent', {
     extend: 'PartKeepr.EditorComponent',
     alias: 'widget.FootprintEditorComponent',
-    navigationClass: 'PartKeepr.FootprintTree',
+    navigationClass: 'PartKeepr.FootprintNavigation',
     editorClass: 'PartKeepr.FootprintEditor',
     newItemText: i18n("New Footprint"),
-    model: 'PartKeepr.FootprintBundle.Entity.FootprintCategory',
-    storeType: "Ext.data.TreeStore",
+    model: 'PartKeepr.FootprintBundle.Entity.Footprint',
     initComponent: function () {
-        this.createStore(
-            {
-            remoteSort: false,
-            folderSort: true,
-            rootVisible: true,
-            autoLoad: true,
-            sorters: [{
-                property: 'name',
-                direction: 'ASC'
-            }],
-            root: {
-                "@id": "/~felicitus/PartKeepr/web/app_dev.php/api/footprint_categories/1"
-            },
-            model: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
-            proxy: {
-                type: "Hydra",
-                appendId: false,
-                reader: {
-                    type: 'json'
-                }
-            }
-        });
+        this.createStore({
+			sorters: [{
+	              property: 'name',
+	              direction:'ASC'
+	          }]
+		});
 
         this.callParent();
     },
     deleteRecord: function (r) {
-        var editor = this.findEditor(r.get("id"));
+        var editor = this.findEditor(r.getId());
 
         if (editor !== null) {
             this.editorTabPanel.remove(editor);

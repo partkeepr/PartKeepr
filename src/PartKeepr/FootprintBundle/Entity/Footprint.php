@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
- * @TargetService(uri="/api/footprint")
+ * @TargetService(uri="/api/footprints")
  */
 class Footprint extends BaseEntity
 {
@@ -83,7 +83,7 @@ class Footprint extends BaseEntity
      */
     public function setName($name)
     {
-        //$this->name = $name;
+        $this->name = $name;
     }
 
     /**

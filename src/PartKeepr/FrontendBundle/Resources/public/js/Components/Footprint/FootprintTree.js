@@ -1,7 +1,7 @@
 Ext.define("PartKeepr.FootprintTree", {
 	extend: 'PartKeepr.CategoryEditorTree',
 	alias: 'widget.FootprintTree',
-	
+	xtype: 'partkeepr.FootprintTree',
 	ddGroup: 'FootprintTree',
 	folderSort: true,
 
@@ -23,11 +23,11 @@ Ext.define("PartKeepr.FootprintTree", {
 	initComponent: function () {
 		this.callParent();
 		
-		this.on("itemclick", Ext.bind(function (t,record) {
+		/*this.on("itemclick", Ext.bind(function (t,record) {
 			if (record.self.getName() == "PartKeepr.Footprint") {
 				this.fireEvent("itemEdit", record.get("id"));
 			}
-		}, this));
+		}, this));*/
 		
 		this.addButton = Ext.create("Ext.button.Button",
 				{
@@ -51,32 +51,7 @@ Ext.define("PartKeepr.FootprintTree", {
 		this.getSelectionModel().on("select", 	this._onItemSelect, 	this);
 		this.getSelectionModel().on("deselect", this._onItemDeselect, 	this);
 	},
-	/**
-	 * Called when a footprint is about to be added. This prepares the to-be-edited record with the proper category id.
-	 */
-	_onAddFootprint: function () {
-		var record = this.getSelectionModel().getLastSelected();
-		
-		if (!record) {
-			// Nothing is selected, use the root node's ID as category
-			this.fireEvent("itemAdd", { category: this.getRootNode().get("id") });
-		}
-    	
-    	if (record.self.getName() == "PartKeepr.FootprintCategory") {
-    		// Selected node is a footprint category
-    		this.fireEvent("itemAdd", { category: record.get("id") });
-    	} else {
-    		// Selected node is a footprint
-    		if (record.parentNode && record.parentNode.self.getName() == "PartKeepr.FootprintCategory") {
-    			// Selected parent node is a category, perfect. Let's use this 
-    			this.fireEvent("itemAdd", { category: record.parentNode.get("id") });	
-    		} else {
-    			// Something went probably wrong, use the root node
-    			this.fireEvent("itemAdd", { category: this.getRootNode().get("id") });
-    		}	
-    		
-    	}
-	},
+
 	/**
 	 * Called when an item was selected
 	 */
@@ -114,53 +89,6 @@ Ext.define("PartKeepr.FootprintTree", {
 		}
 		
 		this.loadCategories();
-	},
-	/**
-	 * Injects all footprints into the correct categories. That way, we don't have to implement a complete
-	 * own tree, but rather take what's already there for the categories and extend that.
-	 */
-	_onCategoriesLoaded: function () {
-		this.callParent(arguments);
-		return;
-
-		var store = PartKeepr.getApplication().getFootprintStore();
-		var nodeData, record;
-		
-		Ext.data.NodeInterface.decorate("PartKeepr.FootprintBundle.Entity.FootprintCategory");
-		
-		for (var i=0;i<store.getCount();i++) {
-			record = store.getAt(i);
-			nodeData = {
-					text: record.get("name"),
-                    name: record.get("name"),
-					id: record.get("id"),
-					leaf: true,
-					iconCls:'icon-footprint'
-			};
-			
-			var newNode = Ext.create("PartKeepr.Footprint", nodeData);
-			
-			if (record.get("category") === 0) {
-				this.getRootNode().firstChild.appendChild(newNode);
-			} else {
-				
-				var node = this.getRootNode().findChildBy(function () {
-					if (this.self.getName() == "PartKeepr.FootprintCategory" && this.get("id") == record.get("category")) {
-						return true;
-					} else {
-						return false;
-					}
-				}, false, true);
-				
-				if (node) {
-					node.appendChild(newNode);
-				} else {
-					this.getRootNode().firstChild.appendChild(newNode);
-				}
-			}
-			
-		}
-		
 	},
 	onBeforeDrop: function (node, data, overModel, dropPosition, dropFunction, options) {
 		var draggedRecord = data.records[0];

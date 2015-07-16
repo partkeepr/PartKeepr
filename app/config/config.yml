@@ -153,7 +153,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -321,7 +321,7 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.partmeasurementunit.item_operation.custom_put", "@resource.partmeasurementunit.item_operation.get", "@resource.partmeasurementunit.item_operation.put"  ] ]
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -335,7 +335,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -348,7 +348,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"

@@ -106,5 +106,8 @@ Ext.define('Ext.ux.form.SearchField', {
         
         me.hasSearch = true;
         this.getTrigger("clear").show();
-	}
+	},
+    setStore: function (store) {
+        this.store = store;
+    }
 });

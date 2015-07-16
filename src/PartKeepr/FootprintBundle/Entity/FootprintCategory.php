@@ -34,7 +34,7 @@ class FootprintCategory extends AbstractCategory
 
     /**
      * @ORM\OneToMany(targetEntity="Footprint", mappedBy="category")
-     * @Groups({"default"})
+     *
      */
     protected $footprints;
 
