@@ -3,6 +3,7 @@ namespace PartKeepr\FootprintBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Holds a footprint attachment
@@ -14,7 +15,7 @@ class FootprintAttachment extends UploadedFile
     /**
      * The description of this attachment
      * @ORM\Column(type="text")
-     *
+     * @Groups({"default"})
      * @var string
      */
     private $description;
