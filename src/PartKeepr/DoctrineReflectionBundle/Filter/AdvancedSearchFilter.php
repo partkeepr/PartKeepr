@@ -103,14 +103,38 @@ class AdvancedSearchFilter extends AbstractFilter
                     );
 
             } else {
-                // Pull in associations
-                $this->addJoins($queryBuilder, $filter);
+                if ($filter["association"] !== null) {
+                    // Pull in associations
+                    $this->addJoins($queryBuilder, $filter);
+                } else {
+                    $filter["value"] = $this->getFilterValueFromUrl($filter["value"]);
+                }
 
                 $queryBuilder->andWhere(
                     $this->getFilterExpression($queryBuilder, $filter)
                 );
             }
         }
+    }
+
+    /**
+     * Gets the ID from an URI or a raw ID.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    private function getFilterValueFromUrl($value)
+    {
+        try {
+            if ($item = $this->iriConverter->getItemFromIri($value)) {
+                return $this->propertyAccessor->getValue($item, 'id');
+            }
+        } catch (\InvalidArgumentException $e) {
+            // Do nothing, return the raw value
+        }
+
+        return $value;
     }
 
     /**
