@@ -1,4 +1,4 @@
-[![Sylius](https://partkeepr.org/partkeepr-banner.png)](https://www.partkeepr.org)
+[![PartKeepr](https://partkeepr.org/partkeepr-banner.png)](https://www.partkeepr.org)
 
 [![JSON-LD enabled](http://json-ld.org/images/json-ld-button-88.png)](http://json-ld.org)
 [![Build Status](https://travis-ci.org/partkeepr/PartKeepr.svg?branch=sf2migration)](https://travis-ci.org/partkeepr/PartKeepr)
