@@ -142,13 +142,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
         }
     },
     viewAttachment: function (record) {
-    	var mySrc = "file.php?type="+this.model+"&";
-    	
-    	if (record.get("id") === 0) {
-    		mySrc += "id=0&tmpId=" + record.get("tmp_id");
-    	} else {
-    		mySrc += "id=" + record.get("id");
-    	}
+    	var mySrc = record.getId() + "/getFile";
     	
     	new Ext.Window({
     	    title : i18n("Display File"),
