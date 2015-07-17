@@ -173,11 +173,34 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.footprint_attachment.item_operation.custom_get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.footprint_attachment"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/footprint_attachments/{id}/getMimeTypeIcon"           # Path
+             -    "PartKeeprFootprintBundle:FootprintAttachment:getMimeTypeIcon"         # Controller
+             -    "FootprintAttachmentMimeTypeIcon"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.footprint_attachment.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.footprint_attachment", "GET" ]
+
     resource.footprint_attachment:
         parent:    "api.resource"
         arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintAttachment" ]
         tags:      [ { name: "api.resource" } ]
         calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.footprint_attachment.item_operation.get", "@resource.footprint_attachment.item_operation.custom_get"  ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@resource.order_filter" ] ]
             -       method:    "initNormalizationContext"

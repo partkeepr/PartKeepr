@@ -4,10 +4,6 @@ Ext.define('PartKeepr.AttachmentGrid', {
 	border: false,
 	model: null,
 	initComponent: function () {
-		if (this.model === null) {
-			alert("Error: Model can't be null!");
-		}
-		
 		this.store = Ext.create("Ext.data.Store", {
 			model: this.model,
 			proxy: {
@@ -67,8 +63,8 @@ Ext.define('PartKeepr.AttachmentGrid', {
 		                {
 		                	dataIndex: 'extension',
 		                	width: 30,
-		                	renderer: function (val) {
-		                		return '<img src="resources/mimetypes/'+val+'.png"/>';
+		                	renderer: function (value, metadata, record) {
+		                		return '<img src="'+record.getId()+'/getMimeTypeIcon"/>';
 		                	}
 		                },
 		                {

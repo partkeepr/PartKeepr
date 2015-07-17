@@ -4,3 +4,4 @@ partkeepr:
     iclogo: %kernel.root_dir%/../data/images/iclogo/
     temp: %kernel.root_dir%/../data/temp/
     tempfile: %kernel.root_dir%/../data/files/Temporary/
+    mimetype_icons: %kernel.root_dir%/../src/PartKeepr/MimetypeIconsBundle/Resources/public/images/mimes/
