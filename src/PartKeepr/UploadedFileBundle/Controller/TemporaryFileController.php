@@ -62,6 +62,6 @@ class TemporaryFileController extends FileController
      */
     public function getEntityClass()
     {
-        return "PartKeepr\\UploadedFileBunde\\Entity\\TempUploadedFile";
+        return "PartKeepr\\UploadedFileBundle\\Entity\\TempUploadedFile";
     }
 }

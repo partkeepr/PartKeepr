@@ -122,12 +122,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
 	onFileUploaded: function (response) {
 		this.editing.cancelEdit();
 		
-		this.store.insert(this.store.getCount(), Ext.create(this.model, {
-			id: "TMP:"+response.id,
-			extension: response.extension,
-			size: response.size,
-			originalFilename: response.originalFilename
-		}));
+		this.store.add(response);
 		
 	},
 	onDeleteClick: function () {

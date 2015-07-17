@@ -25,12 +25,13 @@ abstract class FileController extends ResourceController
     /**
      * Returns the mimetype icon for an uploaded file
      *
-     * @param integer $id      The ID of the entity
+     * @param integer $id The ID of the entity
+     *
      * @return Response
      */
     public function getMimeTypeIconAction($id)
     {
-    /**
+        /**
          * @var $em EntityManager
          */
         $em = $this->getDoctrine()->getManager();
@@ -43,6 +44,32 @@ abstract class FileController extends ResourceController
         $icon = $this->get("partkeepr_mimetype_icon_service")->getMimetypeIcon($file->getMimeType());
 
         return new Response(file_get_contents($icon), 200, array("Content-Type" => "image/svg+xml"));
+    }
+
+    /**
+     * Returns the file. Directly sends the response to the browser
+     *
+     * @param integer $id The ID of the file
+     *
+     * @return Response
+     */
+    public function getFileAction($id)
+    {
+        /**
+         * @var $em EntityManager
+         */
+        $em = $this->getDoctrine()->getManager();
+
+        /**
+         * @var $file UploadedFile
+         */
+        $file = $em->find($this->getEntityClass(), $id);
+
+        return new Response(
+            file_get_contents($this->getFilename($file)),
+            200,
+            array("Content-Type" => $file->getMimeType())
+        );
     }
 
     /**

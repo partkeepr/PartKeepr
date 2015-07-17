@@ -4,7 +4,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
     title: i18n("File Upload"),
     fileFieldLabel: i18n("File"),
     uploadButtonText: i18n('Select File...'),
-    uploadURL: PartKeepr.getBasePath() + "/api/temporaryFile/upload",
+    uploadURL: PartKeepr.getBasePath() + "/api/temp_uploaded_files/upload",
     layout: 'fit',
     resizable: false,
     modal: true,
@@ -13,7 +13,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
     {
 
         if (this.imageUpload) {
-            this.uploadURL = PartKeepr.getBasePath() + "/api/temporaryImage/upload";
+            this.uploadURL = PartKeepr.getBasePath() + "/api/temp_images/upload";
         }
 
         this.uploadButton = Ext.create("Ext.button.Button",

@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\BaseEntity;
+use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -57,8 +58,9 @@ class Footprint extends BaseEntity
     /**
      * Holds the footprint attachments
      *
-     * @ORM\OneToMany(targetEntity="FootprintAttachment", mappedBy="footprint", cascade={"persist", "remove"})
-     *
+     * @ORM\OneToMany(targetEntity="PartKeepr\FootprintBundle\Entity\FootprintAttachment",
+     *                mappedBy="footprint", cascade={"persist", "remove"})
+     * @UploadedFileCollection()
      * @Groups({"default"})
      *
      * @var FootprintAttachment
