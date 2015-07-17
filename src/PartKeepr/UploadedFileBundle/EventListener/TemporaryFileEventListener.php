@@ -75,6 +75,7 @@ class TemporaryFileEventListener
 
                         $this->uploadedFileService->replaceFromUploadedFile($newFile, $item);
                         $newFile->setOriginalFilename($item->getOriginalFilename());
+                        $newFile->setDescription($item->getDescription());
 
                         // Find the setter for the association
                         $inverseSideReflection = new \ReflectionClass($newFile);

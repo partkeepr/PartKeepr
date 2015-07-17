@@ -62,12 +62,20 @@ abstract class UploadedFile extends BaseEntity
 
     /**
      * Holds the extension of the given file
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
      * @var string
      */
     private $extension;
+
+    /**
+     * The description of this attachment
+     * @ORM\Column(type="text")
+     * @Groups({"default"})
+     * @var string
+     */
+    private $description;
 
     public function __construct()
     {
@@ -190,6 +198,26 @@ abstract class UploadedFile extends BaseEntity
     public function setExtension($extension)
     {
         $this->extension = $extension;
+    }
+
+    /**
+     * Sets the description for this attachment
+     *
+     * @param string $description The attachment description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Returns the description for this attachment
+     *
+     * @return string The description
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
