@@ -33,7 +33,7 @@ class FootprintAttachment extends UploadedFile
      *
      * @param Footprint $footprint The footprint to set
      */
-    public function setFootprint(Footprint $footprint)
+    public function setFootprint(Footprint $footprint = null)
     {
         $this->footprint = $footprint;
     }

@@ -59,7 +59,7 @@ class Footprint extends BaseEntity
      * Holds the footprint attachments
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\FootprintBundle\Entity\FootprintAttachment",
-     *                mappedBy="footprint", cascade={"persist", "remove"})
+     *                mappedBy="footprint", cascade={"persist", "remove"}, orphanRemoval=true)
      * @UploadedFileCollection()
      * @Groups({"default"})
      *
