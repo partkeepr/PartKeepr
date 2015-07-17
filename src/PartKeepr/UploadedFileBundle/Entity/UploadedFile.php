@@ -71,7 +71,7 @@ abstract class UploadedFile extends BaseEntity
 
     /**
      * The description of this attachment
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
      * @var string
      */
