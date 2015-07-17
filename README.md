@@ -23,9 +23,8 @@ Requirements
 
 PartKeepr needs:
 
-* PHP 5.5 and up
+* PHP 5.6 and up. Some distributions don't have PHP 5.6 yet, but [provide packages](documentation/installation/php56.md). 
 * A MySQL or PostgreSQL database
-
 
 Installation
 ------------
