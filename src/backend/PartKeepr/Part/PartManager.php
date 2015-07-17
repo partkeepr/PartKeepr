@@ -3,7 +3,7 @@ namespace PartKeepr\Part;
 
 use PartKeepr\Logger\Logger;
 
-use PartKeepr\UploadedFile\TempUploadedFile,
+use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile,
 	PartKeepr\Manager\ManagerFilter,
 	Doctrine\ORM\QueryBuilder,
 	PartKeepr\PartParameter\PartParameter,

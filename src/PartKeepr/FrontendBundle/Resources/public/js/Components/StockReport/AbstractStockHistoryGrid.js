@@ -79,7 +79,6 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 			autoSync: true, 
 			remoteFilter: true,
 			remoteSort: true,
-			proxy: PartKeepr.getRESTProxy("Stock"),
 			model: this.model,
  			sorters: [{
 	 			property: 'dateTime',

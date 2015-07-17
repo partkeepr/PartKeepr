@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User\User;
 use PartKeepr\EventNotification\EventManager;
 use PartKeepr\Session\SessionManager;
-use PartKeepr\UploadedFile\TempUploadedFile;
+use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Serializable;
 

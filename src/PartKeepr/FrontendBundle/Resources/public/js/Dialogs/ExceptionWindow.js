@@ -274,14 +274,26 @@ Ext.define('PartKeepr.ExceptionWindow', {
          * @param {PartKeepr.data.HydraException} exception The exception object
          * @param {Object}                        response The response object
          */
-        showException: function (exception, response)
+        showException: function (response)
         {
             if (!PartKeepr.ExceptionWindow.activeInstance) {
                 PartKeepr.ExceptionWindow.activeInstance = new PartKeepr.ExceptionWindow();
             }
 
-            PartKeepr.ExceptionWindow.activeInstance._showException(exception, response);
-        }
+            try {
+                var data = Ext.decode(response.responseText);
 
+                var exception = Ext.create("PartKeepr.data.HydraException", data);
+
+                PartKeepr.ExceptionWindow.activeInstance._showException(exception, response);
+            } catch (ex) {
+                var exception = Ext.create("PartKeepr.data.HydraException", {
+                    title: i18n("Critical Error"),
+                    description: i18n("The server returned a response which we were not able to interpret.")
+                });
+
+                PartKeepr.ExceptionWindow.activeInstance._showException(exception, response);
+            }
+        }
     }
 });

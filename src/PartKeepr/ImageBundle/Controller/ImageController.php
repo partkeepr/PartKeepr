@@ -2,7 +2,6 @@
 namespace PartKeepr\ImageBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Controller\ResourceController;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
@@ -10,10 +9,11 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PartKeepr\Image\CachedImage;
 use PartKeepr\ImageBundle\Entity\Image as PartKeeprImage;
 use PartKeepr\ImageBundle\Response\ImageNotFoundResponse;
+use PartKeepr\UploadedFileBundle\Controller\FileController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class ImageController extends ResourceController
+abstract class ImageController extends FileController
 {
     /**
      *
@@ -124,20 +124,6 @@ abstract class ImageController extends ResourceController
     }
 
     /**
-     * Returns the full path for the image
-     *
-     * @param PartKeeprImage $image
-     *
-     * @return string
-     */
-    public function getFilename(PartKeeprImage $image)
-    {
-        $storageDirectory = $this->get("partkeepr_uploadedfile_service")->getStorageDirectory($image);
-
-        return $storageDirectory."/".$image->getFilename().".".$image->getExtension();
-    }
-
-    /**
      * Returns the path to an image which has been cached in a particular width, height and mode.
      *
      * @param PartKeeprImage $image  The image
@@ -155,11 +141,4 @@ abstract class ImageController extends ResourceController
 
         return $outputFile;
     }
-
-    /**
-     * Returns the entity class (FQDN) for operation, e.g. "PartKeepr\\ManufacturerBundle\\Entity\\ManufacturerICLogo"
-     *
-     * @return string
-     */
-    abstract public function getEntityClass();
 }

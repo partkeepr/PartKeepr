@@ -11,7 +11,6 @@ Ext.define('PartKeepr.ProjectEditorComponent', {
 	initComponent: function () {
 		this.createStore({
 			sorters: [{
-				proxy: PartKeepr.getRESTProxy("Project"),
 				property: 'name',
 				direction:'ASC'
 	          }]

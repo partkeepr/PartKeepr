@@ -2,7 +2,7 @@
 namespace PartKeepr\ProjectAttachment;
 
 use PartKeepr\Project\ProjectAttachment,
-	PartKeepr\UploadedFile\TempUploadedFile,
+	PartKeepr\UploadedFileBundle\Entity\TempUploadedFile,
 	PartKeepr\Service\RestfulService,
 	PartKeepr\Service\Service,
 	PartKeepr\PartKeepr,

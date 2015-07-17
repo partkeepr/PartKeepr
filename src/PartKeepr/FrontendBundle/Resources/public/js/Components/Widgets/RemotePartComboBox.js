@@ -21,7 +21,6 @@ Ext.define("PartKeepr.RemotePartComboBox",{
 		 */
 		this.createStore({
 			 model: 'PartKeepr.Part.Part',
-			 proxy: PartKeepr.getRESTProxy("Part"),
 			 groupField: 'categoryPath',
 			 sorters: [{
 				 property: 'name',

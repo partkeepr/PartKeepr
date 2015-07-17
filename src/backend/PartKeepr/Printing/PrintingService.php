@@ -8,7 +8,7 @@ use PartKeepr\Printing\PDFLabelRenderer;
 use PartKeepr\Printing\PrintingJob\PrintingJob;
 use PartKeepr\Printing\PrintingJobConfiguration\PrintingJobConfigurationManager;
 use PartKeepr\Service\Service;
-use PartKeepr\UploadedFile\TempUploadedFile;
+use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile;
 
 /**
  * This service is the entry point for our printing/exporting

@@ -12,7 +12,6 @@ Ext.define('PartKeepr.UserEditorComponent', {
 	initComponent: function () {
 		this.createStore({
 			sorters: [{
-				proxy: PartKeepr.getRESTProxy("User"),
 				property: 'username',
 				direction:'ASC'
 	          }]

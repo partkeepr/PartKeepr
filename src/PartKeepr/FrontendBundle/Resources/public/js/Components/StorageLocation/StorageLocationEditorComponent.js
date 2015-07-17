@@ -8,7 +8,6 @@ Ext.define('PartKeepr.StorageLocationEditorComponent', {
 	initComponent: function () {
 		this.createStore({
 			sorters: [{
-				proxy: PartKeepr.getRESTProxy("StorageLocation"),
 				property: 'name',
 				direction:'ASC'
 	          }]

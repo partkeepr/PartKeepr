@@ -189,7 +189,7 @@ class PartKeepr {
 			'PartKeepr\Image\CachedImage',
 			'PartKeepr\ImageBundle\Entity\TempImage',
 			
-			'PartKeepr\UploadedFile\TempUploadedFile',
+			'PartKeepr\UploadedFileBundle\Entity\TempUploadedFile',
 			
 			'PartKeepr\Statistic\StatisticSnapshot',
 			'PartKeepr\Statistic\StatisticSnapshotUnit',

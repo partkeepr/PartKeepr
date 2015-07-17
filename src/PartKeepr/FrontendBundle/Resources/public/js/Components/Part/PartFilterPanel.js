@@ -109,10 +109,6 @@ Ext.define('PartKeepr.PartFilterPanel', {
 	 * @return nothing
 	 */
 	onApply: function () {
-		if (!this.store) {
-			PartKeepr.getApplication().raiseRuntimeError("PartFilterPanel.store is not set");
-			return;
-		}
 		this.applyFilterParameters(this.store.getProxy().extraParams);
 		this.store.currentPage = 1;
 		this.store.load({ start: 0});

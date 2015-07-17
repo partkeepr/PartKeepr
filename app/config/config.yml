@@ -395,3 +395,43 @@ services:
                     arguments: [ [ "@resource.tempimage.collection_operation.custom_post" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.tempimage.item_operation.custom_get" ] ]
+
+    resource.tempfile.collection_operation.custom_post:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments:
+             -    "@resource.tempfile"               # Resource
+             -    [ "POST" ]                 # Methods
+             -    "/temporaryFile/upload"           # Path
+             -    "PartKeeprUploadedFileBundle:TemporaryFile:upload"         # Controller
+             -    "TemporaryFileUpload"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.tempfile.item_operation.custom_get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.tempfile"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/temporaryFile/{id}/getFile"           # Path
+             -    "PartKeeprUploadedFileBundle:TemporaryFile:getFile"         # Controller
+             -    "TemporaryFileGet"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.tempfile:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\UploadedFileBundle\\Entity\\TempUploadedFile" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.tempfile.collection_operation.custom_post" ] ]
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.tempfile.item_operation.custom_get" ] ]

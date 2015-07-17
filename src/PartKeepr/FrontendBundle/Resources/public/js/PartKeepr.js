@@ -253,19 +253,6 @@ Ext.application({
     	this.centerPanel.removeAll(true);
     	this.getSessionManager().logout();
     },
-	/**
-	 * Handles a runtime error.
-	 * 
-	 * @param error A string indicating which error has occured.
-	 */
-	raiseRuntimeError: function (error) {
-		var exception = {
-			message: i18n("Runtime Error"),
-			detail: error
-		};
-                	
-		PartKeepr.ExceptionWindow.showException(exception);
-	},
     createGlobalStores: function () {
     	this.footprintStore = Ext.create("Ext.data.Store",
     			{
@@ -591,69 +578,6 @@ Ext.application({
         return format.currency(value);
     }
 });
-
-/**
- * <p>This static method returns a REST object definition for use with any models.</p>
- * <p>It automatically sets the session (if available) and the prefix for the given REST service.</p>
- * @param {string} service The REST service to call. Only use the base name, e.g. "Footprint" instead of "FootprintService".
- * @return {Object} The RESTProxy definition
-*/
-PartKeepr.getRESTProxy = function (service) {
-	var request,requestData = {};
-	
-	var obj = {
-		batchActions: false,
-		url: PartKeepr.getBasePath()+ '/'+service,
-		listeners: {
-        	exception: function (proxy, response, operation) {
-        		try {
-                    var data = Ext.decode(response.responseText);
-
-                    requestData.method = operation.request.method;
-                    requestData.headers = operation.request.headers;
-                    requestData.jsonData = operation.request.jsonData;
-                    
-                    request = {
-                    		request: Ext.encode(requestData),
-                			response: response.responseText
-                	};
-                    
-                	PartKeepr.ExceptionWindow.showException(data.exception, request);
-                } catch (ex) {
-                	var exception = {
-                			message: i18n("Critical Error"),
-                			detail: i18n("The server returned a response which we were not able to interpret.")
-                	};
-                	
-             	
-                    requestData.method = operation.request.method;
-                    requestData.headers = operation.request.headers;
-                    requestData.jsonData = operation.request.jsonData;
-
-                	request = {
-                			request: Ext.encode(requestData),
-                			response: response.responseText
-                	};
-                	
-                	PartKeepr.ExceptionWindow.showException(exception, request);
-                }
-        	}
-        },
-		reader: {
-            type: 'json',
-            rootProperty: 'response.data',
-            successProperty: "success",
-            messageProperty: 'message',
-            totalProperty  : 'response.totalCount'
-        },
-        writer: {
-            type: 'jsonwithassociations'
-        }
-        
-	};
-	//Ext.data.AjaxProxy.superclass.constructor.apply(this, arguments);
-	return new Ext.data.proxy.Rest(obj);
-};
 
 PartKeepr.getSession = function () {
 	alert("This should not be called.");

@@ -107,19 +107,6 @@ Ext.define("PartKeepr.data.HydraProxy", {
         this.showException(response);
     },
     showException: function (response) {
-        try {
-            var data = Ext.decode(response.responseText);
-
-            var exception = Ext.create("PartKeepr.data.HydraException", data);
-
-            PartKeepr.ExceptionWindow.showException(exception, response);
-        } catch (ex) {
-            var exception = Ext.create("PartKeepr.data.HydraException", {
-                title: i18n("Critical Error"),
-                description: i18n("The server returned a response which we were not able to interpret.")
-            });
-
-            PartKeepr.ExceptionWindow.showException(exception, response);
-        }
+        PartKeepr.ExceptionWindow.showException(response);
     }
 });

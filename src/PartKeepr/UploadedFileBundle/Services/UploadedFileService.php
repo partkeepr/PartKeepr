@@ -26,6 +26,17 @@ class UploadedFileService extends ContainerAware
      * @param UploadedFile $file           The target file
      * @param File         $filesystemFile The source file
      */
+    public function replace(UploadedFile $file, File $filesystemFile)
+    {
+        $this->replaceFromFilesystem($file, $filesystemFile);
+    }
+
+    /**
+     * Replaces the current file with a new file.
+     *
+     * @param UploadedFile $file           The target file
+     * @param File         $filesystemFile The source file
+     */
     public function replaceFromFilesystem(UploadedFile $file, File $filesystemFile)
     {
         $oldFile = $this->getFullPath($file);
@@ -100,7 +111,8 @@ class UploadedFileService extends ContainerAware
         $header[] = "Accept-Language: en-us,en;q=0.5";
         $header[] = "Pragma: ";
 
-        $browser = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3) Gecko/2008092510 Ubuntu/8.04 (hardy) Firefox/3.0.3";
+        $browser = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3) Gecko/2008092510 ";
+        $browser .= "Ubuntu/8.04 (hardy) Firefox/3.0.3";
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_USERAGENT, $browser);

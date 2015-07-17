@@ -19,7 +19,6 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
 		this.store = Ext.create("Ext.data.Store",
 			{
 				model: 'PartKeepr.StorageLocation.StorageLocation',
-				proxy: PartKeepr.getRESTProxy("StorageLocation"),
 				pageSize: -1,
 				autoLoad: true
 			});

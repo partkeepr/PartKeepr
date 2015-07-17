@@ -19,7 +19,7 @@ class ImageService extends UploadedFileService
      */
     public function replace(UploadedFile $file, File $filesystemFile)
     {
-        parent::replaceFromFilesystem($file, $filesystemFile);
+        parent::replace($file, $filesystemFile);
         $this->invalidate($file);
     }
 

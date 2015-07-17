@@ -4,7 +4,6 @@ namespace PartKeepr\FootprintBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
-use PartKeepr\UploadedFile\TempUploadedFile;
 use PartKeepr\Util\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -176,7 +175,8 @@ class Footprint extends BaseEntity
     /**
      * Adds an IC Logo.
      *
-     * @param FootprintAttachment|TempUploadedFile $attachment Either a FootprintAttachment or a TempUploadedFile
+     * @param FootprintAttachment|\PartKeepr\UploadedFileBundle\Entity\TempUploadedFile $attachment
+     *        Either a FootprintAttachment or a TempUploadedFile
      *
      * @return void
      */
