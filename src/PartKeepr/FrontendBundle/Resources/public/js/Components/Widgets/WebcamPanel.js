@@ -24,6 +24,7 @@ Ext.define('PartKeepr.WebcamPanel', {
         }
     }],
     video: null,
+    stream: null,
 
     initComponent: function ()
     {
@@ -44,8 +45,10 @@ Ext.define('PartKeepr.WebcamPanel', {
         this.callParent();
 
         this.on("afterrender", this._onAfterRender, this);
+        this.on("beforedestroy", this._onBeforeDestroy, this);
     },
     handleVideo: function (stream) {
+        this.stream = stream;
         this.video.src = window.URL.createObjectURL(stream);
     },
     videoError: function () {
@@ -89,5 +92,11 @@ Ext.define('PartKeepr.WebcamPanel', {
 
         this.takePhotoButton.disable();
         this.takePhotoButton.setText(i18n("Uploading..."));
+    },
+    _onBeforeDestroy: function () {
+        this.stream.stop();
+        this.video.pause();
+        this.video.src=null;
     }
+
 });
