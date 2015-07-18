@@ -56,6 +56,30 @@ class TemporaryFileController extends FileController
         return new JsonResponse(new TemporaryImageUploadResponse($serializedData));
     }
 
+    /**
+     * Uploads a webcam image
+     *
+     * @param Request $request The request to process
+     * @return Response
+     */
+    public function webcamUploadAction(Request $request)
+    {
+        $file = new TempUploadedFile();
+        $fileService = $this->get("partkeepr_uploadedfile_service");
+
+
+        $data = $request->getContent();
+
+        $base64 = explode(',', $data);
+        $fileService->replaceFromData($file, base64_decode($base64[1]), "webcam.png");
+
+        $this->getDoctrine()->getManager()->persist($file);
+        $this->getDoctrine()->getManager()->flush();
+
+        $resource = $this->getResource($request);
+
+        return $this->getSuccessResponse($resource, $file, 201);
+    }
 
     /**
      * @inheritdoc

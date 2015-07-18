@@ -57,6 +57,31 @@ class TemporaryImageController extends ImageController
     }
 
     /**
+     * Uploads a webcam image
+     *
+     * @param Request $request The request to process
+     * @return Response
+     */
+    public function webcamUploadAction(Request $request)
+    {
+        $image = new TempImage();
+        $imageService = $this->get("partkeepr_image_service");
+
+
+        $data = $request->getContent();
+
+        $base64 = explode(',', $data);
+        $imageService->replaceFromData($image, base64_decode($base64[1]), "webcam.png");
+
+        $this->getDoctrine()->getManager()->persist($image);
+        $this->getDoctrine()->getManager()->flush();
+
+        $resource = $this->getResource($request);
+
+        return $this->getSuccessResponse($resource, $image, 201);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getEntityClass()

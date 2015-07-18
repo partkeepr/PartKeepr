@@ -96,16 +96,17 @@ Ext.define('PartKeepr.AttachmentGrid', {
 	},
 	onWebcamClick: function () {
 		var wp = Ext.create("PartKeepr.WebcamPanel");
-		wp.on("uploadComplete", this.onFileUploaded, this);
+		wp.on("fileUploaded", this.onFileUploaded, this);
 		
 		var j = Ext.create("Ext.window.Window", {
 			title: i18n("Take Webcam Photo"),
+			layout: 'fit',
 			items: [
 			        wp
 			        ]
 		});
 		
-		wp.on("uploadComplete", function () { j.close(); });
+		wp.on("fileUploaded", function () { j.close(); });
 		
 		j.show();
 	},

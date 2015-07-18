@@ -3,58 +3,91 @@
  * a flash (jpegcam).
  */
 Ext.define('PartKeepr.WebcamPanel', {
-	extend: 'Ext.panel.Panel',
-	alias: 'widget.WebcamPanel',
-	initComponent: function () {
-		
-		this.takePhotoButton = Ext.create("Ext.button.Button", {
-			text: i18n("Take picture and upload"),
-        	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/webcam.png',
-        	handler: this.takePhoto
-		});
-		
-		// Create a toolbar with the "take photo" button
-		this.bbar = Ext.create("Ext.toolbar.Toolbar", {
-			enableOverflow: true,
-			items: [ this.takePhotoButton ]
-		});
-		
-		// Render the SWF
-		this.on("afterrender", this.renderWebcam, this);
-		
-		this.callParent();
-	},
-	/**
-	 * Renders the webcam swf.
-	 * @param e The element for this component
-	 */
-	renderWebcam: function (e) {
-		webcam.set_swf_url("resources/webcam.swf");
-		webcam.set_quality(90);
-		webcam.set_api_url(PartKeepr.getBasePath()+"?service=TempFile&call=uploadCam&session="+PartKeepr.getApplication().getSession());
-		webcam.set_shutter_sound(false);
-		webcam.set_hook('onComplete', Ext.bind(this.onUploadComplete, this));
-		
-		e.body.insertHtml('beforeEnd', webcam.get_html(640,480, 640, 480));
-	},
-	/**
-	 * Takes a photo using the webcam.
-	 */
-	takePhoto: function () {
-		webcam.snap();
-		this.takePhotoButton.disable();
-		this.takePhotoButton.setText(i18n("Uploading..."));
-	},
-	/**
-	 * Called when the upload is complete. Resumes webcam operation
-	 * and fires the event. 'uploadComplete'
-	 * @param message	The server side message
-	 */
-	onUploadComplete: function (message) {
-		var response = Ext.decode(message);
-		
-		webcam.reset();
-		this.fireEvent("uploadComplete", response.response);
-		
-	}
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.WebcamPanel',
+
+    layout: 'fit',
+    width: 320,
+    height: 286,
+    items: [{
+        xtype: 'component',
+        itemId: 'video',
+        autoEl: {
+            tag: 'video',
+            autoplay: 'true'
+        }
+    },{
+        xtype: 'component',
+        itemId: 'canvas',
+        autoEl: {
+            tag: 'canvas',
+        }
+    }],
+    video: null,
+
+    initComponent: function ()
+    {
+        this.takePhotoButton = Ext.create("Ext.button.Button", {
+            text: i18n("Take picture and upload"),
+            icon: 'bundles/brainbitsfugueicons/icons/fugue/16/webcam.png',
+            handler: this.takePhoto,
+            scope: this
+        });
+
+        // Create a toolbar with the "take photo" button
+        this.bbar = Ext.create("Ext.toolbar.Toolbar", {
+            enableOverflow: true,
+            items: [this.takePhotoButton]
+        });
+
+
+        this.callParent();
+
+        this.on("afterrender", this._onAfterRender, this);
+    },
+    handleVideo: function (stream) {
+        this.video.src = window.URL.createObjectURL(stream);
+    },
+    videoError: function () {
+        // @todo: Implement video error handler
+    },
+    _onAfterRender: function () {
+        this.video = this.down("#video").getEl().dom;
+        this.canvas = this.down("#canvas").getEl().dom;
+
+        navigator.getUserMedia = navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia;
+
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({video: true}, Ext.bind(this.handleVideo, this), Ext.bind(this.videoError, this));
+        }
+    },
+    /**
+     * Takes a photo using the webcam.
+     */
+    takePhoto: function ()
+    {
+        this.canvas.width = this.video.videoWidth;
+        this.canvas.height = this.video.videoHeight;
+
+        var ctx = this.canvas.getContext('2d');
+        ctx.drawImage(this.video, 0, 0, this.video.videoWidth, this.video.videoHeight);
+
+        Ext.Ajax.request({
+            // Might need to adjust the path, depending on if we are uploading a file or image
+            url: PartKeepr.getBasePath() + "/api/temp_uploaded_files/webcamUpload",
+            params: this.canvas.toDataURL(),
+            success: function (response) {
+                var responseObject = Ext.decode(response.responseText);
+                this.fireEvent("fileUploaded", responseObject);
+            },
+            //@todo implement failure handler
+            scope: this
+        });
+
+        this.takePhotoButton.disable();
+        this.takePhotoButton.setText(i18n("Uploading..."));
+    }
 });

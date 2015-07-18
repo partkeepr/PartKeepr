@@ -53,6 +53,18 @@ class UploadedFileService extends ContainerAware
         }
     }
 
+    public function replaceFromData(UploadedFile $file, $data, $filename)
+    {
+        $tempName = tempnam("/tmp", "PARTKEEPR");
+
+        file_put_contents($tempName, $data);
+
+        $this->replaceFromFilesystem($file, new File($tempName));
+        $file->setOriginalFilename($filename);
+
+        unlink($tempName);
+    }
+
     /**
      * Replaces an existing uploaded file with another uploaded file.
      *
@@ -135,14 +147,7 @@ class UploadedFileService extends ContainerAware
 
         curl_close($curl);
 
-        $tempName = tempnam("/tmp", "PARTKEEPR");
-
-        file_put_contents($tempName, $data);
-
-        $this->replaceFromFilesystem($file, new File($tempName));
-        $file->setOriginalFilename(basename($url));
-
-        unlink($tempName);
+        $this->replaceFromData($file, $data, basename($url));
     }
 
     /**

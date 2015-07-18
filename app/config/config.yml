@@ -409,6 +409,21 @@ services:
                       "hydra:title": "A custom operation"
                       "returns":     "xmls:string"
 
+    resource.tempimage.collection_operation.custom_post_webcam:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments:
+                 -    "@resource.tempimage"               # Resource
+                 -    [ "POST" ]                 # Methods
+                 -    "/temp_images/webcamUpload"           # Path
+                 -    "PartKeeprImageBundle:TemporaryImage:webcamUpload"         # Controller
+                 -    "TemporaryImageUploadWebcam"                 # Route name
+                 -    # Context (will be present in Hydra documentation)
+                      "@type":       "hydra:Operation"
+                      "hydra:title": "A custom operation"
+                      "returns":     "xmls:string"
+
     resource.tempimage.item_operation.custom_get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -430,7 +445,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.tempimage.collection_operation.custom_post" ] ]
+                    arguments: [ [ "@resource.tempimage.collection_operation.custom_post", "@resource.tempimage.collection_operation.custom_post_webcam" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.tempimage.item_operation.custom_get" ] ]
 
@@ -448,6 +463,21 @@ services:
                   "@type":       "hydra:Operation"
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
+
+    resource.tempfile.collection_operation.custom_post_webcam:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments:
+                 -    "@resource.tempfile"               # Resource
+                 -    [ "POST" ]                 # Methods
+                 -    "/temp_uploaded_files/webcamUpload"           # Path
+                 -    "PartKeeprUploadedFileBundle:TemporaryFile:webcamUpload"         # Controller
+                 -    "TemporaryFileUploadWebcam"                 # Route name
+                 -    # Context (will be present in Hydra documentation)
+                      "@type":       "hydra:Operation"
+                      "hydra:title": "A custom operation"
+                      "returns":     "xmls:string"
 
     resource.tempfile.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -485,8 +515,6 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
-
-
     resource.tempfile:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\UploadedFileBundle\\Entity\\TempUploadedFile" ]
@@ -495,4 +523,4 @@ services:
             -       method:     "initCollectionOperations"
                     arguments: [ [ "@resource.tempfile.collection_operation.custom_post" ] ]
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.tempfile.item_operation.get", "@resource.tempfile.item_operation.custom_get", "@resource.tempfile.item_operation.custom_get_mimetype" ] ]
+                    arguments: [ [ "@resource.tempfile.item_operation.get", "@resource.tempfile.item_operation.custom_get", "@resource.tempfile.item_operation.custom_get_mimetype", "@resource.tempfile.collection_operation.custom_post_webcam" ] ]
