@@ -59,4 +59,20 @@ class CachedImage extends BaseEntity
     {
         return $this->cacheFile;
     }
+
+    /**
+     * Returns the original ID
+     * @return int
+     */
+    public function getOriginalId () {
+        return $this->originalId;
+    }
+
+    /**
+     * Returns the original type
+     * @return string
+     */
+    public function getOriginalType () {
+        return $this->originalType;
+    }
 }
