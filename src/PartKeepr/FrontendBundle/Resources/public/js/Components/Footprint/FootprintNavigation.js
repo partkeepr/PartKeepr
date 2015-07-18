@@ -14,6 +14,7 @@ Ext.define("PartKeepr.FootprintNavigation", {
         }, {
             xtype: 'partkeepr.FootprintGrid',
             resizable: true,
+            split: true,
             region: 'south',
             height: "50%"
         }
