@@ -4,7 +4,7 @@
 namespace PartKeepr\ImageBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use PartKeepr\Image\CachedImage;
+use PartKeepr\ImageBundle\Entity\CachedImage;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\UploadedFileBundle\Services\UploadedFileService;
 use Symfony\Component\HttpFoundation\File\File;

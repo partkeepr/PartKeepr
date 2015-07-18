@@ -186,7 +186,7 @@ class PartKeepr {
 			'PartKeepr\DistributorBundle\Entity\Distributor',
 			
 			'PartKeepr\ImageBundle\Entity\Image',
-			'PartKeepr\Image\CachedImage',
+			'PartKeepr\ImageBundle\Entity\CachedImage',
 			'PartKeepr\ImageBundle\Entity\TempImage',
 			
 			'PartKeepr\UploadedFileBundle\Entity\TempUploadedFile',

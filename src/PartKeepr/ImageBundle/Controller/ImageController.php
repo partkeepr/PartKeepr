@@ -6,7 +6,7 @@ use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use PartKeepr\Image\CachedImage;
+use PartKeepr\ImageBundle\Entity\CachedImage;
 use PartKeepr\ImageBundle\Entity\Image as PartKeeprImage;
 use PartKeepr\ImageBundle\Response\ImageNotFoundResponse;
 use PartKeepr\UploadedFileBundle\Controller\FileController;
