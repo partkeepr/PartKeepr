@@ -137,6 +137,21 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private function getFilterValueFromUrl($value)
     {
+        if (is_array($value)) {
+            $items = array();
+
+            foreach ($value as $iri) {
+                try {
+                    $item = $this->iriConverter->getItemFromIri($iri);
+                    $items[] = $this->propertyAccessor->getValue($item, 'id');
+                } catch (\InvalidArgumentException $e) {
+                    $items[] = $iri;
+                }
+            }
+
+            return $items;
+        }
+
         try {
             if ($item = $this->iriConverter->getItemFromIri($value)) {
                 return $this->propertyAccessor->getValue($item, 'id');
@@ -199,7 +214,7 @@ class AdvancedSearchFilter extends AbstractFilter
             $alias = "o.".$filter["property"];
         }
 
-        if ($filter["operator"] == self::OPERATOR_IN) {
+        if (strtolower($filter["operator"]) == self::OPERATOR_IN) {
             if (!is_array($filter["value"])) {
                 throw new \Exception("Value needs to be an array for the IN operator");
             }
@@ -210,7 +225,7 @@ class AdvancedSearchFilter extends AbstractFilter
             $this->parameterCount++;
             $queryBuilder->setParameter($paramName, $filter["value"]);
 
-            switch ($filter["operator"]) {
+            switch (strtolower($filter["operator"])) {
                 case self::OPERATOR_EQUALS:
                     return $queryBuilder->expr()->eq($alias, $paramName);
                     break;
@@ -340,7 +355,7 @@ class AdvancedSearchFilter extends AbstractFilter
         }
 
         if ($data->operator) {
-            if (!in_array($data->operator, self::OPERATORS)) {
+            if (!in_array(strtolower($data->operator), self::OPERATORS)) {
                 throw new \Exception(sprintf("Invalid operator %s", $data->operator));
             }
             $filter["operator"] = $data->operator;
