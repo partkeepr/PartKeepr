@@ -39,6 +39,13 @@ class FootprintCategory extends AbstractCategory
     protected $footprints;
 
     /**
+     * @ORM\Column(type="text",nullable=true)
+     * @Groups({"default"})
+     * @var string
+     */
+    protected $categoryPath;
+
+    /**
      * Sets the parent category
      *
      * @param AbstractCategory|null $parent
@@ -76,5 +83,39 @@ class FootprintCategory extends AbstractCategory
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * Returns the category path
+     *
+     * @return string
+     */
+    public function getCategoryPath()
+    {
+        return $this->categoryPath;
+    }
+
+    /**
+     * Sets the category path
+     *
+     * @param string $categoryPath The category path
+     */
+    public function setCategoryPath($categoryPath)
+    {
+        $this->categoryPath = $categoryPath;
+    }
+
+    /**
+     * Generates the category path
+     *
+     * @return string The category path
+     */
+    public function generateCategoryPath()
+    {
+        if ($this->getParent() !== null) {
+            return $this->getParent()->generateCategoryPath()." / ".$this->getName();
+        } else {
+            return $this->getName();
+        }
     }
 }

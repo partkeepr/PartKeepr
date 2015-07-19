@@ -16,8 +16,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * If you are interested on how NestedSets work, please read http://en.wikipedia.org/wiki/Nested_set_model
  */
-class AbstractCategory extends BaseEntity
+abstract class AbstractCategory extends BaseEntity
 {
+    /**
+     * The parent category. This needs to be re-defined in the class with the proper relations
+     * @var
+     */
+    protected $parent;
+
     /**
      * The "left" property of the nested set
      * @ORM\Column(type="integer")
@@ -66,15 +72,6 @@ class AbstractCategory extends BaseEntity
      * @var string
      */
     private $description;
-
-    /**
-     * Holds the category path.
-     *
-     * @ORM\Column(type="text",nullable=true)
-     *
-     * @var string
-     */
-    private $categoryPath;
 
     /**
      * @Groups({"default"})
@@ -186,58 +183,19 @@ class AbstractCategory extends BaseEntity
         $this->rgt = $rgt;
     }
 
+    /**
+     * Sets the root of the tree
+     * @param $root
+     */
     public function setRoot($root)
     {
         $this->root = $root;
     }
 
     /**
-     * Serializes the entity.
+     * Returns the root of the tree
+     * @return mixed
      */
-    public function serialize()
-    {
-        return array(
-            "id" => $this->getId(),
-            "name" => $this->getName(),
-            "description" => $this->getDescription(),
-        );
-    }
-
-    /**
-     * Returns a string representation of the current node.
-     *
-     * @return string The node name
-     *
-     * (non-PHPdoc)
-     * @see DoctrineExtensions\NestedSet.Node::__toString()
-     */
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    /**
-     * Retrieves the category path
-     *
-     * @return string The category path
-     */
-    public function getCategoryPath()
-    {
-        return $this->categoryPath;
-    }
-
-    /**
-     * Sets the category path.
-     *
-     * THIS IS ONLY TO BE CALLED FROM THE CATEGORYMANAGER! DON'T MESS WITH IT!
-     *
-     * @param string $categoryPath
-     */
-    public function setCategoryPath($categoryPath)
-    {
-        $this->categoryPath = $categoryPath;
-    }
-
     public function getRoot()
     {
         return $this->root;

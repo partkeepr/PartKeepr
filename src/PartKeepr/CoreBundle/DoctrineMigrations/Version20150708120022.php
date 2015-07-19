@@ -3,9 +3,8 @@ namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 
-
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Fixes the category trees due to the migration of doctrine2-nestedset to DoctrineExtensions
  */
 class Version20150708120022 extends BaseMigration
 {
@@ -18,10 +17,15 @@ class Version20150708120022 extends BaseMigration
 
         $this->fixTree("PartCategory");
         $this->fixTree("FootprintCategory");
-
-
     }
 
+    /**
+     * Fixes the tree for a given table due to the migration of doctrine2-nestedset to DoctrineExtensions
+     *
+     * @param string $table The table name to fix
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function fixTree($table)
     {
         $nodes = $this->getNodeIds($table);
@@ -38,25 +42,36 @@ class Version20150708120022 extends BaseMigration
             $level = $this->getLevel($table, $node["id"]);
 
             if ($parent !== false) {
-                $this->connection->executeUpdate($queryBuilder->getSQL(),
+                $this->connection->executeUpdate(
+                    $queryBuilder->getSQL(),
                     array(
                         ":parent" => $parent,
                         ":id" => $node["id"],
                         ":level" => $level,
                         ":root" => 1,
-                    ));
+                    )
+                );
             } else {
-                $this->connection->executeUpdate($queryBuilder->getSQL(),
+                $this->connection->executeUpdate(
+                    $queryBuilder->getSQL(),
                     array(
                         ":parent" => null,
                         ":id" => $node["id"],
                         ":root" => 1,
                         ":level" => 0,
-                    ));
+                    )
+                );
             }
         }
     }
 
+    /**
+     * Fetches the parent node for a table and ID
+     * @param $table
+     * @param $id
+     *
+     * @return mixed
+     */
     public function fetchParent($table, $id)
     {
         $queryBuilder = $this->connection->createQueryBuilder();
@@ -73,6 +88,12 @@ class Version20150708120022 extends BaseMigration
         return $this->connection->fetchColumn($queryBuilder->getSQL(), array(":nodeid" => $id), 0);
     }
 
+    /**
+     * Returns the node IDs for the table
+     * @param $table
+     *
+     * @return array
+     */
     public function getNodeIds($table)
     {
         $qb = $this->connection->createQueryBuilder();
@@ -84,6 +105,13 @@ class Version20150708120022 extends BaseMigration
         return $this->connection->fetchAll($qb->getSQL());
     }
 
+    /**
+     * Returns the level for a given table and ID
+     * @param $table
+     * @param $id
+     *
+     * @return mixed
+     */
     public function getLevel($table, $id)
     {
         $qb = $this->connection->createQueryBuilder();

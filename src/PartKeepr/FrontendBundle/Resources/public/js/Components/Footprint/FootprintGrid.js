@@ -6,5 +6,11 @@ Ext.define('PartKeepr.FootprintGrid', {
 	          ],
 	addButtonText: i18n("Add Footprint"),
     deleteButtonText: i18n("Delete Footprint"),
-    automaticPageSize: true
+    automaticPageSize: true,
+
+	features: [{
+               ftype: 'grouping',
+               groupHeaderTpl: '{name} ({children.length})',
+               enableNoGroups:true
+           }]
 });

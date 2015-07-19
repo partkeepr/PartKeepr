@@ -44,7 +44,5 @@ class FootprintCategoryController extends ResourceController
         $this->get("doctrine")->getManager()->flush();
 
         return new Response($request->request->get("parent"));
-
-
     }
 }

@@ -7,10 +7,16 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
     model: 'PartKeepr.FootprintBundle.Entity.Footprint',
     initComponent: function () {
         this.createStore({
-			sorters: [{
-	              property: 'name',
-	              direction:'ASC'
-	          }]
+			sorters: [
+                {
+                    property: 'category',
+                    direction: 'ASC'
+                },{
+                    property: 'name',
+                    direction:'ASC'
+                }
+        ],
+            groupField: 'categoryPath'
 		});
 
         this.callParent();
