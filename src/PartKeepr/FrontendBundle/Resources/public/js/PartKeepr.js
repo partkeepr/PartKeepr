@@ -597,7 +597,7 @@ PartKeepr.getApplication = function () {
 };
 
 PartKeepr.getBasePath = function () {
-	return "app_dev.php";
+	return document.getElementsByTagName('base')[0].href;
 };
 
 PartKeepr.getImagePath = function () {
