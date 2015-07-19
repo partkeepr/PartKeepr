@@ -142,8 +142,11 @@ class AdvancedSearchFilter extends AbstractFilter
 
             foreach ($value as $iri) {
                 try {
-                    $item = $this->iriConverter->getItemFromIri($iri);
-                    $items[] = $this->propertyAccessor->getValue($item, 'id');
+                    if ($item = $this->iriConverter->getItemFromIri($iri)) {
+                        $items[] = $this->propertyAccessor->getValue($item, 'id');
+                    } else {
+                        $items[] = $iri;
+                    }
                 } catch (\InvalidArgumentException $e) {
                     $items[] = $iri;
                 }
