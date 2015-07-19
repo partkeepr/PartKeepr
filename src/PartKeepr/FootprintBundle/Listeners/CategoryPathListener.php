@@ -20,7 +20,7 @@ class CategoryPathListener extends ContainerAware
 
         foreach ($uow->getScheduledEntityUpdates() as $updated) {
             if ($updated instanceof FootprintCategory) {
-                $this->updateCategoryPaths($updated, $entityManager);
+                $this->updateCategoryPaths($updated, $eventArgs);
             }
         }
     }
@@ -31,8 +31,10 @@ class CategoryPathListener extends ContainerAware
      * @param FootprintCategory $footprintCategory  The footprint category to update
      * @param EntityManager     $entityManager      The entity manager
      */
-    public function updateCategoryPaths(FootprintCategory $footprintCategory, EntityManager $entityManager)
+    public function updateCategoryPaths(FootprintCategory $footprintCategory, OnFlushEventArgs $eventArgs)
     {
+        $entityManager = $eventArgs->getEntityManager();
+
         $footprintCategory->setCategoryPath($footprintCategory->generateCategoryPath());
 
         $entityManager->getUnitOfWork()->recomputeSingleEntityChangeSet(
@@ -41,7 +43,7 @@ class CategoryPathListener extends ContainerAware
         );
 
         foreach ($footprintCategory->getChildren() as $child) {
-            $this->updateCategoryPaths($child, $entityManager);
+            $this->updateCategoryPaths($child, $eventArgs);
         }
     }
 }
