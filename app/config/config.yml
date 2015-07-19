@@ -139,9 +139,6 @@ services:
             - "@annotation_reader"
             - "@property_accessor"
         tags:  [ { name: "kernel.event_listener", event: "api.pre_update", method: "replaceTemporaryImage" }, { name: "kernel.event_listener", event: "api.pre_create", method: "replaceTemporaryImage" } ]
-    resource.order_filter:
-        parent:    "api.doctrine.orm.order_filter"
-        arguments: [ ~ ] # This line can also be omitted
 
     resource.distributor:
         parent:    "api.resource"
@@ -149,7 +146,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -162,7 +159,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -175,7 +172,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -226,7 +223,7 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.footprint_attachment.item_operation.get", "@resource.footprint_attachment.item_operation.custom_get", "@resource.footprint_attachment.item_operation.custom_get_mime"  ] ]
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -285,7 +282,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -327,7 +324,7 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.manufacturer_ic_logo.item_operation.custom_get", "@resource.manufacturer_ic_logo.item_operation.get", "@resource.manufacturer_ic_logo.item_operation.put"  ] ]
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -368,7 +365,7 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.partmeasurementunit.item_operation.custom_put", "@resource.partmeasurementunit.item_operation.get", "@resource.partmeasurementunit.item_operation.put"  ] ]
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -382,7 +379,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
@@ -395,7 +392,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
-                    arguments: [ [ "@resource.order_filter", "@doctrine_reflection_service.search_filter" ] ]
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"

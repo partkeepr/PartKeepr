@@ -93,7 +93,9 @@ class AdvancedSearchFilter extends AbstractFilter
         $metadata = $this->getClassMetadata($resource);
         $fieldNames = array_flip($metadata->getFieldNames());
 
-        $filters = $this->extractProperties($request);
+        $properties = $this->extractProperties($request);
+        $filters = $properties["filters"];
+        $sorters = $properties["sorters"];
 
         foreach ($filters as $filter) {
             if (isset($fieldNames[$filter["property"]]) && $filter["association"] === null) {
@@ -114,6 +116,15 @@ class AdvancedSearchFilter extends AbstractFilter
                     $this->getFilterExpression($queryBuilder, $filter)
                 );
             }
+        }
+
+        foreach ($sorters as $sorter) {
+            if ($sorter["association"] !== null) {
+                // Pull in associations
+                $this->addJoins($queryBuilder, $sorter);
+            }
+
+            $this->applyOrderByExpression($queryBuilder, $sorter);
         }
     }
 
@@ -173,6 +184,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
     /**
      * Returns the expression for a specific filter.
+     *
      * @param QueryBuilder $queryBuilder
      * @param              $filter
      *
@@ -227,6 +239,26 @@ class AdvancedSearchFilter extends AbstractFilter
     }
 
     /**
+     * Returns the expression for a specific sort order.
+     *
+     * @param QueryBuilder $queryBuilder
+     * @param              $sorter
+     *
+     * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
+     * @throws \Exception
+     */
+    private function applyOrderByExpression(QueryBuilder $queryBuilder, $sorter)
+    {
+        if ($sorter["association"] !== null) {
+            $alias = $this->getAlias("o.".$sorter["association"]).".".$sorter["property"];
+        } else {
+            $alias = "o.".$sorter["property"];
+        }
+
+        return $queryBuilder->orderBy($alias, $sorter["direction"]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function extractProperties(Request $request)
@@ -245,7 +277,21 @@ class AdvancedSearchFilter extends AbstractFilter
             }
         }
 
-        return $filters;
+        $sorters = array();
+
+        if ($request->query->has("order")) {
+            $data = json_decode($request->query->get("order"));
+
+            if (is_array($data)) {
+                foreach ($data as $sorter) {
+                    $sorters[] = $this->extractJSONSorters($sorter);
+                }
+            } elseif (is_object($data)) {
+                $sorters[] = $this->extractJSONSorters($data);
+            }
+        }
+
+        return array("filters" => $filters, "sorters" => $sorters);
     }
 
     /**
@@ -309,5 +355,51 @@ class AdvancedSearchFilter extends AbstractFilter
         }
 
         return $filter;
+    }
+
+    /**
+     * Extracts the sorters from the JSON object.
+     *
+     * @param $data
+     *
+     * @return array An array containing the property, operator and value keys
+     * @throws \Exception
+     */
+    private function extractJSONSorters($data)
+    {
+        $sorter = array();
+
+        if ($data->property) {
+            if (strpos($data->property, ".") !== false) {
+                $associations = explode(".", $data->property);
+
+                $property = array_pop($associations);
+
+                $sorter["association"] = implode(".", $associations);
+                $sorter["property"] = $property;
+            } else {
+                $sorter["association"] = null;
+                $sorter["property"] = $data->property;
+            }
+
+        } else {
+            throw new \Exception("You need to set the filter property");
+        }
+
+        if ($data->direction) {
+            switch (strtoupper($data->direction)) {
+                case "DESC":
+                    $sorter["direction"] = "DESC";
+                    break;
+                case "ASC":
+                default:
+                    $sorter["direction"] = "ASC";
+                    break;
+            }
+        } else {
+            $sorter["direction"] = "ASC";
+        }
+
+        return $sorter;
     }
 }

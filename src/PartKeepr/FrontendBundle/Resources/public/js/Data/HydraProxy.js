@@ -11,7 +11,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
     appendId: false,
     limitParam: "itemsPerPage",
     defaultListenerScope: true,
-    sortParam: "",
+    sortParam: "order",
 
     constructor: function (config)
     {
@@ -50,25 +50,6 @@ Ext.define("PartKeepr.data.HydraProxy", {
         }
 
         return this.callParent([request]);
-    },
-    getParams: function (operation)
-    {
-        if (!operation.isReadOperation) {
-            return {};
-        }
-
-        var params = this.callParent(arguments);
-        var out = [],
-            i,
-            sorters = operation.getSorters();
-
-        if (sorters) {
-            for (i = 0; i < operation.getSorters().length; i++) {
-                params["order[" + sorters[i].getProperty() + "]"] = sorters[i].getDirection();
-            }
-        }
-
-        return params;
     },
     /**
      * Calls a specific action on the record.
