@@ -68,36 +68,6 @@ class Footprint extends BaseEntity
     private $attachments;
 
     /**
-     * @Groups({"default"})
-     * @var
-     */
-    private $categoryPath;
-
-    /**
-     * Sets the category path for the entity
-     *
-     * @param string $categoryPath The category path to set
-     */
-    public function setCategoryPath($categoryPath)
-    {
-        $this->categoryPath = $categoryPath;
-    }
-
-    /**
-     * Returns the category path for the entity
-     *
-     * @return string The Category Path
-     */
-    public function getCategoryPath()
-    {
-        if ($this->getCategory() !== null) {
-            return $this->getCategory()->generateCategoryPath();
-        }
-
-        return "";
-    }
-
-    /**
      * Constructs a new Footprint entity
      */
     public function __construct()
