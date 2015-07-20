@@ -8,8 +8,8 @@ class ManufacturerIcLogoController extends ImageController
     /**
      * @inheritdoc
      */
-    public function getEntityClass () {
+    protected function getEntityClass()
+    {
         return "PartKeepr\\ManufacturerBundle\\Entity\\ManufacturerICLogo";
     }
-
 }

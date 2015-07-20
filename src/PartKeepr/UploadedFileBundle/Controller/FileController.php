@@ -77,5 +77,5 @@ abstract class FileController extends ResourceController
      *
      * @return string
      */
-    abstract public function getEntityClass();
+    abstract protected function getEntityClass();
 }

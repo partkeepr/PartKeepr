@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryImageController extends ImageController
 {
@@ -84,7 +85,7 @@ class TemporaryImageController extends ImageController
     /**
      * @inheritdoc
      */
-    public function getEntityClass()
+    protected function getEntityClass()
     {
         return "PartKeepr\\ImageBundle\\Entity\\TempImage";
     }

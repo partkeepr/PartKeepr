@@ -8,7 +8,7 @@ class FootprintAttachmentController extends FileController
     /**
      * @inheritdoc
      */
-    public function getEntityClass()
+    protected function getEntityClass()
     {
         return "PartKeepr\\FootprintBundle\\Entity\\FootprintAttachment";
     }

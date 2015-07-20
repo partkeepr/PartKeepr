@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryFileController extends FileController
 {
@@ -84,7 +85,7 @@ class TemporaryFileController extends FileController
     /**
      * @inheritdoc
      */
-    public function getEntityClass()
+    protected function getEntityClass()
     {
         return "PartKeepr\\UploadedFileBundle\\Entity\\TempUploadedFile";
     }
