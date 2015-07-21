@@ -166,11 +166,29 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.footprint_image.item_operation.custom_get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.footprint_image"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/footprint_images/{id}/getImage"           # Path
+             -    "PartKeeprFootprintBundle:FootprintImage:getImage"         # Controller
+             -    "FootprintImageGetImage"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+
     resource.footprint_image:
         parent:    "api.resource"
         arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintImage" ]
         tags:      [ { name: "api.resource" } ]
         calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.footprint_image.item_operation.custom_get" ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
