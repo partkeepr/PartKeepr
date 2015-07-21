@@ -33,6 +33,19 @@ Ext.define('{{ className }}', {
     ],
     {% endif %}
 
+    {% if associations.ONE_TO_ONE|length > 0 %}
+    hasOne: [
+    {% for association in associations.ONE_TO_ONE %}
+        {
+        name: '{{ association.name }}',
+        associationKey: '{{ association.name }}',
+        model: '{{ association.target }}'
+        }{% if not loop.last %},{% endif %}
+
+    {% endfor %}
+    ],
+    {% endif %}
+
 
     {% if associations.MANY_TO_MANY|length > 0 %}
     manyToMany: {

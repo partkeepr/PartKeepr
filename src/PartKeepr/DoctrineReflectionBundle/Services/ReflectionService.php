@@ -100,6 +100,10 @@ class ReflectionService
                     $associationType = "ONE_TO_MANY";
                     $getterPlural = true;
                     break;
+                case ClassMetadataInfo::ONE_TO_ONE:
+                    $associationType = "ONE_TO_ONE";
+                    $getterPlural = false;
+                    break;
             }
 
             $getter = "get".ucfirst($association["fieldName"]);
