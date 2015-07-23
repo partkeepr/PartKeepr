@@ -273,7 +273,7 @@ class AdvancedSearchFilter extends AbstractFilter
             $alias = "o.".$sorter["property"];
         }
 
-        return $queryBuilder->orderBy($alias, $sorter["direction"]);
+        return $queryBuilder->addOrderBy($alias, $sorter["direction"]);
     }
 
     /**
