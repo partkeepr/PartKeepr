@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
+use PartKeepr\UploadedFileBundle\Annotation\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -47,10 +48,11 @@ class Footprint extends BaseEntity
     /**
      * Holds the footprint image
      *
-     * @ORM\OneToOne(targetEntity="FootprintImage", mappedBy="footprint", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="PartKeepr\FootprintBundle\Entity\FootprintImage",
+     *               mappedBy="footprint", cascade={"persist", "remove"}, orphanRemoval=true)
      *
      * @Groups({"default"})
-     *
+     * @UploadedFile()
      * @var FootprintImage
      */
     private $image;
@@ -148,10 +150,18 @@ class Footprint extends BaseEntity
      *
      * @return void
      */
-    public function setImage(FootprintImage $image)
+    public function setImage($image)
     {
-        $this->image = $image;
-        $image->setFootprint($this);
+        if ($image instanceof FootprintImage) {
+            $image->setFootprint($this);
+            $this->image = $image;
+        } else {
+            // Because this is a 1:1 relationship. only allow the temporary image to be set when no image exists.
+            // If an image exists, the frontend needs to deliver the old file ID with the replacement property set.
+            if ($this->getImage() === null) {
+                $this->image = $image;
+            }
+        }
     }
 
     /**

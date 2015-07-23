@@ -73,13 +73,40 @@ abstract class UploadedFile extends BaseEntity
      * The description of this attachment
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $description;
 
+    /**
+     * Holds an ID of a replacement image.
+     * @Groups({"default"})
+     */
+    private $replacement = null;
+
     public function __construct()
     {
         $this->filename = Uuid::uuid1()->toString();
+    }
+
+    /**
+     * Sets a replacement image
+     *
+     * @param $replacement
+     */
+    public function setReplacement($replacement)
+    {
+        $this->replacement = $replacement;
+    }
+
+    /**
+     * Returns the replacement image, if set
+     *
+     * @return mixed
+     */
+    public function getReplacement()
+    {
+        return $this->replacement;
     }
 
     /**

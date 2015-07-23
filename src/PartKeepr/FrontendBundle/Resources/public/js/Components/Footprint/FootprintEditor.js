@@ -3,6 +3,7 @@ Ext.define('PartKeepr.FootprintEditor', {
 	alias: 'widget.FootprintEditor',
 	saveText: i18n("Save Footprint"),
 	layout: 'column',
+	defaultListenerScope: true,
 	syncDirect: true,
 	labelWidth: 75,
 	initComponent: function () {
@@ -44,17 +45,35 @@ Ext.define('PartKeepr.FootprintEditor', {
 			},{
 				width: 370,
 				height: 250,
-				xtype: 'remoteimagefield',
-				name: 'image_id',
-				imageType: 'footprint',
-				imageWidth: 256,
-				imageHeight: 256,
+				xtype: 'fieldcontainer',
+				items: {
+					xtype: 'remoteimagefield',
+					itemId: 'image',
+					imageType: 'footprint',
+					maxHeight: 256,
+					maxWidth: 256,
+					listeners: {
+						'fileUploaded': "onFileUploaded"
+					}
+				},
 				labelWidth: 75,
 				fieldLabel: i18n("Image")
+
 			}];
 		
 		this.on("itemSaved", this._onItemSaved, this);
 		this.callParent();
+	},
+	onFileUploaded: function (data) {
+		var uploadedFile = Ext.create("PartKeepr.UploadedFileBundle.Entity.TempUploadedFile", data);
+
+		if (this.record.getImage() === null) {
+			this.record.setImage(data);
+		} else {
+			this.record.getImage().set("replacement", uploadedFile.getId());
+		}
+
+		this.down('#image').setValue(uploadedFile);
 	},
 	_onItemSaved: function (record) {
 		this.attachmentGrid.bindStore(record.attachments());
@@ -62,5 +81,7 @@ Ext.define('PartKeepr.FootprintEditor', {
 	onEditStart: function () {
 		var store = this.record.attachments();
 		this.attachmentGrid.bindStore(store);
+		this.down('#image').setValue(this.record.getImage());
+
 	}
 });

@@ -136,9 +136,11 @@ services:
         class:    PartKeepr\UploadedFileBundle\EventListener\TemporaryFileEventListener
         arguments:
             - "@partkeepr_uploadedfile_service"
+            - "@partkeepr_image_service"
             - "@annotation_reader"
             - "@property_accessor"
-        tags:  [ { name: "kernel.event_listener", event: "api.pre_update", method: "replaceTemporaryImage" }, { name: "kernel.event_listener", event: "api.pre_create", method: "replaceTemporaryImage" } ]
+            - "@api.iri_converter"
+        tags:  [ { name: "kernel.event_listener", event: "api.pre_update", method: "replaceTemporaryFile" }, { name: "kernel.event_listener", event: "api.pre_create", method: "replaceTemporaryFile" } ]
 
     resource.distributor:
         parent:    "api.resource"

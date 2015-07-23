@@ -39,18 +39,12 @@ class UploadedFileService extends ContainerAware
      */
     public function replaceFromFilesystem(UploadedFile $file, File $filesystemFile)
     {
-        $oldFile = $this->getFullPath($file);
-
         $file->setOriginalFilename($filesystemFile->getBasename());
         $file->setExtension($filesystemFile->getExtension());
         $file->setMimeType($filesystemFile->getMimeType());
         $file->setSize($filesystemFile->getSize());
 
         copy($filesystemFile->getPathname(), $this->getFullPath($file));
-
-        if (file_exists($oldFile)) {
-            unlink($oldFile);
-        }
     }
 
     public function replaceFromData(UploadedFile $file, $data, $filename)

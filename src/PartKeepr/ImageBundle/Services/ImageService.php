@@ -12,26 +12,11 @@ use Symfony\Component\HttpFoundation\File\File;
 class ImageService extends UploadedFileService
 {
     /**
-     * Replaces the current image with a new image.
-     *
-     * @param UploadedFile $file           The target file
-     * @param File         $filesystemFile The source file
+     * {@inheritdoc}
      */
-    public function replace(UploadedFile $file, File $filesystemFile)
+    public function replaceFromFilesystem(UploadedFile $file, File $filesystemFile)
     {
-        parent::replace($file, $filesystemFile);
-        $this->invalidate($file);
-    }
-
-    /**
-     * Replaces the file from an URL. Does some tricks to avoid 403 forbidden on some sites.
-     *
-     * @param UploadedFile $file The target file
-     * @param string       $url  The URL to replace from
-     */
-    public function replaceFromURL(UploadedFile $file, $url)
-    {
-        parent::replaceFromURL($file, $url);
+        parent::replaceFromFilesystem($file, $filesystemFile);
         $this->invalidate($file);
     }
 
@@ -48,7 +33,7 @@ class ImageService extends UploadedFileService
         $entityManager = $this->container->get("doctrine")->getManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder->select(array("c"))
-            ->from('PartKeepr\Image\CachedImage', 'c')
+            ->from('PartKeepr\ImageBundle\Entity\CachedImage', 'c')
             ->where("c.originalId = :id")
             ->andWhere("c.originalType = :type")
             ->setParameter("id", $file->getId())

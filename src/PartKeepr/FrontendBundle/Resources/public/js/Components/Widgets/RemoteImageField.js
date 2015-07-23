@@ -6,65 +6,41 @@
  * 
  */
 Ext.define('PartKeepr.RemoteImageField', {
-    extend:'Ext.form.field.Base',
+    extend:'Ext.container.Container',
     alias: 'widget.remoteimagefield',
     
-    type: 'remoteimagefield',
-    
-    // Default width and height
-    imageWidth: 32,
-    imageHeight: 32,
-    
-    // The field template for rendering this field
-    fieldSubTpl: [
-                  '<img id="{cmpId}-imgEl" style="{size}" class="remoteimagefield"/>',
-                  {
-                      compiled: true,
-                      disableFormats: true
-                  }],
-              
+    xtype: 'remoteimagefield',
+
+    listeners: {
+        'click': "onClick"
+    },
+    layout: 'vbox',
     /**
      * Initializes the field
    	 */          
     initComponent : function(){
+
+        this.image = Ext.create("Ext.Img", {
+            maxHeight: this.maxHeight,
+            maxWidth: this.maxWidth,
+            autoEl: 'div',
+            width: this.maxWidth,
+            height: this.maxHeight,
+            flex: 1,
+            cls: 'remote-image-background'
+        });
+
+        this.button = Ext.create("Ext.button.Button", {
+            text: i18n("Change Image"),
+            scope: this,
+            handler: this.onClick
+        });
+
+        this.items = [ this.image, this.button ];
     	this.minHeight = this.imageHeight;
     	this.minWidth = this.imageWidth;
-    	
-    	this.imageId = Ext.id("remoteimagefield");
+
         this.callParent();
-    },
-    /**
-     * Return the template data for this field
-     */
-    getSubTplData: function() {
-    	return {
-    		cmpId: this.id,
-            size: 'height:'+this.imageHeight+"px;width:"+this.imageWidth+"px;",
-            imageid: this.imageId
-    	};
-    },
-    /**
-     * Renders this field.
-     */
-    onRender: function() {
-        var me = this;
-
-        /**
-         * @todo what did we use this for?
-         */
-
-        //me.onLabelableRender();
-        //me.addChildEls('imgEl');
-
-        me.callParent(arguments);
-    },
-    /**
-     * Applies the image URL to the element after rendering
-     */
-    afterRender: function () {
-    	//this.imgEl.dom.src = this.getImageURL();
-    	
-    	//this.imgEl.on("click", this.onClick, this);
     },
     onClick: function () {
     	var j = Ext.create("PartKeepr.FileUploadDialog", { imageUpload: true });
@@ -72,23 +48,7 @@ Ext.define('PartKeepr.RemoteImageField', {
     	j.show();
     },
     onFileUploaded: function (data) {
-    	this.setValue("TMP:"+data.id);
-    },
-    /**
-     * Returns the URL for the image field. Applies the temporary image if TMP: is
-     * found within the value.
-     */
-    getImageURL: function () {
-    	var idparam;
-    	
-    	if (strpos(this.value, "TMP:") !== false) {
-    		idparam = "id=0&tmpId="+str_replace("TMP:","",this.value);
-    	} else {
-    		idparam = "id="+this.value;
-    	}
-    	
-    	return PartKeepr.getImagePath() + "?"+idparam+"&type="+this.imageType+"&w="+this.imageWidth+"&h="+this.imageHeight+"&m=fitpadding&_dc="+Ext.Date.now();
-    	
+        this.fireEvent("fileUploaded", data);
     },
     /**
      * Sets a value for the field. If the value is numeric, we call the image service
@@ -101,13 +61,14 @@ Ext.define('PartKeepr.RemoteImageField', {
      * @return {Ext.form.field.Field} this
      */
     setValue: function(value) {
-    	var me = this;
-    	
-    	this.setRawValue(value);
-    	this.value = value;
-    	if (this.rendered) {
-    		this.imgEl.dom.src = this.getImageURL();
-    	}
+        this.value = value;
+
+        if (value !== null) {
+            this.image.setSrc(value.getId() + "?maxWidth="+this.imageWidth+"&maxHeight="+this.imageHeight + "&ts=" + new Date().getTime());
+        } else {
+            this.image.setSrc("");
+        }
+
         return this;
     }
 });

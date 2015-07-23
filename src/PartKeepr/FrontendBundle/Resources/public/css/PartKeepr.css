@@ -16,3 +16,9 @@
     outline: 1px solid #157fcc !important;
     outline-offset: -1px;
 }
+
+.remote-image-background {
+    background-color: white;
+    border: 1px solid black;
+    text-align: center;
+}

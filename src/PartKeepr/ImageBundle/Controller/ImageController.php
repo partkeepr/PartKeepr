@@ -108,7 +108,7 @@ abstract class ImageController extends FileController
 
         $outputFile = $this->getImageCacheFilename($image, $width, $height, $mode);
 
-        if (file_exists($outputFile)) {
+        if ($this->hasCacheFile($image, $width, $height, $mode) && file_exists($outputFile)) {
             return $outputFile;
         }
 
@@ -140,5 +140,37 @@ abstract class ImageController extends FileController
         $outputFile .= $width."x".$height."_".$mode.".png";
 
         return $outputFile;
+    }
+
+    /**
+     * Checks if the database contains the cache file.
+     *
+     * @param PartKeeprImage $image
+     * @param                $width
+     * @param                $height
+     * @param                $mode
+     *
+     * @return bool
+     */
+    protected function hasCacheFile(PartKeeprImage $image, $width, $height, $mode)
+    {
+        $cacheFilename = $this->getImageCacheFilename($image, $width, $height, $mode);
+
+        /**
+         * @var $em EntityManager
+         */
+        $em = $this->getDoctrine()->getManager();
+
+        $queryBuilder = $em->createQueryBuilder();
+        $queryBuilder->select("COUNT(c)")
+            ->from('PartKeepr\ImageBundle\Entity\CachedImage', "c")
+            ->where("c.cacheFile = :file")
+            ->setParameter("file", $cacheFilename);
+
+        if ($queryBuilder->getQuery()->getSingleScalarResult() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
