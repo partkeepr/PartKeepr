@@ -10,29 +10,40 @@ Ext.define("PartKeepr.FootprintNavigation", {
     items: [
         {
             xtype: 'partkeepr.FootprintTree',
-            region: 'center',
+            region: 'center'
         }, {
             xtype: 'partkeepr.FootprintGrid',
             resizable: true,
             split: true,
             region: 'south',
-            height: "50%"
+            height: "50%",
+            viewConfig: {
+                plugins: {
+                    ddGroup: 'FootprintCategoryTree',
+                    ptype: 'gridviewdragdrop',
+                    enableDrop: false
+                }
+            },
+            enableDragDrop: true
         }
     ],
 
-    initComponent: function () {
+    initComponent: function ()
+    {
         this.callParent(arguments);
 
         this.treeStore = Ext.create("Ext.data.TreeStore",
-                    {
+            {
                 remoteSort: false,
                 folderSort: true,
                 rootVisible: true,
                 autoLoad: true,
-                sorters: [{
-                    property: 'name',
-                    direction: 'ASC'
-                }],
+                sorters: [
+                    {
+                        property: 'name',
+                        direction: 'ASC'
+                    }
+                ],
                 root: {
                     "@id": PartKeepr.FootprintBundle.Entity.FootprintCategory.getProxy().getConfig("url") + "/1"
                 },
@@ -44,21 +55,22 @@ Ext.define("PartKeepr.FootprintNavigation", {
                         type: 'json'
                     }
 
-            }});
+                }
+            });
 
         this.down("partkeepr\\.FootprintTree").setStore(this.treeStore);
         this.down("partkeepr\\.FootprintTree").on("itemclick", this.onCategoryClick, this);
         this.down("partkeepr\\.FootprintGrid").setStore(this.store);
         this.down("partkeepr\\.FootprintGrid").on("itemAdd", this.onAddFootprint, this);
         this.down("partkeepr\\.FootprintGrid").on("itemDelete", function (id)
-        {
-            this.fireEvent("itemDelete", id);
-        }, this
+            {
+                this.fireEvent("itemDelete", id);
+            }, this
         );
         this.down("partkeepr\\.FootprintGrid").on("itemEdit", function (id)
-        {
-            this.fireEvent("itemEdit", id);
-        }, this
+            {
+                this.fireEvent("itemEdit", id);
+            }, this
         );
 
     },
@@ -68,7 +80,8 @@ Ext.define("PartKeepr.FootprintNavigation", {
      * @param {Ext.tree.View} tree The tree view
      * @param {Ext.data.Model} record the selected record
      */
-    onCategoryClick: function (tree, record) {
+    onCategoryClick: function (tree, record)
+    {
         var filter = Ext.create("Ext.util.Filter", {
             property: 'category',
             operator: 'IN',
@@ -83,8 +96,9 @@ Ext.define("PartKeepr.FootprintNavigation", {
      * @param {Ext.data.Model} The node
      * @return Array
      */
-    getChildrenIds: function (node) {
-        var childNodes = [ node.getId() ];
+    getChildrenIds: function (node)
+    {
+        var childNodes = [node.getId()];
 
         if (node.hasChildNodes()) {
             for (var i = 0; i < node.childNodes.length; i++) {
@@ -95,9 +109,10 @@ Ext.define("PartKeepr.FootprintNavigation", {
         return childNodes;
     },
     /**
-	 * Called when a footprint is about to be added. This prepares the to-be-edited record with the proper category id.
-	 */
-	onAddFootprint: function () {
+     * Called when a footprint is about to be added. This prepares the to-be-edited record with the proper category id.
+     */
+    onAddFootprint: function ()
+    {
         var selection = this.down("partkeepr\\.FootprintTree").getSelection();
 
         var category;
@@ -111,18 +126,20 @@ Ext.define("PartKeepr.FootprintNavigation", {
         this.fireEvent("itemAdd", {
             category: category
         });
-	},
+    },
     /**
      * Triggers a reload of the store when an edited record affects the store
      */
-    syncChanges: function () {
+    syncChanges: function ()
+    {
         this.down("partkeepr\\.FootprintGrid").getStore().load();
     },
     /**
      * Returns the selection model of the footprint grid
      * @return {Ext.selection.Model} The selection model
      */
-    getSelectionModel: function () {
+    getSelectionModel: function ()
+    {
         "use strict";
         return this.down("partkeepr\\.FootprintGrid").getSelectionModel();
     }

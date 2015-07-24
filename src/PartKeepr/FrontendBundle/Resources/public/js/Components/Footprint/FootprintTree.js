@@ -2,7 +2,13 @@ Ext.define("PartKeepr.FootprintTree", {
 	extend: 'PartKeepr.CategoryEditorTree',
 	alias: 'widget.FootprintTree',
 	xtype: 'partkeepr.FootprintTree',
-	ddGroup: 'FootprintTree',
+    viewConfig: {
+        plugins: {
+            ptype: 'treeviewdragdrop',
+            sortOnDrop: true,
+            ddGroup: 'FootprintCategoryTree'
+        }
+    },
 	folderSort: true,
 
 	categoryModel: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
@@ -11,9 +17,20 @@ Ext.define("PartKeepr.FootprintTree", {
      * @cfg {String} text The path to the 'add' icon
      */
 	addButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_add.png',
-	
+
 	/**
      * @cfg {String} text The path to the 'delete' icon
      */
-	deleteButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_delete.png'
+	deleteButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_delete.png',
+
+	listeners: {
+		"foreignModelDrop": function (record, target) {
+			record.setCategory(target);
+			record.save();
+
+			if (record.store && record.store.reload) {
+				record.store.reload();
+			}
+		}
+	}
 });

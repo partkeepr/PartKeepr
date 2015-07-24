@@ -26,10 +26,21 @@ Ext.define("PartKeepr.CategoryEditorTree", {
         this.callParent();
 
         this.getView().on("drop", Ext.bind(this.onCategoryDrop, this));
+        this.getView().on("beforedrop", Ext.bind(this.onBeforeDrop, this));
         this.getView().on("itemcontextmenu", Ext.bind(this.onItemContextMenu, this));
 
         this.createMenu();
 
+    },
+    onBeforeDrop: function (node, data, overModel, dropPosition, dropHandlers) {
+        var draggedRecord = data.records[0];
+        var droppedOn = this.getView().getRecord(node);
+
+        if (!(draggedRecord instanceof PartKeepr.data.HydraTreeModel)) {
+            // Workaround for EXTJS-13725 where dropping of non-tree-models cause issues
+            dropHandlers.cancelDrop();
+            this.fireEvent("foreignModelDrop", draggedRecord, droppedOn);
+        }
     },
     onCategoryDrop: function (node, data, overModel, dropPosition, eOpts)
     {
