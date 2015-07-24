@@ -34,7 +34,7 @@ class StorageLocationCategory extends AbstractCategory
 
     /**
      * @ORM\OneToMany(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation", mappedBy="category")
-     *
+     * @Groups({"default"})
      */
     protected $storageLocations;
 

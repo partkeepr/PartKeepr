@@ -183,7 +183,6 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
-
     resource.footprint_image:
         parent:    "api.resource"
         arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintImage" ]
@@ -258,7 +257,7 @@ services:
              -    "@resource.footprint_category"               # Resource
              -    [ "PUT" ]                 # Methods
              -    "/footprint_categories/{id}/move"           # Path
-             -    "PartKeeprFootprintBundle:FootprintCategory:move"         # Controller
+             -    "PartKeeprCategoryBundle:Category:move"         # Controller
              -    "FootprintCategoryMove"                 # Route name
              -    # Context (will be present in Hydra documentation)
                   "@type":       "hydra:Operation"
@@ -419,7 +418,69 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+# ######################## Storage Location Categories######################################
+    resource.storage_location:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\StorageLocationBundle\Entity\StorageLocation" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
 
+# ######################## Storage Location Categories######################################
+
+    resource.storage_location_category.item_operation.move:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.storage_location_category"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/storage_location_categories/{id}/move"           # Path
+             -    "PartKeeprCategoryBundle:Category:move"         # Controller
+             -    "StorageLocationCategoryMove"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.storage_location_category.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.storage_location_category", "GET" ]
+
+    resource.storage_location_category.item_operation.put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.storage_location_category", "PUT" ]
+
+    resource.storage_location_category.item_operation.delete:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.storage_location_category", "DELETE" ]
+
+    resource.storage_location_category:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.storage_location_category.item_operation.get", "@resource.storage_location_category.item_operation.put", "@resource.storage_location_category.item_operation.delete", "@resource.storage_location_category.item_operation.move" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+# ######################## Temporary Images ######################################
     resource.tempimage.collection_operation.custom_post:
             class:     "Dunglas\ApiBundle\Api\Operation\Operation"
             public:    false

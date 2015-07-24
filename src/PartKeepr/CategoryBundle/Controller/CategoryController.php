@@ -1,5 +1,5 @@
 <?php
-namespace PartKeepr\FootprintBundle\Controller;
+namespace PartKeepr\CategoryBundle\Controller;
 
 use Dunglas\ApiBundle\Controller\ResourceController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
@@ -8,7 +8,7 @@ use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FootprintCategoryController extends ResourceController
+class CategoryController extends ResourceController
 {
     /**
      * Moves a node to another node
