@@ -2,6 +2,7 @@
 namespace PartKeepr\ImageBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Imagine\Exception\InvalidArgumentException;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
@@ -57,7 +58,13 @@ abstract class ImageController extends FileController
             $height = 200;
         }
 
-        $file = $this->fitWithin($image, $width, $height);
+        try {
+            $file = $this->fitWithin($image, $width, $height);
+        } catch (InvalidArgumentException $e) {
+            $this->get('logger')->error($e->getMessage());
+            return new ImageNotFoundResponse($request->get("width"), $request->get("height"));
+        }
+
 
         return new Response(file_get_contents($file), 200, array("Content-Type" => "image/png"));
 
