@@ -42,15 +42,14 @@ Ext.define("PartKeepr.CategoryEditorTree", {
             this.fireEvent("foreignModelDrop", draggedRecord, droppedOn);
         }
     },
-    onCategoryDrop: function (node, data, overModel, dropPosition, eOpts)
+    onCategoryDrop: function (node, data, overModel, dropPosition)
     {
         var draggedRecord = data.records[0];
-        var droppedOn = this.getView().getRecord(node);
 
         if (!(draggedRecord instanceof PartKeepr.data.HydraTreeModel)) {
             return;
         } else {
-
+            var targetRecord;
 
             if (dropPosition === "after" || dropPosition === "before") {
                 targetRecord = overModel.parentNode;
@@ -153,11 +152,11 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     },
     _onExpandClick: function ()
     {
-        this.getRootNode().expand(true);
+        this.getRootNode().firstChild.expand(true);
     },
     _onCollapseClick: function ()
     {
-        this.getRootNode().collapse(true);
+        this.getRootNode().firstChild.collapse(true);
     },
     confirmCategoryDelete: function ()
     {
@@ -191,7 +190,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 
         j.show();
     },
-    onUpdateRecord: function (record)
+    onUpdateRecord: function ()
     {
         this.store.load();
     },
