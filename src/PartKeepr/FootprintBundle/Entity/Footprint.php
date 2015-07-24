@@ -38,7 +38,7 @@ class Footprint extends BaseEntity
     /**
      * The category of the footprint
      *
-     * @ORM\ManyToOne(targetEntity="FootprintCategory")
+     * @ORM\ManyToOne(targetEntity="FootprintCategory", inversedBy="footprints")
      * @Groups({"default"})
      *
      * @var FootprintCategory

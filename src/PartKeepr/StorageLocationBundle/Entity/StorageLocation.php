@@ -30,7 +30,8 @@ class StorageLocation extends BaseEntity
     /**
      * The category of the footprint
      *
-     * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory")
+     * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory",
+     *                inversedBy="storageLocations")
      * @Groups({"default"})
      *
      * @var StorageLocationCategory
