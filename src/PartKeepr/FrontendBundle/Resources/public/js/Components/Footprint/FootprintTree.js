@@ -26,11 +26,13 @@ Ext.define("PartKeepr.FootprintTree", {
 	listeners: {
 		"foreignModelDrop": function (record, target) {
 			record.setCategory(target);
-			record.save();
-
-			if (record.store && record.store.reload) {
-				record.store.reload();
-			}
+			record.save({
+				success: function() {
+					if (record.store && record.store.reload) {
+						record.store.reload();
+					}
+				}
+			});
 		}
 	}
 });
