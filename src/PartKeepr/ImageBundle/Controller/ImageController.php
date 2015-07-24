@@ -43,10 +43,6 @@ abstract class ImageController extends FileController
          */
         $image = $em->find($this->getEntityClass(), $id);
 
-        if ($image === null) {
-            return new ImageNotFoundResponse($request->get("width"), $request->get("height"));
-        }
-
         $width = $request->get("maxWidth");
         $height = $request->get("maxHeight");
 
@@ -58,13 +54,16 @@ abstract class ImageController extends FileController
             $height = 200;
         }
 
+        if ($image === null) {
+            return new ImageNotFoundResponse($width, $height);
+        }
+
         try {
             $file = $this->fitWithin($image, $width, $height);
         } catch (InvalidArgumentException $e) {
             $this->get('logger')->error($e->getMessage());
-            return new ImageNotFoundResponse($request->get("width"), $request->get("height"));
+            return new ImageNotFoundResponse($width, $height);
         }
-
 
         return new Response(file_get_contents($file), 200, array("Content-Type" => "image/png"));
 
