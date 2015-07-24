@@ -5,7 +5,7 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a9f5bdce-ac86-4c51-b87d-56fd0f241155/mini.png)](https://insight.sensiolabs.com/projects/a9f5bdce-ac86-4c51-b87d-56fd0f241155)
 [![Code Climate](https://codeclimate.com/github/partkeepr/PartKeepr/badges/gpa.svg)](https://codeclimate.com/github/partkeepr/PartKeepr)
 [![Test Coverage](https://codeclimate.com/github/partkeepr/PartKeepr/badges/coverage.svg)](https://codeclimate.com/github/partkeepr/PartKeepr/coverage)
-[![Dependency Status](https://www.versioneye.com/user/projects/559c33736166340021000b1f/badge.svg?style=flat)](https://www.versioneye.com/user/projects/559c33736166340021000b1f)
+[![Dependency Status](https://www.versioneye.com/user/projects/559e71d36166340022000e57/badge.svg?style=flat)](https://www.versioneye.com/user/projects/559e71d36166340022000e57)
 
 PartKeepr is an [inventory management software](https://en.wikipedia.org/wiki/Inventory_management_software), primarily
 designed for electronic components.
