@@ -137,7 +137,7 @@ class TemporaryFileEventListener
                     } else {
                         $item = $this->propertyAccessor->getValue($data, $property->getName());
 
-                        if ($item->getReplacement() !== null) {
+                        if ($item !== null && $item->getReplacement() !== null) {
                             /**
                              * @var $tempImage UploadedFile
                              */
