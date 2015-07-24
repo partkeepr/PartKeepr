@@ -175,8 +175,8 @@ class PartKeepr {
 			'PartKeepr\Project\ProjectPart',
 			'PartKeepr\Project\ProjectAttachment',
 				
-			'PartKeepr\StorageLocation\StorageLocation',
-			'PartKeepr\StorageLocation\StorageLocationImage',
+			'PartKeepr\StorageLocationBundle\Entity\StorageLocation',
+			'PartKeepr\StorageLocationBundle\Entity\StorageLocationImage',
 		
 			'PartKeepr\Stock\StockEntry',
 		

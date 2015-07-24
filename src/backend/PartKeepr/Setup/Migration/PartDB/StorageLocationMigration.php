@@ -2,7 +2,7 @@
 namespace PartKeepr\Setup\Migration\PartDB;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\StorageLocation\StorageLocation,
+	PartKeepr\StorageLocationBundle\Entity\StorageLocation,
 	PartKeepr\StorageLocation\StorageLocationManager,
 	PartKeepr\Setup\AbstractSetup;
 

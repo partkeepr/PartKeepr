@@ -2,7 +2,7 @@
 namespace PartKeepr\Part;
 
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
-use PartKeepr\StorageLocation\StorageLocation,
+use PartKeepr\StorageLocationBundle\Entity\StorageLocation,
 	\PartKeepr\FootprintBundle\Entity\Footprint,
 	\PartKeepr\PartBundle\Entity\PartCategoryManager,
 	PartKeepr\Util\Deserializable,
@@ -63,7 +63,7 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Defines the storage location of this part
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocation\StorageLocation")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
 	 * @var StorageLocation
 	 */
 	private $storageLocation;
@@ -350,7 +350,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Sets the storage location for this part
-	 * @param \PartKeepr\StorageLocation\StorageLocation $storageLocation The storage location
+	 *
+*@param \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
 	 */
 	public function setStorageLocation (StorageLocation $storageLocation) {
 		$this->storageLocation = $storageLocation;
@@ -358,7 +359,8 @@ class Part extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Returns the storage location for this part
-	 * @return \PartKeepr\StorageLocation\StorageLocation $storageLocation The storage location
+	 *
+*@return \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
 	 */
 	public function getStorageLocation () {
 		return $this->storageLocation;

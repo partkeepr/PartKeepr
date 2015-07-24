@@ -7,14 +7,12 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use PartKeepr\FootprintBundle\Entity\FootprintCategory;
 
 /**
- *
+ * Re-generates the category paths. It is enough to trigger an update on the root node, as the event listener
+ * will recursively update the child categories.
  */
 class Version20150719213922 extends BaseMigration
 {
     /**
-     * Re-generates the category paths. It is enough to trigger an update on the root node, as the event listener
-     * will recursively update the child categories.
-     *
      * @param Schema $schema
      */
     public function up(Schema $schema)
