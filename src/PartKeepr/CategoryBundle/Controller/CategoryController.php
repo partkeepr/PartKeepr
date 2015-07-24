@@ -3,8 +3,10 @@ namespace PartKeepr\CategoryBundle\Controller;
 
 use Dunglas\ApiBundle\Controller\ResourceController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
+use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
 use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
 use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,5 +46,40 @@ class CategoryController extends ResourceController
         $this->get("doctrine")->getManager()->flush();
 
         return new Response($request->request->get("parent"));
+    }
+
+    /**
+     * Returns the tree's root node wrapped in a virtual root node.
+     *
+     * This is required as ExtJS cannot replace the ID of their root node and cannot read in data one level below
+     * root.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function getExtJSRootNodeAction(Request $request)
+    {
+        $resource = $this->getResource($request);
+
+        $repository = $this->getDoctrine()->getManager()->getRepository($resource->getEntityClass());
+
+        /**
+         * @var $repository AbstractTreeRepository
+         */
+        $rootNode = $repository->getRootNodes()[0];
+
+        $data = $this->get('serializer')->normalize(
+            $rootNode,
+            'json-ld',
+            $resource->getNormalizationContext()
+        );
+
+        $responseData = array("children" => $data);
+
+        return new JsonResponse(
+            $responseData
+        );
+
     }
 }

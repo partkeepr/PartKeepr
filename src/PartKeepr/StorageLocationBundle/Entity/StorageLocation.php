@@ -2,10 +2,14 @@
 namespace PartKeepr\StorageLocationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\BaseEntity;
+use PartKeepr\UploadedFileBundle\Annotation\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/** @ORM\Entity * */
+/** @ORM\Entity
+ * @TargetService(uri="/api/storage_locations")
+ */
 class StorageLocation extends BaseEntity
 {
     /**
@@ -22,7 +26,7 @@ class StorageLocation extends BaseEntity
      * @ORM\OneToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocationImage",
      *               mappedBy="storageLocation",cascade={"persist", "remove"})
      * @Groups({"default"})
-     *
+     * @UploadedFile()
      * @var StorageLocationImage
      */
     private $image;
@@ -96,20 +100,30 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Sets the storage location image
+     * Sets the footprint image
      *
-     * @param StorageLocationImage $image The storage location image
+     * @param StorageLocationImage $image The footprint image
+     *
+     * @return void
      */
-    public function setImage(StorageLocationImage $image)
+    public function setImage($image)
     {
-        $this->image = $image;
-        $image->setStorageLocation($this);
+        if ($image instanceof StorageLocationImage) {
+            $image->setStorageLocation($this);
+            $this->image = $image;
+        } else {
+            // Because this is a 1:1 relationship. only allow the temporary image to be set when no image exists.
+            // If an image exists, the frontend needs to deliver the old file ID with the replacement property set.
+            if ($this->getImage() === null) {
+                $this->image = $image;
+            }
+        }
     }
 
     /**
-     * Returns the storage location image
+     * Returns the footprint image
      *
-     * @return StorageLocationImage The storage location image
+     * @return StorageLocationImage The footprint image
      */
     public function getImage()
     {

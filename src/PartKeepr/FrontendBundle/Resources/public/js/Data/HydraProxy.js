@@ -13,13 +13,22 @@ Ext.define("PartKeepr.data.HydraProxy", {
     defaultListenerScope: true,
     sortParam: "order",
 
+    /**
+     * An ID which should be ignored when loading items. Usually we use the item ID as URL as per JSON-LD spec,
+     * but sometimes you might require loading an item from the url parameter instead.
+     *
+     * This is mainly a workaround for ExtJS trees because we need a virtual root node for which the ID cannot be
+     * changed.
+     */
+    ignoreLoadId: null,
+
     constructor: function (config)
     {
         config.url = PartKeepr.getBasePath() + config.url;
         this.callParent(arguments);
     },
     listeners: {
-        exception: function (reader, response, operation, eOpts)
+        exception: function (reader, response)
         {
             this.showException(response);
         }
@@ -31,7 +40,9 @@ Ext.define("PartKeepr.data.HydraProxy", {
         // Set the URI to the ID, as JSON-LD operates on IRIs.
         if (request.getAction() == "read") {
             if (operation.getId()) {
-                request.setUrl(operation.getId());
+                if (operation.getId() !== this.ignoreLoadId) {
+                    request.setUrl(operation.getId());
+                }
             }
         }
 

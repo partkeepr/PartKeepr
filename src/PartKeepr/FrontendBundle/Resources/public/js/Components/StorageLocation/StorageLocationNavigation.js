@@ -1,4 +1,4 @@
-Ext.define("PartKeepr.FootprintNavigation", {
+Ext.define("PartKeepr.StorageLocationNavigation", {
     extend: 'Ext.panel.Panel',
 
     layout: 'border',
@@ -9,18 +9,18 @@ Ext.define("PartKeepr.FootprintNavigation", {
     store: null,
     items: [
         {
-            xtype: 'partkeepr.FootprintTree',
+            xtype: 'partkeepr.StorageLocationTree',
             region: 'center',
             rootVisible: false
         }, {
-            xtype: 'partkeepr.FootprintGrid',
+            xtype: 'partkeepr.StorageLocationGrid',
             resizable: true,
             split: true,
             region: 'south',
             height: "50%",
             viewConfig: {
                 plugins: {
-                    ddGroup: 'FootprintCategoryTree',
+                    ddGroup: 'StorageLocationTree',
                     ptype: 'gridviewdragdrop',
                     enableDrop: false
                 }
@@ -48,10 +48,10 @@ Ext.define("PartKeepr.FootprintNavigation", {
                 root: {
                     "@id": "@local-tree-root"
                 },
-                model: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
+                model: "PartKeepr.StorageLocationBundle.Entity.StorageLocationCategory",
                 proxy: {
                     ignoreLoadId: '@local-tree-root',
-                    url: "/api/footprint_categories/getExtJSRootNode",
+                    url: "/api/storage_location_categories/getExtJSRootNode",
                     type: "Hydra",
                     appendId: false,
                     reader: {
@@ -61,16 +61,16 @@ Ext.define("PartKeepr.FootprintNavigation", {
                 }
             });
 
-        this.down("partkeepr\\.FootprintTree").setStore(this.treeStore);
-        this.down("partkeepr\\.FootprintTree").on("itemclick", this.onCategoryClick, this);
-        this.down("partkeepr\\.FootprintGrid").setStore(this.store);
-        this.down("partkeepr\\.FootprintGrid").on("itemAdd", this.onAddFootprint, this);
-        this.down("partkeepr\\.FootprintGrid").on("itemDelete", function (id)
+        this.down("partkeepr\\.StorageLocationTree").setStore(this.treeStore);
+        this.down("partkeepr\\.StorageLocationTree").on("itemclick", this.onCategoryClick, this);
+        this.down("partkeepr\\.StorageLocationGrid").setStore(this.store);
+        this.down("partkeepr\\.StorageLocationGrid").on("itemAdd", this.onAddStorageLocation, this);
+        this.down("partkeepr\\.StorageLocationGrid").on("itemDelete", function (id)
             {
                 this.fireEvent("itemDelete", id);
             }, this
         );
-        this.down("partkeepr\\.FootprintGrid").on("itemEdit", function (id)
+        this.down("partkeepr\\.StorageLocationGrid").on("itemEdit", function (id)
             {
                 this.fireEvent("itemEdit", id);
             }, this
@@ -112,15 +112,15 @@ Ext.define("PartKeepr.FootprintNavigation", {
         return childNodes;
     },
     /**
-     * Called when a footprint is about to be added. This prepares the to-be-edited record with the proper category id.
+     * Called when a storage location is about to be added. This prepares the to-be-edited record with the proper category id.
      */
-    onAddFootprint: function ()
+    onAddStorageLocation: function ()
     {
-        var selection = this.down("partkeepr\\.FootprintTree").getSelection();
+        var selection = this.down("partkeepr\\.StorageLocationTree").getSelection();
 
         var category;
         if (selection.length === 0) {
-            category = this.down("partkeepr\\.FootprintTree").getRootNode().getId();
+            category = this.down("partkeepr\\.StorageLocationTree").getRootNode().getId();
         } else {
             var item = selection.shift();
             category = item.getId();
@@ -135,16 +135,16 @@ Ext.define("PartKeepr.FootprintNavigation", {
      */
     syncChanges: function ()
     {
-        this.down("partkeepr\\.FootprintGrid").getStore().load();
+        this.down("partkeepr\\.StorageLocationGrid").getStore().load();
     },
     /**
-     * Returns the selection model of the footprint grid
+     * Returns the selection model of the storage location grid
      * @return {Ext.selection.Model} The selection model
      */
     getSelectionModel: function ()
     {
         "use strict";
-        return this.down("partkeepr\\.FootprintGrid").getSelectionModel();
+        return this.down("partkeepr\\.StorageLocationGrid").getSelectionModel();
     }
 
 

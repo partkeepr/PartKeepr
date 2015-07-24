@@ -264,6 +264,27 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
+    resource.footprint_category.collection_operation.post:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments: [ "@resource.footprint_category", "POST" ]
+
+    resource.footprint_category.collection_operation.get_root:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments:
+             -    "@resource.footprint_category"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/footprint_categories/getExtJSRootNode"           # Path
+             -    "PartKeeprCategoryBundle:Category:getExtJSRootNode"         # Controller
+             -    "FootprintCategoryGetRoot"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
     resource.footprint_category.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -287,6 +308,8 @@ services:
         arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintCategory" ]
         tags:      [ { name: "api.resource" } ]
         calls:
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.footprint_category.collection_operation.get_root", "@resource.footprint_category.collection_operation.post" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.footprint_category.item_operation.get", "@resource.footprint_category.item_operation.put", "@resource.footprint_category.item_operation.delete", "@resource.footprint_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
@@ -449,6 +472,21 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
+    resource.storage_location_category.collection_operation.get_root:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments:
+             -    "@resource.storage_location_category"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/storage_location_categories/getExtJSRootNode"           # Path
+             -    "PartKeeprCategoryBundle:Category:getExtJSRootNode"         # Controller
+             -    "StorageLocationCategoryGetRoot"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
     resource.storage_location_category.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -467,11 +505,19 @@ services:
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.storage_location_category", "DELETE" ]
 
+    resource.storage_location_category.collection_operation.post:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments: [ "@resource.storage_location_category", "POST" ]
+
     resource.storage_location_category:
         parent:    "api.resource"
         arguments: [ "PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory" ]
         tags:      [ { name: "api.resource" } ]
         calls:
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.storage_location_category.collection_operation.get_root", "@resource.storage_location_category.collection_operation.post" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.storage_location_category.item_operation.get", "@resource.storage_location_category.item_operation.put", "@resource.storage_location_category.item_operation.delete", "@resource.storage_location_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"

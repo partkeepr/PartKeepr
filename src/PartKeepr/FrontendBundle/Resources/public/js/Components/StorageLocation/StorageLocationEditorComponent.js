@@ -1,16 +1,22 @@
 Ext.define('PartKeepr.StorageLocationEditorComponent', {
 	extend: 'PartKeepr.EditorComponent',
 	alias: 'widget.StorageLocationEditorComponent',
-	navigationClass: 'PartKeepr.StorageLocationGrid',
+	navigationClass: 'PartKeepr.StorageLocationNavigation',
 	editorClass: 'PartKeepr.StorageLocationEditor',
 	newItemText: i18n("New Storage Location"),
-	model: 'PartKeepr.StorageLocation',
+	model: 'PartKeepr.StorageLocationBundle.Entity.StorageLocation',
 	initComponent: function () {
 		this.createStore({
-			sorters: [{
-				property: 'name',
-				direction:'ASC'
-	          }]
+			sorters: [
+                {
+                    property: 'category.categoryPath',
+                    direction: 'ASC'
+                },{
+                    property: 'name',
+                    direction:'ASC'
+                }
+        ],
+            groupField: 'categoryPath'
 		});
 		
 		this.callParent();
