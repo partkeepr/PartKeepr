@@ -2,8 +2,14 @@ Ext.define('PartKeepr.StorageLocationGrid', {
 	extend: 'PartKeepr.EditorGrid',
 	xtype: 'partkeepr.StorageLocationGrid',
 	
-	automaticPageSize: true,
-	
+	features: [
+		{
+			ftype: 'grouping',
+			groupHeaderTpl: '{name} ({children.length})',
+			enableNoGroups: true
+		}
+	],
+
 	columns: [
 	          {header: i18n("Storage Location"),  dataIndex: 'name', flex: 1}
 	          ],

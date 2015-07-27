@@ -125,8 +125,15 @@ nelmio_api_doc:
                 json:       "application/json"
 
 services:
-    my.listener:
+    footprint.category_path_listener:
         class: PartKeepr\FootprintBundle\Listeners\CategoryPathListener
+        arguments:
+            - "@service_container"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    storage_location.category_path_listener:
+        class: PartKeepr\StorageLocationBundle\Listeners\CategoryPathListener
         arguments:
             - "@service_container"
         tags:
