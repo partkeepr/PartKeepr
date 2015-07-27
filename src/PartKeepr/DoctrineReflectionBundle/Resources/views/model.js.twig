@@ -11,7 +11,7 @@ Ext.define('{{ className }}', {
         {% if associations.MANY_TO_ONE|length > 0 %}
             ,
             {% for association in associations.MANY_TO_ONE %}
-                { name: '{{ association.name }}Id',
+                { name: '{{ association.name }}',
                 reference: '{{ association.target }}'
                 }{% if not loop.last %},{% endif %}
 
