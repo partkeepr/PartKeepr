@@ -10,7 +10,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 
         Ext.Object.merge(config, {
             autoLoad: false,
-            model: "PartKeepr.Part.Part",
+            model: "PartKeepr.PartBundle.Entity.Part",
             autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
             remoteFilter: true,
             remoteSort: true,
@@ -29,7 +29,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
         this.gridPanel = Ext.create("PartKeepr.BaseGrid", {
             store: this.store,
             columnLines: true,
-            dockedItems: [ this.bottomToolbar ],
+            dockedItems: [this.bottomToolbar],
             columns: [
                 {
                     header: i18n("Name"),
@@ -72,7 +72,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
                     },
                     container
                 ]
-            },{
+            }, {
                 width: 370,
                 height: 250,
                 xtype: 'remoteimagefield',
@@ -89,7 +89,13 @@ Ext.define('PartKeepr.StorageLocationEditor', {
         this.callParent();
     },
     onStartEdit: function () {
-        this.store.getProxy().extraParams.storageLocation = this.record.get("id");
+        var filter = Ext.create("Ext.util.Filter", {
+            property: "storageLocation",
+            operator: "=",
+            value: this.record.getId()
+        });
+
+        this.store.addFilter(filter);
         this.store.load();
     }
 

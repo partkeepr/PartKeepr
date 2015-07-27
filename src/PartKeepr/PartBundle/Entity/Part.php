@@ -2,6 +2,7 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
 use Doctrine\Common\Collections\ArrayCollection;
 use PartKeepr\Part\Exceptions\CategoryNotAssignedException;
@@ -12,12 +13,15 @@ use PartKeepr\PartKeepr;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  *
- * @ORM\Entity @ORM\HasLifecycleCallbacks
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @TargetService(uri="/api/parts")
  */
 class Part extends BaseEntity
 {
@@ -31,6 +35,7 @@ class Part extends BaseEntity
     /**
      * The part's name
      * @ORM\Column
+     * @Groups({"default"})
      * @var string
      */
     private $name;
@@ -38,6 +43,7 @@ class Part extends BaseEntity
     /**
      * The part's short description
      * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
      * @var string
      */
     private $description;
@@ -97,6 +103,7 @@ class Part extends BaseEntity
     /**
      * The comment for this part
      * @ORM\Column(type="text")
+     * @Groups({"default"})
      */
     private $comment = "";
 
@@ -104,6 +111,7 @@ class Part extends BaseEntity
      * The stock level. Note that this is a cached value, because it makes our summary queries easier.
      * @todo It would be nice if we could get rid of that.
      * @ORM\Column(type="integer")
+     * @Groups({"default"})
      * @var integer
      */
     private $stockLevel = 0;
@@ -182,11 +190,11 @@ class Part extends BaseEntity
 
     public function __construct()
     {
-        $this->distributors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->manufacturers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->parameters = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->attachments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->distributors = new ArrayCollection();
+        $this->manufacturers = new ArrayCollection();
+        $this->parameters = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
         $this->setCreateDate(new \DateTime());
         $this->setReviewFlag(false);
     }
@@ -211,7 +219,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the internal part number for this part
-     * @param string $partnumber
+     * @param string $partNumber
      */
     public function setInternalPartNumber($partNumber)
     {
@@ -394,7 +402,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Retrieves the footrpint
+     * Retrieves the footprint
      */
     public function getFootprint()
     {
@@ -448,7 +456,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the manufacturers array
-     * @return ArrayCollection the manufactuers
+     * @return ArrayCollection the manufacturers
      */
     public function getManufacturers()
     {
@@ -465,7 +473,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the stock level of this part. This is a realtime function which
+     * Returns the stock level of this part. This is a real-time function which
      * actually creates a query over the StockEntry table.
      * @return int The stock level
      */
