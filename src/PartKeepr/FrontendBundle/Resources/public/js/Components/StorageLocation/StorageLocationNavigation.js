@@ -64,6 +64,8 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
         this.down("partkeepr\\.StorageLocationTree").setStore(this.treeStore);
         this.down("partkeepr\\.StorageLocationTree").on("itemclick", this.onCategoryClick, this);
         this.down("partkeepr\\.StorageLocationGrid").setStore(this.store);
+
+        this.down("partkeepr\\.StorageLocationGrid").on("storageLocationMultiAdd", this.onMultiAddStorageLocation, this);
         this.down("partkeepr\\.StorageLocationGrid").on("itemAdd", this.onAddStorageLocation, this);
         this.down("partkeepr\\.StorageLocationGrid").on("itemDelete", function (id)
             {
@@ -129,6 +131,39 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
         this.fireEvent("itemAdd", {
             category: category
         });
+    },
+    /**
+     * Called when a storage location is about to be added. This prepares the to-be-edited record with the proper category id.
+     */
+    onMultiAddStorageLocation: function ()
+    {
+        var selection = this.down("partkeepr\\.StorageLocationTree").getSelection();
+
+        var category;
+        if (selection.length === 0) {
+            category = this.down("partkeepr\\.StorageLocationTree").getRootNode().firstChild.getId();
+        } else {
+            var item = selection.shift();
+            category = item.getId();
+        }
+
+        var j = Ext.create("PartKeepr.StorageLocationMultiCreateWindow", {
+            category: category,
+            listeners: {
+                destroy: {
+                    fn: this.onMultiCreateWindowDestroy,
+                    scope: this
+                }
+            }
+        });
+        j.show();
+
+    },
+    /**
+     * Reloads the store after the multi-create window was closed
+     */
+    onMultiCreateWindowDestroy: function () {
+        this.store.load();
     },
     /**
      * Triggers a reload of the store when an edited record affects the store

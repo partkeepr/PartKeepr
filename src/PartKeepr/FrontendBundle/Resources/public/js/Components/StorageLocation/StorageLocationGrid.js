@@ -35,20 +35,6 @@ Ext.define('PartKeepr.StorageLocationGrid', {
      * Creates a new storage location multi-create window.
      */
     onMultiCreateClick: function () {
-        var j = Ext.create("PartKeepr.StorageLocationMultiCreateWindow", {
-            listeners: {
-                destroy: {
-                    fn: this.onMultiCreateWindowDestroy,
-                    scope: this
-                }
-            }
-        });
-        j.show();
-    },
-    /**
-     * Reloads the store after the multi-create window was closed
-     */
-    onMultiCreateWindowDestroy: function () {
-        this.store.load();
+        this.fireEvent("storageLocationMultiAdd")
     }
 });
