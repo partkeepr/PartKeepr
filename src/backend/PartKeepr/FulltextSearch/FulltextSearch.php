@@ -79,7 +79,7 @@ abstract class FulltextSearch {
 	 * Returns the FQDN name of the entity. This needs to be overridden in child classes.
 	 * 
 	 * @param none
-	 * @return string the FQDN of the entity to query, e.g. PartKeepr\Part\Part
+	 * @return string the FQDN of the entity to query, e.g. PartKeepr\PartBundle\Entity\Part
 	 */
 	abstract protected function getEntityName ();
 	

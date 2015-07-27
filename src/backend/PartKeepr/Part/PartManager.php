@@ -14,7 +14,7 @@ use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile,
 	PartKeepr\Part\PartManufacturer,
 	PartKeepr\StorageLocationBundle\Entity\StorageLocation,
 	PartKeepr\StorageLocation\StorageLocationManager,
-	PartKeepr\Part\Part,
+	PartKeepr\PartBundle\Entity\Part,
 	Doctrine\ORM\Query,
 	PartKeepr\PartUnit\PartUnitManager,
 	PartKeepr\DistributorBundle\Entity\Distributor,
@@ -35,7 +35,7 @@ class PartManager extends AbstractManager {
 	 * @return string The FQCN, e.g. PartKeepr\Part
 	 */
 	public function getEntityName () {
-		return 'PartKeepr\Part\Part';
+		return 'PartKeepr\PartBundle\Entity\Part';
 	}
 	
 	/**
@@ -282,7 +282,7 @@ class PartManager extends AbstractManager {
 		
 	}
 	
-	private function processParameterChanges (Part $part, Array $data) {
+	private function processParameterChanges (\PartKeepr\PartBundle\Entity\Part $part, Array $data) {
 		if (array_key_exists("updates", $data)) {
 			foreach ($data["updates"] as $record) {
 				foreach ($part->getParameters() as $partParameter) {
@@ -326,7 +326,7 @@ class PartManager extends AbstractManager {
 		}
 	}
 	
-	private function processDistributorChanges (Part $part, Array $data) {
+	private function processDistributorChanges (\PartKeepr\PartBundle\Entity\Part $part, Array $data) {
 		if (array_key_exists("updates", $data)) {
 			foreach ($data["updates"] as $record) {
 				foreach ($part->getDistributors() as $partDistributor) {
@@ -457,7 +457,7 @@ class PartManager extends AbstractManager {
 	 * @return int The amount of parts in the database
 	 */
 	public function getPartCount ($withPrice = false) {
-		$dql = "SELECT COUNT(p.id) FROM PartKeepr\Part\Part p";
+		$dql = "SELECT COUNT(p.id) FROM PartKeepr\PartBundle\Entity\Part p";
 		
 		if ($withPrice === true) {
 			$dql .= " WHERE p.averagePrice IS NOT NULL";
@@ -471,7 +471,7 @@ class PartManager extends AbstractManager {
 	 * @return float The total price
 	 */
 	public function getTotalPrice () {
-		$dql = "SELECT SUM(p.averagePrice * p.stockLevel) FROM PartKeepr\Part\Part p";
+		$dql = "SELECT SUM(p.averagePrice * p.stockLevel) FROM PartKeepr\PartBundle\Entity\Part p";
 		
 		return PartKeepr::getEM()->createQuery($dql)->getSingleScalarResult();
 	}
@@ -481,7 +481,7 @@ class PartManager extends AbstractManager {
 	 * @return float The average price
 	 */
 	public function getAveragePrice () {
-		$dql = "SELECT AVG(p.averagePrice) FROM PartKeepr\Part\Part p";
+		$dql = "SELECT AVG(p.averagePrice) FROM PartKeepr\PartBundle\Entity\Part p";
 		
 		return PartKeepr::getEM()->createQuery($dql)->getSingleScalarResult();
 	}

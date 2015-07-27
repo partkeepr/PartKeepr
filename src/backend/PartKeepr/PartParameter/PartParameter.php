@@ -4,7 +4,7 @@ namespace PartKeepr\PartParameter;
 use PartKeepr\PartKeepr,
 PartKeepr\Util\Exceptions\OutOfRangeException,
 PartKeepr\UnitBundle\Entity\Unit,
-PartKeepr\Part\Part,
+PartKeepr\PartBundle\Entity\Part,
 PartKeepr\SiPrefixBundle\Entity\SiPrefix,
     Doctrine\ORM\Mapping as ORM;
 
@@ -24,7 +24,7 @@ class PartParameter {
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="parameters")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="parameters")
 	 * The part this parameter is bound to
 	 * @var Part
 	 */
@@ -136,7 +136,7 @@ class PartParameter {
 
 	/**
 	 * Returns the part
-	 * @return Part the part
+	 * @return \PartKeepr\PartBundle\Entity\Part the part
 	 */
 	public function getPart () {
 		return $this->part;

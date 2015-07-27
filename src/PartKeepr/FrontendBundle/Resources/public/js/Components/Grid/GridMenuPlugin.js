@@ -102,7 +102,7 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 		}
 		
 		var val = Ext.create("PartKeepr.PrintingWindow");
-		val.setObjectType('PartKeepr\\Part\\Part');
+		val.setObjectType('PartKeepr\\PartBundle\\Entity\\Part');
 		val.setObjectIds(ids);
 		val.show();
 	},

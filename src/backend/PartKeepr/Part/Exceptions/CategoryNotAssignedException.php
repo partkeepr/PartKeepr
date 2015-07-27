@@ -3,7 +3,7 @@ namespace PartKeepr\Part\Exceptions;
 
 use PartKeepr\PartKeepr,
 	PartKeepr\Util\SerializableException,
-	PartKeepr\Part\Part;
+	PartKeepr\PartBundle\Entity\Part;
 
 /**
  * This exception is thrown when a part hasn't got a category assigned

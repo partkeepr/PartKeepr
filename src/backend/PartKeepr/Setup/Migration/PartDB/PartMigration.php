@@ -2,7 +2,7 @@
 namespace PartKeepr\Setup\Migration\PartDB;
 
 use	PartKeepr\PartKeepr,
-	PartKeepr\Part\Part,
+	PartKeepr\PartBundle\Entity\Part,
 	PartKeepr\Part\PartAttachment,
 	PartKeepr\Part\PartDistributor,
 	PartKeepr\Part\PartManager,

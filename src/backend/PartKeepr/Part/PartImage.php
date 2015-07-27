@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\Part;
 
+use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\Util\Serializable,
 	PartKeepr\ImageBundle\Entity\Image,
     Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,7 @@ use PartKeepr\Util\Serializable,
 class PartImage extends Image implements Serializable {
 	/**
 	 * The part object
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="images")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="images")
 	 * @var Part
 	 */
 	private $part = null;

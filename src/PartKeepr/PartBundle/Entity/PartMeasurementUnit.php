@@ -55,7 +55,7 @@ class PartMeasurementUnit extends BaseEntity {
 	/**
 	 * The parts used by this PartMeasurementUnit
 	 *
-	 * @ORM\OneToMany(targetEntity="PartKeepr\Part\Part",mappedBy="partUnit")
+	 * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\Part",mappedBy="partUnit")
 	 */
 	private $parts;
 	

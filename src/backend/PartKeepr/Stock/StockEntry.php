@@ -4,7 +4,7 @@ namespace PartKeepr\Stock;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use PartKeepr\AuthBundle\Entity\User\User;
-use PartKeepr\Part\Part;
+use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Serializable;
@@ -17,7 +17,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	private $stockLevel;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="stockLevels")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="stockLevels")
 	 */
 	private $part;
 	
@@ -58,7 +58,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	 * were the stockLevel is the amount of items added/removed,
 	 * by which user and how much the user paid for it (for adding parts only!)
 	 * 
-	 * @param Part $part The part which was added/removed
+	 * @param \PartKeepr\PartBundle\Entity\Part $part The part which was added/removed
 	 * @param int $stockLevel The stock level. Positive value means added parts, negative values means removed parts.
 	 * @param User $user The user who removed/added parts
 	 */

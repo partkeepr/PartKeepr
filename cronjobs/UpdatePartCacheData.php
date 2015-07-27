@@ -9,7 +9,7 @@ use PartKeepr\PartKeepr,
 
 PartKeepr::initialize();
 
-$query = PartKeepr::getEM()->createQuery("SELECT p FROM PartKeepr\Part\Part p");
+$query = PartKeepr::getEM()->createQuery("SELECT p FROM PartKeepr\PartBundle\Entity\Part p");
 $result = $query->getResult();
 
 $fc = 0;

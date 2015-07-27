@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\Project;
 
-use PartKeepr\Part\Part,
+use PartKeepr\PartBundle\Entity\Part,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\Deserializable,
 	PartKeepr\Util\BaseEntity,
@@ -12,7 +12,7 @@ use PartKeepr\Part\Part,
  * @ORM\Entity **/
 class ProjectPart extends BaseEntity implements Serializable, Deserializable {
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="projectParts")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="projectParts")
 	 */
 	private $part;
 	
@@ -36,7 +36,7 @@ class ProjectPart extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Sets the part which belongs to this entry
-	 * @param Part $part
+	 * @param \PartKeepr\PartBundle\Entity\Part $part
 	 */
 	public function setPart (Part $part) {
 		$this->part = $part;
@@ -44,7 +44,7 @@ class ProjectPart extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Returns the part which belongs to this entry
-	 * @return Part
+	 * @return \PartKeepr\PartBundle\Entity\Part
 	 */
 	public function getPart () {
 		return $this->part;

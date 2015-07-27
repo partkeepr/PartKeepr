@@ -2,6 +2,7 @@
 namespace PartKeepr\Part;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
@@ -31,7 +32,7 @@ class PartAttachment extends UploadedFile
 
     /**
      * The part object
-     * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="attachments")
+     * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="attachments")
      *
      * @var Part
      */

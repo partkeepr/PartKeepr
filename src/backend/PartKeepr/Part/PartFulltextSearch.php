@@ -14,7 +14,7 @@ class PartFulltextSearch extends FulltextSearch {
 	 * @see PartKeepr\FulltextSearch.FulltextSearch::getEntityName()
 	 */
 	protected function getEntityName () {
-		return 'PartKeepr\Part\Part';
+		return 'PartKeepr\PartBundle\Entity\Part';
 	}
 	
 	/**

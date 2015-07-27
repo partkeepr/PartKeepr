@@ -5,7 +5,7 @@ use PartKeepr\Service\RestfulService,
 	PartKeepr\Service\Service,
 	PartKeepr\Project\ProjectManager,
 	PartKeepr\PartKeepr,
-	PartKeepr\Part\Part,
+	PartKeepr\PartBundle\Entity\Part,
 	PartKeepr\Manager\ManagerFilter;
 
 class ProjectReportService extends Service implements RestfulService {

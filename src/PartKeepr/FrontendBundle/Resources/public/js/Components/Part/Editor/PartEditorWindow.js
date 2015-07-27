@@ -162,7 +162,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	 */
 	printItem: function( id ){
 		var val = Ext.create("PartKeepr.PrintingWindow");
-		val.setObjectType('PartKeepr\\Part\\Part');
+		val.setObjectType('PartKeepr\\PartBundle\\Entity\\Part');
 		val.setContext("PartEditor");
 		val.setObjectIds([id]);
 		val.show();

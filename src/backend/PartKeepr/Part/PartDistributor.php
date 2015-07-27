@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\Part;
 
+use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\Util\Deserializable,
 	PartKeepr\Util\Serializable,
 	PartKeepr\Util\BaseEntity,
@@ -13,7 +14,7 @@ use PartKeepr\Util\Deserializable,
  * @ORM\Entity **/
 class PartDistributor extends BaseEntity implements Serializable, Deserializable {
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\Part\Part", inversedBy="distributors")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="distributors")
 	 */
 	private $part;
 	
