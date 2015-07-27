@@ -120,7 +120,7 @@ Ext.define("PartKeepr.FootprintNavigation", {
 
         var category;
         if (selection.length === 0) {
-            category = this.down("partkeepr\\.FootprintTree").getRootNode().getId();
+            category = this.down("partkeepr\\.FootprintTree").getRootNode().firstChild.getId();
         } else {
             var item = selection.shift();
             category = item.getId();
