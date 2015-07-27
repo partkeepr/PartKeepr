@@ -539,6 +539,36 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.storage_location_image.item_operation.custom_get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.storage_location_image"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/storage_location_images/{id}/getImage"           # Path
+             -    "PartKeeprStorageLocationBundle:StorageLocationImage:getImage"         # Controller
+             -    "StorageLocationGetImage"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.storage_location_image:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\StorageLocationBundle\Entity\StorageLocationImage" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.storage_location_image.item_operation.custom_get" ] ]
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
 # ######################## Temporary Images ######################################
     resource.tempimage.collection_operation.custom_post:
             class:     "Dunglas\ApiBundle\Api\Operation\Operation"

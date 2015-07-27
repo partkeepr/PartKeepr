@@ -49,7 +49,6 @@ Ext.define('PartKeepr.FootprintEditor', {
 				items: {
 					xtype: 'remoteimagefield',
 					itemId: 'image',
-					imageType: 'footprint',
 					maxHeight: 256,
 					maxWidth: 256,
 					listeners: {

@@ -4,6 +4,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
     saveText: i18n("Save Storage Location"),
 
     layout: 'column',
+    defaultListenerScope: true,
 
     initComponent: function () {
         var config = {};
@@ -75,18 +76,34 @@ Ext.define('PartKeepr.StorageLocationEditor', {
             }, {
                 width: 370,
                 height: 250,
-                xtype: 'remoteimagefield',
-                name: 'image_id',
-                imageType: 'storagelocation',
-                imageWidth: 256,
-                imageHeight: 256,
-                labelWidth: 110,
+                xtype: 'fieldcontainer',
+                items: {
+                    xtype: 'remoteimagefield',
+                    itemId: 'image',
+                    maxHeight: 256,
+                    maxWidth: 256,
+                    listeners: {
+                        'fileUploaded': "onFileUploaded"
+                    }
+                },
+                labelWidth: 75,
                 fieldLabel: i18n("Image")
             }
         ];
 
         this.on("startEdit", this.onStartEdit, this);
         this.callParent();
+    },
+    onFileUploaded: function (data) {
+        var uploadedFile = Ext.create("PartKeepr.UploadedFileBundle.Entity.TempUploadedFile", data);
+
+        if (this.record.getImage() === null) {
+            this.record.setImage(data);
+        } else {
+            this.record.getImage().set("replacement", uploadedFile.getId());
+        }
+
+        this.down('#image').setValue(uploadedFile);
     },
     onStartEdit: function () {
         var filter = Ext.create("Ext.util.Filter", {
@@ -97,6 +114,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 
         this.store.addFilter(filter);
         this.store.load();
+        this.down('#image').setValue(this.record.getImage());
     }
 
 });
