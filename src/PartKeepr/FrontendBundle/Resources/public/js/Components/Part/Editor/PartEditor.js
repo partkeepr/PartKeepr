@@ -7,7 +7,7 @@ Ext.define('PartKeepr.PartEditor', {
 	extend: 'PartKeepr.Editor',
 	
 	// Assigned model
-	model: 'PartKeepr.Part.Part',
+	model: 'PartKeepr.PartBundle.Entity.Part',
 	
 	// Layout stuff
 	border: false,
@@ -409,18 +409,18 @@ Ext.define('PartKeepr.PartEditor', {
 				if (this.copyPartDataCheckbox.getValue() === true) {
 					data = this.record.getData(true);
 					data.id = null;
-					newItem = Ext.create("PartKeepr.Part.Part");
+					newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
 					newItem.setDataWithAssociations(data);
 
 					this.editItem(newItem);
 				} else {
-					newItem = Ext.create("PartKeepr.Part.Part", this.partDefaults);
+					newItem = Ext.create("PartKeepr.PartBundle.Entity.Part", this.partDefaults);
 					this.editItem(newItem);
 				}
 			} else {
 				var data = this.record.getData(true);
 				data.id = null;
-				newItem = Ext.create("PartKeepr.Part.Part");
+				newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
 				newItem.setDataWithAssociations(data);
 
 				this.editItem(newItem);

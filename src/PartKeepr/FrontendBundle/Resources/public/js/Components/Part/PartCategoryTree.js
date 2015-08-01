@@ -3,7 +3,7 @@ Ext.define("PartKeepr.PartCategoryTree", {
 	alias: 'widget.PartCategoryTree',
 	
 	ddGroup: 'PartTree',
-	categoryModel: 'PartKeepr.Part.PartCategory',
+	categoryModel: 'PartKeepr.PartBundle.Entity.PartCategory',
 	categoryService: 'PartCategory',
 	initComponent: function () {
 		this.callParent();
@@ -23,7 +23,7 @@ Ext.define("PartKeepr.PartCategoryTree", {
 		var draggedRecord = data.records[0];
 		var droppedOn = this.getView().getRecord(node);
 
-		if (draggedRecord.modelName == "PartKeepr.Part.Part") {
+		if (draggedRecord.modelName == "PartKeepr.PartBundle.Entity.Part") {
 			/* Move Part */
 			var call = new PartKeepr.ServiceCall("Part", "movePart");
 			

@@ -2,5 +2,5 @@ Ext.define('PartKeepr.PartAttachmentGrid', {
 	extend: 'PartKeepr.AttachmentGrid',
 	alias: 'widget.PartAttachmentGrid',
 	
-	model: "PartKeepr.Part.PartAttachment"
+	model: "PartKeepr.PartBundle.Entity.PartAttachment"
 });

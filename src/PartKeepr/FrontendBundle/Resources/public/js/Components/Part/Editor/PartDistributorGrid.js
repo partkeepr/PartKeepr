@@ -4,7 +4,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 	border : false,
 	initComponent : function() {
 		this.store = Ext.create("Ext.data.Store", {
-			model : 'PartKeepr.Part.PartDistributor',
+			model : 'PartKeepr.PartBundle.Entity.PartDistributor',
 			proxy : {
 				type : 'memory',
 				reader : {
@@ -152,7 +152,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 	onAddClick : function() {
 		this.editing.cancelEdit();
 
-		var rec = new PartKeepr.Part.PartDistributor({
+		var rec = new PartKeepr.PartBundle.Entity.PartDistributor({
 			packagingUnit : 1
 		});
 

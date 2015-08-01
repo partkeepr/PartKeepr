@@ -468,7 +468,7 @@ Ext.define('PartKeepr.PartsGrid', {
 	 * Load the part from the database.
 	 */
 	loadPart: function (id, opts) {
-		PartKeepr.Part.Part.load(id, {
+		PartKeepr.PartBundle.Entity.Part.load(id, {
 			scope: this,
 			success: this.onPartLoaded
 		});
