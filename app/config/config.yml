@@ -343,6 +343,76 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.part_category.item_operation.move:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.part_category"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/part_categories/{id}/move"           # Path
+             -    "PartKeeprCategoryBundle:Category:move"         # Controller
+             -    "PartCategoryMove"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.part_category.collection_operation.post:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments: [ "@resource.part_category", "POST" ]
+
+    resource.part_category.collection_operation.get_root:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments:
+             -    "@resource.part_category"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/part_categories/getExtJSRootNode"           # Path
+             -    "PartKeeprCategoryBundle:Category:getExtJSRootNode"         # Controller
+             -    "PartCategoryGetRoot"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.part_category.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.part_category", "GET" ]
+
+    resource.part_category.item_operation.put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.part_category", "PUT" ]
+
+    resource.part_category.item_operation.delete:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.part_category", "DELETE" ]
+
+    resource.part_category:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\PartBundle\Entity\\PartCategory" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.part_category.collection_operation.get_root", "@resource.part_category.collection_operation.post" ] ]
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.part_category.item_operation.get", "@resource.part_category.item_operation.put", "@resource.part_category.item_operation.delete", "@resource.part_category.item_operation.move" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+                        
+                        
     resource.manufacturer:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\ManufacturerBundle\Entity\Manufacturer" ]
