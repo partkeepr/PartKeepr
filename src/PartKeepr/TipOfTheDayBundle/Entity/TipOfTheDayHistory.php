@@ -2,7 +2,7 @@
 namespace PartKeepr\TipOfTheDayBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\Util\BaseEntity;
 
 /**
@@ -22,9 +22,9 @@ class TipOfTheDayHistory extends BaseEntity
 
     /**
      * Defines the user
-     * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
+     * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
      *
-     * @var User
+     * @var \PartKeepr\AuthBundle\Entity\User
      */
     private $user;
 

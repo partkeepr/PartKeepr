@@ -3,7 +3,7 @@
 namespace PartKeepr\FrontendBundle\Controller;
 
 use Doctrine\ORM\NoResultException;
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
 use PartKeepr\Session\SessionManager;
 use PartKeepr\Util\Configuration;

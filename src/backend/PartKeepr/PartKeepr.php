@@ -148,7 +148,7 @@ class PartKeepr {
 	 */
 	public static function getEntityClasses () {
 		return array(
-			'PartKeepr\AuthBundle\Entity\User\User',
+			'PartKeepr\AuthBundle\Entity\User',
 			'PartKeepr\Session\Session',
 				
 			'PartKeepr\EventNotification\Event',

@@ -2,7 +2,7 @@
 namespace PartKeepr\Project;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Deserializable;
 use PartKeepr\Util\Serializable;
@@ -19,7 +19,7 @@ class Project extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Specifies the user this project belongs to
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
 	 */
 	private $user;
 	
@@ -63,7 +63,8 @@ class Project extends BaseEntity implements Serializable, Deserializable {
 	
 	/**
 	 * Gets the user for this project
-	 * @return User
+	 *
+*@return \PartKeepr\AuthBundle\Entity\User
 	 */
 	public function getUser () {
 		return $this->user;

@@ -2,7 +2,7 @@
 namespace PartKeepr\Session;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
 use PartKeepr\PartKeepr;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
@@ -19,7 +19,7 @@ class Session {
 	
 	/**
      * @var User
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
      */
 	private $user;
 
@@ -58,7 +58,8 @@ class Session {
 
     /**
      * Returns the user object
-     * @return User
+     *
+*@return \PartKeepr\AuthBundle\Entity\User
      */
 	public function getUser () {
 		return $this->user;

@@ -100,6 +100,11 @@ stof_doctrine_extensions:
 twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: PartKeepr\AuthBundle\Entity\User
+
 doctrine_migrations:
     dir_name: %kernel.root_dir%/../src/PartKeepr/CoreBundle/DoctrineMigrations
     namespace: PartKeepr\CoreBundle\DoctrineMigrations

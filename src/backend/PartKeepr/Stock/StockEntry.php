@@ -3,7 +3,7 @@ namespace PartKeepr\Stock;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\BaseEntity;
@@ -22,7 +22,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	private $part;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
 	 */
 	private $user;
 	
@@ -60,7 +60,7 @@ class StockEntry extends BaseEntity implements Serializable {
 	 * 
 	 * @param \PartKeepr\PartBundle\Entity\Part $part The part which was added/removed
 	 * @param int $stockLevel The stock level. Positive value means added parts, negative values means removed parts.
-	 * @param User $user The user who removed/added parts
+	 * @param \PartKeepr\AuthBundle\Entity\User $user The user who removed/added parts
 	 */
 	public function __construct (Part $part, $stockLevel, User $user = null) {
 		$this->setPart($part);
@@ -158,7 +158,8 @@ class StockEntry extends BaseEntity implements Serializable {
 	
 	/**
 	 * Sets the user assigned to this entry.
-	 * @param User $user The user The user to set
+	 *
+*@param \PartKeepr\AuthBundle\Entity\User $user The user The user to set
 	 */
 	public function setUser (User $user = null) {
 		$this->user = $user;

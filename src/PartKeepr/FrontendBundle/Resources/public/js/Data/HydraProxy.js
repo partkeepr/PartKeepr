@@ -12,6 +12,8 @@ Ext.define("PartKeepr.data.HydraProxy", {
     limitParam: "itemsPerPage",
     defaultListenerScope: true,
     sortParam: "order",
+    headers: {
+    },
 
     /**
      * An ID which should be ignored when loading items. Usually we use the item ID as URL as per JSON-LD spec,
@@ -32,6 +34,13 @@ Ext.define("PartKeepr.data.HydraProxy", {
         {
             this.showException(response);
         }
+    },
+    getHeaders: function () {
+        var headers = this.callParent(arguments);
+
+        headers["X-WSSE"] = PartKeepr.getApplication().getSessionManager().getWSSE();
+
+        return headers;
     },
     buildUrl: function (request)
     {

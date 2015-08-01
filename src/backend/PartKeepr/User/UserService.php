@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\AuthBundle\Entity\User;
 
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\Manager\ManagerFilter;
 use PartKeepr\PartKeepr;
 use PartKeepr\Service\FilterExtractor;

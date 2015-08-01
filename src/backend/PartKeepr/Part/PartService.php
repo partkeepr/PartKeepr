@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\Part;
 
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\Manager\ManagerFilter;
 use PartKeepr\PartBundle\Entity\Part;
 use \PartKeepr\PartBundle\Entity\PartCategory;

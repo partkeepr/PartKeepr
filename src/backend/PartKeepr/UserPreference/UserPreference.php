@@ -3,7 +3,7 @@ namespace PartKeepr\UserPreference;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\NoResultException;
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
 use PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException;
 use PartKeepr\Util\Exceptions\EntityNotPersistantException;
@@ -39,16 +39,18 @@ class UserPreference implements Serializable {
 	
 	/**
 	 * Defines the user
-	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User\User")
-	 * @ORM\Id
-	 * @var User
+	 * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
+	 *
+*@ORM\Id
+	 * @var \PartKeepr\AuthBundle\Entity\User
 	 */
 	private $user;
 	
 	
 	/**
 	 * Sets the user for this entry
-	 * @param User $user
+	 *
+*@param \PartKeepr\AuthBundle\Entity\User $user
 	 */
 	public function setUser (User $user) {
 		$this->user = $user;
@@ -57,7 +59,7 @@ class UserPreference implements Serializable {
 	/**
 	 * Returns the user associated with this entry
 	 *
-*@return \PartKeepr\AuthBundle\Entity\User\User
+*@return \PartKeepr\AuthBundle\Entity\User
 	 */
 	public function getUser () {
 		return $this->user;
@@ -159,8 +161,10 @@ class UserPreference implements Serializable {
 	
 	/**
 	 * Returns all preferences for the given user
-	 * @param User $user The user
-	 * @throws EntityNotPersistantException Thrown if the user entity is not persistent
+	 *
+*@param \PartKeepr\AuthBundle\Entity\User $user The user
+	 *
+*@throws EntityNotPersistantException Thrown if the user entity is not persistent
 	 */
 	public static function getPreferences (User $user) {
 		if (!PartKeepr::getEM()->contains($user)) {
@@ -178,9 +182,10 @@ class UserPreference implements Serializable {
 	/**
 	 * Returns a specific preference object for the given user
 	 *
-	 * @param User $user		The user to retrieve the preference for
+	 * @param \PartKeepr\AuthBundle\Entity\User $user		The user to retrieve the preference for
 	 * @param string $key		The preference key to retrieve
-	 * @return UserPreference	The preference object
+	 *
+*@return UserPreference	The preference object
 	 * @throws UserPreferenceNotFoundException	Thrown if the preference key was not found
 	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
@@ -206,10 +211,11 @@ class UserPreference implements Serializable {
 	
 	/**
 	 * Removes a specific setting for a specific user.
-	 * 
-	 * @param User $user	The user to delete the preference for
+	 *
+	 * @param \PartKeepr\AuthBundle\Entity\User $user	The user to delete the preference for
 	 * @param string $key	The key to delete
-	 * @throws EntityNotPersistantException		Thrown if the entity is not persistant
+	 *
+*@throws EntityNotPersistantException		Thrown if the entity is not persistant
 	 */
 	public static function deletePreference (User $user, $key) {
 		if (!PartKeepr::getEM()->contains($user)) {

@@ -47,7 +47,9 @@
     "moontoast/math": "^1.1",
     "doctrine/migrations": "dev-master",
     "doctrine/doctrine-migrations-bundle": "dev-master",
-    "stof/doctrine-extensions-bundle": "~1.1@dev"
+    "stof/doctrine-extensions-bundle": "~1.1@dev",
+    "friendsofsymfony/user-bundle": "~2.0@dev",
+    "escapestudios/wsse-authentication-bundle": "2.3.x-dev"
   },
   "require-dev": {
     "phpunit/phpunit": "4.7.*",

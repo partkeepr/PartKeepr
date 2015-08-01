@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\Service;
 
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Entity\User\UserManager;
 use PartKeepr\PartKeepr;
 use PartKeepr\REST\Request;

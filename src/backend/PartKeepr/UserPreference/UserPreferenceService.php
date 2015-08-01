@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\UserPreference;
 
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
 use PartKeepr\Service\RestfulService;
 use PartKeepr\Service\Service;

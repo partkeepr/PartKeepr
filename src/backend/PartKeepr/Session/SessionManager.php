@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\Session;
 
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
 use PartKeepr\Session\Exceptions\SessionNotFoundException;
 use PartKeepr\Util\Singleton;

@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\UserPreference\Exceptions;
 
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\SerializableException;
 

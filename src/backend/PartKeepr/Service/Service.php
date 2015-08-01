@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\Service;
 
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\Service\Exceptions\ServiceException;
 use PartKeepr\Session\SessionManager;
 
@@ -48,7 +48,7 @@ class Service {
 	/**
 	 * Returns the current user for this session
 	 * 
-	 * @return User The user
+	 * @return \PartKeepr\AuthBundle\Entity\User The user
 	 */
 	public function getUser () {
 		return SessionManager::getCurrentSession()->getUser();

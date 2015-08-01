@@ -2,7 +2,7 @@
 namespace PartKeepr\AuthBundle\Console\Command;
 
 use Doctrine\ORM\EntityManager;
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

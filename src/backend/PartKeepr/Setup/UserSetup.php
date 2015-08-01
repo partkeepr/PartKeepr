@@ -1,14 +1,14 @@
 <?php
 namespace PartKeepr\Setup;
 
-use PartKeepr\AuthBundle\Entity\User\User;
+use PartKeepr\AuthBundle\Entity\User;
 
 /**
  * Creates a new admin user, but only if no admin user exists.
  */
 class UserSetup extends AbstractSetup {
 	public function run () {
-		$dql = "SELECT COUNT(u) FROM PartKeepr\AuthBundle\Entity\User\User u WHERE u.username = :username OR u.admin = :admin";
+		$dql = "SELECT COUNT(u) FROM PartKeepr\AuthBundle\Entity\User u WHERE u.username = :username OR u.admin = :admin";
 		$query = $this->entityManager->createQuery($dql);
 		$query->setParameter("username", "admin");
 		$query->setParameter("admin", true);
