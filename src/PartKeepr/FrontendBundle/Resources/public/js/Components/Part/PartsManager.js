@@ -57,12 +57,8 @@ Ext.define('PartKeepr.PartManager', {
 		this.tree = Ext.create("PartKeepr.PartCategoryTree", treeConfig);
 		
 		// Trigger a grid reload on category change
-		this.tree.on("selectionchange", Ext.bind(function (t,s) {
-			if (s.length > 0) {
-				this.grid.setCategory(s[0].get("id"));
-			}
-		}, this));
-		
+		this.tree.on("itemclick", this.onCategoryClick, this);
+
 		// Create the detail panel
 		this.detail = Ext.create("PartKeepr.PartDisplay", { title: i18n("Part Details") });
 		this.detail.on("editPart", this.onEditPart, this);
@@ -153,6 +149,40 @@ Ext.define('PartKeepr.PartManager', {
 
 		this.callParent();
 	},
+	/**
+     * Applies the category filter to the store when a category is selected
+     *
+     * @param {Ext.tree.View} tree The tree view
+     * @param {Ext.data.Model} record the selected record
+     */
+    onCategoryClick: function (tree, record)
+    {
+        var filter = Ext.create("Ext.util.Filter", {
+            property: 'category',
+            operator: 'IN',
+            value: this.getChildrenIds(record)
+        });
+
+        this.store.addFilter(filter);
+    },
+	/**
+     * Returns the ID for this node and all child nodes
+     *
+     * @param {Ext.data.Model} The node
+     * @return Array
+     */
+    getChildrenIds: function (node)
+    {
+        var childNodes = [node.getId()];
+
+        if (node.hasChildNodes()) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                childNodes = childNodes.concat(this.getChildrenIds(node.childNodes[i]));
+            }
+        }
+
+        return childNodes;
+    },
 	/**
 	 * Called when the sync button was clicked. Highlights the category
 	 * of the selected part for a short time. We can't select the category
