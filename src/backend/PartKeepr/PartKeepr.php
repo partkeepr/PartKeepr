@@ -197,8 +197,8 @@ class PartKeepr {
 			'PartKeepr\Unit\Unit',
 			'PartKeepr\PartParameter\PartParameter',
 			
-			'PartKeepr\TipOfTheDay\TipOfTheDay',
-			'PartKeepr\TipOfTheDay\TipOfTheDayHistory',
+			'PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay',
+			'PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory',
 			'PartKeepr\UserPreference\UserPreference',
 			'PartKeepr\SystemNotice\SystemNotice',
 			'PartKeepr\CronLogger\CronLogger'

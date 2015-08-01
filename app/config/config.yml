@@ -707,3 +707,16 @@ services:
                     arguments: [ [ "@resource.tempfile.collection_operation.custom_post" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.tempfile.item_operation.get", "@resource.tempfile.item_operation.custom_get", "@resource.tempfile.item_operation.custom_get_mimetype", "@resource.tempfile.collection_operation.custom_post_webcam" ] ]
+
+    resource.tip_of_the_day:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\TipOfTheDayBundle\\Entity\\TipOfTheDay" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }

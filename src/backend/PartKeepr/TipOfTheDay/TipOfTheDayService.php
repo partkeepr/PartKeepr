@@ -5,6 +5,7 @@ use PartKeepr\PartKeepr;
 use PartKeepr\Service\RestfulService;
 use PartKeepr\Service\Service;
 use PartKeepr\Session\SessionManager;
+use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory;
 use PartKeepr\Util\Configuration;
 
 class TipOfTheDayService extends Service implements RestfulService {
@@ -18,8 +19,8 @@ class TipOfTheDayService extends Service implements RestfulService {
 		$url = Configuration::getOption("partkeepr.tipoftheday.wiki", "http://partkeepr.org/wiki/index.php/");
 		
 		/* Extract all tips which aren't read */ 
-		$dql =  "SELECT d FROM PartKeepr\TipOfTheDay\TipOfTheDay d WHERE d.name NOT IN ";
-		$dql .= "(SELECT dh.name FROM PartKeepr\TipOfTheDay\TipOfTheDayHistory dh WHERE dh.user = :user)";
+		$dql =  "SELECT d FROM PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay d WHERE d.name NOT IN ";
+		$dql .= "(SELECT dh.name FROM PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory dh WHERE dh.user = :user)";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
 		$query->setParameter("user", SessionManager::getCurrentSession()->getUser());
@@ -32,8 +33,8 @@ class TipOfTheDayService extends Service implements RestfulService {
 		}
 		
 		/* Extract all tips which are read */ 
-		$dql =  "SELECT d FROM PartKeepr\TipOfTheDay\TipOfTheDay d WHERE d.name IN ";
-		$dql .= "(SELECT dh.name FROM PartKeepr\TipOfTheDay\TipOfTheDayHistory dh WHERE dh.user = :user)";
+		$dql =  "SELECT d FROM PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay d WHERE d.name IN ";
+		$dql .= "(SELECT dh.name FROM PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory dh WHERE dh.user = :user)";
 		
 		$query = PartKeepr::getEM()->createQuery($dql);
 		$query->setParameter("user", SessionManager::getCurrentSession()->getUser());
@@ -77,7 +78,7 @@ class TipOfTheDayService extends Service implements RestfulService {
 	 * Marks all tips as unread for the current user
 	 */
 	public function markAllTipsAsUnread () {
-		$dql = "DELETE FROM PartKeepr\TipOfTheDay\TipOfTheDayHistory th WHERE th.user = :user";
+		$dql = "DELETE FROM PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory th WHERE th.user = :user";
 		$query = PartKeepr::getEM()->createQuery($dql);
 		$query->setParameter("user", $this->getUser());
 		$query->execute();
