@@ -1,9 +1,9 @@
 <?php
 namespace PartKeepr\PartBundle\Controller;
 
-use PartKeepr\UploadedFileBundle\Controller\FileController;
+use PartKeepr\ImageBundle\Controller\ImageController;
 
-class PartAttachmentController extends FileController
+class PartAttachmentController extends ImageController
 {
     /**
      * @inheritdoc

@@ -2,6 +2,7 @@
 namespace PartKeepr\ImageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\Util\BaseEntity;
 
 /**
@@ -40,10 +41,10 @@ class CachedImage extends BaseEntity
     /**
      * Creates a new cache entry for a specific image.
      *
-     * @param Image  $image     The image to cache
-     * @param string $cacheFile The file which holds the cached image
+     * @param UploadedFile $image     The image to cache
+     * @param string       $cacheFile The file which holds the cached image
      */
-    public function __construct(Image $image, $cacheFile)
+    public function __construct(UploadedFile $image, $cacheFile)
     {
         $this->originalId = (int)$image->getId();
         $this->originalType = $image->getType();
@@ -62,17 +63,21 @@ class CachedImage extends BaseEntity
 
     /**
      * Returns the original ID
+     *
      * @return int
      */
-    public function getOriginalId () {
+    public function getOriginalId()
+    {
         return $this->originalId;
     }
 
     /**
      * Returns the original type
+     *
      * @return string
      */
-    public function getOriginalType () {
+    public function getOriginalType()
+    {
         return $this->originalType;
     }
 }

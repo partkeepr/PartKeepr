@@ -11,6 +11,7 @@ use PartKeepr\ImageBundle\Entity\CachedImage;
 use PartKeepr\ImageBundle\Entity\Image as PartKeeprImage;
 use PartKeepr\ImageBundle\Response\ImageNotFoundResponse;
 use PartKeepr\UploadedFileBundle\Controller\FileController;
+use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -95,14 +96,14 @@ abstract class ImageController extends FileController
     /**
      * Scales the image to fit within the given size.
      *
-     * @param PartKeeprImage $image   The image to scale
+     * @param UploadedFile   $image   The image to scale
      * @param int            $width   The width
      * @param int            $height  The height
      * @param boolean        $padding If true, pad the output image to the given size (transparent background).
      *
      * @return string The path to the scaled file
      */
-    public function fitWithin(PartKeeprImage $image, $width, $height, $padding = false)
+    public function fitWithin(UploadedFile $image, $width, $height, $padding = false)
     {
         $this->ensureCacheDirExists();
 
@@ -132,14 +133,14 @@ abstract class ImageController extends FileController
     /**
      * Returns the path to an image which has been cached in a particular width, height and mode.
      *
-     * @param PartKeeprImage $image  The image
+     * @param UploadedFile   $image  The image
      * @param integer        $width  The width
      * @param integer        $height The height
      * @param string         $mode   The mode
      *
      * @return string
      */
-    public function getImageCacheFilename(PartKeeprImage $image, $width, $height, $mode)
+    public function getImageCacheFilename(UploadedFile $image, $width, $height, $mode)
     {
         $outputFile = $this->getImageCacheDirectory();
         $outputFile .= "/".sha1($image->getFilename());
@@ -151,14 +152,14 @@ abstract class ImageController extends FileController
     /**
      * Checks if the database contains the cache file.
      *
-     * @param PartKeeprImage $image
+     * @param UploadedFile   $image
      * @param                $width
      * @param                $height
      * @param                $mode
      *
      * @return bool
      */
-    protected function hasCacheFile(PartKeeprImage $image, $width, $height, $mode)
+    protected function hasCacheFile(UploadedFile $image, $width, $height, $mode)
     {
         $cacheFilename = $this->getImageCacheFilename($image, $width, $height, $mode);
 

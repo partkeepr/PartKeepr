@@ -343,6 +343,21 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.part_attachment.item_operation.custom_get_image:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.part_attachment"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/part_attachments/{id}/getImage"           # Path
+             -    "PartKeeprPartBundle:PartAttachment:getImage"         # Controller
+             -    "PartAttachmentGetImage"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
     resource.part_attachment.item_operation.custom_get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -385,7 +400,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.part_attachment.item_operation.get", "@resource.part_attachment.item_operation.custom_get", "@resource.part_attachment.item_operation.custom_get_mime"  ] ]
+                    arguments: [ [ "@resource.part_attachment.item_operation.get", "@resource.part_attachment.item_operation.custom_get", "@resource.part_attachment.item_operation.custom_get_mime", "@resource.part_attachment.item_operation.custom_get_image"  ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
