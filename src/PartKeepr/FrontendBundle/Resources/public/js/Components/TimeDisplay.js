@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.TimeDisplay', {
-	extend: 'Ext.Toolbar.TextItem',
+    extend: 'Ext.Toolbar.TextItem',
 
     /**
      * Holds the time update task
@@ -25,7 +25,8 @@ Ext.define('PartKeepr.TimeDisplay', {
      * @param none
      * @return nothing
      */
-    initComponent: function () {
+    initComponent: function ()
+    {
         this.callParent();
 
         this.dateFormat = Ext.getDateFormat();
@@ -35,33 +36,16 @@ Ext.define('PartKeepr.TimeDisplay', {
             interval: 280, // Update every 280ms. This is NOT 1 second due to overhead, causing skipping seconds
             scope: this
         };
-
-        this.updateLayoutTask = {
-            run: this.updateLayoutPriv,
-            interval: 10000,
-            scope: this
-        };
     },
     /**
      * Start both updating tasks just before rendering starts.
      * @param none
      * @return nothing
      */
-    beforeRender: function () {
+    beforeRender: function ()
+    {
         this.callParent();
         Ext.TaskManager.start(this.updateTimeTask);
-        Ext.TaskManager.start(this.updateLayoutTask);
-    },
-    /**
-     * Assigns the new dateFormat, updates the time and calls updateLayout().
-     *
-     * @param none
-     * @return nothing
-     */
-    updateLayoutPriv: function () {
-        this.dateFormat = Ext.getDateFormat();
-        this.updateTime();
-        this.updateLayout();
     },
     /**
      * Updates the time. Avoids setText because it's slow.
@@ -69,24 +53,24 @@ Ext.define('PartKeepr.TimeDisplay', {
      * @param none
      * @return nothing
      */
-    updateTime: function () {
+    updateTime: function ()
+    {
         var dt = new Date();
 
         var format = Ext.getDateFormat();
         var string = Ext.Date.format(dt, format);
 
         this.el.update(string);
-        delete dt;
-	},
+    },
     /**
      * When the widget is removed, destroy both tasks.
-     * 
+     *
      * @param none
      * @return nothing
      */
-    onDestroy: function () {
+    onDestroy: function ()
+    {
         Ext.TaskManager.stop(this.updateTimeTask);
-        Ext.TaskManager.stop(this.updateLayoutTask);
     }
 });
 
