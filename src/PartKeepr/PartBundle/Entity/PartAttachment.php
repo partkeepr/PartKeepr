@@ -3,6 +3,7 @@ namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Holds a part attachment
@@ -14,7 +15,7 @@ class PartAttachment extends UploadedFile
     /**
      * Defines if the attachment is an image.
      * @ORM\Column(type="boolean",nullable=true)
-     *
+     * @Groups({"default"})
      * @var boolean
      */
     private $isImage;
@@ -62,9 +63,8 @@ class PartAttachment extends UploadedFile
      *
      * @return True if the attachment is an image, false otherwise
      */
-    public function isImage()
+    public function getIsImage()
     {
-        //@todo: Reimplement check if attachment is an image
-        return false;
+        return $this->isImage;
     }
 }

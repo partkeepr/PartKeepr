@@ -163,7 +163,7 @@ Ext.define('PartKeepr.PartDisplay', {
 
         for (i in recordData) {
             if (recordData[i] !== null) {
-                values[i] = htmlentities(recordData[i]);
+                values[i] = htmlentities(recordData[i]); // phpjs
             } else {
                 values[i] = recordData[i];
             }
