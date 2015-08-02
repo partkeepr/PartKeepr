@@ -6,8 +6,7 @@ Ext.define('PartKeepr.PartImageDisplay', {
     extend: 'Ext.panel.Panel',
 
     displayedImageIndex: 0,
-    maxHeight: 256,
-
+    imageMaxHeight: 150,
     layout: 'hbox',
     border: false,
 
@@ -22,7 +21,7 @@ Ext.define('PartKeepr.PartImageDisplay', {
         this.prevButton = Ext.create("Ext.button.Button", {
             text: '<',
             width: 20,
-            height: this.maxHeight,
+            height: this.imageMaxHeight,
             handler: this.onPreviousClick,
             scope: this
         });
@@ -30,16 +29,16 @@ Ext.define('PartKeepr.PartImageDisplay', {
         this.nextButton = Ext.create("Ext.button.Button", {
             text: '>',
             width: 20,
-            height: this.maxHeight,
+            height: this.imageMaxHeight,
             handler: this.onNextClick,
             scope: this
         });
 
         this.image = Ext.create("Ext.Img", {
-            maxHeight: this.maxHeight,
+            maxHeight: this.imageMaxHeight,
             autoEl: 'div',
-            height: this.maxHeight,
-            flex: 1
+            height: this.imageMaxHeight,
+            width: 200
         });
 
         this.items = [this.prevButton, this.image, this.nextButton];
@@ -74,7 +73,7 @@ Ext.define('PartKeepr.PartImageDisplay', {
         var image = this.store.getAt(this.displayedImageIndex);
 
         if (image) {
-            this.image.setSrc( image.getId() + "/getImage");
+            this.image.setSrc( image.getId() + "/getImage?maxHeight="+this.imageMaxHeight+ "&ts=" + new Date().getTime());
         }
     },
     /**
@@ -82,7 +81,7 @@ Ext.define('PartKeepr.PartImageDisplay', {
      */
     onNextClick: function ()
     {
-        if (this.displayedImageIndex < this.store.getCount()) {
+        if (this.displayedImageIndex < this.store.getCount() - 1) {
             this.displayedImageIndex++;
         }
 

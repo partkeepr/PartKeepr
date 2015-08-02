@@ -6,70 +6,51 @@ Ext.define('PartKeepr.PartDisplay', {
     extend: 'Ext.panel.Panel',
     bodyCls: 'partdisplay',
 
-    autoScroll: true,
+    overflowY: 'auto',
+
+    fieldConfigs:
+        {
+            categoryName: {
+                displayName: i18n("Category Name")
+            },
+            stockLevel: {
+                displayName: i18n("Stock Level")
+            },
+            minStockLevel: {
+                displayName: i18n("Minimum Stock Level")
+            },
+            footprintName: {
+                displayName: i18n("Footprint")
+            },
+            storageLocationName: {
+                displayName: i18n("Storage Location")
+            },
+            comment: {
+                displayName: i18n("Comment")
+            },
+            createDate: {
+                displayName: i18n("Create Date")
+            },
+            status: {
+                displayName: i18n("Status")
+            },
+            partCondition: {
+                displayName: i18n("Condition")
+            },
+            needsReview: {
+                displayName: i18n("Needs Review")
+            },
+            projects: {
+                displayName: i18n("Projects")
+            }
+        }
+    ,
 
     /**
      * Initializes the component and adds a template as well as the add/remove stock and edit part buttons.
      */
     initComponent: function ()
     {
-        /**
-         * Create the template
-         */
-        this.infoTpl = new Ext.XTemplate(
-            '<h1>{name}</h1>',
-            '<h2>{description}</h2>',
-            '<table>',
-            '<tr>',
-            '<td class="o">' + i18n("Category") + ':</td>',
-            '<td style="width: 100%;" class="o">{categoryName}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="e">' + i18n("Stock Level") + ':</td>',
-            '<td class="e">{stockLevel}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="o">' + i18n("Minimum Stock Level") + ':</td>',
-            '<td class="o">{minStockLevel}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="e">' + i18n("Footprint") + ':</td>',
-            '<td class="e">{footprintName}</td>',
-            '</tr>',
-            '<tr>',
-            '<td style="white-space: nowrap;" class="o">' + i18n("Storage Location") + ':</td>',
-            '<td class="o">{storageLocationName}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="e">' + i18n("Comment") + ':</td>',
-            '<td class="e">{comment}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="o">' + i18n("Create Date") + ':</td>',
-            '<td class="o">{createDate}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="e">' + i18n("Status") + ':</td>',
-            '<td class="e">{status}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="o">' + i18n("Condition") + ':</td>',
-            '<td class="o">{partCondition}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="e">' + i18n("Needs Review") + ':</td>',
-            '<td class="e">{needsReview}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="o">' + i18n("Internal ID") + ':</td>',
-            '<td class="o">{id}</td>',
-            '</tr>',
-            '<tr>',
-            '<td class="e">' + i18n("Used in projects") + ':</td>',
-            '<td class="e">{[ (values.projects == "") ? "' + i18n("none") + '" : values.projects ]}</td>',
-            '</tr>',
-            '</table>');
-
         /**
          * Create the "add stock" button
          */
@@ -124,6 +105,7 @@ Ext.define('PartKeepr.PartDisplay', {
             itemSelector: 'div.foobar',
             selectedItemCls: "",
             focusCls: "",
+            margin: 5,
             emptyText: i18n("No attachments"),
             tpl: [
                 '<tpl for=".">',
@@ -135,10 +117,18 @@ Ext.define('PartKeepr.PartDisplay', {
         this.imageDisplay = Ext.create("PartKeepr.PartImageDisplay", {
             title: i18n("Images"),
         });
-        this.infoContainer = Ext.create("Ext.container.Container", {});
+
+        this.infoGrid = Ext.create("Ext.grid.property.Grid", {
+            hideHeaders: true,
+            title: {
+                height: 'auto',
+                cls: 'x-title-wrappable-text'
+            },
+             sourceConfig: this.fieldConfigs
+        });
 
         this.items = [
-            this.infoContainer, {
+            this.infoGrid, {
                 xtype: 'panel',
                 title: i18n("Attachments"),
                 items: this.attachmentDisplay
@@ -157,24 +147,26 @@ Ext.define('PartKeepr.PartDisplay', {
         this.record = r;
 
         var values = {};
-        var i;
 
         var recordData = this.record.getData();
 
-        for (i in recordData) {
-            if (recordData[i] !== null) {
-                values[i] = htmlentities(recordData[i]); // phpjs
-            } else {
-                values[i] = recordData[i];
+        for (var i in recordData) {
+            if (this.fieldConfigs[i]) {
+                if (recordData[i] !== null) {
+                    values[i] = htmlentities(recordData[i]); // phpjs
+                } else {
+                    values[i] = recordData[i];
+                }
             }
         }
 
         this.attachmentDisplay.bindStore(this.record.attachments());
-        this.infoTpl.overwrite(this.infoContainer.getEl(), values);
+        this.infoGrid.setSource(values);
+        this.infoGrid.setTitle("<div>"+this.record.get("name") + "</div><small>"+this.record.get("description")+"</small>");
         this.imageDisplay.setStore(this.record.attachments());
 
         // Scroll the container to top in case the user scrolled the part, then switched to another part
-        this.getTargetEl().scrollTo("top", 0);
+        this.scrollTo(0, 0);
 
     },
     /**

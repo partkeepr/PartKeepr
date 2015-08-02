@@ -22,3 +22,19 @@
     border: 1px solid black;
     text-align: center;
 }
+
+.x-title-wrappable-text>div {
+    overflow: auto;
+    white-space: normal;
+    vertical-align: top;
+}
+
+.x-title-wrappable-text>div>div {
+    font-size: 20px;
+    line-height: normal;
+}
+
+.x-title-wrappable-text small {
+    font-size: 14px;
+    line-height: 16px;
+}
