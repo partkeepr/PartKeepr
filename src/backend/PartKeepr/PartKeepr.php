@@ -164,7 +164,7 @@ class PartKeepr {
 			'PartKeepr\Part\PartManufacturer',
 			'PartKeepr\Part\PartDistributor',
 			'PartKeepr\Part\PartImage',
-			'PartKeepr\Part\PartAttachment',
+			'PartKeepr\PartBundle\Entity\PartAttachment',
 			'PartKeepr\PartBundle\Entity\PartCategory',
 				
 			'PartKeepr\Printing\PageBasicLayout\PageBasicLayout',

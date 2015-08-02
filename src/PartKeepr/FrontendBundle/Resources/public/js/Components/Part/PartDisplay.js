@@ -16,7 +16,7 @@ Ext.define('PartKeepr.PartDisplay', {
         /**
          * Create the template
          */
-        this.tpl = new Ext.XTemplate(
+        this.infoTpl = new Ext.XTemplate(
             '<h1>{name}</h1>',
             '<h2>{description}</h2>',
             '<table>',
@@ -68,14 +68,6 @@ Ext.define('PartKeepr.PartDisplay', {
             '<td class="e">' + i18n("Used in projects") + ':</td>',
             '<td class="e">{[ (values.projects == "") ? "' + i18n("none") + '" : values.projects ]}</td>',
             '</tr>',
-            '<tr>',
-            '<td class="o">' + i18n("Attachments") + ':</td>',
-            '<td class="o">' +
-            '<tpl for="values.processedAttachments">' +
-            '<p><a href="{link}" target="_blank">{data.originalFilename}</a></p>' +
-            '</tpl>' +
-            '</td>' +
-            '</tr>',
             '</table>');
 
         /**
@@ -104,7 +96,7 @@ Ext.define('PartKeepr.PartDisplay', {
             icon: 'resources/silkicons/brick_edit.png',
             handler: Ext.bind(function ()
             {
-                this.fireEvent("editPart", this.record.get("id"));
+                this.fireEvent("editPart", this.record.getId());
             }, this)
         });
 
@@ -126,10 +118,32 @@ Ext.define('PartKeepr.PartDisplay', {
          * @todo Add the events "addStock" and "removeStock" and manage these events from the PartManager.
          */
 
-        this.imageDisplay = Ext.create("PartKeepr.PartImageDisplay");
-        this.infoContainer = Ext.create("Ext.container.Container");
+        this.attachmentDisplay = Ext.create("Ext.view.View", {
+            title: "Foobar",
+            store: null,
+            itemSelector: 'div.foobar',
+            selectedItemCls: "",
+            focusCls: "",
+            emptyText: i18n("No attachments"),
+            tpl: [
+                '<tpl for=".">',
+                '<div class="foobar"><a href="{[values["@id"]]}/getFile" target="_blank">{[values.originalFilename]}</a></div>',
+                '</tpl>'
+            ]
+        });
 
-        this.items = [this.infoContainer, this.imageDisplay];
+        this.imageDisplay = Ext.create("PartKeepr.PartImageDisplay", {
+            title: i18n("Images"),
+        });
+        this.infoContainer = Ext.create("Ext.container.Container", {});
+
+        this.items = [
+            this.infoContainer, {
+                xtype: 'panel',
+                title: i18n("Attachments"),
+                items: this.attachmentDisplay
+            }, this.imageDisplay
+        ];
         this.callParent();
     },
     /**
@@ -155,15 +169,8 @@ Ext.define('PartKeepr.PartDisplay', {
             }
         }
 
-        values.processedAttachments = this.record.attachments().data;
-
-        for (i = 0; i < values.processedAttachments.getCount(); i++) {
-            var data = values.processedAttachments.getAt(i);
-
-            data.link = "file.php?type=PartAttachment&id=" + data.internalId;
-        }
-
-        this.tpl.overwrite(this.infoContainer.getEl(), values);
+        this.attachmentDisplay.bindStore(this.record.attachments());
+        this.infoTpl.overwrite(this.infoContainer.getEl(), values);
         this.imageDisplay.setStore(this.record.attachments());
 
         // Scroll the container to top in case the user scrolled the part, then switched to another part
@@ -210,7 +217,7 @@ Ext.define('PartKeepr.PartDisplay', {
             "Part",
             "deleteStock");
         call.setParameter("stock", quantity);
-        call.setParameter("part", this.record.get("id"));
+        call.setParameter("part", this.record.getId());
         call.setHandler(Ext.bind(this.reloadPart, this));
         call.doCall();
     },
@@ -219,7 +226,7 @@ Ext.define('PartKeepr.PartDisplay', {
      */
     reloadPart: function ()
     {
-        this.loadPart(this.record.get("id"));
+        this.loadPart(this.record.getId());
     },
     /**
      * Load the part from the database.

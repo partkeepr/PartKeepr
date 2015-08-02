@@ -1,13 +1,12 @@
 <?php
 namespace PartKeepr\PartBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
-use Doctrine\Common\Collections\ArrayCollection;
 use PartKeepr\Part\Exceptions\CategoryNotAssignedException;
 use PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
-use PartKeepr\Part\PartAttachment;
 use PartKeepr\Part\PartImage;
 use PartKeepr\PartKeepr;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
@@ -28,12 +27,14 @@ class Part extends BaseEntity
     /**
      * The category of the part
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartCategory")
+     *
      * @var PartCategory
      */
     private $category;
 
     /**
      * The part's name
+     *
      * @ORM\Column
      * @Groups({"default"})
      * @var string
@@ -44,6 +45,7 @@ class Part extends BaseEntity
      * The part's short description
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $description;
@@ -68,6 +70,7 @@ class Part extends BaseEntity
     /**
      * Defines the storage location of this part
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
+     *
      * @var StorageLocation
      */
     private $storageLocation;
@@ -75,6 +78,7 @@ class Part extends BaseEntity
     /**
      * Holds the manufacturers which can manufacture this part
      * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
+     *
      * @var ArrayCollection
      */
     private $manufacturers;
@@ -82,6 +86,7 @@ class Part extends BaseEntity
     /**
      * Holds the distributors from where we can buy the part
      * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
+     *
      * @var ArrayCollection
      */
     private $distributors;
@@ -89,13 +94,16 @@ class Part extends BaseEntity
     /**
      * Holds the part images
      * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartImage",mappedBy="part",cascade={"persist", "remove"})
+     *
      * @var PartImage
      */
     private $images;
 
     /**
      * Holds the part attachments
-     * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartAttachment",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartAttachment",mappedBy="part",cascade={"persist", "remove"})
+     * @Groups({"default"})
+     *
      * @var PartAttachment
      */
     private $attachments;
@@ -109,6 +117,7 @@ class Part extends BaseEntity
 
     /**
      * The stock level. Note that this is a cached value, because it makes our summary queries easier.
+     *
      * @todo It would be nice if we could get rid of that.
      * @ORM\Column(type="integer")
      * @Groups({"default"})
@@ -137,6 +146,7 @@ class Part extends BaseEntity
     /**
      * The stock level history
      * @ORM\OneToMany(targetEntity="PartKeepr\Stock\StockEntry",mappedBy="part",cascade={"persist", "remove"})
+     *
      * @var ArrayCollection
      */
     private $stockLevels;
@@ -144,6 +154,7 @@ class Part extends BaseEntity
     /**
      * The parameters for this part
      * @ORM\OneToMany(targetEntity="PartKeepr\PartParameter\PartParameter",mappedBy="part",cascade={"persist", "remove"})
+     *
      * @var ArrayCollection
      */
     private $parameters;
@@ -151,6 +162,7 @@ class Part extends BaseEntity
     /**
      * The part status for this part
      * @ORM\Column(type="string",nullable=true)
+     *
      * @var string
      */
     private $status;
@@ -158,6 +170,7 @@ class Part extends BaseEntity
     /**
      * Defines if the part needs review
      * @ORM\Column(type="boolean")
+     *
      * @var boolean
      */
     private $needsReview;
@@ -165,6 +178,7 @@ class Part extends BaseEntity
     /**
      * Defines the condition of the part
      * @ORM\Column(type="string",nullable=true)
+     *
      * @var string
      */
     private $partCondition;
@@ -172,6 +186,7 @@ class Part extends BaseEntity
     /**
      * The create date+time for this part
      * @ORM\Column(type="datetime",nullable=true)
+     *
      * @var \DateTime
      */
     private $createDate;
@@ -184,6 +199,7 @@ class Part extends BaseEntity
     /**
      * The internal part number
      * @ORM\Column(type="string",nullable=true)
+     *
      * @var string
      */
     private $internalPartNumber;
@@ -201,6 +217,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the name for this part
+     *
      * @param string $name The part's name
      */
     public function setName($name)
@@ -210,6 +227,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the name of this part
+     *
      * @return string The part name
      */
     public function getName()
@@ -219,6 +237,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the internal part number for this part
+     *
      * @param string $partNumber
      */
     public function setInternalPartNumber($partNumber)
@@ -228,6 +247,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the internal part number for this part
+     *
      * @return string the internal part number
      */
     public function getInternalPartNumber()
@@ -237,6 +257,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the description for this part
+     *
      * @param string $description The part's short description
      */
     public function setDescription($description)
@@ -246,6 +267,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the short description of this part
+     *
      * @return string The part description
      */
     public function getDescription()
@@ -278,7 +300,9 @@ class Part extends BaseEntity
 
     /**
      * Sets the average price for this unit
+     *
      * @todo Is this actually used?
+     *
      * @param float $price The price to set
      */
     public function setAveragePrice($price)
@@ -296,6 +320,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the review flag
+     *
      * @param boolean $bReview True if the part needs review, false otherwise
      */
     public function setReviewFlag($bReview)
@@ -305,6 +330,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the review flag
+     *
      * @return boolean True if the part needs review, false otherwise
      */
     public function getReviewFlag()
@@ -314,6 +340,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the condition for this part
+     *
      * @param string $partCondition The part's condition
      */
     public function setCondition($partCondition)
@@ -323,6 +350,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the condition of this part
+     *
      * @return string The part condition
      */
     public function getCondition()
@@ -337,6 +365,7 @@ class Part extends BaseEntity
      * Only positive values are allowed.
      *
      * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
+     *
      * @throws \PartKeepr\Util\Exceptions\OutOfRangeException If the passed stock level is not in range (>=0)
      */
     public function setMinStockLevel($minStockLevel)
@@ -411,6 +440,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the comment for this part
+     *
      * @param string $comment The comment for this part
      */
     public function setComment($comment)
@@ -420,6 +450,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the comment for this part
+     *
      * @return string The comment
      */
     public function getComment()
@@ -429,6 +460,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the distributors array
+     *
      * @return ArrayCollection the distributors
      */
     public function getDistributors()
@@ -438,6 +470,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the part images array
+     *
      * @return ArrayCollection the part images
      */
     public function getImages()
@@ -447,6 +480,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the part attachments array
+     *
      * @return ArrayCollection the part attachments
      */
     public function getAttachments()
@@ -456,6 +490,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the manufacturers array
+     *
      * @return ArrayCollection the manufacturers
      */
     public function getManufacturers()
@@ -465,6 +500,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the parameters assigned to this part
+     *
      * @return array An array of PartParameter objects
      */
     public function getParameters()
@@ -475,6 +511,7 @@ class Part extends BaseEntity
     /**
      * Returns the stock level of this part. This is a real-time function which
      * actually creates a query over the StockEntry table.
+     *
      * @return int The stock level
      */
     public function getStockLevel()
@@ -483,13 +520,16 @@ class Part extends BaseEntity
         $query->setParameter("part", $this);
 
         $count = $query->getSingleScalarResult();
-        if ($count == null)
+        if ($count == null) {
             $count = 0;
+        }
+
         return $count;
     }
 
     /**
      * Sets the create date for this part
+     *
      * @param \DateTime $dateTime The create date+time
      */
     private function setCreateDate(\DateTime $dateTime)
@@ -499,6 +539,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the create date
+     *
      * @return \DateTime The create date+time
      */
     public function getCreateDate()
@@ -509,6 +550,7 @@ class Part extends BaseEntity
     /**
      * Sets the status for this part. A status is any string describing the status,
      * e.g. "new", "used", "broken" etc.
+     *
      * @param string $status The status
      */
     public function setStatus($status)
@@ -518,6 +560,7 @@ class Part extends BaseEntity
 
     /**
      * Returns the status for this part.
+     *
      * @return string The status
      */
     public function getStatus()
@@ -589,6 +632,7 @@ class Part extends BaseEntity
      * Checks if the requirements for database persisting are given.
      *
      * For a list of exceptions, see
+     *
      * @see PartKeepr\Part.Part::onPrePersist()
      *
      * @ORM\PreUpdate
@@ -603,11 +647,12 @@ class Part extends BaseEntity
      * Returns a string representation of the part
      *
      * @param none
+     *
      * @return string The name and the ID of the part
      */
     public function __toString()
     {
-        return $this->getName() . " (" . $this->getId() . ")";
+        return $this->getName()." (".$this->getId().")";
     }
 
 }

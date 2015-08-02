@@ -3,7 +3,7 @@ namespace PartKeepr\Setup\Migration\PartDB;
 
 use	PartKeepr\PartKeepr,
 	PartKeepr\PartBundle\Entity\Part,
-	PartKeepr\Part\PartAttachment,
+	PartKeepr\PartBundle\Entity\PartAttachment,
 	PartKeepr\Part\PartDistributor,
 	PartKeepr\Part\PartManager,
 	PartKeepr\Stock\StockEntry,

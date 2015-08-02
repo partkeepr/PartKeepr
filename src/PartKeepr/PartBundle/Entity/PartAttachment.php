@@ -1,8 +1,7 @@
 <?php
-namespace PartKeepr\Part;
+namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
