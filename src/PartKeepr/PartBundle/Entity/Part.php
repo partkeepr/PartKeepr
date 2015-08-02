@@ -162,7 +162,7 @@ class Part extends BaseEntity
     /**
      * The part status for this part
      * @ORM\Column(type="string",nullable=true)
-     *
+     * @Groups({"default"})
      * @var string
      */
     private $status;
@@ -170,7 +170,7 @@ class Part extends BaseEntity
     /**
      * Defines if the part needs review
      * @ORM\Column(type="boolean")
-     *
+     * @Groups({"default"})
      * @var boolean
      */
     private $needsReview;
@@ -178,7 +178,7 @@ class Part extends BaseEntity
     /**
      * Defines the condition of the part
      * @ORM\Column(type="string",nullable=true)
-     *
+     * @Groups({"default"})
      * @var string
      */
     private $partCondition;
@@ -186,7 +186,7 @@ class Part extends BaseEntity
     /**
      * The create date+time for this part
      * @ORM\Column(type="datetime",nullable=true)
-     *
+     * @Groups({"default"})
      * @var \DateTime
      */
     private $createDate;
@@ -199,7 +199,7 @@ class Part extends BaseEntity
     /**
      * The internal part number
      * @ORM\Column(type="string",nullable=true)
-     *
+     * @Groups({"default"})
      * @var string
      */
     private $internalPartNumber;

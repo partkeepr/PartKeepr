@@ -28,7 +28,14 @@ Ext.define('PartKeepr.PartDisplay', {
             displayName: i18n("Comment")
         },
         createDate: {
-            displayName: i18n("Create Date")
+            displayName: i18n("Create Date"),
+            type: 'date',
+            renderer: function (v)
+            {
+                "use strict";
+                var format = Ext.getDateFormat();
+                return Ext.Date.format(v, format);
+            }
         },
         status: {
             displayName: i18n("Status")
@@ -37,7 +44,8 @@ Ext.define('PartKeepr.PartDisplay', {
             displayName: i18n("Condition")
         },
         needsReview: {
-            displayName: i18n("Needs Review")
+            displayName: i18n("Needs Review"),
+            type: 'boolean'
         },
         projects: {
             displayName: i18n("Projects")
@@ -125,10 +133,12 @@ Ext.define('PartKeepr.PartDisplay', {
                 }
             },
             hideHeaders: true,
+            nameColumnWidth: 150,
             title: {
                 height: 'auto',
                 cls: 'x-title-wrappable-text'
             },
+            cls: 'x-wrappable-grid',
             sourceConfig: this.fieldConfigs
         });
 
@@ -157,7 +167,7 @@ Ext.define('PartKeepr.PartDisplay', {
 
         for (var i in recordData) {
             if (this.fieldConfigs[i]) {
-                if (recordData[i] !== null) {
+                if (typeof recordData[i] === "string") {
                     values[i] = htmlentities(recordData[i]); // phpjs
                 } else {
                     values[i] = recordData[i];

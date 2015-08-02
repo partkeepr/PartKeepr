@@ -38,3 +38,7 @@
     font-size: 14px;
     line-height: 16px;
 }
+
+.x-wrappable-grid .x-grid-cell-inner {
+    white-space: normal;
+}
