@@ -6,8 +6,7 @@ Ext.define('PartKeepr.PartImageDisplay', {
     extend: 'Ext.panel.Panel',
 
     displayedImageIndex: 0,
-    maxImageWidth: 200,
-    maxImageHeight: 150,
+    maxHeight: 256,
 
     layout: 'hbox',
     border: false,
@@ -23,7 +22,7 @@ Ext.define('PartKeepr.PartImageDisplay', {
         this.prevButton = Ext.create("Ext.button.Button", {
             text: '<',
             width: 20,
-            height: this.maxImageHeight,
+            height: this.maxHeight,
             handler: this.onPreviousClick,
             scope: this
         });
@@ -31,20 +30,19 @@ Ext.define('PartKeepr.PartImageDisplay', {
         this.nextButton = Ext.create("Ext.button.Button", {
             text: '>',
             width: 20,
-            height: this.maxImageHeight,
+            height: this.maxHeight,
             handler: this.onNextClick,
             scope: this
         });
 
-        this.imageDisplay = Ext.create("Ext.container.Container", {
-            height: this.maxImageHeight,
-            width: this.maxImageWidth,
-            style: 'align: center'
+        this.image = Ext.create("Ext.Img", {
+            maxHeight: this.maxHeight,
+            autoEl: 'div',
+            height: this.maxHeight,
+            flex: 1
         });
 
-        this.items = [this.prevButton, this.imageDisplay, this.nextButton];
-
-        this.tpl = new Ext.XTemplate('<img src="{image}/getFile"/>');
+        this.items = [this.prevButton, this.image, this.nextButton];
 
         this.callParent();
     },
@@ -76,7 +74,7 @@ Ext.define('PartKeepr.PartImageDisplay', {
         var image = this.store.getAt(this.displayedImageIndex);
 
         if (image) {
-            this.tpl.overwrite(this.imageDisplay.getEl(), {image: image.getId()});
+            this.image.setSrc( image.getId() + "/getImage");
         }
     },
     /**
