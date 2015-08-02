@@ -73,7 +73,9 @@ Ext.define('PartKeepr.PartImageDisplay', {
         var image = this.store.getAt(this.displayedImageIndex);
 
         if (image) {
-            this.image.setSrc( image.getId() + "/getImage?maxHeight="+this.imageMaxHeight+ "&ts=" + new Date().getTime());
+            this.image.setSrc(image.getId() + "/getImage?maxHeight=" + this.imageMaxHeight + "&ts=" + new Date().getTime());
+        } else {
+            this.image.setSrc(null);
         }
     },
     /**
