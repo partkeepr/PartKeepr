@@ -8,42 +8,41 @@ Ext.define('PartKeepr.PartDisplay', {
 
     overflowY: 'auto',
 
-    fieldConfigs:
-        {
-            categoryName: {
-                displayName: i18n("Category Name")
-            },
-            stockLevel: {
-                displayName: i18n("Stock Level")
-            },
-            minStockLevel: {
-                displayName: i18n("Minimum Stock Level")
-            },
-            footprintName: {
-                displayName: i18n("Footprint")
-            },
-            storageLocationName: {
-                displayName: i18n("Storage Location")
-            },
-            comment: {
-                displayName: i18n("Comment")
-            },
-            createDate: {
-                displayName: i18n("Create Date")
-            },
-            status: {
-                displayName: i18n("Status")
-            },
-            partCondition: {
-                displayName: i18n("Condition")
-            },
-            needsReview: {
-                displayName: i18n("Needs Review")
-            },
-            projects: {
-                displayName: i18n("Projects")
-            }
+    fieldConfigs: {
+        categoryName: {
+            displayName: i18n("Category Name")
+        },
+        stockLevel: {
+            displayName: i18n("Stock Level")
+        },
+        minStockLevel: {
+            displayName: i18n("Minimum Stock Level")
+        },
+        footprintName: {
+            displayName: i18n("Footprint")
+        },
+        storageLocationName: {
+            displayName: i18n("Storage Location")
+        },
+        comment: {
+            displayName: i18n("Comment")
+        },
+        createDate: {
+            displayName: i18n("Create Date")
+        },
+        status: {
+            displayName: i18n("Status")
+        },
+        partCondition: {
+            displayName: i18n("Condition")
+        },
+        needsReview: {
+            displayName: i18n("Needs Review")
+        },
+        projects: {
+            displayName: i18n("Projects")
         }
+    }
     ,
 
     /**
@@ -119,12 +118,18 @@ Ext.define('PartKeepr.PartDisplay', {
         });
 
         this.infoGrid = Ext.create("Ext.grid.property.Grid", {
+            listeners: {
+                'beforeedit': function (e)
+                {
+                    return false;
+                }
+            },
             hideHeaders: true,
             title: {
                 height: 'auto',
                 cls: 'x-title-wrappable-text'
             },
-             sourceConfig: this.fieldConfigs
+            sourceConfig: this.fieldConfigs
         });
 
         this.items = [
@@ -162,7 +167,7 @@ Ext.define('PartKeepr.PartDisplay', {
 
         this.attachmentDisplay.bindStore(this.record.attachments());
         this.infoGrid.setSource(values);
-        this.infoGrid.setTitle("<div>"+this.record.get("name") + "</div><small>"+this.record.get("description")+"</small>");
+        this.infoGrid.setTitle("<div>" + this.record.get("name") + "</div><small>" + this.record.get("description") + "</small>");
         this.imageDisplay.setStore(this.record.attachments());
 
         // Scroll the container to top in case the user scrolled the part, then switched to another part
