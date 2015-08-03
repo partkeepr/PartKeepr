@@ -173,6 +173,9 @@ class ReflectionService
             case "decimal":
                 return "number";
                 break;
+            case "array":
+                return "array";
+                break;
         }
 
         return "undefined";
