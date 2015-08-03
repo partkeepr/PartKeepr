@@ -7,6 +7,7 @@
     <services>
         <service id="partkeepr_systemservice" class="PartKeepr\CoreBundle\Services\SystemService">
             <argument type="service" id="doctrine"/>
+            <argument type="service" id="service_container"/>
         </service>
 
     </services>

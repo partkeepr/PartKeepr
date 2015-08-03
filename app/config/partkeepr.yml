@@ -1,5 +1,6 @@
 partkeepr:
   image_cache_directory: %kernel.cache_dir%/imagecache/
+  cronjob_check: false
   directories:
     iclogo: %kernel.root_dir%/../data/images/iclogo/
     temp: %kernel.root_dir%/../data/temp/

@@ -10,18 +10,21 @@ use PartKeepr\CronLogger\CronLoggerManager;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\Configuration;
 use Doctrine\ORM\Version as ORMVersion;
-use Doctrine\DBAL\Version as DBLAVersion;
+use Doctrine\DBAL\Version as DBALVersion;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-class SystemService
+class SystemService extends ContainerAware
 {
     /**
      * @var EntityManager
      */
     private $entityManager;
 
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, Container $container)
     {
         $this->entityManager = $doctrine->getManager();
+        $this->setContainer($container);
     }
 
     /**
@@ -37,7 +40,7 @@ class SystemService
         $aData = array();
 
         $aData[] = new SystemInformationRecord("Doctrine ORM", ORMVersion::VERSION, "Libraries");
-        $aData[] = new SystemInformationRecord("Doctrine DBAL", DBLAVersion::VERSION, "Libraries");
+        $aData[] = new SystemInformationRecord("Doctrine DBAL", DBALVersion::VERSION, "Libraries");
 
         $aData[] = new SystemInformationRecord("PHP Version", phpversion(), "System");
 
@@ -83,14 +86,12 @@ class SystemService
      */
     public function getSystemStatus()
     {
-
-        if (Configuration::getOption("partkeepr.cronjobs.disablecheck", false) === true) {
+        if ($this->container->getParameter("partkeepr.cronjob_check")) {
+            $inactiveCronjobs = CronLoggerManager::getInstance()->getInactiveCronjobs();
+        } else {
             // Skip cronjob tests
             $inactiveCronjobs = array();
-        } else {
-            $inactiveCronjobs = CronLoggerManager::getInstance()->getInactiveCronjobs();
         }
-
 
         return array(
             "inactiveCronjobCount" => count($inactiveCronjobs),

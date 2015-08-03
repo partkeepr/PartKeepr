@@ -215,7 +215,7 @@ Ext.application({
     			{
     				model: 'PartKeepr.FootprintBundle.Entity.Footprint',
     				pageSize: 99999999,
-    				autoLoad: false
+    				autoLoad: true
     			});
     	
     	this.siPrefixStore = Ext.create("Ext.data.Store",
@@ -229,35 +229,35 @@ Ext.application({
     			{
     				model: 'PartKeepr.DistributorBundle.Entity.Distributor',
     				pageSize: 99999999,
-    				autoLoad: false
+    				autoLoad: true
     			});
     	
     	this.manufacturerStore = Ext.create("Ext.data.Store",
     			{
     				model: 'PartKeepr.ManufacturerBundle.Entity.Manufacturer',
     				pageSize: 99999999,
-    				autoLoad: false
+    				autoLoad: true
     			});
     	
     	this.partUnitStore = Ext.create("Ext.data.Store",
     			{
     				model: 'PartKeepr.PartBundle.Entity.PartMeasurementUnit',
     				pageSize: 99999999,
-    				autoLoad: false
+    				autoLoad: true
     			});
     	
     	this.unitStore = Ext.create("Ext.data.Store",
     			{
     				model: 'PartKeepr.UnitBundle.Entity.Unit',
     				pageSize: 99999999,
-    				autoLoad: false
+    				autoLoad: true
     			});
     	
     	this.userStore = Ext.create("Ext.data.Store",
     			{
     				model: 'PartKeepr.AuthBundle.Entity.User.User',
     				pageSize: 99999999,
-    				autoLoad: false
+    				autoLoad: true
     			});
     	
     	this.tipOfTheDayStore = Ext.create("Ext.data.Store",
@@ -350,7 +350,7 @@ Ext.application({
     	return this.distributorStore;
     },
     getDefaultPartUnit: function () {
-    	return this.partUnitStore.findRecord("default", true);
+    	return this.partUnitStore.findRecord("isDefault", true);
     },
     getUserStore: function () {
     	return this.userStore;
