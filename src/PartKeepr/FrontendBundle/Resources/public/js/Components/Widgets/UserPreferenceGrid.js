@@ -36,7 +36,7 @@ Ext.define('PartKeepr.UserPreferenceGrid', {
         }];
 		this.store = Ext.create("Ext.data.Store", {
 			model: 'PartKeepr.UserPreference',
-			pageSize: -1
+			pageSize: 999999999
     	});
 		
 		this.callParent();

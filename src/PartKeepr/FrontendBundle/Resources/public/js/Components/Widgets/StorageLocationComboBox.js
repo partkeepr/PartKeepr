@@ -19,7 +19,7 @@ Ext.define("PartKeepr.StorageLocationComboBox",{
 		this.store = Ext.create("Ext.data.Store",
 			{
 				model: 'PartKeepr.StorageLocationBundle.Entity.StorageLocation',
-				pageSize: -1,
+				pageSize: 99999999,
 				autoLoad: true
 			});
 		
