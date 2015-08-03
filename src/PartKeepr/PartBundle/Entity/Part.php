@@ -14,7 +14,6 @@ use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  *
@@ -62,7 +61,7 @@ class Part extends BaseEntity
      * The unit in which the part's "amount" is calculated. This is necessary to count parts
      * in "pieces", "meters" or "grams".
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit", inversedBy="parts")
-     *
+     * @Groups({"default"})
      * @var PartMeasurementUnit
      */
     private $partUnit;
@@ -101,7 +100,8 @@ class Part extends BaseEntity
 
     /**
      * Holds the part attachments
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartAttachment",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartAttachment",
+     *                mappedBy="part",cascade={"persist", "remove"})
      * @Groups({"default"})
      *
      * @var PartAttachment
@@ -153,7 +153,8 @@ class Part extends BaseEntity
 
     /**
      * The parameters for this part
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartParameter\PartParameter",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartParameter\PartParameter",
+     *                mappedBy="part",cascade={"persist", "remove"})
      *
      * @var ArrayCollection
      */
@@ -654,5 +655,4 @@ class Part extends BaseEntity
     {
         return $this->getName()." (".$this->getId().")";
     }
-
 }
