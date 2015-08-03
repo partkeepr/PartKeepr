@@ -26,7 +26,7 @@ class Part extends BaseEntity
     /**
      * The category of the part
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartCategory")
-     *
+     * @Groups({"default"})
      * @var PartCategory
      */
     private $category;
@@ -379,6 +379,21 @@ class Part extends BaseEntity
             throw $exception;
         }
         $this->minStockLevel = $minStockLevel;
+    }
+
+    /**
+     * Returns the category path
+     * @Groups({"default"})
+     *
+     * @return string
+     */
+    public function getCategoryPath()
+    {
+        if ($this->category !== null) {
+            return $this->category->getCategoryPath();
+        } else {
+            return "";
+        }
     }
 
     /**

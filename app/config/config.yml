@@ -144,6 +144,13 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
+    part.category_path_listener:
+        class: PartKeepr\PartBundle\Listeners\CategoryPathListener
+        arguments:
+            - "@service_container"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
     my_event_listener:
         class:    PartKeepr\UploadedFileBundle\EventListener\TemporaryFileEventListener
         arguments:

@@ -285,8 +285,7 @@ Ext.define('PartKeepr.PartsGrid', {
                 renderer: this.footprintRenderer
             }, {
                 header: i18n("Category"),
-                dataIndex: 'categoryPath',
-                renderer: Ext.util.Format.htmlEncode,
+                renderer: this.categoryPathRenderer,
                 hidden: true
             }, {
                 header: i18n("Create Date"),
@@ -302,6 +301,13 @@ Ext.define('PartKeepr.PartsGrid', {
     storageLocationRenderer: function (val, q, rec)
     {
         return rec.getStorageLocation().get("name");
+    },
+    /**
+     * Renders the storage location
+     */
+    categoryPathRenderer: function (val, q, rec)
+    {
+        return rec.getCategory().get("categoryPath");
     },
     /**
      * Renders the storage location
