@@ -201,19 +201,21 @@ Ext.define('PartKeepr.PartManager', {
      */
     onSyncCategory: function ()
     {
-        var r = this.grid.getSelectionModel().getLastSelected();
+        var r = this.grid.getSelectionModel().getSelection();
+
+        if (r.length != 1) {
+            return;
+        }
 
         var rootNode = this.tree.getRootNode();
-        var cat = r.get("category");
+        var cat = r[0].getCategory().getId();
 
-        var node = rootNode.findChild("id", cat, true);
+        var node = rootNode.findChild("@id", cat, true);
 
-        this.tree.getView().ensureVisible(node);
-        this.tree.getView().scrollIntoView(node);
-
-        var htmlNode = new Ext.Element(this.tree.getView().getNode(node));
-
-        htmlNode.first().highlight("2aaad3");
+        if (node) {
+            this.tree.getView().ensureVisible(node);
+            this.tree.getView().focusNode(node);
+        }
     },
     /**
      * Called when the delete button was clicked.
