@@ -2,10 +2,10 @@
 namespace PartKeepr\TipOfTheDayBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Configuration;
-use PartKeepr\Util\Serializable;
 
 /**
  * Represents a tip of the day.
@@ -17,8 +17,9 @@ use PartKeepr\Util\Serializable;
  * Note: If you wish to link against a tip of the day, do it by name and not by id!
  *
  * @ORM\Entity
+ * @TargetService(uri="/api/tip_of_the_days")
  **/
-class TipOfTheDay extends BaseEntity implements Serializable
+class TipOfTheDay extends BaseEntity
 {
     /**
      * @ORM\Column(type="string")
@@ -114,13 +115,4 @@ class TipOfTheDay extends BaseEntity implements Serializable
         return $aPageNames;
     }
 
-    /**
-     * (non-PHPdoc)
-     *
-     * @see PartKeepr\Util.Serializable::serialize()
-     */
-    public function serialize()
-    {
-        return array("name" => $this->getName());
-    }
 }
