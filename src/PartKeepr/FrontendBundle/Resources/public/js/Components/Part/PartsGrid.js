@@ -282,8 +282,7 @@ Ext.define('PartKeepr.PartsGrid', {
                 renderer: this.averagePriceRenderer
             }, {
                 header: i18n("Footprint"),
-                dataIndex: 'footprintName',
-                renderer: Ext.util.Format.htmlEncode
+                renderer: this.footprintRenderer
             }, {
                 header: i18n("Category"),
                 dataIndex: 'categoryPath',
@@ -303,6 +302,15 @@ Ext.define('PartKeepr.PartsGrid', {
     storageLocationRenderer: function (val, q, rec)
     {
         return rec.getStorageLocation().get("name");
+    },
+    /**
+     * Renders the storage location
+     */
+    footprintRenderer: function (val, q, rec)
+    {
+        if (rec.getFootprint()) {
+            return rec.getFootprint().get("name");
+        }
     },
     /**
      * Used as renderer for the stock level columns.

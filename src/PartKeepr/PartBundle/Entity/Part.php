@@ -52,7 +52,7 @@ class Part extends BaseEntity
     /**
      * The footprint of this part
      * @ORM\ManyToOne(targetEntity="PartKeepr\FootprintBundle\Entity\Footprint")
-     *
+     * @Groups({"default"})
      * @var Footprint
      */
     private $footprint;
