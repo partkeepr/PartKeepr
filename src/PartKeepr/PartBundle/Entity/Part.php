@@ -69,7 +69,7 @@ class Part extends BaseEntity
     /**
      * Defines the storage location of this part
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
-     *
+     * @Groups({"default"})
      * @var StorageLocation
      */
     private $storageLocation;
