@@ -1,26 +1,43 @@
 <?php
-namespace PartKeepr\System;
+namespace PartKeepr\CoreBundle\Services;
 
-use PartKeepr\Util\Configuration,
-    PartKeepr\Service\Service,
-    PartKeepr\PartKeepr,
-    PartKeepr\CronLogger\CronLoggerManager,
-    PartKeepr\Util\OS\OperatingSystem;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\SchemaTool;
+use PartKeepr\CoreBundle\System\OperatingSystem;
+use PartKeepr\CoreBundle\System\SystemInformationRecord;
+use PartKeepr\CronLogger\CronLoggerManager;
+use PartKeepr\PartKeepr;
+use PartKeepr\Util\Configuration;
+use Doctrine\ORM\Version as ORMVersion;
+use Doctrine\DBAL\Version as DBLAVersion;
 
-class SystemService extends Service
+class SystemService
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+
+    public function __construct(Registry $doctrine)
+    {
+        $this->entityManager = $doctrine->getManager();
+    }
+
     /**
      * Returns a list of system information records.
      *
      * Please note that it is not defined which information is returned; the result
      * should be seen as "informational" to the system operator, not for automated purposes.
+     *
+     * @return SystemInformationRecord[] An array of SystemInformationRecords
      */
     public function getSystemInformation()
     {
         $aData = array();
 
-        $aData[] = new SystemInformationRecord("Doctrine ORM", \Doctrine\ORM\Version::VERSION, "Libraries");
-        $aData[] = new SystemInformationRecord("Doctrine DBAL", \Doctrine\DBAL\Version::VERSION, "Libraries");
+        $aData[] = new SystemInformationRecord("Doctrine ORM", ORMVersion::VERSION, "Libraries");
+        $aData[] = new SystemInformationRecord("Doctrine DBAL", DBLAVersion::VERSION, "Libraries");
 
         $aData[] = new SystemInformationRecord("PHP Version", phpversion(), "System");
 
@@ -35,8 +52,8 @@ class SystemService extends Service
         $aData[] = new SystemInformationRecord("allow_url_fopen", ini_get("allow_url_fopen"), "PHP");
         $aData[] = new SystemInformationRecord("max_execution_time", ini_get("max_execution_time"), "PHP");
 
-        $queryCache = get_class(PartKeepr::getEM()->getConfiguration()->getQueryCacheImpl());
-        $metadataCache = get_class(PartKeepr::getEM()->getConfiguration()->getMetadataCacheImpl());
+        $queryCache = get_class($this->entityManager->getConfiguration()->getQueryCacheImpl());
+        $metadataCache = get_class($this->entityManager->getConfiguration()->getMetadataCacheImpl());
 
         $aData[] = new SystemInformationRecord("Query Cache Implementation", $queryCache, "PHP");
         $aData[] = new SystemInformationRecord("Metadata Cache Implementation", $metadataCache, "PHP");
@@ -46,7 +63,6 @@ class SystemService extends Service
 
 
         foreach (Configuration::getOptions() as $key => $value) {
-
             // Hide passwords
             if ($key == "partkeepr.database.password" || $key == "partkeepr.migration.partdb.password") {
                 $value = "<hidden>";
@@ -77,12 +93,9 @@ class SystemService extends Service
 
 
         return array(
-            "data" =>
-                array(
-                    "inactiveCronjobCount" => count($inactiveCronjobs),
-                    "inactiveCronjobs" => $inactiveCronjobs,
-                    "schemaStatus" => $this->getSchemaStatus(),
-                ),
+            "inactiveCronjobCount" => count($inactiveCronjobs),
+            "inactiveCronjobs" => $inactiveCronjobs,
+            "schemaStatus" => $this->getSchemaStatus(),
         );
     }
 
@@ -95,9 +108,9 @@ class SystemService extends Service
      */
     protected function getSchemaStatus()
     {
-        $metadatas = PartKeepr::getEM()->getMetadataFactory()->getAllMetadata();
+        $metadatas = $this->entityManager->getMetadataFactory()->getAllMetadata();
 
-        $schemaTool = new \Doctrine\ORM\Tools\SchemaTool(PartKeepr::getEM());
+        $schemaTool = new SchemaTool($this->entityManager);
 
         $queries = $schemaTool->getUpdateSchemaSql($metadatas, true);
 
@@ -107,6 +120,4 @@ class SystemService extends Service
             return "complete";
         }
     }
-
-
 }

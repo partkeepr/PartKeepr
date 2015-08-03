@@ -151,7 +151,7 @@ Ext.application({
      * @return nothing
      */
     doSystemStatusCheck: function () {
-    	var call = new PartKeepr.ServiceCall("System", "getSystemStatus");
+    	var call = new PartKeepr.ServiceCall("api", "system_status");
 		call.setHandler(Ext.bind(this.onSystemStatusCheck, this));
 		call.doCall();
     },
@@ -160,12 +160,12 @@ Ext.application({
      * @param data The data returned from the server
      */
     onSystemStatusCheck: function (data) {
-    	if (data.data.schemaStatus !== "complete") {
+    	if (data.schemaStatus !== "complete") {
     		alert(i18n("Your database schema is not up-to-date! Please re-run setup immediately!"));
     	}
     	
-    	if (data.data.inactiveCronjobCount > 0) {
-    		alert(i18n("The following cronjobs aren't running:")+"\n\n"+data.data.inactiveCronjobs.join("\n"));
+    	if (data.inactiveCronjobCount > 0) {
+    		alert(i18n("The following cronjobs aren't running:")+"\n\n"+data.inactiveCronjobs.join("\n"));
     	}
     },
     /**
