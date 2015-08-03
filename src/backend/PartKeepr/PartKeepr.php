@@ -161,9 +161,9 @@ class PartKeepr {
 
 			'PartKeepr\PartBundle\Entity\Part',
 			'PartKeepr\PartBundle\Entity\PartUnit',
-			'PartKeepr\Part\PartManufacturer',
-			'PartKeepr\Part\PartDistributor',
-			'PartKeepr\Part\PartImage',
+			'PartKeepr\PartBundle\Entity\PartManufacturer',
+			'PartKeepr\PartBundle\Entity\PartDistributor',
+			'PartKeepr\PartBundle\Entity\PartImage',
 			'PartKeepr\PartBundle\Entity\PartAttachment',
 			'PartKeepr\PartBundle\Entity\PartCategory',
 				
@@ -195,7 +195,7 @@ class PartKeepr {
 			'PartKeepr\Statistic\StatisticSnapshotUnit',
 			'PartKeepr\SiPrefixBundle\Entity\SiPrefix',
 			'PartKeepr\Unit\Unit',
-			'PartKeepr\PartParameter\PartParameter',
+			'PartKeepr\PartBundle\Entity\PartParameter',
 			
 			'PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay',
 			'PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory',

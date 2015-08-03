@@ -868,3 +868,16 @@ services:
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
+
+    resource.user:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\AuthBundle\Entity\User" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }

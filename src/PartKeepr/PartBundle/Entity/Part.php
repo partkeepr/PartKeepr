@@ -7,7 +7,6 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\Part\Exceptions\CategoryNotAssignedException;
 use PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
-use PartKeepr\Part\PartImage;
 use PartKeepr\PartKeepr;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\Util\BaseEntity;
@@ -76,7 +75,7 @@ class Part extends BaseEntity
 
     /**
      * Holds the manufacturers which can manufacture this part
-     * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
      *
      * @var ArrayCollection
      */
@@ -84,7 +83,7 @@ class Part extends BaseEntity
 
     /**
      * Holds the distributors from where we can buy the part
-     * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
      *
      * @var ArrayCollection
      */
@@ -92,7 +91,7 @@ class Part extends BaseEntity
 
     /**
      * Holds the part images
-     * @ORM\OneToMany(targetEntity="PartKeepr\Part\PartImage",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartImage",mappedBy="part",cascade={"persist", "remove"})
      *
      * @var PartImage
      */
@@ -153,7 +152,7 @@ class Part extends BaseEntity
 
     /**
      * The parameters for this part
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartParameter\PartParameter",
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartParameter",
      *                mappedBy="part",cascade={"persist", "remove"})
      *
      * @var ArrayCollection

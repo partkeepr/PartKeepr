@@ -3,10 +3,12 @@ namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="PartKeeprUser")
+ * @TargetService(uri="/api/users")
  */
 class User extends BaseUser
 {

@@ -255,7 +255,7 @@ Ext.application({
     	
     	this.userStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.AuthBundle.Entity.User.User',
+    				model: 'PartKeepr.AuthBundle.Entity.User',
     				pageSize: 99999999,
     				autoLoad: true
     			});

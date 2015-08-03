@@ -4,7 +4,7 @@ namespace PartKeepr\Setup\Migration\PartDB;
 use	PartKeepr\PartKeepr,
 	PartKeepr\PartBundle\Entity\Part,
 	PartKeepr\PartBundle\Entity\PartAttachment,
-	PartKeepr\Part\PartDistributor,
+	PartKeepr\PartBundle\Entity\PartDistributor,
 	PartKeepr\Part\PartManager,
 	PartKeepr\Stock\StockEntry,
 	PartKeepr\Distributor\DistributorManager,
