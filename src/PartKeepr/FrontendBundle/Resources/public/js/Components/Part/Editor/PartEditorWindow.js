@@ -53,7 +53,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		 */
 		this.editor.on("editorClose", function (context) { this.close();}, this, { delay: 200 });
 		
-		this.editor.on("titleChange", function (val) { this.setTitle(val); }, this);
+		this.editor.on("_titleChange", function (val) { this.setTitle(val); }, this);
 		this.editor.on("itemSaved", this.onItemSaved, this);
 		
 		this.saveButton = Ext.create("Ext.button.Button", {

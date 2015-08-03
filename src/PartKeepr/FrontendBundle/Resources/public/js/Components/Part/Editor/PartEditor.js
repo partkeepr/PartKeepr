@@ -437,7 +437,7 @@ Ext.define('PartKeepr.PartEditor', {
 		this.partParameterGrid.bindStore(this.record.parameters());
 		this.partAttachmentGrid.bindStore(this.record.attachments());
 	},
-	_setTitle: function (title) {
+	setTitle: function (title) {
 		var tmpTitle;
 		
 		if (this.record.phantom) {
@@ -450,6 +450,6 @@ Ext.define('PartKeepr.PartEditor', {
 			 tmpTitle = tmpTitle + ": " + title;
 		}
 		
-		this.fireEvent("titleChange", tmpTitle);
+		this.fireEvent("_titleChange", tmpTitle);
 	}
 });
