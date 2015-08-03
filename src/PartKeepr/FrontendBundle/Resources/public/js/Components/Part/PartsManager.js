@@ -240,7 +240,7 @@ Ext.define('PartKeepr.PartManager', {
     {
         var r = this.grid.getSelectionModel().getLastSelected();
 
-        this.loadPart(r.get("id"), Ext.bind(this.createPartDuplicate, this));
+        this.loadPart(r.getId(), Ext.bind(this.createPartDuplicate, this));
     },
     /**
      * Creates a full duplicate from the selected item. Loads the selected part and calls createPartDuplicate
@@ -253,7 +253,7 @@ Ext.define('PartKeepr.PartManager', {
     {
         var r = this.grid.getSelectionModel().getLastSelected();
 
-        this.loadPart(r.get("id"), Ext.bind(this.createFullPartDuplicate, this));
+        this.loadPart(r.getId(), Ext.bind(this.createFullPartDuplicate, this));
     },
     /**
      * Creates a part duplicate from the given record and opens the editor window.
@@ -309,7 +309,7 @@ Ext.define('PartKeepr.PartManager', {
                 "deletePart");
 
             call.setLoadMessage(sprintf(i18n("Deleting part %s"), r.get("name")));
-            call.setParameter("part", r.get("id"));
+            call.setParameter("part", r.getId());
             call.setHandler(Ext.bind(function ()
             {
                 this.store.load();
@@ -330,7 +330,7 @@ Ext.define('PartKeepr.PartManager', {
 
         var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().findRecord("default", true);
 
-        defaults.partUnit = defaultPartUnit.get("id");
+        defaults.partUnit = defaultPartUnit.getId();
         defaults.category = this.grid.currentCategory;
 
         record = Ext.create("PartKeepr.Part", defaults);
@@ -363,7 +363,7 @@ Ext.define('PartKeepr.PartManager', {
     onPartSaved: function (record)
     {
 
-        var idx = this.grid.store.find("id", record.get("id"));
+        var idx = this.grid.store.find("id", record.getId());
 
         // Only reload the grid if the edited record is contained
         if (idx !== -1) {
@@ -389,7 +389,7 @@ Ext.define('PartKeepr.PartManager', {
 				this.detailPanel.setActiveTab(this.detail);
 				this.detailPanel.expand();
 				this.detail.setValues(r);
-				this.stockLevel.part = r.get("id");
+				this.stockLevel.part = r.getId();
 
 				this.tree.syncButton.enable();
 			} else {
@@ -406,9 +406,8 @@ Ext.define('PartKeepr.PartManager', {
     loadPart: function (id, handler)
     {
         // @todo we have this method duplicated in PartEditor
-        var model = Ext.ModelManager.getModel("PartKeepr.PartBundle.Entity.Part");
 
-        model.load(id, {
+        PartKeepr.PartBundle.Entity.Part.load(id, {
             scope: this,
             success: handler
         });

@@ -219,7 +219,7 @@ Ext.define('PartKeepr.PartsGrid', {
     onDoubleClick: function (view, record)
     {
         if (record) {
-            this.fireEvent("editPart", record.get("id"));
+            this.fireEvent("editPart", record.getId());
         }
     },
     /**
@@ -493,7 +493,7 @@ Ext.define('PartKeepr.PartsGrid', {
             "Part",
             mode);
         call.setParameter("stock", quantity);
-        call.setParameter("part", e.record.get("id"));
+        call.setParameter("part", e.record.getId());
         call.setHandler(Ext.bind(this.reloadPart, this, [e]));
         call.doCall();
     },
@@ -502,7 +502,7 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     reloadPart: function (opts)
     {
-        this.loadPart(opts.record.get("id"), opts);
+        this.loadPart(opts.record.getId(), opts);
     },
     /**
      * Load the part from the database.
@@ -519,7 +519,7 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     onPartLoaded: function (record, opts)
     {
-        var rec = this.store.findRecord("id", record.get("id"));
+        var rec = this.store.findRecord("id", record.getId());
         if (rec) {
             rec.set("stockLevel", record.get("stockLevel"));
         }
