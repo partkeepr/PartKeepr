@@ -2,7 +2,7 @@ Ext.define("PartKeepr.ReloadableComboBox",{
     extend:"Ext.form.field.ComboBox",
     alias: 'widget.ReloadableComboBox',
     displayField: 'name',
-    valueField: 'id',
+    valueField: '@id',
     autoSelect: true,
     queryMode: 'local',
     triggerAction: 'all',
