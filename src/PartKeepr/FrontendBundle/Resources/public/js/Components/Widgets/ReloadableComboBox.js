@@ -8,6 +8,17 @@ Ext.define("PartKeepr.ReloadableComboBox",{
     triggerAction: 'all',
     forceSelection: true,
     editable: true,
+    triggers: {
+        reload: {
+            cls: "x-form-reload-trigger",
+            weight: -1,
+            handler: function ()
+            {
+                this.store.load();
+            },
+            scope: 'this'
+        }
+    },
     initComponent: function () {
 		this.listenersStore = this.store.on({
 				scope: this,

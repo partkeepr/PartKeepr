@@ -42,3 +42,7 @@
 .x-wrappable-grid .x-grid-cell-inner {
     white-space: normal;
 }
+
+.x-form-reload-trigger {
+    background-image: url(../images/form/reload-trigger.png);
+}
