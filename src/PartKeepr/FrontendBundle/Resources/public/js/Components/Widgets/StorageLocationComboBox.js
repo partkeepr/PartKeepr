@@ -1,8 +1,8 @@
 Ext.define("PartKeepr.StorageLocationComboBox",{
-    extend:"Ext.form.field.ComboBox",
+    extend:"PartKeepr.ReloadableComboBox",
     alias: 'widget.StorageLocationComboBox',
     displayField: 'name',
-    valueField: 'id',
+    valueField: '@id',
     queryMode: 'local',
     triggerAction: 'all',
     

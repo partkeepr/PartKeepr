@@ -9,13 +9,16 @@ Ext.define("PartKeepr.ReloadableComboBox",{
     forceSelection: true,
     editable: true,
     initComponent: function () {
-		this.listenersStore = this.store.mon({
-				item: this,
+		this.listenersStore = this.store.on({
 				scope: this,
 				// Workaround to remember the value when loading 
-				beforeload: function () { this._oldValue = this.getValue(); },
+				beforeload: function () {
+                    this._oldValue = this.getSelection();
+                },
 				// Set the old value when load is complete
-				load: function () { this.setValue(this._oldValue); }
+				load: function () {
+                    this.setSelection(this._oldValue);
+                }
     		});
 		
 		this.callParent();
