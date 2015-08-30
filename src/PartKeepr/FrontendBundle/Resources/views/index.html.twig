@@ -14,9 +14,8 @@
     <!-- Include the ExtJS CSS Theme -->
     {% stylesheets
     filter='cssrewrite'
-    'js/packages/extjs6/build/classic/theme-crisp/resources/theme-crisp-all_1.css'
-    'js/packages/extjs6/build/classic/theme-crisp/resources/theme-crisp-all_2.css'
-    'js/packages/extjs6/build/packages/ux/classic/crisp/resources/ux-all.css'
+    'js/packages/extjs6/build/classic/theme-classic/resources/theme-classic-all.css'
+    'js/packages/extjs6/build/packages/ux/classic/classic/resources/ux-all.css'
     'js/packages/extjs6/build/packages/charts/classic/neptune/resources/charts-all.css'
     'bundles/partkeeprfrontend/css/PartKeepr.css'
     %}
@@ -39,7 +38,7 @@
     output='js/compiled/main.js'
     'js/packages/extjs6/build/ext-all-debug.js'
     'js/packages/extjs6/build/packages/charts/classic/charts.js'
-    'js/packages/extjs6/build/packages/ux/classic/ux.js'
+    'js/packages/extjs6/build/packages/ux/classic/ux-debug.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/field/Array.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/isaac.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/bcrypt.js'
@@ -68,6 +67,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraTreeModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraReader.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/store/PartCategoryStore.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.tree.View-missingMethods.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.form.Basic-AssociationSupport.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Statusbar.js'

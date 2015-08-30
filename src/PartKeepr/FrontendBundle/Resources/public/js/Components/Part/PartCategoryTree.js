@@ -8,33 +8,7 @@ Ext.define("PartKeepr.PartCategoryTree", {
 
     initComponent: function ()
     {
-        this.store = Ext.create("Ext.data.TreeStore",
-            {
-                remoteSort: false,
-                folderSort: true,
-                rootVisible: true,
-                autoLoad: true,
-                sorters: [
-                    {
-                        property: 'name',
-                        direction: 'ASC'
-                    }
-                ],
-                root: {
-                    "@id": "@local-tree-root"
-                },
-                model: "PartKeepr.PartBundle.Entity.PartCategory",
-                proxy: {
-                    ignoreLoadId: '@local-tree-root',
-                    url: "/api/part_categories/getExtJSRootNode",
-                    type: "Hydra",
-                    appendId: false,
-                    reader: {
-                        type: 'json'
-                    }
-
-                }
-            });
+        this.store = Ext.create("PartKeepr.data.store.PartCategoryStore");
 
         this.callParent();
 
