@@ -69,5 +69,16 @@ Ext.define("PartKeepr.ux.TreePicker", {
         var path = node.getPath("@id", "|");
 
         picker.selectPath(path, "@id", "|");
-    }
+    },
+     /**
+     * Changes the selection to a given record and closes the picker
+     * @private
+     * @param {Ext.data.Model} record
+     */
+    selectItem: function(record) {
+        var me = this;
+        me.setValue(record);
+        me.fireEvent('select', me, record);
+        me.collapse();
+    },
 });
