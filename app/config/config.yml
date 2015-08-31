@@ -151,6 +151,14 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
+    part.stock_level_listener:
+        class: PartKeepr\PartBundle\Listeners\StockLevelListener
+        arguments:
+            - "@service_container"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+
     my_event_listener:
         class:    PartKeepr\UploadedFileBundle\EventListener\TemporaryFileEventListener
         arguments:
@@ -337,11 +345,76 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.part.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.part", "GET" ]
+
+    resource.part.item_operation.put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.part", "PUT" ]
+
+    resource.part.item_operation.delete:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.part", "DELETE" ]
+
+    resource.part.item_operation.add_stock:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.part"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/parts/{id}/addStock"           # Path
+             -    "PartKeeprPartBundle:Part:addStock"         # Controller
+             -    "PartAddStock"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.part.item_operation.remove_stock:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.part"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/parts/{id}/removeStock"           # Path
+             -    "PartKeeprPartBundle:Part:removeStock"         # Controller
+             -    "PartRemoveStock"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.part.item_operation.set_stock:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.part"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/parts/{id}/setStock"           # Path
+             -    "PartKeeprPartBundle:Part:setStock"         # Controller
+             -    "PartSetStock"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
     resource.part:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\PartBundle\\Entity\\Part" ]
         tags:      [ { name: "api.resource" } ]
         calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.part.item_operation.get", "@resource.part.item_operation.put", "@resource.part.item_operation.delete", "@resource.part.item_operation.add_stock", "@resource.part.item_operation.remove_stock", "@resource.part.item_operation.set_stock" ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"

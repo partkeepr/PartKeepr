@@ -1,7 +1,21 @@
+/**
+ * Implementation of a message box which supports a "remember choice" checkbox.
+ */
 Ext.define('PartKeepr.RememberChoiceMessageBox', {
     extend: 'Ext.window.MessageBox',
 
     escButtonAction: null,
+
+    /**
+     * The user preference to set when "remember choice" is selected
+     * @var string
+     */
+    dontAskAgainProperty: null,
+
+    /**
+     * The value to set the user preference to
+     */
+    dontAskAgainValue: false,
 
     initComponent: function ()
     {
@@ -44,5 +58,14 @@ Ext.define('PartKeepr.RememberChoiceMessageBox', {
         } else {
             this.callParent();
         }
+    },
+    btnCallback: function (btn, event)
+    {
+        this.callParent(arguments);
+
+        if (btn === "ok") {
+            PartKeepr.getApplication().setUserPreference(this.dontAskAgainProperty, this.dontAskAgainValue);
+        }
+
     }
 });

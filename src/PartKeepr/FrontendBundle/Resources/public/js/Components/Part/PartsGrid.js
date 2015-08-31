@@ -267,7 +267,7 @@ Ext.define('PartKeepr.PartsGrid', {
                 header: i18n("Stock"),
                 dataIndex: 'stockLevel',
                 editor: {
-                    xtype: 'numberfield',
+                    xtype: 'textfield',
                     allowBlank: false
                 },
                 renderer: this.stockLevelRenderer
@@ -403,6 +403,21 @@ Ext.define('PartKeepr.PartsGrid', {
             this.confirmStockChange(e);
         }
     },
+    getStockChangeMode: function (value) {
+        var n = value.indexOf("+");
+
+        if (n !== -1) {
+            return "addition";
+        }
+
+        n = value.indexOf("-");
+
+        if (n !== -1) {
+            return "removal";
+        }
+
+        return "fixed";
+    },
     /**
      * Opens the confirm dialog
      *
@@ -411,27 +426,46 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     confirmStockChange: function (e)
     {
+        var mode = this.getStockChangeMode(e.value);
+        var value = Math.abs(parseInt(e.value));
         var confirmText = "";
         var headerText = "";
 
-        if (e.value < 0) {
-            confirmText = sprintf(i18n("You wish to remove <b>%s %s</b> of the part <b>%s</b>. Is this correct?"),
-                abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
+        var n = e.value.indexOf("+");
 
-            // Set the stock level to a temporary calculated value.
-            e.record.set("stockLevel", (e.originalValue - abs(e.value)));
-            headerText = i18n("Remove Part(s)");
-        } else {
-            confirmText = sprintf(
-                i18n("You wish to set the stock level to <b>%s %s</b> of part <b>%s</b>. Is this correct?"),
-                abs(e.value), e.record.get("partUnitName"), e.record.get("name"));
 
-            headerText = i18n("Set Stock Level for Part(s)");
+        switch (mode) {
+            case "removal":
+                confirmText = sprintf(
+                    i18n("You wish to remove <b>%s %s</b> of the part <b>%s</b>. Is this correct?"),
+                    value, e.record.getPartUnit().get("name"), e.record.get("name"));
+
+                // Set the stock level to a temporary calculated value.
+                e.record.set("stockLevel", (e.originalValue - value));
+                headerText = i18n("Remove Part(s)");
+                break;
+            case "addition":
+                confirmText = sprintf(
+                    i18n("You wish to add  <b>%s %s</b> of part <b>%s</b>. Is this correct?"),
+                    value, e.record.getPartUnit().get("name"), e.record.get("name"));
+
+                    e.record.set("stockLevel", (e.originalValue + value));
+                    headerText = i18n("Add Part(s)");
+                    break;
+            case "fixed":
+                    confirmText = sprintf(
+                    i18n("You wish to set the stock level to <b>%s %s</b> for part <b>%s</b>. Is this correct?"),
+                    value, e.record.getPartUnit().get("name"), e.record.get("name"));
+
+                    e.record.set("stockLevel", value);
+                    headerText = i18n("Set Stock Level for Part(s)");
+                break;
         }
 
-        var j = new PartKeepr.RememberChoiceMessageBox({
+
+        var j = Ext.create("PartKeepr.RememberChoiceMessageBox", {
             escButtonAction: "cancel",
-            dontAskAgainProperty: "partkeepr.inlinestockremoval.ask",
+            dontAskAgainProperty: "partkeepr.inline-stock-change.confirm",
             dontAskAgainValue: false
         });
 
@@ -457,13 +491,7 @@ Ext.define('PartKeepr.PartsGrid', {
             opts.originalOnEdit.record.set("stockLevel", opts.originalOnEdit.originalValue);
         }
 
-        if (buttonId == "ok") {
-            if (opts.dialog.rememberChoiceCheckbox.getValue() === true) {
-                PartKeepr.getApplication().setUserPreference("partkeepr.inline-stock-change.confirm", false);
-            }
-
-            this.handleStockChange(opts.originalOnEdit);
-        }
+        this.handleStockChange(opts.originalOnEdit);
     },
     /**
      * Handles the stock change. Automatically figures out which method to call (deleteStock or addStock) and
@@ -474,28 +502,28 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     handleStockChange: function (e)
     {
-        var mode, quantity = 0;
+        var mode = this.getStockChangeMode(e.value);
+        var value = Math.abs(parseInt(e.value));
 
-        if (e.value < 0) {
-            mode = "deleteStock";
-            quantity = abs(e.value);
-        } else {
-            if (e.originalValue <= e.value) {
-                mode = "deleteStock";
-                quantity = e.originalValue - e.value;
-            } else {
-                mode = "addStock";
-                quantity = e.value - e.originalValue;
-            }
+        if (e.value == 0) {
+            return;
         }
 
-        var call = new PartKeepr.ServiceCall(
-            "Part",
-            mode);
-        call.setParameter("stock", quantity);
-        call.setParameter("part", e.record.getId());
-        call.setHandler(Ext.bind(this.reloadPart, this, [e]));
-        call.doCall();
+        switch (mode) {
+            case "removal":
+                call = "removeStock";
+                break;
+            case "addition":
+                call = "addStock";
+                break;
+            case "fixed":
+                call = "setStock";
+                break;
+        }
+
+        e.record.callAction(call, {
+            quantity: e.value
+        }, Ext.bind(this.reloadPart, this, [e]));
     },
     /**
      * Reloads the current part

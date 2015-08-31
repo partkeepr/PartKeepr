@@ -8,6 +8,7 @@ use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\Part\Exceptions\CategoryNotAssignedException;
 use PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
 use PartKeepr\PartKeepr;
+use PartKeepr\Stock\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
@@ -26,6 +27,7 @@ class Part extends BaseEntity
      * The category of the part
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartCategory")
      * @Groups({"default"})
+     *
      * @var PartCategory
      */
     private $category;
@@ -52,6 +54,7 @@ class Part extends BaseEntity
      * The footprint of this part
      * @ORM\ManyToOne(targetEntity="PartKeepr\FootprintBundle\Entity\Footprint")
      * @Groups({"default"})
+     *
      * @var Footprint
      */
     private $footprint;
@@ -61,6 +64,7 @@ class Part extends BaseEntity
      * in "pieces", "meters" or "grams".
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit", inversedBy="parts")
      * @Groups({"default"})
+     *
      * @var PartMeasurementUnit
      */
     private $partUnit;
@@ -69,6 +73,7 @@ class Part extends BaseEntity
      * Defines the storage location of this part
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
      * @Groups({"default"})
+     *
      * @var StorageLocation
      */
     private $storageLocation;
@@ -163,6 +168,7 @@ class Part extends BaseEntity
      * The part status for this part
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $status;
@@ -171,6 +177,7 @@ class Part extends BaseEntity
      * Defines if the part needs review
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
+     *
      * @var boolean
      */
     private $needsReview;
@@ -179,6 +186,7 @@ class Part extends BaseEntity
      * Defines the condition of the part
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $partCondition;
@@ -187,12 +195,14 @@ class Part extends BaseEntity
      * The create date+time for this part
      * @ORM\Column(type="datetime",nullable=true)
      * @Groups({"default"})
+     *
      * @var \DateTime
      */
     private $createDate;
 
     /**
      * @ORM\OneToMany(targetEntity="PartKeepr\Project\ProjectPart", mappedBy="part")
+     * @var ArrayCollection
      **/
     private $projectParts;
 
@@ -200,6 +210,7 @@ class Part extends BaseEntity
      * The internal part number
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $internalPartNumber;
@@ -308,14 +319,6 @@ class Part extends BaseEntity
     public function setAveragePrice($price)
     {
         $this->averagePrice = $price;
-    }
-
-    /**
-     * Updates the internal stock level from the stock history
-     */
-    public function updateStockLevel()
-    {
-        $this->stockLevel = $this->getStockLevel();
     }
 
     /**
@@ -524,25 +527,6 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the stock level of this part. This is a real-time function which
-     * actually creates a query over the StockEntry table.
-     *
-     * @return int The stock level
-     */
-    public function getStockLevel()
-    {
-        $query = PartKeepr::getEM()->createQuery("SELECT SUM(s.stockLevel) FROM PartKeepr\Stock\StockEntry s WHERE s.part = :part");
-        $query->setParameter("part", $this);
-
-        $count = $query->getSingleScalarResult();
-        if ($count == null) {
-            $count = 0;
-        }
-
-        return $count;
-    }
-
-    /**
      * Sets the create date for this part
      *
      * @param \DateTime $dateTime The create date+time
@@ -581,27 +565,6 @@ class Part extends BaseEntity
     public function getStatus()
     {
         return $this->status;
-    }
-
-    public function updateCacheData()
-    {
-        $this->updateStockLevel();
-        $this->updatePrice();
-    }
-
-    /**
-     * Updates the average price for a part
-     */
-    public function updatePrice()
-    {
-        $query = PartKeepr::getEM()->createQuery("SELECT SUM(se.price*se.stockLevel)  / SUM(se.stockLevel) FROM PartKeepr\Stock\StockEntry se WHERE se.part = :part AND se.stockLevel > 0");
-        $query->setParameter("part", $this);
-        $val = $query->getSingleScalarResult();
-
-        $query = PartKeepr::getEM()->createQuery('UPDATE PartKeepr\PartBundle\Entity\Part p SET p.averagePrice = :val WHERE p = :part');
-        $query->setParameter("val", $val);
-        $query->setParameter("part", $this);
-        $query->execute();
     }
 
     /**
@@ -656,6 +619,53 @@ class Part extends BaseEntity
     {
         $this->checkCategoryConsistency();
         $this->checkStorageLocationConsistency();
+    }
+
+    /**
+     * Sets the stock level
+     *
+     * @param $stockLevel int The stock level to set
+     */
+    public function setStockLevel($stockLevel)
+    {
+        $this->stockLevel = $stockLevel;
+    }
+
+    /**
+     * Returns the stock level
+     *
+     * @return int The stock level
+     */
+    public function getStockLevel()
+    {
+        return $this->stockLevel;
+    }
+
+    /**
+     * Returns all stock entries
+     *
+     * @return ArrayCollection
+     */
+    public function getStockLevels()
+    {
+        return $this->stockLevels;
+    }
+
+    /**
+     * Adds a new stock entry to this part
+     * @param StockEntry $stockEntry
+     */
+    public function addStockEntry (StockEntry $stockEntry) {
+        $stockEntry->setPart($this);
+        $this->getStockLevels()->add($stockEntry);
+    }
+
+    /**
+     * Returns the project parts
+     * @return ArrayCollection
+     */
+    public function getProjectParts () {
+        return $this->projectParts;
     }
 
     /**
