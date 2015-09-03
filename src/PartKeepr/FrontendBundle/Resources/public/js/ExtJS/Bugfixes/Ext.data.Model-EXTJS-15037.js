@@ -6,6 +6,18 @@
 Ext.define("PartKeepr.data.Model", {
     override: 'Ext.data.Model',
 
+    hasField: function (fieldName) {
+        var fields = this.getFields();
+
+
+        for (var i in fields) {
+            if (fields[i].name == fieldName && fields[i].reference === null) {
+                return true;
+            }
+        }
+
+        return false;
+    },
     /**
      * Saves the model instance using the configured proxy.
      * @param {Object} [options] Options to pass to the proxy. Config object for {@link Ext.data.operation.Operation}.
