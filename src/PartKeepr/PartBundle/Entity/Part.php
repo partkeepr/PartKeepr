@@ -81,6 +81,7 @@ class Part extends BaseEntity
     /**
      * Holds the manufacturers which can manufacture this part
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
+     * @Groups({"default"})
      *
      * @var ArrayCollection
      */
@@ -89,6 +90,7 @@ class Part extends BaseEntity
     /**
      * Holds the distributors from where we can buy the part
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
+     * @Groups({"default"})
      *
      * @var ArrayCollection
      */
@@ -97,6 +99,7 @@ class Part extends BaseEntity
     /**
      * Holds the part images
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartImage",mappedBy="part",cascade={"persist", "remove"})
+     * @Groups({"default"})
      *
      * @var PartImage
      */

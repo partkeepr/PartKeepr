@@ -557,8 +557,29 @@ services:
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
-                        
-                        
+
+    resource.part_distributor:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartDistributor" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.part_manufacturer:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartManufacturer" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.manufacturer:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\ManufacturerBundle\Entity\Manufacturer" ]
