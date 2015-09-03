@@ -6,6 +6,7 @@ use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * This class represents the link between a part and a distributor.
@@ -22,12 +23,14 @@ class PartDistributor extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\DistributorBundle\Entity\Distributor")
+     * @Groups({"default"})
      */
     private $distributor;
 
     /**
      * The order number for the part and distributor
      * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
      *
      * @var string
      */
@@ -38,6 +41,7 @@ class PartDistributor extends BaseEntity
      * certain manufacturers.
      *
      * @ORM\Column(type="integer")
+     * @Groups({"default"})
      * @var integer
      */
     private $packagingUnit;
@@ -47,6 +51,7 @@ class PartDistributor extends BaseEntity
      * needs to be per item, not per packaging unit.
      *
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
+     * @Groups({"default"})
      * @var float
      */
     private $price;
@@ -54,7 +59,7 @@ class PartDistributor extends BaseEntity
     /**
      * The distributor's SKU (stock keeping unit) for the part.  Used with barcodes.
      * @ORM\Column(type="string",nullable=true)
-     *
+     * @Groups({"default"})
      * @var string
      */
     private $sku;

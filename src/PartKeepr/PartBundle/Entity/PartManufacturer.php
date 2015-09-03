@@ -3,8 +3,8 @@ namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ManufacturerBundle\Entity\Manufacturer;
-use PartKeepr\Part\unknown_type;
 use PartKeepr\Util\BaseEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /** @ORM\Entity */
 class PartManufacturer extends BaseEntity
@@ -16,14 +16,16 @@ class PartManufacturer extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\ManufacturerBundle\Entity\Manufacturer")
+     * @Groups({"default"})
      */
     private $manufacturer;
 
     /**
-     * @ORM\Column(type="string",nullable=true)
-     * Enter description here ...
+     * The part number
      *
-     * @var unknown_type
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     * @var string
      */
     private $partNumber;
 
