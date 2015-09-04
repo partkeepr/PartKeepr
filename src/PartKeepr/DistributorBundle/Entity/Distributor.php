@@ -80,6 +80,7 @@ class Distributor extends BaseEntity
     /**
      * Holds the SKU lookup URL of the distributor
      * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
      *
      * @var string
      */
@@ -210,7 +211,7 @@ class Distributor extends BaseEntity
      *
      * @param string $url The URL for this distributor
      */
-    public function setURL($url)
+    public function setUrl($url)
     {
         $this->url = $url;
     }
@@ -220,7 +221,7 @@ class Distributor extends BaseEntity
      *
      * @return string The URL
      */
-    public function getURL()
+    public function getUrl()
     {
         return $this->url;
     }
@@ -230,7 +231,7 @@ class Distributor extends BaseEntity
      *
      * @param string $skuurl The SKU lookup URL for this distributor
      */
-    public function setSKUURL($skuurl)
+    public function setSkuurl($skuurl)
     {
         $this->skuurl = $skuurl;
     }
@@ -240,7 +241,7 @@ class Distributor extends BaseEntity
      *
      * @return string The SKU lookup URL
      */
-    public function getSKUURL()
+    public function getSkuurl()
     {
         return $this->skuurl;
     }
