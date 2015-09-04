@@ -12,7 +12,9 @@ Ext.define("PartKeepr.form.field.Text", {
         url: {
             cls: 'x-form-trigger-link',
             handler: function () {
-                window.open(this.getUrl(), '_blank');
+                if (this.getUrl() !== false) {
+                    window.open(this.getUrl(), '_blank');
+                }
             },
             scope: 'this'
         }
