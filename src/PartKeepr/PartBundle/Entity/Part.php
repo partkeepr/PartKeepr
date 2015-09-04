@@ -677,6 +677,50 @@ class Part extends BaseEntity
     }
 
     /**
+     * Adds a Part Manufacturer
+     *
+     * @param PartManufacturer $partManufacturer A part manufacturer to add
+     */
+    public function addManufacturer (PartManufacturer $partManufacturer)
+    {
+        $partManufacturer->setPart($this);
+        $this->manufacturers->add($partManufacturer);
+    }
+
+    /**
+     * Removes a part manufacturer
+     *
+     * @param PartManufacturer $partManufacturer A part manufacturer to remove
+     */
+    public function removeManufacturer(PartManufacturer $partManufacturer)
+    {
+        $partManufacturer->setPart(null);
+        $this->manufacturers->removeElement($partManufacturer);
+    }
+
+    /**
+     * Adds a Part Distributor
+     *
+     * @param PartDistributor $partDistributor A part distributor to add
+     */
+    public function addDistributor (PartDistributor $partDistributor)
+    {
+        $partDistributor->setPart($this);
+        $this->distributors->add($partDistributor);
+    }
+
+    /**
+     * Removes a part distributor
+     *
+     * @param PartDistributor $partDistributor A part distributor to remove
+     */
+    public function removeDistributor(PartDistributor $partDistributor)
+    {
+        $partDistributor->setPart(null);
+        $this->distributors->removeElement($partDistributor);
+    }
+
+    /**
      * Returns the project parts
      *
      * @return ArrayCollection
