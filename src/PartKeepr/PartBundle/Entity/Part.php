@@ -227,7 +227,7 @@ class Part extends BaseEntity
         $this->images = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->setCreateDate(new \DateTime());
-        $this->setReviewFlag(false);
+        $this->setNeedsReview(false);
     }
 
     /**
@@ -330,7 +330,7 @@ class Part extends BaseEntity
      *
      * @param boolean $bReview True if the part needs review, false otherwise
      */
-    public function setReviewFlag($bReview)
+    public function setNeedsReview($bReview)
     {
         $this->needsReview = $bReview;
     }
@@ -340,7 +340,7 @@ class Part extends BaseEntity
      *
      * @return boolean True if the part needs review, false otherwise
      */
-    public function getReviewFlag()
+    public function getNeedsReview()
     {
         return $this->needsReview;
     }
@@ -350,7 +350,7 @@ class Part extends BaseEntity
      *
      * @param string $partCondition The part's condition
      */
-    public function setCondition($partCondition)
+    public function setPartCondition($partCondition)
     {
         $this->partCondition = $partCondition;
     }
@@ -360,7 +360,7 @@ class Part extends BaseEntity
      *
      * @return string The part condition
      */
-    public function getCondition()
+    public function getPartCondition()
     {
         return $this->partCondition;
     }
