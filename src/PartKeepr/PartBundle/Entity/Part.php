@@ -136,6 +136,7 @@ class Part extends BaseEntity
      * The minimum stock level for this part. If we run out of this part (e.g. stockLevel < minStockLevel),
      * we can see that in the system and re-order parts.
      *
+     * @Groups({"default"})
      * @ORM\Column(type="integer")
      * @var integer
      */
@@ -384,6 +385,16 @@ class Part extends BaseEntity
             throw $exception;
         }
         $this->minStockLevel = $minStockLevel;
+    }
+
+    /**
+     * Returns the minimum stock level
+     *
+     * @return int
+     */
+    public function getMinStockLevel()
+    {
+        return $this->minStockLevel;
     }
 
     /**
@@ -656,18 +667,22 @@ class Part extends BaseEntity
 
     /**
      * Adds a new stock entry to this part
+     *
      * @param StockEntry $stockEntry
      */
-    public function addStockEntry (StockEntry $stockEntry) {
+    public function addStockEntry(StockEntry $stockEntry)
+    {
         $stockEntry->setPart($this);
         $this->getStockLevels()->add($stockEntry);
     }
 
     /**
      * Returns the project parts
+     *
      * @return ArrayCollection
      */
-    public function getProjectParts () {
+    public function getProjectParts()
+    {
         return $this->projectParts;
     }
 
