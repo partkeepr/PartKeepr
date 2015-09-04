@@ -315,7 +315,7 @@ Ext.define('PartKeepr.PartEditor', {
          * that the record is invalid and being removed.
          */
         for (j = 0; j < this.record.distributors().getCount(); j++) {
-            if (this.record.distributors().getAt(j).get("distributor_id") === 0) {
+            if (this.record.distributors().getAt(j).getDistribor() === null) {
                 removeRecords.push(this.record.distributors().getAt(j));
             }
         }
@@ -351,26 +351,13 @@ Ext.define('PartKeepr.PartEditor', {
          */
 
         for (j = 0; j < this.record.manufacturers().getCount(); j++) {
-            if (this.record.manufacturers().getAt(j).get("manufacturer_id") === 0) {
+            if (this.record.manufacturers().getAt(j).getManufacturer() === null) {
                 removeRecords.push(this.record.manufacturers().getAt(j));
             }
         }
 
         if (removeRecords.length > 0) {
             this.record.manufacturers().remove(removeRecords);
-        }
-
-        /**
-         * Check if the storage location is valid. If not, try an exact, case-insensitive match for the
-         * storage location name and inject that into the record.
-         */
-        if (isNaN(this.record.get("storageLocation"))) {
-            var storageLocationRecord = this.storageLocationComboBox.getStore().findRecord(
-                "name",
-                this.storageLocationComboBox.getValue(),
-                0, false, false, true);
-
-            this.record.set("storageLocation", storageLocationRecord.get("id"));
         }
 
         // Force footprint to be "null" when the checkbox is checked.
