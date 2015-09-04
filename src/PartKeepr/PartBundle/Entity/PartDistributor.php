@@ -191,7 +191,7 @@ class PartDistributor extends BaseEntity
      *
      * @param string $sku The SKU
      */
-    public function setSKU($sku)
+    public function setSku($sku)
     {
         $this->sku = $sku;
     }
@@ -201,7 +201,7 @@ class PartDistributor extends BaseEntity
      *
      * @return string The SKU
      */
-    public function getSKU()
+    public function getSku()
     {
         return $this->sku;
     }
