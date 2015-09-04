@@ -57,7 +57,7 @@ Ext.define('PartKeepr.ManufacturerEditor', {
 			name: 'address',
 			fieldLabel: i18n("Address")
 		},{
-			xtype: 'textfield',
+			xtype: 'urltextfield',
 			name: 'url',
 			fieldLabel: i18n("Website")
 		},{
