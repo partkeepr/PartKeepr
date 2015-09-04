@@ -46,3 +46,7 @@
 .x-form-reload-trigger {
     background-image: url(../images/form/reload-trigger.png);
 }
+
+.x-form-trigger-link {
+    background-image: url(../images/form/trigger-link.png),-webkit-linear-gradient(top, #dee3e6 0%, #fcfcfd 12%, #fff 100%);
+}
