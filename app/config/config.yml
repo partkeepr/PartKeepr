@@ -582,7 +582,7 @@ services:
 
     resource.manufacturer:
         parent:    "api.resource"
-        arguments: [ "PartKeepr\\ManufacturerBundle\Entity\Manufacturer" ]
+        arguments: [ "PartKeepr\\ManufacturerBundle\\Entity\\Manufacturer" ]
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initFilters"
