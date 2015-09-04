@@ -8,11 +8,10 @@ Ext.define('PartKeepr.PartEditor', {
 
     // Assigned model
     model: 'PartKeepr.PartBundle.Entity.Part',
-
+    bodyPadding: '0 0 0 0',
     // Layout stuff
     border: false,
     layout: 'fit',
-    bodyStyle: 'background:#DBDBDB;',
 
     /**
      * Initializes the editor fields
@@ -51,10 +50,8 @@ Ext.define('PartKeepr.PartEditor', {
         this.footprintNone = Ext.create("Ext.form.field.Radio", {
             boxLabel: i18n("None"),
             name: 'footprint_mode',
-            margin: {
-                right: 5
-            },
             value: "unset",
+            width: 70,
             listeners: {
                 scope: this,
                 change: function (field, newValue)
@@ -68,9 +65,7 @@ Ext.define('PartKeepr.PartEditor', {
 
         this.footprintSet = Ext.create("Ext.form.field.Radio", {
             name: 'footprint_mode',
-            margin: {
-                right: 5
-            },
+            width: 20,
             value: "set"
         });
 
@@ -82,12 +77,13 @@ Ext.define('PartKeepr.PartEditor', {
          */
         this.footprintComboBox = Ext.create("PartKeepr.FootprintComboBox", {
             name: 'footprint',
+            returnObject: true,
             flex: 1,
             listeners: {
                 scope: this,
                 change: function (field, newValue)
                 {
-                    if (newValue !== 0) {
+                    if (typeof(newValue) === 'object') {
                         this.footprintSet.setValue(true);
                     }
                 }
@@ -103,7 +99,6 @@ Ext.define('PartKeepr.PartEditor', {
                 name: 'description'
             }, {
                 layout: 'column',
-                bodyStyle: 'background:#DBDBDB',
                 border: false,
                 items: [
                     {
@@ -120,9 +115,9 @@ Ext.define('PartKeepr.PartEditor', {
                         xtype: 'PartUnitComboBox',
                         fieldLabel: i18n("Part Unit"),
                         columnWidth: 0.5,
-                        margin: "0 0 0 5",
+                        returnObject: true,
                         name: 'partUnit',
-                        value: PartKeepr.getApplication().getDefaultPartUnit().get("id")
+                        value: PartKeepr.getApplication().getDefaultPartUnit()
                     }
                 ]
             }, {
@@ -169,9 +164,6 @@ Ext.define('PartKeepr.PartEditor', {
                         xtype: 'checkbox',
                         hideEmptyLabel: false,
                         fieldLabel: '',
-                        margins: {
-                            left: 5
-                        },
                         boxLabel: i18n("Needs Review"),
                         name: 'needsReview'
                     }
@@ -192,9 +184,6 @@ Ext.define('PartKeepr.PartEditor', {
                         flex: 1
                     }, {
                         xtype: 'displayfield',
-                        margins: {
-                            left: 5
-                        },
                         fieldLabel: i18n("Internal ID"),
                         name: 'id'
                     }
@@ -244,12 +233,10 @@ Ext.define('PartKeepr.PartEditor', {
                 fieldLabel: i18n("Stock User"),
                 name: 'initialStockLevelUser',
                 columnWidth: 0.5,
-                margin: "0 0 0 5"
             });
 
             basicEditorFields.push({
                 layout: 'column',
-                bodyStyle: 'background:#DBDBDB',
                 border: false,
                 items: [
                     this.initialStockLevel,
@@ -267,7 +254,6 @@ Ext.define('PartKeepr.PartEditor', {
             this.initialStockLevelPricePerItem = Ext.create("Ext.form.field.Checkbox", {
                 boxLabel: i18n("Per Item"),
                 columnWidth: 0.5,
-                margin: "0 0 0 5",
                 name: 'initialStockLevelPricePerItem'
             });
 
@@ -288,19 +274,16 @@ Ext.define('PartKeepr.PartEditor', {
         this.items = {
             xtype: 'tabpanel',
             border: false,
-            plain: true,
             items: [
                 {
                     iconCls: 'icon-brick',
                     xtype: 'panel',
-                    border: false,
                     autoScroll: false,
                     layout: 'anchor',
                     defaults: {
                         anchor: '100%',
                         labelWidth: 150
                     },
-                    bodyStyle: 'background:#DBDBDB;padding: 10px;',
                     title: i18n("Basic Data"),
                     items: basicEditorFields
                 },
@@ -392,7 +375,7 @@ Ext.define('PartKeepr.PartEditor', {
 
         // Force footprint to be "null" when the checkbox is checked.
         if (this.footprintNone.getValue() === true) {
-            this.record.set("footprint", 0);
+            this.record.setFootprint(null);
         }
 
     },
@@ -409,10 +392,10 @@ Ext.define('PartKeepr.PartEditor', {
         // because we don't know which event will come first
         this.getForm().isValid();
 
-        if (this.record.get("footprint") === 0) {
-            this.footprintNone.setValue(true);
-        } else {
+        if (this.record.getFootprint() !== null) {
             this.footprintSet.setValue(true);
+        } else {
+            this.footprintNone.setValue(true);
         }
     },
     _onItemSaved: function ()

@@ -22,7 +22,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 	saveAndPrintText: i18n("Save + Print"),
 	printText: i18n("Print"),
 	cancelText: i18n("Cancel"),
-	
+
 	/* Default edit mode. If mode = "create", we show additional fields */
 	partMode: 'edit',
 	title: i18n("Add Part"),
