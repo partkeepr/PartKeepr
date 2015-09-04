@@ -125,6 +125,7 @@ Ext.define('PartKeepr.PartEditor', {
                 fieldLabel: i18n("Category"),
                 name: 'category',
                 displayField: "name",
+                returnObject: true,
                 store: Ext.create("PartKeepr.data.store.PartCategoryStore"),
                 rootVisible: false
             },
@@ -315,7 +316,7 @@ Ext.define('PartKeepr.PartEditor', {
          * that the record is invalid and being removed.
          */
         for (j = 0; j < this.record.distributors().getCount(); j++) {
-            if (this.record.distributors().getAt(j).getDistribor() === null) {
+            if (this.record.distributors().getAt(j).getDistributor() === null) {
                 removeRecords.push(this.record.distributors().getAt(j));
             }
         }
