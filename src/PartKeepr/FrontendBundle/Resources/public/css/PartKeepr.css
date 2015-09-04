@@ -48,5 +48,9 @@
 }
 
 .x-form-trigger-link {
-    background-image: url(../images/form/trigger-link.png),-webkit-linear-gradient(top, #dee3e6 0%, #fcfcfd 12%, #fff 100%);
+    background-image: url(../images/form/trigger-link.png);
+}
+
+.x-form-trigger-help {
+    background-image: url(../images/form/trigger-help.gif);
 }
