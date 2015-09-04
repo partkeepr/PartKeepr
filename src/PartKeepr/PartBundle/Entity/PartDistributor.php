@@ -112,7 +112,7 @@ class PartDistributor extends BaseEntity
      *
      * @param Part $part The part
      */
-    public function setPart(Part $part)
+    public function setPart(Part $part = null)
     {
         $this->part = $part;
     }

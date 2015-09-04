@@ -6,11 +6,14 @@ use PartKeepr\ManufacturerBundle\Entity\Manufacturer;
 use PartKeepr\Util\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/** @ORM\Entity */
+/**
+ * @ORM\Entity
+ */
 class PartManufacturer extends BaseEntity
 {
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part",inversedBy="manufacturers")
+     * @var Part
      */
     private $part;
 
@@ -34,7 +37,7 @@ class PartManufacturer extends BaseEntity
      *
      * @param Part $part
      */
-    public function setPart(Part $part)
+    public function setPart(Part $part = null)
     {
         $this->part = $part;
     }
