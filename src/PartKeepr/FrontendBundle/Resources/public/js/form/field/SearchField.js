@@ -3,9 +3,9 @@
  * 
  * The "clear" trigger is shown only when text is entered.
  */
-Ext.define('Ext.ux.form.SearchField', {
+Ext.define('PartKeepr.form.field.SearchField', {
     extend: 'Ext.form.field.Text',
-    alias: 'widget.searchfield',
+    alias: 'widget.partkeepr-searchfield',
 
     triggers: {
         clear: {
