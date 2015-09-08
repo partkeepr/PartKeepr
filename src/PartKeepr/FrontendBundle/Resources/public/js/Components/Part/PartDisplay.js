@@ -63,7 +63,7 @@ Ext.define('PartKeepr.PartDisplay', {
          */
         this.addButton = new Ext.Button({
             text: i18n("Add Stock"),
-            icon: 'resources/silkicons/brick_add.png',
+            iconCls: 'web-icon brick_add',
             handler: Ext.bind(this.addPartPrompt, this)
         });
 
@@ -72,7 +72,7 @@ Ext.define('PartKeepr.PartDisplay', {
          */
         this.deleteButton = new Ext.Button({
             text: i18n("Remove Stock"),
-            icon: 'resources/silkicons/brick_delete.png',
+            iconCls: 'web-icon brick_delete',
             handler: Ext.bind(this.deletePartPrompt, this)
         });
 
@@ -81,7 +81,7 @@ Ext.define('PartKeepr.PartDisplay', {
          */
         this.editButton = new Ext.Button({
             text: i18n("Edit Part"),
-            icon: 'resources/silkicons/brick_edit.png',
+            iconCls: 'web-icon brick_edit',
             handler: Ext.bind(function ()
             {
                 this.fireEvent("editPart", this.record.getId());

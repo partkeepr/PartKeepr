@@ -18,7 +18,12 @@ Ext.define('PartKeepr.EditorGrid', {
     /**
      * @cfg {String} text The path to the 'delete' icon
      */
-    deleteButtonIcon: 'resources/silkicons/delete.png',
+    deleteButtonIcon: '',
+
+    /**
+     * @cfg {String} text The CSS class for the 'delete' icon
+     */
+    deleteButtonIconCls: 'web-icon delete',
 
     /**
      * @cfg {String} text The text for the "add" button
@@ -28,7 +33,12 @@ Ext.define('PartKeepr.EditorGrid', {
     /**
      * @cfg {String} text The path to the 'add' icon
      */
-    addButtonIcon: 'resources/silkicons/add.png',
+    addButtonIcon: '',
+
+    /**
+     * @cfg {String} text The CSS class for the 'add' icon
+     */
+    addButtonIconCls: 'web-icon add',
 
     /**
      * @cfg {Boolean} boolean Specifies whether to enable the top toolbar or not
@@ -95,6 +105,7 @@ Ext.define('PartKeepr.EditorGrid', {
             text: (this.buttonTextMode !== "hide") ? this.deleteButtonText : '',
             tooltip: this.deleteButtonText,
             icon: this.deleteButtonIcon,
+            iconCls: this.deleteButtonIconCls,
             handler: Ext.bind(function ()
             {
                 this.fireEvent("itemDelete");
@@ -106,6 +117,7 @@ Ext.define('PartKeepr.EditorGrid', {
             text: (this.buttonTextMode !== "hide") ? this.addButtonText : '',
             tooltip: this.addButtonText,
             icon: this.addButtonIcon,
+            iconCls: this.addButtonIconCls,
             handler: Ext.bind(function ()
             {
                 this.fireEvent("itemAdd");

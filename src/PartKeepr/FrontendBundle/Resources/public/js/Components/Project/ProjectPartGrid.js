@@ -63,7 +63,7 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             disabled: true,
             itemId: 'delete',
             scope: this,
-            icon: 'resources/silkicons/brick_delete.png',
+            iconCls: 'web-icon brick_delete',
             handler: this.onDeleteClick
         });
 		
@@ -72,7 +72,7 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             disabled: true,
             itemId: 'view',
             scope: this,
-            icon: 'resources/silkicons/brick_go.png',
+            iconCls: 'web-icon brick_go',
             handler: this.onViewClick
         });
 		
@@ -81,12 +81,12 @@ Ext.define('PartKeepr.ProjectPartGrid', {
 		    items: [{
 		        text: i18n('Add'),
 		        scope: this,
-		        icon: 'resources/silkicons/brick_add.png',
+		        iconCls: 'web-icon brick_add',
 		        handler: this.onAddClick
 		    },{
 		    	text: i18n("Create new Part"),
 		    	scope: this,
-		    	icon: 'resources/silkicons/brick_add.png',
+		    	iconCls: 'web-icon brick_add',
 		    	handler: this.onAddPartClick
 		    },
 		    this.deleteButton,

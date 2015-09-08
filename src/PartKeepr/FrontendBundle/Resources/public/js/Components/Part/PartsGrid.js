@@ -19,7 +19,7 @@ Ext.define('PartKeepr.PartsGrid', {
     /**
      * @cfg {String} Defines the icon of the "Add" button
      */
-    addButtonIcon: 'resources/silkicons/brick_add.png',
+    addButtonIconCls: 'web-icon brick_add',
 
     /**
      * @cfg {String} Defines the text of the "Delete" button
@@ -29,7 +29,7 @@ Ext.define('PartKeepr.PartsGrid', {
     /**
      * @cfg {String} Defines the icon of the "Add" button
      */
-    deleteButtonIcon: 'resources/silkicons/brick_delete.png',
+    deleteButtonIconCls: 'web-icon brick_delete',
 
     /**
      * @cfg {String} Defines the icon of the "Expand Row" button
