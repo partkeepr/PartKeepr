@@ -164,7 +164,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		});
 		
 		this.storageLocationFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
-			style: 'margin-right: 5px',
+			width: "20px",
 			listeners: {
 				change: function (obj, value) {
 					
@@ -281,7 +281,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		});		
 		
 		this.manufacturerFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
-			style: 'margin-right: 5px',
+			width: "20px",
 			listeners: {
 				change: function (obj, value) {
 					
@@ -310,7 +310,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		});
 		
 		this.distributorFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
-			style: 'margin-right: 5px',
+			width: "20px",
 			listeners: {
 				change: function (obj, value) {
 					if (!value) {
@@ -338,7 +338,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		});
 
         this.footprintFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
-            style: 'margin-right: 5px',
+            width: "20px",
             listeners: {
                 change: function (obj, value) {
                     if (!value) {
