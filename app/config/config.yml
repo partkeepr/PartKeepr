@@ -74,22 +74,19 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
-
-        entity_managers:
-          default:
-            auto_mapping: true
-            mappings:
-              model:
-                type: annotation
-                dir: %kernel.root_dir%/../src/backend/PartKeepr/
-                prefix: PartKeepr
-                is_bundle: false
-              gedmo_tree:
-                type: annotation
-                prefix: Gedmo\Tree\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
-                alias: GedmoTree # this one is optional and will default to the name set for the mapping
-                is_bundle: false
+        connection: default
+        mappings:
+          model:
+            type: annotation
+            dir: %kernel.root_dir%/../src/backend/PartKeepr/
+            prefix: PartKeepr
+            is_bundle: false
+          gedmo_tree:
+            type: annotation
+            prefix: Gedmo\Tree\Entity
+            dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+            alias: GedmoTree # this one is optional and will default to the name set for the mapping
+            is_bundle: false
 
 stof_doctrine_extensions:
     default_locale: en_US
