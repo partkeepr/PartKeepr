@@ -78,14 +78,14 @@ Ext.define('PartKeepr.PartFilterPanel', {
 		this.resetButton = Ext.create("Ext.button.Button", {
 			text: i18n("Reset"),
 			handler: this.onReset,
-			icon: 'resources/diagona-icons/icons/16/101.png',
+			iconCls: 'web-icon cancel',
 			scope: this
 		});
 		
 		// Create the apply button
 		this.applyButton = Ext.create("Ext.button.Button", {
 			text: i18n("Apply"),
-			icon: 'resources/diagona-icons/icons/16/102.png',
+			iconCls: 'web-icon accept',
 			handler: this.onApply,
 			scope: this
 		});
