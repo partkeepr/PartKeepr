@@ -35,12 +35,23 @@
             }
         }
     </script>
-    {% javascripts
-    output='js/compiled/main.js'
+    {% javascripts output='js/compiled/main.js'
     'js/packages/extjs6/build/ext-all-debug.js'
     'js/packages/extjs6/build/packages/charts/classic/charts.js'
     'js/packages/extjs6/build/packages/ux/classic/ux-debug.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/field/Array.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraModel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraTreeModel.js'
+    %}
+
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% for i in models %}
+        <script type="text/javascript" src="{{ i }}"></script>
+    {% endfor %}
+
+    {% javascripts output='js/compiled/main2.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/isaac.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/bcrypt.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/core.js'
@@ -68,8 +79,6 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Dialogs/FileUploadDialog.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Dialogs/RememberChoiceMessageBox.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraProxy.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraModel.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraTreeModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraReader.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/store/PartCategoryStore.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.tree.View-missingMethods.js'
@@ -201,13 +210,8 @@
     '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js'
     '@PartKeeprFrontendBundle/Resources/public/js/webcam.js'
     %}
-
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-
-    {% for i in models %}
-        <script type="text/javascript" src="{{ i }}"></script>
-    {% endfor %}
 </head>
 <body>
 <div id="loading"><span class="logo"></span></div>
