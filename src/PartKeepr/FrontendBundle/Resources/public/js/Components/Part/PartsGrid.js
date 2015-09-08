@@ -128,7 +128,7 @@ Ext.define('PartKeepr.PartsGrid', {
             }, this),
             tooltip: duplicateBasicData,
             text: i18n("Duplicate"),
-            icon: 'resources/silkicons/brick_link.png',
+            iconCls: 'web-icon brick_link',
             menu: new Ext.menu.Menu({
                 items: [
                     {
