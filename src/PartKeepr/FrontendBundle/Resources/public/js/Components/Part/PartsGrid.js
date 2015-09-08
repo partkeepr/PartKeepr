@@ -229,13 +229,13 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         this.columns = [
             {
-                header: '<img src="resources/diagona-icons/icons/10/190.png"/>',
+                header: '<img style="height: 10px;" src="bundles/brainbitsfugueicons/icons/fugue/16/paper-clip.png"/>',
                 dataIndex: "",
                 width: 30,
                 tooltip: i18n("Has attachments?"),
                 renderer: this.iconRenderer
             }, {
-                header: '<img src="resources/diagona-icons/icons/10/102.png"/>',
+                text: '<span class="web-icon accept"></span>',
                 dataIndex: "needsReview",
                 width: 25,
                 tooltip: i18n("Needs Review?"),
@@ -338,8 +338,8 @@ Ext.define('PartKeepr.PartsGrid', {
     iconRenderer: function (val, q, rec)
     {
         var ret = "";
-        if (rec.get("attachmentCount") > 0) {
-            ret += '<img src="resources/diagona-icons/icons/10/190.png" style="margin-top: 2px;" alt="' + i18n("Has attachments") + '" title="' + i18n("Has attachments") + '"/>';
+        if (rec.attachments().getCount() > 0) {
+            ret += '<img src="bundles/brainbitsfugueicons/icons/fugue/16/paper-clip.png" style="height: 10px; margin-top: 2px;" alt="' + i18n("Has attachments") + '" title="' + i18n("Has attachments") + '"/>';
         }
 
         return ret;
@@ -351,7 +351,7 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         var ret = "";
         if (rec.get("needsReview") === true) {
-            ret += '<img src="resources/diagona-icons/icons/10/071.png" style="margin-top: 2px;" alt="' + i18n("Needs review") + '" title="' + i18n("Needs review") + '"/>';
+            ret += '<span class="web-icon accept"' + '" title="' + i18n("Needs review") + '"></span>';
         }
 
         return ret;
