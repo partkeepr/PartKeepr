@@ -17,7 +17,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        	handler: this.editFootprints
 			        },{
 			        	text: i18n('Manufacturers'),
-			        	icon: 'resources/silkicons/building.png',
+			        	iconCls: 'web-icon building',
 			        	handler: this.editManufacturers
 			        },{
 			        	text: i18n('Storage Locations'),
@@ -25,13 +25,13 @@ Ext.define('PartKeepr.MenuBar', {
 			        	handler: this.editStorageLocations
 			        },{
 			        	text: i18n('Distributors'),
-			        	icon: 'resources/silkicons/lorry.png',
+			        	iconCls: 'web-icon lorry',
 			        	handler: this.editDistributors
 			        },{
 			        	text: i18n('Users'),
 			        	id: 'edit-users',
 			        	handler: this.editUsers,
-			        	icon: "resources/silkicons/user.png"
+			        	iconCls: "web-icon user"
 			        },{
 			        	text: i18n('Part Measurement Units'),
 			        	handler: this.editPartUnits,
@@ -46,16 +46,16 @@ Ext.define('PartKeepr.MenuBar', {
 		this.viewMenu = Ext.create('Ext.menu.Menu', {
 			items: [{
 			        	text: i18n("Statistics"),
-			        	icon: 'resources/silkicons/chart_bar.png',
+			        	iconCls: 'web-icon chart_bar',
 			        	menu: [
 							{
 								text: i18n("Summary"),
 								handler: this.showStatisticsSummary,
-								icon: 'resources/silkicons/chart_bar.png'
+								iconCls: 'web-icon chart_bar'
 							},{
 								text: i18n("Chart"),
 								handler: this.showStatisticsChart,
-								icon: 'resources/silkicons/chart_bar.png'
+								iconCls: 'web-icon chart_bar'
 							}]
 			        },
 					{
@@ -95,7 +95,7 @@ Ext.define('PartKeepr.MenuBar', {
 			items: [
 			{
 	        	text: i18n('Disconnect'),
-	        	icon: 'resources/silkicons/disconnect.png',
+	        	iconCls: 'web-icon disconnect',
 	        	handler: this.disconnect
 	        },{
 	        	text: i18n("User Preferences"),
