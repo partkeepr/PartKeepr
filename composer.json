@@ -49,7 +49,9 @@
     "doctrine/doctrine-migrations-bundle": "dev-master",
     "stof/doctrine-extensions-bundle": "~1.1@dev",
     "friendsofsymfony/user-bundle": "~2.0@dev",
-    "escapestudios/wsse-authentication-bundle": "2.3.x-dev"
+    "escapestudios/wsse-authentication-bundle": "2.3.x-dev",
+    "atelierspierrot/famfamfam-silk-sprite": "^1.0",
+    "reputation-vip/composer-assets-installer": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "4.7.*",
@@ -78,12 +80,14 @@
     ]
   },
   "extra": {
+    "assets-dir" : "web/",
     "incenteev-parameters": {
       "file": "app/config/parameters.yml"
     },
     "installer-paths": {
       "web/js/packages/{$name}": [
-        "partkeepr/extjs6"
+        "partkeepr/extjs6",
+        "atelierspierrot/famfamfam-silk-sprite"
       ]
     }
   }

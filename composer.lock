@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0b52ddf9f844bd369edccc24ab973bb4",
+    "hash": "2253aa266bd8d574e2d78436792b6eda",
     "packages": [
+        {
+            "name": "atelierspierrot/famfamfam-silk-sprite",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/atelierspierrot/famfamfam-silk-sprite.git",
+                "reference": "c37692422aa054583cf81fdb60915ab6deff9e67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/atelierspierrot/famfamfam-silk-sprite/zipball/c37692422aa054583cf81fdb60915ab6deff9e67",
+                "reference": "c37692422aa054583cf81fdb60915ab6deff9e67",
+                "shasum": ""
+            },
+            "type": "library-assets",
+            "extra": {
+                "assets-dir": "src",
+                "assets-presets": {
+                    "famfamfam-silk-icons": {
+                        "css": "silk-icons-sprite.min.css"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-NC-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Les Ateliers Pierrot & contributors",
+                    "email": "contact@ateliers-pierrot.fr",
+                    "homepage": "http://www.ateliers-pierrot.fr/"
+                },
+                {
+                    "name": "FamFamFam",
+                    "homepage": "http://www.famfamfam.com/"
+                }
+            ],
+            "description": "The UNOFFICIAL sprite of the Silk icons by FamFamFam (http://www.famfamfam.com/lab/icons/silk/)",
+            "homepage": "http://github.com/atelierspierrot/famfamfam-silk-sprite",
+            "keywords": [
+                "famfamfam",
+                "icons",
+                "sprite"
+            ],
+            "time": "2013-10-12 21:09:52"
+        },
         {
             "name": "behat/transliterator",
             "version": "v1.0.1",
@@ -872,7 +919,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/ac96a0e2a09ebf5655b087ff9bc23809a7b4899f",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/238aaa5fa04b5755a9957715e269d542cd0f8e39",
                 "reference": "861d3564c03b3867845ffd87d9b19f49dc673c69",
                 "shasum": ""
             },
@@ -1105,7 +1152,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/ce9f840f76e725a4b2701ca10def178142878c6b",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/4e85ba638acf62e1afe735f94b0c51aa971f8773",
                 "reference": "78954cce4962a4655ff47c0751eb78021fbaf2cc",
                 "shasum": ""
             },
@@ -1238,16 +1285,16 @@
         },
         {
             "name": "dunglas/api-bundle",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dunglas/DunglasApiBundle.git",
-                "reference": "2229fcf0a32c17af89732fac58d47854a10a5214"
+                "reference": "8f50c735df47cf9680b4149097fdf2410044762c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/c88496b2591ae4ec936649adaa543a9cf210b0e2",
-                "reference": "2229fcf0a32c17af89732fac58d47854a10a5214",
+                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/7fb55b9f1599d8efa7a11d2e2228a5d67c48069a",
+                "reference": "8f50c735df47cf9680b4149097fdf2410044762c",
                 "shasum": ""
             },
             "require": {
@@ -1308,7 +1355,7 @@
                 "json",
                 "rest"
             ],
-            "time": "2015-07-15 14:19:51"
+            "time": "2015-09-03 16:33:45"
         },
         {
             "name": "dunglas/php-property-info",
@@ -1565,7 +1612,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/5d7017d35f73cdb74e069f9d607cd0448d305078",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/6b7bb04c6d507bb5356bf70b2d1bc30ce64ffc60",
                 "reference": "5d7017d35f73cdb74e069f9d607cd0448d305078",
                 "shasum": ""
             },
@@ -2461,7 +2508,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/41f8db48808eee34c5e0b1199283dcce968fd117",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/77a34348d52d18d6f2224ba7635808d52a7a725f",
                 "reference": "32d2a7ffe9aca7370c98f092f86c0e16f2b2d15b",
                 "shasum": ""
             },
@@ -2523,6 +2570,46 @@
                 "uuid"
             ],
             "time": "2015-07-16 18:03:15"
+        },
+        {
+            "name": "reputation-vip/composer-assets-installer",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ReputationVIP/composer-assets-installer.git",
+                "reference": "f0ed761bae76b34a35798b1b9fd9294c3e0ef394"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ReputationVIP/composer-assets-installer/zipball/f0ed761bae76b34a35798b1b9fd9294c3e0ef394",
+                "reference": "f0ed761bae76b34a35798b1b9fd9294c3e0ef394",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "~1.0",
+                "symfony/filesystem": "^2.0"
+            },
+            "require-dev": {
+                "composer/composer": "1.0.x-dev",
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "ReputationVIP\\Composer\\AssetsInstallerPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "ReputationVIP\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Alban Pommeret",
+                    "email": "ap@reputationvip.com"
+                }
+            ],
+            "time": "2015-03-09 10:29:42"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -2742,7 +2829,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/2ff8473e33e224af87dc00d48a552a35a75115af",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/7b3144572617b0555f9a443317dbc2f9cf5b524e",
                 "reference": "2ff8473e33e224af87dc00d48a552a35a75115af",
                 "shasum": ""
             },
@@ -2921,7 +3008,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DoctrineBridge/zipball/8861d96cfe54e8ed679a20b0b98265bf80e194b6",
+                "url": "https://api.github.com/repos/symfony/DoctrineBridge/zipball/a1c0ede6fe783f204455a3cfe867f8639afe371f",
                 "reference": "ebb229c16d04ef5548551a1294d3a7c219ef39ca",
                 "shasum": ""
             },
@@ -3401,7 +3488,7 @@
             ],
             "authors": [
                 {
-                    "name": "William Durand",
+                    "name": "William DURAND",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -3582,7 +3669,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/418ae782307841ac50fe26daa4cfe04520b0de9c",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/f7afa2f80e88faf722167488f47dea0ba6178a45",
                 "reference": "418ae782307841ac50fe26daa4cfe04520b0de9c",
                 "shasum": ""
             },
