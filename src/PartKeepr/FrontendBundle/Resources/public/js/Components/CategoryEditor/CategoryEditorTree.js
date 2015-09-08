@@ -130,7 +130,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
         });
 
         this.toolbarReloadButton = Ext.create("Ext.button.Button", {
-            icon: 'extjs/resources/themes/images/default/grid/refresh.gif',
+            iconCls: 'x-tbar-loading',
             tooltip: i18n("Reload"),
             handler: this._onReloadClick,
             scope: this
