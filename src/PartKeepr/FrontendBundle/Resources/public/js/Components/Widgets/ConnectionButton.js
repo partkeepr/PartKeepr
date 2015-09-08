@@ -1,17 +1,33 @@
+/**
+ * Implements a simple connection button which can cycle between disconnected and connected state.
+ */
 Ext.define('PartKeepr.ConnectionButton', {
-	extend: 'Ext.Button',
-	connectedIcon: 'resources/silkicons/connect.png',
-	disconnectedIcon: 'resources/silkicons/disconnect.png',
-	cls: 'x-btn-icon',
-	icon: 'resources/silkicons/disconnect.png',
-	//tooltip: i18n("Disconnected"),
-	setConnected: function () {
-		this.setIcon(this.connectedIcon);
-		//this.setTooltip(i18n("Connected"));
-	},
-	setDisconnected: function () {
-		this.setIcon(this.disconnectedIcon);
-		//this.setTooltip(i18n("Disconnected"));
-	}
-});
+    extend: 'Ext.Button',
 
+    /**
+     * The icon class to use when the button is in "connected" state
+     * @var string
+     */
+    connectedIconCls: 'web-icon connect',
+
+    /**
+     * The icon class to use when the button is in "disconnected" state
+     * @var string
+     */
+    disconnectedIconCls: 'web-icon disconnect',
+
+    cls: 'x-btn-icon',
+    iconCls: 'web-icon disconnect',
+    tooltip: i18n("Disconnected"),
+
+    setConnected: function ()
+    {
+        this.setIconCls(this.connectedIconCls);
+        this.setTooltip(i18n("Connected"));
+    },
+    setDisconnected: function ()
+    {
+        this.setIconCls(this.disconnectedIconCls);
+        this.setTooltip(i18n("Disconnected"));
+    }
+});
