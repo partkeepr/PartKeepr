@@ -75,6 +75,7 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         connection: default
+        auto_mapping: true
         mappings:
           model:
             type: annotation
