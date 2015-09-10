@@ -74,7 +74,7 @@ class SystemService extends ContainerAware
             $aData[] = new SystemInformationRecord($key, $value, "PartKeepr Configuration Information");
         }
 
-        return array("data" => $aData);
+        return $aData;
     }
 
     /**

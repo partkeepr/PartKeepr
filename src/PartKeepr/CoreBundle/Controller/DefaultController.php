@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 class DefaultController extends FOSRestController
 {
     /**
-     * Returns system information
+     * Returns system status
      *
      * @Routing\Route("/api/system_status", defaults={"method" = "get","_format" = "json"})
      * @View()
@@ -18,5 +18,17 @@ class DefaultController extends FOSRestController
     public function getSystemStatusAction()
     {
         return $this->get("partkeepr_systemservice")->getSystemStatus();
+    }
+
+    /**
+     * Returns system information
+     *
+     * @Routing\Route("/api/system_information", defaults={"method" = "get","_format" = "json"})
+     * @View()
+     *
+     * @return array
+     */
+    public function getSystemInformationAction () {
+        return $this->get("partkeepr_systemservice")->getSystemInformation();
     }
 }
