@@ -15,7 +15,7 @@ Ext.define("PartKeepr.JsonWithAssociations", {
 		var storeName;
 		
 		Ext.apply(data, record.getAssociatedData());
-		
+
 		return data;
 	}
 });
