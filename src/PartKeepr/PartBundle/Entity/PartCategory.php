@@ -23,7 +23,6 @@ class PartCategory extends AbstractCategory
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="PartCategory", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
-     * @Groups({"default"})
      */
     protected $parent;
 

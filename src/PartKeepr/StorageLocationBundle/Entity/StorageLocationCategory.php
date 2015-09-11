@@ -21,7 +21,6 @@ class StorageLocationCategory extends AbstractCategory
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="StorageLocationCategory", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
-     * @Groups({"default"})
      */
     protected $parent;
 
