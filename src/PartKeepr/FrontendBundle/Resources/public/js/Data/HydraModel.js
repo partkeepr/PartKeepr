@@ -12,9 +12,20 @@ Ext.define("PartKeepr.data.HydraModel", {
      * @param {Object} parameters (optional) The parameters as JS object
      * @param {Function} callback (optional) A callback function
      */
-    callAction: function (action, parameters, callback) {
+    callAction: function (action, parameters, callback)
+    {
         var proxy = this.getProxy();
 
         proxy.callAction(this, action, parameters, callback);
+    },
+    getData: function (options)
+    {
+        var data = this.callParent(options);
+
+        if (this.phantom) {
+            delete data[this.idProperty];
+        }
+
+        return data;
     }
 });
