@@ -7,6 +7,7 @@ use Dunglas\ApiBundle\Api\IriConverterInterface;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Doctrine\Orm\Filter\AbstractFilter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -59,6 +60,8 @@ class AdvancedSearchFilter extends AbstractFilter
 
     private $parameterCount = 0;
 
+    private $requestStack;
+
     private $joins = array();
 
     /**
@@ -72,10 +75,11 @@ class AdvancedSearchFilter extends AbstractFilter
         ManagerRegistry $managerRegistry,
         IriConverterInterface $iriConverter,
         PropertyAccessorInterface $propertyAccessor,
+        RequestStack $requestStack,
         array $properties = null
     ) {
         parent::__construct($managerRegistry, $properties);
-
+        $this->requestStack = $requestStack;
         $this->iriConverter = $iriConverter;
         $this->propertyAccessor = $propertyAccessor;
     }
@@ -88,10 +92,15 @@ class AdvancedSearchFilter extends AbstractFilter
     /**
      * {@inheritdoc}
      */
-    public function apply(ResourceInterface $resource, QueryBuilder $queryBuilder, Request $request)
+    public function apply(ResourceInterface $resource, QueryBuilder $queryBuilder)
     {
         $metadata = $this->getClassMetadata($resource);
         $fieldNames = array_flip($metadata->getFieldNames());
+
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            return;
+        }
 
         $properties = $this->extractProperties($request);
         $filters = $properties["filters"];

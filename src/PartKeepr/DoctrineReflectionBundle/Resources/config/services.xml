@@ -15,6 +15,7 @@
             <argument type="service" id="doctrine" />
             <argument type="service" id="api.iri_converter" />
             <argument type="service" id="property_accessor" />
+            <argument type="service" id="request_stack" />
         </service>
 
     </services>
