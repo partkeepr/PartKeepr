@@ -7,6 +7,10 @@ fos_rest:
     body_listener: true
     format_listener: true
     param_fetcher_listener: force
+    format_listener:
+        rules:
+            - priorities: [json, xml]
+            - fallback_format: json
     view:
         exception_wrapper_handler: PartKeepr\DoctrineReflectionBundle\Exception\ExceptionWrapperHandler
         default_engine: php
@@ -15,7 +19,7 @@ fos_rest:
             xml: true
         templating_formats:
             html: false
-        view_response_listener: force
+        view_response_listener: true
 
 
 
@@ -115,19 +119,21 @@ dunglas_api:
     collection:
         pagination:
             items_per_page:
-                enable_client_request: true
-
-nelmio_api_doc:
-    sandbox:
-        accept_type:        "application/json"
-        body_format:
-            formats:        [ "json" ]
-            default_format: "json"
-        request_format:
-            formats:
-                json:       "application/json"
+                client_can_change: true
 
 services:
+    serializer.normalizer.custom:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        arguments:
+            - "@serializer.mapping.class_metadata_factory"
+            - null
+            - "@serializer.property_accessor"
+        tags:
+            - { name: serializer.normalizer, priority: -1 }
+        calls:
+            - method: "setCircularReferenceLimit"
+              arguments: [ [ 5 ] ]
+
     footprint.category_path_listener:
         class: PartKeepr\FootprintBundle\Listeners\CategoryPathListener
         arguments:
@@ -624,7 +630,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.manufacturer_ic_logo.item_operation.custom_get", "@resource.manufacturer_ic_logo.item_operation.get", "@resource.manufacturer_ic_logo.item_operation.put"  ] ]
+                    arguments: [ [ "@resource.manufacturer_ic_logo.item_operation.get", "@resource.manufacturer_ic_logo.item_operation.put", "@resource.manufacturer_ic_logo.item_operation.custom_get"  ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"

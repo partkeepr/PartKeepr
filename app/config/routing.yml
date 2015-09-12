@@ -13,10 +13,6 @@ PartKeeprImageBundle:
     type:     annotation
     prefix:   /
 
-NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
-
 _frontend:
     resource: "@PartKeeprFrontendBundle/Resources/config/routing.yml"
 
