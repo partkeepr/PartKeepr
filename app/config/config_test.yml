@@ -31,6 +31,11 @@ doctrine:
                 host:       localhost
                 user:       travis
 
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        %testdb%:
+            tree: true
 
 liip_functional_test:
     cache_sqlite_db: true
