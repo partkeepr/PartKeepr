@@ -6,7 +6,6 @@
 
     <services>
         <service id="partkeepr.category.get_root_node" class="PartKeepr\CategoryBundle\Action\GetRootNodeAction">
-            <argument type="service" id="api.data_provider"/>
             <argument type="service" id="doctrine"/>
         </service>
         <service id="partkeepr.category.move" class="PartKeepr\CategoryBundle\Action\MoveAction">

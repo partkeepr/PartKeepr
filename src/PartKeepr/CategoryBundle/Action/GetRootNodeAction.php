@@ -4,7 +4,6 @@ namespace PartKeepr\CategoryBundle\Action;
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -18,18 +17,12 @@ class GetRootNodeAction
     use ActionUtilTrait;
 
     /**
-     * @var DataProviderInterface
-     */
-    private $dataProvider;
-
-    /**
      * @var ManagerRegistry
      */
     private $manager;
 
-    public function __construct(DataProviderInterface $dataProvider, ManagerRegistry $manager)
+    public function __construct(ManagerRegistry $manager)
     {
-        $this->dataProvider = $dataProvider;
         $this->manager = $manager;
     }
 
