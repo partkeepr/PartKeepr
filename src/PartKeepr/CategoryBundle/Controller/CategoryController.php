@@ -2,14 +2,17 @@
 namespace PartKeepr\CategoryBundle\Controller;
 
 use Dunglas\ApiBundle\Api\ResourceInterface;
+use Dunglas\ApiBundle\Exception\InvalidArgumentException;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
 use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
 use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
+use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController extends Controller
 {
@@ -116,11 +119,13 @@ class CategoryController extends Controller
         /**
          * @var $repository AbstractTreeRepository
          */
-        $rootNode = $repository->getRootNodes()[0];
+        $rootNodes = $repository->getRootNodes();
 
-        //$this->get('serializer')->setCircularReferenceLimit(999);
-        //$normalizer = $this->get('serializer')->getNormalizer($rootNode, 'json-ld');
-        //$normalizer->setCircularReferenceLimit(999);
+        if (count($rootNodes) == 0) {
+            throw new RootNodeNotFoundException();
+        }
+
+        $rootNode = reset($rootNodes);
 
         $data = $this->get('serializer')->normalize(
             $rootNode,
