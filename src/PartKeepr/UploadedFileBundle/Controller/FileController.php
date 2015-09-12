@@ -2,7 +2,7 @@
 namespace PartKeepr\UploadedFileBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Controller\ResourceController;
+use Nelmio\ApiDocBundle\Tests\Fixtures\Controller\ResourceController;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 

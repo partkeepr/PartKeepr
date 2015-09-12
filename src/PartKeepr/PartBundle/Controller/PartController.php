@@ -1,9 +1,9 @@
 <?php
 namespace PartKeepr\PartBundle\Controller;
 
-use Dunglas\ApiBundle\Controller\ResourceController;
 use Dunglas\ApiBundle\JsonLd\Response;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
+use Nelmio\ApiDocBundle\Tests\Fixtures\Controller\ResourceController;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\Stock\StockEntry;
 use Symfony\Component\HttpFoundation\Request;

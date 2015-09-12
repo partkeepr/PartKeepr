@@ -2,8 +2,8 @@
 namespace PartKeepr\PartBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Controller\ResourceController;
 use Dunglas\ApiBundle\JsonLd\Response;
+use Nelmio\ApiDocBundle\Tests\Fixtures\Controller\ResourceController;
 use Symfony\Component\HttpFoundation\Request;
 
 class PartMeasurementUnitController extends ResourceController

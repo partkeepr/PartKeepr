@@ -1,17 +1,66 @@
 <?php
 namespace PartKeepr\CategoryBundle\Controller;
 
-use Dunglas\ApiBundle\Controller\ResourceController;
+use Dunglas\ApiBundle\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
 use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
 use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends ResourceController
+class CategoryController extends Controller
 {
+    /**
+     * @var ResourceInterface
+     */
+    private $resource;
+    /**
+     * Gets the Resource associated with the current Request.
+     * Must be called before manipulating the resource.
+     *
+     * @param Request $request
+     *
+     * @return ResourceInterface
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function getResource(Request $request)
+    {
+        if ($this->resource) {
+            return $this->resource;
+        }
+        if (!$request->attributes->has('_resource')) {
+            throw new InvalidArgumentException('The current request doesn\'t have an associated resource.');
+        }
+        $shortName = $request->attributes->get('_resource');
+        if (!($this->resource = $this->get('api.resource_collection')->getResourceForShortName($shortName))) {
+            throw new InvalidArgumentException(sprintf('The resource "%s" cannot be found.', $shortName));
+        }
+        return $this->resource;
+    }
+
+    /**
+     * Finds an object of throws a 404 error.
+     *
+     * @param ResourceInterface $resource
+     * @param string|int        $id
+     *
+     * @return object
+     *
+     * @throws NotFoundHttpException
+     */
+    protected function findOrThrowNotFound(ResourceInterface $resource, $id)
+    {
+        $item = $this->get('api.data_provider')->getItem($resource, $id, true);
+        if (!$item) {
+            throw $this->createNotFoundException();
+        }
+        return $item;
+    }
+
     /**
      * Moves a node to another node
      *
@@ -68,6 +117,10 @@ class CategoryController extends ResourceController
          * @var $repository AbstractTreeRepository
          */
         $rootNode = $repository->getRootNodes()[0];
+
+        //$this->get('serializer')->setCircularReferenceLimit(999);
+        //$normalizer = $this->get('serializer')->getNormalizer($rootNode, 'json-ld');
+        //$normalizer->setCircularReferenceLimit(999);
 
         $data = $this->get('serializer')->normalize(
             $rootNode,

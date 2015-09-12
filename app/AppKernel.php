@@ -60,7 +60,6 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
