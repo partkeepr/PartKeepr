@@ -51,7 +51,7 @@ class MoveAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      *
-     * @throws RuntimeException|RootNodeNotFoundException
+     * @throws RuntimeException|RootNodeNotFoundException|RootMayNotBeMovedException|MissingParentCategoryException
      */
     public function __invoke(Request $request, $id)
     {
