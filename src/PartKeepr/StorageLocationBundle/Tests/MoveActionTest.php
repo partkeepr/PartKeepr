@@ -1,5 +1,5 @@
 <?php
-namespace PartKeepr\PartBundle\Tests;
+namespace PartKeepr\StorageLocationBundle\Tests;
 
 use PartKeepr\CategoryBundle\Tests\AbstractMoveCategoryTest;
 
@@ -7,11 +7,11 @@ class MoveActionTest extends AbstractMoveCategoryTest
 {
     public function getFixtureLoaderClass()
     {
-        return 'PartKeepr\PartBundle\DataFixtures\CategoryDataLoader';
+        return 'PartKeepr\StorageLocationBundle\DataFixtures\CategoryDataLoader';
     }
 
     public function getReferencePrefix()
     {
-        return "partcategory";
+        return "storagelocationcategory";
     }
 }
