@@ -39,3 +39,13 @@ stof_doctrine_extensions:
 
 liip_functional_test:
     cache_sqlite_db: true
+    authentication:
+        username: "admin"
+        password: "admin"
+
+
+security:
+    firewalls:
+        main:
+            anonymous: ~
+            http_basic: ~
