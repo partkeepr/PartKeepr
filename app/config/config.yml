@@ -288,12 +288,8 @@ services:
              -    "@resource.footprint_category"               # Resource
              -    [ "PUT" ]                 # Methods
              -    "/footprint_categories/{id}/move"           # Path
-             -    "PartKeeprCategoryBundle:Category:move"         # Controller
+             -    "partkeepr.category.move"         # Controller
              -    "FootprintCategoryMove"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
 
     resource.footprint_category.collection_operation.post:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -309,12 +305,8 @@ services:
              -    "@resource.footprint_category"               # Resource
              -    [ "GET" ]                 # Methods
              -    "/footprint_categories/getExtJSRootNode"           # Path
-             -    "PartKeeprCategoryBundle:Category:getExtJSRootNode"         # Controller
-             -    "FootprintCategoryGetRoot"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
+             -    "partkeepr.category.get_root_node"         # Controller
+             -    "PartKeeprFootprintCategoryGetRootNode"
 
     resource.footprint_category.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -501,12 +493,8 @@ services:
              -    "@resource.part_category"               # Resource
              -    [ "PUT" ]                 # Methods
              -    "/part_categories/{id}/move"           # Path
-             -    "PartKeeprCategoryBundle:Category:move"         # Controller
-             -    "PartCategoryMove"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
+             -    "partkeepr.category.move"         # Controller
+             -    "PartKeeprPartCategoryMove"
 
     resource.part_category.collection_operation.post:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -522,12 +510,8 @@ services:
              -    "@resource.part_category"               # Resource
              -    [ "GET" ]                 # Methods
              -    "/part_categories/getExtJSRootNode"           # Path
-             -    "PartKeeprCategoryBundle:Category:getExtJSRootNode"         # Controller
-             -    "PartCategoryGetRoot"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
+             -    "partkeepr.category.get_root_node"         # Controller
+             -    "PartKeeprPartCategoryGetRootNode"
 
     resource.part_category.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -731,12 +715,8 @@ services:
              -    "@resource.storage_location_category"               # Resource
              -    [ "PUT" ]                 # Methods
              -    "/storage_location_categories/{id}/move"           # Path
-             -    "PartKeeprCategoryBundle:Category:move"         # Controller
+             -    "partkeepr.category.move"         # Controller
              -    "StorageLocationCategoryMove"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
 
     resource.storage_location_category.collection_operation.get_root:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -746,12 +726,8 @@ services:
              -    "@resource.storage_location_category"               # Resource
              -    [ "GET" ]                 # Methods
              -    "/storage_location_categories/getExtJSRootNode"           # Path
-             -    "PartKeeprCategoryBundle:Category:getExtJSRootNode"         # Controller
+             -    "partkeepr.category.get_root_node"         # Controller
              -    "StorageLocationCategoryGetRoot"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
 
     resource.storage_location_category.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"

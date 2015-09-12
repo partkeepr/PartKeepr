@@ -1,27 +1,22 @@
 <?php
-/*
- * This file is part of the DunglasApiBundle package.
- *
- * (c) Kévin Dunglas <dunglas@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-namespace Dunglas\ApiBundle\Action;
+namespace PartKeepr\CategoryBundle\Action;
+
+use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
+use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+
 /**
- * Default API action retrieving a collection of resources.
- *
- * @author Kévin Dunglas <dunglas@gmail.com>
+ * Returns the tree root node
  */
 class GetRootNodeAction
 {
     use ActionUtilTrait;
+
     /**
      * @var DataProviderInterface
      */
@@ -37,6 +32,7 @@ class GetRootNodeAction
         $this->dataProvider = $dataProvider;
         $this->manager = $manager;
     }
+
     /**
      * Retrieves a collection of resources.
      *
@@ -44,12 +40,11 @@ class GetRootNodeAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      *
-     * @throws RuntimeException
+     * @throws RuntimeException|RootNodeNotFoundException
      */
     public function __invoke(Request $request)
     {
         list($resourceType) = $this->extractAttributes($request);
-        //return $this->dataProvider->getCollection($resourceType);
 
         /**
          * @var ResourceInterface $resourceType
@@ -59,19 +54,14 @@ class GetRootNodeAction
         /**
          * @var $repository AbstractTreeRepository
          */
-        $rootNode = $repository->getRootNodes()[0];
+        $rootNodes = $repository->getRootNodes();
+
+        if (count($rootNodes) == 0) {
+            throw new RootNodeNotFoundException();
+        }
+
+        $rootNode = reset($rootNodes);
 
         return $rootNode;
-        /*$data = $this->get('serializer')->normalize(
-            $rootNode,
-            'json-ld',
-            $resource->getNormalizationContext()
-        );
-
-        $responseData = array("children" => $data);
-
-        return new JsonResponse(
-            $responseData
-        );*/
     }
 }
