@@ -20,16 +20,19 @@ doctrine:
             sqlite:
                 driver:   pdo_sqlite
                 path:     %kernel.cache_dir%/test.db
+                charset:    UTF8
             mysql:
                 driver:     pdo_mysql
                 dbname:     partkeepr_test
                 host:       localhost
                 user:       travis
+                charset:    UTF8
             pgsql:
                 driver:     pdo_pgsql
                 dbname:     partkeepr_test
                 host:       localhost
                 user:       travis
+                charset:    UTF8
 
 stof_doctrine_extensions:
     default_locale: en_US
