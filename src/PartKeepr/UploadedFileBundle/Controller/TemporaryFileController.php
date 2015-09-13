@@ -1,6 +1,8 @@
 <?php
 namespace PartKeepr\UploadedFileBundle\Controller;
 
+use Dunglas\ApiBundle\Action\ActionUtilTrait;
+use Dunglas\ApiBundle\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -14,10 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryFileController extends FileController
 {
+    use ActionUtilTrait;
+
     /**
      * Handles a temporary file upload
      *
-     * @RequestParam(name="url",description="An URL where the file is located")
+     * @RequestParam(name="url",description="An URL where the file is located",strict=false)
      * @ApiDoc(section="file",output="PartKeepr\UploadedFileBundleBundle\Response\TemporaryFileUploadResponse")
      * @View()
      *
@@ -47,11 +51,15 @@ class TemporaryFileController extends FileController
         $this->getDoctrine()->getManager()->persist($uploadedFile);
         $this->getDoctrine()->getManager()->flush();
 
-        $resource = $this->getResource($request);
+        /**
+         * @var ResourceInterface $resourceType
+         */
+        list($resourceType) = $this->extractAttributes($request);
+
         $serializedData = $this->get('serializer')->normalize(
             $uploadedFile,
-            'json-ld',
-            $resource->getNormalizationContext()
+            'jsonld',
+            $resourceType->getNormalizationContext()
         );
 
         return new JsonResponse(new TemporaryImageUploadResponse($serializedData));

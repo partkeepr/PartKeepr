@@ -2,11 +2,11 @@
 namespace PartKeepr\UploadedFileBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Nelmio\ApiDocBundle\Tests\Fixtures\Controller\ResourceController;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class FileController extends ResourceController
+abstract class FileController extends Controller
 {
     /**
      * Returns the full path for the file

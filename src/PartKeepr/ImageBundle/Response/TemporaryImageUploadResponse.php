@@ -1,9 +1,6 @@
 <?php
 namespace PartKeepr\ImageBundle\Response;
 
-
-use PartKeepr\ImageBundle\Entity\TempImage;
-
 class TemporaryImageUploadResponse
 {
     /**
