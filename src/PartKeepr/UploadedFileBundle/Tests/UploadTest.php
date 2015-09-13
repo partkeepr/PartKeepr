@@ -78,4 +78,39 @@ class UploadTest extends WebTestCase
         $this->assertEquals("TempUploadedFile", $response->response->$property);
 
     }
+
+    public function testURLUploadAction()
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            '/api/temp_uploaded_files/upload',
+            array("url" => "https://www.partkeepr.org/images/pklogo.svg")
+        );
+
+        $response = json_decode($client->getResponse()->getContent());
+
+        $this->assertObjectHasAttribute("success", $response);
+        $this->assertObjectHasAttribute("image", $response);
+        $this->assertObjectHasAttribute("response", $response);
+    }
+
+    public function testUploadException()
+    {
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            '/api/temp_uploaded_files/upload',
+            array()
+        );
+
+        $response = json_decode($client->getResponse()->getContent());
+
+        $attribute = "@type";
+
+        $this->assertObjectHasAttribute($attribute, $response);
+        $this->assertEquals("Error",$response->$attribute);
+    }
 }
