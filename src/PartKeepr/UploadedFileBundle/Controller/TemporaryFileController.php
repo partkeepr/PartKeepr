@@ -69,6 +69,7 @@ class TemporaryFileController extends FileController
      * Uploads a webcam image
      *
      * @param Request $request The request to process
+     *
      * @return Response
      */
     public function webcamUploadAction(Request $request)
@@ -85,9 +86,7 @@ class TemporaryFileController extends FileController
         $this->getDoctrine()->getManager()->persist($file);
         $this->getDoctrine()->getManager()->flush();
 
-        $resource = $this->getResource($request);
-
-        return $this->getSuccessResponse($resource, $file, 201);
+        return $file;
     }
 
     /**
