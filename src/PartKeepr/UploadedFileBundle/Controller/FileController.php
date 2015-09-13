@@ -15,7 +15,7 @@ abstract class FileController extends Controller
      *
      * @return string
      */
-    public function getFilename(UploadedFile $file)
+    protected function getFilename(UploadedFile $file)
     {
         $storageDirectory = $this->get("partkeepr_uploadedfile_service")->getStorageDirectory($file);
 
