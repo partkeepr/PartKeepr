@@ -55,5 +55,4 @@ class WebcamUploadTest extends WebTestCase
         $property = "@type";
         $this->assertEquals("TempUploadedFile", $response->$property);
     }
-
 }
