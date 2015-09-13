@@ -17,8 +17,6 @@ class WebcamUploadTest extends WebTestCase
 
         $fileString = "data:image/png;base64,".base64_encode($contents);
 
-        echo ini_get("default_charset");
-
         $client->request(
             'POST',
             '/api/temp_uploaded_files/webcamUpload',
