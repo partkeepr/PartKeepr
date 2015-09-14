@@ -30,6 +30,8 @@ class FileControllerTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
+        $this->assertObjectHasAttribute("image", $response);
+
         $property = "@id";
         $uri = $response->image->$property;
         $uri .= "/getMimeTypeIcon";
