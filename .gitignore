@@ -13,10 +13,6 @@
 /data/images/temp/*
 /data/temp/*
 /data/proxies/*
-.buildpath
-.externalToolBuilders
-.settings
-.project
 config.php
 /tests/reports
 /build-setup
