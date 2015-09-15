@@ -37,7 +37,7 @@
     "friendsofsymfony/rest-bundle": "~1.7.1",
     "cbsi/doctrine2-nestedset": "dev-master",
     "partkeepr/extjs6": "dev-master",
-    "fortawesome/font-awesome": "4.3.0",
+    "fortawesome/font-awesome": "4.*",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "symfony/doctrine-bridge": "2.7.x-dev",
     "dunglas/api-bundle": "dev-master",
@@ -54,7 +54,7 @@
     "reputation-vip/composer-assets-installer": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.7.*",
+    "phpunit/phpunit": "4.8.*",
     "codeclimate/php-test-reporter": "dev-master",
     "liip/functional-test-bundle": "~1.1"
   },
