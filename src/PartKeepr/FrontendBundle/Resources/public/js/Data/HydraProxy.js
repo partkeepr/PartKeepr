@@ -88,6 +88,8 @@ Ext.define("PartKeepr.data.HydraProxy", {
             request.setParams(parameters);
         }
 
+        request.setHeaders(this.getHeaders());
+
         request.setCallback(function (options, success, response)
         {
             this.processCallActionResponse(options, success, response);
