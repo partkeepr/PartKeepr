@@ -1,6 +1,8 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User:
+          algorithm: sha512
+          iterations: 1
         FOS\UserBundle\Model\UserInterface:
           algorithm: sha512
           iterations: 1
