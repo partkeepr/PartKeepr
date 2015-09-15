@@ -4,12 +4,12 @@ namespace PartKeepr\PartBundle\Action;
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
+use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\Stock\StockEntry;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Sets the stock for a given part
@@ -29,17 +29,17 @@ class SetStockAction
     private $registry;
 
     /**
-     * @var TokenStorage
+     * @var UserService
      */
-    private $tokenStorage;
+    private $userService;
 
     public function __construct(
         DataProviderInterface $dataProvider,
-        TokenStorage $tokenStorage,
+        UserService $userService,
         ManagerRegistry $registry
     ) {
         $this->dataProvider = $dataProvider;
-        $this->tokenStorage = $tokenStorage;
+        $this->userService = $userService;
         $this->registry = $registry;
     }
     /**
@@ -61,8 +61,7 @@ class SetStockAction
          * @var $part Part
          */
         $quantity = $request->request->get("quantity");
-        $user = $this->tokenStorage->getToken()->getUser();
-
+        $user = $this->userService->getUser();
 
         $oldQuantity = $part->getStockLevel();
         $correctionQuantity = $quantity - $oldQuantity;

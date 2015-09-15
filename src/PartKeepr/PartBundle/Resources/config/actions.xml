@@ -7,17 +7,17 @@
     <services>
         <service id="partkeepr.part.add_stock" class="PartKeepr\PartBundle\Action\AddStockAction">
             <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="partkeepr.userservice" />
             <argument type="service" id="doctrine"/>
         </service>
         <service id="partkeepr.part.remove_stock" class="PartKeepr\PartBundle\Action\RemoveStockAction">
             <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="partkeepr.userservice" />
             <argument type="service" id="doctrine"/>
         </service>
         <service id="partkeepr.part.set_stock" class="PartKeepr\PartBundle\Action\SetStockAction">
             <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="partkeepr.userservice" />
             <argument type="service" id="doctrine"/>
         </service>
     </services>
