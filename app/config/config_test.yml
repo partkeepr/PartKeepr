@@ -46,9 +46,16 @@ liip_functional_test:
         username: "admin"
         password: "admin"
 
-
 security:
+    providers:
+        in_memory:
+            memory:
+                users:
+                    admin:
+                        password: admin
+                        roles: 'ROLE_ADMIN'
     firewalls:
         main:
-            anonymous: ~
-            http_basic: ~
+            http_basic:
+                realm: "Secured Demo Area"
+                provider: in_memory

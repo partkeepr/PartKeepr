@@ -105,7 +105,7 @@ twig:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: PartKeepr\AuthBundle\Entity\User
+    user_class: PartKeepr\AuthBundle\Entity\FOSUser
 
 doctrine_migrations:
     dir_name: %kernel.root_dir%/../src/PartKeepr/CoreBundle/DoctrineMigrations
@@ -151,7 +151,7 @@ services:
     part.category_path_listener:
         class: PartKeepr\PartBundle\Listeners\CategoryPathListener
         arguments:
-            - "@service_container"
+            - "service_container"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
@@ -367,12 +367,8 @@ services:
              -    "@resource.part"               # Resource
              -    [ "PUT" ]                 # Methods
              -    "/parts/{id}/addStock"           # Path
-             -    "PartKeeprPartBundle:Part:addStock"         # Controller
+             -    "partkeepr.part.add_stock"         # Controller
              -    "PartAddStock"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
 
     resource.part.item_operation.remove_stock:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -382,12 +378,8 @@ services:
              -    "@resource.part"               # Resource
              -    [ "PUT" ]                 # Methods
              -    "/parts/{id}/removeStock"           # Path
-             -    "PartKeeprPartBundle:Part:removeStock"         # Controller
+             -    "partkeepr.part.remove_stock"         # Controller
              -    "PartRemoveStock"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
 
     resource.part.item_operation.set_stock:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -397,12 +389,8 @@ services:
              -    "@resource.part"               # Resource
              -    [ "PUT" ]                 # Methods
              -    "/parts/{id}/setStock"           # Path
-             -    "PartKeeprPartBundle:Part:setStock"         # Controller
+             -    "partkeepr.part.set_stock"         # Controller
              -    "PartSetStock"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
 
     resource.part:
         parent:    "api.resource"

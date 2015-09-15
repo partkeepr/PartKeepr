@@ -4,6 +4,7 @@ namespace PartKeepr\AuthBundle\Tests\Controller;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
 
 class DefaultControllerTest extends WebTestCase
@@ -28,6 +29,7 @@ class DefaultControllerTest extends WebTestCase
 
         $request = array("username" => "admin");
 
+
         $client->request(
             'POST',
             '/auth/getSalt',
@@ -37,13 +39,15 @@ class DefaultControllerTest extends WebTestCase
             json_encode($request)
         );
 
+
         $response = json_decode($client->getResponse()->getContent());
 
         $admin = $this->fixtures->getReference("user.admin");
 
         /**
-         * @var User $admin
+         * @var FOSUser $admin
          */
+
         $this->assertEquals($admin->getSalt(), $response);
     }
 }

@@ -1,5 +1,6 @@
 security:
     encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
         FOS\UserBundle\Model\UserInterface:
           algorithm: sha512
           iterations: 1
@@ -9,6 +10,11 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, fos_userbundle]
+        in_memory:
+            memory: ~
         fos_userbundle:
             id: fos_user.user_provider.username
 
@@ -18,13 +24,14 @@ security:
             security: false
         main:
             pattern: ^/api/.*
+            provider: fos_userbundle
             wsse:
-              realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
-              profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
-              encoder: #digest algorithm
-                algorithm: sha512
-                encodeHashAsBase64:    true
-                iterations: 1
+                realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
+                profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
+                encoder: #digest algorithm
+                    algorithm: sha512
+                    encodeHashAsBase64:    true
+                    iterations: 1
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
