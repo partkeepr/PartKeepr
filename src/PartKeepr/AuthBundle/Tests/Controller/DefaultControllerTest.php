@@ -5,7 +5,6 @@ namespace PartKeepr\AuthBundle\Tests\Controller;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use PartKeepr\AuthBundle\Entity\FOSUser;
-use PartKeepr\AuthBundle\Entity\User;
 
 class DefaultControllerTest extends WebTestCase
 {
