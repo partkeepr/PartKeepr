@@ -9,7 +9,7 @@ class TemporaryFileControllerTest extends WebTestCase
 {
     public function testUploadAction()
     {
-        $client = static::createClient();
+        $client = static::makeClient(true);
 
         $file = __DIR__."/Fixtures/files/uploadtest.png";
         $originalFilename = 'uploadtest.png';
@@ -81,7 +81,7 @@ class TemporaryFileControllerTest extends WebTestCase
 
     public function testURLUploadAction()
     {
-        $client = static::createClient();
+        $client = static::makeClient(true);
 
         $client->request(
             'POST',
@@ -98,7 +98,7 @@ class TemporaryFileControllerTest extends WebTestCase
 
     public function testUploadException()
     {
-        $client = static::createClient();
+        $client = static::makeClient(true);
 
         $client->request(
             'POST',
@@ -116,7 +116,7 @@ class TemporaryFileControllerTest extends WebTestCase
 
     public function testWebcamUploadAction()
     {
-        $client = static::createClient();
+        $client = static::makeClient(true);
 
         $file = __DIR__."/Fixtures/files/uploadtest.png";
         $mimeType = "image/png";

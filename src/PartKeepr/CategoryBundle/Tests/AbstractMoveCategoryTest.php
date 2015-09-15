@@ -25,7 +25,7 @@ abstract class AbstractMoveCategoryTest extends WebTestCase
 
     public function testMoveCategory()
     {
-        $client = static::createClient();
+        $client = static::makeClient(true);
 
         /**
          * @var $secondCategory AbstractCategory

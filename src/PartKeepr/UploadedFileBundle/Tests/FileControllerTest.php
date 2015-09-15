@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileControllerTest extends WebTestCase
 {
     public function testMimeType () {
-        $client = static::createClient();
+        $client = static::makeClient(true);
 
         $file = __DIR__."/Fixtures/files/uploadtest.png";
         $originalFilename = 'uploadtest.png';
@@ -45,7 +45,7 @@ class FileControllerTest extends WebTestCase
     }
 
     public function testGetFile () {
-        $client = static::createClient();
+        $client = static::makeClient(true);
 
         $file = __DIR__."/Fixtures/files/uploadtest.png";
         $originalFilename = 'uploadtest.png';
