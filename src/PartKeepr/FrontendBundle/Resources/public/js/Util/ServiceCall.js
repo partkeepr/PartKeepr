@@ -58,7 +58,7 @@ Ext.define('PartKeepr.ServiceCall', {
 		};
 		
 		if (!this.anonymous) {
-			headers.session = PartKeepr.getApplication().getSessionManager().getSession();
+			headers["X-WSSE"] = PartKeepr.getApplication().getSessionManager().getWSSE();
 		}
 		
 		Ext.Ajax.request({
