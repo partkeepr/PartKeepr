@@ -4,6 +4,7 @@ namespace PartKeepr\AuthBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\BaseEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
@@ -16,6 +17,7 @@ class User extends BaseEntity
 {
     /**
      * @ORM\Column(length=50)
+     * @Groups({"default"})
      */
     private $username;
 

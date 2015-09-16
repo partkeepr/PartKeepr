@@ -8,7 +8,7 @@ use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\Part\Exceptions\CategoryNotAssignedException;
 use PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
 use PartKeepr\PartKeepr;
-use PartKeepr\Stock\StockEntry;
+use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
@@ -153,7 +153,7 @@ class Part extends BaseEntity
 
     /**
      * The stock level history
-     * @ORM\OneToMany(targetEntity="PartKeepr\Stock\StockEntry",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\StockBundle\Entity\StockEntry",mappedBy="part",cascade={"persist", "remove"})
      *
      * @var ArrayCollection
      */

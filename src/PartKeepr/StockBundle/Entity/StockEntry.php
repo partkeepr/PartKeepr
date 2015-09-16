@@ -1,40 +1,48 @@
 <?php
-namespace PartKeepr\Stock;
+namespace PartKeepr\StockBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\Util\BaseEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @TargetService(uri="/api/stock_entries")
  */
 class StockEntry extends BaseEntity
 {
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"default"})
      */
     private $stockLevel;
 
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="stockLevels")
+     * @Groups({"default"})
      */
     private $part;
 
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
+     * @Groups({"default"})
      */
     private $user;
 
     /**
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
+     * @Groups({"default"})
      * @var float
      */
     private $price;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"default"})
      * @var \DateTime
      */
     private $dateTime;
@@ -43,12 +51,14 @@ class StockEntry extends BaseEntity
      * Indicates if the stock level is a correction entry.
      *
      * @ORM\Column(type="boolean")
+     * @Groups({"default"})
      * @var boolean
      */
     private $correction;
 
     /**
      * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
      * @var string
      */
     private $comment;

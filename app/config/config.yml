@@ -693,6 +693,19 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.stock_entry:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\StockBundle\Entity\StockEntry" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
 # ######################## Storage Location Categories######################################
 
     resource.storage_location_category.item_operation.move:

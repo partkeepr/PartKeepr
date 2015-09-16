@@ -7,7 +7,7 @@ use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\PartBundle\Entity\Part;
-use PartKeepr\Stock\StockEntry;
+use PartKeepr\StockBundle\Entity\StockEntry;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -45,7 +45,8 @@ class SetStockAction
     /**
      * Retrieves a collection of resources.
      *
-     * @param Request $request
+     * @param Request $request The request
+     * @param int $id The ID of the part
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      *

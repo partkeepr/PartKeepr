@@ -3,7 +3,7 @@ namespace PartKeepr\PartBundle\Listeners;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use PartKeepr\PartBundle\Entity\Part;
-use PartKeepr\Stock\StockEntry;
+use PartKeepr\StockBundle\Entity\StockEntry;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 class StockLevelListener extends ContainerAware

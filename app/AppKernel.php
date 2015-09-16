@@ -90,6 +90,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\FootprintBundle\PartKeeprFootprintBundle();
         $bundles[] = new PartKeepr\UnitBundle\PartKeeprUnitBundle();
         $bundles[] = new PartKeepr\PartBundle\PartKeeprPartBundle();
+        $bundles[] = new PartKeepr\StockBundle\PartKeeprStockBundle();
         $bundles[] = new PartKeepr\DistributorBundle\PartKeeprDistributorBundle();
         $bundles[] = new PartKeepr\ManufacturerBundle\PartKeeprManufacturerBundle();
         $bundles[] = new PartKeepr\ImageBundle\PartKeeprImageBundle();

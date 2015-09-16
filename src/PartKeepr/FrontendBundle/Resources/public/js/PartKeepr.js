@@ -273,7 +273,7 @@ Ext.application({
     	
     	this.userPreferenceStore = Ext.create("Ext.data.Store",
     			{
-    				model: 'PartKeepr.UserPreference.UserPreference',
+    				model: 'PartKeepr.AuthBundle.Entity.UserPreference',
     				pageSize: 99999999,
     				autoLoad: false,
     				listeners: {
