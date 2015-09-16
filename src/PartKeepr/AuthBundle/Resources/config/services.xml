@@ -13,5 +13,8 @@
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
+        <service id="partkeepr.user_preference_service" class="PartKeepr\AuthBundle\Services\UserPreferenceService">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
     </services>
 </container>

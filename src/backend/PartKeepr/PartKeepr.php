@@ -199,7 +199,7 @@ class PartKeepr {
 			
 			'PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay',
 			'PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory',
-			'PartKeepr\UserPreference\UserPreference',
+			'PartKeepr\AuthBundle\Entity\UserPreference',
 			'PartKeepr\SystemNotice\SystemNotice',
 			'PartKeepr\CronLogger\CronLogger'
 			

@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\AuthBundle\Response;
 
-use PartKeepr\UserPreference\UserPreference;
+use PartKeepr\AuthBundle\Entity\UserPreference;
 
 /**
  * Class LoginResponse

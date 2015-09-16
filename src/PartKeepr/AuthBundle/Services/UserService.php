@@ -12,7 +12,7 @@ class UserService
 {
     private $tokenStorage;
 
-    /*
+    /**
      * @var EntityManager
      */
     private $entityManager;
@@ -28,6 +28,11 @@ class UserService
         $provider = $this->tokenStorage->getToken()->getAttribute("provider");
         $username = $this->tokenStorage->getToken()->getUsername();
 
+        return $this->getProxyUser($username, $provider);
+    }
+
+    public function getProxyUser($username, $provider)
+    {
         /**
          * @var QueryBuilder $queryBuilder
          */
