@@ -1,9 +1,0 @@
-Unit tests are usually ran by calling "phing test".
-
-If you need to run individual tests, you can do so by using the following command:
-
-phpunit --bootstrap tests/bootstrap.php <yourtestcase>
-
-Full example:
-
-phpunit --bootstrap tests/bootstrap.php tests/Part/PartServiceTest.php
