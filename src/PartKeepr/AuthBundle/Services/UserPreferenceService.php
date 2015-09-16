@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Entity\UserPreference;
-use PartKeepr\UserPreference\Exceptions\UserPreferenceNotFoundException;
+use PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException;
 use PartKeepr\Util\Exceptions\EntityNotPersistantException;
 
 class UserPreferenceService
@@ -66,7 +66,7 @@ class UserPreferenceService
      * @param string $key  The preference key to retrieve
      *
      * @return string        The preference string
-     * @throws UserPreferenceNotFoundException    Thrown if the preference key was not found
+     * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException    Thrown if the preference key was not found
      * @throws EntityNotPersistantException        Thrown if the entity is not persistant
      */
     public function getPreferenceValue(User $user, $key)
@@ -104,7 +104,7 @@ class UserPreferenceService
      * @param string                            $key  The preference key to retrieve
      *
      * @return UserPreference    The preference object
-     * @throws UserPreferenceNotFoundException    Thrown if the preference key was not found
+     * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException    Thrown if the preference key was not found
      * @throws EntityNotPersistantException        Thrown if the entity is not persistant
      */
     public function getPreference(User $user, $key)
