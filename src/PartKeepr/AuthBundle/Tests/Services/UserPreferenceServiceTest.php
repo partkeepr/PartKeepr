@@ -7,20 +7,6 @@ use PartKeepr\AuthBundle\Entity\User;
 
 class UserPreferenceServiceTest extends WebTestCase
 {
-    /**
-     * @var ProxyReferenceRepository
-     */
-    private $fixtures;
-
-    public function setUp()
-    {
-        $this->fixtures = $this->loadFixtures(
-            array(
-                'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
-            )
-        )->getReferenceRepository();
-    }
-
     public function testBasics()
     {
         $service = $this->getContainer()->get("partkeepr.user_preference_service");
