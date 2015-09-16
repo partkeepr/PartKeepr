@@ -177,7 +177,8 @@ Ext.define('PartKeepr.PartDisplay', {
 
         this.attachmentDisplay.bindStore(this.record.attachments());
         this.infoGrid.setSource(values);
-        this.infoGrid.setTitle("<div>" + this.record.get("name") + "</div><small>" + this.record.get("description") + "</small>");
+        this.infoGrid.setTitle(
+            "<div>" + this.record.get("name") + "</div><small>" + this.record.get("description") + "</small>");
         this.imageDisplay.setStore(this.record.attachments());
 
         // Scroll the container to top in case the user scrolled the part, then switched to another part
@@ -197,15 +198,11 @@ Ext.define('PartKeepr.PartDisplay', {
      */
     addPartHandler: function (quantity, price, comment)
     {
-        var call = new PartKeepr.ServiceCall(
-            "Part",
-            "addStock");
-        call.setParameter("stock", quantity);
-        call.setParameter("price", price);
-        call.setParameter("comment", comment);
-        call.setParameter("part", this.record.get("id"));
-        call.setHandler(Ext.bind(this.reloadPart, this));
-        call.doCall();
+        this.record.callAction("addStock", {
+            quantity: quantity,
+            price: price,
+            comment: comment
+        }, Ext.bind(this.reloadPart, this));
     },
     /**
      * Prompts the user for the stock level to decrease for the item.
@@ -220,27 +217,26 @@ Ext.define('PartKeepr.PartDisplay', {
      */
     deletePartHandler: function (quantity)
     {
-        var call = new PartKeepr.ServiceCall(
-            "Part",
-            "deleteStock");
-        call.setParameter("stock", quantity);
-        call.setParameter("part", this.record.getId());
-        call.setHandler(Ext.bind(this.reloadPart, this));
-        call.doCall();
+        this.record.callAction("removeStock", {
+            quantity: quantity,
+        }, Ext.bind(this.reloadPart, this));
     },
     /**
      * Reloads the current part
      */
     reloadPart: function ()
     {
-        this.loadPart(this.record.getId());
+        this.record.load({
+            scope: this,
+            success: this.onPartLoaded
+        });
     },
     /**
      * Load the part from the database.
      */
-    loadPart: function (id)
+    loadPart: function ()
     {
-        PartKeepr.Part.load(id, {
+        this.record.load({
             scope: this,
             success: this.onPartLoaded
         });
@@ -250,8 +246,6 @@ Ext.define('PartKeepr.PartDisplay', {
      */
     onPartLoaded: function (record)
     {
-        this.record = record;
         this.setValues(this.record);
-        this.record.commit();
     }
 });
