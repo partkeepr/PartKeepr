@@ -219,7 +219,7 @@ Ext.define('PartKeepr.PartsGrid', {
     onDoubleClick: function (view, record)
     {
         if (record) {
-            this.fireEvent("editPart", record.getId());
+            this.fireEvent("editPart", record);
         }
     },
     /**

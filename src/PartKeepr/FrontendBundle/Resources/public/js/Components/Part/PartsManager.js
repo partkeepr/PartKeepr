@@ -80,12 +80,6 @@ Ext.define('PartKeepr.PartManager', {
         this.grid.on("duplicateItemWithAllData", this.onDuplicateItemWithAllData, this);
         this.tree.on("syncCategory", this.onSyncCategory, this);
 
-        // Listen on the partChanged event, which is fired when the users edits the part
-        this.detail.on("partChanged", function ()
-        {
-            this.grid.getStore().load();
-        }, this);
-
         // Create the stock level panel
         this.stockLevel = Ext.create("PartKeepr.PartStockHistory", {title: "Stock History"});
 
@@ -346,30 +340,15 @@ Ext.define('PartKeepr.PartManager', {
     /**
      * Called when a part was edited. Refreshes the grid.
      */
-    onEditPart: function (id)
-    {
-        this.loadPart(id, Ext.bind(this.onPartLoaded, this));
-    },
-    /**
-     * Called when a part was loaded. Displays the part in the editor window.
-     */
-    onPartLoaded: function (f, g)
+    onEditPart: function (part)
     {
         var j = Ext.create("PartKeepr.PartEditorWindow");
         j.editor.on("partSaved", this.onPartSaved, this);
-        j.editor.editItem(f);
+        j.editor.editItem(part);
         j.show();
     },
     onPartSaved: function (record)
     {
-
-        var idx = this.grid.store.find("id", record.getId());
-
-        // Only reload the grid if the edited record is contained
-        if (idx !== -1) {
-            this.grid.store.load();
-        }
-
         this.detail.setValues(record);
     },
     /**
