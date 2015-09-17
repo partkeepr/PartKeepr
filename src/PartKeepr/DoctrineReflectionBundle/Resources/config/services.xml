@@ -18,5 +18,8 @@
             <argument type="service" id="request_stack" />
         </service>
 
+        <service id="partkeepr.exceptionwrapper" class="PartKeepr\DoctrineReflectionBundle\Exception\ExceptionWrapperHandler">
+        </service>
+
     </services>
 </container>

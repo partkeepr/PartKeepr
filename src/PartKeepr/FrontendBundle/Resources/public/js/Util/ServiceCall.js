@@ -87,18 +87,8 @@ Ext.define('PartKeepr.ServiceCall', {
         try {
             var response = Ext.decode(responseObj.responseText);
         } catch (ex) {
-            var exception = {
-                message: i18n("Critical Error"),
-                detail: i18n("The server returned a response which we were not able to interpret.")
-            };
 
-
-            var request = {
-                response: responseObj.responseText,
-                request: Ext.encode(options)
-            };
-
-            PartKeepr.ExceptionWindow.showException(exception, request);
+            PartKeepr.ExceptionWindow.showException(responseObj);
             return;
         }
 
@@ -142,33 +132,7 @@ Ext.define('PartKeepr.ServiceCall', {
     {
         var request;
 
-        try {
-            var data = Ext.decode(response.responseText);
-
-            request = {
-                response: response.responseText,
-                request: Ext.encode(options)
-            };
-
-            PartKeepr.ExceptionWindow.showException(data, request);
-        } catch (ex) {
-
-            var exception = {
-                message: i18n("Critical Error"),
-                detail: i18n("The server returned a response which we were not able to interpret."),
-                backtrace: response.responseText
-            };
-
-            request = {
-                response: response.responseText,
-                request: Ext.encode(options)
-            };
-
-            PartKeepr.ExceptionWindow.showException(exception, request);
-
-
-        }
-
+        PartKeepr.ExceptionWindow.showException(response);
         PartKeepr.getApplication().getStatusbar().endLoad();
     },
     displayError: function (obj)

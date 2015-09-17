@@ -2,7 +2,6 @@
 namespace PartKeepr\DoctrineReflectionBundle\Exception;
 
 use FOS\RestBundle\View\ExceptionWrapperHandlerInterface;
-use Symfony\Component\Debug\Exception\FlattenException;
 
 class ExceptionWrapperHandler implements ExceptionWrapperHandlerInterface
 {
@@ -13,16 +12,12 @@ class ExceptionWrapperHandler implements ExceptionWrapperHandlerInterface
      */
     public function wrap($data)
     {
-        // we get the original exception
-        /** @var $exception FlattenException */
-        $exception = $data['exception'];
+        $data = [
+            '@type' => 'Error',
+            'hydra:title' => isset($context['title']) ? $context['title'] : 'An error occurred',
+            'hydra:description' => $data["message"],
+        ];
 
-        // return the array
-        return array(
-            'success' => false,
-            'exception' => array(
-                "message" => $exception->getMessage()
-            )
-        );
+        return $data;
     }
 }
