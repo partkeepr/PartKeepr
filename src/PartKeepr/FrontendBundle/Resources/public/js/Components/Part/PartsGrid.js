@@ -489,6 +489,7 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         if (buttonId == "cancel") {
             opts.originalOnEdit.record.set("stockLevel", opts.originalOnEdit.originalValue);
+            return;
         }
 
         this.handleStockChange(opts.originalOnEdit);
