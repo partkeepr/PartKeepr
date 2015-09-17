@@ -10,13 +10,14 @@ Ext.define("PartKeepr.data.HydraModel", {
      *
      * @param {String} action The action name
      * @param {Object} parameters (optional) The parameters as JS object
-     * @param {Function} callback (optional) A callback function
+     * @param {Function} callback (optional) A callback function, or null if not required
+     * @param {boolean} reload (optional) Triggers a reload of the model after executing the action
      */
-    callAction: function (action, parameters, callback)
+    callAction: function (action, parameters, callback, reload)
     {
         var proxy = this.getProxy();
 
-        proxy.callAction(this, action, parameters, callback);
+        proxy.callAction(this, action, parameters, callback, reload);
     },
     getData: function (options)
     {
