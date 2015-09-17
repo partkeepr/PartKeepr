@@ -382,7 +382,9 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         switch (e.field) {
             case "stockLevel":
-                this.handleStockFieldEdit(e);
+                if (e.value !== e.originalValue.toString()) {
+                    this.handleStockFieldEdit(e);
+                }
                 break;
             default:
                 break;
