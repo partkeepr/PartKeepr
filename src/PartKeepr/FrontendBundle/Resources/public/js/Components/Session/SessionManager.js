@@ -82,6 +82,7 @@ Ext.define("PartKeepr.SessionManager", {
 
 
         this.secret = CryptoJS.enc.Base64.stringify(CryptoJS.SHA512(this.password + "{" + this.salt + "}"));
+        this.loginDialog.destroy();
         this.fireEvent("login");
     },
     getWSSE: function () {
@@ -137,6 +138,7 @@ Ext.define("PartKeepr.SessionManager", {
         k.setHandler(Ext.bind(this.onSaltRetrieved, this));
         k.doCall();
 
+
     },
     /**
      * Callback when the service call is complete.
@@ -145,7 +147,6 @@ Ext.define("PartKeepr.SessionManager", {
      */
     onAfterLogin: function (response)
     {
-        console.log(response);
         this.setSession(response.sessionId);
         this.loginDialog.destroy();
 
