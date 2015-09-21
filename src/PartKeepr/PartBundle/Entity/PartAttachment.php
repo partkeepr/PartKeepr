@@ -63,7 +63,7 @@ class PartAttachment extends UploadedFile
      *
      * @return True if the attachment is an image, false otherwise
      */
-    public function getIsImage()
+    public function isImage()
     {
         return $this->isImage;
     }

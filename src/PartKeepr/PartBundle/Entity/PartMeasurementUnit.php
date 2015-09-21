@@ -50,7 +50,7 @@ class PartMeasurementUnit extends BaseEntity {
 	 *
 	 * @var boolean
 	 */
-	private $isDefault;
+	private $default;
 	
 	/**
 	 * The parts used by this PartMeasurementUnit
@@ -67,7 +67,7 @@ class PartMeasurementUnit extends BaseEntity {
 	 */
 	public function __construct () {
 		$this->parts = new ArrayCollection();
-		$this->setIsDefault(false);
+		$this->setDefault(false);
 	}
 	
 	/**
@@ -110,8 +110,8 @@ class PartMeasurementUnit extends BaseEntity {
 	 * Defines if the unit is default or not.
 	 * @param boolean $default True if the unit is default, false otherwise
 	 */
-	public function setIsDefault ($default) {
-		$this->isDefault = (bool)$default;
+	public function setDefault ($default) {
+		$this->default = (bool)$default;
 	}
 	
 	/**
@@ -119,8 +119,8 @@ class PartMeasurementUnit extends BaseEntity {
 	 * @param none
 	 * @return boolean True if the unit is default, false for not
 	 */
-	public function getIsDefault () {
-		return $this->isDefault;
+	public function isDefault () {
+		return $this->default;
 	}
 
 	/**
@@ -131,4 +131,3 @@ class PartMeasurementUnit extends BaseEntity {
 		return $this->parts;
 	}
 }
-	
