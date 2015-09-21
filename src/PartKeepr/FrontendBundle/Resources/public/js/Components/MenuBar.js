@@ -132,7 +132,7 @@ Ext.define('PartKeepr.MenuBar', {
 	},
 	showUserPreferences: function () {
 		var j = new PartKeepr.UserPreferencePanel({
-			iconCls: 'icon-gear',
+			iconCls: 'web-icon gear',
 			closable: true
 		});
 		
@@ -148,7 +148,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showSystemInformation: function () {
 		var j = Ext.create("PartKeepr.SystemInformationGrid", {
 			title: i18n("System Information"),
-			iconCls: 'icon-system-monitor',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/system-monitor.png',
 			closable: true,
 			padding: "5 5 5 5"
 		});
@@ -159,7 +159,7 @@ Ext.define('PartKeepr.MenuBar', {
 	},
 	showStatisticsSummary: function () {
 		var j = Ext.create("PartKeepr.CurrentStatisticsPanel", {
-			iconCls: 'icon-chart-bar',
+			iconCls: 'web-icon chart-bar',
 			closable: true
 		});
 		
@@ -169,7 +169,7 @@ Ext.define('PartKeepr.MenuBar', {
 	},
 	showStatisticsChart: function () {
 		var j = Ext.create("PartKeepr.StatisticsChartPanel", {
-			iconCls: 'icon-chart-bar',
+			iconCls: 'web-icon chart-bar',
 			closable: true
 		});
 		
@@ -180,7 +180,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editStorageLocations: function () {
 		var j = Ext.create("PartKeepr.StorageLocationEditorComponent", {
 			title: i18n("Storage Locations"),
-			iconCls: 'icon-wooden-box',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/wooden-box.png',
 			closable: true
 		});
 		
@@ -190,7 +190,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editUnits: function () {
 		var j = Ext.create("PartKeepr.UnitEditorComponent", {
 			title: i18n("Units"),
-			iconCls: 'icon-unit',
+			icon: 'bundles/partkeeprfrontend/images/icons/unit.png',
 			closable: true
 		});
 		
@@ -200,7 +200,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editManufacturers: function () {
 		var j = Ext.create("PartKeepr.ManufacturerEditorComponent", {
 			title: i18n("Manufacturers"),
-			iconCls: 'icon-building',
+			iconCls: 'web-icon building',
 			closable: true
 		});
 		
@@ -210,7 +210,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editFootprints: function () {
 		var j = Ext.create("PartKeepr.FootprintEditorComponent", {
 			title: i18n("Footprints"),
-			iconCls: 'icon-footprint',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/fingerprint.png',
 			closable: true
 		});
 		
@@ -220,7 +220,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editDistributors: function () {
 		var j = Ext.create("PartKeepr.DistributorEditorComponent", {
 			title: i18n("Distributors"),
-			iconCls: 'icon-lorry',
+			iconCls: 'web-icon lorry',
 			closable: true
 		});
 		
@@ -230,7 +230,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editUsers: function () {
 		var j = Ext.create("PartKeepr.UserEditorComponent", {
 			title: i18n("Users"),
-			iconCls: 'icon-user',
+			iconCls: 'web-icon user',
 			closable: true
 		});
 		
@@ -240,7 +240,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editPartUnits: function () {
 		var j = Ext.create("PartKeepr.PartMeasurementUnitEditorComponent", {
 			title: i18n("Part Measurement Units"),
-			iconCls: 'icon-ruler',
+			icon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler.png",
 			closable: true
 		});
 		
@@ -250,7 +250,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editProjects: function () {
 		var j = Ext.create("PartKeepr.ProjectEditorComponent", {
 			title: i18n("Projects"),
-			iconCls: 'icon-drill',
+			iconCls: 'web-icon drill',
 			closable: true
 		});
 		
@@ -260,7 +260,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showProjectReports: function () {
 		var j = Ext.create("PartKeepr.ProjectReportView", {
 			title: i18n("Project Reports"),
-			iconCls: 'icon-drill',
+			iconCls: 'web-icon drill',
 			closable: true
 		});
 		
@@ -270,7 +270,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showSystemNotices: function () {
 		var j = Ext.create("PartKeepr.SystemNoticeEditorComponent", {
 			title: i18n("System Notices"),
-			iconCls: 'icon-service-bell',
+			iconCls: 'web-icon bell',
 			closable: true
 		});
 		
@@ -280,7 +280,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showStockHistory: function () {
 		var j = Ext.create("PartKeepr.StockHistoryGrid", {
 			title: i18n("Stock History"),
-			iconCls: 'icon-notebook',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/notebook.png',
 			closable: true
 		});
 		
@@ -300,7 +300,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showPrintStorageLocations: function () {
 		var j = Ext.create("PartKeepr.PrintStorageLocations", {
 			title: i18n("Printing and Labeling: Storage Locations"),
-			iconCls: 'icon-drill',
+			iconCls: 'web-icon drill',
 			closable: true
 		});
 		
@@ -310,7 +310,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editPrintingPageBasicLayout: function () {
 		var j = Ext.create("PartKeepr.Printing.PageBasicLayoutEditorComponent", {
 			title: i18n("Labeling Layout"),
-			iconCls: 'icon-drill',
+			iconCls: 'web-icon drill',
 			closable: true
 		});
 		
@@ -320,7 +320,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editPrintingJobConfiguration: function () {
 		var j = Ext.create("PartKeepr.Printing.PrintingJobConfigurationEditorComponent", {
 			title: i18n("Printing Configuration"),
-			iconCls: 'icon-drill',
+			iconCls: 'web-icon drill',
 			closable: true
 		});
 		
@@ -328,4 +328,3 @@ Ext.define('PartKeepr.MenuBar', {
 		j.show();
 	}
 });
-	

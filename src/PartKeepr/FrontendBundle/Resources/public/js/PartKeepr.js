@@ -106,7 +106,7 @@ Ext.application({
         this.partManager = Ext.create("PartKeepr.PartManager", {
             title: i18n("Part Manager"),
             compactLayout: PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false),
-            iconCls: 'icon-brick',
+            iconCls: 'web-icon brick',
             closable: false
         });
 

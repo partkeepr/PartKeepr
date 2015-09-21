@@ -8,7 +8,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
     layout: 'fit',
     resizable: false,
     modal: true,
-    iconCls: 'icon-drive-upload',
+    iconCls: 'web-icon drive-upload',
     initComponent: function ()
     {
 
@@ -19,7 +19,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
         this.uploadButton = Ext.create("Ext.button.Button",
             {
                 text: i18n('Upload'),
-                iconCls: 'icon-drive-upload',
+                iconCls: 'web-icon drive-upload',
                 width: 120,
                 handler: Ext.bind(function ()
                 {
@@ -69,7 +69,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
             this.fileFormatButton = Ext.create("Ext.button.Button", {
                 text: i18n("Available Formats"),
                 width: 120,
-                iconCls: 'icon-infocard',
+                iconCls: 'web-icon infocard',
                 handler: this.showAvailableFormats,
                 scope: this
             });
