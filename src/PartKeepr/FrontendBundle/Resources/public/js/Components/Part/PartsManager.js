@@ -262,8 +262,6 @@ Ext.define('PartKeepr.PartManager', {
     createPartDuplicate: function (rec)
     {
         var copy = rec.copy();
-        Ext.data.Model.id(copy);
-        copy.set("id", null);
 
         var j = Ext.create("PartKeepr.PartEditorWindow", {
             partMode: 'create'
@@ -333,7 +331,7 @@ Ext.define('PartKeepr.PartManager', {
         defaults.partUnit = defaultPartUnit.getId();
         defaults.category = this.grid.currentCategory;
 
-        record = Ext.create("PartKeepr.Part", defaults);
+        record = Ext.create("PartKeepr.PartBundle.Entity.Part", defaults);
 
         // Inject the defaults to the editor, so the editor can create a new item on its own
         j.editor.partDefaults = defaults;
