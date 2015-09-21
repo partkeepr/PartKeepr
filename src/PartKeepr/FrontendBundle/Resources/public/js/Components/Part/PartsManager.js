@@ -263,6 +263,10 @@ Ext.define('PartKeepr.PartManager', {
     {
         var copy = rec.copy();
 
+        copy.setCategory(rec.getCategory());
+        copy.setFootprint(rec.getFootprint());
+        copy.setStorageLocation(rec.getStorageLocation());
+
         var j = Ext.create("PartKeepr.PartEditorWindow", {
             partMode: 'create'
         });
@@ -277,10 +281,11 @@ Ext.define('PartKeepr.PartManager', {
      */
     createFullPartDuplicate: function (rec)
     {
-        var data = rec.getData(true);
-        data.id = null;
+        var data = rec.getData();
+
         newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
-        newItem.setDataWithAssociations(data);
+        newItem.set(data);
+        newItem.setAssociationData(rec.getAssociationData());
 
         var j = Ext.create("PartKeepr.PartEditorWindow", {
             partMode: 'create'
