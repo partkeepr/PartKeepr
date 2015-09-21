@@ -350,7 +350,7 @@ Ext.application({
     	return this.distributorStore;
     },
     getDefaultPartUnit: function () {
-    	return this.partUnitStore.findRecord("isDefault", true);
+    	return this.partUnitStore.findRecord("default", true);
     },
     getUserStore: function () {
     	return this.userStore;

@@ -3,7 +3,7 @@ Ext.define('PartKeepr.PartMeasurementUnitGrid', {
 	alias: 'widget.PartMeasurementUnitGrid',
 	columns: [
 	          {header: i18n("Part Measurement Unit"),  dataIndex: 'name', flex: 1},
-	          {header: i18n("Default"),  dataIndex: 'isDefault', width: 60, renderer: function (val) { if (val === true) { return "✓"; } else { return ""; }}}
+	          {header: i18n("Default"),  dataIndex: 'default', width: 60, renderer: function (val) { if (val === true) { return "✓"; } else { return ""; }}}
 	          ],
 	addButtonText: i18n("Add Part Measurement Unit"),
 	addButtonIcon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler--plus.png",
