@@ -36,14 +36,6 @@ class StockLevelListener extends ContainerAware
             }
         }
 
-        foreach ($uow->getScheduledEntityDeletions() as $updated) {
-            if ($updated instanceof StockEntry) {
-                if (!in_array($updated->getPart(), $parts)) {
-                    $parts[] = $updated->getPart();
-                }
-            }
-        }
-
         foreach ($parts as $part) {
             $this->updateStockLevel($part, $eventArgs);
         }
