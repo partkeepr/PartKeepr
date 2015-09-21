@@ -307,17 +307,8 @@ Ext.define('PartKeepr.PartManager', {
         var r = this.grid.getSelectionModel().getLastSelected();
 
         if (btn == "yes") {
-            var call = new PartKeepr.ServiceCall(
-                "Part",
-                "deletePart");
-
-            call.setLoadMessage(sprintf(i18n("Deleting part %s"), r.get("name")));
-            call.setParameter("part", r.getId());
-            call.setHandler(Ext.bind(function ()
-            {
-                this.store.load();
-            }, this));
-            call.doCall();
+            this.detailPanel.collapse();
+            r.erase();
         }
     },
     /**
