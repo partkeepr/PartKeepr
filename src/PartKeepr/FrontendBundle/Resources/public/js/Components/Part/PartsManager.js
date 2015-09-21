@@ -308,6 +308,7 @@ Ext.define('PartKeepr.PartManager', {
 
         if (btn == "yes") {
             this.detailPanel.collapse();
+            this.detail.clear();
             r.erase();
         }
     },

@@ -151,6 +151,11 @@ Ext.define('PartKeepr.PartDisplay', {
         ];
         this.callParent();
     },
+    clear: function () {
+        this.attachmentDisplay.bindStore(null);
+        this.imageDisplay.setStore(null);
+
+    },
     /**
      * Sets the values for the template.
      *
