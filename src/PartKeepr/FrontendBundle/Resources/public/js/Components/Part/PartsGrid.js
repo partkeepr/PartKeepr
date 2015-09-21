@@ -300,14 +300,18 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     storageLocationRenderer: function (val, q, rec)
     {
-        return rec.getStorageLocation().get("name");
+        if (rec.getStorageLocation() !== null) {
+            return rec.getStorageLocation().get("name");
+        }
     },
     /**
      * Renders the storage location
      */
     categoryPathRenderer: function (val, q, rec)
     {
-        return rec.getCategory().get("categoryPath");
+        if (rec.getCategory() !== null) {
+            return rec.getCategory().get("categoryPath");
+        }
     },
     /**
      * Renders the storage location
