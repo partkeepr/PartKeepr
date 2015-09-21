@@ -84,7 +84,7 @@ Ext.define('PartKeepr.PartDisplay', {
             iconCls: 'web-icon brick_edit',
             handler: Ext.bind(function ()
             {
-                this.fireEvent("editPart", this.record.getId());
+                this.fireEvent("editPart", this.record);
             }, this)
         });
 
@@ -207,7 +207,7 @@ Ext.define('PartKeepr.PartDisplay', {
             quantity: quantity,
             price: price,
             comment: comment
-        }, Ext.bind(this.reloadPart, this));
+        }, null, true);
     },
     /**
      * Prompts the user for the stock level to decrease for the item.
@@ -224,17 +224,7 @@ Ext.define('PartKeepr.PartDisplay', {
     {
         this.record.callAction("removeStock", {
             quantity: quantity,
-        }, Ext.bind(this.reloadPart, this));
-    },
-    /**
-     * Reloads the current part
-     */
-    reloadPart: function ()
-    {
-        this.record.load({
-            scope: this,
-            success: this.onPartLoaded
-        });
+        }, null, true);
     },
     /**
      * Load the part from the database.

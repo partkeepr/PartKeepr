@@ -6,20 +6,18 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
 
     pageSize: 25,
 
-    defineColumns: function ()
-    {
+    defineColumns: function () {
         this.columns = [
             {
                 header: "",
                 xtype: 'actioncolumn',
-                dataIndex: 'direction',
-                renderer: function (val)
-                {
-                    if (val == "out") {
-                        return '<img title="' + i18n(
-                                "Parts removed") + '" src="resources/silkicons/brick_delete.png"/>';
+                renderer: function (val, p, rec) {
+                    if (rec.get("stockLevel") < 0) {
+                        return '<span title="' + i18n(
+                                "Parts removed") + '" style="vertical-align: top;" class="web-icon brick_delete">ad</span>';
                     } else {
-                        return '<img title="' + i18n("Parts added") + '" src="resources/silkicons/brick_add.png"/>';
+                        return '<span title="' + i18n(
+                                "Parts added") + '" style="vertical-align: top;" class="web-icon brick_add"></span>';
                     }
                 },
                 width: 20
@@ -29,8 +27,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
                 header: i18n("User"),
                 flex: 1,
                 minWidth: 80,
-                renderer: function (val, p, rec)
-                {
+                renderer: function (val, p, rec) {
                     if (rec.getUser() !== null) {
                         return rec.getUser().get("username");
                     }
@@ -55,8 +52,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
                 },
                 dataIndex: 'price',
                 width: 60,
-                renderer: function (val, p, rec)
-                {
+                renderer: function (val, p, rec) {
                     if (rec.get("dir") == "out") {
                         return "-";
                     } else {
@@ -79,8 +75,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
     /**
      * Initializes the stock history grid.
      */
-    initComponent: function ()
-    {
+    initComponent: function () {
 
         this.defineColumns();
 
@@ -115,7 +110,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
         });
 
 
-        this.dockedItems = new Array();
+        this.dockedItems = [];
         this.dockedItems.push(this.bottomToolbar);
 
         this.editing.on("beforeedit", this.onBeforeEdit, this);
@@ -128,8 +123,7 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
      * @param e Passed from ExtJS
      * @returns {Boolean}
      */
-    onBeforeEdit: function (e)
-    {
+    onBeforeEdit: function (e) {
 
         // Checks if the usernames match
         var sameUser = e.record.get("username") == PartKeepr.getApplication().getUsername();

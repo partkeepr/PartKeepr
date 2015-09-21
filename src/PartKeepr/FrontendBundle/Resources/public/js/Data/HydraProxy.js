@@ -77,7 +77,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
      *
      *
      */
-    callAction: function (record, action, parameters, callback)
+    callAction: function (record, action, parameters, callback, reload)
     {
         var url = record.getId() + "/" + action;
         var request = Ext.create("Ext.data.Request");
@@ -93,6 +93,10 @@ Ext.define("PartKeepr.data.HydraProxy", {
         request.setCallback(function (options, success, response)
         {
             this.processCallActionResponse(options, success, response);
+
+            if (reload) {
+                record.load();
+            }
 
             if (Ext.isFunction(callback)) {
                 callback(options, success, response);

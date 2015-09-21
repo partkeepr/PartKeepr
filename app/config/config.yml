@@ -7,12 +7,13 @@ fos_rest:
     body_listener: true
     format_listener: true
     param_fetcher_listener: force
+    service:
+        exception_handler: "partkeepr.exceptionwrapper"
     format_listener:
         rules:
             - priorities: [json, xml]
             - fallback_format: json
     view:
-        exception_wrapper_handler: PartKeepr\DoctrineReflectionBundle\Exception\ExceptionWrapperHandler
         default_engine: php
         formats:
             json: true

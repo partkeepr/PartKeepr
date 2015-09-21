@@ -219,7 +219,7 @@ Ext.define('PartKeepr.PartsGrid', {
     onDoubleClick: function (view, record)
     {
         if (record) {
-            this.fireEvent("editPart", record.getId());
+            this.fireEvent("editPart", record);
         }
     },
     /**
@@ -390,7 +390,9 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         switch (e.field) {
             case "stockLevel":
-                this.handleStockFieldEdit(e);
+                if (e.value !== e.originalValue.toString()) {
+                    this.handleStockFieldEdit(e);
+                }
                 break;
             default:
                 break;
@@ -497,6 +499,7 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         if (buttonId == "cancel") {
             opts.originalOnEdit.record.set("stockLevel", opts.originalOnEdit.originalValue);
+            return;
         }
 
         this.handleStockChange(opts.originalOnEdit);
