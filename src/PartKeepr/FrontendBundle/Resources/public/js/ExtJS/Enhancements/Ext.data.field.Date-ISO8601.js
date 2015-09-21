@@ -6,6 +6,11 @@ Ext.define("PartKeepr.data.field.Date", {
 
     serialize: function (value)
     {
-        return value.toISOString();
+        if (value instanceof Date) {
+            return value.toISOString();
+        } else {
+            var date = new Date();
+            return date.toISOString();
+        }
     }
 });
