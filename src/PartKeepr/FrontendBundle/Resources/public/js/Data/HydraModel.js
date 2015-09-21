@@ -27,5 +27,56 @@ Ext.define("PartKeepr.data.HydraModel", {
         }
 
         return data;
+    },
+    /**
+     * Returns data from all associations
+     *
+     * @return {Object} An object containing the associations as properties
+     */
+    getAssociationData: function ()
+    {
+        var roleName, values = [], role, item, store;
+
+        for (roleName in this.associations) {
+            role = this.associations[roleName];
+            item = role.getAssociatedItem(this);
+            if (!item || item.$gathering) {
+                continue;
+            }
+
+            var getterName = this.associations[roleName].getterName;
+
+            if (item.isStore) {
+                store = this[getterName]();
+                values[roleName] = store.getData().items;
+            } else {
+                values[roleName] = this[getterName]();
+            }
+        }
+
+        return values;
+    },
+    /**
+     * Sets data to all associations
+     *
+     * @param {Object} data The associations to set. Silently ignores non-existant associations.
+     */
+    setAssociationData: function (data)
+    {
+        var setterName, getterName, roleName, store;
+
+        for (roleName in data) {
+            if (this.associations[roleName]) {
+
+                if (this.associations[roleName].isMany === true) {
+                    getterName = this.associations[roleName].getterName;
+                    store = this[getterName]();
+                    store.add(data[roleName]);
+                } else {
+                    setterName = this.associations[roleName].setterName;
+                    this[setterName](data[roleName]);
+                }
+            }
+        }
     }
 });
