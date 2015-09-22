@@ -13,6 +13,7 @@ use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
 use Symfony\Component\Serializer\Annotation\Groups;
+use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
@@ -110,6 +111,7 @@ class Part extends BaseEntity
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartAttachment",
      *                mappedBy="part",cascade={"persist", "remove"})
      * @Groups({"default"})
+     * @UploadedFileCollection()
      *
      * @var PartAttachment
      */
@@ -677,11 +679,35 @@ class Part extends BaseEntity
     }
 
     /**
+     * Adds a Part Attachment
+     *
+     * @param PartAttachment $partAttachment An attachment to add
+     */
+    public function addAttachment($partAttachment)
+    {
+        if ($partAttachment instanceof PartAttachment) {
+            $partAttachment->setPart($this);
+        }
+        $this->attachments->add($partAttachment);
+    }
+
+    /**
+     * Adds a Part Attachment
+     *
+     * @param PartAttachment $partAttachment An attachment to add
+     */
+    public function removeAttachment($partAttachment)
+    {
+        $partAttachment->setPart(null);
+        $this->attachments->removeElement($partAttachment);
+    }
+
+    /**
      * Adds a Part Manufacturer
      *
      * @param PartManufacturer $partManufacturer A part manufacturer to add
      */
-    public function addManufacturer (PartManufacturer $partManufacturer)
+    public function addManufacturer(PartManufacturer $partManufacturer)
     {
         $partManufacturer->setPart($this);
         $this->manufacturers->add($partManufacturer);
@@ -703,7 +729,7 @@ class Part extends BaseEntity
      *
      * @param PartDistributor $partDistributor A part distributor to add
      */
-    public function addDistributor (PartDistributor $partDistributor)
+    public function addDistributor(PartDistributor $partDistributor)
     {
         $partDistributor->setPart($this);
         $this->distributors->add($partDistributor);

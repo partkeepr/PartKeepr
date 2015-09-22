@@ -16,6 +16,7 @@ class PartAttachment extends UploadedFile
      * Defines if the attachment is an image.
      * @ORM\Column(type="boolean",nullable=true)
      * @Groups({"default"})
+     *
      * @var boolean
      */
     private $isImage;
@@ -43,7 +44,7 @@ class PartAttachment extends UploadedFile
      *
      * @param Part $part The part to set
      */
-    public function setPart(Part $part)
+    public function setPart(Part $part = null)
     {
         $this->part = $part;
     }
