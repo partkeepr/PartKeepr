@@ -3,13 +3,13 @@ namespace PartKeepr\UploadedFileBundle\EventListener;
 
 use Doctrine\Common\Annotations\Reader;
 use Dunglas\ApiBundle\Api\IriConverterInterface;
-use Dunglas\ApiBundle\Event\DataEvent;
 use PartKeepr\ImageBundle\Entity\Image;
 use PartKeepr\ImageBundle\Entity\TempImage;
 use PartKeepr\ImageBundle\Services\ImageService;
 use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\UploadedFileBundle\Services\UploadedFileService;
+use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class TemporaryFileEventListener
@@ -59,11 +59,15 @@ class TemporaryFileEventListener
      * Automatically extracts the proper setters and getters from the metadata and instantiates the correct
      * UploadedFile child class.
      *
-     * @param DataEvent $event The event
+     * @param GetResponseForControllerResultEvent $event The event
      */
-    public function replaceTemporaryFile(DataEvent $event)
+    public function replaceTemporaryFile(GetResponseForControllerResultEvent $event)
     {
-        $data = $event->getData();
+        $data = $event->getControllerResult();
+
+        if (!is_object($data)) {
+            return;
+        }
 
         $classReflection = new \ReflectionClass($data);
 
@@ -97,19 +101,7 @@ class TemporaryFileEventListener
                         if ($item instanceof TempUploadedFile || $item instanceof TempImage) {
                             $targetEntity = $manyToOneAnnotation->targetEntity;
 
-                            /**
-                             * @var $newFile UploadedFile
-                             */
-                            $newFile = new $targetEntity();
-
-                            $this->replaceFile($newFile, $item);
-
-                            $setterName = $this->getReferenceSetter($newFile, $data);
-
-                            if ($setterName !== false) {
-                                $this->propertyAccessor->setValue($newFile, $setterName, $data);
-                            }
-
+                            $newFile = $this->setReplacementFile($targetEntity, $item, $data);
                             $collection[$key] = $newFile;
                         }
                     }
@@ -123,15 +115,7 @@ class TemporaryFileEventListener
                     if ($item instanceof TempUploadedFile || $item instanceof TempImage) {
                         $targetEntity = $oneToOneAnnotation->targetEntity;
 
-                        $newFile = new $targetEntity();
-
-                        $this->replaceFile($newFile, $item);
-
-                        $setterName = $this->getReferenceSetter($newFile, $data);
-
-                        if ($setterName !== false) {
-                            $this->propertyAccessor->setValue($newFile, $setterName, $data);
-                        }
+                        $newFile = $this->setReplacementFile($targetEntity, $item, $data);
 
                         $this->propertyAccessor->setValue($data, $property->getName(), $newFile);
                     } else {
@@ -148,7 +132,38 @@ class TemporaryFileEventListener
                 }
             }
         }
+
+        $event->setControllerResult($data);
     }
+
+    /**
+     * Replaces the TemporaryUploadedFile or TempImage with the actual instance. Automatically sets the
+     * reference to the owning entity.
+     *
+     * @param string                     $targetEntity The entity to create
+     * @param TempUploadedFile|TempImage $source       The source entity
+     * @param object                     $target       The entity where to set the property
+     *
+     * @return object The newly created object instance
+     */
+    protected function setReplacementFile($targetEntity, $source, $target)
+    {
+        /**
+         * @var $newFile UploadedFile
+         */
+        $newFile = new $targetEntity();
+
+        $this->replaceFile($newFile, $source);
+
+        $setterName = $this->getReferenceSetter($newFile, $target);
+
+        if ($setterName !== false) {
+            $this->propertyAccessor->setValue($newFile, $setterName, $target);
+        }
+
+        return $newFile;
+    }
+
 
     protected function replaceFile(UploadedFile $target, UploadedFile $source)
     {

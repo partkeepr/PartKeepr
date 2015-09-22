@@ -163,7 +163,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
-
     my_event_listener:
         class:    PartKeepr\UploadedFileBundle\EventListener\TemporaryFileEventListener
         arguments:
@@ -172,7 +171,7 @@ services:
             - "@annotation_reader"
             - "@property_accessor"
             - "@api.iri_converter"
-        tags:  [ { name: "kernel.event_listener", event: "api.pre_update", method: "replaceTemporaryFile" }, { name: "kernel.event_listener", event: "api.pre_create", method: "replaceTemporaryFile" } ]
+        tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
     resource.distributor:
         parent:    "api.resource"
