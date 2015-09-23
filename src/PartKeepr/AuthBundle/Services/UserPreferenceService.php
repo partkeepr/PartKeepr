@@ -27,6 +27,8 @@ class UserPreferenceService
      * @param string $key   The key to set
      * @param string $value The value to set
      *
+     * @return UserPreference The user preference
+     *
      * @throws EntityNotPersistantException        Thrown if the entity is not persistant
      */
     public function setPreference(User $user, $key, $value)
@@ -47,12 +49,12 @@ class UserPreferenceService
         } catch (\Exception $e) {
             $userPreference = new UserPreference();
             $userPreference->setUser($user);
-            $userPreference->setKey($key);
+            $userPreference->setPreferenceKey($key);
 
             $this->entityManager->persist($userPreference);
         }
 
-        $userPreference->setValue($value);
+        $userPreference->setPreferenceValue($value);
 
         $this->entityManager->flush();
 
@@ -73,7 +75,7 @@ class UserPreferenceService
     {
         $userPreference = $this->getPreference($user, $key);
 
-        return $userPreference->getValue();
+        return $userPreference->getPreferenceValue();
     }
 
     /**
@@ -81,6 +83,7 @@ class UserPreferenceService
      *
      * @param \PartKeepr\AuthBundle\Entity\User $user The user
      *
+     * @return UserPreference[] An array of UserPreference objects
      * @throws EntityNotPersistantException Thrown if the user entity is not persistent
      */
     public function getPreferences(User $user)

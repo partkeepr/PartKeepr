@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr\AuthBundle\Tests\Services;
 
-use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use PartKeepr\AuthBundle\Entity\User;
 
@@ -26,16 +25,16 @@ class UserPreferenceServiceTest extends WebTestCase
         $this->assertArrayHasKey(0, $preferences);
         $this->assertEquals(get_class($preferences[0]), "PartKeepr\AuthBundle\Entity\UserPreference");
 
-        $this->assertEquals("bar", $preferences[0]->getValue());
-        $this->assertEquals("foo", $preferences[0]->getKey());
+        $this->assertEquals("bar", $preferences[0]->getPreferenceValue());
+        $this->assertEquals("foo", $preferences[0]->getPreferenceKey());
         $this->assertEquals($user, $preferences[0]->getUser());
 
         $preference = $service->getPreference($user, "foo");
 
         $this->assertEquals(get_class($preference), "PartKeepr\AuthBundle\Entity\UserPreference");
 
-        $this->assertEquals("bar", $preference->getValue());
-        $this->assertEquals("foo", $preference->getKey());
+        $this->assertEquals("bar", $preference->getPreferenceValue());
+        $this->assertEquals("foo", $preference->getPreferenceKey());
         $this->assertEquals($user, $preference->getUser());
 
         $service->deletePreference($user, "foo");

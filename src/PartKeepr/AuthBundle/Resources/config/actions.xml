@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="partkeepr.user_preference.get_preferences" class="PartKeepr\AuthBundle\Action\GetPreferencesAction">
+            <argument type="service" id="partkeepr.userservice"/>
+            <argument type="service" id="partkeepr.user_preference_service"/>
+            <argument type="service" id="api.serializer"/>
+        </service>
+         <service id="partkeepr.user_preference.set_preference" class="PartKeepr\AuthBundle\Action\SetPreferenceAction">
+            <argument type="service" id="partkeepr.userservice"/>
+            <argument type="service" id="partkeepr.user_preference_service"/>
+            <argument type="service" id="api.serializer"/>
+        </service>
+    </services>
+</container>

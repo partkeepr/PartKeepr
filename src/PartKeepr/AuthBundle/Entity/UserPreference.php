@@ -3,6 +3,8 @@ namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a user preference entry.
@@ -13,14 +15,17 @@ use PartKeepr\AuthBundle\Entity\User;
  * Note that values are stored internally as serialized PHP values to keep their type.
  *
  * @ORM\Entity
+ * @TargetService(uri="/api/user_preferences")
  **/
 class UserPreference
 {
     /**
      * Defines the key of the user preference
      * @ORM\Column(type="string",length=255)
+     * @ORM\Id()
      *
-     * @ORM\Id
+     * @Groups({"default"})
+     *
      * @var string
      */
     private $preferenceKey;
@@ -29,6 +34,9 @@ class UserPreference
      * Defines the value. Note that the value is internally stored as a serialized string.
      *
      * @ORM\Column(type="text")
+     *
+     * @Groups({"default"})
+     *
      * @var mixed
      */
     private $preferenceValue;
@@ -36,8 +44,8 @@ class UserPreference
     /**
      * Defines the user
      * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
+     * @ORM\Id()
      *
-     * @ORM\Id
      * @var \PartKeepr\AuthBundle\Entity\User
      */
     private $user;
@@ -68,7 +76,7 @@ class UserPreference
      *
      * @param string $key The key name
      */
-    public function setKey($key)
+    public function setPreferenceKey($key)
     {
         $this->preferenceKey = $key;
     }
@@ -78,7 +86,7 @@ class UserPreference
      *
      * @return string
      */
-    public function getKey()
+    public function getPreferenceKey()
     {
         return $this->preferenceKey;
     }
@@ -88,7 +96,7 @@ class UserPreference
      *
      * @param mixed $value
      */
-    public function setValue($value)
+    public function setPreferenceValue($value)
     {
         $this->preferenceValue = serialize($value);
     }
@@ -98,7 +106,7 @@ class UserPreference
      *
      * @return mixed The value
      */
-    public function getValue()
+    public function getPreferenceValue()
     {
         return unserialize($this->preferenceValue);
     }
