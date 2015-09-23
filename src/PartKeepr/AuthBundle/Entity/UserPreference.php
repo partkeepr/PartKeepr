@@ -3,6 +3,7 @@ namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\DoctrineReflectionBundle\Annotation\IgnoreIds;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -16,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\Entity
  * @TargetService(uri="/api/user_preferences")
+ * @IgnoreIds()
  **/
 class UserPreference
 {

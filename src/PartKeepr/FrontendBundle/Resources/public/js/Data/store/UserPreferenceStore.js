@@ -16,11 +16,5 @@ Ext.define('PartKeepr.data.store.UserPreferenceStore', {
      */
     model: "PartKeepr.AuthBundle.Entity.UserPreference",
 
-    pageSize: 99999999,
-
-    proxy: {
-        type: "Hydra",
-        url: '/api/user_preferences',
-        ignoreIds: true
-    }
+    pageSize: 99999999
 });
