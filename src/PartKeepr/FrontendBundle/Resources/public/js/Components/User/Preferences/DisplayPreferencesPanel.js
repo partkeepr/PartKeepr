@@ -1,29 +1,32 @@
 Ext.define('PartKeepr.DisplayPreferencesPanel', {
-	extend: 'Ext.form.FormPanel',
-	title: i18n("Display"),
-	bodyStyle: 'background:#DBDBDB;padding: 10px;',
-	initComponent: function () {
-		this.showDescriptionsCheckbox = Ext.create("Ext.form.field.Checkbox", {
+    extend: 'Ext.form.FormPanel',
+    title: i18n("Display"),
+    bodyStyle: 'background:#DBDBDB;padding: 10px;',
+    initComponent: function ()
+    {
+        this.showDescriptionsCheckbox = Ext.create("Ext.form.field.Checkbox", {
             labelWidth: 120,
             hideEmptyLabel: false,
-			boxLabel: i18n("Show category descriptions"),
-			handler: Ext.bind(this.showDescriptionsHandler, this)
-		});
+            boxLabel: i18n("Show category descriptions"),
+            handler: Ext.bind(this.showDescriptionsHandler, this)
+        });
 
-		if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === false) {
-			this.showDescriptionsCheckbox.setValue(false);
-		} else {
-			this.showDescriptionsCheckbox.setValue(true);
-		}
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === false) {
+            this.showDescriptionsCheckbox.setValue(false);
+        } else {
+            this.showDescriptionsCheckbox.setValue(true);
+        }
 
         this.compactLayout = Ext.create("Ext.form.field.Radio", {
-            boxLabel: i18n("Compact Layout") + '<br/> <img style="margin-top: 2px; margin-left: 18px;" src="resources/images/layout-compact.png"/>',
+            boxLabel: i18n(
+                "Compact Layout") + '<br/> <img style="margin-top: 2px; margin-left: 18px;" src="bundles/partkeeprfrontend/images/config/layout-compact.png"/>',
             name: 'rb',
             inputValue: 'compact'
         });
 
         this.standardLayout = Ext.create("Ext.form.field.Radio", {
-            boxLabel: i18n("Standard Layout") + '<br/> <img style="margin-top: 2px; margin-left: 18px;" src="resources/images/layout-standard.png"/>',
+            boxLabel: i18n(
+                "Standard Layout") + '<br/> <img style="margin-top: 2px; margin-left: 18px;" src="bundles/partkeeprfrontend/images/config/layout-standard.png"/>',
             name: 'rb',
             inputValue: 'standard'
         });
@@ -40,7 +43,8 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
             width: 400,
             vertical: true,
             listeners: {
-                change: function (field, newValue) {
+                change: function (field, newValue)
+                {
                     if (newValue.rb == "standard") {
                         value = false;
                     } else {
@@ -54,20 +58,22 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
             items: [
                 this.compactLayout,
                 this.standardLayout
-               ]
+            ]
         });
 
-		this.items = [ this.showDescriptionsCheckbox, this.compactLayoutChooser ];
+        this.items = [this.showDescriptionsCheckbox, this.compactLayoutChooser];
 
-		this.callParent();
-	},
-	/**
-	 * Handler when the "show descriptions" checkbox is clicked.
-	 */
-	showDescriptionsHandler: function (checkbox, checked) {
-		PartKeepr.getApplication().setUserPreference("partkeepr.categorytree.showdescriptions", checked);
-	},
-    compactLayoutHandler: function () {
+        this.callParent();
+    },
+    /**
+     * Handler when the "show descriptions" checkbox is clicked.
+     */
+    showDescriptionsHandler: function (checkbox, checked)
+    {
+        PartKeepr.getApplication().setUserPreference("partkeepr.categorytree.showdescriptions", checked);
+    },
+    compactLayoutHandler: function ()
+    {
         //PartKeepr.getApplication().setUserPreference("partkeepr.partmanager.compactlayout", checked);
     }
 });
