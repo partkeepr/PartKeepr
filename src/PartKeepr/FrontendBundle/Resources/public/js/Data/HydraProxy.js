@@ -12,8 +12,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
     limitParam: "itemsPerPage",
     defaultListenerScope: true,
     sortParam: "order",
-    headers: {
-    },
+    headers: {},
 
     /**
      * An ID which should be ignored when loading items. Usually we use the item ID as URL as per JSON-LD spec,
@@ -25,7 +24,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
     ignoreLoadId: null,
 
     /**
-     * If true, ignores IDs when updating/deletes entries
+     * If true, ignores IDs when updating/deletes entries. This is mostly used for entities where no primary key exists.
      */
     ignoreIds: false,
 
@@ -40,7 +39,8 @@ Ext.define("PartKeepr.data.HydraProxy", {
             this.showException(response);
         }
     },
-    getHeaders: function () {
+    getHeaders: function ()
+    {
         var headers = this.callParent(arguments);
 
         headers["X-WSSE"] = PartKeepr.getApplication().getSessionManager().getWSSE();
@@ -124,7 +124,8 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         this.showException(response);
     },
-    showException: function (response) {
+    showException: function (response)
+    {
         PartKeepr.ExceptionWindow.showException(response);
     }
 });
