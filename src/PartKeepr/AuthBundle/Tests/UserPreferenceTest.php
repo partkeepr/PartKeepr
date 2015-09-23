@@ -41,6 +41,8 @@ class UserPreferenceTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
+        $this->assertInternalType("object", $response, var_export($response, true));
+
         $this->assertObjectHasAttribute("preferenceKey", $response);
         $this->assertObjectHasAttribute("preferenceValue", $response);
         $this->assertEquals("foobar", $response->preferenceKey);
