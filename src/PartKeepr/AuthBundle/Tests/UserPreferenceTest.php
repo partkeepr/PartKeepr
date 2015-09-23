@@ -2,19 +2,13 @@
 namespace PartKeepr\AuthBundle\Tests;
 
 
-use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class UserPreferenceTest extends WebTestCase
 {
-    /**
-     * @var ProxyReferenceRepository
-     */
-    private $fixtures;
-
     public function setUp()
     {
-        $this->fixtures = $this->loadFixtures(
+        $this->loadFixtures(
             array(
                 'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
             )
@@ -41,7 +35,7 @@ class UserPreferenceTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertInternalType("object", $response, var_export($response, true));
+        $this->assertInternalType("object", $response, var_export($client->getResponse()->getContent(), true));
 
         $this->assertObjectHasAttribute("preferenceKey", $response);
         $this->assertObjectHasAttribute("preferenceValue", $response);
