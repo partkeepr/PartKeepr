@@ -24,6 +24,11 @@ Ext.define("PartKeepr.data.HydraProxy", {
      */
     ignoreLoadId: null,
 
+    /**
+     * If true, ignores IDs when updating/deletes entries
+     */
+    ignoreIds: false,
+
     constructor: function (config)
     {
         config.url = PartKeepr.getBasePath() + config.url;
@@ -59,14 +64,20 @@ Ext.define("PartKeepr.data.HydraProxy", {
             if (request.getRecords().length != 1) {
                 throw "The amount of records updating must be exactly one";
             }
-            this.api.update = request.getRecords()[0].getId();
+
+            if (!this.ignoreIds) {
+                this.api.update = request.getRecords()[0].getId();
+            }
         }
 
         if (request.getAction() == "destroy") {
             if (request.getRecords().length != 1) {
                 throw "The amount of records updating must be exactly one";
             }
-            this.api.destroy = request.getRecords()[0].getId();
+
+            if (!this.ignoreIds) {
+                this.api.destroy = request.getRecords()[0].getId();
+            }
         }
 
         return this.callParent([request]);
