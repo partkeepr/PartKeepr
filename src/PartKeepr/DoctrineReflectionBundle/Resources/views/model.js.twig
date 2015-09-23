@@ -58,5 +58,8 @@ Ext.define('{{ className }}', {
     proxy: {
         type: "Hydra",
         url: '{% if uri == "" %}undefined:{{ className }}{% else %}{{ uri|raw }}{% endif %}'
+        {% if ignoreIds == true %}
+        , ignoreIds: true
+        {% endif %}
     }
 });

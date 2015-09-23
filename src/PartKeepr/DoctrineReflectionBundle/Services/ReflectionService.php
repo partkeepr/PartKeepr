@@ -146,6 +146,17 @@ class ReflectionService
             $renderParams["uri"] = $targetService->uri;
         }
 
+        $ignoreIds = $this->reader->getClassAnnotation(
+            $cm->getReflectionClass(),
+            "PartKeepr\DoctrineReflectionBundle\Annotation\IgnoreIds"
+        );
+
+        if ($ignoreIds !== null) {
+            $renderParams["ignoreIds"] = true;
+        } else {
+            $renderParams["ignoreIds"] = false;
+        }
+
         return $this->templateEngine->render('PartKeeprDoctrineReflectionBundle::model.js.twig', $renderParams);
     }
 

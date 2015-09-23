@@ -337,6 +337,7 @@ Ext.application({
 
         if (record) {
             record.set("preferenceValue", value);
+            record.save();
         } else {
             var j = new PartKeepr.AuthBundle.Entity.UserPreference();
             j.set("preferenceKey", key);
@@ -344,8 +345,6 @@ Ext.application({
 
             this.userPreferenceStore.add(j);
         }
-
-        this.userPreferenceStore.sync();
     },
     getUserPreferenceStore: function ()
     {
