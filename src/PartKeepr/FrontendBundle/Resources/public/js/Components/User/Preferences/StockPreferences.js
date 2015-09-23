@@ -7,8 +7,8 @@ Ext.define('PartKeepr.StockPreferencesPanel', {
                 boxLabel: i18n("Confirm in-line stock level changes from the parts grid"),
                 handler: Ext.bind(this.confirmInlineStockLevelChangesHandler, this)
             });
-            
-            if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm") === false) {
+
+            if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm") == "false") {
     			this.confirmInlineStockLevelChangesCheckbox.setValue(false);
     		} else {
     			this.confirmInlineStockLevelChangesCheckbox.setValue(true);
@@ -25,4 +25,3 @@ Ext.define('PartKeepr.StockPreferencesPanel', {
 		PartKeepr.getApplication().setUserPreference("partkeepr.inline-stock-change.confirm", checked);
 	}
 });
-        

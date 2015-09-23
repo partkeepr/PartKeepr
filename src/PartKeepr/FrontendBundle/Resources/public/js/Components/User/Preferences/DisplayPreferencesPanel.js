@@ -11,7 +11,7 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
             handler: Ext.bind(this.showDescriptionsHandler, this)
         });
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === false) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") == "false") {
             this.showDescriptionsCheckbox.setValue(false);
         } else {
             this.showDescriptionsCheckbox.setValue(true);
@@ -31,7 +31,7 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
             inputValue: 'standard'
         });
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false) === true) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false) == "true") {
             this.compactLayout.setValue(true);
         } else {
             this.standardLayout.setValue(true);
@@ -46,9 +46,9 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
                 change: function (field, newValue)
                 {
                     if (newValue.rb == "standard") {
-                        value = false;
+                        value = "false";
                     } else {
-                        value = true;
+                        value = "true";
                     }
 
                     PartKeepr.getApplication().setUserPreference("partkeepr.partmanager.compactlayout", value);
