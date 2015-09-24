@@ -35,7 +35,6 @@ class SiPrefix extends BaseEntity
      * @ORM\Column(type="string",length=2)
      *
      * @Assert\Type(type="string")
-     * @Assert\NotBlank(message="siprefix.symbol.not_blank")
      * @Groups({"default"})
      * @var string
      */
