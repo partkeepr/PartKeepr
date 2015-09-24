@@ -1,5 +1,5 @@
-Ext.define("PartKeepr.CategoryComboBox",{
-    extend:"Ext.ux.TreePicker",
+Ext.define("PartKeepr.CategoryComboBox", {
+    extend: "Ext.ux.TreePicker",
     alias: 'widget.CategoryComboBox',
 
     triggers: {
@@ -16,21 +16,24 @@ Ext.define("PartKeepr.CategoryComboBox",{
 
     _oldValue: null,
 
-    initComponent: function () {
-		this.listenersStore = this.store.on({
-				scope: this,
-				// Workaround to remember the value when loading
-				beforeload: function () {
-                    this._oldValue = this.getValue();
-                },
-				// Set the old value when load is complete
-				load: function () {
-                    if (this._oldValue !== null) {
-                        this.setValue(this._oldValue);
-                    }
+    initComponent: function ()
+    {
+        this.listenersStore = this.store.on({
+            scope: this,
+            // Workaround to remember the value when loading
+            beforeload: function ()
+            {
+                this._oldValue = this.getValue();
+            },
+            // Set the old value when load is complete
+            load: function ()
+            {
+                if (this._oldValue !== null) {
+                    this.setValue(this._oldValue);
                 }
-    		});
+            }
+        });
 
-		this.callParent();
+        this.callParent();
     }
 });

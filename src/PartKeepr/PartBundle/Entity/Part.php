@@ -8,12 +8,13 @@ use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\Part\Exceptions\CategoryNotAssignedException;
 use PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
 use PartKeepr\PartKeepr;
+use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
+use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
 use Symfony\Component\Serializer\Annotation\Groups;
-use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
@@ -207,8 +208,8 @@ class Part extends BaseEntity
     private $createDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="PartKeepr\Project\ProjectPart", mappedBy="part")
-     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectPart", mappedBy="part")
+     * @var ProjectPart[]
      **/
     private $projectParts;
 

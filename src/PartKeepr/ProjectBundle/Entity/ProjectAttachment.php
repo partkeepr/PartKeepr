@@ -1,13 +1,16 @@
 <?php
-namespace PartKeepr\Project;
+namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Holds a project attachment
  *
  * @ORM\Entity
+ * @TargetService("/api/project_attachments")
  **/
 class ProjectAttachment extends UploadedFile
 {
@@ -22,8 +25,9 @@ class ProjectAttachment extends UploadedFile
 
     /**
      * The project object
-     * @ORM\ManyToOne(targetEntity="PartKeepr\Project\Project", inversedBy="attachments")
      *
+     * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project", inversedBy="attachments")
+     * @Groups({"default"})
      * @var Project
      */
     private $project = null;
@@ -33,7 +37,7 @@ class ProjectAttachment extends UploadedFile
      *
      * @param Project $project The project to set
      */
-    public function setProject(Project $project)
+    public function setProject(Project $project = null)
     {
         $this->project = $project;
     }

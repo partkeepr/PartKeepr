@@ -10,3 +10,4 @@ partkeepr:
     partattachment: %kernel.root_dir%/../data/files/PartAttachment/
     storagelocation: %kernel.root_dir%/../data/images/storagelocation/
     mimetype_icons: %kernel.root_dir%/../src/PartKeepr/MimetypeIconsBundle/Resources/public/images/mimes/
+    projectattachment: %kernel.root_dir%/../data/files/ProjectAttachment/

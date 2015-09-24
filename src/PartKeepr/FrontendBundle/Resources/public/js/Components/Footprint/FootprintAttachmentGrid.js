@@ -1,6 +1,6 @@
-Ext.define('PartKeepr.ProjectAttachmentGrid', {
-	extend: 'PartKeepr.AttachmentGrid',
-	alias: 'widget.ProjectAttachmentGrid',
-	
-	model: "PartKeepr.ProjectAttachment"
+Ext.define('PartKeepr.FootprintAttachmentGrid', {
+    extend: 'PartKeepr.AttachmentGrid',
+    alias: 'widget.FootprintAttachmentGrid',
+
+    model: "PartKeepr.FootprintBundle.Entity.FootprintAttachment"
 });

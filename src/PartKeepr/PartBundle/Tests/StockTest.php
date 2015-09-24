@@ -2,6 +2,7 @@
 namespace PartKeepr\PartBundle\Tests;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Doctrine\ORM\Query;
 use Dunglas\ApiBundle\Api\IriConverter;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
@@ -17,6 +18,7 @@ class StockTest extends WebTestCase
     {
         $this->fixtures = $this->loadFixtures(
             array(
+                'PartKeepr\StorageLocationBundle\DataFixtures\CategoryDataLoader',
                 'PartKeepr\StorageLocationBundle\DataFixtures\StorageLocationLoader',
                 'PartKeepr\PartBundle\DataFixtures\CategoryDataLoader',
                 'PartKeepr\PartBundle\DataFixtures\PartDataLoader',
@@ -26,6 +28,9 @@ class StockTest extends WebTestCase
 
     private function getStockLevel(Part $part)
     {
+        /**
+         * @var Query $query
+         */
         $query = $this->getContainer()->get("doctrine")->getManager()->createQuery("SELECT p.stockLevel FROM PartKeeprPartBundle:Part p WHERE p.id = :id")->setParameter("id",
             $part->getId());
 
@@ -39,7 +44,7 @@ class StockTest extends WebTestCase
         /**
          * @var $part Part
          */
-        $part = $this->fixtures->getReference("part");
+        $part = $this->fixtures->getReference("part.1");
         $oldStockLevel = $this->getStockLevel($part);
 
         /**
@@ -79,7 +84,7 @@ class StockTest extends WebTestCase
         /**
          * @var $part Part
          */
-        $part = $this->fixtures->getReference("part");
+        $part = $this->fixtures->getReference("part.1");
         $oldStockLevel = $this->getStockLevel($part);
 
         /**
@@ -119,7 +124,7 @@ class StockTest extends WebTestCase
         /**
          * @var $part Part
          */
-        $part = $this->fixtures->getReference("part");
+        $part = $this->fixtures->getReference("part.1");
 
         /**
          * @var $iriConverter IriConverter

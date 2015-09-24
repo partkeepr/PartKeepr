@@ -11,6 +11,7 @@ class StorageLocationLoader extends AbstractFixture
     {
         $storageLocation = new StorageLocation();
         $storageLocation->setName("test");
+        $storageLocation->setCategory($this->getReference("storagelocationcategory.first"));
 
         $manager->persist($storageLocation);
         $manager->flush();

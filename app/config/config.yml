@@ -1000,3 +1000,94 @@ services:
                         - { groups: [ "default" ] }
 
 
+    resource.project:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\Project" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.project_part:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectPart" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.project_attachment.item_operation.custom_get_image:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.project_attachment"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/project_attachments/{id}/getImage"           # Path
+             -    "PartKeeprProjectBundle:ProjectAttachment:getImage"         # Controller
+             -    "ProjectAttachmentGetImage"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.project_attachment.item_operation.custom_get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.project_attachment"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/project_attachments/{id}/getFile"           # Path
+             -    "PartKeeprProjectBundle:ProjectAttachment:getFile"         # Controller
+             -    "ProjectAttachmentGet"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.project_attachment.item_operation.custom_get_mime:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.project_attachment"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/project_attachments/{id}/getMimeTypeIcon"           # Path
+             -    "PartKeeprProjectBundle:ProjectAttachment:getMimeTypeIcon"         # Controller
+             -    "ProjectAttachmentMimeTypeIcon"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.project_attachment.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.project_attachment", "GET" ]
+
+    resource.project_attachment:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectAttachment" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.project_attachment.item_operation.get", "@resource.project_attachment.item_operation.custom_get", "@resource.project_attachment.item_operation.custom_get_mime", "@resource.project_attachment.item_operation.custom_get_image"  ] ]
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
