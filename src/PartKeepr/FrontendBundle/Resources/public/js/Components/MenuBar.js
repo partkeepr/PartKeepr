@@ -250,7 +250,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editProjects: function () {
 		var j = Ext.create("PartKeepr.ProjectEditorComponent", {
 			title: i18n("Projects"),
-			iconCls: 'web-icon drill',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png',
 			closable: true
 		});
 		
@@ -260,7 +260,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showProjectReports: function () {
 		var j = Ext.create("PartKeepr.ProjectReportView", {
 			title: i18n("Project Reports"),
-			iconCls: 'web-icon drill',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png',
 			closable: true
 		});
 		
