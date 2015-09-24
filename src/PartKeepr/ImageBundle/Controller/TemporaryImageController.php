@@ -1,6 +1,8 @@
 <?php
 namespace PartKeepr\ImageBundle\Controller;
 
+use Dunglas\ApiBundle\Action\ActionUtilTrait;
+use Dunglas\ApiBundle\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use PartKeepr\ImageBundle\Entity\TempImage;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryImageController extends ImageController
 {
+    use ActionUtilTrait;
 
     /**
      * Handles a temporary image upload
@@ -47,11 +50,15 @@ class TemporaryImageController extends ImageController
         $this->getDoctrine()->getManager()->persist($image);
         $this->getDoctrine()->getManager()->flush();
 
-        $resource = $this->getResource($request);
+        /**
+         * @var ResourceInterface $resourceType
+         */
+        list($resourceType) = $this->extractAttributes($request);
+
         $serializedData = $this->get('serializer')->normalize(
             $image,
-            'json-ld',
-            $resource->getNormalizationContext()
+            'jsonld',
+            $resourceType->getNormalizationContext()
         );
 
         return new JsonResponse(new TemporaryImageUploadResponse($serializedData));
@@ -61,6 +68,7 @@ class TemporaryImageController extends ImageController
      * Uploads a webcam image
      *
      * @param Request $request The request to process
+     *
      * @return Response
      */
     public function webcamUploadAction(Request $request)
@@ -77,9 +85,7 @@ class TemporaryImageController extends ImageController
         $this->getDoctrine()->getManager()->persist($image);
         $this->getDoctrine()->getManager()->flush();
 
-        $resource = $this->getResource($request);
-
-        return $this->getSuccessResponse($resource, $image, 201);
+        return $image;
     }
 
     /**

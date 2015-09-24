@@ -576,7 +576,7 @@ services:
         arguments:
              -    "@resource.manufacturer_ic_logo"               # Resource
              -    [ "GET" ]                 # Methods
-             -    "/manufacturer_i_c_logo/{id}/getImage"           # Path
+             -    "/manufacturer_i_c_logos/{id}/getImage"           # Path
              -    "PartKeeprManufacturerBundle:ManufacturerIcLogo:getImage"         # Controller
              -    "ManufacturerIcLogoGetImage"                 # Route name
              -    # Context (will be present in Hydra documentation)
@@ -800,6 +800,12 @@ services:
                         - { groups: [ "default" ] }
 
 # ######################## Temporary Images ######################################
+    resource.tempimage.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.tempimage", "GET" ]
+
     resource.tempimage.collection_operation.custom_post:
             class:     "Dunglas\ApiBundle\Api\Operation\Operation"
             public:    false
@@ -853,7 +859,7 @@ services:
             -       method:     "initCollectionOperations"
                     arguments: [ [ "@resource.tempimage.collection_operation.custom_post", "@resource.tempimage.collection_operation.custom_post_webcam" ] ]
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.tempimage.item_operation.custom_get" ] ]
+                    arguments: [ [ "@resource.tempimage.item_operation.get", "@resource.tempimage.item_operation.custom_get" ] ]
 
     resource.tempfile.collection_operation.custom_post:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
