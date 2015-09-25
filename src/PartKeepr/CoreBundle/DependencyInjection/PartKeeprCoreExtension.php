@@ -31,6 +31,7 @@ class PartKeeprCoreExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        $loader->load('actions.xml');
     }
 
     public function getAlias()

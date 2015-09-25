@@ -1,0 +1,50 @@
+[
+  {
+    "id": "8",
+    "version": "0.1.9",
+    "releasedate": "2013-05-03 13:21:02",
+    "changelog": "See https:\/\/wiki.partkeepr.org\/wiki\/New_and_Noteworthy\/0.1.9"
+  },
+  {
+    "id": "7",
+    "version": "0.1.8",
+    "releasedate": "2012-11-05 17:10:32",
+    "changelog": "GUI Changes:\r\n\r\n* The Part Filter Panel now lets you filter by distributor and manufacturer \r\n* You can now remove the filter criteria for storage location, distributor and manufacturer directly now; previously, you had to click \"Reset\" to remove an active storage location filter \r\n* You can filter by the part create date\r\n* You can filter for all parts where no stock removals have taken place; this is useful to find parts you have never used and which you might remove from your inventory \r\n* The part filter columns now wrap to aid with smaller display sizes \r\n* A new part picker has been implemented, which has basically the same features as the regular grid, including the part filter panel. \r\n* The \"Create from Template\" button is now called \"Duplicate\" and supports duplicating of all part properties, including parameters, manufacturers, distributors and attachments. \r\n* The upload dialog now explains where the upload limit comes from and how to configure PHP to allow bigger uploads \r\n* Previously, you had to calculate the price per item manually if you had a package with, say, 100 items and only know the package price. PartKeepr now does that automatically; you can either fill in the price per item or the package price, and PartKeepr will calculate the other value for you. \r\n* In addition to the default layout, we also support a compact layout of the Part Manager which is helpful for small screens, like laptops.\r\n\r\nTechnical Changes: \r\n* Several queries have been optimized, so that the parts grid should load now much faster on slower systems \r\n* PartKeepr supports now xcache and memcache and you can now configure them. By default, APC is used (if available). \r\n* The frontend now supports individual JS files, instead of a large JS file. This is useful for debugging and can be enabled with the following configuration: Configuration::setOption(\"partkeepr.frontend.debug_all\", true); \r\n* Previously, we've used the bundled jsb3 builder from Sencha. However, that tool was using jsdb, a non-crossplatform binary chunk, which is now replaced with a generic minifier implementation, which uses either jsmin or optionally yui-compressor."
+  },
+  {
+    "id": "6",
+    "version": "0.1.7",
+    "releasedate": "2012-05-29 05:57:16",
+    "changelog": "- Stock removals can now be commented\r\n- Display which projects a part is used in\r\n- Access the browser's context menu by holding \"ctrl\" and right-click\r\n- Added character map to input special characters not found on your keyboard (right-click input fields to access this feature)\r\n- Display part images in the part preview\r\n- Searching for multiple keywords is now supported\r\n- Added internal part number and description fields\r\n- A shortcut key (Alt+X) has been added to activate the part search field\r\n- Added initial currency support\r\n- Increased price field range to support a maximum of 999999999.9999\r\n- Many *many* bugfixes and usability improvements"
+  },
+  {
+    "id": "5",
+    "version": "0.1.6.1",
+    "releasedate": "2012-04-11 17:49:15",
+    "changelog": "Changelog:\r\n* Removed D2 migrations, as they give problems while updating\r\n* Grid Export as CSV, XLS and Wiki "
+  },
+  {
+    "id": "4",
+    "version": "0.1.6",
+    "releasedate": "2012-03-31 10:48:19",
+    "changelog": "Changelog:\r\n* Minimum required Doctrine2 version is now 2.2\r\n* Improved Exception dialog which aids debugging\r\n* Permission check when uploading files\r\n* Display Doctrine2 and PHP versions in the system information dialog\r\n* Remove empty distributors\/parameters\/manufacturers when editing parts, which caused errors\r\n* PHP 5.4 compatibility\r\n* Storage Location selection is now improved\r\n* Database connections now use UTF8 by default\r\n* Display all configuration parameters in the system information view\r\n* Category paths are now cached better; fixes several caching problems\r\n* Parts can now be found by their distributor number\r\n* Authentification can now be done via HTTP (and thus by external entities)"
+  },
+  {
+    "id": "3",
+    "version": "0.1.5",
+    "releasedate": "2012-02-16 07:50:29",
+    "changelog": "- Compability with Doctrine 2.2\r\n- Improved config file handling during setup\r\n- Improved permission checks during setup\r\n- Several minor bugfixes"
+  },
+  {
+    "id": "2",
+    "version": "0.1.1",
+    "releasedate": "2011-12-28 07:58:21",
+    "changelog": "* Bugfix for an issue where no parts are displayed after using the part filter panel\r\n* The data directory is now set correctly when using the installer\r\n* Check for the DoctrineSymfonyYaml package during setup\r\n* Added a project report view"
+  },
+  {
+    "id": "1",
+    "version": "0.1",
+    "releasedate": "2011-12-25 07:57:53",
+    "changelog": "First public release"
+  }
+]

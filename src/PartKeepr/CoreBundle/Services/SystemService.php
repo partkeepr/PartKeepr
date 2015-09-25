@@ -2,17 +2,16 @@
 namespace PartKeepr\CoreBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\DBAL\Version as DBALVersion;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\Version as ORMVersion;
 use PartKeepr\CoreBundle\System\OperatingSystem;
 use PartKeepr\CoreBundle\System\SystemInformationRecord;
 use PartKeepr\CronLogger\CronLoggerManager;
-use PartKeepr\PartKeepr;
 use PartKeepr\Util\Configuration;
-use Doctrine\ORM\Version as ORMVersion;
-use Doctrine\DBAL\Version as DBALVersion;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SystemService extends ContainerAware
 {
@@ -21,10 +20,16 @@ class SystemService extends ContainerAware
      */
     private $entityManager;
 
-    public function __construct(Registry $doctrine, Container $container)
+    /**
+     * @var VersionService
+     */
+    private $versionService;
+
+    public function __construct(Registry $doctrine, ContainerInterface $container, VersionService $versionService)
     {
         $this->entityManager = $doctrine->getManager();
         $this->setContainer($container);
+        $this->versionService = $versionService;
     }
 
     /**
@@ -62,7 +67,7 @@ class SystemService extends ContainerAware
         $aData[] = new SystemInformationRecord("Metadata Cache Implementation", $metadataCache, "PHP");
 
 
-        $aData[] = new SystemInformationRecord("PartKeepr Version", PartKeepr::getVersion(), "PartKeepr");
+        $aData[] = new SystemInformationRecord("PartKeepr Version", $this->versionService->getVersion(), "PartKeepr");
 
 
         foreach (Configuration::getOptions() as $key => $value) {

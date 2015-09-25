@@ -69,6 +69,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new JMS\TranslationBundle\JMSTranslationBundle(),
         );
 
         // Developer bundles
