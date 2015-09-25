@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-09-25T20:55:15Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="c60d0be4a6d13d58629c314ab4b4e749f3b23be8" resname="New PartKeepr Version %version% available">
+        <source>New PartKeepr Version %version% available</source>
+        <target state="new">New PartKeepr Version %version% available</target>
+        <jms:reference-file line="79">CoreBundle/Services/VersionService.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="275816cccab9cb722a0bb1d3b853ff859499baa5" resname="PartKeepr Version %version% changelog:">
+        <source>PartKeepr Version %version% changelog:</source>
+        <target state="new">PartKeepr Version %version% changelog:</target>
+        <jms:reference-file line="81">CoreBundle/Services/VersionService.php</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
