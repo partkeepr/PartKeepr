@@ -79,5 +79,13 @@ Ext.define("PartKeepr.data.HydraModel", {
                 }
             }
         }
+    },
+    inheritableStatics: {
+        callCollectionAction: function (action, parameters, callback)
+        {
+            var proxy = this.getProxy();
+
+            proxy.callCollectionAction(action, parameters, callback);
+        }
     }
 });

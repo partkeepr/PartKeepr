@@ -13,6 +13,16 @@ PartKeeprImageBundle:
     type:     annotation
     prefix:   /
 
+PartKeeprProjectBundle:
+    resource: "@PartKeeprProjectBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+PartKeeprPartBundle:
+    resource: "@PartKeeprPartBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 _frontend:
     resource: "@PartKeeprFrontendBundle/Resources/config/routing.yml"
 

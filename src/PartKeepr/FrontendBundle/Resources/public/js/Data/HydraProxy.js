@@ -116,6 +116,36 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         this.sendRequest(request);
     },
+    /**
+     * Calls a specific action on the collection
+     * @todo Document on how we call actions on entities
+     *
+     *
+     */
+    callCollectionAction: function (action, parameters, callback)
+    {
+        var url = this.url + "/" + action;
+        var request = Ext.create("Ext.data.Request");
+
+        request.setMethod("PUT");
+        request.setUrl(url);
+        if (Ext.isObject(parameters)) {
+            request.setParams(parameters);
+        }
+
+        request.setHeaders(this.getHeaders());
+
+        request.setCallback(function (options, success, response)
+        {
+            this.processCallActionResponse(options, success, response);
+
+            if (Ext.isFunction(callback)) {
+                callback(options, success, response);
+            }
+        }.bind(this));
+
+        this.sendRequest(request);
+    },
     processCallActionResponse: function (options, success, response)
     {
         if (success !== false) {

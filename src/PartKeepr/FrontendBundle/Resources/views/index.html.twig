@@ -18,8 +18,7 @@
     'js/packages/extjs6/build/packages/ux/classic/classic/resources/ux-all.css'
     'js/packages/extjs6/build/packages/charts/classic/neptune/resources/charts-all.css'
     'atelierspierrot/famfamfam-silk-sprite/silk-icons-sprite.css'
-    'bundles/partkeeprfrontend/css/PartKeepr.css'
-    %}
+    'bundles/partkeeprfrontend/css/PartKeepr.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 
@@ -42,8 +41,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Data/field/Array.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraTreeModel.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.field.Date-ISO8601.js'
-    %}
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.field.Date-ISO8601.js' %}
 
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -53,6 +51,9 @@
     {% endfor %}
 
     {% javascripts output='js/compiled/main2.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.grid.feature.Summary-selectorFix.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReport.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReportList.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/SystemInformationRecord.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/isaac.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/bcrypt.js'
@@ -211,8 +212,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/downloadify.min.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Exporter.js'
     '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/webcam.js'
-    %}
+    '@PartKeeprFrontendBundle/Resources/public/js/webcam.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 </head>
