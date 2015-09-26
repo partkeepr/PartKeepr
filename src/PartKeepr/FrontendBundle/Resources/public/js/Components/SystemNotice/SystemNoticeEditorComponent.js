@@ -1,5 +1,5 @@
 /**
- * Represents the project editor component
+ * Represents the system notice editor component
  */
 Ext.define('PartKeepr.SystemNoticeEditorComponent', {
     extend: 'PartKeepr.EditorComponent',
