@@ -8,6 +8,7 @@ Ext.define('PartKeepr.SystemNoticeEditorComponent', {
     editorClass: 'PartKeepr.SystemNoticeEditor',
     newItemText: i18n("New System Notice"),
     model: 'PartKeepr.CoreBundle.Entity.SystemNotice',
+    titleProperty: "title",
     initComponent: function ()
     {
         this.createStore({
