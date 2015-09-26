@@ -199,6 +199,12 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.footprint_image.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.footprint_image", "GET" ]
+
     resource.footprint_image.item_operation.custom_get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -220,7 +226,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.footprint_image.item_operation.custom_get" ] ]
+                    arguments: [ [ "@resource.footprint_image.item_operation.get", "@resource.footprint_image.item_operation.custom_get" ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
