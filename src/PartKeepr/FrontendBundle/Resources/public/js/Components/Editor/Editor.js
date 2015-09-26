@@ -15,6 +15,7 @@ Ext.define('PartKeepr.Editor', {
         labelWidth: 150
     },
     enableButtons: true,
+    titleProperty: 'name',
 
     // If false, determinates if we should sync via the store or the record itself.
     // If true, always syncs the record via it's own proxy.
@@ -88,8 +89,8 @@ Ext.define('PartKeepr.Editor', {
         this.record = record;
         this.getForm().loadRecord(this.record);
         this.show();
-        if (this.record.get("name") !== "") {
-            this.setTitle(this.record.get("name"));
+        if (this.record.get(this.titleProperty) !== "") {
+            this.setTitle(this.record.get(this.titleProperty));
         }
 
         this.change = false;

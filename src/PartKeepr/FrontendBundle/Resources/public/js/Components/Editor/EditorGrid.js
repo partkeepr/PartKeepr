@@ -210,7 +210,8 @@ Ext.define('PartKeepr.EditorGrid', {
 
         this.store.loadPage(newStartPage);
     },
-    onReconfigure: function (me, store) {
+    onReconfigure: function (me, store)
+    {
         this.searchField.setStore(store);
         this.bottomToolbar.setStore(store);
 
