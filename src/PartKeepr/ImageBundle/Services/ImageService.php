@@ -45,7 +45,9 @@ class ImageService extends UploadedFileService
             /**
              * @var $file CachedImage
              */
-            unlink($file->getCacheFile());
+            if (file_exists($file->getCacheFile())) {
+                unlink($file->getCacheFile());
+            }
             $entityManager->remove($file);
         }
     }
