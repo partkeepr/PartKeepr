@@ -21,17 +21,11 @@ Ext.define('PartKeepr.Editor', {
     // If true, always syncs the record via it's own proxy.
     syncDirect: false,
 
-    onFieldChange: function ()
-    {
-        return;
-
-        // @todo Finish implementing the dirty flag later
-        /*if (this.change == false) {
-         this.setTitle(this.record.get("name") + "*");
-         }
-
-         this.change = true;*/
+    listeners: {
+        dirtychange: "onDirtyChange",
+        scope: "this"
     },
+
     initComponent: function ()
     {
         if (this.enableButtons) {
@@ -61,18 +55,14 @@ Ext.define('PartKeepr.Editor', {
             });
         }
 
-
-        this.on("dirtychange", function (form, dirty)
-        {
-            // @todo Check dirty flag
-            // Waiting for reply on http://www.sencha.com/forum/showthread.php?135142-Ext.form.Basic.loadRecord-causes-form-to-be-dirty&p=607588#post607588
-        });
-
-        this.defaults.listeners = {
-            "change": Ext.bind(this.onFieldChange, this)
-        };
-
         this.callParent();
+    },
+    onDirtyChange: function (form, dirty) {
+        if (dirty) {
+                this.setTitle(this.record.get(this.titleProperty) + "*");
+            } else {
+                this.setTitle(this.record.get(this.titleProperty));
+            }
     },
     onCancelEdit: function ()
     {
