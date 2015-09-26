@@ -53,5 +53,7 @@ class SystemNoticeAcknowledgeAction
         $systemNotice->setAcknowledged();
 
         $this->entityManager->flush();
+
+        return $systemNotice;
     }
 }

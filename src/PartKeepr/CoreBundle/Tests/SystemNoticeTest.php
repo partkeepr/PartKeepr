@@ -44,11 +44,6 @@ class SystemNoticeTest extends WebTestCase
             $ackIri
         );
 
-        $client->request(
-            'GET',
-            $iri
-        );
-
         $response = json_decode($client->getResponse()->getContent());
         $this->assertEquals(true, $response->acknowledged);
     }
