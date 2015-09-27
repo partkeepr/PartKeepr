@@ -31,7 +31,7 @@ class DefaultControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/auth/getSalt',
+            '/api/users/getSalt',
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),

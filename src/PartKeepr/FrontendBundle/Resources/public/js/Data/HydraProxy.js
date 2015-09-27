@@ -43,7 +43,9 @@ Ext.define("PartKeepr.data.HydraProxy", {
     {
         var headers = this.callParent(arguments);
 
-        headers["X-WSSE"] = PartKeepr.getApplication().getSessionManager().getWSSE();
+        var provider = PartKeepr.Auth.AuthenticationProvider.getAuthenticationProvider();
+
+        Ext.apply(headers, provider.getHeaders());
 
         return headers;
     },
@@ -88,12 +90,12 @@ Ext.define("PartKeepr.data.HydraProxy", {
      *
      *
      */
-    callAction: function (record, action, parameters, callback, reload)
+    callAction: function (record, action, method, parameters, callback, reload)
     {
         var url = record.getId() + "/" + action;
         var request = Ext.create("Ext.data.Request");
 
-        request.setMethod("PUT");
+        request.setMethod(method);
         request.setUrl(url);
         if (Ext.isObject(parameters)) {
             request.setParams(parameters);
@@ -122,12 +124,12 @@ Ext.define("PartKeepr.data.HydraProxy", {
      *
      *
      */
-    callCollectionAction: function (action, parameters, callback)
+    callCollectionAction: function (action, method, parameters, callback, ignoreException)
     {
         var url = this.url + "/" + action;
         var request = Ext.create("Ext.data.Request");
 
-        request.setMethod("PUT");
+        request.setMethod(method);
         request.setUrl(url);
         if (Ext.isObject(parameters)) {
             request.setParams(parameters);
@@ -137,7 +139,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         request.setCallback(function (options, success, response)
         {
-            this.processCallActionResponse(options, success, response);
+            this.processCallActionResponse(options, success, response, ignoreException);
 
             if (Ext.isFunction(callback)) {
                 callback(options, success, response);
@@ -146,13 +148,16 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         this.sendRequest(request);
     },
-    processCallActionResponse: function (options, success, response)
+    processCallActionResponse: function (options, success, response, ignoreException)
     {
-        if (success !== false) {
+        if (success === true) {
             return;
         }
 
-        this.showException(response);
+        console.log(ignoreException);
+        if (!ignoreException) {
+            this.showException(response);
+        }
     },
     showException: function (response)
     {

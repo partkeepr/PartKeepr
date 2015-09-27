@@ -6,6 +6,7 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Configuration;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a tip of the day.
@@ -23,6 +24,7 @@ class TipOfTheDay extends BaseEntity
 {
     /**
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      * @var string
      */
     private $name;

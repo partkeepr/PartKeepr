@@ -2,7 +2,10 @@
 
 namespace PartKeepr\FrontendBundle\Controller;
 
+use Doctrine\Common\Version as DoctrineCommonVersion;
+use Doctrine\DBAL\Version as DBALVersion;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\Version as ORMVersion;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
 use PartKeepr\Session\SessionManager;
@@ -11,9 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\Version as ORMVersion;
-use Doctrine\DBAL\Version as DBALVersion;
-use Doctrine\Common\Version as DoctrineCommonVersion;
 
 class IndexController extends Controller
 {
@@ -25,21 +25,19 @@ class IndexController extends Controller
     {
         PartKeepr::initialize("");
 
-        $this->legacyAuthStuff();
-
         $aParameters = array();
         $aParameters["doctrine_orm_version"] = ORMVersion::VERSION;
         $aParameters["doctrine_dbal_version"] = DBALVersion::VERSION;
         $aParameters["doctrine_common_version"] = DoctrineCommonVersion::VERSION;
         $aParameters["php_version"] = phpversion();
+        $aParameters["auto_start_session"] = true;
 
         $maxPostSize = PartKeepr::getBytesFromHumanReadable(ini_get("post_max_size"));
         $maxFileSize = PartKeepr::getBytesFromHumanReadable(ini_get("upload_max_filesize"));
 
         $aParameters["maxUploadSize"] = min($maxPostSize, $maxFileSize);
 
-        if (!class_exists("Imagick"))
-        {
+        if (!class_exists("Imagick")) {
             // @todo This check is deprecated and shouldn't be done here. Sf2 should automatically take care of this
 
             return $this->render('PartKeeprFrontendBundle::error.html.twig',
@@ -65,6 +63,8 @@ class IndexController extends Controller
         if (Configuration::getOption("partkeepr.frontend.motd", false) !== false) {
             $aParameters["motd"] = Configuration::getOption("partkeepr.frontend.motd");
         }
+
+        $aParameters["authentication_provider"] = $this->getParameter("partkeepr.authentication_provider");
 
         $renderParams = array();
         $renderParams["debug_all"] = Configuration::getOption("partkeepr.frontend.debug_all", false);
@@ -107,42 +107,5 @@ class IndexController extends Controller
         }
 
         return $models;
-    }
-
-    protected function legacyAuthStuff()
-    {
-        /* HTTP auth */
-        if (Configuration::getOption("partkeepr.auth.http", false) === true) {
-            if (!isset($_SERVER["PHP_AUTH_USER"])) {
-                // @todo Redirect to permission denied page
-                die("Permission denied");
-            }
-
-            try {
-                $user = User::loadByName($_SERVER['PHP_AUTH_USER']);
-            } catch (NoResultException $e) {
-                $user = new User;
-                $user->setUsername($_SERVER['PHP_AUTH_USER']);
-                $user->setPassword("invalid");
-
-                PartKeepr::getEM()->persist($user);
-                PartKeepr::getEM()->flush();
-            }
-
-
-            $session = SessionManager::getInstance()->startSession($user);
-
-            $aParameters["autoLoginUsername"] = $user->getUsername();
-            $aParameters["auto_start_session"] = $session->getSessionID();
-
-            $aPreferences = array();
-
-            foreach ($user->getPreferences() as $result) {
-                $aPreferences[] = $result->serialize();
-            }
-
-            $aParameters["userPreferences"] = array("response" => array("data" => $aPreferences));
-        }
-
     }
 }

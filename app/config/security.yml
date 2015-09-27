@@ -16,17 +16,24 @@ security:
             chain:
                 providers: [in_memory, fos_userbundle]
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    admin:
+                        password: x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A==
+                        roles: 'ROLE_ADMIN'
         fos_userbundle:
             id: fos_user.user_provider.username
 
     firewalls:
         login:
-            pattern: ^/auth/getSalt
+            pattern: ^/api/users/getSalt
             security: false
         main:
+            stateless: true
             pattern: ^/api/.*
             provider: fos_userbundle
+            http_basic:
+                provider: fos_userbundle
             wsse:
                 realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
                 profile: "UsernameToken" #WSSE profile (WWW-Authenticate)

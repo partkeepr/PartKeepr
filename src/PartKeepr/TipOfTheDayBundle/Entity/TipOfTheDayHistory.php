@@ -3,7 +3,9 @@ namespace PartKeepr\TipOfTheDayBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\BaseEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a tip of the day history entry.
@@ -11,11 +13,13 @@ use PartKeepr\Util\BaseEntity;
  * This entity stores each tip of the day the user has already seen.
  *
  * @ORM\Entity
+ * @TargetService(uri="/api/tip_of_the_day_histories")
  **/
 class TipOfTheDayHistory extends BaseEntity
 {
     /**
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      * @var string
      */
     private $name;
@@ -23,6 +27,7 @@ class TipOfTheDayHistory extends BaseEntity
     /**
      * Defines the user
      * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
+     * @Groups({"default"})
      *
      * @var \PartKeepr\AuthBundle\Entity\User
      */
@@ -39,6 +44,14 @@ class TipOfTheDayHistory extends BaseEntity
     }
 
     /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
      * Sets the tip of the day name the user already has seen
      *
      * @param string $name The tip name
@@ -48,4 +61,11 @@ class TipOfTheDayHistory extends BaseEntity
         $this->name = $name;
     }
 
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }

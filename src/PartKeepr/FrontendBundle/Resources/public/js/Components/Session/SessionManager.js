@@ -28,40 +28,7 @@ Ext.define("PartKeepr.SessionManager", {
     {
         this.callParent(arguments);
     },
-    generateNonce: function (length)
-    {
-        var nonceChars = "0123456789abcdef";
-        var result = "";
-        for (var i = 0; i < length; i++) {
-            result += nonceChars.charAt(Math.floor(Math.random() * nonceChars.length));
-        }
-        return result;
-    },
-    getW3CDate: function (date)
-    {
-        var yyyy = date.getUTCFullYear();
-        var mm = (date.getUTCMonth() + 1);
-		if (mm < 10) {
-			mm = "0" + mm;
-		}
-        var dd = (date.getUTCDate());
-		if (dd < 10) {
-			dd = "0" + dd;
-		}
-        var hh = (date.getUTCHours());
-		if (hh < 10) {
-			hh = "0" + hh;
-		}
-        var mn = (date.getUTCMinutes());
-		if (mn < 10) {
-			mn = "0" + mn;
-		}
-        var ss = (date.getUTCSeconds());
-		if (ss < 10) {
-			ss = "0" + ss;
-		}
-        return yyyy + "-" + mm + "-" + dd + "T" + hh + ":" + mn + ":" + ss + "Z";
-    },
+
     /**
      * Creates and shows the login dialog, as well as setting up any event handlers.
      */
@@ -75,45 +42,6 @@ Ext.define("PartKeepr.SessionManager", {
             this.loginDialog.on("login", this.onLogin, this);
             this.loginDialog.show();
         }
-    },
-    onSaltRetrieved: function (salt)
-    {
-        this.salt = salt;
-
-
-        this.secret = CryptoJS.enc.Base64.stringify(CryptoJS.SHA512(this.password + "{" + this.salt + "}"));
-        this.loginDialog.destroy();
-        this.fireEvent("login");
-    },
-    getWSSE: function () {
-        var nonce = this.generateNonce(16);
-        var nonce64 = base64_encode(nonce);
-        var created = this.getW3CDate(new Date());
-
-        var digest = this.encodePassword(nonce + created + this.secret, this.salt, 1);
-        return "UsernameToken Username=\""
-            + this.username + "\", PasswordDigest=\""
-            + digest + "\", Nonce=\""
-            + nonce64 + "\", Created=\""
-            + created + "\"";
-    },
-    mergePasswordAndSalt: function (raw, salt)
-    {
-        "use strict";
-        return raw + "{" + salt + "}";
-    },
-    encodePassword: function (raw, salt, iterations)
-    {
-        "use strict";
-        var salted = this.mergePasswordAndSalt(raw, salt);
-
-        var digest = CryptoJS.SHA512(salted);
-
-        for (var i = 1; i < digest; i++) {
-            digest = CryptoJS.SHA512(digest + salted);
-        }
-
-        return CryptoJS.enc.Base64.stringify(digest);
     },
     /**
      * Removes the current session.

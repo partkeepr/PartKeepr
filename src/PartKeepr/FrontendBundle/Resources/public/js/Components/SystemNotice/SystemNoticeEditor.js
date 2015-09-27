@@ -67,7 +67,7 @@ Ext.define('PartKeepr.SystemNoticeEditor', {
     },
     onAcknowledgeClick: function ()
     {
-        this.record.callAction("acknowledge", [], Ext.bind(this.onAcknowledged, this));
+        this.record.callPutAction("acknowledge", [], Ext.bind(this.onAcknowledged, this));
     },
     onAcknowledged: function ()
     {

@@ -32,7 +32,8 @@ Ext.define("PartKeepr.CategoryEditorTree", {
         this.createMenu();
 
     },
-    onBeforeDrop: function (node, data, overModel, dropPosition, dropHandlers) {
+    onBeforeDrop: function (node, data, overModel, dropPosition, dropHandlers)
+    {
         var draggedRecord = data.records[0];
         var droppedOn = this.getView().getRecord(node);
 
@@ -57,7 +58,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
                 targetRecord = overModel;
             }
 
-            draggedRecord.callAction("move", {
+            draggedRecord.callPutAction("move", {
                 "parent": targetRecord.getId()
             });
         }

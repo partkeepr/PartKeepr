@@ -51,7 +51,13 @@
     {% endfor %}
 
     {% javascripts output='js/compiled/main2.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/LoginManager.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.grid.feature.Summary-selectorFix.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/AuthenticationProvider.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/HTTPBasicAuthenticationProvider.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/WSSEAuthenticationProvider.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/store/TipOfTheDayStore.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/store/TipOfTheDayHistoryStore.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReport.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReportList.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/SystemInformationRecord.js'

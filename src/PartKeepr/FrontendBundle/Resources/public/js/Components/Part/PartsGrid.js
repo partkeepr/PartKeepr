@@ -117,8 +117,10 @@ Ext.define('PartKeepr.PartsGrid', {
             }
         });
 
-        var duplicateBasicData = i18n("Duplicates the selected part with the data found in the \"basic\" tab and opens the editor. Doesn't immediately saves the duplicate, in order to allow editing.");
-        var duplicateAllData = i18n("Duplicates the selected part with all data including attachments, distributors etc. Doesn't immediately saves the duplicate, in order to allow editing.");
+        var duplicateBasicData = i18n(
+            "Duplicates the selected part with the data found in the \"basic\" tab and opens the editor. Doesn't immediately saves the duplicate, in order to allow editing.");
+        var duplicateAllData = i18n(
+            "Duplicates the selected part with all data including attachments, distributors etc. Doesn't immediately saves the duplicate, in order to allow editing.");
 
         this.addFromTemplateButton = Ext.create("Ext.button.Split", {
             disabled: true,
@@ -295,7 +297,8 @@ Ext.define('PartKeepr.PartsGrid', {
 
         ];
     },
-    averagePriceRenderer: function () {
+    averagePriceRenderer: function ()
+    {
         "use strict";
         return 0;
     },
@@ -347,7 +350,8 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         var ret = "";
         if (rec.attachments().getCount() > 0) {
-            ret += '<img src="bundles/brainbitsfugueicons/icons/fugue/16/paper-clip.png" style="height: 10px; margin-top: 2px;" alt="' + i18n("Has attachments") + '" title="' + i18n("Has attachments") + '"/>';
+            ret += '<img src="bundles/brainbitsfugueicons/icons/fugue/16/paper-clip.png" style="height: 10px; margin-top: 2px;" alt="' + i18n(
+                    "Has attachments") + '" title="' + i18n("Has attachments") + '"/>';
         }
 
         return ret;
@@ -413,7 +417,8 @@ Ext.define('PartKeepr.PartsGrid', {
             this.confirmStockChange(e);
         }
     },
-    getStockChangeMode: function (value) {
+    getStockChangeMode: function (value)
+    {
         var n = value.indexOf("+");
 
         if (n !== -1) {
@@ -459,16 +464,16 @@ Ext.define('PartKeepr.PartsGrid', {
                     i18n("You wish to add  <b>%s %s</b> of part <b>%s</b>. Is this correct?"),
                     value, e.record.getPartUnit().get("name"), e.record.get("name"));
 
-                    e.record.set("stockLevel", (e.originalValue + value));
-                    headerText = i18n("Add Part(s)");
-                    break;
+                e.record.set("stockLevel", (e.originalValue + value));
+                headerText = i18n("Add Part(s)");
+                break;
             case "fixed":
-                    confirmText = sprintf(
+                confirmText = sprintf(
                     i18n("You wish to set the stock level to <b>%s %s</b> for part <b>%s</b>. Is this correct?"),
                     value, e.record.getPartUnit().get("name"), e.record.get("name"));
 
-                    e.record.set("stockLevel", value);
-                    headerText = i18n("Set Stock Level for Part(s)");
+                e.record.set("stockLevel", value);
+                headerText = i18n("Set Stock Level for Part(s)");
                 break;
         }
 
@@ -532,7 +537,7 @@ Ext.define('PartKeepr.PartsGrid', {
                 break;
         }
 
-        e.record.callAction(call, {
+        e.record.callPutAction(call, {
             quantity: e.value
         }, Ext.bind(this.reloadPart, this, [e]));
     },

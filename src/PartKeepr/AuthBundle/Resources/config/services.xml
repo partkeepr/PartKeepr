@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="security.authentication.manager.class">PartKeepr\AuthBundle\Security\Authentication\AuthenticationProviderManager</parameter>
+        <parameter key="security.authentication.basic_entry_point.class">PartKeepr\AuthBundle\Security\EntryPoint\NullEntryPoint</parameter>
     </parameters>
 
     <services>

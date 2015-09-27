@@ -24,6 +24,7 @@ class PartKeeprCoreExtension extends Extension
 
         $container->setParameter('partkeepr.cronjob_check', $config['cronjob_check']);
         $container->setParameter('partkeepr.image_cache_directory', $config['image_cache_directory']);
+        $container->setParameter('partkeepr.authentication_provider', $config['authentication_provider']);
 
         foreach ($config["directories"] as $key => $value) {
             $container->setParameter("partkeepr.directories.".$key, $value);

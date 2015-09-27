@@ -956,6 +956,19 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.tip_of_the_day_history:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\TipOfTheDayBundle\\Entity\\TipOfTheDayHistory" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.user.item_operation.get_preferences:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false

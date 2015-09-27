@@ -2,6 +2,7 @@
 
 namespace PartKeepr\AuthBundle\Controller;
 
+use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -18,7 +19,7 @@ class DefaultController extends FOSRestController
     /**
      * Retrieves the salt for a given user
      *
-     * @Routing\Route("/auth/getSalt", defaults={"method" = "get","_format" = "json"})
+     * @Routing\Route("/api/users/getSalt", defaults={"method" = "post","_format" = "json"})
      * @Routing\Method({"POST"})
      * @RequestParam(name="username", strict=true, description="The username, 3-50 characters. Allowed characters: a-z, A-Z, 0-9, an underscore (_), a backslash (\), a slash (/), a dot (.) or a dash (-)", requirements=@Username, allowBlank=false)
      * @View()
@@ -32,6 +33,9 @@ class DefaultController extends FOSRestController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
+        /**
+         * @var $repository EntityRepository
+         */
         $repository = $entityManager->getRepository(
             'PartKeepr\AuthBundle\Entity\FOSUser'
         );
@@ -41,6 +45,26 @@ class DefaultController extends FOSRestController
          */
         $user = $repository->findOneBy(array("username" => $paramFetcher->get("username")));
 
-        return $user->getSalt();
+        if ($user !== null) {
+            return $user->getSalt();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Attempts to login the user
+     *
+     * @Routing\Route("/api/users/login", defaults={"method" = "post","_format" = "json"})
+     * @Routing\Method({"POST"})
+     * @View()
+     *
+     * @return User The user object
+     */
+    public function loginAction()
+    {
+        $user = $this->get("partkeepr.userservice")->getUser();
+
+        return $user;
     }
 }

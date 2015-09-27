@@ -281,7 +281,7 @@ Ext.define('PartKeepr.ProjectReportView', {
                 });
             }
 
-            PartKeepr.PartBundle.Entity.Part.callCollectionAction("massRemoveStock",
+            PartKeepr.PartBundle.Entity.Part.callPostCollectionAction("massRemoveStock",
                 {"removals": Ext.encode(removals)});
         }
     },

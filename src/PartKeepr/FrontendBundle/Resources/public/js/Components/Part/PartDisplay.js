@@ -151,7 +151,8 @@ Ext.define('PartKeepr.PartDisplay', {
         ];
         this.callParent();
     },
-    clear: function () {
+    clear: function ()
+    {
         this.attachmentDisplay.bindStore(null);
         this.imageDisplay.setStore(null);
 
@@ -203,7 +204,7 @@ Ext.define('PartKeepr.PartDisplay', {
      */
     addPartHandler: function (quantity, price, comment)
     {
-        this.record.callAction("addStock", {
+        this.record.callPutAction("addStock", {
             quantity: quantity,
             price: price,
             comment: comment
@@ -222,7 +223,7 @@ Ext.define('PartKeepr.PartDisplay', {
      */
     deletePartHandler: function (quantity)
     {
-        this.record.callAction("removeStock", {
+        this.record.callPutAction("removeStock", {
             quantity: quantity,
         }, null, true);
     },

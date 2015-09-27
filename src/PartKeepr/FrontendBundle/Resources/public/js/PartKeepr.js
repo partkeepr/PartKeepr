@@ -4,6 +4,8 @@ PartKeepr.application = null;
 
 Ext.application({
     name: 'PartKeepr',
+    loginManager: null,
+
     launch: function ()
     {
         Ext.setGlyphFontFamily('FontAwesome');
@@ -18,26 +20,30 @@ Ext.application({
         PartKeepr.setMaxUploadSize(window.parameters.maxUploadSize);
         PartKeepr.setAvailableImageFormats(window.parameters.availableImageFormats);
 
+        var authenticationProvider = Ext.create(window.parameters.authentication_provider);
+        PartKeepr.Auth.AuthenticationProvider.setAuthenticationProvider(authenticationProvider);
+
         this.sessionManager = new PartKeepr.SessionManager();
 
-        /* Automatic session starting is active. This disables login/logout functionality. */
-        if (window.parameters.auto_start_session) {
-            this.getSessionManager().setSession(window.parameters.auto_start_session);
-            this.getStatusbar().connectionButton.hide();
-            this.setUsername(window.parameters.autoLoginUsername);
-            this.onLogin();
-        } else {
-            // If auto login is wanted (for e.g. demo systems), put it in here
-            this.sessionManager.on("login", this.onLogin, this);
+        var config = {};
 
-            if (window.parameters.autoLoginUsername) {
-                this.sessionManager.login(window.parameters.autoLoginUsername, window.parameters.autoLoginPassword);
-            } else {
-                this.sessionManager.login();
-            }
+        if (window.parameters.autoLoginUsername) {
+            config.autoLogin = true;
+            config.autoLoginUsername = window.parameters.autoLoginUsername;
+            config.autoLoginPassword = window.parameters.autoLoginPassword;
         }
 
+        this.loginManager = Ext.create("PartKeepr.Auth.LoginManager", config);
+        this.loginManager.on("login", this.onLogin, this);
+        this.loginManager.on("logout", this.onLogout, this);
+        this.loginManager.login();
+
+
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
+    },
+    getLoginManager: function ()
+    {
+        return this.loginManager;
     },
     getPartManager: function ()
     {
@@ -84,10 +90,14 @@ Ext.application({
             this.displayMOTD();
         }
 
-        this.setSession(this.getSessionManager().getSession());
+        this.getStatusbar().setConnected();
 
-        this.getStatusbar().getConnectionButton().setConnected();
-
+    },
+    onLogout: function ()
+    {
+        this.menuBar.disable();
+        this.centerPanel.removeAll(true);
+        this.getStatusbar().setDisconnected();
     },
     /**
      * Re-creates the part manager. This is usually called when the "compactLayout" configuration option has been
@@ -133,12 +143,13 @@ Ext.application({
      */
     displayTipOfTheDayWindow: function ()
     {
-        if (!this.tipOfTheDayStore._loaded) {
+        if (!Ext.data.StoreManager.lookup('TipOfTheDayStore') || !Ext.data.StoreManager.lookup(
+                'TipOfTheDayStore').isLoaded()) {
             this.displayTipWindowTask.delay(100);
             return;
         }
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") !== false) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") !== "false") {
             var j = Ext.create("PartKeepr.TipOfTheDayWindow");
 
             if (j.getLastUnreadTip() !== null) {
@@ -219,12 +230,6 @@ Ext.application({
 
         Ext.defer(this.doUnacknowledgedNoticesCheck, 10000, this);
     },
-    logout: function ()
-    {
-        this.menuBar.disable();
-        this.centerPanel.removeAll(true);
-        this.getSessionManager().logout();
-    },
     createGlobalStores: function ()
     {
         this.footprintStore = Ext.create("Ext.data.Store",
@@ -276,21 +281,14 @@ Ext.application({
                 autoLoad: true
             });
 
-        this.tipOfTheDayStore = Ext.create("Ext.data.Store",
-            {
-                model: 'PartKeepr.TipOfTheDayBundle.Entity.TipOfTheDay',
-                pageSize: 99999999,
-                autoLoad: true,
-                listeners: {
-                    scope: this,
-                    load: this.storeLoaded
-                }
-            });
-
         this.userPreferenceStore = Ext.create("PartKeepr.data.store.UserPreferenceStore",
             {
                 model: 'PartKeepr.AuthBundle.Entity.UserPreference',
             });
+
+        this.tipOfTheDayStore = Ext.create("PartKeepr.data.store.TipOfTheDayStore");
+        this.tipOfTheDayHistoryStore = Ext.create("PartKeepr.data.store.TipOfTheDayHistoryStore");
+
     },
     storeLoaded: function (store)
     {
@@ -303,10 +301,6 @@ Ext.application({
     isAdmin: function ()
     {
         return this.admin;
-    },
-    getTipOfTheDayStore: function ()
-    {
-        return this.tipOfTheDayStore;
     },
     /**
      * Queries for a specific user preference. Returns either the value or a default value if
@@ -625,8 +619,8 @@ PartKeepr.getMaxUploadSize = function ()
 PartKeepr.bytesToSize = function (bytes)
 {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-	if (bytes === 0) {
-		return 'n/a';
+    if (bytes === 0) {
+        return 'n/a';
     }
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];

@@ -52,7 +52,7 @@ Ext.define('PartKeepr.PartMeasurementUnitGrid', {
     {
         var r = this.getSelectionModel().getLastSelected();
 
-        r.callAction("setDefault", {}, this.onDefaultHandler.bind(this));
+        r.callPutAction("setDefault", {}, this.onDefaultHandler.bind(this));
     },
     onDefaultHandler: function ()
     {

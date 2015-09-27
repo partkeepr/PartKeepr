@@ -68,7 +68,9 @@ Ext.define('PartKeepr.ServiceCall', {
         };
 
         if (!this.anonymous) {
-            headers["X-WSSE"] = PartKeepr.getApplication().getSessionManager().getWSSE();
+            var provider = PartKeepr.Auth.AuthenticationProvider.getAuthenticationProvider();
+
+            Ext.apply(headers, provider.getHeaders());
         }
 
         Ext.Ajax.request({
