@@ -132,7 +132,7 @@ Ext.define('PartKeepr.MenuBar', {
 	},
 	showUserPreferences: function () {
 		var j = new PartKeepr.UserPreferencePanel({
-			iconCls: 'web-icon gear',
+			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/gear.png',
 			closable: true
 		});
 		
