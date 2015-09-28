@@ -8,7 +8,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Version as ORMVersion;
 use PartKeepr\CoreBundle\System\OperatingSystem;
 use PartKeepr\CoreBundle\System\SystemInformationRecord;
-use PartKeepr\CronLogger\CronLoggerManager;
+use PartKeepr\CronLoggerBundle\Services\CronLoggerService;
 use PartKeepr\Util\Configuration;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,11 +25,21 @@ class SystemService extends ContainerAware
      */
     private $versionService;
 
-    public function __construct(Registry $doctrine, ContainerInterface $container, VersionService $versionService)
-    {
+    /**
+     * @var CronLoggerService
+     */
+    private $cronLoggerService;
+
+    public function __construct(
+        Registry $doctrine,
+        ContainerInterface $container,
+        VersionService $versionService,
+        CronLoggerService $cronLoggerService
+    ) {
         $this->entityManager = $doctrine->getManager();
         $this->setContainer($container);
         $this->versionService = $versionService;
+        $this->cronLoggerService = $cronLoggerService;
     }
 
     /**
@@ -92,7 +102,9 @@ class SystemService extends ContainerAware
     public function getSystemStatus()
     {
         if ($this->container->getParameter("partkeepr.cronjob_check")) {
-            $inactiveCronjobs = CronLoggerManager::getInstance()->getInactiveCronjobs();
+            $inactiveCronjobs = $this->cronLoggerService->getInactiveCronjobs(
+                $this->container->getParameter("partkeepr.required_cronjobs")
+            );
         } else {
             // Skip cronjob tests
             $inactiveCronjobs = array();

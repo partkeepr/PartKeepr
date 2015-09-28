@@ -12,9 +12,9 @@ namespace PartKeepr\Cronjobs;
 
 include(__DIR__."/../src/backend/PartKeepr/PartKeepr.php");
 
-use PartKeepr\PartKeepr,
-	PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay,
-	PartKeepr\CronLogger\CronLoggerManager;
+use PartKeepr\CronLoggerBundle\Services\CronLoggerManager;
+use PartKeepr\PartKeepr;
+use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay;
 
 PartKeepr::initialize();
 

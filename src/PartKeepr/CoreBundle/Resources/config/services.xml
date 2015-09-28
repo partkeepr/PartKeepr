@@ -9,6 +9,7 @@
             <argument type="service" id="doctrine"/>
             <argument type="service" id="service_container"/>
             <argument type="service" id="partkeepr.versionservice"/>
+            <argument type="service" id="partkeepr.cronlogger_service"/>
         </service>
         <service id="partkeepr.systemnoticeservice" class="PartKeepr\CoreBundle\Services\SystemNoticeService">
             <argument type="service" id="doctrine.orm.entity_manager"/>

@@ -27,6 +27,7 @@ class PartKeeprCoreExtension extends Extension
         $container->setParameter('partkeepr.authentication_provider', $config['authentication_provider']);
         $container->setParameter('partkeepr.tip_of_the_day_uri', $config['tip_of_the_day_uri']);
         $container->setParameter('partkeepr.tip_of_the_day_list', $config['tip_of_the_day_list']);
+        $container->setParameter('partkeepr.required_cronjobs', $config['required_cronjobs']);
 
         foreach ($config["directories"] as $key => $value) {
             $container->setParameter("partkeepr.directories.".$key, $value);

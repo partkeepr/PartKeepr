@@ -81,6 +81,7 @@ class AppKernel extends Kernel
         }
 
         // PartKeepr bundles
+        $bundles[] = new PartKeepr\CronLoggerBundle\PartKeeprCronLoggerBundle();
         $bundles[] = new PartKeepr\CategoryBundle\PartKeeprCategoryBundle();
         $bundles[] = new PartKeepr\UploadedFileBundle\PartKeeprUploadedFileBundle();
         $bundles[] = new PartKeepr\FrontendBundle\PartKeeprFrontendBundle();

@@ -1,8 +1,8 @@
 <?php
 namespace PartKeepr\Setup;
 
-use PartKeepr\CronLogger\CronLoggerManager,
-	PartKeepr\PartKeepr;
+use PartKeepr\CronLoggerBundle\Services\CronLoggerManager;
+use PartKeepr\PartKeepr;
 
 /**
  * Sets up misc stuff, which doesn't fit into other steps

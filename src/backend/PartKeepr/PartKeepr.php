@@ -176,7 +176,7 @@ class PartKeepr
             'PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory',
             'PartKeepr\AuthBundle\Entity\UserPreference',
             'PartKeepr\CoreBundle\Entity\SystemNotice',
-            'PartKeepr\CronLogger\CronLogger',
+            'PartKeepr\CronLoggerBundle\Entity\CronLogger',
 
         );
     }

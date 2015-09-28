@@ -10,8 +10,8 @@ namespace PartKeepr\Cronjobs;
 
 include(__DIR__."/../src/backend/PartKeepr/PartKeepr.php");
 
-use PartKeepr\PartKeepr,
-	PartKeepr\CronLogger\CronLoggerManager;
+use PartKeepr\CronLoggerBundle\Services\CronLoggerManager;
+use PartKeepr\PartKeepr;
 
 PartKeepr::initialize();
 
