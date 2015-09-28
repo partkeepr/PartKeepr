@@ -943,6 +943,48 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.tempfile.item_operation.get", "@resource.tempfile.item_operation.custom_get", "@resource.tempfile.item_operation.custom_get_mimetype", "@resource.tempfile.collection_operation.custom_post_webcam" ] ]
 
+
+    resource.tip_of_the_day.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.tip_of_the_day", "GET" ]
+
+    resource.tip_of_the_day.item_operation.mark_read:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+            - "@resource.tip_of_the_day"
+            - "PUT"
+            - "/tip_of_the_days/{id}/markTipRead"
+            - "partkeepr.tip_of_the_day.mark_read"
+            - "TipMarkRead"
+
+
+    resource.tip_of_the_day.collection_operation.get:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments: [ "@resource.tip_of_the_day", "GET" ]
+
+    resource.tip_of_the_day.collection_operation.post:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments: [ "@resource.tip_of_the_day", "POST" ]
+
+    resource.tip_of_the_day.collection_operation.mark_all_unread:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments:
+                - "@resource.tip_of_the_day"
+                - [ "POST" ]
+                - "/tip_of_the_days/markAllTipsAsUnread"
+                - "partkeepr.tip_of_the_day.mark_all_unread"
+                - "TipMarkAllUnrad"
+
     resource.tip_of_the_day:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\TipOfTheDayBundle\\Entity\\TipOfTheDay" ]
@@ -952,9 +994,24 @@ services:
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.tip_of_the_day.collection_operation.get", "@resource.tip_of_the_day.collection_operation.post", "@resource.tip_of_the_day.collection_operation.mark_all_unread" ] ]
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.tip_of_the_day.item_operation.get", "@resource.tip_of_the_day.item_operation.mark_read" ] ]
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
+
+    resource.tip_of_the_day_history.collection_operation.custom_get:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments:
+              - "@resource.tip_of_the_day_history"
+              - [ "GET" ]
+              - "/tip_of_the_day_histories"
+              - "partkeepr.tip_of_the_day_history.collection_get"
+              - "TipHistoriesGet"
 
     resource.tip_of_the_day_history:
         parent:    "api.resource"
@@ -963,6 +1020,8 @@ services:
         calls:
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.tip_of_the_day_history.collection_operation.custom_get" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"

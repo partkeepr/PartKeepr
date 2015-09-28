@@ -46,7 +46,7 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
         this.tipHistoryStore = Ext.data.StoreManager.lookup('TipOfTheDayHistoryStore');
 
         // Set the tip display iframe and add it to the items
-        this.tipDisplay = Ext.create("Ext.ux.SimpleIFrame", {
+        this.tipDisplay = Ext.create("Ext.ux.IFrame", {
             border: false
         });
 
@@ -103,11 +103,64 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
         ];
 
         // Auto-load the next unread tip on window display
-        this.on("show", this.displayNextTip, this);
+        this.updateFilter();
+        this.currentTip = this.tipStore.getAt(0);
+        this.on("show", this.displayTip, this);
 
         // Window destroy handler
         this.on("destroy", this.onDestroy, this);
         this.callParent();
+    },
+    /**
+     * Displays the previous tip
+     */
+    displayPreviousTip: function ()
+    {
+        var idx = this.tipStore.indexOf(this.currentTip);
+        this.currentTip = this.tipStore.getAt(idx - 1);
+
+        if (this.currentTip === null) {
+            this.currentTip = this.tipStore.getAt(0);
+        }
+        this.displayTip(this.currentTip);
+    },
+    /**
+     * Displays the next tip
+     */
+    displayNextTip: function ()
+    {
+        var idx = this.tipStore.indexOf(this.currentTip);
+        this.currentTip = this.tipStore.getAt(idx + 1);
+
+        if (this.currentTip === null) {
+            this.currentTip = this.tipStore.getAt(0);
+        }
+        this.displayTip(this.currentTip);
+    },
+    /**
+     * Updates the filter for the tip store to exclude read tips.
+     */
+    updateFilter: function ()
+    {
+        this.tipStore.clearFilter();
+
+        if (this.displayReadTipsCheckbox.getValue() === true) {
+            return;
+        }
+        var filterItems = [];
+
+        this.tipHistoryStore.each(function (record)
+        {
+            filterItems.push(record.get("name"));
+        });
+
+        var tipFilter = Ext.create("PartKeepr.util.Filter", {
+            property: "name",
+            operator: "notin",
+            value: filterItems
+        });
+
+        this.tipStore.addFilter(tipFilter);
     },
     /**
      * If the "show read tips" checkbox was clicked, update the buttons
@@ -115,6 +168,7 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
      */
     showReadTipsHandler: function ()
     {
+        this.updateFilter();
         this.updateButtons(this.currentTip);
     },
     /**
@@ -144,21 +198,30 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
      * Displays a specific tip of the day.
      * @param record The record which contains the information regarding the tip
      */
-    displayTip: function (record)
+    displayTip: function ()
     {
+        if (!this.currentTip) {
+            return;
+        }
+
         // Cancel the old read timer
         this.cancelReadTimer();
 
         // Update buttons to reflect position
-        this.updateButtons(record);
+        this.updateButtons(this.currentTip);
 
         // Set the title to the tip name
-        this.setTitle(this.titleTemplate + ": " + record.get("name"));
+        this.setTitle(this.titleTemplate + ": " + this.currentTip.get("name"));
 
         // Set iframe to the tip url
-        this.tipDisplay.setSrc(record.get("url"));
+        this.tipDisplay.load(
+            sprintf(PartKeepr.getApplication().getParameter("tip_of_the_day_uri"), this.currentTip.get("name")));
 
         // Fire up delayed task to mark the tip as read
+        if (this.markAsReadTask) {
+            this.markAsReadTask.cancel();
+        }
+
         this.markAsReadTask = new Ext.util.DelayedTask(this.markTipRead, this);
         this.markAsReadTask.delay(5000);
 
@@ -171,70 +234,17 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
      */
     updateButtons: function (record)
     {
-        if (this.displayReadTipsCheckbox.getValue() === true) {
-            if (this.tipStore.indexOf(record) > 0) {
-                this.previousButton.enable();
-            } else {
-                this.previousButton.disable();
-            }
-
-            if (this.tipStore.indexOf(record) === this.tipStore.getTotalCount() - 1) {
-                this.nextButton.disable();
-            } else {
-                this.nextButton.enable();
-            }
+        if (this.tipStore.indexOf(record) > 0) {
+            this.previousButton.enable();
         } else {
-            if (this.tipStore.indexOf(record) > this.getFirstUnreadTip()) {
-                this.previousButton.enable();
-            } else {
-                this.previousButton.disable();
-            }
-
-
-            if (this.tipStore.indexOf(record) >= this.getLastUnreadTip()) {
-                this.nextButton.disable();
-            } else {
-                this.nextButton.enable();
-            }
+            this.previousButton.disable();
         }
 
-    },
-    /**
-     * Returns the index of the first unread tip, or null if there's no unread tip.
-     * @returns int The index of the first unread tip, or null
-     */
-    getFirstUnreadTip: function ()
-    {
-        for (var i = 0; i < this.tipStore.getTotalCount(); i++) {
-            if (this.tipStore.getAt(i).get("read") === false) {
-                return i;
-            }
+        if (this.tipStore.indexOf(record) === this.tipStore.getCount() - 1) {
+            this.nextButton.disable();
+        } else {
+            this.nextButton.enable();
         }
-
-        return null;
-    },
-    /**
-     * Returns the index of the last unread tip, or null if there's no unread tip.
-     * @returns int The index of the last unread tip, or null
-     */
-    getLastUnreadTip: function ()
-    {
-        for (var i = this.tipStore.getTotalCount() - 1; i > -1; i--) {
-            if (this.tipStore.getAt(i).get("read") === false) {
-                return i;
-            }
-        }
-
-        return null;
-    },
-    isTipRead: function (
-        tip
-    )
-    {
-        /*var filter = Ext.create("Ext.util.Filter", {
-         property:
-         }),
-         this.tipHistoryStore.*/
 
     },
     /**
@@ -242,108 +252,37 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
      */
     markTipRead: function ()
     {
-        this.currentTip.set("read", true);
-        this.currentTip.commit();
-
-        var call = new PartKeepr.ServiceCall("TipOfTheDay", "markTipAsRead");
-        call.setLoadMessage(sprintf(i18n("Marking tip %s as read..."), this.currentTip.get("name")));
-        call.setParameter("name", this.currentTip.get("name"));
-        call.doCall();
+        this.currentTip.callPutAction("markTipRead", {}, Ext.bind(this.onMarkTipRead, this));
     },
     /**
-     * Displays the next tip
+     * Callback for when the markTipRead action has been completed. Re-loads the history store
      */
-    displayNextTip: function ()
+    onMarkTipRead: function ()
     {
-        this.retrieveTip("ASC");
+        this.tipHistoryStore.load({
+            scope: this,
+            callback: this.onHistoryStoreLoaded
+        });
     },
     /**
-     * Displays the previous tip
+     * Callback for when the history store has been loaded. Updates the filter
      */
-    displayPreviousTip: function ()
+    onHistoryStoreLoaded: function ()
     {
-        this.retrieveTip("DESC");
+        this.updateFilter();
     },
     /**
-     * Displays the next or previous tip.
+     * Returns if there are tips in the tip database which aren't read.
      *
-     * @param dir string Either "ASC" or "DESC", which denotes the direction to search for the next tip
+     * @return {Boolean} True if there are tips available, false otherwise
      */
-    retrieveTip: function (dir)
+    hasTips: function ()
     {
-        var startIdx = -1, record = null;
-
-        if (this.currentTip) {
-            startIdx = this.tipStore.indexOf(this.currentTip);
-        }
-
-        if (dir === "ASC") {
-            record = this.extractNextTip(startIdx);
+        if (this.tipStore.count() > 0) {
+            return true;
         } else {
-            record = this.extractPreviousTip(startIdx);
+            return false;
         }
 
-        if (record) {
-            this.currentTip = record;
-            this.displayTip(record);
-        }
-    },
-    /**
-     * Returns the record with the next tip
-     * @param startIdx The index to start searching from
-     * @returns record The record with the next tip
-     */
-    extractNextTip: function (startIdx)
-    {
-        var record = null, foundRecord = null;
-        if (this.displayReadTipsCheckbox.getValue() === true) {
-            var tmpIdx = startIdx + 1;
-            if (tmpIdx > this.tipStore.getTotalCount() - 1) {
-                tmpIdx = this.tipStore.getTotalCount() - 1;
-            }
-
-            foundRecord = this.tipStore.getAt(tmpIdx);
-        } else {
-            for (var i = startIdx + 1; i < this.tipStore.getTotalCount(); i++) {
-                record = this.tipStore.getAt(i);
-                if (record.get("read") === false) {
-                    foundRecord = record;
-                    break;
-                }
-            }
-        }
-
-        return foundRecord;
-    },
-    /**
-     * Returns the record with the previous tip
-     * @param startIdx The index to start searching from
-     * @returns record The record with the previous tip
-     */
-    extractPreviousTip: function (startIdx)
-    {
-        var record = null, foundRecord = null;
-        if (this.displayReadTipsCheckbox.getValue() === true) {
-            var tmpIdx = startIdx - 1;
-            if (tmpIdx < 0) {
-                tmpIdx = 0;
-            }
-
-            foundRecord = this.tipStore.getAt(tmpIdx);
-        } else {
-            for (var i = startIdx - 1; i > -1; i--) {
-                record = this.tipStore.getAt(i);
-
-                if (record.get("read") === false) {
-                    foundRecord = record;
-                    break;
-                }
-            }
-        }
-
-
-        return foundRecord;
     }
-
-
 });

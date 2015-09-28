@@ -21,20 +21,30 @@ class Configuration implements ConfigurationInterface
                 ->defaultValue('PartKeepr.Auth.WSSEAuthenticationProvider')
                 ->info('The authentication provider for the frontend')
             ->end()
+            ->scalarNode('tip_of_the_day_uri')
+                ->cannotBeEmpty()
+                ->defaultValue('http://partkeepr.org/tips/%s')
+                ->info('The URI where tips are loaded from')
+            ->end()
+            ->scalarNode('tip_of_the_day_list')
+                ->cannotBeEmpty()
+                ->defaultValue('http://partkeepr.org/tips.json')
+                ->info('The URI from where the tip database is loaded')
+            ->end()
             ->scalarNode('image_cache_directory')
                 ->cannotBeEmpty()
                 ->isRequired()
                 ->info('The image cache directory')
             ->end()
-                ->arrayNode('directories')
+            ->arrayNode('directories')
                 ->prototype('scalar')
                 ->end()
             ->end()
             ->booleanNode('cronjob_check')
                 ->defaultTrue()
                 ->info('Whether the system should check if cronjobs are running or not')
-                ->end()
-            ->end();
+            ->end()
+        ->end();
 
         return $treeBuilder;
     }

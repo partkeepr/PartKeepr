@@ -41,6 +41,12 @@ Ext.application({
 
         Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
     },
+    getParameter: function (parameter)
+    {
+        if (window.parameters[parameter]) {
+            return window.parameters[parameter];
+        }
+    },
     getLoginManager: function ()
     {
         return this.loginManager;
@@ -144,7 +150,9 @@ Ext.application({
     displayTipOfTheDayWindow: function ()
     {
         if (!Ext.data.StoreManager.lookup('TipOfTheDayStore') || !Ext.data.StoreManager.lookup(
-                'TipOfTheDayStore').isLoaded()) {
+                'TipOfTheDayStore').isLoaded() || !Ext.data.StoreManager.lookup(
+                'TipOfTheDayHistoryStore') || !Ext.data.StoreManager.lookup('TipOfTheDayHistoryStore').isLoaded()
+        ) {
             this.displayTipWindowTask.delay(100);
             return;
         }
@@ -152,7 +160,7 @@ Ext.application({
         if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") !== "false") {
             var j = Ext.create("PartKeepr.TipOfTheDayWindow");
 
-            if (j.getLastUnreadTip() !== null) {
+            if (j.hasTips()) {
                 j.show();
             }
         }

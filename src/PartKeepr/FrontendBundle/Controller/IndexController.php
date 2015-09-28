@@ -4,11 +4,9 @@ namespace PartKeepr\FrontendBundle\Controller;
 
 use Doctrine\Common\Version as DoctrineCommonVersion;
 use Doctrine\DBAL\Version as DBALVersion;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Version as ORMVersion;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
-use PartKeepr\Session\SessionManager;
 use PartKeepr\Util\Configuration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Finder\Finder;
@@ -65,6 +63,7 @@ class IndexController extends Controller
         }
 
         $aParameters["authentication_provider"] = $this->getParameter("partkeepr.authentication_provider");
+        $aParameters["tip_of_the_day_uri"] = $this->getParameter("partkeepr.tip_of_the_day_uri");
 
         $renderParams = array();
         $renderParams["debug_all"] = Configuration::getOption("partkeepr.frontend.debug_all", false);

@@ -1,8 +1,17 @@
 <?php
 namespace PartKeepr\TipOfTheDayBundle;
 
+use PartKeepr\TipOfTheDayBundle\Console\Command\SyncTipsCommand;
+use Symfony\Component\Console\Application;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class PartKeeprTipOfTheDayBundle extends Bundle
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function registerCommands(Application $application)
+    {
+        $application->add(new SyncTipsCommand());
+    }
 }
