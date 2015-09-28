@@ -8,6 +8,7 @@
         <service id="partkeepr.tip_of_the_day_service" class="PartKeepr\TipOfTheDayBundle\Services\TipOfTheDayService">
             <argument type="service" id="service_container"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="partkeepr.cronlogger_service"/>
         </service>
     </services>
 </container>

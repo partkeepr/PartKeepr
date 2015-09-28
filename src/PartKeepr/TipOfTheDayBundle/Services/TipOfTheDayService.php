@@ -5,6 +5,7 @@ namespace PartKeepr\TipOfTheDayBundle\Services;
 
 
 use Doctrine\ORM\EntityManager;
+use PartKeepr\CronLoggerBundle\Services\CronLoggerService;
 use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -21,10 +22,16 @@ class TipOfTheDayService
      */
     private $entityManager;
 
-    public function __construct(ContainerInterface $container, EntityManager $entityManager)
+    /**
+     * @var CronLoggerService
+     */
+    private $cronLoggerService;
+
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, CronLoggerService $cronLoggerService)
     {
         $this->container = $container;
         $this->entityManager = $entityManager;
+        $this->cronLoggerService = $cronLoggerService;
     }
 
     /**
@@ -45,6 +52,8 @@ class TipOfTheDayService
         $aPageNames = $this->extractPageNames($tipsString);
 
         $this->updateTipDatabase($aPageNames);
+
+        $this->cronLoggerService->markCronRun("partkeepr:cron:synctips");
     }
 
     /**

@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('required_cronjobs')
                 ->treatNullLike(array())
                 ->prototype('scalar')->end()
-                ->defaultValue(array('1', '2', '3'))
+                ->defaultValue(array('partkeepr:cron:synctips'))
             ->end()
             ->scalarNode('tip_of_the_day_list')
                 ->cannotBeEmpty()
