@@ -15,5 +15,9 @@
             <argument type="service" id="partkeepr.user_preference_service"/>
             <argument type="service" id="api.serializer"/>
         </service>
+        <service id="partkeepr.auth.login" class="PartKeepr\AuthBundle\Action\LoginAction">
+            <argument type="service" id="partkeepr.userservice"/>
+            <argument type="service" id="api.serializer"/>
+        </service>
     </services>
 </container>

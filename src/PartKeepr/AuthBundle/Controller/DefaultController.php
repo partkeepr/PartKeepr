@@ -51,20 +51,4 @@ class DefaultController extends FOSRestController
             return false;
         }
     }
-
-    /**
-     * Attempts to login the user
-     *
-     * @Routing\Route("/api/users/login", defaults={"method" = "post","_format" = "json"})
-     * @Routing\Method({"POST"})
-     * @View()
-     *
-     * @return User The user object
-     */
-    public function loginAction()
-    {
-        $user = $this->get("partkeepr.userservice")->getUser();
-
-        return $user;
-    }
 }
