@@ -178,7 +178,7 @@ Ext.define('PartKeepr.PartManager', {
      */
     getChildrenIds: function (node)
     {
-        var childNodes = [node.getId()];
+        var childNodes = [node];
 
         if (node.hasChildNodes()) {
             for (var i = 0; i < node.childNodes.length; i++) {
