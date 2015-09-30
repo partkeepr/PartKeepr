@@ -119,6 +119,39 @@ Ext.define("PartKeepr.data.HydraProxy", {
         this.sendRequest(request);
     },
     /**
+     * Encodes the array of {@link Ext.util.Filter} objects into a string to be sent in the request url. By default,
+     * this simply JSON-encodes the filter data.
+     *
+     * Additionally converts any model instances to the ID representation in order to save bytes during a request.
+     *
+     * @param {Ext.util.Filter[]} filters The array of {@link Ext.util.Filter Filter} objects
+     * @return {String} The encoded filters
+     */
+    encodeFilters: function(filters) {
+        var out = [],
+            length = filters.length,
+            i, filter,j;
+
+        for (i = 0; i < length; i++) {
+            filter = filters[i].serialize();
+
+            if (Object.prototype.toString.call( filter.value ) === '[object Array]') {
+                for (j = 0;j<filter.value.length;j++) {
+                    if (filter.value[j].isModel && filter.value[j].isModel === true) {
+                    filter.value[j] = filter.value[j].getId();
+                }
+                }
+            } else if (typeof filter.value == "object") {
+                if (filter.value.isModel && filter.value.isModel === true) {
+                    filter.value = filter.value.getId();
+                }
+            }
+            out[i] = filter;
+        }
+
+        return this.applyEncoding(out);
+    },
+    /**
      * Calls a specific action on the collection
      * @todo Document on how we call actions on entities
      *
