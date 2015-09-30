@@ -67,7 +67,8 @@ Ext.define('PartKeepr.EditorComponent', {
             region: 'west',
             width: 265,
             split: true,
-            store: this.store
+            store: this.store,
+            titleProperty: this.titleProperty
         });
 
         this.navigation.on("itemAdd", this.newRecord, this);

@@ -66,6 +66,11 @@ Ext.define('PartKeepr.EditorGrid', {
      */
     enableEditing: true,
 
+    /**
+     * @cfg {String} The title property
+     */
+    titleProperty: null,
+
     listeners: {
         'reconfigure': 'onReconfigure'
     },
@@ -126,7 +131,7 @@ Ext.define('PartKeepr.EditorGrid', {
 
         this.searchField = Ext.create("PartKeepr.form.field.SearchField", {
             store: this.store,
-            targetField: 'name'
+            targetField: this.titleProperty
         });
 
         var topToolbarItems = [];
