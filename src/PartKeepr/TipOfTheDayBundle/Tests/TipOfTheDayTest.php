@@ -85,7 +85,5 @@ class TipOfTheDayTest extends WebTestCase
         $this->assertEquals("hydra:Collection", $response->{"@type"});
 
         $this->assertEquals(0, count($response->{"hydra:member"}));
-
-
     }
 }
