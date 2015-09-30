@@ -3,6 +3,7 @@ namespace PartKeepr\CoreBundle\Services;
 
 
 use PartKeepr\CoreBundle\PartKeeprVersion;
+use PartKeepr\RemoteFileLoader\RemoteFileLoaderFactory;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class VersionService
@@ -27,10 +28,16 @@ class VersionService
      */
     private $version;
 
-    public function __construct(SystemNoticeService $systemNoticeService, TranslatorInterface $translator)
+    /**
+     * @var RemoteFileLoaderFactory
+     */
+    private $remoteFileLoader;
+
+    public function __construct(SystemNoticeService $systemNoticeService, TranslatorInterface $translator, RemoteFileLoaderFactory $remoteFileLoader)
     {
         $this->systemNoticeService = $systemNoticeService;
         $this->translator = $translator;
+        $this->remoteFileLoader = $remoteFileLoader;
 
         if (PartKeeprVersion::PARTKEEPR_VERSION == "{V_GIT}") {
             $this->setVersion("GIT development version");
@@ -91,7 +98,7 @@ class VersionService
 
     public function getLatestVersion()
     {
-        $data = file_get_contents($this->versionURI);
+        $data = $this->remoteFileLoader->createLoader()->load($this->versionURI);
         $versions = json_decode($data, true);
 
         if (!is_array($versions)) {

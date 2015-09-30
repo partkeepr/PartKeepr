@@ -17,6 +17,7 @@
         <service id="partkeepr.versionservice" class="PartKeepr\CoreBundle\Services\VersionService">
             <argument type="service" id="partkeepr.systemnoticeservice"/>
             <argument type="service" id="translator"/>
+            <argument type="service" id="partkeepr.remote_file_loader.factory"/>
         </service>
     </services>
 </container>

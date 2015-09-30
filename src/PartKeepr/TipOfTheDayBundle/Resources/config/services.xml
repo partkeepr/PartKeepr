@@ -9,6 +9,7 @@
             <argument type="service" id="service_container"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="partkeepr.cronlogger_service"/>
+            <argument type="service" id="partkeepr.remote_file_loader.factory"/>
         </service>
     </services>
 </container>

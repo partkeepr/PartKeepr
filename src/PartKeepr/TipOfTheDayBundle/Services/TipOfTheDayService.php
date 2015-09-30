@@ -1,11 +1,9 @@
 <?php
-
-
 namespace PartKeepr\TipOfTheDayBundle\Services;
-
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\CronLoggerBundle\Services\CronLoggerService;
+use PartKeepr\RemoteFileLoader\RemoteFileLoaderFactory;
 use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDay;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -27,11 +25,17 @@ class TipOfTheDayService
      */
     private $cronLoggerService;
 
-    public function __construct(ContainerInterface $container, EntityManager $entityManager, CronLoggerService $cronLoggerService)
+    /**
+     * @var RemoteFileLoaderFactory
+     */
+    private $remoteFileLoader;
+
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, CronLoggerService $cronLoggerService, RemoteFileLoaderFactory $remoteFileLoader)
     {
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->cronLoggerService = $cronLoggerService;
+        $this->remoteFileLoader = $remoteFileLoader;
     }
 
     /**
@@ -41,13 +45,9 @@ class TipOfTheDayService
      */
     public function syncTips()
     {
-        if (ini_get("allow_url_fopen") == 0) {
-            throw new \Exception("allow_url_fopen is disabled, but required to query the TipOfTheDay database.");
-        }
-
         $uri = $this->container->getParameter("partkeepr.tip_of_the_day_list");
 
-        $tipsString = file_get_contents($uri);
+        $tipsString = $this->remoteFileLoader->createLoader()->load($uri);
 
         $aPageNames = $this->extractPageNames($tipsString);
 
