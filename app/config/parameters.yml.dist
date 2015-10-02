@@ -33,7 +33,7 @@ parameters:
     fr3d_ldap.driver.accountCanonicalForm:    ~ # Optional. ACCTNAME_FORM_BACKSLASH this is only needed if your users have to login with something like HOST\User
     fr3d_ldap.driver.accountDomainName:       ~
     fr3d_ldap.driver.accountDomainNameShort:  ~
-    fr3d_ldap.user.baseDn:                    ~
+    fr3d_ldap.user.baseDn:                    dc=acme,dc=local
     fr3d_ldap.user.filter:                    (&(ObjectClass=Person))
     fr3d_ldap.user.attribute.username:        uid
     fr3d_ldap.user.attribute.name:            cn
