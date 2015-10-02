@@ -149,7 +149,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
                     }
                 }
             } else {
-                if (typeof filter.value == "object") {
+                if (typeof filter.value === "object" && filter.value !== null) {
                     if (filter.value.isModel && filter.value.isModel === true) {
                         filter.value = filter.value.getId();
                     }
