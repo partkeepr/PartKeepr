@@ -57,6 +57,7 @@ Ext.define('PartKeepr.PartsGrid', {
     multiSelect: true,
     autoScroll: false,
     invalidateScrollerOnRefresh: true,
+    titleProperty: 'name',
     initComponent: function ()
     {
 
@@ -175,7 +176,7 @@ Ext.define('PartKeepr.PartsGrid', {
             key: 'x',
             ctrl: false,
             alt: true,
-            fn: function (e)
+            fn: function ()
             {
                 var searchBox = this.searchField;
                 if (Ext.get(document).activeElement != searchBox) {
@@ -190,7 +191,7 @@ Ext.define('PartKeepr.PartsGrid', {
     /**
      * Called when an item was selected. Enables/disables the delete button.
      */
-    _updateAddTemplateButton: function (selectionModel, record)
+    _updateAddTemplateButton: function ()
     {
         /* Right now, we support delete on a single record only */
         if (this.getSelectionModel().getCount() == 1) {
@@ -446,9 +447,6 @@ Ext.define('PartKeepr.PartsGrid', {
         var confirmText = "";
         var headerText = "";
 
-        var n = e.value.indexOf("+");
-
-
         switch (mode) {
             case "removal":
                 confirmText = sprintf(
@@ -520,8 +518,9 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         var mode = this.getStockChangeMode(e.value);
         var value = Math.abs(parseInt(e.value));
+        var call;
 
-        if (e.value == 0) {
+        if (e.value === 0) {
             return;
         }
 
@@ -535,10 +534,12 @@ Ext.define('PartKeepr.PartsGrid', {
             case "fixed":
                 call = "setStock";
                 break;
+            default:
+                return;
         }
 
         e.record.callPutAction(call, {
-            quantity: e.value
+            quantity: value
         }, Ext.bind(this.reloadPart, this, [e]));
     },
     /**
@@ -551,7 +552,7 @@ Ext.define('PartKeepr.PartsGrid', {
     /**
      * Load the part from the database.
      */
-    loadPart: function (id, opts)
+    loadPart: function (id)
     {
         PartKeepr.PartBundle.Entity.Part.load(id, {
             scope: this,
@@ -561,7 +562,7 @@ Ext.define('PartKeepr.PartsGrid', {
     /**
      * Callback after the part is loaded
      */
-    onPartLoaded: function (record, opts)
+    onPartLoaded: function (record)
     {
         var rec = this.store.findRecord("id", record.getId());
         if (rec) {

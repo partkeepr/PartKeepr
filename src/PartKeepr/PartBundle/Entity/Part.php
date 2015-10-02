@@ -228,20 +228,10 @@ class Part extends BaseEntity
     private $removals = false;
 
     /**
-     * @return mixed
+     * @ORM\Column(type="boolean",nullable=false)
+     * @var boolean
      */
-    public function hetRemovals()
-    {
-        return $this->removals;
-    }
-
-    /**
-     * @param mixed $removals
-     */
-    public function setRemovals($removals = false)
-    {
-        $this->removals = $removals;
-    }
+    private $lowStock = false;
 
     public function __construct()
     {
@@ -250,18 +240,43 @@ class Part extends BaseEntity
         $this->parameters = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->attachments = new ArrayCollection();
+        $this->stockLevels = new ArrayCollection();
         $this->setCreateDate(new \DateTime());
         $this->setNeedsReview(false);
     }
 
     /**
-     * Sets the name for this part
+     * Sets the create date for this part
      *
-     * @param string $name The part's name
+     * @param \DateTime $dateTime The create date+time
      */
-    public function setName($name)
+    private function setCreateDate(\DateTime $dateTime)
     {
-        $this->name = $name;
+        $this->createDate = $dateTime;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isLowStock()
+    {
+        return $this->lowStock;
+    }
+
+    /**
+     * @param boolean $lowStock
+     */
+    public function setLowStock($lowStock)
+    {
+        $this->lowStock = $lowStock;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function hasRemovals()
+    {
+        return $this->removals;
     }
 
     /**
@@ -275,13 +290,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the internal part number for this part
+     * Sets the name for this part
      *
-     * @param string $partNumber
+     * @param string $name The part's name
      */
-    public function setInternalPartNumber($partNumber)
+    public function setName($name)
     {
-        $this->internalPartNumber = $partNumber;
+        $this->name = $name;
     }
 
     /**
@@ -295,13 +310,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the description for this part
+     * Sets the internal part number for this part
      *
-     * @param string $description The part's short description
+     * @param string $partNumber
      */
-    public function setDescription($description)
+    public function setInternalPartNumber($partNumber)
     {
-        $this->description = $description;
+        $this->internalPartNumber = $partNumber;
     }
 
     /**
@@ -315,14 +330,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the part unit
+     * Sets the description for this part
      *
-     * @param PartMeasurementUnit $partUnit The part unit object to set
-     *
+     * @param string $description The part's short description
      */
-    public function setPartUnit(PartMeasurementUnit $partUnit)
+    public function setDescription($description)
     {
-        $this->partUnit = $partUnit;
+        $this->description = $description;
     }
 
     /**
@@ -338,25 +352,14 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the average price for this unit
+     * Sets the part unit
      *
-     * @todo Is this actually used?
+     * @param PartMeasurementUnit $partUnit The part unit object to set
      *
-     * @param float $price The price to set
      */
-    public function setAveragePrice($price)
+    public function setPartUnit(PartMeasurementUnit $partUnit)
     {
-        $this->averagePrice = $price;
-    }
-
-    /**
-     * Sets the review flag
-     *
-     * @param boolean $bReview True if the part needs review, false otherwise
-     */
-    public function setNeedsReview($bReview)
-    {
-        $this->needsReview = $bReview;
+        $this->partUnit = $partUnit;
     }
 
     /**
@@ -370,13 +373,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the condition for this part
+     * Sets the review flag
      *
-     * @param string $partCondition The part's condition
+     * @param boolean $bReview True if the part needs review, false otherwise
      */
-    public function setPartCondition($partCondition)
+    public function setNeedsReview($bReview)
     {
-        $this->partCondition = $partCondition;
+        $this->needsReview = $bReview;
     }
 
     /**
@@ -389,36 +392,14 @@ class Part extends BaseEntity
         return $this->partCondition;
     }
 
-
     /**
-     * Set the minimum stock level for this part
+     * Sets the condition for this part
      *
-     * Only positive values are allowed.
-     *
-     * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
-     *
-     * @throws \PartKeepr\Util\Exceptions\OutOfRangeException If the passed stock level is not in range (>=0)
+     * @param string $partCondition The part's condition
      */
-    public function setMinStockLevel($minStockLevel)
+    public function setPartCondition($partCondition)
     {
-        $minStockLevel = intval($minStockLevel);
-
-        if ($minStockLevel < 0) {
-            $exception = new OutOfRangeException(PartKeepr::i18n("Minimum Stock Level is out of range"));
-            $exception->setDetail(PartKeepr::i18n("The minimum stock level must be 0 or higher"));
-            throw $exception;
-        }
-        $this->minStockLevel = $minStockLevel;
-    }
-
-    /**
-     * Returns the minimum stock level
-     *
-     * @return int
-     */
-    public function getMinStockLevel()
-    {
-        return $this->minStockLevel;
+        $this->partCondition = $partCondition;
     }
 
     /**
@@ -437,43 +418,11 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the category for this part
-     *
-     * @param PartCategory $category The category
+     * Retrieves the footprint
      */
-    public function setCategory(PartCategory $category)
+    public function getFootprint()
     {
-        $this->category = $category;
-    }
-
-    /**
-     * Returns the assigned category
-     *
-     * @return PartCategory
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * Sets the storage location for this part
-     *
-     * @param \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
-     */
-    public function setStorageLocation(StorageLocation $storageLocation)
-    {
-        $this->storageLocation = $storageLocation;
-    }
-
-    /**
-     * Returns the storage location for this part
-     *
-     * @return \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
-     */
-    public function getStorageLocation()
-    {
-        return $this->storageLocation;
+        return $this->footprint;
     }
 
     /**
@@ -487,11 +436,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Retrieves the footprint
+     * Returns the comment for this part
+     *
+     * @return string The comment
      */
-    public function getFootprint()
+    public function getComment()
     {
-        return $this->footprint;
+        return $this->comment;
     }
 
     /**
@@ -502,16 +453,6 @@ class Part extends BaseEntity
     public function setComment($comment)
     {
         $this->comment = $comment;
-    }
-
-    /**
-     * Returns the comment for this part
-     *
-     * @return string The comment
-     */
-    public function getComment()
-    {
-        return $this->comment;
     }
 
     /**
@@ -565,16 +506,6 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the create date for this part
-     *
-     * @param \DateTime $dateTime The create date+time
-     */
-    private function setCreateDate(\DateTime $dateTime)
-    {
-        $this->createDate = $dateTime;
-    }
-
-    /**
      * Returns the create date
      *
      * @return \DateTime The create date+time
@@ -582,6 +513,16 @@ class Part extends BaseEntity
     public function getCreateDate()
     {
         return $this->createDate;
+    }
+
+    /**
+     * Returns the status for this part.
+     *
+     * @return string The status
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -596,13 +537,22 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the status for this part.
+     * Checks if the requirements for database persisting are given.
      *
-     * @return string The status
+     * @throws CategoryNotAssignedException            Thrown if no category is set
+     * @throws StorageLocationNotAssignedException    Thrown if no storage location is set
+     *
+     * @ORM\PrePersist
      */
-    public function getStatus()
+    public function onPrePersist()
     {
-        return $this->status;
+        $this->executeSaveListener();
+    }
+
+    public function executeSaveListener()
+    {
+        $this->checkCategoryConsistency();
+        $this->checkStorageLocationConsistency();
     }
 
     /**
@@ -618,6 +568,26 @@ class Part extends BaseEntity
     }
 
     /**
+     * Returns the assigned category
+     *
+     * @return PartCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Sets the category for this part
+     *
+     * @param PartCategory $category The category
+     */
+    public function setCategory(PartCategory $category)
+    {
+        $this->category = $category;
+    }
+
+    /**
      * Checks if the part storage location is set.
      *
      * @throws StorageLocationNotAssignedException
@@ -630,16 +600,84 @@ class Part extends BaseEntity
     }
 
     /**
-     * Checks if the requirements for database persisting are given.
+     * Returns the storage location for this part
      *
-     * @throws CategoryNotAssignedException            Thrown if no category is set
-     * @throws StorageLocationNotAssignedException    Thrown if no storage location is set
-     *
-     * @ORM\PrePersist
+     * @return \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
      */
-    public function onPrePersist()
+    public function getStorageLocation()
     {
-        $this->executeSaveListener();
+        return $this->storageLocation;
+    }
+
+    /**
+     * @param mixed $removals
+     */
+    public function setRemovals($removals = false)
+    {
+        $this->removals = $removals;
+    }
+
+    /**
+     * Returns all stock entries
+     *
+     * @return ArrayCollection
+     */
+    public function getStockLevels()
+    {
+        return $this->stockLevels;
+    }
+
+    /**
+     * Returns the minimum stock level
+     *
+     * @return int
+     */
+    public function getMinStockLevel()
+    {
+        return $this->minStockLevel;
+    }
+
+    /**
+     * Set the minimum stock level for this part
+     *
+     * Only positive values are allowed.
+     *
+     * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
+     *
+     * @throws \PartKeepr\Util\Exceptions\OutOfRangeException If the passed stock level is not in range (>=0)
+     */
+    public function setMinStockLevel($minStockLevel)
+    {
+        $minStockLevel = intval($minStockLevel);
+
+        if ($minStockLevel < 0) {
+            $exception = new OutOfRangeException(PartKeepr::i18n("Minimum Stock Level is out of range"));
+            $exception->setDetail(PartKeepr::i18n("The minimum stock level must be 0 or higher"));
+            throw $exception;
+        }
+        $this->minStockLevel = $minStockLevel;
+    }
+
+    /**
+     * Sets the average price for this unit
+     *
+     * @todo Is this actually used?
+     *
+     * @param float $price The price to set
+     */
+    public function setAveragePrice($price)
+    {
+        $this->averagePrice = $price;
+    }
+
+    /**
+     * Sets the storage location for this part
+     *
+     * @param \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
+     */
+    public function setStorageLocation(StorageLocation $storageLocation)
+    {
+        $this->storageLocation = $storageLocation;
     }
 
     /**
@@ -657,22 +695,14 @@ class Part extends BaseEntity
         $this->executeSaveListener();
     }
 
-    public function executeSaveListener () {
-        $this->checkCategoryConsistency();
-        $this->checkStorageLocationConsistency();
-
-        $price = 0;
-
-        $this->setRemovals(false);
-
-        foreach ($this->getStockLevels() as $stockEntry) {
-            $price += $stockEntry->getPrice();
-            if ($stockEntry->getStockLevel() < 0) {
-                $this->setRemovals(true);
-            }
-        }
-
-        $this->setAveragePrice($price);
+    /**
+     * Returns the stock level
+     *
+     * @return int The stock level
+     */
+    public function getStockLevel()
+    {
+        return $this->stockLevel;
     }
 
     /**
@@ -686,32 +716,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the stock level
-     *
-     * @return int The stock level
-     */
-    public function getStockLevel()
-    {
-        return $this->stockLevel;
-    }
-
-    /**
-     * Returns all stock entries
-     *
-     * @return StockEntry[]
-     */
-    public function getStockLevels()
-    {
-        return $this->stockLevels;
-    }
-
-    /**
      * Adds a new stock entry to this part
      *
      * @param StockEntry $stockEntry
      */
     public function addStockEntry(StockEntry $stockEntry)
     {
+        $this->executeSaveListener();
         $stockEntry->setPart($this);
         $this->getStockLevels()->add($stockEntry);
     }
@@ -792,5 +803,28 @@ class Part extends BaseEntity
     public function getProjectParts()
     {
         return $this->projectParts;
+    }
+
+    public function recomputeStockLevels () {
+        $sum = 0;
+        $price = 0;
+
+        foreach ($this->getStockLevels() as $stockLevel) {
+            $price += $stockLevel->getPrice();
+
+            if ($stockLevel->getStockLevel() < 0) {
+                $this->setRemovals(true);
+            }
+            $sum += $stockLevel->getStockLevel();
+        }
+
+        $this->setAveragePrice($price);
+        $this->setStockLevel($sum);
+
+        if ($sum < $this->getMinStockLevel()) {
+            $this->setLowStock(true);
+        } else {
+            $this->setLowStock(false);
+        }
     }
 }

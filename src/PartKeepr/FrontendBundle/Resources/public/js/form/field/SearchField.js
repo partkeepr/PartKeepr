@@ -1,6 +1,6 @@
 /**
  * Defines a search field, which automatically hooks into the passed store.
- * 
+ *
  * The "clear" trigger is shown only when text is entered.
  */
 Ext.define('PartKeepr.form.field.SearchField', {
@@ -21,12 +21,12 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
     },
 
-    hasSearch : false,
-	
-	/**
-	 * Defines the parameter name which is being passed to the store's proxy.
-	 */
-    targetField : 'query',
+    hasSearch: false,
+
+    /**
+     * Defines the parameter name which is being passed to the store's proxy.
+     */
+    targetField: 'query',
 
     filter: null,
 
@@ -36,11 +36,12 @@ Ext.define('PartKeepr.form.field.SearchField', {
             scope: 'this'
         }
     },
-    
-	/**
-	 * Initializes the component. Binds the enter key to startSearch.
-	 */
-    initComponent: function(){
+
+    /**
+     * Initializes the component. Binds the enter key to startSearch.
+     */
+    initComponent: function ()
+    {
         this.callParent(arguments);
 
         this.filter = Ext.create("Ext.util.Filter", {
@@ -55,7 +56,8 @@ Ext.define('PartKeepr.form.field.SearchField', {
      * Enter: Starts the search
      * Escape: Removes the search and clears the field contents
      */
-    keyHandler: function (field, e) {
+    keyHandler: function (field, e)
+    {
         switch (e.getKey()) {
             case e.ENTER:
                 this.startSearch();
@@ -65,13 +67,13 @@ Ext.define('PartKeepr.form.field.SearchField', {
                 break;
         }
     },
- 	/**
-	 * Resets the search field to empty and re-triggers the store to load the matching records.
-	 */
-	resetSearch: function () {
-		var me = this,
-            store = me.store,
-            val;
+    /**
+     * Resets the search field to empty and re-triggers the store to load the matching records.
+     */
+    resetSearch: function ()
+    {
+        var me = this,
+            store = me.store;
 
         me.setValue('');
 
@@ -80,34 +82,36 @@ Ext.define('PartKeepr.form.field.SearchField', {
             store.removeFilter(this.filter);
 
             store.currentPage = 1;
-            store.load({ start: 0 });
+            store.load({start: 0});
             me.hasSearch = false;
 
             this.getTrigger("clear").hide();
         }
-	},
-	/**
-	 * Starts the search with the entered value.
-	 */
-	startSearch: function () {
-		 var me = this,
+    },
+    /**
+     * Starts the search with the entered value.
+     */
+    startSearch: function ()
+    {
+        var me = this,
             store = me.store,
             value = me.getValue();
-            
+
         if (value.length < 1) {
             me.resetSearch();
             return;
         }
 
-        this.filter.setValue("%"+value+"%");
+        this.filter.setValue("%" + value + "%");
         store.addFilter(this.filter);
         store.currentPage = 1;
-        store.load({ start: 0 });
-        
+        store.load({start: 0});
+
         me.hasSearch = true;
         this.getTrigger("clear").show();
-	},
-    setStore: function (store) {
+    },
+    setStore: function (store)
+    {
         this.store = store;
     }
 });

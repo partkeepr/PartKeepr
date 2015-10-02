@@ -51,13 +51,7 @@ class StockLevelListener extends ContainerAware
     {
         $entityManager = $eventArgs->getEntityManager();
 
-        $sum = 0;
-
-        foreach ($part->getStockLevels() as $stockLevel) {
-            $sum +=  $stockLevel->getStockLevel();
-        }
-
-        $part->setStockLevel($sum);
+        $part->recomputeStockLevels();
 
         $entityManager->getUnitOfWork()->recomputeSingleEntityChangeSet(
             $entityManager->getClassMetadata(get_class($part)),

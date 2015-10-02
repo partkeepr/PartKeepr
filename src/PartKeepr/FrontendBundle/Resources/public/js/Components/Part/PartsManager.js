@@ -22,6 +22,8 @@ Ext.define('PartKeepr.PartManager', {
      */
     compactLayout: false,
 
+    selectedCategory: null,
+
     initComponent: function ()
     {
 
@@ -32,6 +34,10 @@ Ext.define('PartKeepr.PartManager', {
             model: 'PartKeepr.PartBundle.Entity.Part',
             groupField: 'categoryPath',
             sorters: [
+                {
+                    property: 'category.categoryPath',
+                    direction: 'ASC'
+                },
                 {
                     property: 'name',
                     direction: 'ASC'
@@ -114,7 +120,8 @@ Ext.define('PartKeepr.PartManager', {
             split: true,
             collapsed: true,
             collapsible: true,
-            store: this.store
+            store: this.store,
+            partManager: this
         });
 
         if (this.compactLayout) {
@@ -162,13 +169,20 @@ Ext.define('PartKeepr.PartManager', {
      */
     onCategoryClick: function (tree, record)
     {
+        this.selectedCategory = record;
+
         var filter = Ext.create("Ext.util.Filter", {
+            id: 'categoryFilter',
             property: 'category',
             operator: 'IN',
             value: this.getChildrenIds(record)
         });
 
         this.store.addFilter(filter);
+    },
+    getSelectedCategory: function ()
+    {
+        return this.selectedCategory;
     },
     /**
      * Returns the ID for this node and all child nodes
@@ -277,7 +291,7 @@ Ext.define('PartKeepr.PartManager', {
     {
         var data = rec.getData();
 
-        newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
+        var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
         newItem.set(data);
         newItem.setAssociationData(rec.getAssociationData());
 
@@ -322,7 +336,7 @@ Ext.define('PartKeepr.PartManager', {
         defaults.partUnit = defaultPartUnit.getId();
         defaults.category = this.grid.currentCategory;
 
-        record = Ext.create("PartKeepr.PartBundle.Entity.Part", defaults);
+        var record = Ext.create("PartKeepr.PartBundle.Entity.Part", defaults);
 
         // Inject the defaults to the editor, so the editor can create a new item on its own
         j.editor.partDefaults = defaults;
@@ -351,25 +365,25 @@ Ext.define('PartKeepr.PartManager', {
      */
     onItemSelect: function ()
     {
-		if (this.grid.getSelection().length > 1) {
-			this.detailPanel.collapse();
-			this.tree.syncButton.disable();
-		} else {
-			if (this.grid.getSelection().length == 1) {
-				var selection = this.grid.getSelection();
+        if (this.grid.getSelection().length > 1) {
+            this.detailPanel.collapse();
+            this.tree.syncButton.disable();
+        } else {
+            if (this.grid.getSelection().length == 1) {
+                var selection = this.grid.getSelection();
 
-				var r = selection[0];
+                var r = selection[0];
 
-				this.detailPanel.setActiveTab(this.detail);
-				this.detailPanel.expand();
-				this.detail.setValues(r);
-				this.stockLevel.part = r.getId();
+                this.detailPanel.setActiveTab(this.detail);
+                this.detailPanel.expand();
+                this.detail.setValues(r);
+                this.stockLevel.part = r.getId();
 
-				this.tree.syncButton.enable();
-			} else {
-				this.tree.syncButton.disable();
-			}
-		}
+                this.tree.syncButton.enable();
+            } else {
+                this.tree.syncButton.disable();
+            }
+        }
 
     },
     /**
