@@ -349,7 +349,7 @@ class AdvancedSearchFilter extends AbstractFilter
     {
         $filter = array();
 
-        if ($data->property) {
+        if (property_exists($data, "property")) {
             if (strpos($data->property, ".") !== false) {
                 $associations = explode(".", $data->property);
 
@@ -366,7 +366,7 @@ class AdvancedSearchFilter extends AbstractFilter
             throw new \Exception("You need to set the filter property");
         }
 
-        if ($data->operator) {
+        if (property_exists($data, "operator")) {
             if (!in_array(strtolower($data->operator), self::OPERATORS)) {
                 throw new \Exception(sprintf("Invalid operator %s", $data->operator));
             }
@@ -375,7 +375,7 @@ class AdvancedSearchFilter extends AbstractFilter
             $filter["operator"] = self::OPERATOR_EQUALS;
         }
 
-        if ($data->value) {
+        if (property_exists($data, "value")) {
             $filter["value"] = $data->value;
         } else {
             throw new \Exception("No value specified");
