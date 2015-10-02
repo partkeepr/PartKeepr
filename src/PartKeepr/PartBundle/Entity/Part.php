@@ -148,11 +148,10 @@ class Part extends BaseEntity
     /**
      * The average price for the part. Note that this is a cached value.
      *
-     * @todo It would be nice if we could get rid of that
-     * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
+     * @ORM\Column(type="decimal",precision=13,scale=4,nullable=false)
      * @var float
      */
-    private $averagePrice = null;
+    private $averagePrice = 0;
 
     /**
      * The stock level history
@@ -221,6 +220,28 @@ class Part extends BaseEntity
      * @var string
      */
     private $internalPartNumber;
+
+    /**
+     * @ORM\Column(type="boolean",nullable=false)
+     * @var boolean
+     */
+    private $removals = false;
+
+    /**
+     * @return mixed
+     */
+    public function hetRemovals()
+    {
+        return $this->removals;
+    }
+
+    /**
+     * @param mixed $removals
+     */
+    public function setRemovals($removals = false)
+    {
+        $this->removals = $removals;
+    }
 
     public function __construct()
     {
@@ -618,8 +639,7 @@ class Part extends BaseEntity
      */
     public function onPrePersist()
     {
-        $this->checkCategoryConsistency();
-        $this->checkStorageLocationConsistency();
+        $this->executeSaveListener();
     }
 
     /**
@@ -634,8 +654,25 @@ class Part extends BaseEntity
      */
     public function onPreUpdate()
     {
+        $this->executeSaveListener();
+    }
+
+    public function executeSaveListener () {
         $this->checkCategoryConsistency();
         $this->checkStorageLocationConsistency();
+
+        $price = 0;
+
+        $this->setRemovals(false);
+
+        foreach ($this->getStockLevels() as $stockEntry) {
+            $price += $stockEntry->getPrice();
+            if ($stockEntry->getStockLevel() < 0) {
+                $this->setRemovals(true);
+            }
+        }
+
+        $this->setAveragePrice($price);
     }
 
     /**
@@ -661,7 +698,7 @@ class Part extends BaseEntity
     /**
      * Returns all stock entries
      *
-     * @return ArrayCollection
+     * @return StockEntry[]
      */
     public function getStockLevels()
     {
@@ -755,17 +792,5 @@ class Part extends BaseEntity
     public function getProjectParts()
     {
         return $this->projectParts;
-    }
-
-    /**
-     * Returns a string representation of the part
-     *
-     * @param none
-     *
-     * @return string The name and the ID of the part
-     */
-    public function __toString()
-    {
-        return $this->getName()." (".$this->getId().")";
     }
 }

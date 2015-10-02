@@ -5,7 +5,7 @@ use Doctrine\DBAL\Schema\Schema;
 use PartKeepr\AuthBundle\Entity\UserProvider;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Attaches the builtin user provider to all existing users
  */
 class Version20151001180120 extends BaseMigration
 {
