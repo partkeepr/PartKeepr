@@ -36,7 +36,9 @@ class Version20151001180120 extends BaseMigration
         $users = $repository->findAll();
 
         foreach ($users as $user) {
-            $user->setProvider($builtinProvider);
+            if ($user->getProvider() === null) {
+                $user->setProvider($builtinProvider);
+            }
         }
 
         $this->getEM()->flush();
