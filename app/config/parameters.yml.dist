@@ -18,3 +18,23 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            KBDH2GXBUc8dhT3sGFPDsQF3SyULdjuM
+
+    fr3d_ldap.enabled:                        false
+    fr3d_ldap.driver.host:                    ~
+    fr3d_ldap.driver.port:                    ~
+    fr3d_ldap.driver.username:                ~
+    fr3d_ldap.driver.password:                ~
+    fr3d_ldap.driver.bindRequiresDn:          ~ # Optional.
+    fr3d_ldap.driver.baseDn:                  ~
+    fr3d_ldap.driver.accountFilterFormat:     ~ # Optional. sprintf format %s will be the username
+    fr3d_ldap.driver.optReferrals:            ~ # Optional.
+    fr3d_ldap.driver.useSsl:                  ~ # Optional. Enable SSL negotiation
+    fr3d_ldap.driver.useStartTls:             ~ # Optional. Enable TLS negotiation
+    fr3d_ldap.driver.accountCanonicalForm:    ~ # Optional. ACCTNAME_FORM_BACKSLASH this is only needed if your users have to login with something like HOST\User
+    fr3d_ldap.driver.accountDomainName:       ~
+    fr3d_ldap.driver.accountDomainNameShort:  ~
+    fr3d_ldap.user.baseDn:                    ~
+    fr3d_ldap.user.filter:                    (&(ObjectClass=Person))
+    fr3d_ldap.user.attribute.username:        uid
+    fr3d_ldap.user.attribute.name:            cn
+    fr3d_ldap.user.attribute.email:           mail
