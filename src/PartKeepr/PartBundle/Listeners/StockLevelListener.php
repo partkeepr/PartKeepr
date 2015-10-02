@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class StockLevelListener extends ContainerAware
 {
     /**
-     * Updates the child category paths when their parent name has changed.
+     * Recomputes the stock level for each part
      *
      * @param OnFlushEventArgs $eventArgs The event arguments as given by Doctrine
      */
