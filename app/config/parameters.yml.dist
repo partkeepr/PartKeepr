@@ -20,7 +20,7 @@ parameters:
     secret:            KBDH2GXBUc8dhT3sGFPDsQF3SyULdjuM
 
     fr3d_ldap.enabled:                        false
-    fr3d_ldap.driver.host:                    ~
+    fr3d_ldap.driver.host:                    localhost
     fr3d_ldap.driver.port:                    ~
     fr3d_ldap.driver.username:                ~
     fr3d_ldap.driver.password:                ~
