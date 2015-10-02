@@ -5,11 +5,18 @@ namespace PartKeepr\AuthBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use FOS\UserBundle\Model\UserManagerInterface;
+use FOS\UserBundle\Util\UserManipulator;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\AuthBundle\Entity\UserProvider;
+use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class UserService
 {
+    /**
+     * @var TokenStorage
+     */
     private $tokenStorage;
 
     /**
@@ -17,18 +24,118 @@ class UserService
      */
     private $entityManager;
 
-    public function __construct(TokenStorage $tokenStorage, EntityManager $entityManager)
-    {
+    /**
+     * @var UserManipulator
+     */
+    private $userManipulator;
+
+    /**
+     * @var UserManagerInterface
+     */
+    private $userManager;
+
+    const BUILTIN_PROVIDER = "Builtin";
+
+    public function __construct(
+        TokenStorage $tokenStorage,
+        EntityManager $entityManager,
+        UserManipulator $userManipulator,
+        UserManagerInterface $userManager
+    ) {
         $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
+        $this->userManipulator = $userManipulator;
+        $this->userManager = $userManager;
     }
 
     public function getUser()
     {
-        $provider = $this->tokenStorage->getToken()->getAttribute("provider");
+        $tokenProvider = $this->tokenStorage->getToken()->getAttribute("provider");
+
+        $provider = $this->getProvider($tokenProvider);
         $username = $this->tokenStorage->getToken()->getUsername();
 
         return $this->getProxyUser($username, $provider);
+    }
+
+    public function getProvider(AuthenticationProviderInterface $authenticationProvider)
+    {
+        $providerClass = get_class($authenticationProvider);
+        $providerType = $this->getProviderTypeByClass($providerClass);
+
+        return $this->getProviderByType($providerType);
+    }
+
+    public function getProviderTypeByClass($providerClass)
+    {
+        switch ($providerClass) {
+            case 'Escape\WSSEAuthenticationBundle\Security\Core\Authentication\Provider\Provider':
+                return self::BUILTIN_PROVIDER;
+                break;
+            case 'Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider':
+                return self::BUILTIN_PROVIDER;
+                break;
+            case 'FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider':
+                return "LDAP";
+                break;
+            default:
+                throw new \Exception("Unknown provider ".$providerClass);
+        }
+    }
+
+    /**
+     * Syncronizes the data of the given user with the FOSRestBundle
+     * @throws \Exception If the password was not set
+     * @param $user
+     */
+    public function syncData(User $user)
+    {
+        if ($user->getProvider()->getType() !== self::BUILTIN_PROVIDER) {
+            return;
+        }
+
+        $FOSUser = $this->userManager->findUserByUsername($user->getUsername());
+
+        if ($FOSUser === null) {
+
+            if ($user->getPassword() == "") {
+                throw new \Exception("Password must be set");
+            }
+
+            $FOSUser = $this->userManipulator->create($user->getUsername(), $user->getPassword(), "", true, false);
+        }
+        if ($user->getPassword() != "") {
+            $this->userManipulator->changePassword($user->getUsername(), $user->getPassword());
+        }
+
+
+        $FOSUser->setEmail($user->getEmail());
+    }
+
+    public function getProviderByType($type)
+    {
+        $provider = $this->entityManager->getRepository("PartKeeprAuthBundle:UserProvider")->findOneBy(array("type" => $type));
+
+        if ($provider !== null) {
+            return $provider;
+        }
+
+        $provider = new UserProvider();
+        $provider->setType($type);
+
+        if ($type !== self::BUILTIN_PROVIDER) {
+            $provider->setEditable(false);
+        }
+
+        $this->entityManager->persist($provider);
+        $this->entityManager->flush();
+
+        return $provider;
+    }
+
+    public function getBuiltinProvider()
+    {
+        return $this->getProviderByType(self::BUILTIN_PROVIDER);
     }
 
     public function getProxyUser($username, $provider)

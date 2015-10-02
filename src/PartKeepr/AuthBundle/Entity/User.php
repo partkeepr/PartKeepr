@@ -5,12 +5,13 @@ use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
  *      name="PartKeeprUser",
- *      uniqueConstraints={@ORM\UniqueConstraint(name="username_provider", columns={"username", "provider"})})
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="username_provider", columns={"username", "provider_id"})})
  * @TargetService(uri="/api/users")
  */
 class User extends BaseEntity
@@ -27,6 +28,13 @@ class User extends BaseEntity
     private $password;
 
     /**
+     * @Assert\Email()
+     * @ORM\Column(length=255,nullable=true)
+     * @var string
+     */
+    private $email;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $admin;
@@ -37,16 +45,21 @@ class User extends BaseEntity
     private $lastSeen;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @var string
+     * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\UserProvider")
+     * @Groups({"default"})
      */
     private $provider;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory", mappedBy="user", cascade={"remove"}, orphanRemoval=true)
+     */
+    private $tipHistories;
 
     /**
      * Creates a new user object.
      *
      * @param string $username The username to set (optional)
-     * @param string $provider The authentification provider
+     * @param UserProvider $provider The authentification provider
      *
      * @throws \Exception
      */
@@ -56,29 +69,59 @@ class User extends BaseEntity
             $this->setUsername($username);
         }
 
-        if ($provider === null) {
-            throw new \Exception("The authentification provider must be specified");
+        if ($provider !== null) {
+            $this->setProvider($provider);
         }
-
-        $this->setProvider($provider);
 
         $this->setAdmin(false);
     }
 
     /**
-     * Sets the authentification provider
+     * Sets the admin flag
      *
-     * @param $provider
+     * @param boolean $bAdmin True if the user is an admin, false otherwise
      */
-    public function setProvider($provider)
+    public function setAdmin($bAdmin)
     {
-        $this->provider = $provider;
+        $this->admin = (boolean)$bAdmin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipHistories()
+    {
+        return $this->tipHistories;
+    }
+
+    /**
+     * @param mixed $tipHistories
+     */
+    public function setTipHistories($tipHistories)
+    {
+        $this->tipHistories = $tipHistories;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**
      * Returns the authentification provider
      *
-     * @return string
+     * @return UserProvider
      */
     public function getProvider()
     {
@@ -86,13 +129,13 @@ class User extends BaseEntity
     }
 
     /**
-     * Sets the username.
+     * Sets the authentification provider
      *
-     * @param string $username The username to set.
+     * @param UserProvider $provider
      */
-    public function setUsername($username)
+    public function setProvider(UserProvider $provider)
     {
-        $this->username = $username;
+        $this->provider = $provider;
     }
 
     /**
@@ -119,13 +162,13 @@ class User extends BaseEntity
     }
 
     /**
-     * Sets the admin flag
+     * Sets the username.
      *
-     * @param boolean $bAdmin True if the user is an admin, false otherwise
+     * @param string $username The username to set.
      */
-    public function setAdmin($bAdmin)
+    public function setUsername($username)
     {
-        $this->admin = (boolean)$bAdmin;
+        $this->username = $username;
     }
 
     /**
@@ -139,37 +182,22 @@ class User extends BaseEntity
     }
 
     /**
-     * Sets the user's password. Automatically
-     * applies md5 hashing.
-     *
-     * @param string $password
+     * @return string
      */
-    public function setPassword($password)
-    {
-        $this->setHashedPassword(md5($password));
-    }
-
-    /**
-     * Returns the user's md5-hashed password.
-     *
-     * @param none
-     *
-     * @return string The md5-hashed password
-     */
-    public function getHashedPassword()
+    public function getPassword()
     {
         return $this->password;
     }
 
     /**
-     * Sets the user's password. Expects a hash
-     * and does not apply md5 hasing.
+     * Sets the user's password.
      *
-     * @param string $hashedPassword
+     * @Groups({"default"})
+     * @param string $password
      */
-    public function setHashedPassword($hashedPassword)
+    public function setPassword($password)
     {
-        $this->password = $hashedPassword;
+        $this->password = $password;
     }
 
     /**

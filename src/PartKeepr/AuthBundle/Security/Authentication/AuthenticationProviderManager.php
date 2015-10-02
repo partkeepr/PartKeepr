@@ -24,6 +24,9 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
 
     private $eraseCredentials;
 
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     /**
@@ -42,7 +45,7 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
 
         foreach ($providers as $provider) {
             if (!$provider instanceof AuthenticationProviderInterface) {
-                throw new \InvalidArgumentException(sprintf('Provider "%s" must implement the AuthenticationProviderInterface.',
+                throw new \InvalidArgumentException(sprintf('UserProvider "%s" must implement the AuthenticationProviderInterface.',
                     get_class($provider)));
             }
         }
@@ -73,7 +76,7 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
                 $result = $provider->authenticate($token);
 
                 if (null !== $result) {
-                    $result->setAttribute("provider", get_class($provider));
+                    $result->setAttribute("provider", $provider);
                     break;
                 }
             } catch (AccountStatusException $e) {
@@ -99,7 +102,7 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
         }
 
         if (null === $lastException) {
-            $lastException = new ProviderNotFoundException(sprintf('No Authentication Provider found for token of class "%s".',
+            $lastException = new ProviderNotFoundException(sprintf('No Authentication UserProvider found for token of class "%s".',
                 get_class($token)));
         }
 

@@ -126,11 +126,6 @@ Ext.define('PartKeepr.EditorComponent', {
                 editor = this.createEditor(record.get(this.titleProperty));
                 editor.editItem(record);
                 this.editorTabPanel.add(editor).show();
-            },
-            failure: function (record, operation)
-            {
-                console.log(record);
-                console.log(operation);
             }
         });
     },

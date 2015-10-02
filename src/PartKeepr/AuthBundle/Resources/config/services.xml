@@ -13,6 +13,8 @@
         <service id="partkeepr.userservice" class="PartKeepr\AuthBundle\Services\UserService">
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="fos_user.util.user_manipulator"/>
+            <argument type="service" id="fos_user.user_manager"/>
         </service>
         <service id="partkeepr.user_preference_service" class="PartKeepr\AuthBundle\Services\UserPreferenceService">
             <argument type="service" id="doctrine.orm.entity_manager"/>

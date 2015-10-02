@@ -67,7 +67,7 @@ Ext.define('PartKeepr.Statusbar', {
     {
         var user = PartKeepr.getApplication().getLoginManager().getUser();
 
-        this.setCurrentUser(user.username);
+        this.setCurrentUser(user.get("username"));
         this.connectionButton.setConnected();
     },
     setDisconnected: function ()

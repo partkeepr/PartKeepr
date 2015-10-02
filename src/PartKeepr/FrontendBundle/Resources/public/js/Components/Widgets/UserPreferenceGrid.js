@@ -6,13 +6,13 @@ Ext.define('PartKeepr.UserPreferenceGrid', {
     columns: [
         {
             header: i18n("Key"),
-            dataIndex: 'key',
+            dataIndex: 'preferenceKey',
             flex: 0.3,
             minWidth: 200,
             renderer: Ext.util.Format.htmlEncode
         }, {
             header: i18n("Value"),
-            dataIndex: 'value',
+            dataIndex: 'preferenceValue',
             flex: 0.7,
             minWidth: 200,
             renderer: Ext.util.Format.htmlEncode
@@ -27,7 +27,7 @@ Ext.define('PartKeepr.UserPreferenceGrid', {
             disabled: true,
             itemId: 'delete',
             scope: this,
-            icon: 'resources/silkicons/delete.png',
+            iconCls: 'web-icon delete',
             handler: this.onDeleteClick
         });
 
@@ -41,6 +41,7 @@ Ext.define('PartKeepr.UserPreferenceGrid', {
         ];
         this.store = Ext.create("Ext.data.Store", {
             model: 'PartKeepr.AuthBundle.Entity.UserPreference',
+            remoteFilter: true,
             pageSize: 999999999
         });
 
@@ -51,29 +52,19 @@ Ext.define('PartKeepr.UserPreferenceGrid', {
     onDeleteClick: function ()
     {
         var selection = this.getView().getSelectionModel().getSelection()[0];
+
         if (selection) {
-            // Set phantom to false because ExtJS has problems with PK-less thingies
-            selection.phantom = false;
-            this.store.remove(selection);
+            selection.getProxy().callCollectionAction(null, "DELETE", {
+                "preferenceKey": selection.get("preferenceKey")
+            }, Ext.bind(this.onPreferenceDeleted, this));
         }
+    },
+    onPreferenceDeleted: function ()
+    {
+        this.store.load();
     },
     onSelectChange: function (selModel, selections)
     {
         this.deleteButton.setDisabled(selections.length === 0);
-    },
-    syncPreferences: function ()
-    {
-        /* Iterate through all removed records and issue an AJAX
-         * call. This is necessary because the server side doesn't suport string
-         * keys and ExtJS can't handle composite keys.
-         */
-        for (var j = 0; j < this.store.removed.length; j++) {
-            var call = new PartKeepr.ServiceCall("UserPreference", "destroy");
-            call.setParameter("key", this.store.removed[j].get("key"));
-            call.setParameter("user_id", this.store.removed[j].get("user_id"));
-            call.doCall();
-        }
-
-        this.store.removed = [];
     }
 });

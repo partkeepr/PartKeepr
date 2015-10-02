@@ -19,7 +19,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('authentication_provider')
                 ->cannotBeEmpty()
                 ->defaultValue('PartKeepr.Auth.WSSEAuthenticationProvider')
-                ->info('The authentication provider for the frontend')
+                ->info('The authentication provider for the frontend. Available choices: PartKeepr.Auth.WSSEAuthenticationProvider and PartKeepr.Auth.HTTPBasicAuthenticationProvider')
             ->end()
             ->scalarNode('tip_of_the_day_uri')
                 ->cannotBeEmpty()
@@ -41,15 +41,15 @@ class Configuration implements ConfigurationInterface
                 ->isRequired()
                 ->info('The image cache directory')
             ->end()
-            ->arrayNode('directories')
-                ->prototype('scalar')
+                ->arrayNode('directories')
+                    ->prototype('scalar')
                 ->end()
             ->end()
             ->booleanNode('cronjob_check')
                 ->defaultTrue()
                 ->info('Whether the system should check if cronjobs are running or not')
-            ->end()
-        ->end();
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }

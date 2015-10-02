@@ -92,7 +92,13 @@ Ext.define("PartKeepr.data.HydraProxy", {
      */
     callAction: function (record, action, method, parameters, callback, reload)
     {
-        var url = record.getId() + "/" + action;
+        var url;
+
+        if (action !== null) {
+            url = record.getId() + "/" + action;
+        } else {
+            url = record.getId();
+        }
         var request = Ext.create("Ext.data.Request");
 
         request.setMethod(method);
@@ -127,23 +133,26 @@ Ext.define("PartKeepr.data.HydraProxy", {
      * @param {Ext.util.Filter[]} filters The array of {@link Ext.util.Filter Filter} objects
      * @return {String} The encoded filters
      */
-    encodeFilters: function(filters) {
+    encodeFilters: function (filters)
+    {
         var out = [],
             length = filters.length,
-            i, filter,j;
+            i, filter, j;
 
         for (i = 0; i < length; i++) {
             filter = filters[i].serialize();
 
-            if (Object.prototype.toString.call( filter.value ) === '[object Array]') {
-                for (j = 0;j<filter.value.length;j++) {
+            if (Object.prototype.toString.call(filter.value) === '[object Array]') {
+                for (j = 0; j < filter.value.length; j++) {
                     if (filter.value[j].isModel && filter.value[j].isModel === true) {
-                    filter.value[j] = filter.value[j].getId();
+                        filter.value[j] = filter.value[j].getId();
+                    }
                 }
-                }
-            } else if (typeof filter.value == "object") {
-                if (filter.value.isModel && filter.value.isModel === true) {
-                    filter.value = filter.value.getId();
+            } else {
+                if (typeof filter.value == "object") {
+                    if (filter.value.isModel && filter.value.isModel === true) {
+                        filter.value = filter.value.getId();
+                    }
                 }
             }
             out[i] = filter;
@@ -159,7 +168,14 @@ Ext.define("PartKeepr.data.HydraProxy", {
      */
     callCollectionAction: function (action, method, parameters, callback, ignoreException)
     {
-        var url = this.url + "/" + action;
+        var url;
+
+        if (action !== null) {
+            url = this.url + "/" + action;
+        } else {
+            url = this.url;
+        }
+
         var request = Ext.create("Ext.data.Request");
 
         request.setMethod(method);
@@ -187,7 +203,6 @@ Ext.define("PartKeepr.data.HydraProxy", {
             return;
         }
 
-        console.log(ignoreException);
         if (!ignoreException) {
             this.showException(response);
         }

@@ -122,6 +122,29 @@ dunglas_api:
             items_per_page:
                 client_can_change: true
 
+fr3d_ldap:
+    driver:
+        host:                   "%fr3d_ldap.driver.host%"
+        port:                   "%fr3d_ldap.driver.port%"
+        username:               "%fr3d_ldap.driver.username%"
+        password:               "%fr3d_ldap.driver.password%"
+        bindRequiresDn:         "%fr3d_ldap.driver.bindRequiresDn%"
+        baseDn:                 "%fr3d_ldap.driver.baseDn%"
+        accountFilterFormat:    "%fr3d_ldap.driver.accountFilterFormat%"
+        optReferrals:           "%fr3d_ldap.driver.optReferrals%"
+        useSsl:                 "%fr3d_ldap.driver.useSsl%"
+        useStartTls:            "%fr3d_ldap.driver.useStartTls%"
+        accountCanonicalForm:   "%fr3d_ldap.driver.accountCanonicalForm%"
+        accountDomainName:      "%fr3d_ldap.driver.accountDomainName%"
+        accountDomainNameShort: "%fr3d_ldap.driver.accountDomainNameShort%"
+    user:
+        baseDn: "%fr3d_ldap.user.baseDn%"
+        filter: "%fr3d_ldap.user.filter%"
+        attributes: # Specify ldap attributes mapping [ldap attribute, user object method]
+           - { ldap_attr: samaccountname,  user_method: setUsername }
+           - { ldap_attr: email,  user_method: setEmail }
+
+
 services:
     serializer.normalizer.custom:
         class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
@@ -943,7 +966,6 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.tempfile.item_operation.get", "@resource.tempfile.item_operation.custom_get", "@resource.tempfile.item_operation.custom_get_mimetype", "@resource.tempfile.collection_operation.custom_post_webcam" ] ]
 
-
     resource.tip_of_the_day.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -1050,6 +1072,17 @@ services:
              -    "partkeepr.user_preference.set_preference"         # Controller
              -    "PartKeeprUserPreferenceSet"
 
+    resource.user.item_operation.delete_preference:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.user"               # Resource
+             -    [ "DELETE" ]                 # Methods
+             -    "/user_preferences"           # Path
+             -    "partkeepr.user_preference.delete_preference"         # Controller
+             -    "PartKeeprUserPreferenceDelete"
+
     resource.user.item_operation.login:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -1061,23 +1094,63 @@ services:
              -    "partkeepr.auth.login"         # Controller
              -    "PartKeeprAuthLogin"
 
+    resource.user.collection_operation.get_providers:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.user"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/users/get_user_providers"           # Path
+             -    "partkeepr.auth.get_providers"         # Controller
+             -    "PartKeeprAuthGetProviders"
+
     resource.user.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.user", "GET" ]
 
-    resource.user.item_operation.put:
+    resource.user.item_operation.put_custom:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.user", "PUT" ]
+        arguments:
+             -    "@resource.user"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/users/{id}"           # Path
+             -    "partkeepr.user.put"         # Controller
+             -    "PartKeeprUserPut"
+
+    resource.user.collection_operation.post_custom:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments:
+             -    "@resource.user"               # Resource
+             -    [ "POST" ]                 # Methods
+             -    "/users"           # Path
+             -    "partkeepr.user.post"         # Controller
+             -    "PartKeeprUserPost"
 
     resource.user.item_operation.delete:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.user", "DELETE" ]
+
+    resource.user_provider:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\AuthBundle\Entity\UserProvider" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
 
     resource.user:
         parent:    "api.resource"
@@ -1088,12 +1161,26 @@ services:
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
                     arguments: [ { groups: [ "default" ] } ]
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.user.collection_operation.get", "@resource.user.collection_operation.post_custom", "@resource.user.collection_operation.get_providers" ] ]
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.user.item_operation.get", "@resource.user.item_operation.get", "@resource.tempfile.item_operation.put", "@resource.user.item_operation.delete", "@resource.user.item_operation.get_preferences", "@resource.user.item_operation.set_preference", "@resource.user.item_operation.login" ] ]
+                    arguments: [ [ "@resource.user.item_operation.get", "@resource.user.item_operation.get", "@resource.user.item_operation.put_custom", "@resource.user.item_operation.delete", "@resource.user.item_operation.get_preferences", "@resource.user.item_operation.set_preference", "@resource.user.item_operation.delete_preference", "@resource.user.item_operation.login" ] ]
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.fos_user:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\AuthBundle\Entity\FOSUser" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
 
     resource.project:
         parent:    "api.resource"
@@ -1218,3 +1305,4 @@ services:
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
+

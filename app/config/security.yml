@@ -14,7 +14,7 @@ security:
     providers:
         chain_provider:
             chain:
-                providers: [in_memory, fos_userbundle]
+                providers: [in_memory, fos_userbundle, fr3d_ldapbundle]
         in_memory:
             memory:
                 users:
@@ -23,6 +23,8 @@ security:
                         roles: 'ROLE_ADMIN'
         fos_userbundle:
             id: fos_user.user_provider.username
+        fr3d_ldapbundle:
+            id: fr3d_ldap.security.user.provider
 
     firewalls:
         login:
@@ -32,6 +34,8 @@ security:
             stateless: true
             pattern: ^/api/.*
             provider: fos_userbundle
+            fr3d_ldap_httpbasic:
+                provider: fr3d_ldapbundle
             http_basic:
                 provider: fos_userbundle
             wsse:
