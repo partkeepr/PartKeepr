@@ -1,0 +1,3 @@
+_setup:
+    resource: "@PartKeeprSetupBundle/Controller/IndexController.php"
+    type:     annotation
