@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   id="svg2"
+   height="198"
+   width="960">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3935">
+      <stop
+         id="stop3937"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         id="stop3939"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="translate(6.0630807,-15.157702)"
+       gradientUnits="userSpaceOnUse"
+       y2="386.38205"
+       x2="671.87634"
+       y1="386.38205"
+       x1="156.828"
+       id="linearGradient3941"
+       xlink:href="#linearGradient3935" />
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(1.1116441,-257.59372)"
+     id="layer1">
+    <path
+       transform="matrix(1.3078821,0,0,1.1066695,-257.70567,10.91202)"
+       d="m 342.85714,312.36218 a 62.857143,74.285713 0 0 1 -62.79459,74.28568 62.857143,74.285713 0 0 1 -62.91957,-74.13783 62.857143,74.285713 0 0 1 62.66937,-74.43323 62.857143,74.285713 0 0 1 63.0443,73.9897"
+       id="path2985"
+       style="fill:#003849;fill-opacity:1;stroke:none" />
+    <path
+       id="path4101"
+       d="m 82.487636,399.66936 4.733484,-23.24707 c 0.24034,-1.18047 1.129925,-5.54924 4.283838,-9.44374 16.210112,-16.5409 42.309022,-5.09643 47.973562,-32.23486 4.84684,-24.44446 -25.22206,-21.0673 -54.733749,-21.0673 l -0.818182,0"
+       style="fill:none;stroke:#ffffff;stroke-width:17.70680618;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-opacity:1;stroke-dasharray:none" />
+    <text
+       transform="scale(1.0048563,0.99516717)"
+       id="text3945"
+       y="410.87689"
+       x="210.96074"
+       style="font-size:151.59248352px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#003849;fill-opacity:1;stroke:none;stroke-width:1.54566264;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium;"
+       xml:space="preserve"><tspan
+         style="font-weight:500;stroke-width:1.54566264;-inkscape-font-specification:Ubuntu Medium;fill:#003849;stroke:none;fill-opacity:1;"
+         y="410.87689"
+         x="210.96074"
+         id="tspan3947">PartKeepr</tspan></text>
+  </g>
+</svg>
