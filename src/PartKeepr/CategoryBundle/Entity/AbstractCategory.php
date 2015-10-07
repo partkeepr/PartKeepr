@@ -1,6 +1,7 @@
 <?php
 namespace PartKeepr\CategoryBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PartKeepr\Util\BaseEntity;
@@ -78,6 +79,10 @@ abstract class AbstractCategory extends BaseEntity
      * @var bool
      */
     public $expanded = true;
+
+    public function __construct () {
+        $this->children = new ArrayCollection();
+    }
 
     /**
      * Sets the name of this category
