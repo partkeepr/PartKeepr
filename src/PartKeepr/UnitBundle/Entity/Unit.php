@@ -105,7 +105,7 @@ class Unit extends BaseEntity
     /**
      * Returns the si-prefix list for this unit
      *
-     * @return array An array of SiPrefix objects
+     * @return ArrayCollection An array of SiPrefix objects
      */
     public function getPrefixes()
     {
