@@ -26,7 +26,8 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
     defaults: {
         cls: 'x-wizard-component'
     },
-    initComponent: function () {
+    initComponent: function ()
+    {
         var me = this,
             breadCrumbComponents = [],
             cardItems = [],
@@ -48,10 +49,11 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
                 disabled: index !== 0,
                 pressed: index === 0,
                 index: index,
-                text: childView.breadCrumbTitle,
+                text: childView.breadCrumbTitle + " » ",
                 listeners: {
                     toggle: {
-                        fn: function (button, pressed) {
+                        fn: function (button, pressed)
+                        {
                             if (pressed) {
                                 this.switchView(button.index);
                             }
@@ -73,6 +75,11 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
             items: cardItems
         });
         me.items = [
+            Ext.create('Ext.Img', {
+                style: 'background-color: white;',
+                height: 90,
+                src: 'images/partkeepr-setup.svg'
+            }),
             me.breadCrumbContainer,
             me.cardContainer,
             {
@@ -86,6 +93,13 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
                     cls: 'x-wizard-navigation'
                 },
                 items: [
+                    {
+                        text: 'Previous',
+                        itemId: 'previousButton',
+                        handler: me.onPrevious,
+                        disabled: true,
+                        scope: me
+                    },
                     {
                         text: 'Next',
                         itemId: 'nextBtn',
@@ -104,12 +118,20 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
 
         me.callParent();
     },
-    switchView: function (index) {
+    switchView: function (index)
+    {
         var nextBtn = this.down('#nextBtn'),
+            previousButton = this.down('#previousButton'),
             childViewCount = this.cardContainer.items.getCount();
         if (index < childViewCount) {
             this.cardContainer.getLayout().setActiveItem(index);
             this.currentIndex = index;
+
+            if (index === 0) {
+                previousButton.disable();
+            } else {
+                previousButton.enable();
+            }
 
             if (index === childViewCount - 1) {
                 nextBtn.setText('Submit');
@@ -120,7 +142,23 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
             throw new Error('Invalid view index: ' + index);
         }
     },
-    onNext: function () {
+    onPrevious: function ()
+    {
+        var me = this,
+            childViewCount = this.cardContainer.items.getCount(),
+            currentIndex = me.currentIndex,
+            breadCrumbButton;
+
+        for (var i = currentIndex; i < childViewCount; i++) {
+            breadCrumbButton = me.breadCrumbContainer.items.getAt(i);
+            breadCrumbButton.disable();
+        }
+        breadCrumbButton = me.breadCrumbContainer.items.getAt(currentIndex - 1);
+        breadCrumbButton.toggle();
+
+    },
+    onNext: function ()
+    {
         var me = this,
             nextBreadCrumbButton,
             currentIndex = me.currentIndex,
@@ -137,12 +175,15 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
             }
         }
     },
-    onClose: function () {
+    onClose: function ()
+    {
         this.fireEvent('close', this);
     },
-    getSubmitData: function () {
+    getSubmitData: function ()
+    {
         var submitData = {};
-        this.cardContainer.items.each(function (childView) {
+        this.cardContainer.items.each(function (childView)
+        {
             if (childView.getSubmitData) {
                 Ext.merge(submitData, childView.getSubmitData());
             }

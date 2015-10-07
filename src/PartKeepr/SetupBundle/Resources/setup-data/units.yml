@@ -1,160 +1,160 @@
 Meter:
   symbol: m
   prefixes:
-    - n
-    - μ
-    - m
-    - c
-    - d
-    - k
-    - ""
+    - nano
+    - milli
+    - micro
+    - centi
+    - deci
+    - kilo
+    - "-"
 Gram:
   symbol: g
   prefixes:
-    - k
-    - m
-    - ""
+    - kilo
+    - milli
+    - "-"
 Second:
   symbol: s
   prefixes:
-    - m
-    - ""
+    - milli
+    - "-"
 Kelvin:
   symbol: K
   prefixes:
-    - ""
+    - "-"
 Mol:
   symbol: mol
   prefixes:
-    - ""
+    - "-"
 Candela:
   symbol: cd
   prefixes:
-    - m
+    - milli
 Ampere:
   symbol: A 
   prefixes:
-    - k
-    - m
-    - ""
-    - μ
-    - n
-    - p
+    - kilo
+    - milli
+    - "-"
+    - milli
+    - nano
+    - pico
 Ohm:
   symbol: Ω
   prefixes:
-    - k
-    - m
-    - M
-    - ""
-    - G
-    - T
+    - kilo
+    - milli
+    - micro
+    - "-"
+    - giga
+    - tera
 Volt:
   symbol: V
   prefixes:
-    - m
-    - ""
-    - k
+    - milli
+    - "-"
+    - kilo
 Hertz:
   symbol: Hz
   prefixes:
-    - k
-    - M
-    - ""
-    - G
-    - T
+    - kilo
+    - milli
+    - "-"
+    - giga
+    - tera
 Newton:
   symbol: N
   prefixes:
-    - k
-    - ""
+    - kilo
+    - "-"
 Pascal:
   symbol: Pa
   prefixes:
-    - m
-    - ""
-    - k
+    - milli
+    - "-"
+    - kilo
 Joule:
   symbol: J
   prefixes:
-    - m
-    - ""
-    - k
-    - M
+    - milli
+    - "-"
+    - kilo
+    - micro
 Watt:
   symbol: W
   prefixes:
-    - k
-    - M
-    - ""
-    - G
-    - m
-    - μ
+    - kilo
+    - milli
+    - "-"
+    - giga
+    - mega
+    - micro
 Coulomb:
   symbol: C
   prefixes:
-    - k
-    - ""
+    - kilo
+    - "-"
 Farad:
   symbol: F
   prefixes:
-    - m
-    - p
-    - ""
-    - n
-    - μ
+    - milli
+    - pico
+    - "-"
+    - nano
+    - micro
 Siemens:
   symbol: S
   prefixes:
-    - m
-    - ""
+    - milli
+    - "-"
 Weber:
   symbol: Wb
   prefixes:
-    - ""
+    - "-"
 Tesla:
   symbol: T
   prefixes:
-    - ""
+    - "-"
 Henry:
   symbol: H
   prefixes:
-    - m
-    - μ
-    - ""
+    - milli
+    - micro
+    - "-"
 Celsius:
   symbol: °C
   prefixes:
-    - ""
+    - "-"
 Lumen:
   symbol: lm
   prefixes:
-    - ""
+    - "-"
 Lux:
   symbol: lx
   prefixes:
-    - ""
+    - "-"
 Becquerel:
   symbol: Bq
   prefixes:
-    - ""
+    - "-"
 Gray:
   symbol: Gy
   prefixes:
-    - ""
+    - "-"
 Sievert:
   symbol: Sv
   prefixes:
-    - m
-    - ""
-    - μ
+    - milli
+    - "-"
+    - micro
 Katal:
   symbol: kat
   prefixes:
-    - ""
+    - "-"
 Ampere Hour:
   symbol: Ah
   prefixes:
-    - m
-    - ""
-    - k
+    - milli
+    - "-"
+    - kilo

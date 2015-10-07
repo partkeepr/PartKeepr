@@ -21,7 +21,11 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
             }, {
                 name: 'errors',
                 type: 'string'
-            }]
+            }, {
+                name: 'waiting',
+                type: 'boolean'
+            }
+        ]
     },
     columns: [
         {
@@ -30,8 +34,12 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
         }, {
             width: 30,
             dataIndex: 'success',
-            renderer: function (val)
+            renderer: function (val, metaData, record)
             {
+                if (record.get("waiting")) {
+                    return '<span title="Waiting" style="vertical-align: top;" class="web-icon cog"></span>';
+                }
+
                 if (val) {
                     return '<span title="OK" style="vertical-align: top;" class="web-icon accept"></span>';
                 } else {
@@ -41,19 +49,20 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
         }, {
             flex: 2,
             dataIndex: 'message'
-        },{
+        }, {
             flex: 0.5,
             xtype: 'widgetcolumn',
             dataIndex: 'success',
             widget: {
                 hidden: true,
-                  xtype: 'button',
-                  defaultBindProperty: "hidden",
-                  text: "Show details",
-                  handler: function(widgetColumn) {
-                        var record = widgetColumn.getWidgetRecord();
-                        Ext.Msg.alert("Error Details", record.get("errors"));
-                  }
+                xtype: 'button',
+                defaultBindProperty: "hidden",
+                text: "Show details",
+                handler: function (widgetColumn)
+                {
+                    var record = widgetColumn.getWidgetRecord();
+                    Ext.Msg.alert("Error Details", record.get("errors"));
+                }
             }
         }
     ],
@@ -78,7 +87,8 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
     {
         this.store.add({
             name: test.message,
-            success: true
+            success: true,
+            waiting: true
         });
     },
     /**
@@ -95,6 +105,7 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
             rec.set("success", test.success);
             rec.set("message", test.resultMessage);
             rec.set("errors", test.errors.join("<br/>"));
+            rec.set("waiting", false);
         }
 
         rec.commit();

@@ -1,0 +1,13 @@
+imports:
+    - { resource: config_setup.yml }
+    - { resource: security.yml }
+    - { resource: parameters_setup.yml }
+    - { resource: partkeepr.yml }
+    - { resource: config_framework.yml }
+    - { resource: config_doctrine.yml }
+    - { resource: config_fos_user.yml }
+    - { resource: config_dunglas.yml }
+    - { resource: config_ldap.yml }
+    - { resource: config_partkeepr.yml }
+
+

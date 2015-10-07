@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr;
 
-use Doctrine\ORM\EntityManager;
 use PartKeepr\Util\Configuration as PartKeeprConfiguration;
 
 
@@ -83,31 +82,9 @@ class PartKeepr
 
     }
 
-    /**
-     * Returns the EntityManager. Shortcut for getEntityManager().
-     *
-     * @return EntityManager The EntityManager
-     */
-    public static function getEM()
-    {
-        return self::getEntityManager();
-    }
-
     public static function getRootDirectory()
     {
         return dirname(dirname(dirname(__DIR__)));
-    }
-
-    /**
-     * Returns the EntityManager.
-     *
-     * @return EntityManager The EntityManager
-     */
-    public static function getEntityManager()
-    {
-        $container = \AppKernel::getMigrationContainer();
-
-        return $container->get('doctrine')->getManager();
     }
 
     /**

@@ -1,0 +1,916 @@
+'Integrated Circuit Designs':
+  iclogos:
+    - iclogos/acer.png
+ACTEL:
+  iclogos:
+    - iclogos/actel.png
+ALTINC:
+  iclogos:
+    - iclogos/advldev.png
+Aeroflex:
+  iclogos:
+    - iclogos/aeroflex1.png
+    - iclogos/aeroflex2.png
+'Agilent Technologies':
+  iclogos:
+    - iclogos/agilent.png
+'AKM Semiconductor':
+  iclogos:
+    - iclogos/akm.png
+'Alesis Semiconductor':
+  iclogos:
+    - iclogos/alesis.png
+'ALi (Acer Laboratories Inc.)':
+  iclogos:
+    - iclogos/ali1.png
+    - iclogos/ali2.png
+'Allayer Communications':
+  iclogos:
+    - iclogos/allayer.png
+'Allegro Microsystems':
+  iclogos:
+    - iclogos/allegro.png
+'Alliance Semiconductor':
+  iclogos:
+    - iclogos/alliance.png
+'Alpha Industries':
+  iclogos:
+    - iclogos/alphaind.png
+'Alpha Microelectronics':
+  iclogos:
+    - iclogos/alphamic.png
+    - iclogos/alpha.png
+Altera:
+  iclogos:
+    - iclogos/altera.png
+'Advanced Micro Devices (AMD)':
+  iclogos:
+    - iclogos/amd.png
+'American Microsystems, Inc. (AMI)':
+  iclogos:
+    - iclogos/ami1.png
+    - iclogos/ami2.png
+'Amic Technology':
+  iclogos:
+    - iclogos/amic.png
+Amphus:
+  iclogos:
+    - iclogos/ampus.png
+'Anachip Corp.':
+  iclogos:
+    - iclogos/anachip.png
+ANADIGICs:
+  iclogos:
+    - iclogos/anadigic.png
+'Analog Devices':
+  iclogos:
+    - iclogos/analog1.png
+    - iclogos/analog.png
+'Analog Systems':
+  iclogos:
+    - iclogos/anasys.png
+'Anchor Chips':
+  iclogos:
+    - iclogos/anchorch.png
+'Apex Microtechnology':
+  iclogos:
+    - iclogos/apex1.png
+    - iclogos/apex.png
+'ARK Logic':
+  iclogos:
+    - iclogos/ark.png
+ASD:
+  iclogos:
+    - iclogos/asd.png
+'Astec Semiconductor':
+  iclogos:
+    - iclogos/astec.png
+'ATC (Analog Technologie)':
+  iclogos:
+    - iclogos/atc.png
+ATecoM:
+  iclogos:
+    - iclogos/atecom.png
+'ATI Technologies':
+  iclogos:
+    - iclogos/ati.png
+Atmel:
+  iclogos:
+    - iclogos/atmel.png
+'AT&T':
+  iclogos:
+    - iclogos/att.png
+AudioCodes:
+  iclogos:
+    - iclogos/audiocod.png
+'Aura Vision':
+  iclogos:
+    - iclogos/auravis.png
+Aureal:
+  iclogos:
+    - iclogos/aureal.png
+'Austin Semiconductor':
+  iclogos:
+    - iclogos/austin.png
+'Avance Logic':
+  iclogos:
+    - iclogos/averlog.png
+'Bel Fuse':
+  iclogos:
+    - iclogos/belfuse.png
+'Benchmarq Microelectronics':
+  iclogos:
+    - iclogos/benchmrq.png
+'BI Technologies':
+  iclogos:
+    - iclogos/bi.png
+Bowmar/White:
+  iclogos:
+    - iclogos/bowmar_white.png
+Brightflash:
+  iclogos:
+    - iclogos/bright.png
+Broadcom:
+  iclogos:
+    - iclogos/broadcom.png
+'Brooktree(now Rockwell)':
+  iclogos:
+    - iclogos/brooktre.png
+'Burr Brown':
+  iclogos:
+    - iclogos/burrbrwn.png
+'California Micro Devices':
+  iclogos:
+    - iclogos/calmicro.png
+Calogic:
+  iclogos:
+    - iclogos/calogic.png
+'Catalyst Semiconductor':
+  iclogos:
+    - iclogos/catalys1.png
+    - iclogos/catalyst.png
+'Centon Electronics':
+  iclogos:
+    - iclogos/ccube.png
+'Ceramate Technical':
+  iclogos:
+    - iclogos/ceramate1.png
+    - iclogos/ceramate2.png
+'Cherry Semiconductor':
+  iclogos:
+    - iclogos/cherry.png
+'Chipcon AS':
+  iclogos:
+    - iclogos/chipcon1.png
+    - iclogos/chipcon2.png
+Chips:
+  iclogos:
+    - iclogos/chips.png
+Chrontel:
+  iclogos:
+    - iclogos/chrontel.png
+'Cirrus Logic':
+  iclogos:
+    - iclogos/cirrus.png
+'ComCore Semiconductor':
+  iclogos:
+    - iclogos/comcore.png
+Conexant:
+  iclogos:
+    - iclogos/conexant.png
+'Cosmo Electronics':
+  iclogos:
+    - iclogos/cosmo.png
+Chrystal:
+  iclogos:
+    - iclogos/crystal.png
+Cygnal:
+  iclogos:
+    - iclogos/cygnal.png
+'Cypress Semiconductor':
+  iclogos:
+    - iclogos/cypres1.png
+    - iclogos/cypress.png
+'Cyrix Corporation':
+  iclogos:
+    - iclogos/cyrix.png
+'Daewoo Electronics Semiconductor':
+  iclogos:
+    - iclogos/daewoo.png
+'Dallas Semiconductor':
+  iclogos:
+    - iclogos/dallas1.png
+    - iclogos/dallas2.png
+    - iclogos/dallas3.png
+'Davicom Semiconductor':
+  iclogos:
+    - iclogos/davicom.png
+'Data Delay Devices':
+  iclogos:
+    - iclogos/ddd.png
+'Diamond Technologies':
+  iclogos:
+    - iclogos/diamond.png
+DIOTEC:
+  iclogos:
+    - iclogos/diotec.png
+'DTC Data Technology':
+  iclogos:
+    - iclogos/dtc1.png
+    - iclogos/dtc2.png
+DVDO:
+  iclogos:
+    - iclogos/dvdo.png
+'EG&G':
+  iclogos:
+    - iclogos/egg.png
+'Elan Microelectronics':
+  iclogos:
+    - iclogos/elan.png
+ELANTEC:
+  iclogos:
+    - iclogos/elantec1.png
+    - iclogos/elantec.png
+'Electronic Arrays':
+  iclogos:
+    - iclogos/elec_arrays.png
+'Elite Flash Storage Technology Inc. (EFST)':
+  iclogos:
+    - iclogos/elite[1].png
+'EM Microelectronik - Marin':
+  iclogos:
+    - iclogos/emmicro.png
+'Enhanced Memory Systems':
+  iclogos:
+    - iclogos/enhmemsy.png
+'Ensoniq Corp':
+  iclogos:
+    - iclogos/ensoniq.png
+'EON Silicon Devices':
+  iclogos:
+    - iclogos/eon.png
+Epson:
+  iclogos:
+    - iclogos/epson1.png
+    - iclogos/epson2.png
+Ericsson:
+  iclogos:
+    - iclogos/ericsson.png
+'ESS Technology':
+  iclogos:
+    - iclogos/ess.png
+'Electronic Technology':
+  iclogos:
+    - iclogos/etc.png
+EXAR:
+  iclogos:
+    - iclogos/exar.png
+'Excel Semiconductor Inc.':
+  iclogos:
+    - iclogos/excelsemi1.png
+    - iclogos/excelsemi2.png
+    - iclogos/exel.png
+Fairschild:
+  iclogos:
+    - iclogos/fairchil.png
+'Freescale Semiconductor':
+  iclogos:
+    - iclogos/freescale.png
+Fujitsu:
+  iclogos:
+    - iclogos/fujielec.png
+    - iclogos/fujitsu2.png
+'Galileo Technology':
+  iclogos:
+    - iclogos/galileo.png
+Galvantech:
+  iclogos:
+    - iclogos/galvant.png
+'GEC Plessey':
+  iclogos:
+    - iclogos/gecples.png
+Gennum:
+  iclogos:
+    - iclogos/gennum.png
+'General Electric (Harris)':
+  iclogos:
+    - iclogos/ge.png
+'General Instruments':
+  iclogos:
+    - iclogos/gi1.png
+    - iclogos/gi.png
+'G-Link Technology':
+  iclogos:
+    - iclogos/glink.png
+'Goal Semiconductor':
+  iclogos:
+    - iclogos/goal1.png
+    - iclogos/goal2.png
+Goldstar:
+  iclogos:
+    - iclogos/goldstar1.png
+    - iclogos/goldstar2.png
+Gould:
+  iclogos:
+    - iclogos/gould.png
+'Greenwich Instruments':
+  iclogos:
+    - iclogos/greenwich.png
+'General Semiconductor':
+  iclogos:
+    - iclogos/gsemi.png
+'Harris Semiconductor':
+  iclogos:
+    - iclogos/harris1.png
+    - iclogos/harris2.png
+VEB:
+  iclogos:
+    - iclogos/hfo.png
+'Hitachi Semiconductor':
+  iclogos:
+    - iclogos/hitachi.png
+Holtek:
+  iclogos:
+    - iclogos/holtek.png
+'Hewlett Packard':
+  iclogos:
+    - iclogos/hp.png
+Hualon:
+  iclogos:
+    - iclogos/hualon.png
+'Hynix Semiconductor':
+  iclogos:
+    - iclogos/hynix.png
+Hyundai:
+  iclogos:
+    - iclogos/hyundai2.png
+'IC Design':
+  iclogos:
+    - iclogos/icdesign.png
+'Integrated Circuit Systems (ICS)':
+  iclogos:
+    - iclogos/icd.png
+    - iclogos/ics.png
+'IC - Haus':
+  iclogos:
+    - iclogos/ichaus1.png
+    - iclogos/ichaus.png
+'ICSI (Integrated Circuit Solution Inc.)':
+  iclogos:
+    - iclogos/icsi.png
+I-Cube:
+  iclogos:
+    - iclogos/icube.png
+'IC Works':
+  iclogos:
+    - iclogos/icworks.png
+'Integrated Device Technology (IDT)':
+  iclogos:
+    - iclogos/idt1.png
+    - iclogos/idt.png
+'IGS Technologies':
+  iclogos:
+    - iclogos/igstech.png
+'IMPALA Linear':
+  iclogos:
+    - iclogos/impala.png
+IMP:
+  iclogos:
+    - iclogos/imp.png
+Infineon:
+  iclogos:
+    - iclogos/infineon.png
+INMOS:
+  iclogos:
+    - iclogos/inmos.png
+Intel:
+  iclogos:
+    - iclogos/intel2.png
+Intersil:
+  iclogos:
+    - iclogos/intresil4.png
+    - iclogos/intrsil1.png
+    - iclogos/intrsil2.png
+    - iclogos/intrsil3.png
+'International Rectifier':
+  iclogos:
+    - iclogos/ir.png
+'Information Storage Devices':
+  iclogos:
+    - iclogos/isd.png
+'ISSI (Integrated Silicon Solution, Inc.)':
+  iclogos:
+    - iclogos/issi.png
+'Integrated Technology Express':
+  iclogos:
+    - iclogos/ite.png
+'ITT Semiconductor (Micronas Intermetall)':
+  iclogos:
+    - iclogos/itt.png
+IXYS:
+  iclogos:
+    - iclogos/ixys.png
+'Korea Electronics (KEC)':
+  iclogos:
+    - iclogos/kec.png
+'Kota Microcircuits':
+  iclogos:
+    - iclogos/kota.png
+'Lattice Semiconductor Corp.':
+  iclogos:
+    - iclogos/lattice1.png
+    - iclogos/lattice2.png
+    - iclogos/lattice3.png
+'Lansdale Semiconductor':
+  iclogos:
+    - iclogos/lds1.png
+    - iclogos/lds.png
+'Level One Communications':
+  iclogos:
+    - iclogos/levone.png
+'LG Semicon (Lucky Goldstar Electronic Co.)':
+  iclogos:
+    - iclogos/lgs1.png
+    - iclogos/lgs.png
+'Linear Technology':
+  iclogos:
+    - iclogos/linear.png
+'Linfinity Microelectronics':
+  iclogos:
+    - iclogos/linfin.png
+Lite-On:
+  iclogos:
+    - iclogos/liteon.png
+'Lucent Technologies (AT&T Microelectronics)':
+  iclogos:
+    - iclogos/lucent.png
+'Macronix International':
+  iclogos:
+    - iclogos/macronix.png
+'Marvell Semiconductor':
+  iclogos:
+    - iclogos/marvell.png
+'Matsushita Panasonic':
+  iclogos:
+    - iclogos/matsush1.png
+    - iclogos/matsushi.png
+'Maxim Dallas':
+  iclogos:
+    - iclogos/maxim.png
+'Media Vision':
+  iclogos:
+    - iclogos/mediavi1.png
+    - iclogos/mediavi2.png
+'Microchip (Arizona Michrochip Technology)':
+  iclogos:
+    - iclogos/me.png
+    - iclogos/microchp.png
+'Matra MHS':
+  iclogos:
+    - iclogos/mhs2.png
+    - iclogos/mhs.png
+'Micrel Semiconductor':
+  iclogos:
+    - iclogos/micrel1.png
+    - iclogos/micrel2.png
+Micronas:
+  iclogos:
+    - iclogos/micronas.png
+'Micronix Integrated Systems':
+  iclogos:
+    - iclogos/micronix.png
+'Micron Technology, Inc.':
+  iclogos:
+    - iclogos/micron.png
+Microsemi:
+  iclogos:
+    - iclogos/microsemi1.png
+    - iclogos/microsemi2.png
+Mini-Circuits:
+  iclogos:
+    - iclogos/minicirc.png
+'Mitel Semiconductor':
+  iclogos:
+    - iclogos/mitel.png
+'Mitsubishi Semiconductor':
+  iclogos:
+    - iclogos/mitsubis.png
+'Micro Linear':
+  iclogos:
+    - iclogos/mlinear.png
+'MMI (Monolithic Memories, Inc.)':
+  iclogos:
+    - iclogos/mmi.png
+'Mosaic Semiconductor':
+  iclogos:
+    - iclogos/mosaic.png
+'Mosel Vitelic':
+  iclogos:
+    - iclogos/moselvit.png
+'MOS Technologies':
+  iclogos:
+    - iclogos/mos.png
+Mostek:
+  iclogos:
+    - iclogos/mostek1.png
+    - iclogos/mostek2.png
+    - iclogos/mostek3.png
+MoSys:
+  iclogos:
+    - iclogos/mosys.png
+Motorola:
+  iclogos:
+    - iclogos/motorol1.png
+    - iclogos/motorol2.png
+Microtune:
+  iclogos:
+    - iclogos/mpd.png
+M-Systems:
+  iclogos:
+    - iclogos/msystem.png
+'Murata Manufacturing':
+  iclogos:
+    - iclogos/murata1.png
+    - iclogos/murata.png
+'MWave (IBM)':
+  iclogos:
+    - iclogos/mwave.png
+'Myson Technology':
+  iclogos:
+    - iclogos/myson.png
+'NEC Electronics':
+  iclogos:
+    - iclogos/nec1.png
+    - iclogos/nec2.png
+'NexFlash Technologies':
+  iclogos:
+    - iclogos/nexflash.png
+'New Japan Radio':
+  iclogos:
+    - iclogos/njr.png
+'National Semiconductor':
+  iclogos:
+    - iclogos/ns1.png
+    - iclogos/ns2.png
+'NVidia Corporation':
+  iclogos:
+    - iclogos/nvidia.png
+'Oak Technology':
+  iclogos:
+    - iclogos/oak.png
+'Oki Semiconductor':
+  iclogos:
+    - iclogos/oki1.png
+    - iclogos/oki.png
+Opti:
+  iclogos:
+    - iclogos/opti.png
+'Orbit Semiconductor':
+  iclogos:
+    - iclogos/orbit.png
+'Oren Semiconductor':
+  iclogos:
+    - iclogos/oren.png
+'Performance Semiconductor':
+  iclogos:
+    - iclogos/perform.png
+'Pericom Semiconductor':
+  iclogos:
+    - iclogos/pericom.png
+'PhaseLink Laboratories':
+  iclogos:
+    - iclogos/phaslink.png
+'Philips Semiconductor':
+  iclogos:
+    - iclogos/philips.png
+'PLX Technology':
+  iclogos:
+    - iclogos/plx.png
+'PMC- Sierra':
+  iclogos:
+    - iclogos/pmc.png
+'Precision Monolithics':
+  iclogos:
+    - iclogos/pmi.png
+'Princeton Technology':
+  iclogos:
+    - iclogos/ptc.png
+PowerSmart:
+  iclogos:
+    - iclogos/pwrsmart.png
+QuickLogic:
+  iclogos:
+    - iclogos/qlogic.png
+Qlogic:
+  iclogos:
+    - iclogos/qualcomm.png
+'Quality Semiconductor':
+  iclogos:
+    - iclogos/quality.png
+'Rabbit Semiconductor':
+  iclogos:
+    - iclogos/rabbit.png
+'Ramtron International Co.':
+  iclogos:
+    - iclogos/ramtron.png
+'Raytheon Semiconductor':
+  iclogos:
+    - iclogos/raytheon.png
+'RCA Solid State':
+  iclogos:
+    - iclogos/rca.png
+'Realtek Semiconductor':
+  iclogos:
+    - iclogos/realtek.png
+Rectron:
+  iclogos:
+    - iclogos/rectron.png
+Rendition:
+  iclogos:
+    - iclogos/rendit.png
+'Renesas Technology':
+  iclogos:
+    - iclogos/renesas.png
+Rockwell:
+  iclogos:
+    - iclogos/rockwell.png
+'Rohm Corp.':
+  iclogos:
+    - iclogos/rohm.png
+S3:
+  iclogos:
+    - iclogos/s3.png
+Sage:
+  iclogos:
+    - iclogos/sage.png
+'Saifun Semiconductors Ltd.':
+  iclogos:
+    - iclogos/saifun.png
+Sames:
+  iclogos:
+    - iclogos/sames.png
+Samsung:
+  iclogos:
+    - iclogos/samsung.png
+Sanken:
+  iclogos:
+    - iclogos/sanken1.png
+    - iclogos/sanken.png
+Sanyo:
+  iclogos:
+    - iclogos/sanyo1.png
+    - iclogos/sanyo.png
+Scenix:
+  iclogos:
+    - iclogos/scenix.png
+'Samsung Electronics':
+  iclogos:
+    - iclogos/sec1.png
+    - iclogos/sec.png
+'SEEQ Technology':
+  iclogos:
+    - iclogos/seeq.png
+'Seiko Instruments':
+  iclogos:
+    - iclogos/seikoi.png
+    - iclogos/semelab.png
+Semtech:
+  iclogos:
+    - iclogos/semtech.png
+SGS-Ates:
+  iclogos:
+    - iclogos/sgs1.png
+'SGS-Thomson Microelectonics ST-M)':
+  iclogos:
+    - iclogos/sgs2.png
+'Sharp Microelectronics (USA)':
+  iclogos:
+    - iclogos/sharp.png
+Shindengen:
+  iclogos:
+    - iclogos/shindgen.png
+'Siemens Microelectronics, Inc.':
+  iclogos:
+    - iclogos/siemens1.png
+    - iclogos/siemens2.png
+Sierra:
+  iclogos:
+    - iclogos/sierra.png
+'Sigma Tel':
+  iclogos:
+    - iclogos/sigmatel.png
+Signetics:
+  iclogos:
+    - iclogos/signetic.png
+'Silicon Laboratories':
+  iclogos:
+    - iclogos/siliconlabs.png
+'Silicon Magic':
+  iclogos:
+    - iclogos/siliconm.png
+'Simtec Corp.':
+  iclogos:
+    - iclogos/silicons.png
+    - iclogos/simtek.png
+Siliconix:
+  iclogos:
+    - iclogos/siliconx.png
+Siliconians:
+  iclogos:
+    - iclogos/silnans.png
+Sipex:
+  iclogos:
+    - iclogos/sipex.png
+'Silicon Integrated Systems':
+  iclogos:
+    - iclogos/sis.png
+SMC:
+  iclogos:
+    - iclogos/smc1.png
+'Standard Microsystems':
+  iclogos:
+    - iclogos/smsc1.png
+    - iclogos/smsc.png
+'Sony Semiconductor':
+  iclogos:
+    - iclogos/sony.png
+'Space Electronics':
+  iclogos:
+    - iclogos/space.png
+Spectek:
+  iclogos:
+    - iclogos/spectek.png
+'Signal Processing Technologies':
+  iclogos:
+    - iclogos/spt.png
+'Solid State Scientific':
+  iclogos:
+    - iclogos/sss.png
+'Silicon Storage Technology (SST)':
+  iclogos:
+    - iclogos/sst.png
+STMicroelectronics:
+  iclogos:
+    - iclogos/st.png
+'SUMMIT Microelectronics':
+  iclogos:
+    - iclogos/summit.png
+'Synergy Semiconductor':
+  iclogos:
+    - iclogos/synergy.png
+Synertek:
+  iclogos:
+    - iclogos/synertek.png
+'Taiwan Semiconductor':
+  iclogos:
+    - iclogos/taiwsemi.png
+'TDK Semiconductor':
+  iclogos:
+    - iclogos/tdk.png
+'Teccor Electronics':
+  iclogos:
+    - iclogos/teccor.png
+'TelCom Semiconductor':
+  iclogos:
+    - iclogos/telcom.png
+Teledyne:
+  iclogos:
+    - iclogos/teledyne.png
+Telefunken:
+  iclogos:
+    - iclogos/telefunk.png
+Teltone:
+  iclogos:
+    - iclogos/teltone.png
+Thomson-CSF:
+  iclogos:
+    - iclogos/thomscsf.png
+'Texas Instruments':
+  iclogos:
+    - iclogos/ti1.png
+    - iclogos/ti.png
+'Toko Amerika':
+  iclogos:
+    - iclogos/toko.png
+'Toshiba (US)':
+  iclogos:
+    - iclogos/toshiba1.png
+    - iclogos/toshiba2.png
+    - iclogos/toshiba3.png
+Trident:
+  iclogos:
+    - iclogos/trident.png
+'TriQuint Semiconductor':
+  iclogos:
+    - iclogos/triquint.png
+Triscend:
+  iclogos:
+    - iclogos/triscend.png
+'Tseng Labs':
+  iclogos:
+    - iclogos/tseng.png
+Tundra:
+  iclogos:
+    - iclogos/tundra.png
+'Turbo IC':
+  iclogos:
+    - iclogos/turbo_ic.png
+Ubicom:
+  iclogos:
+    - iclogos/ubicom.png
+'United Microelectronics Corp (UMC)':
+  iclogos:
+    - iclogos/umc.png
+Unitrode:
+  iclogos:
+    - iclogos/unitrode.png
+'USAR Systems':
+  iclogos:
+    - iclogos/usar1.png
+    - iclogos/usar.png
+'United Technologies Microelectronics Center (UTMC)':
+  iclogos:
+    - iclogos/utmc.png
+Utron:
+  iclogos:
+    - iclogos/utron.png
+'V3 Semiconductor':
+  iclogos:
+    - iclogos/v3.png
+Vadem:
+  iclogos:
+    - iclogos/vadem.png
+'Vanguard International Semiconductor':
+  iclogos:
+    - iclogos/vanguard.png
+Vantis:
+  iclogos:
+    - iclogos/vantis.png
+'Via Technologies':
+  iclogos:
+    - iclogos/via.png
+Virata:
+  iclogos:
+    - iclogos/virata.png
+Vishay:
+  iclogos:
+    - iclogos/vishay.png
+'Vision Tech':
+  iclogos:
+    - iclogos/vistech.png
+Vitelic:
+  iclogos:
+    - iclogos/vitelic.png
+'VLSI Technology':
+  iclogos:
+    - iclogos/vlsi.png
+Volterra:
+  iclogos:
+    - iclogos/volterra.png
+VTC:
+  iclogos:
+    - iclogos/vtc.png
+'Waferscale Integration (WSI)':
+  iclogos:
+    - iclogos/wafscale.png
+'Western Digital':
+  iclogos:
+    - iclogos/wdc1.png
+    - iclogos/wdc2.png
+Weitek:
+  iclogos:
+    - iclogos/weitek.png
+Winbond:
+  iclogos:
+    - iclogos/winbond.png
+'Wofson Microelectronics':
+  iclogos:
+    - iclogos/wolf.png
+Xwmics:
+  iclogos:
+    - iclogos/xemics.png
+Xicor:
+  iclogos:
+    - iclogos/xicor1.png
+    - iclogos/xicor.png
+Xilinx:
+  iclogos:
+    - iclogos/xilinx.png
+Yamaha:
+  iclogos:
+    - iclogos/yamaha.png
+'Zetex Semiconductors':
+  iclogos:
+    - iclogos/zetex.png
+Zilog:
+  iclogos:
+    - iclogos/zilog1.png
+    - iclogos/zilog2.png
+    - iclogos/zilog3.png
+    - iclogos/zilog4.png
+'ZMD (Zentrum Mikroelektronik Dresden)':
+  iclogos:
+    - iclogos/zmda.png
+Zoran:
+  iclogos:
+    - iclogos/zoran.png

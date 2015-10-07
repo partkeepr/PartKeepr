@@ -1,51 +1,10 @@
 <?php
 
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    /**
-     * @todo Remove this after successful migration so SF2
-     * @var \AppKernel
-     */
-    private static $kernel = null;
-
-    /**
-     * Temporary constructor to inject the service container.
-     *
-     * @todo Remove this after successful migration to SF2
-     *
-     * @param string $environment
-     * @param bool   $debug
-     */
-    public function __construct($environment, $debug)
-    {
-        parent::__construct($environment, $debug);
-
-        AppKernel::$kernel = $this;
-    }
-
-    /**
-     * Returns the service container
-     *
-     * @todo Remove this after successful migration to SF2
-     * @return null|\Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    public static function getMigrationContainer()
-    {
-        if (self::$kernel instanceof \AppKernel) {
-            if (!self::$kernel->getContainer() instanceof Container) {
-                self::$kernel->boot();
-            }
-
-            return self::$kernel->getContainer();
-        }
-
-        return null;
-    }
-
     public function registerBundles()
     {
         // Base 3rd party bundles required for PartKeepr operation

@@ -21,8 +21,8 @@ theme/sass/.sass-cache/
 /reports
 /nbproject/
 partkeepr.jsfiles
-
-
+app/config/parameters_setup.yml
+app/authkey.php
 
 /web/bundles/
 /web/images/*

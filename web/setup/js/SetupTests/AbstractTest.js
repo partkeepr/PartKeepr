@@ -11,7 +11,9 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     /**
      * Defines the URL to call
      */
-    url: 'tests/check.php',
+    url: '../setup.php/setup/',
+
+    action: '',
 
     /**
      * Defines if the call was successful or not.
@@ -48,7 +50,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
      *
      *
      */
-    params: null,
+    params: {},
 
     /**
      * Constructs the test
@@ -66,16 +68,38 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     {
         this.onBeforeRunTest();
 
+        var url = this.url;
+
+        if (this.action !== "") {
+            url = url + this.action;
+        }
+
         this.callback.outputTestMessage(this);
         Ext.Ajax.request({
-            url: this.url,
+            url: url,
             success: this.onSuccess,
+            failure: this.onFailure,
             scope: this,
-            params: this.params,
+            params: Ext.encode(this.params),
             timeout: 120000
         });
     },
 
+    onFailure: function (response)
+    {
+        this.success = false;
+        this.resultMessage = "Invalid Response from server";
+        this.errors = ["Invalid Response from server", response.responseText];
+
+        if (this.callback) {
+            this.callback.appendTestResult(this);
+        }
+
+        if (this.success) {
+            this.fireEvent("complete", this);
+        }
+
+    },
     /**
      * Callback for the Ext.Ajax.request method. Decodes the response, sets the object parameters, fires the "complete"
      * event and calls back the test result panel.
@@ -95,8 +119,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
             obj.errors = ["Invalid Response from server", response.responseText];
         }
 
-
-        if (obj.success === false) {
+        if (!obj.success || obj.success === false) {
             if (Ext.isArray(obj.errors)) {
                 this.errors = obj.errors;
             } else {
@@ -123,6 +146,6 @@ Ext.define('PartKeeprSetup.AbstractTest', {
      */
     onBeforeRunTest: function ()
     {
-        return;
+        this.params = PartKeeprSetup.getApplication().getSetupConfig();
     }
 });

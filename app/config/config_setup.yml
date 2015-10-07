@@ -1,0 +1,20 @@
+framework:
+    secret:          pksetup
+    router:
+        resource: "%kernel.root_dir%/config/routing_setup.yml"
+    templating:
+        engines: ['twig', 'php']
+
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   %kernel.logs_dir%/%kernel.environment%.log
+            level:  debug
+        console:
+            type:   console
+            bubble: false

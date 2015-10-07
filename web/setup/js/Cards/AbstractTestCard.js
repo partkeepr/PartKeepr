@@ -34,12 +34,12 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
     /**
      * Various Style Settings
      */
-    showTitle: true,
-    titleCls: '',
-    titleStyle: 'font-size: 2.5em;line-height: 30px;',
-    cls: 'x-partkeepr-setup-basecard',
     autoScroll: true,
+
     rerunTestText: "Re-run checks",
+
+    margin: 20,
+
     layout: {
         type: 'vbox',
         align: 'stretch'
@@ -64,11 +64,11 @@ Ext.define('PartKeeprSetup.AbstractTestCard', {
 
         this.items = [
             {
-             border: false,
-             height: 20,
-             bodyStyle: 'background:none;padding-bottom: 10px;',
-             html: this.cardMessage
-             },
+                border: false,
+                bodyStyle: 'background:none;padding-bottom: 10px;',
+                height: 20,
+                html: this.cardMessage
+            },
             this.testResultPanel,
             this.retestButton
         ];

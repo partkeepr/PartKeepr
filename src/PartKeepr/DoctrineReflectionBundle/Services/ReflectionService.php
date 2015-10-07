@@ -201,4 +201,31 @@ class ReflectionService
     {
         return str_replace(".", "\\", $className);
     }
+
+    public function createCache ($cacheDir)
+    {
+        $cacheDir .= "/doctrinereflection";
+        @mkdir($cacheDir, 0777, true);
+
+        $entities = $this->getEntities();
+
+        foreach ($entities as $entity) {
+            $model = $this->getEntity($entity);
+
+            $this->writeCacheFile($cacheDir."/".$entity.'.js', $model);
+        }
+    }
+
+
+     protected function writeCacheFile($file, $content)
+    {
+        $tmpFile = tempnam(dirname($file), basename($file));
+        if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $file)) {
+            @chmod($file, 0666 & ~umask());
+
+            return;
+        }
+
+        throw new \RuntimeException(sprintf('Failed to write cache file "%s".', $file));
+    }
 }

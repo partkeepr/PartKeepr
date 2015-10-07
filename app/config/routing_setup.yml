@@ -1,0 +1,2 @@
+_setup:
+    resource: "@PartKeeprSetupBundle/Resources/config/routing.yml"

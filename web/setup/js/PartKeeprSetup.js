@@ -1,17 +1,52 @@
 Ext.application({
     name: 'PartKeeprSetup',
-    launch: function() {
-    	this.createLayout();
+    launch: function ()
+    {
+        PartKeeprSetup.application = this;
+        this.createLayout();
     },
+    setupConfig: {},
     /**
      * Creates the main viewport
      */
-    createLayout: function () {
+    createLayout: function ()
+    {
+        var initialConfig = {
+            database: {
+                driver: "",
+                host: "",
+                dbname: "",
+                username: "",
+                password: "",
+                port: null
+            },
+            adminuser: {
+                username: "",
+                password: "",
+                email: ""
+            },
+            authKey: ""
+        };
+
+        Ext.apply(this.setupConfig, initialConfig);
+
         var win = Ext.create("Ext.window.Window", {
             layout: "fit",
+            title: "PartKeepr Setup",
             items: Ext.create("PartKeeprSetup.SetupWizard")
         });
 
-    	win.show();
+        win.show();
+    },
+    getSetupConfig: function ()
+    {
+        return this.setupConfig;
+
+    },
+    statics: {
+        getApplication: function ()
+        {
+            return PartKeeprSetup.application;
+        }
     }
 });

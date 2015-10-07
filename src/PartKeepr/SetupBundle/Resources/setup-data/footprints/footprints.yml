@@ -1,0 +1,155 @@
+# Missing CSP BGA Footprints from http://www.analog.com/en/technical-library/packages/csp-chip-scale-package/csp-bga-ball-grid-array/index.html
+# TODO: brazed cerdip packages from http://www.analog.com/en/technical-library/packages/dip-dual-inline-package/cerdip-side-or-bottom-brazed/index.html
+# TODO: add gullwing lead DIP packages from http://www.analog.com/en/technical-library/packages/dip-dual-inline-package/dip-gullwing-leads/index.html
+# TODO: add metal/hybrid DIP packages from http://www.analog.com/en/technical-library/packages/dip-dual-inline-package/metal-or-hybrid-dip/index.html
+
+CBGA-32:
+  description: 32-Lead Ceramic Ball Grid Array
+  image: BGA/CBGA-32.png
+  category: BGA/CBGA
+FCBGA-576:
+  description: 576-Ball Ball Grid Array, Thermally Enhanced
+  image: BGA/FCBGA-576.png
+  category: BGA/FCBGA
+# PBGA
+PBGA-119:
+  description: 119-Ball Plastic Ball Grid Array
+  image: BGA/PBGA-119.png
+  category: BGA/PBGA
+PBGA-169:
+  description: 169-Ball Plastic Ball Grid Array
+  image: BGA/PBGA-169.png
+  category: BGA/PBGA
+PBGA-225:
+  description: 225-Ball Plastic a Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-225.png
+PBGA-260:
+  description: 260-Ball Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-260.png
+PBGA-297:
+  description: 297-Ball Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-297.png
+PBGA-304:
+  description: 304-Lead Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-304.png
+PBGA-316:
+  description: 316-Lead Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-316.png
+PBGA-324:
+  description: 324-Ball Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-324.png
+PBGA-385:
+  description: 385-Lead Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-385.png
+PBGA-400:
+  description: 400-Ball Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-400.png
+PBGA-484:
+  description: 484-Ball Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-484.png
+PBGA-625:
+  description: 625-Ball Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-625.png
+PBGA-676:
+  description: 676-Ball Plastic Ball Grid Array
+  category: BGA/PBGA
+  image: BGA/PBGA-676.png
+
+# SBGA
+SBGA-256:
+  description: 256-Ball Ball Grid Array, Thermally Enhanced
+  category: BGA/PBGA
+  image: BGA/SBGA-256.png
+SBGA-304:
+  description: 304-Ball Ball Grid Array, Thermally Enhanced
+  category: BGA/PBGA
+  image: BGA/SBGA-304.png
+SBGA-432:
+  description: 432-Ball Ball Grid Array, Thermally Enhanced
+  category: BGA/PBGA
+  image: BGA/SBGA-432.png
+
+# Ceramic DIP
+CerDIP-8:
+  description: 8-Lead Ceramic Dual In-Line Package
+  category: DIP/CERDIP
+  image: DIP/CERDIP-8.png
+CerDIP-14:
+  description: 14-Lead Ceramic Dual In-Line Package
+  category: DIP/CERDIP
+  image: DIP/CERDIP-14.png
+CerDIP-16:
+  description: 16-Lead Ceramic Dual In-Line Package
+  category: DIP/CERDIP
+  image: DIP/CERDIP-16.png
+CerDIP-18:
+  description: 18-Lead Ceramic Dual In-Line Package
+  category: DIP/CERDIP
+  image: DIP/CERDIP-18.png
+CerDIP-20:
+  description: 20-Lead Ceramic Dual In-Line Package
+  category: DIP/CERDIP
+  image: DIP/CERDIP-20.png
+CerDIP-24 Narrow:
+  description: 24-Lead Ceramic Dual In-Line Package - Narrow Body
+  category: DIP/CERDIP
+  image: DIP/CERDIP-24-N.png
+CerDIP-24 Wide:
+  description: 24-Lead Ceramic Dual In-Line Package - Wide Body
+  category: DIP/CERDIP
+  image: DIP/CERDIP-24-W.png
+CerDIP-28:
+  description: 28-Lead Ceramic Dual In-Line Package
+  category: DIP/CERDIP
+  image: DIP/CERDIP-28.png
+CerDIP-40:
+  description: 40-Lead Ceramic Dual In-Line Package
+  category: DIP/CERDIP
+  image: DIP/CERDIP-40.png
+
+# Plastic DIP (PDIP)
+PDIP-8: 
+  description: 8-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-8.png
+PDIP-14:
+  description: 14-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-14.png
+PDIP-16:
+  description: 16-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-16.png
+PDIP-18:
+  description: 18-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-18.png
+PDIP-20:
+  description: 20-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-20.png
+PDIP-24:
+  description: 24-Lead Plastic Dual In-Line Package
+  category: DIP/PDIP
+  image: DIP/PDIP-24.png
+PDIP-28 Narrow:
+  description: 28-Lead Plastic Dual In-Line Package, Narrow Body
+  category: DIP/PDIP
+  image: DIP/PDIP-28-N.png
+PDIP-28 Wide:
+  description: 28-Lead Plastic Dual In-Line Package, Wide Body
+  category: DIP/PDIP
+  image: DIP/PDIP-28-W.png
+SOIC-N-EP-8:
+  description: 8-Lead Standard Small Outline Package, with Expose Pad
+

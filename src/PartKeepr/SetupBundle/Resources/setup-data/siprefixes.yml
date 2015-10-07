@@ -1,63 +1,116 @@
 yotta:
   symbol: Y
   exponent: 24
+  base: 10
 zetta:
   symbol: Z
   exponent: 21
+  base: 10
 exa:
   symbol: E
   exponent: 18
+  base: 10
 peta:
   symbol: P
   exponent: 15
+  base: 10
 tera:
   symbol: T
   exponent: 12
+  base: 10
 giga:
   symbol: G
   exponent: 9
+  base: 10
 mega:
   symbol: M
   exponent: 6
+  base: 10
 kilo:
   symbol: k
   exponent: 3
+  base: 10
 hecto:
   symbol: h
   exponent: 2
+  base: 10
 deca:
   symbol: da
   exponent: 1
+  base: 10
 "-":
   symbol: ""
   exponent: 0
+  base: 10
 deci:
   symbol: d
   exponent: -1
+  base: 10
 centi:
   symbol: c
   exponent: -2
+  base: 10
 milli:
   symbol: m
   exponent: -3
+  base: 10
 micro:
   symbol: μ
   exponent: -6
+  base: 10
 nano:
   symbol: n
   exponent: -9
+  base: 10
 pico:
   symbol: p
   exponent: -12
+  base: 10
 femto:
   symbol: f
   exponent: -15
+  base: 10
 atto:
   symbol: a
   exponent: -18
+  base: 10
 zepto:
   symbol: z
   exponent: -21
+  base: 10
 yocto:
   symbol: y
   exponent: -24
+  base: 10
+kibi:
+  symbol: Ki
+  exponent: 1
+  base: 1024
+mebi:
+  symbol: Mi
+  exponent: 2
+  base: 1024
+gibi:
+  symbol: Gi
+  exponent: 3
+  base: 1024
+tebi:
+  symbol: Ti
+  exponent: 4
+  base: 1024
+pebi:
+  symbol: Pi
+  exponent: 5
+  base: 1024
+exbi:
+  symbol: Ei
+  exponent: 6
+  base: 1024
+zebi:
+  symbol: Zi
+  exponent: 7
+  base: 1024
+yobi:
+  symbol: Yi
+  exponent: 8
+  base: 1024
