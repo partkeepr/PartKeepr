@@ -8,5 +8,10 @@
         <service id="partkeepr.part_measurement_unit_service" class="PartKeepr\PartBundle\Services\PartMeasurementUnitService">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
         </service>
+        <service id="partkeepr.part.category_service" class="PartKeepr\CategoryBundle\Services\CategoryService">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument>PartKeepr\PartBundle\Entity\PartCategory</argument>
+        </service>
     </services>
+
 </container>

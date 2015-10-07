@@ -5,9 +5,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="partkeepr.footprint.category_service" class="PartKeepr\CategoryBundle\Services\CategoryService">
+        <service id="partkeepr.storage_location.category_service" class="PartKeepr\CategoryBundle\Services\CategoryService">
             <argument type="service" id="doctrine.orm.default_entity_manager" />
-            <argument>PartKeepr\FootprintBundle\Entity\FootprintCategory</argument>
+            <argument>PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory</argument>
         </service>
     </services>
 </container>
