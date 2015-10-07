@@ -18,6 +18,12 @@ class CategoryPathListener extends ContainerAware
         $entityManager = $eventArgs->getEntityManager();
         $uow = $entityManager->getUnitOfWork();
 
+        foreach ($uow->getScheduledEntityInsertions() as $updated) {
+            if ($updated instanceof StorageLocationCategory) {
+                $this->updateCategoryPaths($updated, $eventArgs);
+            }
+        }
+
         foreach ($uow->getScheduledEntityUpdates() as $updated) {
             if ($updated instanceof StorageLocationCategory) {
                 $this->updateCategoryPaths($updated, $eventArgs);
@@ -28,8 +34,8 @@ class CategoryPathListener extends ContainerAware
     /**
      * Recursively updates the category paths.
      *
-     * @param StorageLocationCategory $storageLocationCategory  The storage location category to update
-     * @param EntityManager     $entityManager      The entity manager
+     * @param StorageLocationCategory $storageLocationCategory The storage location category to update
+     * @param EntityManager           $entityManager           The entity manager
      */
     public function updateCategoryPaths(StorageLocationCategory $storageLocationCategory, OnFlushEventArgs $eventArgs)
     {

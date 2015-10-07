@@ -18,6 +18,12 @@ class CategoryPathListener extends ContainerAware
         $entityManager = $eventArgs->getEntityManager();
         $uow = $entityManager->getUnitOfWork();
 
+        foreach ($uow->getScheduledEntityInsertions() as $updated) {
+            if ($updated instanceof PartCategory) {
+                $this->updateCategoryPaths($updated, $eventArgs);
+            }
+        }
+
         foreach ($uow->getScheduledEntityUpdates() as $updated) {
             if ($updated instanceof PartCategory) {
                 $this->updateCategoryPaths($updated, $eventArgs);
@@ -28,8 +34,8 @@ class CategoryPathListener extends ContainerAware
     /**
      * Recursively updates the category paths.
      *
-     * @param FootprintCategory $partCategory  The footprint category to update
-     * @param EntityManager     $entityManager      The entity manager
+     * @param PartCategory  $partCategory  The footprint category to update
+     * @param EntityManager $entityManager The entity manager
      */
     public function updateCategoryPaths(PartCategory $partCategory, OnFlushEventArgs $eventArgs)
     {
