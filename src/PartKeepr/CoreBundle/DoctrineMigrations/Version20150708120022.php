@@ -17,6 +17,17 @@ class Version20150708120022 extends BaseMigration
 
         $this->fixTree("PartCategory");
         $this->fixTree("FootprintCategory");
+        $this->fixTree("StorageLocationCategory");
+
+        $this->createRootNode("partkeepr.part.category_service");
+        $this->createRootNode("partkeepr.storage_location.category_service");
+        $this->createRootNode("partkeepr.footprint.category_service");
+
+    }
+
+    protected function createRootNode($service)
+    {
+        $this->getContainer()->get($service)->ensureRootNodeExists();
     }
 
     /**
@@ -67,6 +78,7 @@ class Version20150708120022 extends BaseMigration
 
     /**
      * Fetches the parent node for a table and ID
+     *
      * @param $table
      * @param $id
      *
@@ -90,6 +102,7 @@ class Version20150708120022 extends BaseMigration
 
     /**
      * Returns the node IDs for the table
+     *
      * @param $table
      *
      * @return array
@@ -107,6 +120,7 @@ class Version20150708120022 extends BaseMigration
 
     /**
      * Returns the level for a given table and ID
+     *
      * @param $table
      * @param $id
      *

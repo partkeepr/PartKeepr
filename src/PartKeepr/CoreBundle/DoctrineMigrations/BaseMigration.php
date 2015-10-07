@@ -3,8 +3,8 @@ namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Doctrine\ORM\Tools\SchemaTool;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class BaseMigration extends AbstractMigration implements ContainerAwareInterface
@@ -17,6 +17,11 @@ abstract class BaseMigration extends AbstractMigration implements ContainerAware
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
     }
 
     protected function performDatabaseUpgrade()
