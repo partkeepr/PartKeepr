@@ -46,9 +46,11 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    {% for i in models %}
-        <script type="text/javascript" src="{{ i }}"></script>
-    {% endfor %}
+    {% javascripts output='js/compiled/models.js'
+        'bundles/doctrinereflection/*'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
     {% javascripts output='js/compiled/main2.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Filter.js'
