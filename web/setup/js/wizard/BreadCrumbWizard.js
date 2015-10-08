@@ -133,6 +133,8 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
                 previousButton.enable();
             }
 
+            nextBtn.enable();
+
             if (index === childViewCount - 1) {
                 nextBtn.setText('Submit');
             } else {
