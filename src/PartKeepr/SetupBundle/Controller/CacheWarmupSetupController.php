@@ -1,6 +1,9 @@
 <?php
 namespace PartKeepr\SetupBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,17 +23,33 @@ class CacheWarmupSetupController extends SetupController
         );
 
         try {
-            $warmer = $this->get('cache_warmer');
-            $warmer->enableOptionalWarmers();
-            $warmer->warmUp($this->getParameter('kernel.cache_dir'));
+            $kernel = $this->get('kernel');
+            $application = new Application($kernel);
+            $application->setAutoExit(false);
+            $output = new NullOutput();
 
-            $reflectionService = $this->get("doctrine_reflection_service");
-            $cacheDir = $this->get("kernel")->getCacheDir();
-            $reflectionService->createCache($cacheDir);
+            $input = new ArrayInput(array(
+                'command' => 'cache:warmup',
+            ));
+
+            $application->run($input, $output);
+
+            $input = new ArrayInput(array(
+                'command' => 'generate:extjs:entities',
+            ));
+
+            $application->run($input, $output);
+
+            $input = new ArrayInput(array(
+                'command' => 'assetic:dump',
+            ));
+
+            $application->run($input, $output);
+
         } catch (\Exception $e) {
             $response["success"] = false;
             $response["message"] = "Cache warm up error";
-            $response["errors"] = [$e->getMessage()];
+            $response["errors"] = [$e->getMessage(), $e->getTrace()];
         }
 
         return new JsonResponse($response);
@@ -41,7 +60,7 @@ class CacheWarmupSetupController extends SetupController
      */
     public function cacheWarmupAction(Request $request)
     {
-        // Clear old cache
+        // Clear old cache. We don't do that directly as it could happen that old files are loaded prior clearing the cache
         $cacheDir = $this->get("kernel")->getRootDir()."/cache/prod";
 
         $filesystem = $this->get("filesystem");
