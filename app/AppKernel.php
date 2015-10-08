@@ -69,4 +69,16 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
+
+    /**
+     * Override to avoid stripping comments.
+     *
+     * @see https://github.com/partkeepr/PartKeepr/issues/438
+     * @param string $source
+     *
+     * @return string
+     */
+    public static function stripComments($source) {
+        return $source;
+    }
 }
