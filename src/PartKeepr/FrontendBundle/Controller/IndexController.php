@@ -9,6 +9,7 @@ use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\Configuration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends Controller
 {
