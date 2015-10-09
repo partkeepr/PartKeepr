@@ -2,7 +2,7 @@
 namespace PartKeepr\UploadedFileBundle\Tests;
 
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileControllerTest extends WebTestCase

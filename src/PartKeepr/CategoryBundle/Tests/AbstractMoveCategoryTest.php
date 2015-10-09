@@ -4,7 +4,7 @@ namespace PartKeepr\CategoryBundle\Tests;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Dunglas\ApiBundle\Api\IriConverter;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
 
 abstract class AbstractMoveCategoryTest extends WebTestCase

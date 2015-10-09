@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\CronLoggerBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 
 class CronLoggerTest extends WebTestCase
 {

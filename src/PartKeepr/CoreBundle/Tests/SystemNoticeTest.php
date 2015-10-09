@@ -2,7 +2,6 @@
 namespace PartKeepr\CoreBundle\Tests;
 
 use Dunglas\ApiBundle\Api\IriConverter;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class SystemNoticeTest extends WebTestCase
 {

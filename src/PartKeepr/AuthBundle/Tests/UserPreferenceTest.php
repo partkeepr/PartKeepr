@@ -2,7 +2,7 @@
 namespace PartKeepr\AuthBundle\Tests;
 
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 
 class UserPreferenceTest extends WebTestCase
 {

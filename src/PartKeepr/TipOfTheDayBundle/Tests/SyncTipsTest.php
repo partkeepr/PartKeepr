@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\TipOfTheDayBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 
 class SyncTipsTest extends WebTestCase
 {

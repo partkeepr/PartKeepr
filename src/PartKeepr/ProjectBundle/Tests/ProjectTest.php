@@ -2,7 +2,7 @@
 namespace PartKeepr\ProjectBundle\Tests;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
