@@ -8,12 +8,12 @@ Ext.define('PartKeepr.MenuBar', {
 		this.editMenu = Ext.create('Ext.menu.Menu', {
 			items: [{
 						text: i18n('Projects'),
-						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png',
+						iconCls: 'fugue-icon drill',
 						handler: this.editProjects
 					},
 			        {
 			        	text: i18n('Footprints'),
-			        	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/fingerprint.png',
+			        	iconCls: 'fugue-icon fingerprint',
 			        	handler: this.editFootprints
 			        },{
 			        	text: i18n('Manufacturers'),
@@ -21,7 +21,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        	handler: this.editManufacturers
 			        },{
 			        	text: i18n('Storage Locations'),
-			        	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/wooden-box.png',
+			        	iconCls: 'fugue-icon wooden-box',
 			        	handler: this.editStorageLocations
 			        },{
 			        	text: i18n('Distributors'),
@@ -35,11 +35,11 @@ Ext.define('PartKeepr.MenuBar', {
 			        },{
 			        	text: i18n('Part Measurement Units'),
 			        	handler: this.editPartUnits,
-			        	icon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler.png"
+			        	iconCls: "fugue-icon ruler"
 			        },{
 			        	text: i18n("Units"),
 			        	handler: this.editUnits,
-			        	icon: 'bundles/partkeeprfrontend/images/icons/unit.png'
+			        	iconCls: 'fugue-icon unit'
 			        }]
 		});
 		
@@ -61,19 +61,19 @@ Ext.define('PartKeepr.MenuBar', {
 					{
 						text: i18n("System Information"),
 						handler: this.showSystemInformation,
-						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/system-monitor.png'
+						iconCls: 'fugue-icon system-monitor '
 					},{
 						text: i18n("Project Reports"),
 						handler: this.showProjectReports,
-						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png'
+						iconCls: 'fugue-icon drill'
 					},{
 						text: i18n("System Notices"),
 						handler: this.showSystemNotices,
-						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/service-bell.png'
+						iconCls: 'fugue-icon service-bell'
 					},{
 						text: i18n("Stock History"),
 						handler: this.showStockHistory,
-						icon: 'bundles/brainbitsfugueicons/icons/fugue/16/notebook.png'
+						iconCls: 'fugue-icon notebook'
 					},{
 						text: i18n("Print and Labeling"),
 						glyph: 0xf02f,
@@ -99,7 +99,7 @@ Ext.define('PartKeepr.MenuBar', {
 	        	handler: this.disconnect
 	        },{
 	        	text: i18n("User Preferences"),
-	        	icon: 'bundles/brainbitsfugueicons/icons/fugue/16/gear.png',
+	        	iconCls: 'fugue-icon gear',
 	        	handler: this.showUserPreferences
 	        }
 			]
@@ -128,7 +128,7 @@ Ext.define('PartKeepr.MenuBar', {
 	},
 	showUserPreferences: function () {
 		var j = new PartKeepr.UserPreferencePanel({
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/gear.png',
+			iconCls: 'fugue-icon gear',
 			closable: true
 		});
 		
@@ -144,7 +144,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showSystemInformation: function () {
 		var j = Ext.create("PartKeepr.SystemInformationGrid", {
 			title: i18n("System Information"),
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/system-monitor.png',
+			iconCls: 'fugue-icon system-monitor',
 			closable: true,
 			padding: "5 5 5 5"
 		});
@@ -176,7 +176,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editStorageLocations: function () {
 		var j = Ext.create("PartKeepr.StorageLocationEditorComponent", {
 			title: i18n("Storage Locations"),
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/wooden-box.png',
+			iconCls: 'fugue-icon wooden-box',
 			closable: true
 		});
 		
@@ -186,7 +186,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editUnits: function () {
 		var j = Ext.create("PartKeepr.UnitEditorComponent", {
 			title: i18n("Units"),
-			icon: 'bundles/partkeeprfrontend/images/icons/unit.png',
+			iconCls: 'bundles/partkeeprfrontend/images/icons/unit',
 			closable: true
 		});
 		
@@ -206,7 +206,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editFootprints: function () {
 		var j = Ext.create("PartKeepr.FootprintEditorComponent", {
 			title: i18n("Footprints"),
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/fingerprint.png',
+			iconCls: 'fugue-icon fingerprint',
 			closable: true
 		});
 		
@@ -236,7 +236,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editPartUnits: function () {
 		var j = Ext.create("PartKeepr.PartMeasurementUnitEditorComponent", {
 			title: i18n("Part Measurement Units"),
-			icon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler.png",
+			iconCls: "fugue-icon ruler",
 			closable: true
 		});
 		
@@ -246,7 +246,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editProjects: function () {
 		var j = Ext.create("PartKeepr.ProjectEditorComponent", {
 			title: i18n("Projects"),
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png',
+			iconCls: 'fugue-icon drill',
 			closable: true
 		});
 		
@@ -256,7 +256,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showProjectReports: function () {
 		var j = Ext.create("PartKeepr.ProjectReportView", {
 			title: i18n("Project Reports"),
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/drill.png',
+			iconCls: 'fugue-icon drill',
 			closable: true
 		});
 		
@@ -276,7 +276,7 @@ Ext.define('PartKeepr.MenuBar', {
 	showStockHistory: function () {
 		var j = Ext.create("PartKeepr.StockHistoryGrid", {
 			title: i18n("Stock History"),
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/notebook.png',
+			iconCls: 'fugue-icon notebook',
 			closable: true
 		});
 		

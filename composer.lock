@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f26f4b89b40219bd1f5f6c3837931fdc",
+    "hash": "6746a4a027b2b966629d9dd9b259db62",
+    "content-hash": "e56034902b7c1e0de0605a7e8979c902",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -1292,7 +1293,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
+                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/59bfc3925521c1167e3d5b72ae0e1e1d4345e3eb",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "shasum": ""
             },
@@ -2358,6 +2359,48 @@
             "time": "2015-09-30 21:35:45"
         },
         {
+            "name": "nfq-alpha/sprite-bundle",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nfq-alpha/sprite-generator.git",
+                "reference": "ca9e54285cd3c9f7f87003d67160379053ee8eb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nfq-alpha/sprite-generator/zipball/ca9e54285cd3c9f7f87003d67160379053ee8eb0",
+                "reference": "ca9e54285cd3c9f7f87003d67160379053ee8eb0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.0",
+                "twig/twig": ">=1.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SpriteGenerator": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kazimieras Butkus",
+                    "email": "kazimieras@nfq.lt",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generate sprites with PHP and twig templates",
+            "keywords": [
+                "sprite"
+            ],
+            "time": "2014-09-15 11:00:13"
+        },
+        {
             "name": "nikic/php-parser",
             "version": "v0.9.4",
             "source": {
@@ -2698,7 +2741,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/2fb164fd889120a9d9ba19d825e270e5293eecc5",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/5a397dddee79edc15d1f88f421d51603277d8576",
                 "reference": "2fb164fd889120a9d9ba19d825e270e5293eecc5",
                 "shasum": ""
             },
@@ -3203,7 +3246,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/e5ed757d6dcd6fd60dde5da8b7cbec2fab7cb48a",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/bd331ce45d0ecf72354fb86068d5b01fb02a7fda",
                 "reference": "e5ed757d6dcd6fd60dde5da8b7cbec2fab7cb48a",
                 "shasum": ""
             },

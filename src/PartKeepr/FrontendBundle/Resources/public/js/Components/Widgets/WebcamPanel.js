@@ -30,7 +30,7 @@ Ext.define('PartKeepr.WebcamPanel', {
     {
         this.takePhotoButton = Ext.create("Ext.button.Button", {
             text: i18n("Take picture and upload"),
-            icon: 'bundles/brainbitsfugueicons/icons/fugue/16/webcam.png',
+            iconCls: 'fugue-icon webcam',
             handler: this.takePhoto,
             scope: this
         });

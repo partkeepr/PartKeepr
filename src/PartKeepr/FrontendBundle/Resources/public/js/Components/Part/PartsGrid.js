@@ -232,7 +232,7 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         this.columns = [
             {
-                header: '<img style="height: 10px;" src="bundles/brainbitsfugueicons/icons/fugue/16/paper-clip.png"/>',
+                header: '<span class="fugue-icon paper-clip"></span>',
                 dataIndex: "",
                 width: 30,
                 tooltip: i18n("Has attachments?"),
@@ -351,8 +351,7 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         var ret = "";
         if (rec.attachments().getCount() > 0) {
-            ret += '<img src="bundles/brainbitsfugueicons/icons/fugue/16/paper-clip.png" style="height: 10px; margin-top: 2px;" alt="' + i18n(
-                    "Has attachments") + '" title="' + i18n("Has attachments") + '"/>';
+            ret += '<span class="web-icon fugue-icon paper-clip" title="' + i18n("Has attachments") + '"/>';
         }
 
         return ret;

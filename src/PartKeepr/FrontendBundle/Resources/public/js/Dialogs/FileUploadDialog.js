@@ -89,7 +89,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
 
         this.uploadSizeButton = Ext.create("Ext.button.Button", {
             xtype: 'button',
-            icon: 'bundles/brainbitsfugueicons/icons/fugue/16/information-frame.png',
+            iconCls: 'fugue-icon information-frame',
             handler: this.showUploadSizeInformation,
             scope: this
         });

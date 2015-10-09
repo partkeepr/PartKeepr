@@ -35,6 +35,18 @@ class CacheWarmupSetupController extends SetupController
             $application->run($input, $output);
 
             $input = new ArrayInput(array(
+                'command' => 'nfq:sprite:generate',
+            ));
+
+            $application->run($input, $output);
+
+            $input = new ArrayInput(array(
+                'command' => 'assets:install',
+            ));
+
+            $application->run($input, $output);
+
+            $input = new ArrayInput(array(
                 'command' => 'generate:extjs:entities',
             ));
 

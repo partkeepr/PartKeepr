@@ -32,8 +32,8 @@ Ext.define("PartKeepr.GridMenuPlugin", {
 					text: i18n('Export as comma-delimited CSV (.csv)'),
 					handler: this.exportCSV,
 					scope: this
-				},,{
-					icon: 'bundles/brainbitsfugueicons/icons/fugue/16/blue-document-excel.png',
+				},{
+					icon: 'blue-document-excel.png',
 					text: i18n('Export as Excel XML (.xlsx)'),
 					handler: this.exportXLSX,
 					scope: this
