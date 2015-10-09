@@ -35,7 +35,7 @@ Ampere:
   symbol: A 
   prefixes:
     - kilo
-    - milli
+    - micro
     - "-"
     - milli
     - nano
