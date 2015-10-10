@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="PartKeepr" default="build">
+<project name="PartKeepr" default="regenerate-environment">
 	<property name="env"  value="prod" />
-	<target name="build">
+	<target name="regenerate-environment">
 		<exec command="php app/console cache:clear --env=${env}"/>
 		<exec command="php app/console cache:warmup --env=${env}"/>
         <exec command="php app/console nfq:sprite:generate --env=${env}"/>
