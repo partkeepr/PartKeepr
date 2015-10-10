@@ -161,6 +161,12 @@ services:
              -    "partkeepr.category.move"         # Controller
              -    "FootprintCategoryMove"                 # Route name
 
+    resource.footprint_category.collection_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments: [ "@resource.footprint_category", "GET" ]
+
     resource.footprint_category.collection_operation.post:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -202,7 +208,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.footprint_category.collection_operation.get_root", "@resource.footprint_category.collection_operation.post" ] ]
+                    arguments: [ [ "@resource.footprint_category.collection_operation.get", "@resource.footprint_category.collection_operation.get_root", "@resource.footprint_category.collection_operation.post" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.footprint_category.item_operation.get", "@resource.footprint_category.item_operation.put", "@resource.footprint_category.item_operation.delete", "@resource.footprint_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
@@ -395,7 +401,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.part_category.collection_operation.get_root", "@resource.part_category.collection_operation.post" ] ]
+                    arguments: [ [ "@resource.part_category.collection_operation.get", "@resource.part_category.collection_operation.get_root", "@resource.part_category.collection_operation.post" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.part_category.item_operation.get", "@resource.part_category.item_operation.put", "@resource.part_category.item_operation.delete", "@resource.part_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
@@ -631,7 +637,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.storage_location_category.collection_operation.get_root", "@resource.storage_location_category.collection_operation.post" ] ]
+                    arguments: [ [ "@resource.storage_location_category.collection_operation.get", "@resource.storage_location_category.collection_operation.get_root", "@resource.storage_location_category.collection_operation.post" ] ]
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.storage_location_category.item_operation.get", "@resource.storage_location_category.item_operation.put", "@resource.storage_location_category.item_operation.delete", "@resource.storage_location_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
