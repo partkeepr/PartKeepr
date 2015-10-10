@@ -4,6 +4,7 @@ namespace PartKeepr\CategoryBundle\EventListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
 use PartKeepr\CategoryBundle\Exception\OnlySingleRootNodeAllowedException;
+use PartKeepr\CategoryBundle\Exception\RootMayNotBeDeletedException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
@@ -31,10 +32,10 @@ class RootCategoryListener extends ContainerAware
         $entityManager = $eventArgs->getEntityManager();
         $uow = $entityManager->getUnitOfWork();
 
-        foreach ($uow->getScheduledEntityInsertions() as $updated) {
+        foreach ($uow->getScheduledEntityInsertions() as $insertion) {
 
-            if (is_a($updated, $this->container->get($this->service)->getEntityClass())) {
-                $this->checkForRoot($updated);
+            if (is_a($insertion, $this->container->get($this->service)->getEntityClass())) {
+                $this->checkForRoot($insertion);
             }
         }
 
@@ -42,6 +43,20 @@ class RootCategoryListener extends ContainerAware
             if (is_a($updated, $this->container->get($this->service)->getEntityClass())) {
                 $this->checkForRoot($updated);
             }
+        }
+
+        foreach ($uow->getScheduledEntityDeletions() as $deletion) {
+            if (is_a($deletion, $this->container->get($this->service)->getEntityClass())) {
+                $this->ensureRootStays($deletion);
+            }
+        }
+
+    }
+
+    protected function ensureRootstays(AbstractCategory $category)
+    {
+        if ($category->getParent() === null) {
+            throw new RootMayNotBeDeletedException();
         }
     }
 
