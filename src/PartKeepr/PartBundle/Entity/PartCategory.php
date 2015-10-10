@@ -42,10 +42,11 @@ class PartCategory extends AbstractCategory
 
     /**
      * Sets the parent category
+     * @Groups({"default"})
      *
      * @param AbstractCategory|null $parent
      */
-    public function setParent(AbstractCategory $parent = null)
+    public function setParent($parent = null)
     {
         $this->parent = $parent;
     }

@@ -24,5 +24,10 @@
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="partkeepr.part_measurement_unit_service"/>
         </service>
+        <service id="partkeepr.part_category.post" class="PartKeepr\CategoryBundle\Action\PostAction">
+            <argument type="service" id="partkeepr.part.category_service"/>
+            <argument type="service" id="api.iri_converter"/>
+            <argument type="service" id="api.serializer"/>
+        </service>
     </services>
 </container>

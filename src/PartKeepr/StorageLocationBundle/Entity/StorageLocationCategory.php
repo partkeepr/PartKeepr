@@ -45,7 +45,7 @@ class StorageLocationCategory extends AbstractCategory
 
     /**
      * Sets the parent category
-     *
+     * @Groups({"default"})
      * @param AbstractCategory|null $parent
      */
     public function setParent(AbstractCategory $parent = null)
