@@ -15,19 +15,17 @@ Ext.define('PartKeepr.PartMeasurementUnitGrid', {
         }
     ],
     addButtonText: i18n("Add Part Measurement Unit"),
-    addButtonIcon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler--plus.png",
-    addButtonIconCls: '',
+    addButtonIconCls: 'fugue-icon ruler--plus.png',
     deleteButtonText: i18n("Delete Part Measurement Unit"),
-    deleteButtonIcon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler--minus.png",
-    deleteButtonIconCls: '',
-    defaultButtonIcon: "bundles/brainbitsfugueicons/icons/fugue/16/ruler--pencil.png",
+    deleteButtonIconCls: 'fugue-icon ruler--minus',
+    defaultButtonIconCls: "fugue-icon ruler--pencil",
     automaticPageSize: true,
     initComponent: function ()
     {
         this.callParent();
 
         this.defaultButton = Ext.create("Ext.button.Button", {
-            icon: this.defaultButtonIcon,
+            iconCls: this.defaultButtonIconCls,
             tooltip: i18n('Mark Part Measurement Unit as Default'),
             disabled: true,
             handler: this.onDefaultClick,

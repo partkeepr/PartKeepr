@@ -204,7 +204,6 @@ class ReflectionService
 
     public function createCache ($cacheDir)
     {
-        $cacheDir .= "/doctrinereflection";
         @mkdir($cacheDir, 0777, true);
 
         $entities = $this->getEntities();

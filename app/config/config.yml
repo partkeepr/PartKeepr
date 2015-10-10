@@ -58,6 +58,19 @@ dunglas_api:
             items_per_page:
                 client_can_change: true
 
+sprite_generator:
+    sprites:
+        fugue16:
+            inDir: %kernel.root_dir%/../vendor/brainbits/fugue-icons-bundle/src/Brainbits/FugueIconsBundle/Resources/public/icons/fugue/16/
+            outImage: %kernel.root_dir%/../web/spritesheets/fugue-16.png
+            outCss: %kernel.root_dir%/../web/spritesheets/fugue-16.css
+            relativeImagePath: ./
+            padding: 5
+            spriteClass: fugue-icon
+            cssFormat: css
+            imagePositioning: one-column
+            imageGenerator: gd2
+
 fr3d_ldap:
     driver:
         host:                   "%fr3d_ldap.driver.host%"

@@ -14,7 +14,7 @@ Ext.define("PartKeepr.PartCategoryTree", {
 
         this.syncButton = Ext.create("Ext.button.Button", {
             tooltip: i18n("Reveal Category for selected part"),
-            icon: 'bundles/brainbitsfugueicons/icons/fugue/16/arrow-split-180.png',
+            iconCls: 'fugue-icon arrow-split-180',
             handler: Ext.bind(function ()
             {
                 this.fireEvent("syncCategory");

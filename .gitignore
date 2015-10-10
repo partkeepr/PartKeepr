@@ -26,6 +26,7 @@ app/authkey.php
 
 /web/bundles/
 /web/images/*
+/web/spritesheets/*
 /web/js/*
 /web/css/*
 /app/bootstrap.php.cache

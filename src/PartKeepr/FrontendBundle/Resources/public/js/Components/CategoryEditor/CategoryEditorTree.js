@@ -91,19 +91,19 @@ Ext.define("PartKeepr.CategoryEditorTree", {
         this.menuCategoryDelete = Ext.create("Ext.menu.Item", {
             text: i18n("Delete Category"),
             handler: Ext.bind(this.confirmCategoryDelete, this),
-            icon: 'resources/silkicons/folder_delete.png'
+            iconCls: 'web-icon folder_delete'
         });
 
         this.menuCategoryAdd = Ext.create("Ext.menu.Item", {
             text: i18n("Add Category"),
             handler: Ext.bind(this.showCategoryAddDialog, this),
-            icon: 'resources/silkicons/folder_add.png'
+            iconCls: 'web-icon folder_add'
         });
 
         this.menuCategoryEdit = Ext.create("Ext.menu.Item", {
             text: i18n("Edit Category"),
             handler: Ext.bind(this.showCategoryEditDialog, this),
-            icon: 'resources/silkicons/folder_edit.png'
+            iconCls: 'web-icon folder_edit'
         });
 
         this.menu = Ext.create('widget.menu', {
@@ -117,14 +117,14 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     createToolbar: function ()
     {
         this.toolbarExpandButton = Ext.create("Ext.button.Button", {
-            icon: 'bundles/brainbitsfugueicons/icons/fugue/16/toggle-expand.png',
+            iconCls: 'fugue-icon toggle-expand',
             tooltip: i18n("Expand All"),
             handler: this._onExpandClick,
             scope: this
         });
 
         this.toolbarCollapseButton = Ext.create("Ext.button.Button", {
-            icon: 'bundles/brainbitsfugueicons/icons/fugue/16/toggle.png',
+            iconCls: 'fugue-icon toggle',
             tooltip: i18n("Collapse All"),
             handler: this._onCollapseClick,
             scope: this

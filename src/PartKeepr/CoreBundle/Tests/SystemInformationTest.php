@@ -1,8 +1,6 @@
 <?php
 namespace PartKeepr\CoreBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-
 class SystemInformationTest extends WebTestCase
 {
     public function testSystemInformation()

@@ -29,7 +29,7 @@ Ext.define('PartKeepr.PartParameterGrid', {
                 disabled: true,
                 itemId: 'delete',
                 scope: this,
-                icon: 'bundles/brainbitsfugueicons/icons/fugue/16/table--minus.png',
+                iconCls: 'fugue-icon table--minus',
                 handler: this.onDeleteClick
             });
 		
@@ -38,7 +38,7 @@ Ext.define('PartKeepr.PartParameterGrid', {
             items: [{
                 text: i18n('Add'),
                 scope: this,
-                icon: 'bundles/brainbitsfugueicons/icons/fugue/16/table--plus.png',
+                iconCls: 'fugue-icon table--plus',
                 handler: this.onAddClick
             }, this.deleteButton]
         }];

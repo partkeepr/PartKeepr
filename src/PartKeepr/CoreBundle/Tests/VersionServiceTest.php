@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr\CoreBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use PartKeepr\CoreBundle\Services\VersionService;
 
 class VersionServiceTest extends WebTestCase

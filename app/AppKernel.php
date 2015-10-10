@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
             new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
-            //new PartKeepr\ApiDocBundle\PartKeeprApiDocBundle(),
+            new SpriteGenerator\SpriteGeneratorBundle(),
             new Dunglas\ApiBundle\DunglasApiBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),

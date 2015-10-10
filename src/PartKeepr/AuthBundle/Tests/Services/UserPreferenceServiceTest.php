@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\AuthBundle\Tests\Services;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\AuthBundle\Entity\User;
 
 class UserPreferenceServiceTest extends WebTestCase

@@ -71,10 +71,10 @@ class PartKeeprRequirements extends SymfonyRequirements
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
-                $val *= 1024;
+                $val *= 1073741824;
                 break;
             case 'm':
-                $val *= 1024;
+                $val *= 1048576;
                 break;
             case 'k':
                 $val *= 1024;

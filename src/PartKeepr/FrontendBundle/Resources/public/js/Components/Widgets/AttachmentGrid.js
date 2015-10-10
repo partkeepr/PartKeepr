@@ -26,7 +26,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
                 disabled: true,
                 itemId: 'delete',
                 scope: this,
-                icon: 'resources/silkicons/delete.png',
+                iconCls: 'web-icon delete.png',
                 handler: this.onDeleteClick
             });
 		
@@ -34,7 +34,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
 			text: i18n("View"),
 			handler: this.onViewClick,
 			scope: this,
-			icon: 'resources/silkicons/zoom.png',
+			iconCls: 'web-icon zoom',
 			disabled: true
 		});
 		
@@ -42,7 +42,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
 			text: i18n("Take image"),
 			handler: this.onWebcamClick,
 			scope: this,
-			icon: 'bundles/brainbitsfugueicons/icons/fugue/16/webcam.png'
+			iconCls: 'fugue-icon webcam'
 		});
 		
 		this.dockedItems = [{
@@ -50,7 +50,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
             items: [{
                 text: i18n('Add'),
                 scope: this,
-                icon: 'resources/silkicons/attach.png',
+                iconCls: 'web-icon attach',
                 handler: this.onAddClick
             },
             this.webcamButton,
