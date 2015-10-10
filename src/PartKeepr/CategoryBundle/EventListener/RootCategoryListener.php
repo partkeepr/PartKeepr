@@ -15,10 +15,12 @@ class RootCategoryListener extends ContainerAware
      */
     private $service;
 
-    public function __construct (Container $container, $service) {
+    public function __construct(Container $container, $service)
+    {
         $this->setContainer($container);
         $this->service = $service;
     }
+
     /**
      * Checks that only one root category exists
      *
@@ -43,11 +45,15 @@ class RootCategoryListener extends ContainerAware
         }
     }
 
-    protected function checkForRoot (AbstractCategory $category) {
+    protected function checkForRoot(AbstractCategory $category)
+    {
         if ($category->getParent() === null) {
             try {
-                $this->container->get($this->service)->getRootNode();
-                throw new OnlySingleRootNodeAllowedException();
+                $rootNode = $this->container->get($this->service)->getRootNode();
+
+                if ($rootNode->getId() != $category->getId()) {
+                    throw new OnlySingleRootNodeAllowedException();
+                }
             } catch (RootNodeNotFoundException $e) {
 
             }
