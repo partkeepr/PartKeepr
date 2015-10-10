@@ -1,5 +1,5 @@
 Ext.define("PartKeepr.CategoryComboBox", {
-    extend: "Ext.ux.TreePicker",
+    extend: "PartKeepr.Widgets.TreePicker",
     alias: 'widget.CategoryComboBox',
 
     triggers: {

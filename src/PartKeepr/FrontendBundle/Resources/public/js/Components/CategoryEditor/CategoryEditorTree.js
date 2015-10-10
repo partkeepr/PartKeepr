@@ -76,7 +76,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 
         this.menuCategoryDelete.enable();
 
-        if (record.isRoot()) {
+        if (record.parentNode !== null && record.parentNode.isRoot()) {
             this.menuCategoryDelete.disable();
         }
 

@@ -1,10 +1,10 @@
-Ext.define('PartKeepr.data.store.PartCategoryStore', {
+Ext.define('PartKeepr.data.store.StorageLocationCategoryStore', {
     extend: 'Ext.data.TreeStore',
 
     /**
      * The store ID to use
      */
-    storeId: 'PartCategoryStore',
+    storeId: 'StorageLocationCategoryStore',
 
     /**
      * Don't sort remotely as this is a tree store
@@ -47,11 +47,11 @@ Ext.define('PartKeepr.data.store.PartCategoryStore', {
     /**
      * The model to use
      */
-    model: "PartKeepr.PartBundle.Entity.PartCategory",
+    model: "PartKeepr.StorageLocationBundle.Entity.StorageLocationCategory",
 
     proxy: {
         ignoreLoadId: '@local-tree-root',
-        url: "/api/part_categories/getExtJSRootNode",
+        url: "/api/storage_location_categories/getExtJSRootNode",
         type: "Hydra",
         appendId: false,
         reader: {

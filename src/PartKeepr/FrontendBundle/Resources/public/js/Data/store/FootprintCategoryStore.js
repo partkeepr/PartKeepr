@@ -1,10 +1,10 @@
-Ext.define('PartKeepr.data.store.PartCategoryStore', {
+Ext.define('PartKeepr.data.store.FootprintCategoryStore', {
     extend: 'Ext.data.TreeStore',
 
     /**
      * The store ID to use
      */
-    storeId: 'PartCategoryStore',
+    storeId: 'FootprintCategoryStore',
 
     /**
      * Don't sort remotely as this is a tree store
@@ -47,11 +47,11 @@ Ext.define('PartKeepr.data.store.PartCategoryStore', {
     /**
      * The model to use
      */
-    model: "PartKeepr.PartBundle.Entity.PartCategory",
+    model: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
 
     proxy: {
         ignoreLoadId: '@local-tree-root',
-        url: "/api/part_categories/getExtJSRootNode",
+        url: "/api/footprint_categories/getExtJSRootNode",
         type: "Hydra",
         appendId: false,
         reader: {

@@ -373,8 +373,6 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     setCategory: function (category)
     {
-        this.currentCategory = category;
-
         var proxy = this.store.getProxy();
 
         proxy.extraParams.category = category;

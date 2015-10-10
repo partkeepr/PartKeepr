@@ -6,5 +6,5 @@ Ext.define("PartKeepr.CategoryTree", {
     	animate: false
     },
     loaded: false,
-    rootVisible: true
+    rootVisible: false
 });
