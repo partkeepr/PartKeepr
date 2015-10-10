@@ -1,6 +1,7 @@
 <?php
-namespace PartKeepr\CategoryBundle\Action;
 
+
+namespace PartKeepr\PartBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\IriConverterInterface;
@@ -57,18 +58,27 @@ class PostAction
 
         $data = $request->getContent();
 
-        if (is_a($resourceType->getEntityClass(), $this->categoryService->getEntityClass(), true)) {
-            $decodedData = json_decode($data);
+        $decodedData = json_decode($data);
 
-            if (property_exists($decodedData, "parent") && $decodedData->parent == "@local-tree-root") {
-                $root = $this->categoryService->getRootNode();
-                $iri = $this->iriConverter->getIriFromItem($root);
+        $localTreeExists = false;
+        if (property_exists($decodedData,"category") && $decodedData->category == "@local-tree-root") {
+            $localTreeExists = true;
 
-                $decodedData->parent = $iri;
-            }
+        }
 
+        if (property_exists($decodedData,"category") && is_object($decodedData->category) && property_exists($decodedData->category, "@id") && $decodedData->category->{"@id"} == "@local-tree-root") {
+            $localTreeExists = true;
+        }
+
+        if ($localTreeExists === true) {
+            $root = $this->categoryService->getRootNode();
+            $iri = $this->iriConverter->getIriFromItem($root);
+
+            $decodedData->category = $iri;
             $data = json_encode($decodedData);
         }
+
+
 
         return $this->serializer->deserialize(
             $data,
