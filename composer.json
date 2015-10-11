@@ -92,7 +92,7 @@
   "extra": {
     "assets-dir" : "web/",
     "incenteev-parameters": {
-      "file": "app/config/parameters.yml"
+      "file": "app/config/parameters.php"
     },
     "installer-paths": {
       "web/js/packages/{$name}": [
