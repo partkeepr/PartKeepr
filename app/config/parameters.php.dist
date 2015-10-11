@@ -1,0 +1,40 @@
+<?php
+$container->setParameter('database_driver', 'pdo_mysql');
+$container->setParameter('database_host', 'localhost');
+$container->setParameter('database_port', '3306');
+$container->setParameter('database_name', 'symfony');
+$container->setParameter('database_user', 'root');
+$container->setParameter('database_password', null);
+
+
+$container->setParameter('mailer_transport', null);
+$container->setParameter('mailer_host', null);
+$container->setParameter('mailer_port', null);
+$container->setParameter('mailer_encryption', null);
+$container->setParameter('mailer_user', null);
+$container->setParameter('mailer_password', null);
+$container->setParameter('mailer_auth_mode', null);
+
+$container->setParameter('locale', 'en');
+
+$container->setParameter('secret', 'COAAFJGGLPHPDGGNCNILHFGECFMMACKC');
+
+$container->setParameter('fr3d_ldap.enabled', false);
+$container->setParameter('fr3d_ldap.driver.host', '127.0.0.1');
+$container->setParameter('fr3d_ldap.driver.port', null);
+$container->setParameter('fr3d_ldap.driver.username', null);
+$container->setParameter('fr3d_ldap.driver.password', null);
+$container->setParameter('fr3d_ldap.driver.bindRequiresDn', false);
+$container->setParameter('fr3d_ldap.driver.baseDn', '');
+$container->setParameter('fr3d_ldap.driver.accountFilterFormat', null);
+$container->setParameter('fr3d_ldap.driver.optReferrals', null);
+$container->setParameter('fr3d_ldap.driver.useSsl', null);
+$container->setParameter('fr3d_ldap.driver.useStartTls', null);
+$container->setParameter('fr3d_ldap.driver.accountCanonicalForm', null);
+$container->setParameter('fr3d_ldap.driver.accountDomainName', null);
+$container->setParameter('fr3d_ldap.driver.accountDomainNameShort', null);
+$container->setParameter('fr3d_ldap.user.baseDn', 'dc=blabla,dc=com');
+$container->setParameter('fr3d_ldap.user.filter', null);
+$container->setParameter('fr3d_ldap.user.attribute.username', null);
+$container->setParameter('fr3d_ldap.user.attribute.name', null);
+$container->setParameter('fr3d_ldap.user.attribute.email', null);
