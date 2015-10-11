@@ -77,13 +77,11 @@
   "minimum-stability": "stable",
   "scripts": {
     "post-install-cmd": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
     ],
     "post-update-cmd": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
@@ -91,9 +89,6 @@
   },
   "extra": {
     "assets-dir" : "web/",
-    "incenteev-parameters": {
-      "file": "app/config/parameters.php"
-    },
     "installer-paths": {
       "web/js/packages/{$name}": [
         "partkeepr/extjs6",
