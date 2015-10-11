@@ -1,0 +1,40 @@
+<?php
+$container->setParameter('database_driver', {{ database.driver|raw }});
+$container->setParameter('database_host', {{ database.host|raw }});
+$container->setParameter('database_port', {{ database.port|raw }});
+$container->setParameter('database_name', {{ database.name|raw }});
+$container->setParameter('database_user', {{ database.user|raw }});
+$container->setParameter('database_password', {{ database.password|raw }});
+
+
+$container->setParameter('mailer_transport', {{ mailer.transport|raw }});
+$container->setParameter('mailer_host', {{ mailer.host|raw }});
+$container->setParameter('mailer_port', {{ mailer.port|raw }});
+$container->setParameter('mailer_encryption', {{ mailer.encryption|raw }});
+$container->setParameter('mailer_user', {{ mailer.username|raw }});
+$container->setParameter('mailer_password', {{ mailer.password|raw }});
+$container->setParameter('mailer_auth_mode', {{ mailer.auth_mode|raw }});
+
+$container->setParameter('locale', 'en');
+
+$container->setParameter('secret', {{ secret|raw }});
+
+$container->setParameter('fr3d_ldap.enabled', {{ ldap.enabled|raw }});
+$container->setParameter('fr3d_ldap.driver.host', {{ ldap.host|raw }});
+$container->setParameter('fr3d_ldap.driver.port', {{ ldap.port|raw }});
+$container->setParameter('fr3d_ldap.driver.username', {{ ldap.username|raw }});
+$container->setParameter('fr3d_ldap.driver.password', {{ ldap.password|raw }});
+$container->setParameter('fr3d_ldap.driver.bindRequiresDn', {{ ldap.bindrequiresdn|raw }});
+$container->setParameter('fr3d_ldap.driver.baseDn', {{ ldap.basedn|raw }});
+$container->setParameter('fr3d_ldap.driver.accountFilterFormat', null);
+$container->setParameter('fr3d_ldap.driver.optReferrals', null);
+$container->setParameter('fr3d_ldap.driver.useSsl', {{ ldap.ssl|raw }});
+$container->setParameter('fr3d_ldap.driver.useStartTls', {{ ldap.starttls|raw }});
+$container->setParameter('fr3d_ldap.driver.accountCanonicalForm', null);
+$container->setParameter('fr3d_ldap.driver.accountDomainName', null);
+$container->setParameter('fr3d_ldap.driver.accountDomainNameShort', null);
+$container->setParameter('fr3d_ldap.user.baseDn', {{ ldap.user_basedn|raw }});
+$container->setParameter('fr3d_ldap.user.filter', {{ ldap.user_filter|raw }});
+$container->setParameter('fr3d_ldap.user.attribute.username', {{ ldap.user_username|raw }});
+$container->setParameter('fr3d_ldap.user.attribute.name', {{ ldap.user_name|raw }});
+$container->setParameter('fr3d_ldap.user.attribute.email', {{ ldap.user_email|raw }});

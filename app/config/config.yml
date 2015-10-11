@@ -1,5 +1,5 @@
 imports:
-    - { resource: parameters.yml }
+    - { resource: parameters.php }
     - { resource: security.yml }
     - { resource: partkeepr.yml }
     - { resource: config_framework.yml }

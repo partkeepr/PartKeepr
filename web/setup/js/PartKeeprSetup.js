@@ -15,8 +15,8 @@ Ext.application({
             database: {
                 driver: "",
                 host: "",
-                dbname: "",
-                username: "",
+                name: "",
+                user: "",
                 password: "",
                 port: null
             },

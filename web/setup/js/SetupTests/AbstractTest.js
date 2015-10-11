@@ -140,6 +140,8 @@ Ext.define('PartKeeprSetup.AbstractTest', {
         if (this.success) {
             this.fireEvent("complete", this);
         }
+
+        this.onAfterRunTest(obj);
     },
     /**
      * Gets called prior test execution. Most tests won't use this, but some tests need to inject parameters.
@@ -147,5 +149,10 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     onBeforeRunTest: function ()
     {
         this.params = PartKeeprSetup.getApplication().getSetupConfig();
+    },
+    onAfterRunTest: function (data)
+    {
+
     }
+
 });

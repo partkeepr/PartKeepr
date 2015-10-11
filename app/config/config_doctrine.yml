@@ -10,7 +10,7 @@ doctrine:
         charset:  UTF8
         server_version: 5.6
 
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # if using pdo_sqlite as your database driver, add the path in parameters.php
         # e.g. database_path: %kernel.root_dir%/data/data.db3
         # path:     %database_path%
 
