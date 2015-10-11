@@ -26,7 +26,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
             disabled: true,
             itemId: 'delete',
             scope: this,
-            icon: 'resources/silkicons/building_delete.png',
+            iconCls: 'web-icon building_delete',
             handler: this.onDeleteClick
         });
 
@@ -37,7 +37,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
                     {
                         text: 'Add',
                         scope: this,
-                        icon: 'resources/silkicons/building_add.png',
+                        iconCls: 'web-icon building_add',
                         handler: this.onAddClick
                     }, this.deleteButton
                 ]

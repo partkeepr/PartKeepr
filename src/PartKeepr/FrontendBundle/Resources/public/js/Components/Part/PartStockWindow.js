@@ -112,7 +112,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.buttons = [ {
 			text : i18n("Close"),
 			handler : this.onCloseClick,
-			icon : "resources/silkicons/cancel.png",
+			icon : "web-icon cancel",
 			scope : this
 		}, this.okButton ];
 		this.on("show", function() {
@@ -160,7 +160,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.callbackFn = fn;
 		this.callbackScope = scope;
 		this.setTitle(this.addPartText);
-		this.okButton.setIcon("resources/silkicons/brick_add.png");
+		this.okButton.setIconCls("web-icon brick_add");
 		this.show();
 	},
 	/**
@@ -180,7 +180,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.priceCheckbox.hide();
 		this.commentField.hide();
 		this.setHeight(105);
-		this.okButton.setIcon("resources/silkicons/brick_delete.png");
+		this.okButton.setIconCls("web-icon brick_delete");
 		this.show();
 	}
 });

@@ -15,7 +15,7 @@ Ext.define('PartKeepr.PartMeasurementUnitGrid', {
         }
     ],
     addButtonText: i18n("Add Part Measurement Unit"),
-    addButtonIconCls: 'fugue-icon ruler--plus.png',
+    addButtonIconCls: 'fugue-icon ruler--plus',
     deleteButtonText: i18n("Delete Part Measurement Unit"),
     deleteButtonIconCls: 'fugue-icon ruler--minus',
     defaultButtonIconCls: "fugue-icon ruler--pencil",

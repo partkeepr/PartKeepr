@@ -45,7 +45,7 @@ Ext.define('PartKeepr.UserPasswordChangePanel', {
 							handler: this.onChangePassword,
 							scope: this,
 							width: 145,
-							icon: 'resources/silkicons/accept.png',
+							iconCls: 'web-icon accept',
 							text: i18n("Change Password")
 						}
 				}];

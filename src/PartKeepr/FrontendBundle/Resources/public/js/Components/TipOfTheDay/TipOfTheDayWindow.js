@@ -56,13 +56,13 @@ Ext.define("PartKeepr.TipOfTheDayWindow", {
         this.previousButton = Ext.create("Ext.button.Button", {
             text: i18n("Previous Tip"),
             handler: Ext.bind(this.displayPreviousTip, this),
-            icon: 'bundles/partkeeprfrontend/images/icons/tip_previous.png',
+            iconCls: 'partkeepr-icon tip_previous',
             disabled: true
         });
 
         this.nextButton = Ext.create("Ext.button.Button", {
             text: i18n("Next Tip"),
-            icon: 'bundles/partkeeprfrontend/images/icons/tip_next.png',
+            iconCls: 'partkeepr-icon tip_next',
             handler: Ext.bind(this.displayNextTip, this)
         });
 

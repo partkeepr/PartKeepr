@@ -6,11 +6,9 @@ Ext.define('PartKeepr.UnitGrid', {
         {header: i18n("Symbol"), dataIndex: 'symbol', width: 60}
     ],
     addButtonText: i18n("Add Unit"),
-    addButtonIcon: 'bundles/partkeeprfrontend/images/icons/unit_add.png',
-    addButtonIconCls: '',
+    addButtonIconCls: 'partkeepr-icon unit_add',
     deleteButtonText: i18n("Delete Unit"),
-    deleteButtonIcon: 'bundles/partkeeprfrontend/images/icons/unit_delete.png',
-    deleteButtonIconCls: '',
+    deleteButtonIconCls: 'partkeepr-icon unit_delete',
     automaticPageSize: true,
     initComponent: function ()
     {

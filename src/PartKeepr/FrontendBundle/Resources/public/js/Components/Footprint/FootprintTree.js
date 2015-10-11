@@ -13,16 +13,6 @@ Ext.define("PartKeepr.FootprintTree", {
 
     categoryModel: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
 
-    /**
-     * @cfg {String} text The path to the 'add' icon
-     */
-    addButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_add.png',
-
-    /**
-     * @cfg {String} text The path to the 'delete' icon
-     */
-    deleteButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_delete.png',
-
     initComponent: function ()
     {
         this.store = Ext.create("PartKeepr.data.store.FootprintCategoryStore");

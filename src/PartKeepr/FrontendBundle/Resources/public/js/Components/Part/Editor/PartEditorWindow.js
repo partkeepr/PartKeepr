@@ -64,7 +64,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
 		
 		this.cancelButton = Ext.create("Ext.button.Button", {
 			text: this.cancelText,
-			icon: 'web-icon cancel.png',
+			iconCls: 'web-icon cancel',
 			handler: Ext.bind(this.onCancelEdit, this)
 		});
 		

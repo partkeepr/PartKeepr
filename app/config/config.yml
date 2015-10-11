@@ -70,6 +70,16 @@ sprite_generator:
             cssFormat: css
             imagePositioning: one-column
             imageGenerator: gd2
+        partkeepr:
+            inDir: %kernel.root_dir%/../src/PartKeepr/FrontendBundle/Resources/public/images/icons/
+            outImage: %kernel.root_dir%/../web/spritesheets/partkeepr.png
+            outCss: %kernel.root_dir%/../web/spritesheets/partkeepr.css
+            relativeImagePath: ./
+            padding: 5
+            spriteClass: partkeepr-icon
+            cssFormat: css
+            imagePositioning: one-column
+            imageGenerator: gd2
 
 fr3d_ldap:
     driver:

@@ -26,13 +26,13 @@ Ext.define('PartKeepr.Editor', {
         if (this.enableButtons) {
             this.saveButton = Ext.create("Ext.button.Button", {
                 text: this.saveText,
-                icon: 'bundles/brainbitsfugueicons/icons/fugue/16/disk.png',
+                iconCls: 'fugue-icon disk',
                 handler: Ext.bind(this._onItemSave, this)
             });
 
             this.cancelButton = Ext.create("Ext.button.Button", {
                 text: this.cancelText,
-                icon: 'resources/silkicons/cancel.png',
+                iconCls: 'web-icon cancel',
                 handler: Ext.bind(this.onCancelEdit, this)
             });
 
