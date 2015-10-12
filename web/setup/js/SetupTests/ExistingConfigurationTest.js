@@ -8,11 +8,11 @@ Ext.define('PartKeeprSetup.ExistingConfigurationTest', {
     message: "Retrieving existing configuration",
 
     onAfterRunTest: function (data) {
-        var config = PartKeeprSetup.getApplication().getSetupConfig();
+        if (data.config) {
+            var config = PartKeeprSetup.getApplication().getSetupConfig();
 
-        Ext.apply(config, data.config);
-
-        console.log(PartKeeprSetup.getApplication().getSetupConfig());
-
+            Ext.apply(config, data.config);
+            config.existingConfig = true;
+        }
     }
 });

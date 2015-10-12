@@ -36,6 +36,12 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     errors: [],
 
     /**
+     * Defines if a test should be skipped. No output will be generated.
+     * @var {Boolean}
+     */
+    skip: false,
+
+    /**
      * Defines any warnings for the test.
      */
     warnings: null,
@@ -58,8 +64,6 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     constructor: function (config)
     {
         this.mixins.observable.constructor.call(this, config);
-
-        //this.addEvents("complete");
     },
     /**
      * Runs a given test, and processes the response
@@ -68,6 +72,10 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     {
         this.onBeforeRunTest();
 
+        if (this.skip === true) {
+            this.fireEvent("complete", this);
+            return;
+        }
         var url = this.url;
 
         if (this.action !== "") {
@@ -150,6 +158,11 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     {
         this.params = PartKeeprSetup.getApplication().getSetupConfig();
     },
+    /**
+     * Gets called after test exeuction. Useful for post-processing any result
+     *
+     * @param data {Object} The response data as object
+     */
     onAfterRunTest: function (data)
     {
 

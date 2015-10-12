@@ -13,7 +13,7 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
 
     autoScroll: true,
     breadCrumbTitle: 'Admin User',
-
+    layout: 'card',
     defaults: {
         labelWidth: 120
     },
@@ -56,13 +56,22 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
 
         this.items = [
             {
-                border: false,
-                bodyStyle: 'background:none;padding-bottom: 10px;',
-                html: 'Please enter the user which will become the administrator:'
-            },
-            this.username,
-            this.password,
-            this.email
+
+                items: [{
+                    border: false,
+                    bodyStyle: 'background:none;padding-bottom: 10px;',
+                    html: 'Please enter the user which will become the administrator:'
+                },
+                this.username,
+                this.password,
+                this.email
+                ]
+            }, {
+                    border: false,
+                    bodyStyle: 'background:none;padding-bottom: 10px;',
+                    html: 'An existing installation has been detected, no new user will be created. Click Next to continue.'
+                }
+
         ];
 
         this.callParent();
@@ -73,6 +82,12 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
      */
     onActivate: function ()
     {
+        if (PartKeeprSetup.getApplication().getSetupConfig().existingConfig === true) {
+            this.layout.setActiveItem(1);
+        } else {
+            this.layout.setActiveItem(0);
+        }
+
         // Disable the "next" button, this needs to get enabled by the database cards
         Ext.ComponentQuery.query('#nextBtn')[0].disable();
         this.onUpdateParameters();

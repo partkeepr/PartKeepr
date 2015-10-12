@@ -25,6 +25,7 @@ Ext.application({
                 password: "",
                 email: ""
             },
+            existingConfig: false,
             authKey: ""
         };
 
