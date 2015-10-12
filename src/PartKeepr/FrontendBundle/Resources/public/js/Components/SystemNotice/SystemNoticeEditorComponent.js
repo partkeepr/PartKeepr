@@ -12,11 +12,19 @@ Ext.define('PartKeepr.SystemNoticeEditorComponent', {
     initComponent: function ()
     {
         this.createStore({
+            filters: [
+                {
+                    property: 'acknowledged',
+                    operator: "=",
+                    value: false
+                }
+            ],
             sorters: [
                 {
                     property: 'date',
                     direction: 'DESC'
-                }
+                },
+
             ]
         });
 
