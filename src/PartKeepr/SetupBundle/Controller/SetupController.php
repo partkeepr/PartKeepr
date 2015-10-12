@@ -135,7 +135,7 @@ class SetupController extends Controller
         return false;
     }
 
-    private function dumpConfig(Request $request, $test = true)
+    protected function dumpConfig(Request $request, $test = true)
     {
         $data = json_decode($request->getContent(), true);
 

@@ -15,7 +15,7 @@ class ExistingConfigParserController extends SetupController
      */
     public function parseExistingConfigAction(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $this->dumpConfig($request);
 
         $response = $this->handleRequest($request, "/setup/_int_parse_config");
 
