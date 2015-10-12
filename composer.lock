@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6746a4a027b2b966629d9dd9b259db62",
-    "content-hash": "e56034902b7c1e0de0605a7e8979c902",
+    "hash": "d213ac86e4359288dbc26d83f3987ced",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -1149,7 +1148,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/d196ddc229f50c66c5a015c158adb78a2dfb4351",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f4f5bdf6cc84011513ca6b582f85330a09a5037b",
                 "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
                 "shasum": ""
             },
@@ -1524,16 +1523,16 @@
         },
         {
             "name": "fr3d/ldap-bundle",
-            "version": "2.0.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Maks3w/FR3DLdapBundle.git",
-                "reference": "59d002df39bdb75fe6e5d12a4d61904d30e84711"
+                "url": "https://github.com/partkeepr/FR3DLdapBundle.git",
+                "reference": "884f36c5a944f54218fd43520576571a625c8507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maks3w/FR3DLdapBundle/zipball/59d002df39bdb75fe6e5d12a4d61904d30e84711",
-                "reference": "59d002df39bdb75fe6e5d12a4d61904d30e84711",
+                "url": "https://api.github.com/repos/partkeepr/FR3DLdapBundle/zipball/884f36c5a944f54218fd43520576571a625c8507",
+                "reference": "884f36c5a944f54218fd43520576571a625c8507",
                 "shasum": ""
             },
             "require": {
@@ -1560,7 +1559,6 @@
                     "FR3D\\LdapBundle\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1572,10 +1570,14 @@
             "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
             "homepage": "https://github.com/Maks3w/FR3DLdapBundle",
             "keywords": [
-                "Authentication",
+                "authentication",
                 "ldap"
             ],
-            "time": "2015-04-29 08:53:27"
+            "support": {
+                "issues": "https://github.com/Maks3w/FR3DLdapBundle/issues",
+                "source": "https://github.com/Maks3w/FR3DLdapBundle"
+            },
+            "time": "2015-10-12 10:42:44"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1976,7 +1978,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/8eff56746b73762dfe06414faf0fb609bfe51754",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/c2b4c6def557a8bcaae1df0745b57e5daac103ac",
                 "reference": "8eff56746b73762dfe06414faf0fb609bfe51754",
                 "shasum": ""
             },
@@ -3246,7 +3248,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/bd331ce45d0ecf72354fb86068d5b01fb02a7fda",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/067bb642fa5f9e42e272e74514803fa8e0a7e3b7",
                 "reference": "e5ed757d6dcd6fd60dde5da8b7cbec2fab7cb48a",
                 "shasum": ""
             },
