@@ -19,7 +19,6 @@ $container->setParameter('locale', 'en');
 
 $container->setParameter('secret', {{ secret|raw }});
 
-$container->setParameter('fr3d_ldap.enabled', {{ ldap.enabled|raw }});
 $container->setParameter('fr3d_ldap.driver.host', {{ ldap.host|raw }});
 $container->setParameter('fr3d_ldap.driver.port', {{ ldap.port|raw }});
 $container->setParameter('fr3d_ldap.driver.username', {{ ldap.username|raw }});
@@ -33,6 +32,7 @@ $container->setParameter('fr3d_ldap.driver.useStartTls', {{ ldap.starttls|raw }}
 $container->setParameter('fr3d_ldap.driver.accountCanonicalForm', null);
 $container->setParameter('fr3d_ldap.driver.accountDomainName', null);
 $container->setParameter('fr3d_ldap.driver.accountDomainNameShort', null);
+$container->setParameter('fr3d_ldap.user.enabled', {{ ldap.enabled|raw }});
 $container->setParameter('fr3d_ldap.user.baseDn', {{ ldap.user_basedn|raw }});
 $container->setParameter('fr3d_ldap.user.filter', {{ ldap.user_filter|raw }});
 $container->setParameter('fr3d_ldap.user.attribute.username', {{ ldap.user_username|raw }});

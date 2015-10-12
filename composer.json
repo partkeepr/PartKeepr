@@ -24,11 +24,15 @@
     {
       "type": "vcs",
       "url": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/partkeepr/FR3DLdapBundle"
     }
     ],
   "require": {
     "php": ">=5.6.0",
-    "fr3d/ldap-bundle": "2.0.*@dev",
+    "fr3d/ldap-bundle": "dev-master",
     "symfony/symfony": "~2.7",
     "incenteev/composer-parameter-handler": "~2.0",
     "doctrine/orm": "~2.5",
