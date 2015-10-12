@@ -167,7 +167,7 @@ class UserService
     private function createProxyUser($username, $provider)
     {
         $user = new User($username, $provider);
-        $user->setLegacy(false);
+q        $user->setLegacy(false);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
