@@ -39,6 +39,8 @@ class Version20151001180120 extends BaseMigration
             if ($user->getProvider() === null) {
                 $user->setProvider($builtinProvider);
             }
+
+            $user->setLegacy(true);
         }
 
         $this->getEM()->flush();
