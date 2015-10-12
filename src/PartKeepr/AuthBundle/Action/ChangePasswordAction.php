@@ -68,7 +68,7 @@ class ChangePasswordAction
         $encoded_pass = $encoder->encodePassword($request->request->get("oldpassword"), $FOSUser->getSalt());
 
         if ($FOSUser->getPassword() != $encoded_pass) {
-            throw new \Exception("Passwords don't match");
+            throw new \Exception("Old password is wrong");
         }
 
         $this->userManipulator->changePassword($user->getUsername(), $request->request->get("newpassword"));

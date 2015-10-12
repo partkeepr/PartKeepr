@@ -2,6 +2,7 @@ Ext.define('PartKeepr.UserPasswordChangePanel', {
     extend: 'Ext.form.FormPanel',
     title: i18n("Change Password"),
     bodyStyle: 'background:#DBDBDB;padding: 10px;',
+    layout: 'card',
     initComponent: function ()
     {
 
@@ -33,26 +34,38 @@ Ext.define('PartKeepr.UserPasswordChangePanel', {
         });
 
         this.items = [
-            this.oldPassword,
-            this.newPassword,
-            this.newPasswordConfirm,
             {
-                xtype: 'fieldcontainer',
-                hideEmptyLabel: false,
-                width: 300,
-                labelWidth: 150,
-                items: {
-                    xtype: 'button',
-                    handler: this.onChangePassword,
-                    scope: this,
-                    width: 145,
-                    iconCls: 'web-icon accept',
-                    text: i18n("Change Password")
-                }
+                border: false,
+                bodyStyle: 'background:#DBDBDB;padding: 10px;',
+                items: [
+                    this.oldPassword,
+                    this.newPassword,
+                    this.newPasswordConfirm,
+                    {
+                    xtype: 'fieldcontainer',
+                    hideEmptyLabel: false,
+                    width: 300,
+                    labelWidth: 150,
+                    items: {
+                        xtype: 'button',
+                        handler: this.onChangePassword,
+                        scope: this,
+                        width: 145,
+                        iconCls: 'web-icon accept',
+                        text: i18n("Change Password")
+                    }}]
+            },{
+                border: false,
+                bodyStyle: 'background:#DBDBDB;padding: 10px;',
+                html: i18n("You are authenticated via an external user provider, password changing is not available.")
             }
         ];
 
         this.callParent();
+
+        if (PartKeepr.getApplication().getLoginManager().getUser().getProvider().get("editable") === false) {
+            this.layout.setActiveItem(1);
+        }
     },
     onChangePassword: function ()
     {
@@ -64,12 +77,17 @@ Ext.define('PartKeepr.UserPasswordChangePanel', {
                 "oldpassword": this.oldPassword.getValue(),
                 "newpassword": this.newPassword.getValue()
             },  Ext.bind(this.onAfterPasswordChange, this));
-            // @TODO Logout the user after succesful password change
         }
     },
-    onAfterPasswordChange: function (data)
+    onAfterPasswordChange: function (opts, success, response)
     {
-        Ext.Msg.alert(data);
+        if (success) {
+            Ext.MessageBox.alert(i18n("Password successfully changed"), i18n("You need to re-login with the new password. Click OK to re-login."), this.relogin, this);
+        }
+    },
+    relogin: function () {
+        PartKeepr.getApplication().getLoginManager().logout();
+        PartKeepr.getApplication().getLoginManager().login();
     },
     validatePassword: function ()
     {
