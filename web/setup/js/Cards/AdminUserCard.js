@@ -56,7 +56,7 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
 
         this.items = [
             {
-
+                bodyStyle: 'background:none;padding-bottom: 10px;',
                 items: [{
                     border: false,
                     bodyStyle: 'background:none;padding-bottom: 10px;',
