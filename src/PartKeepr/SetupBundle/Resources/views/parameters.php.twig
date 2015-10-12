@@ -15,7 +15,7 @@ $container->setParameter('mailer_user', {{ mailer.username|raw }});
 $container->setParameter('mailer_password', {{ mailer.password|raw }});
 $container->setParameter('mailer_auth_mode', {{ mailer.auth_mode|raw }});
 
-$container->setParameter('authentication_provider', '{% if legacyAuth %}PartKeepr.Auth.HTTPBasicAuthenticationProvider{% else %}PartKeepr.Auth.WSSEAuthenticationProvider{% endif %}');
+$container->setParameter('authentication_provider', '{% if legacyAuth == "true" %}PartKeepr.Auth.HTTPBasicAuthenticationProvider{% else %}PartKeepr.Auth.WSSEAuthenticationProvider{% endif %}');
 
 $container->setParameter('locale', 'en');
 
