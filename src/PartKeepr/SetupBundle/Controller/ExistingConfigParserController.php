@@ -15,19 +15,7 @@ class ExistingConfigParserController extends SetupController
      */
     public function parseExistingConfigAction(Request $request)
     {
-        $this->dumpConfig($request);
-
-        $response = $this->handleRequest($request, "/setup/_int_parse_config");
-
-        return new Response($response->getContent());
-    }
-
-    /**
-     * @Route("/setup/_int_parse_config")
-     */
-    public function intParseExistingConfigAction(Request $request)
-    {
-        $response = array(
+         $response = array(
             "success" => true,
             "errors" => [],
             "message" => "Existing configuration imported successfully",
