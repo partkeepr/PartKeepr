@@ -25,12 +25,19 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     private $username;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(length=32,nullable=true)
      */
     private $password;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @Assert\Email()
+     * @Groups({"default"})
      * @ORM\Column(length=255,nullable=true)
      * @var string
      */
@@ -44,6 +51,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     /**
      * Marks a user as a legacy user (=old md5 auth)
      * @ORM\Column(type="boolean")
+     * @Groups({"default"})
      * @var boolean
      */
     private $legacy;
@@ -195,18 +203,28 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->plainPassword;
     }
 
     /**
      * Sets the user's password.
      *
-     * @Groups({"default"})
      * @param string $password
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->plainPassword = $password;
+    }
+
+    public function getPlainPassword () {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Sets the plain password. Used for password changes
+     */
+    public function setPlainPassword ($password) {
+
     }
 
     /**

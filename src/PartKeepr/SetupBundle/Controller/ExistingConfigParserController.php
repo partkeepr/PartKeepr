@@ -67,6 +67,7 @@ class ExistingConfigParserController extends SetupController
                     $config["database"]["port"] = $legacyConfig["partkeepr.database.port"];
                 }
 
+                $config["legacyAuth"] = true;
                 $response["config"] = $config;
             }
 

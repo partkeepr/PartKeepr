@@ -26,6 +26,7 @@ Ext.application({
                 email: ""
             },
             existingConfig: false,
+            legacyAuth: false,
             authKey: ""
         };
 

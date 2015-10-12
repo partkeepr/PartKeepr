@@ -22,11 +22,7 @@ security:
         legacy:
             id: partkeepr_legacy_user_provider
         in_memory:
-            memory:
-                users:
-                    admin:
-                        password: x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A==
-                        roles: 'ROLE_ADMIN'
+            memory: ~
         fos_userbundle:
             id: fos_user.user_provider.username
         fr3d_ldapbundle:

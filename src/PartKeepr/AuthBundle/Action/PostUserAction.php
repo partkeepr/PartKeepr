@@ -70,7 +70,7 @@ class PostUserAction
         );
 
         $data->setProvider($this->userService->getBuiltinProvider());
-
+        $data->setLegacy(false);
         $this->userService->syncData($data);
 
         $data->setPassword("");

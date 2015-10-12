@@ -176,6 +176,8 @@ class SetupController extends Controller
             "user_email" => null,
         );
 
+        $parameters["legacyAuth"] = false;
+
         $secret = "";
         for ($i = 0; $i < 32; $i++) {
             $secret .= chr(65 + rand(0, 16));
@@ -193,6 +195,10 @@ class SetupController extends Controller
 
         if (array_key_exists("ldap", $data)) {
             $parameters["ldap"] = $this->applyIf($parameters["ldap"], $data["ldap"]);
+        }
+
+        if (array_key_exists("legacyAuth", $data)) {
+            $parameters["legacyAuth"] = $data["legacyAuth"];
         }
 
         array_walk_recursive($parameters, function (&$item, $key) { $item = var_export($item, true); });
