@@ -1,4 +1,9 @@
 services:
+    partkeepr_legacy_user_provider:
+        class: PartKeepr\AuthBundle\Security\User\LegacyUserProvider
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+
     footprint.category_path_listener:
         class: PartKeepr\FootprintBundle\Listeners\CategoryPathListener
         arguments:
