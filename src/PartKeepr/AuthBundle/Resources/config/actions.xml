@@ -35,5 +35,11 @@
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="api.serializer"/>
         </service>
+        <service id="partkeepr.auth.change_password" class="PartKeepr\AuthBundle\Action\ChangePasswordAction">
+            <argument type="service" id="partkeepr.userservice"/>
+            <argument type="service" id="fos_user.util.user_manipulator"/>
+            <argument type="service" id="security.encoder_factory"/>
+            <argument type="service" id="fos_user.user_manager"/>
+        </service>
     </services>
 </container>

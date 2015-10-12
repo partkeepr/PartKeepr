@@ -959,6 +959,17 @@ services:
              -    "partkeepr.auth.login"         # Controller
              -    "PartKeeprAuthLogin"
 
+    resource.user.item_operation.change_password:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.user"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/users/{id}/changePassword"           # Path
+             -    "partkeepr.auth.change_password"         # Controller
+             -    "PartKeeprAuthChangePassword"
+
     resource.user.collection_operation.get_providers:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -1029,7 +1040,7 @@ services:
             -       method:     "initCollectionOperations"
                     arguments: [ [ "@resource.user.collection_operation.get", "@resource.user.collection_operation.post_custom", "@resource.user.collection_operation.get_providers" ] ]
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.user.item_operation.get", "@resource.user.item_operation.get", "@resource.user.item_operation.put_custom", "@resource.user.item_operation.delete", "@resource.user.item_operation.get_preferences", "@resource.user.item_operation.set_preference", "@resource.user.item_operation.delete_preference", "@resource.user.item_operation.login" ] ]
+                    arguments: [ [ "@resource.user.item_operation.get", "@resource.user.item_operation.get", "@resource.user.item_operation.put_custom", "@resource.user.item_operation.delete", "@resource.user.item_operation.get_preferences", "@resource.user.item_operation.set_preference", "@resource.user.item_operation.delete_preference", "@resource.user.item_operation.login", "@resource.user.item_operation.change_password" ] ]
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
