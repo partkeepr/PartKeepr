@@ -13,6 +13,31 @@ Ext.define("PartKeepr.data.HydraModel", {
 
         return data;
     },
+    get: function (fieldName) {
+        var ret, role, item;
+
+        ret = this.callParent(arguments);
+
+        if (ret === undefined) {
+            // The field is undefined, attempt to retrieve data via associations
+            var parts = fieldName.split(".");
+
+            if (parts.length < 2)  {
+                return ret;
+            }
+
+            if (this.associations[parts[0]]) {
+                role = this.associations[parts[0]];
+                item = role.getAssociatedItem(this);
+
+                if (item !== null) {
+                    parts.shift();
+                    return item.get(parts.join("."));
+                }
+            }
+        }
+        return ret;
+    },
     /**
      * Returns data from all associations
      *

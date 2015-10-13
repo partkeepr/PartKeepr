@@ -5,3 +5,4 @@ dunglas_api:
         pagination:
             items_per_page:
                 client_can_change: true
+    supported_formats: [ "jsonld", "csv", "xlsx" ]

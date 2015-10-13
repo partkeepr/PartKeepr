@@ -1,4 +1,14 @@
 services:
+    csv_responder_view_listener:
+        class: PartKeepr\ExportBundle\EventListener\CsvResponderViewListener
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.view", method: "onKernelView" }
+
+    xlsx_responder_view_listener:
+        class: PartKeepr\ExportBundle\EventListener\XmlExcelResponderViewListener
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.view", method: "onKernelView" }
+
     partkeepr_legacy_user_provider:
         class: PartKeepr\AuthBundle\Security\User\LegacyUserProvider
         arguments:

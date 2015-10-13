@@ -56,6 +56,11 @@
     {% endjavascripts %}
 
     {% javascripts output='js/compiled/main2.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Util/Blob.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Util/FileSaver.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PagingToolbar.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Exporter/Exporter.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Filter.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/LoginManager.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.grid.feature.Summary-selectorFix.js'
@@ -76,7 +81,6 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/sha1.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Crypto/enc-base64.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.data.Model-EXTJS-15037.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/JsonWithAssociationsWriter.js'
     '@PartKeeprFrontendBundle/Resources/public/js/PartKeepr.js'
     '@PartKeeprFrontendBundle/Resources/public/js/compat.js'
@@ -213,18 +217,6 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Header.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.CardLayout.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Cell.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Style.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Workbook.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/Worksheet.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Button.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Formatter.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/excelFormatter/ExcelFormatter.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/csvFormatter/CsvFormatter.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/wikiFormatter/WikiFormatter.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Base64.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/downloadify.min.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux/Ext.ux.Exporter/Exporter.js'
     '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
