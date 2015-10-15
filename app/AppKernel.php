@@ -72,6 +72,21 @@ class AppKernel extends Kernel
     }
 
     /**
+     * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT
+     * @return string
+     */
+    public function getCacheDir()
+    {
+        $environment = getenv("PARTKEEPR_ENVIRONMENT");
+
+        if ($environment === false) {
+            $environment = $this->environment;
+        }
+
+        return $this->rootDir.'/cache/'.$environment;
+    }
+
+    /**
      * Override to avoid stripping comments.
      *
      * @see https://github.com/partkeepr/PartKeepr/issues/438
