@@ -582,7 +582,7 @@ class Part extends BaseEntity
      *
      * @param PartCategory $category The category
      */
-    public function setCategory(PartCategory $category)
+    public function setCategory($category)
     {
         $this->category = $category;
     }

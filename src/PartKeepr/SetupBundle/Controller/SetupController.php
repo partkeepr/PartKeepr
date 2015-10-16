@@ -135,46 +135,48 @@ class SetupController extends Controller
         return false;
     }
 
-    private function dumpConfig(Request $request, $test = true)
+    protected function dumpConfig(Request $request, $test = true)
     {
         $data = json_decode($request->getContent(), true);
 
         $parameters = array();
         $parameters["database"] = array(
             "driver" => null,
-            "host" => "~",
-            "user" => "~",
-            "password" => "~",
-            "name" => "~",
+            "host" => null,
+            "user" => null,
+            "password" => null,
+            "name" => null,
             "port" => 3306,
         );
 
         $parameters["mailer"] = array(
-            "transport" => "~",
-            "host" => "~",
-            "port" => "~",
-            "encryption" => "~",
-            "username" => "~",
-            "password" => "~",
-            "auth_mode" => "~",
+            "transport" => null,
+            "host" => null,
+            "port" => null,
+            "encryption" => null,
+            "username" => null,
+            "password" => null,
+            "auth_mode" => null,
         );
 
         $parameters["ldap"] = array(
             "enabled" => "false",
             "host" => "127.0.0.1",
-            "port" => "~",
-            "username" => "~",
-            "password" => "~",
-            "bindrequiresdn" => "false",
+            "port" => null,
+            "username" => null,
+            "password" => null,
+            "bindrequiresdn" => false,
             "basedn" => "",
-            "ssl" => "~",
-            "starttls" => "~",
+            "ssl" => null,
+            "starttls" => null,
             "user_basedn" => "dc=blabla,dc=com",
-            "user_filter" => "~",
-            "user_username" => "~",
-            "user_name" => "~",
-            "user_email" => "~",
+            "user_filter" => null,
+            "user_username" => null,
+            "user_name" => null,
+            "user_email" => null,
         );
+
+        $parameters["legacyAuth"] = false;
 
         $secret = "";
         for ($i = 0; $i < 32; $i++) {
@@ -194,7 +196,15 @@ class SetupController extends Controller
         if (array_key_exists("ldap", $data)) {
             $parameters["ldap"] = $this->applyIf($parameters["ldap"], $data["ldap"]);
         }
-        $contents = $this->container->get('templating')->render('PartKeeprSetupBundle::setup.html.twig', $parameters);
+
+        if (array_key_exists("legacyAuth", $data)) {
+            $parameters["legacyAuth"] = $data["legacyAuth"];
+        }
+
+        array_walk_recursive($parameters, function (&$item, $key) { $item = var_export($item, true); });
+
+
+        $contents = $this->container->get('templating')->render('PartKeeprSetupBundle::parameters.php.twig', $parameters);
 
         file_put_contents($this->getConfigPath($test), $contents);
     }
@@ -214,11 +224,11 @@ class SetupController extends Controller
         return dirname(__FILE__)."/../../../../app/authkey.php";
     }
 
-    private function getConfigPath ($test) {
+    protected function getConfigPath ($test) {
         if ($test) {
-            $filename = "parameters_setup.yml";
+            $filename = "parameters_setup.php";
         } else {
-            $filename = "parameters.yml";
+            $filename = "parameters.php";
         }
         return dirname(__FILE__)."/../../../../app/config/".$filename;
     }

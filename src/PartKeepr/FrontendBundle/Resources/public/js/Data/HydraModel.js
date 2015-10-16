@@ -1,60 +1,8 @@
 Ext.define("PartKeepr.data.HydraModel", {
     extend: 'Ext.data.Model',
 
-    /**
-     * Calls an action relative to the entity.
-     *
-     * For example, if the entity has a method called "setDefault" and your ID is
-     * "/PartKeepr/web/app_dev.php/api/part_measurement_units/1", callAction would call
-     * "/PartKeepr/web/app_dev.php/api/part_measurement_units/1/setDefault" as a result.
-     *
-     * @param {String} action The action name
-     * @param {Object} parameters (optional) The parameters as JS object
-     * @param {Function} callback (optional) A callback function, or null if not required
-     * @param {boolean} reload (optional) Triggers a reload of the model after executing the action
-     */
-    callPutAction: function (action, parameters, callback, reload)
-    {
-        var proxy = this.getProxy();
+    mixins: ['PartKeepr.data.CallActions'],
 
-        proxy.callAction(this, action, "PUT", parameters, callback, reload);
-    },
-    /**
-     * Calls an action relative to the entity.
-     *
-     * For example, if the entity has a method called "setDefault" and your ID is
-     * "/PartKeepr/web/app_dev.php/api/part_measurement_units/1", callAction would call
-     * "/PartKeepr/web/app_dev.php/api/part_measurement_units/1/setDefault" as a result.
-     *
-     * @param {String} action The action name
-     * @param {Object} parameters (optional) The parameters as JS object
-     * @param {Function} callback (optional) A callback function, or null if not required
-     * @param {boolean} reload (optional) Triggers a reload of the model after executing the action
-     */
-    callGetAction: function (action, parameters, callback, reload)
-    {
-        var proxy = this.getProxy();
-
-        proxy.callAction(this, action, "GET", parameters, callback, reload);
-    },
-    /**
-     * Calls an action relative to the entity.
-     *
-     * For example, if the entity has a method called "setDefault" and your ID is
-     * "/PartKeepr/web/app_dev.php/api/part_measurement_units/1", callAction would call
-     * "/PartKeepr/web/app_dev.php/api/part_measurement_units/1/setDefault" as a result.
-     *
-     * @param {String} action The action name
-     * @param {Object} parameters (optional) The parameters as JS object
-     * @param {Function} callback (optional) A callback function, or null if not required
-     * @param {boolean} reload (optional) Triggers a reload of the model after executing the action
-     */
-    callDeleteAction: function (action, parameters, callback, reload)
-    {
-        var proxy = this.getProxy();
-
-        proxy.callAction(this, action, "DELETE", parameters, callback, reload);
-    },
     getData: function (options)
     {
         var data = this.callParent(options);
@@ -64,6 +12,31 @@ Ext.define("PartKeepr.data.HydraModel", {
         }
 
         return data;
+    },
+    get: function (fieldName) {
+        var ret, role, item;
+
+        ret = this.callParent(arguments);
+
+        if (ret === undefined) {
+            // The field is undefined, attempt to retrieve data via associations
+            var parts = fieldName.split(".");
+
+            if (parts.length < 2)  {
+                return ret;
+            }
+
+            if (this.associations[parts[0]]) {
+                role = this.associations[parts[0]];
+                item = role.getAssociatedItem(this);
+
+                if (item !== null) {
+                    parts.shift();
+                    return item.get(parts.join("."));
+                }
+            }
+        }
+        return ret;
     },
     /**
      * Returns data from all associations

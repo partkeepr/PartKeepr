@@ -1,7 +1,7 @@
 imports:
     - { resource: config_setup.yml }
     - { resource: security.yml }
-    - { resource: parameters_setup.yml }
+    - { resource: parameters_setup.php }
     - { resource: partkeepr.yml }
     - { resource: config_framework.yml }
     - { resource: config_doctrine.yml }

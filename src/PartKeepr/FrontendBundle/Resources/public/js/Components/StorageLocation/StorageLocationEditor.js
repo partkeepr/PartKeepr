@@ -20,7 +20,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 
         this.store = Ext.create('Ext.data.Store', config);
 
-        this.bottomToolbar = Ext.create("Ext.toolbar.Paging", {
+        this.bottomToolbar = Ext.create("PartKeepr.PagingToolbar", {
             store: this.store,
             enableOverflow: true,
             dock: 'bottom',

@@ -15,6 +15,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
     defaults: {
         labelWidth: 120
     },
+    initial: false,
 
     /**
      * Initializes the component and creates the various fields
@@ -55,7 +56,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
         this.databaseName = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Name',
             labelWidth: this.defaults.labelWidth,
-            value: PartKeeprSetup.getApplication().getSetupConfig().database.dbname
+            value: PartKeeprSetup.getApplication().getSetupConfig().database.name
         });
 
         this.databaseName.on("change", this.onUpdateParameters, this);
@@ -158,7 +159,21 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 
         this.callParent();
 
-        this.on("activate", this.onUpdateParameters, this);
+        this.on("activate", this.onActivate, this);
+    },
+    onActivate: function () {
+        this.initial = true;
+        this.hostname.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.host);
+        this.username.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.user);
+        this.password.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.password);
+        this.databaseName.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.name);
+
+        if (PartKeeprSetup.getApplication().getSetupConfig().database.port) {
+            this.port.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.port);
+            this.portDefault.setValue(false);
+            this.port.setDisabled(false);
+        }
+        this.initial = false;
     },
     /**
      * This method gets fired as soon as something in the form was changed.
@@ -168,6 +183,8 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
      */
     onUpdateParameters: function ()
     {
+        if (this.initial) { return; }
+
         if (this.showHintCheckbox.checked) {
             var host;
 

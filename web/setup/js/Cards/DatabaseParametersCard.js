@@ -107,6 +107,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard', {
      */
     onActivate: function ()
     {
+        this.databaseDropdown.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.driver);
         this.onDriverSelect(null, this.databaseDropdown.getValue());
 
         // Disable the "next" button, this needs to get enabled by the database cards

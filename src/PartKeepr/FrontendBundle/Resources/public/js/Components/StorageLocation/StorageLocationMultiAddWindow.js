@@ -24,7 +24,7 @@ Ext.define("PartKeepr.StorageLocationMultiCreateWindow", {
         // Creates the add button as instance, so we can disable it easily.
         this.addButton = Ext.create("Ext.button.Button", {
             text: i18n("Create Storage Locations"),
-            icon: 'resources/silkicons/add.png',
+            iconCls: 'web-icon add',
             handler: this.onAddClick,
             scope: this
         });
@@ -40,7 +40,7 @@ Ext.define("PartKeepr.StorageLocationMultiCreateWindow", {
                     text: i18n("Close"),
                     handler: this.onCloseClick,
                     scope: this,
-                    icon: 'resources/silkicons/cancel.png'
+                    iconCls: 'web-icon cancel'
                 }]
         }];
 

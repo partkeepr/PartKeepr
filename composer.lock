@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6746a4a027b2b966629d9dd9b259db62",
-    "content-hash": "e56034902b7c1e0de0605a7e8979c902",
+    "hash": "9c4f10cbc6134adaf0a2ef4388ce50e8",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -281,6 +280,75 @@
                 "zikula"
             ],
             "time": "2015-02-18 17:17:01"
+        },
+        {
+            "name": "ddeboer/data-import",
+            "version": "0.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddeboer/data-import.git",
+                "reference": "cbae2f570192b738c5cec835fbf583a75c52d535"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ddeboer/data-import/zipball/cbae2f570192b738c5cec835fbf583a75c52d535",
+                "reference": "cbae2f570192b738c5cec835fbf583a75c52d535",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "*",
+                "doctrine/orm": "*",
+                "ext-iconv": "*",
+                "ext-mbstring": "*",
+                "ext-sqlite3": "*",
+                "phpoffice/phpexcel": "*",
+                "symfony/console": "~2.5.0",
+                "symfony/property-access": "*",
+                "symfony/validator": "~2.3.0"
+            },
+            "suggest": {
+                "doctrine/dbal": "If you want to use the DbalReader",
+                "ext-iconv": "For the CharsetValueConverter",
+                "ext-mbstring": "For the CharsetValueConverter",
+                "phpoffice/phpexcel": "If you want to use the ExcelReader",
+                "symfony/console": "If you want to use the ConsoleProgressWriter",
+                "symfony/property-access": "If you want to use the ObjectConverter",
+                "symfony/validator": "to use the ValidatorFilter"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Ddeboer\\DataImport": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The community",
+                    "homepage": "https://github.com/ddeboer/data-import/graphs/contributors"
+                },
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl"
+                }
+            ],
+            "description": "Import data from, and export data to, a range of file formats and media",
+            "keywords": [
+                "csv",
+                "data",
+                "doctrine",
+                "excel",
+                "export",
+                "import"
+            ],
+            "time": "2015-04-21 14:06:20"
         },
         {
             "name": "doctrine/annotations",
@@ -1149,7 +1217,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/d196ddc229f50c66c5a015c158adb78a2dfb4351",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f4f5bdf6cc84011513ca6b582f85330a09a5037b",
                 "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
                 "shasum": ""
             },
@@ -1293,7 +1361,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/59bfc3925521c1167e3d5b72ae0e1e1d4345e3eb",
+                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/7b96ac54a52616309f964bdced38b20ed2d1a66a",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "shasum": ""
             },
@@ -1524,16 +1592,16 @@
         },
         {
             "name": "fr3d/ldap-bundle",
-            "version": "2.0.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Maks3w/FR3DLdapBundle.git",
-                "reference": "59d002df39bdb75fe6e5d12a4d61904d30e84711"
+                "url": "https://github.com/partkeepr/FR3DLdapBundle.git",
+                "reference": "884f36c5a944f54218fd43520576571a625c8507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maks3w/FR3DLdapBundle/zipball/59d002df39bdb75fe6e5d12a4d61904d30e84711",
-                "reference": "59d002df39bdb75fe6e5d12a4d61904d30e84711",
+                "url": "https://api.github.com/repos/partkeepr/FR3DLdapBundle/zipball/884f36c5a944f54218fd43520576571a625c8507",
+                "reference": "884f36c5a944f54218fd43520576571a625c8507",
                 "shasum": ""
             },
             "require": {
@@ -1560,7 +1628,6 @@
                     "FR3D\\LdapBundle\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1572,10 +1639,14 @@
             "description": "This package provide users and authentication services based on LDAP directories for Symfony2 framework",
             "homepage": "https://github.com/Maks3w/FR3DLdapBundle",
             "keywords": [
-                "Authentication",
+                "authentication",
                 "ldap"
             ],
-            "time": "2015-04-29 08:53:27"
+            "support": {
+                "issues": "https://github.com/Maks3w/FR3DLdapBundle/issues",
+                "source": "https://github.com/Maks3w/FR3DLdapBundle"
+            },
+            "time": "2015-10-12 10:42:44"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1976,7 +2047,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/8eff56746b73762dfe06414faf0fb609bfe51754",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/c2b4c6def557a8bcaae1df0745b57e5daac103ac",
                 "reference": "8eff56746b73762dfe06414faf0fb609bfe51754",
                 "shasum": ""
             },
@@ -3053,6 +3124,69 @@
             "time": "2015-08-11 12:11:25"
         },
         {
+            "name": "sonata-project/exporter",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sonata-project/exporter.git",
+                "reference": "92835b5aac7a5300b3c34f4b52ed4327a1d1ed47"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sonata-project/exporter/zipball/92835b5aac7a5300b3c34f4b52ed4327a1d1ed47",
+                "reference": "92835b5aac7a5300b3c34f4b52ed4327a1d1ed47",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "~0.1|~1.0",
+                "propel/propel1": "~1.6",
+                "symfony/phpunit-bridge": "~2.7",
+                "symfony/property-access": "~2.3",
+                "symfony/routing": "~2.3"
+            },
+            "suggest": {
+                "ext-curl": "*",
+                "propel/propel1": "~1.6",
+                "symfony/property-access": "~2.3",
+                "symfony/routing": "~2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Exporter": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Rabaix",
+                    "email": "thomas.rabaix@gmail.com",
+                    "homepage": "https://sonata-project.org/"
+                }
+            ],
+            "description": "Lightweight Exporter library",
+            "homepage": "https://github.com/sonata-project/Exporter",
+            "keywords": [
+                "client",
+                "csv",
+                "data",
+                "export",
+                "xls"
+            ],
+            "time": "2015-06-29 18:36:46"
+        },
+        {
             "name": "stof/doctrine-extensions-bundle",
             "version": "dev-master",
             "source": {
@@ -3246,7 +3380,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/bd331ce45d0ecf72354fb86068d5b01fb02a7fda",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/067bb642fa5f9e42e272e74514803fa8e0a7e3b7",
                 "reference": "e5ed757d6dcd6fd60dde5da8b7cbec2fab7cb48a",
                 "shasum": ""
             },
@@ -5106,6 +5240,7 @@
         "escapestudios/wsse-authentication-bundle": 20,
         "jms/translation-bundle": 20,
         "partkeepr/remote-file-loader": 20,
+        "ddeboer/data-import": 0,
         "codeclimate/php-test-reporter": 20
     },
     "prefer-stable": false,

@@ -41,7 +41,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
             disabled: true,
             itemId: 'delete',
             scope: this,
-            icon: 'resources/silkicons/lorry_delete.png',
+            iconCls: 'web-icon lorry_delete',
             handler: this.onDeleteClick
         });
 
@@ -52,7 +52,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                     {
                         text: 'Add',
                         scope: this,
-                        icon: 'resources/silkicons/lorry_add.png',
+                        iconCls: 'web-icon lorry_add',
                         handler: this.onAddClick
                     }, this.deleteButton
                 ]

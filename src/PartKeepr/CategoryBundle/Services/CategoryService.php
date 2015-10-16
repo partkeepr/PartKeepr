@@ -47,6 +47,10 @@ class CategoryService
         return $rootNode;
     }
 
+    public function getEntityClass () {
+        return $this->entityClass;
+    }
+
     /**
      * Creates the root node for a tree if it doesn't exist
      */

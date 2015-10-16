@@ -34,12 +34,12 @@ Ext.define('PartKeepr.PartsGrid', {
     /**
      * @cfg {String} Defines the icon of the "Expand Row" button
      */
-    expandRowButtonIcon: 'bundles/partkeeprfrontend/images/icons/group-expand.png',
+    expandRowButtonIconCls: 'partkeepr-icon group-expand',
 
     /**
      * @cfg {String} Defines the icon of the "Collapse Row" button
      */
-    collapseRowButtonIcon: 'bundles/partkeeprfrontend/images/icons/group-collapse.png',
+    collapseRowButtonIconCls: 'partkeepr-icon group-collapse',
 
     /**
      * Configure drag'n'drop.
@@ -100,7 +100,7 @@ Ext.define('PartKeepr.PartsGrid', {
         this.bottomToolbar.add({
             xtype: 'button',
             tooltip: i18n("Expand all Groups"),
-            icon: this.expandRowButtonIcon,
+            iconCls: this.expandRowButtonIconCls,
             listeners: {
                 scope: this.groupingFeature,
                 click: this.groupingFeature.expandAll
@@ -111,7 +111,7 @@ Ext.define('PartKeepr.PartsGrid', {
         this.bottomToolbar.add({
             xtype: 'button',
             tooltip: i18n("Collapse all Groups"),
-            icon: this.collapseRowButtonIcon,
+            iconCls: this.collapseRowButtonIconCls,
             listeners: {
                 scope: this.groupingFeature,
                 click: this.groupingFeature.collapseAll
@@ -232,7 +232,7 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         this.columns = [
             {
-                header: '<span class="fugue-icon paper-clip"></span>',
+                header: '<span class="web-icon fugue-icon paper-clip"></span>',
                 dataIndex: "",
                 width: 30,
                 tooltip: i18n("Has attachments?"),
@@ -240,7 +240,7 @@ Ext.define('PartKeepr.PartsGrid', {
             }, {
                 text: '<span class="web-icon accept"></span>',
                 dataIndex: "needsReview",
-                width: 25,
+                width: 30,
                 tooltip: i18n("Needs Review?"),
                 renderer: this.reviewRenderer
             }, {
@@ -373,8 +373,6 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     setCategory: function (category)
     {
-        this.currentCategory = category;
-
         var proxy = this.store.getProxy();
 
         proxy.extraParams.category = category;

@@ -1,7 +1,7 @@
 Ext.define("PartKeepr.FootprintTree", {
-	extend: 'PartKeepr.CategoryEditorTree',
-	alias: 'widget.FootprintTree',
-	xtype: 'partkeepr.FootprintTree',
+    extend: 'PartKeepr.CategoryEditorTree',
+    alias: 'widget.FootprintTree',
+    xtype: 'partkeepr.FootprintTree',
     viewConfig: {
         plugins: {
             ptype: 'treeviewdragdrop',
@@ -9,30 +9,28 @@ Ext.define("PartKeepr.FootprintTree", {
             ddGroup: 'FootprintCategoryTree'
         }
     },
-	folderSort: true,
+    folderSort: true,
 
-	categoryModel: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
+    categoryModel: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
 
-	/**
-     * @cfg {String} text The path to the 'add' icon
-     */
-	addButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_add.png',
+    initComponent: function ()
+    {
+        this.store = Ext.create("PartKeepr.data.store.FootprintCategoryStore");
+        this.callParent();
+    },
 
-	/**
-     * @cfg {String} text The path to the 'delete' icon
-     */
-	deleteButtonIcon: 'bundles/partkeeprfrontend/images/icons/footprint_delete.png',
-
-	listeners: {
-		"foreignModelDrop": function (record, target) {
-			record.setCategory(target);
-			record.save({
-				success: function() {
-					if (record.store && record.store.reload) {
-						record.store.reload();
-					}
-				}
-			});
-		}
-	}
+    listeners: {
+        "foreignModelDrop": function (record, target)
+        {
+            record.setCategory(target);
+            record.save({
+                success: function ()
+                {
+                    if (record.store && record.store.reload) {
+                        record.store.reload();
+                    }
+                }
+            });
+        }
+    }
 });

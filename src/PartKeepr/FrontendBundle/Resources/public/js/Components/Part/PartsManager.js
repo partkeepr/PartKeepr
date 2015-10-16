@@ -47,8 +47,6 @@ Ext.define('PartKeepr.PartManager', {
 
         var treeConfig = {
             region: 'west',
-            categoryModel: 'PartKeepr.PartCategory',
-            categoryService: 'PartCategory',
             ddGroup: 'CategoryTree'
         };
 
@@ -334,9 +332,9 @@ Ext.define('PartKeepr.PartManager', {
         var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().findRecord("default", true);
 
         defaults.partUnit = defaultPartUnit.getId();
-        defaults.category = this.grid.currentCategory;
 
         var record = Ext.create("PartKeepr.PartBundle.Entity.Part", defaults);
+        record.setCategory(this.getSelectedCategory());
 
         // Inject the defaults to the editor, so the editor can create a new item on its own
         j.editor.partDefaults = defaults;

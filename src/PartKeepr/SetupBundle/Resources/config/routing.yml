@@ -37,3 +37,7 @@ _setup_units:
 _setup_manufacturers:
     resource: "@PartKeeprSetupBundle/Controller/ManufacturerSetupController.php"
     type:     annotation
+
+_setup_parseconfig:
+    resource: "@PartKeeprSetupBundle/Controller/ExistingConfigParserController.php"
+    type:     annotation

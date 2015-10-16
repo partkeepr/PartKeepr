@@ -61,6 +61,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\ProjectBundle\PartKeeprProjectBundle();
         $bundles[] = new PartKeepr\StorageLocationBundle\PartKeeprStorageLocationBundle();
         $bundles[] = new PartKeepr\TipOfTheDayBundle\PartKeeprTipOfTheDayBundle();
+        $bundles[] = new PartKeepr\ExportBundle\PartKeeprExportBundle();
 
         return $bundles;
     }

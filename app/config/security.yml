@@ -6,6 +6,10 @@ security:
         FOS\UserBundle\Model\UserInterface:
           algorithm: sha512
           iterations: 1
+        PartKeepr\AuthBundle\Entity\User:
+          algorithm: md5
+          iterations: 1
+          encode_as_base64: false
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -14,13 +18,11 @@ security:
     providers:
         chain_provider:
             chain:
-                providers: [in_memory, fos_userbundle, fr3d_ldapbundle]
+                providers: [in_memory, fos_userbundle, fr3d_ldapbundle, legacy]
+        legacy:
+            id: partkeepr_legacy_user_provider
         in_memory:
-            memory:
-                users:
-                    admin:
-                        password: x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A==
-                        roles: 'ROLE_ADMIN'
+            memory: ~
         fos_userbundle:
             id: fos_user.user_provider.username
         fr3d_ldapbundle:
@@ -33,11 +35,13 @@ security:
         main:
             stateless: true
             pattern: ^/api/.*
-            provider: fos_userbundle
+            provider: chain_provider
             fr3d_ldap_httpbasic:
-                provider: fr3d_ldapbundle
+                provider: chain_provider
             http_basic:
-                provider: fos_userbundle
+                provider: chain_provider
+            remote_user:
+                provider: chain_provider
             wsse:
                 realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
                 profile: "UsernameToken" #WSSE profile (WWW-Authenticate)

@@ -26,7 +26,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
                 disabled: true,
                 itemId: 'delete',
                 scope: this,
-                iconCls: 'web-icon delete.png',
+                iconCls: 'web-icon delete',
                 handler: this.onDeleteClick
             });
 		

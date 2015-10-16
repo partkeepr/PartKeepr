@@ -98,14 +98,14 @@ class UserService
 
         if ($FOSUser === null) {
 
-            if ($user->getPassword() == "") {
+            if ($user->getPlainPassword() == "") {
                 throw new \Exception("Password must be set");
             }
 
-            $FOSUser = $this->userManipulator->create($user->getUsername(), $user->getPassword(), "", true, false);
+            $FOSUser = $this->userManipulator->create($user->getUsername(), $user->getPlainPassword(), "", true, false);
         }
-        if ($user->getPassword() != "") {
-            $this->userManipulator->changePassword($user->getUsername(), $user->getPassword());
+        if ($user->getPlainPassword() != "") {
+            $this->userManipulator->changePassword($user->getUsername(), $user->getPlainPassword());
         }
 
 
@@ -167,6 +167,7 @@ class UserService
     private function createProxyUser($username, $provider)
     {
         $user = new User($username, $provider);
+        $user->setLegacy(false);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

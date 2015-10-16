@@ -21,23 +21,18 @@ Ext.define('PartKeepr.Editor', {
     // If true, always syncs the record via it's own proxy.
     syncDirect: false,
 
-    listeners: {
-        dirtychange: "onDirtyChange",
-        scope: "this"
-    },
-
     initComponent: function ()
     {
         if (this.enableButtons) {
             this.saveButton = Ext.create("Ext.button.Button", {
                 text: this.saveText,
-                icon: 'bundles/brainbitsfugueicons/icons/fugue/16/disk.png',
+                iconCls: 'fugue-icon disk',
                 handler: Ext.bind(this._onItemSave, this)
             });
 
             this.cancelButton = Ext.create("Ext.button.Button", {
                 text: this.cancelText,
-                icon: 'resources/silkicons/cancel.png',
+                iconCls: 'web-icon cancel',
                 handler: Ext.bind(this.onCancelEdit, this)
             });
 
@@ -56,13 +51,6 @@ Ext.define('PartKeepr.Editor', {
         }
 
         this.callParent();
-    },
-    onDirtyChange: function (form, dirty) {
-        if (dirty) {
-                this.setTitle(this.record.get(this.titleProperty) + "*");
-            } else {
-                this.setTitle(this.record.get(this.titleProperty));
-            }
     },
     onCancelEdit: function ()
     {

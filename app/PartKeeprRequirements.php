@@ -20,23 +20,31 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('Install the GD library extension'));
 
 
-        $this->addPhpIniRequirement("memory_limit", $this->getBytesIniSetting("memory_limit") > 64000000,
+        $this->addPhpIniRequirement("memory_limit", $this->getBytesIniSetting("memory_limit") > 128000000,
             false,
             "Memory Limit too small",
-            sprintf("The php.ini memory_limit directive must be set to 64MB or higher. Your limit is set to %s",
+            sprintf("The php.ini memory_limit directive must be set to 128MB or higher. Your limit is set to %s",
                 ini_get("memory_limit")));
 
+        $this->checkWritable(realpath(dirname(__FILE__)."/../data/"));
+        $this->checkWritable(realpath(dirname(__FILE__)."/../app/"));
+        $this->checkWritable(realpath(dirname(__FILE__)."/../web/"));
+    }
+
+    /**
+     * Checks if a path is writable. If not, generates a requirement
+     * @param $path string The path to check
+     */
+    protected function checkWritable ($path) {
         try {
-            $this->isWritableRecursive(realpath(dirname(__FILE__)."/../data/"));
+            $this->isWritableRecursive($path);
         } catch (\Exception $e) {
             $this->addRequirement(
                 false,
-                sprintf('Directory or file not writable'),
+                sprintf('Directory %s and all subfolders/files must be writable', $path),
                 $e->getMessage());
         }
-
     }
-
     /**
      * Returns a php.ini setting with parsed byte values.
      *

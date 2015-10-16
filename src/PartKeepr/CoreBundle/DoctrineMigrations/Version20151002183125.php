@@ -16,11 +16,11 @@ class Version20151002183125 extends BaseMigration
     {
         $this->performDatabaseUpgrade();
 
-        $userProviderRepository = $this->getEM()->getRepository(
+        $partRepository = $this->getEM()->getRepository(
             'PartKeeprPartBundle:Part'
         );
 
-        $parts = $userProviderRepository->findAll();
+        $parts = $partRepository->findAll();
 
         foreach ($parts as $part) {
             $part->recomputeStockLevels();

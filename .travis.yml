@@ -29,6 +29,7 @@ before_install:
   - echo "extension=ldap.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
 before_script:
+  - cp app/config/parameters.php.dist app/config/parameters.php
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS partkeepr_test;" -U postgres; fi
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS partkeepr_test;" -uroot; fi

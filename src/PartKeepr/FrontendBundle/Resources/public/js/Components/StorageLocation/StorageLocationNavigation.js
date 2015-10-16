@@ -10,8 +10,7 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
     items: [
         {
             xtype: 'partkeepr.StorageLocationTree',
-            region: 'center',
-            rootVisible: false
+            region: 'center'
         }, {
             xtype: 'partkeepr.StorageLocationGrid',
             resizable: true,
@@ -33,35 +32,6 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
     {
         this.callParent(arguments);
 
-        this.treeStore = Ext.create("Ext.data.TreeStore",
-            {
-                remoteSort: false,
-                folderSort: true,
-                rootVisible: true,
-                autoLoad: true,
-                sorters: [
-                    {
-                        property: 'name',
-                        direction: 'ASC'
-                    }
-                ],
-                root: {
-                    "@id": "@local-tree-root"
-                },
-                model: "PartKeepr.StorageLocationBundle.Entity.StorageLocationCategory",
-                proxy: {
-                    ignoreLoadId: '@local-tree-root',
-                    url: "/api/storage_location_categories/getExtJSRootNode",
-                    type: "Hydra",
-                    appendId: false,
-                    reader: {
-                        type: 'json'
-                    }
-
-                }
-            });
-
-        this.down("partkeepr\\.StorageLocationTree").setStore(this.treeStore);
         this.down("partkeepr\\.StorageLocationTree").on("itemclick", this.onCategoryClick, this);
         this.down("partkeepr\\.StorageLocationGrid").setStore(this.store);
 
@@ -122,12 +92,11 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
 
         var category;
         if (selection.length === 0) {
-            category = this.down("partkeepr\\.StorageLocationTree").getRootNode().getId();
+            category = this.down("partkeepr\\.StorageLocationTree").getRootNode().firstChild.getId();
         } else {
             var item = selection.shift();
             category = item.getId();
         }
-
         this.fireEvent("itemAdd", {
             category: category
         });

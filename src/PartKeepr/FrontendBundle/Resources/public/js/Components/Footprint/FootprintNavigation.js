@@ -33,35 +33,6 @@ Ext.define("PartKeepr.FootprintNavigation", {
     {
         this.callParent(arguments);
 
-        this.treeStore = Ext.create("Ext.data.TreeStore",
-            {
-                remoteSort: false,
-                folderSort: true,
-                rootVisible: true,
-                autoLoad: true,
-                sorters: [
-                    {
-                        property: 'name',
-                        direction: 'ASC'
-                    }
-                ],
-                root: {
-                    "@id": "@local-tree-root"
-                },
-                model: "PartKeepr.FootprintBundle.Entity.FootprintCategory",
-                proxy: {
-                    ignoreLoadId: '@local-tree-root',
-                    url: "/api/footprint_categories/getExtJSRootNode",
-                    type: "Hydra",
-                    appendId: false,
-                    reader: {
-                        type: 'json'
-                    }
-
-                }
-            });
-
-        this.down("partkeepr\\.FootprintTree").setStore(this.treeStore);
         this.down("partkeepr\\.FootprintTree").on("itemclick", this.onCategoryClick, this);
         this.down("partkeepr\\.FootprintGrid").setStore(this.store);
         this.down("partkeepr\\.FootprintGrid").on("itemAdd", this.onAddFootprint, this);

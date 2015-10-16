@@ -150,11 +150,12 @@ Ext.define('PartKeepr.EditorGrid', {
             items: topToolbarItems
         });
 
-        this.bottomToolbar = Ext.create("Ext.toolbar.Paging", {
+        this.bottomToolbar = Ext.create("PartKeepr.PagingToolbar", {
             store: this.store,
             enableOverflow: true,
             dock: 'bottom',
-            displayInfo: false
+            displayInfo: false,
+            grid: this
         });
 
         this.dockedItems = new Array();

@@ -1,5 +1,5 @@
 imports:
-    - { resource: parameters.yml }
+    - { resource: parameters.php }
     - { resource: security.yml }
     - { resource: partkeepr.yml }
     - { resource: config_framework.yml }
@@ -67,6 +67,16 @@ sprite_generator:
             relativeImagePath: ./
             padding: 5
             spriteClass: fugue-icon
+            cssFormat: css
+            imagePositioning: one-column
+            imageGenerator: gd2
+        partkeepr:
+            inDir: %kernel.root_dir%/../src/PartKeepr/FrontendBundle/Resources/public/images/icons/
+            outImage: %kernel.root_dir%/../web/spritesheets/partkeepr.png
+            outCss: %kernel.root_dir%/../web/spritesheets/partkeepr.css
+            relativeImagePath: ./
+            padding: 5
+            spriteClass: partkeepr-icon
             cssFormat: css
             imagePositioning: one-column
             imageGenerator: gd2

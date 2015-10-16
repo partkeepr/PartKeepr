@@ -4,6 +4,8 @@ namespace PartKeepr\AuthBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\Util\BaseEntity;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      uniqueConstraints={@ORM\UniqueConstraint(name="username_provider", columns={"username", "provider_id"})})
  * @TargetService(uri="/api/users")
  */
-class User extends BaseEntity
+class User extends BaseEntity implements UserInterface, EquatableInterface
 {
     /**
      * @ORM\Column(length=50)
@@ -23,12 +25,19 @@ class User extends BaseEntity
     private $username;
 
     /**
+     * @Groups({"default"})
      * @ORM\Column(length=32,nullable=true)
      */
     private $password;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @Assert\Email()
+     * @Groups({"default"})
      * @ORM\Column(length=255,nullable=true)
      * @var string
      */
@@ -38,6 +47,14 @@ class User extends BaseEntity
      * @ORM\Column(type="boolean")
      */
     private $admin;
+
+    /**
+     * Marks a user as a legacy user (=old md5 auth)
+     * @ORM\Column(type="boolean")
+     * @Groups({"default"})
+     * @var boolean
+     */
+    private $legacy;
 
     /**
      * @ORM\Column(type="datetime",nullable=true)
@@ -186,18 +203,28 @@ class User extends BaseEntity
      */
     public function getPassword()
     {
-        return $this->password;
+        return $this->plainPassword;
     }
 
     /**
      * Sets the user's password.
      *
-     * @Groups({"default"})
      * @param string $password
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->plainPassword = $password;
+    }
+
+    public function getPlainPassword () {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Sets the plain password. Used for password changes
+     */
+    public function setPlainPassword ($password) {
+
     }
 
     /**
@@ -240,6 +267,22 @@ class User extends BaseEntity
     }
 
     /**
+     * Returns if the user is a legacy user
+     * @return bool
+     */
+    public function isLegacy () {
+        return $this->legacy;
+    }
+
+    /**
+     * Marks a user as a legacy user
+     * @param bool|true $legacy
+     */
+    public function setLegacy ($legacy = true) {
+        $this->legacy = $legacy;
+    }
+
+    /**
      * Retrieve the last seen flag for a user.
      *
      * @return \DateTime
@@ -249,13 +292,28 @@ class User extends BaseEntity
         return $this->lastSeen;
     }
 
-    /**
-     * Unserializes the user.
-     *
-     * @param string $serialized
-     */
-    public function unserialize($serialized)
-    {
+    public function getRoles () {
+        return array();
+    }
 
+    public function getSalt () {
+        return "";
+    }
+
+    public function eraseCredentials () {
+
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->getUsername() != $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 }

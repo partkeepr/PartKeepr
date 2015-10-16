@@ -27,10 +27,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
 
         this.getView().on("drop", Ext.bind(this.onCategoryDrop, this));
         this.getView().on("beforedrop", Ext.bind(this.onBeforeDrop, this));
-        this.getView().on("itemcontextmenu", Ext.bind(this.onItemContextMenu, this));
-
-        this.createMenu();
-
+        this.on("selectionchange", Ext.bind(this.onItemSelect, this));
     },
     onBeforeDrop: function (node, data, overModel, dropPosition, dropHandlers)
     {
@@ -42,6 +39,33 @@ Ext.define("PartKeepr.CategoryEditorTree", {
             dropHandlers.cancelDrop();
             this.fireEvent("foreignModelDrop", draggedRecord, droppedOn);
         }
+    },
+    onItemSelect: function (selected) {
+        if (selected.getCount() === 0) {
+            this.toolbarAddButton.disable();
+            this.toolbarDeleteButton.disable();
+            this.toolbarEditButton.disable();
+        }
+
+        this.toolbarAddButton.enable();
+        this.toolbarEditButton.enable();
+        this.toolbarDeleteButton.enable();
+
+        var record = selected.getSelection()[0];
+
+
+        if (!(record instanceof PartKeepr.data.HydraTreeModel)) {
+            return;
+        }
+
+        if (record.parentNode !== null && record.parentNode.isRoot()) {
+            this.toolbarDeleteButton.disable();
+        }
+
+        if (record.hasChildNodes()) {
+            this.toolbarDeleteButton.disable();
+        }
+
     },
     onCategoryDrop: function (node, data, overModel, dropPosition)
     {
@@ -62,57 +86,6 @@ Ext.define("PartKeepr.CategoryEditorTree", {
                 "parent": targetRecord.getId()
             });
         }
-    },
-
-    onItemContextMenu: function (view, record, item, index, event)
-    {
-        if (!(record instanceof PartKeepr.data.HydraTreeModel)) {
-            return;
-        }
-        var menu = this.menu;
-        event.stopEvent();
-
-        menu.record = record;
-
-        this.menuCategoryDelete.enable();
-
-        if (record.isRoot()) {
-            this.menuCategoryDelete.disable();
-        }
-
-        if (record.hasChildNodes()) {
-            this.menuCategoryDelete.disable();
-        }
-
-        menu.showAt(event.getXY());
-    },
-    createMenu: function ()
-    {
-        this.menuCategoryDelete = Ext.create("Ext.menu.Item", {
-            text: i18n("Delete Category"),
-            handler: Ext.bind(this.confirmCategoryDelete, this),
-            iconCls: 'web-icon folder_delete'
-        });
-
-        this.menuCategoryAdd = Ext.create("Ext.menu.Item", {
-            text: i18n("Add Category"),
-            handler: Ext.bind(this.showCategoryAddDialog, this),
-            iconCls: 'web-icon folder_add'
-        });
-
-        this.menuCategoryEdit = Ext.create("Ext.menu.Item", {
-            text: i18n("Edit Category"),
-            handler: Ext.bind(this.showCategoryEditDialog, this),
-            iconCls: 'web-icon folder_edit'
-        });
-
-        this.menu = Ext.create('widget.menu', {
-            items: [
-                this.menuCategoryAdd,
-                this.menuCategoryEdit,
-                this.menuCategoryDelete
-            ]
-        });
     },
     createToolbar: function ()
     {
@@ -137,10 +110,41 @@ Ext.define("PartKeepr.CategoryEditorTree", {
             scope: this
         });
 
+        this.toolbarAddButton = Ext.create("Ext.button.Button", {
+            tooltip: i18n("Add Category"),
+            handler: Ext.bind(this.showCategoryAddDialog, this),
+            iconCls: 'web-icon folder_add',
+            disabled: true
+        });
+
+        this.toolbarDeleteButton = Ext.create("Ext.button.Button", {
+            tooltip: i18n("Delete Category"),
+            handler: Ext.bind(this.confirmCategoryDelete, this),
+            iconCls: 'web-icon folder_delete',
+            disabled: true
+        });
+
+        this.toolbarEditButton = Ext.create("Ext.button.Button", {
+            tooltip: i18n("Delete Category"),
+            handler: Ext.bind(this.showCategoryEditDialog, this),
+            iconCls: 'web-icon folder_edit',
+            disabled: true
+        });
+
         this.toolbar = Ext.create("Ext.toolbar.Toolbar", {
             enableOverflow: true,
             dock: 'top',
-            items: [this.toolbarExpandButton, this.toolbarCollapseButton, this.toolbarReloadButton]
+            items: [
+                this.toolbarExpandButton,
+                this.toolbarCollapseButton,
+                this.toolbarReloadButton,
+                {
+                    xtype: 'tbseparator'
+                },
+                this.toolbarAddButton,
+                this.toolbarEditButton,
+                this.toolbarDeleteButton
+            ]
         });
 
         Ext.apply(this, {
@@ -162,7 +166,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     confirmCategoryDelete: function ()
     {
         Ext.Msg.confirm(i18n("Confirm Category Delete"),
-            sprintf(i18n("Do you really wish to delete the category %s?"), this.menu.record.get("name")),
+            sprintf(i18n("Do you really wish to delete the category %s?"), this.getSelection()[0].get("name")),
             this.onCategoryDelete, this);
     },
     showCategoryAddDialog: function ()
@@ -170,7 +174,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
         var j = Ext.create("PartKeepr.CategoryEditorWindow", {
             record: Ext.create(this.categoryModel),
             categoryModel: this.categoryModel,
-            parentRecord: this.menu.record,
+            parentRecord: this.getSelection()[0],
             listeners: {
                 save: Ext.bind(this.onUpdateRecord, this)
             }
@@ -181,7 +185,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     showCategoryEditDialog: function ()
     {
         var j = Ext.create("PartKeepr.CategoryEditorWindow", {
-            record: this.menu.record,
+            record: this.getSelection()[0],
             parentRecord: null,
             categoryModel: this.categoryModel,
             listeners: {
@@ -198,7 +202,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     onCategoryDelete: function (btn)
     {
         if (btn == "yes") {
-            this.menu.record.erase();
+            this.getSelection()[0].erase();
         }
     }
 });

@@ -39,7 +39,7 @@ Ext.define('PartKeepr.MenuBar', {
 			        },{
 			        	text: i18n("Units"),
 			        	handler: this.editUnits,
-			        	iconCls: 'fugue-icon unit'
+			        	iconCls: 'partkeepr-icon unit'
 			        }]
 		});
 		
@@ -186,7 +186,7 @@ Ext.define('PartKeepr.MenuBar', {
 	editUnits: function () {
 		var j = Ext.create("PartKeepr.UnitEditorComponent", {
 			title: i18n("Units"),
-			iconCls: 'bundles/partkeeprfrontend/images/icons/unit',
+			iconCls: 'partkeepr-icon unit',
 			closable: true
 		});
 		

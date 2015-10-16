@@ -19,14 +19,14 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
 
         this.compactLayout = Ext.create("Ext.form.field.Radio", {
             boxLabel: i18n(
-                "Compact Layout") + '<br/> <img style="margin-top: 2px; margin-left: 18px;" src="bundles/partkeeprfrontend/images/config/layout-compact.png"/>',
+                "Compact Layout") + '<br/> <span class="partkeepr-part-manager-compact"/>',
             name: 'rb',
             inputValue: 'compact'
         });
 
         this.standardLayout = Ext.create("Ext.form.field.Radio", {
             boxLabel: i18n(
-                "Standard Layout") + '<br/> <img style="margin-top: 2px; margin-left: 18px;" src="bundles/partkeeprfrontend/images/config/layout-standard.png"/>',
+                "Standard Layout") + '<br/> <span class="partkeepr-part-manager-standard"/>',
             name: 'rb',
             inputValue: 'standard'
         });

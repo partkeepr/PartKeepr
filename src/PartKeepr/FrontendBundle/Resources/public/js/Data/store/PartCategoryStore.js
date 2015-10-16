@@ -17,7 +17,7 @@ Ext.define('PartKeepr.data.store.PartCategoryStore', {
     folderSort: true,
 
     /**
-     * Hide the root node by default
+     * Show the root node by default
      */
     rootVisible: false,
 
@@ -40,7 +40,8 @@ Ext.define('PartKeepr.data.store.PartCategoryStore', {
      * Virtual Root Node
      */
     root: {
-        "@id": "@local-tree-root"
+        "@id": "@local-tree-root",
+        "name": "virtual root - should not be visible"
     },
 
     /**
@@ -54,7 +55,7 @@ Ext.define('PartKeepr.data.store.PartCategoryStore', {
         type: "Hydra",
         appendId: false,
         reader: {
-            type: 'json'
+            type: 'tree'
         }
     }
 });

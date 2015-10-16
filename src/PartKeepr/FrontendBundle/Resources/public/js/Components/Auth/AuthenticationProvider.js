@@ -119,11 +119,8 @@ Ext.define('PartKeepr.Auth.AuthenticationProvider', {
         if (response.status == "401") {
             this.fireEvent("authenticate", false);
         } else {
-            var user = Ext.create("PartKeepr.AuthBundle.Entity.User",
-                Ext.decode(response.responseText)
-            );
-
-            this.setUser(user);
+            var records = PartKeepr.AuthBundle.Entity.User.getProxy().getReader().read(response);
+            this.setUser(records.getRecords()[0]);
             this.fireEvent("authenticate", true);
         }
     },

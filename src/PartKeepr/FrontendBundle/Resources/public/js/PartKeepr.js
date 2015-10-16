@@ -23,8 +23,6 @@ Ext.application({
         var authenticationProvider = Ext.create(window.parameters.authentication_provider);
         PartKeepr.Auth.AuthenticationProvider.setAuthenticationProvider(authenticationProvider);
 
-        this.sessionManager = new PartKeepr.SessionManager();
-
         var config = {};
 
         if (window.parameters.autoLoginUsername) {
@@ -77,8 +75,6 @@ Ext.application({
             var records = this.getUserPreferenceStore().getProxy().getReader().read(PartKeepr.initialUserPreferences);
             this.getUserPreferenceStore().loadRecords(records.records);
         }
-
-        this.reloadStores();
 
         this.createPartManager();
 
@@ -198,15 +194,6 @@ Ext.application({
             alert(i18n("The following cronjobs aren't running:") + "\n\n" + data.inactiveCronjobs.join("\n"));
         }
     },
-    /**
-     * Returns the session manager
-     *
-     * @returns SessionManager
-     */
-    getSessionManager: function ()
-    {
-        return this.sessionManager;
-    },
     /*
      * Checks for unacknowledged system notices. Triggers a service call against the server.
      * 
@@ -217,26 +204,24 @@ Ext.application({
      */
     doUnacknowledgedNoticesCheck: function ()
     {
-        if (this.getSessionManager().getSession() !== null) {
-            var call = new PartKeepr.ServiceCall("SystemNotice", "hasUnacknowledgedNotices");
-
-            call.setHandler(Ext.bind(this.onUnacknowledgedNoticesCheck, this));
-            call.doCall();
-        }
+        this.systemNoticeStore.load({
+            scope: this,
+            callback: this.onUnacknowledgedNoticesCheck
+        });
     },
     /**
      * Handler for the unacknowledged system notices check
      * @param data The data returned from the server
      */
-    onUnacknowledgedNoticesCheck: function (data)
+    onUnacknowledgedNoticesCheck: function ()
     {
-        if (data.data.unacknowledgedNotices === true) {
+        if (this.systemNoticeStore.count() > 0) {
             this.statusBar.systemNoticeButton.show();
         } else {
             this.statusBar.systemNoticeButton.hide();
         }
 
-        Ext.defer(this.doUnacknowledgedNoticesCheck, 10000, this);
+        Ext.defer(this.doUnacknowledgedNoticesCheck, 100000, this);
     },
     createGlobalStores: function ()
     {
@@ -296,6 +281,7 @@ Ext.application({
 
         this.tipOfTheDayStore = Ext.create("PartKeepr.data.store.TipOfTheDayStore");
         this.tipOfTheDayHistoryStore = Ext.create("PartKeepr.data.store.TipOfTheDayHistoryStore");
+        this.systemNoticeStore = Ext.create("PartKeepr.data.store.SystemNoticeStore");
 
     },
     storeLoaded: function (store)
@@ -403,31 +389,6 @@ Ext.application({
         return str_replace("µ", "μ", value);
     },
     /**
-     * Reload all global stores each 100 seconds.
-     *
-     * @todo In the future, it would be nice to trigger a specific
-     *       store reload when something happens. Example:
-     *
-     *       If the user pulls down the storage location combo box,
-     *       reload it.
-     *
-     *       YES, this is becoming nasty. We have now 6 stores, each
-     *       reloading every minute. This NEEDS to be fixed soon!
-     *
-     */
-    reloadStores: function ()
-    {
-        if (this.getSessionManager().getSession()) {
-            this.footprintStore.load();
-            this.manufacturerStore.load();
-            this.distributorStore.load();
-            this.partUnitStore.load();
-            this.unitStore.load();
-            this.userStore.load();
-            Ext.defer(PartKeepr.getApplication().reloadStores, 100000, this);
-        }
-    },
-    /**
      * Creates the main view of PartKeepr.
      */
     createLayout: function ()
@@ -528,20 +489,6 @@ Ext.application({
     getStatusbar: function ()
     {
         return this.statusBar;
-    },
-    getSession: function ()
-    {
-        return this.getSessionManager().getSession();
-    },
-    setSession: function (session)
-    {
-        if (session) {
-            this.getStatusbar().getConnectionButton().setConnected();
-        } else {
-            this.getStatusbar().getConnectionButton().setDisconnected();
-            this.setUsername("");
-        }
-
     },
     /**
      * Sets the username. This should only be called from the login dialog.
