@@ -66,6 +66,15 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
+    file_removal_listener:
+        class:    PartKeepr\UploadedFileBundle\EventListener\FileRemovalListener
+        arguments:
+            - "@partkeepr_uploadedfile_service"
+            - "@annotation_reader"
+            - "@property_accessor"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
     temporary_file_listener:
         class:    PartKeepr\UploadedFileBundle\EventListener\TemporaryFileEventListener
         arguments:

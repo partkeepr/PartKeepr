@@ -61,6 +61,11 @@ class UploadedFileService extends ContainerAware
         unlink($tempName);
     }
 
+    public function delete (UploadedFile $file) {
+        $storage = $this->getStorage($file);
+        $storage->delete($file->getFullFilename());
+    }
+
     /**
      * Replaces an existing uploaded file with another uploaded file.
      *
@@ -69,24 +74,9 @@ class UploadedFileService extends ContainerAware
      */
     public function replaceFromUploadedFile(UploadedFile $target, UploadedFile $source)
     {
-        $this->replaceFromFilesystem($target, new File($this->getFullPath($source)));
+        $storage = $this->getStorage($source);
+        $this->replaceFromData($target, $storage->read($source->getFullFilename()), $source->getFullFilename());
         $target->setOriginalFilename($source->getOriginalFilename());
-    }
-
-    /**
-     * Returns the full path for a given UploadedFile.
-     *
-     * @param UploadedFile $file The file to get the full path for
-     *
-     * @return string The path
-     */
-    public function getFullPath(UploadedFile $file)
-    {
-        $targetDirectory = $this->getStorageDirectory($file);
-
-        $targetFilename = $file->getFilename().".".$file->getExtension();
-
-        return $targetDirectory."/".$targetFilename;
     }
 
     /**
