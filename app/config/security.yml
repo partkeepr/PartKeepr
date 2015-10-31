@@ -33,7 +33,7 @@ security:
             pattern: ^/api/users/getSalt
             security: false
         main:
-            stateless: true
+            stateless: false
             pattern: ^/api/.*
             provider: chain_provider
             fr3d_ldap_httpbasic:
