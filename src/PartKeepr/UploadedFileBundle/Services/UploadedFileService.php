@@ -3,6 +3,7 @@
 
 namespace PartKeepr\UploadedFileBundle\Services;
 
+use Gaufrette\Filesystem;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
@@ -44,7 +45,8 @@ class UploadedFileService extends ContainerAware
         $file->setMimeType($filesystemFile->getMimeType());
         $file->setSize($filesystemFile->getSize());
 
-        copy($filesystemFile->getPathname(), $this->getFullPath($file));
+        $storage = $this->getStorage($file);
+        $storage->write($file->getFullFilename(), file_get_contents($filesystemFile->getPathname()));
     }
 
     public function replaceFromData(UploadedFile $file, $data, $filename)
@@ -154,5 +156,15 @@ class UploadedFileService extends ContainerAware
     public function getStorageDirectory(UploadedFile $file)
     {
         return $this->container->getParameter("partkeepr.directories.".$file->getType());
+    }
+
+     /**
+     * @param UploadedFile $file
+     *
+     * @return Filesystem
+     */
+    public function getStorage (UploadedFile $file) {
+        $type = strtolower($file->getType());
+        return $this->container->get("filesystem_".$type);
     }
 }

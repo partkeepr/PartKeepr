@@ -116,3 +116,62 @@ services:
         calls:
             - method: "setCircularReferenceLimit"
               arguments: [ [ 5 ] ]
+
+knp_gaufrette:
+    adapters:
+        iclogo:
+            local:
+                directory: %kernel.root_dir%/../data/images/iclogo/
+        temp:
+            local:
+                directory: %kernel.root_dir%/../data/temp/
+        tempfile:
+            local:
+                directory: %kernel.root_dir%/../data/files/Temporary/
+        footprintattachment:
+            local:
+                directory: %kernel.root_dir%/../data/files/FootprintAttachment/
+        footprint:
+            local:
+                directory: %kernel.root_dir%/../data/images/footprint/
+        partattachment:
+            local:
+                directory: %kernel.root_dir%/../data/files/PartAttachment/
+        storagelocation:
+            local:
+                directory: %kernel.root_dir%/../data/images/storagelocation/
+        mimetype_icons:
+            local:
+                directory: %kernel.root_dir%/../src/PartKeepr/MimetypeIconsBundle/Resources/public/images/mimes/
+        projectattachment:
+            local:
+                directory: %kernel.root_dir%/../data/files/ProjectAttachment/
+    filesystems:
+        iclogo:
+            adapter: iclogo
+            alias: filesystem_iclogo
+        temp:
+            adapter: temp
+            alias: filesystem_temp
+        tempfile:
+            adapter: tempfile
+            alias: filesystem_tempfile
+        footprintattachment:
+            adapter: footprintattachment
+            alias: filesystem_footprintattachment
+        footprint:
+            adapter: footprint
+            alias: filesystem_footprint
+        partattachment:
+            adapter: partattachment
+            alias: filesystem_partattachment
+        storagelocation:
+            adapter: storagelocation
+            alias: filesystem_storagelocation
+        mimetype_icons:
+            adapter: mimetype_icons
+            alias: filesystem_mimetype_icons
+        projectattachment:
+            adapter: projectattachment
+            alias: filesystem_projectattachment
+

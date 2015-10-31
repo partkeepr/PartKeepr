@@ -269,4 +269,8 @@ abstract class UploadedFile extends BaseEntity
             return "undefined";
         }
     }
+
+    public function getFullFilename () {
+        return $this->getFilename().".".$this->getExtension();
+    }
 }

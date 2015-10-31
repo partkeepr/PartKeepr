@@ -2,26 +2,13 @@
 namespace PartKeepr\UploadedFileBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Gaufrette\Filesystem;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class FileController extends Controller
 {
-    /**
-     * Returns the full path for the file
-     *
-     * @param UploadedFile $file
-     *
-     * @return string
-     */
-    protected function getFilename(UploadedFile $file)
-    {
-        $storageDirectory = $this->get("partkeepr_uploadedfile_service")->getStorageDirectory($file);
-
-        return $storageDirectory."/".$file->getFilename().".".$file->getExtension();
-    }
-
     /**
      * Returns the mimetype icon for an uploaded file
      *
@@ -65,8 +52,10 @@ abstract class FileController extends Controller
          */
         $file = $em->find($this->getEntityClass(), $id);
 
+        $storage = $this->get("partkeepr_uploadedfile_service")->getStorage($file);
+
         return new Response(
-            file_get_contents($this->getFilename($file)),
+            $storage->read($file->getFullFilename()),
             200,
             array("Content-Type" => $file->getMimeType())
         );
