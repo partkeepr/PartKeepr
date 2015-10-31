@@ -34,9 +34,6 @@ Ext.define('PartKeepr.FileUploadDialog', {
                     if (form.isValid()) {
                         form.submit({
                             url: this.uploadURL,
-                            params: {
-                                session: PartKeepr.getApplication().getSession()
-                            },
                             success: Ext.bind(function (fp, o)
                             {
                                 this.fireEvent("fileUploaded", o.result.response);
