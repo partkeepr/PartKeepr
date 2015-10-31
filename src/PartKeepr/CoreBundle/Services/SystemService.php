@@ -145,12 +145,12 @@ class SystemService extends ContainerAware
      * @return float
      */
     public function getFreeDiskSpace () {
-        return disk_free_space($this->container->getParameter("data_dir"));
+        return disk_free_space($this->container->getParameter("data_directory"));
     }
 
     public function getTotalDiskSpace () {
         if ($this->container->getParameter("quota") === false) {
-            return disk_total_space($this->container->getParameter("data_dir"));
+            return disk_total_space($this->container->getParameter("data_directory"));
         } else {
             return $this->container->getParameter("quota");
         }
