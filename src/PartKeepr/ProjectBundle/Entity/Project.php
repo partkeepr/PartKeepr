@@ -55,7 +55,7 @@ class Project extends BaseEntity
     /**
      * Holds the project attachments
      *
-     * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectAttachment",mappedBy="project",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectAttachment",mappedBy="project",cascade={"persist", "remove"}, orphanRemoval=true)
      * @UploadedFileCollection()
      * @Groups({"default"})
      * @var ArrayCollection

@@ -24,7 +24,7 @@ class StorageLocation extends BaseEntity
     /**
      * Holds the storage location image
      * @ORM\OneToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocationImage",
-     *               mappedBy="storageLocation",cascade={"persist", "remove"})
+     *               mappedBy="storageLocation",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      * @UploadedFile()
      * @var StorageLocationImage
@@ -32,7 +32,7 @@ class StorageLocation extends BaseEntity
     private $image;
 
     /**
-     * The category of the footprint
+     * The category of the storage location
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory",
      *                inversedBy="storageLocations")
@@ -100,9 +100,9 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Sets the footprint image
+     * Sets the storage location image
      *
-     * @param StorageLocationImage $image The footprint image
+     * @param StorageLocationImage $image The storage location image
      *
      * @return void
      */
@@ -121,9 +121,9 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Returns the footprint image
+     * Returns the storage location image
      *
-     * @return StorageLocationImage The footprint image
+     * @return StorageLocationImage The storage location image
      */
     public function getImage()
     {

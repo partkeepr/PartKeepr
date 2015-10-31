@@ -5,8 +5,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
-use PartKeepr\Part\Exceptions\CategoryNotAssignedException;
-use PartKeepr\Part\Exceptions\StorageLocationNotAssignedException;
+use PartKeepr\PartBundle\Exceptions\CategoryNotAssignedException;
+use PartKeepr\PartBundle\Exceptions\StorageLocationNotAssignedException;
 use PartKeepr\PartKeepr;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
@@ -82,7 +82,7 @@ class Part extends BaseEntity
 
     /**
      * Holds the manufacturers which can manufacture this part
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      *
      * @var ArrayCollection
@@ -91,7 +91,7 @@ class Part extends BaseEntity
 
     /**
      * Holds the distributors from where we can buy the part
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      *
      * @var ArrayCollection
@@ -99,18 +99,9 @@ class Part extends BaseEntity
     private $distributors;
 
     /**
-     * Holds the part images
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartImage",mappedBy="part",cascade={"persist", "remove"})
-     * @Groups({"default"})
-     *
-     * @var PartImage
-     */
-    private $images;
-
-    /**
      * Holds the part attachments
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartAttachment",
-     *                mappedBy="part",cascade={"persist", "remove"})
+     *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      * @UploadedFileCollection()
      *
@@ -164,7 +155,7 @@ class Part extends BaseEntity
     /**
      * The parameters for this part
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartParameter",
-     *                mappedBy="part",cascade={"persist", "remove"})
+     *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      *
      * @var ArrayCollection
      */
@@ -238,7 +229,6 @@ class Part extends BaseEntity
         $this->distributors = new ArrayCollection();
         $this->manufacturers = new ArrayCollection();
         $this->parameters = new ArrayCollection();
-        $this->images = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->stockLevels = new ArrayCollection();
         $this->setCreateDate(new \DateTime());
@@ -466,16 +456,6 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the part images array
-     *
-     * @return ArrayCollection the part images
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
-
-    /**
      * Returns the part attachments array
      *
      * @return ArrayCollection the part attachments
@@ -563,7 +543,7 @@ class Part extends BaseEntity
     private function checkCategoryConsistency()
     {
         if ($this->getCategory() === null) {
-            throw new CategoryNotAssignedException($this);
+            throw new CategoryNotAssignedException();
         }
     }
 
@@ -590,7 +570,7 @@ class Part extends BaseEntity
     /**
      * Checks if the part storage location is set.
      *
-     * @throws StorageLocationNotAssignedException
+     * @throws \PartKeepr\PartBundle\Exceptions\StorageLocationNotAssignedException
      */
     private function checkStorageLocationConsistency()
     {
@@ -741,9 +721,9 @@ class Part extends BaseEntity
     }
 
     /**
-     * Adds a Part Attachment
+     * Removes a Part Attachment
      *
-     * @param PartAttachment $partAttachment An attachment to add
+     * @param PartAttachment $partAttachment An attachment to remove
      */
     public function removeAttachment($partAttachment)
     {
@@ -805,7 +785,8 @@ class Part extends BaseEntity
         return $this->projectParts;
     }
 
-    public function recomputeStockLevels () {
+    public function recomputeStockLevels()
+    {
         $sum = 0;
         $price = 0;
 
