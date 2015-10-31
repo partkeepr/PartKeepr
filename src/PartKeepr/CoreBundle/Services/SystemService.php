@@ -138,4 +138,53 @@ class SystemService extends ContainerAware
             return "complete";
         }
     }
+
+    /**
+     * Returns the available disk space for the configured data_dir.
+     *
+     * @return float
+     */
+    public function getFreeDiskSpace () {
+        return disk_free_space($this->container->getParameter("data_dir"));
+    }
+
+    public function getTotalDiskSpace () {
+        if ($this->container->getParameter("quota") === false) {
+            return disk_total_space($this->container->getParameter("data_dir"));
+        } else {
+            return $this->container->getParameter("quota");
+        }
+    }
+
+    /**
+     * Returns the used disk space occupied by attachments etc.
+     *
+     * Does not count temporary files.
+     *
+     * @return int
+     */
+    public function getUsedDiskSpace () {
+        if ($this->container->getParameter("quota") === false) {
+            return $this->getTotalDiskSpace() - $this->getFreeDiskSpace();
+        }
+
+        $fileEntities = array(
+            'PartKeepr\FootprintBundle\Entity\FootprintAttachment',
+            'PartKeepr\FootprintBundle\Entity\FootprintImage',
+            'PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo',
+            'PartKeepr\PartBundle\Entity\PartAttachment',
+            'PartKeepr\ProjectBundle\Entity\ProjectAttachment',
+            'PartKeepr\StorageLocationBundle\Entity\StorageLocationImage'
+        );
+
+        $size = 0;
+        foreach ($fileEntities as $fileEntity) {
+            $qb = $this->container->get("doctrine.orm.default_entity_manager")->createQueryBuilder();
+            $qb->select("SUM(a.size)")->from($fileEntity, "a");
+
+            $size += $qb->getQuery()->getSingleScalarResult();
+        }
+
+        return $size;
+    }
 }

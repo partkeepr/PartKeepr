@@ -8,7 +8,9 @@ Ext.define('PartKeepr.FileUploadDialog', {
     layout: 'fit',
     resizable: false,
     modal: true,
-    iconCls: 'web-icon drive-upload',
+    defaults: {
+        labelWidth: 80
+    },
     initComponent: function ()
     {
 
@@ -19,8 +21,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
         this.uploadButton = Ext.create("Ext.button.Button",
             {
                 text: i18n('Upload'),
-                iconCls: 'web-icon drive-upload',
-                width: 120,
+                iconCls: 'fugue-icon drive-upload',
                 handler: Ext.bind(function ()
                 {
                     var form = this.form.getForm();
@@ -50,12 +51,17 @@ Ext.define('PartKeepr.FileUploadDialog', {
 
         this.urlField = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("URL"),
-            labelWidth: 50,
             name: "url",
             anchor: '100%'
         });
 
-        this.tbButtons = [this.uploadButton];
+        this.diskUsage = Ext.create("Ext.ProgressBar", {
+            width: "200px"
+        });
+
+        this.diskUsage.updateProgress(0, i18n("Loading…"));
+
+        this.tbButtons = [this.diskUsage, '->', this.uploadButton];
 
         if (this.imageUpload) {
 
@@ -65,8 +71,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
 
             this.fileFormatButton = Ext.create("Ext.button.Button", {
                 text: i18n("Available Formats"),
-                width: 120,
-                iconCls: 'web-icon infocard',
+                iconCls: 'fugue-icon infocard',
                 handler: this.showAvailableFormats,
                 scope: this
             });
@@ -78,7 +83,6 @@ Ext.define('PartKeepr.FileUploadDialog', {
             xtype: 'filefield',
             name: 'userfile',
             fieldLabel: this.fileFieldLabel,
-            labelWidth: 50,
             msgTarget: 'side',
             anchor: '100%',
             buttonText: this.uploadButtonText
@@ -92,7 +96,7 @@ Ext.define('PartKeepr.FileUploadDialog', {
         });
 
         this.form = Ext.create('Ext.form.Panel', {
-            width: 400,
+            width: 500,
             bodyPadding: 10,
             border: false,
             items: [
@@ -103,8 +107,10 @@ Ext.define('PartKeepr.FileUploadDialog', {
                 },
                 this.fileField,
                 {
+                    xtype: 'fieldcontainer',
+                    hideEmptyLabel: false,
                     border: false,
-                    style: 'margin-bottom: 20px;margin-left: 55px;',
+                    style: 'margin-bottom: 20px;',
                     layout: {
                         type: 'hbox',
                         pack: 'start',
@@ -122,13 +128,32 @@ Ext.define('PartKeepr.FileUploadDialog', {
                 },
                 this.urlField
             ],
-            buttons: this.tbButtons
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                defaults: {minWidth: 120},
+                items: this.tbButtons
+            }]
         });
 
         this.on("beforedestroy", this.onBeforeDestroy, this);
 
         this.items = this.form;
+
+        var call = new PartKeepr.ServiceCall("api", "disk_space");
+        call.setHandler(Ext.bind(this.onDiskSpaceRetrieved, this));
+        call.doCall();
+
         this.callParent();
+    },
+    onDiskSpaceRetrieved: function (data) {
+        var usedString = PartKeepr.bytesToSize(data.disk_used),
+            totalString = PartKeepr.bytesToSize(data.disk_total);
+
+        var text = usedString + " / " + totalString + " " + i18n("used");
+
+        this.diskUsage.updateProgress(data.disk_used / data.disk_total, text);
     },
     /**
      * Displays a little hint regarding the maximum upload size

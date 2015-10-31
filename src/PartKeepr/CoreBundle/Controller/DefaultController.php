@@ -28,7 +28,24 @@ class DefaultController extends FOSRestController
      *
      * @return array
      */
-    public function getSystemInformationAction () {
+    public function getSystemInformationAction()
+    {
         return $this->get("partkeepr_systemservice")->getSystemInformation();
+    }
+
+    /**
+     * Returns available disk space
+     *
+     * @Routing\Route("/api/disk_space", defaults={"method" = "get","_format" = "json"})
+     * @View()
+     *
+     * @return array
+     */
+    public function getDiskFreeSpaceAction()
+    {
+        return array(
+            "disk_total" => $this->get("partkeepr_systemservice")->getTotalDiskSpace(),
+            "disk_used" => $this->get("partkeepr_systemservice")->getUsedDiskSpace(),
+        );
     }
 }

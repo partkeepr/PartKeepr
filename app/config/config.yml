@@ -117,35 +117,39 @@ services:
             - method: "setCircularReferenceLimit"
               arguments: [ [ 5 ] ]
 
+parameters:
+    data_directory: %kernel.root_dir%/../data/
+    quota: false
+
 knp_gaufrette:
     adapters:
         iclogo:
             local:
-                directory: %kernel.root_dir%/../data/images/iclogo/
+                directory: %data_directory%images/iclogo/
         temp:
             local:
-                directory: %kernel.root_dir%/../data/temp/
+                directory: %data_directory%temp/
         tempfile:
             local:
-                directory: %kernel.root_dir%/../data/files/Temporary/
+                directory: %data_directory%files/Temporary/
         footprintattachment:
             local:
-                directory: %kernel.root_dir%/../data/files/FootprintAttachment/
+                directory: %data_directory%files/FootprintAttachment/
         footprint:
             local:
-                directory: %kernel.root_dir%/../data/images/footprint/
+                directory: %data_directory%images/footprint/
         partattachment:
             local:
-                directory: %kernel.root_dir%/../data/files/PartAttachment/
+                directory: %data_directory%files/PartAttachment/
         storagelocation:
             local:
-                directory: %kernel.root_dir%/../data/images/storagelocation/
+                directory: %data_directory%images/storagelocation/
         mimetype_icons:
             local:
                 directory: %kernel.root_dir%/../src/PartKeepr/MimetypeIconsBundle/Resources/public/images/mimes/
         projectattachment:
             local:
-                directory: %kernel.root_dir%/../data/files/ProjectAttachment/
+                directory: %data_directory%files/ProjectAttachment/
     filesystems:
         iclogo:
             adapter: iclogo
