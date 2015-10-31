@@ -120,7 +120,13 @@ abstract class ImageController extends FileController
         }
 
         $imagine = new Imagine();
-        $imagine->open($this->getFilename($image))
+
+        $localCacheFile = $this->getImageCacheDirectory() . $image->getFullFilename();
+        $storage = $this->get("partkeepr_uploadedfile_service")->getStorage($image);
+
+        file_put_contents($localCacheFile, $storage->read($image->getFullFilename()));
+
+        $imagine->open($localCacheFile)
             ->thumbnail(new Box($width, $height))
             ->save($outputFile);
 
