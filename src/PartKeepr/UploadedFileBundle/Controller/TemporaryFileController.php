@@ -8,8 +8,8 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PartKeepr\ImageBundle\Response\TemporaryImageUploadResponse;
 use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +37,19 @@ class TemporaryFileController extends FileController
 
         if ($request->files->has('userfile') && $request->files->get('userfile') != null) {
             $file = $request->files->get('userfile');
+            if (!$file->isValid()) {
+                switch ($file->getError()) {
+                    case UPLOAD_ERR_INI_SIZE:
+                        $error = $this->get("translator")->trans("The uploaded file is too large.");
+                        break;
+                    default:
+                        $error = $this->get("translator")->trans("Unknown error, error code %code",
+                            array("code" => $file->getError()));
+                        break;
+                }
+
+                throw new \Exception($error);
+            }
             /**
              * @var $file UploadedFile
              */
@@ -45,7 +58,7 @@ class TemporaryFileController extends FileController
         } elseif ($request->request->has("url")) {
             $fileService->replaceFromURL($uploadedFile, $request->request->get("url"));
         } else {
-            throw new \Exception("Error: No valid file given");
+            throw new \Exception($this->get("translator")->trans("No valid file given"));
         }
 
         $this->getDoctrine()->getManager()->persist($uploadedFile);
