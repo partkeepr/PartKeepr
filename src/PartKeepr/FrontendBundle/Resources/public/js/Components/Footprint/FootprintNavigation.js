@@ -18,6 +18,7 @@ Ext.define("PartKeepr.FootprintNavigation", {
             split: true,
             region: 'south',
             height: "50%",
+            titleProperty: "name",
             viewConfig: {
                 plugins: {
                     ddGroup: 'FootprintCategoryTree',
