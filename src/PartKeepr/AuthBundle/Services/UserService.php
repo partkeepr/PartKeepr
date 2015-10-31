@@ -58,9 +58,8 @@ class UserService
         return $this->getProxyUser($username, $provider);
     }
 
-    public function getProvider(AuthenticationProviderInterface $authenticationProvider)
+    public function getProvider($providerClass)
     {
-        $providerClass = get_class($authenticationProvider);
         $providerType = $this->getProviderTypeByClass($providerClass);
 
         return $this->getProviderByType($providerType);

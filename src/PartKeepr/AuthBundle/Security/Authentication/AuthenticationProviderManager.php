@@ -76,7 +76,7 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
                 $result = $provider->authenticate($token);
 
                 if (null !== $result) {
-                    $result->setAttribute("provider", $provider);
+                    $result->setAttribute("provider", get_class($provider));
                     break;
                 }
             } catch (AccountStatusException $e) {
