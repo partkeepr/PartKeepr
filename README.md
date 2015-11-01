@@ -26,15 +26,10 @@ PartKeepr needs:
 * PHP 5.6 and up. Some distributions don't have PHP 5.6 yet, but [provide packages](documentation/installation/php56.md). 
 * A MySQL or PostgreSQL database
 
-Installation from zip file
---------------------------
+Installation
+------------
 
-Simply point your browser to `web/setup/index.html` and the installer will start.
-
-Installation from GIT
----------------------
-
-Clone the repository, copy `app/config/parameters.php.dist` to `app/config/parameters.php`, install [composer](https://getcomposer.org/download/), run `composer install` and then point your browser to `web/setup/index.html`
+Please read our [setup guide](documentation/Installation.md)
 
 Thanks
 ------
