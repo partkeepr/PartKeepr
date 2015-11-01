@@ -8,6 +8,7 @@ imports:
     - { resource: config_dunglas.yml }
     - { resource: config_ldap.yml }
     - { resource: config_partkeepr.yml }
+    - { resource: config_filesystem.yml }
 
 fos_rest:
     body_listener: true
@@ -116,66 +117,3 @@ services:
         calls:
             - method: "setCircularReferenceLimit"
               arguments: [ [ 5 ] ]
-
-parameters:
-    data_directory: %kernel.root_dir%/../data/
-    quota: false
-
-knp_gaufrette:
-    adapters:
-        iclogo:
-            local:
-                directory: %data_directory%images/iclogo/
-        temp:
-            local:
-                directory: %data_directory%temp/
-        tempfile:
-            local:
-                directory: %data_directory%files/Temporary/
-        footprintattachment:
-            local:
-                directory: %data_directory%files/FootprintAttachment/
-        footprint:
-            local:
-                directory: %data_directory%images/footprint/
-        partattachment:
-            local:
-                directory: %data_directory%files/PartAttachment/
-        storagelocation:
-            local:
-                directory: %data_directory%images/storagelocation/
-        mimetype_icons:
-            local:
-                directory: %kernel.root_dir%/../src/PartKeepr/MimetypeIconsBundle/Resources/public/images/mimes/
-        projectattachment:
-            local:
-                directory: %data_directory%files/ProjectAttachment/
-    filesystems:
-        iclogo:
-            adapter: iclogo
-            alias: filesystem_iclogo
-        temp:
-            adapter: temp
-            alias: filesystem_temp
-        tempfile:
-            adapter: tempfile
-            alias: filesystem_tempfile
-        footprintattachment:
-            adapter: footprintattachment
-            alias: filesystem_footprintattachment
-        footprint:
-            adapter: footprint
-            alias: filesystem_footprint
-        partattachment:
-            adapter: partattachment
-            alias: filesystem_partattachment
-        storagelocation:
-            adapter: storagelocation
-            alias: filesystem_storagelocation
-        mimetype_icons:
-            adapter: mimetype_icons
-            alias: filesystem_mimetype_icons
-        projectattachment:
-            adapter: projectattachment
-            alias: filesystem_projectattachment
-

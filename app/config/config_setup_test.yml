@@ -9,5 +9,6 @@ imports:
     - { resource: config_dunglas.yml }
     - { resource: config_ldap.yml }
     - { resource: config_partkeepr.yml }
+    - { resource: config_filesystem.yml }
 
 
