@@ -113,7 +113,7 @@ Ext.define('PartKeepr.PartEditor', {
                         minValue: 0
                     }, {
                         xtype: 'PartUnitComboBox',
-                        fieldLabel: i18n("Part Unit"),
+                        fieldLabel: i18n("Part Measurement Unit"),
                         columnWidth: 0.5,
                         returnObject: true,
                         name: 'partUnit',
