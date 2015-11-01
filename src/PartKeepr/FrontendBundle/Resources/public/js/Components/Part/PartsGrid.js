@@ -238,7 +238,7 @@ Ext.define('PartKeepr.PartsGrid', {
                 tooltip: i18n("Has attachments?"),
                 renderer: this.iconRenderer
             }, {
-                text: '<span class="web-icon accept"></span>',
+                text: '<span class="web-icon flag_orange"></span>',
                 dataIndex: "needsReview",
                 width: 30,
                 tooltip: i18n("Needs Review?"),
@@ -363,7 +363,7 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         var ret = "";
         if (rec.get("needsReview") === true) {
-            ret += '<span class="web-icon accept"' + '" title="' + i18n("Needs review") + '"></span>';
+            ret += '<span class="web-icon flag_orange"' + '" title="' + i18n("Needs review") + '"></span>';
         }
 
         return ret;
