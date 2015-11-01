@@ -96,6 +96,7 @@
     ]
   },
   "extra": {
+    "symfony-assets-install": "relative",
     "assets-dir" : "web/",
     "installer-paths": {
       "web/js/packages/{$name}": [
