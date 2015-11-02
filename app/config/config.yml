@@ -10,6 +10,9 @@ imports:
     - { resource: config_partkeepr.yml }
     - { resource: config_filesystem.yml }
 
+parameters:
+    max_users: unlimited
+
 fos_rest:
     body_listener: true
     format_listener: true
