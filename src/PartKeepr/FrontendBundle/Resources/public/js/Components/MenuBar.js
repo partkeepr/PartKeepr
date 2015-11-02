@@ -48,6 +48,7 @@ Ext.define('PartKeepr.MenuBar', {
         var menuItems = [
             // System Menu
             "PartKeepr.UserPreferencePanel",
+            "PartKeepr.Actions.LogoutAction",
 
             // Edit Menu
             "PartKeepr.ProjectEditorComponent",

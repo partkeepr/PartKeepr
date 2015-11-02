@@ -50,6 +50,8 @@ Ext.application({
     onAppMenuClick: function (item) {
         var target = item.target["$className"];
 
+        targetClass = Ext.ClassManager.get(target);
+
         var config = {
             title: item.target.title,
             closable: item.target.closable,
@@ -57,8 +59,13 @@ Ext.application({
         };
 
         var j = Ext.create(target, config);
-        PartKeepr.getApplication().addItem(j);
-        j.show();
+
+        if (targetClass.superclass["$className"] == "PartKeepr.Actions.BaseAction") {
+            j.execute();
+        } else {
+            PartKeepr.getApplication().addItem(j);
+            j.show();
+        }
     },
     getParameter: function (parameter)
     {
