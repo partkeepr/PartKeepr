@@ -5,6 +5,7 @@ namespace PartKeepr\UploadedFileBundle\Services;
 
 use Gaufrette\Filesystem;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
+use PartKeepr\UploadedFileBundle\Exceptions\DiskSpaceExhaustedException;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\File\File;
@@ -46,6 +47,11 @@ class UploadedFileService extends ContainerAware
         $file->setSize($filesystemFile->getSize());
 
         $storage = $this->getStorage($file);
+
+        if ($filesystemFile->getSize() > $this->container->get("partkeepr_systemservice")->getFreeDiskSpace()) {
+            throw new DiskSpaceExhaustedException();
+        }
+
         $storage->write($file->getFullFilename(), file_get_contents($filesystemFile->getPathname()));
     }
 
