@@ -76,9 +76,31 @@ class SystemService extends ContainerAware
         $aData[] = new SystemInformationRecord("Query Cache Implementation", $queryCache, "PHP");
         $aData[] = new SystemInformationRecord("Metadata Cache Implementation", $metadataCache, "PHP");
 
+        $aData[] = new SystemInformationRecord(
+            "Disk Space (Total)",
+            $this->format_bytes($this->getTotalDiskSpace()),
+            "PartKeepr"
+        );
+
+        $aData[] = new SystemInformationRecord(
+            "Disk Space (Free)",
+            $this->format_bytes($this->getFreeDiskSpace()),
+            "PartKeepr"
+        );
+
+        $aData[] = new SystemInformationRecord(
+            "Disk Space (Used)",
+            $this->format_bytes($this->getUsedDiskSpace()),
+            "PartKeepr"
+        );
+
+        $aData[] = new SystemInformationRecord(
+            "Data Directory",
+            realpath($this->container->getParameter("data_directory")),
+            "PartKeepr"
+        );
 
         $aData[] = new SystemInformationRecord("PartKeepr Version", $this->versionService->getVersion(), "PartKeepr");
-
 
         foreach (Configuration::getOptions() as $key => $value) {
             // Hide passwords
@@ -144,11 +166,17 @@ class SystemService extends ContainerAware
      *
      * @return float
      */
-    public function getFreeDiskSpace () {
-        return disk_free_space($this->container->getParameter("data_directory"));
+    public function getFreeDiskSpace()
+    {
+        if ($this->container->getParameter("quota") === false) {
+            return disk_free_space($this->container->getParameter("data_directory"));
+        } else {
+            return $this->getTotalDiskSpace() - $this->getUsedDiskSpace();
+        }
     }
 
-    public function getTotalDiskSpace () {
+    public function getTotalDiskSpace()
+    {
         if ($this->container->getParameter("quota") === false) {
             return disk_total_space($this->container->getParameter("data_directory"));
         } else {
@@ -163,7 +191,8 @@ class SystemService extends ContainerAware
      *
      * @return int
      */
-    public function getUsedDiskSpace () {
+    public function getUsedDiskSpace()
+    {
         if ($this->container->getParameter("quota") === false) {
             return $this->getTotalDiskSpace() - $this->getFreeDiskSpace();
         }
@@ -174,7 +203,7 @@ class SystemService extends ContainerAware
             'PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo',
             'PartKeepr\PartBundle\Entity\PartAttachment',
             'PartKeepr\ProjectBundle\Entity\ProjectAttachment',
-            'PartKeepr\StorageLocationBundle\Entity\StorageLocationImage'
+            'PartKeepr\StorageLocationBundle\Entity\StorageLocationImage',
         );
 
         $size = 0;
@@ -186,5 +215,40 @@ class SystemService extends ContainerAware
         }
 
         return $size;
+    }
+
+    /**
+     * @param $number
+     *
+     * @return bool
+     */
+    protected function is_valid_value($number)
+    {
+        return is_numeric($number);
+    }
+
+    /**
+     * Filter for converting bytes to a human-readable format, as Unix command "ls -h" does.
+     *
+     * @param string|int $number          A string or integer number value to format.
+     * @param bool       $base2conversion Defines if the conversion has to be strictly performed as binary values or
+     *                                    by using a decimal conversion such as 1 KByte = 1000 Bytes.
+     *
+     * @return string The number converted to human readable representation.
+     */
+    public function format_bytes($number, $base2conversion = true)
+    {
+        if (!$this->is_valid_value($number)) {
+            return;
+        }
+        $unit = $base2conversion ? 1024 : 1000;
+        if ($number < $unit) {
+            return $number.' B';
+        }
+        $exp = intval((log($number) / log($unit)));
+        $pre = ($base2conversion ? 'kMGTPE' : 'KMGTPE');
+        $pre = $pre[$exp - 1].($base2conversion ? '' : 'i');
+
+        return sprintf('%.1f %sB', $number / pow($unit, $exp), $pre);
     }
 }

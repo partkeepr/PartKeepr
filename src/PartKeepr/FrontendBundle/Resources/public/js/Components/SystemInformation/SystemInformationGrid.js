@@ -45,7 +45,7 @@ Ext.define('PartKeepr.SystemInformationGrid', {
 
         /* Add the refresh button */
         this.refreshButton = Ext.create("Ext.button.Button", {
-            handler: this.requestSystemInformation,
+            handler: function () { this.store.load(); },
             scope: this,
             text: i18n("Refresh")
         });
@@ -63,6 +63,5 @@ Ext.define('PartKeepr.SystemInformationGrid', {
 
         // Retrieve the system information
        this.store.load();
-
     }
 });
