@@ -33,22 +33,8 @@ class IndexController extends Controller
 
         $aParameters["maxUploadSize"] = min($maxPostSize, $maxFileSize);
 
-        if (!class_exists("Imagick")) {
-            // @todo This check is deprecated and shouldn't be done here. Sf2 should automatically take care of this
-
-            return $this->render('PartKeeprFrontendBundle::error.html.twig',
-                array(
-                    "title" => PartKeepr::i18n("ImageMagick is not installed"),
-                    "error" => PartKeepr::i18n(
-                        "You are missing the ImageMagick extension. Please install it and restart the setup to verify that the library was installed correctly."
-                    ),
-                )
-            );
-        }
-
-        /* ImageMagick formats */
-        $imagick = new \Imagick();
-        $aParameters["availableImageFormats"] = $imagick->queryFormats();
+        // @todo Hardcoded for now due to GD, see #445
+        $aParameters["availableImageFormats"] = array("JPG", "GIF", "PNG");
 
         /* Automatic Login */
         if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === true) {
