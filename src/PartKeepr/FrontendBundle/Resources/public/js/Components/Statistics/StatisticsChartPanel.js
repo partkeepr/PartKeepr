@@ -68,5 +68,11 @@ Ext.define('PartKeepr.StatisticsChartPanel', {
     	this.chart.setStart(start);
     	this.chart.setEnd(end);
     	this.chart.store.load();
+    },
+    statics: {
+        iconCls: 'web-icon chart_bar',
+        title: i18n('Chart'),
+        closable: true,
+        menuPath: [{text: i18n("View")}, {text: i18n("Statistics"), iconCls: "web-icon chart_bar"}]
     }
 });

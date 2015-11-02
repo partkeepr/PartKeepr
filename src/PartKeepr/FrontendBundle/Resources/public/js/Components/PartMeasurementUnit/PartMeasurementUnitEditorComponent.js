@@ -16,5 +16,11 @@ Ext.define('PartKeepr.PartMeasurementUnitEditorComponent', {
 		});
 		
 		this.callParent();
-	}
+	},
+    statics: {
+        iconCls: 'fugue-icon ruler',
+        title: i18n('Part Measurement Units'),
+        closable: true,
+        menuPath: [{text: i18n("Edit")}]
+    }
 });

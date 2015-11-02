@@ -24,5 +24,11 @@ Ext.define('PartKeepr.UserEditorComponent', {
         });
 
         this.callParent();
+    },
+    statics: {
+        iconCls: 'web-icon user',
+        title: i18n('Users'),
+        closable: true,
+        menuPath: [{text: i18n("Edit")}]
     }
 });

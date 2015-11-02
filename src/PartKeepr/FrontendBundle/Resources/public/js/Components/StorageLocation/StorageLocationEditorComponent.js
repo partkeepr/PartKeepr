@@ -20,5 +20,11 @@ Ext.define('PartKeepr.StorageLocationEditorComponent', {
 		});
 		
 		this.callParent();
-	}
+	},
+    statics: {
+        iconCls: 'fugue-icon wooden-box',
+        title: i18n('Storage Locations'),
+        closable: true,
+        menuPath: [{text: i18n("Edit")}]
+    }
 });

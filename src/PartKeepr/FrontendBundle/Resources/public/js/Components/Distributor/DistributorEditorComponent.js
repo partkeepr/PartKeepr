@@ -14,5 +14,11 @@ Ext.define('PartKeepr.DistributorEditorComponent', {
 		});
 		
 		this.callParent();
-	}
+	},
+    statics: {
+        iconCls: 'web-icon lorry',
+        title: i18n('Distributors'),
+        closable: true,
+        menuPath: [{text: i18n("Edit")}]
+    }
 });

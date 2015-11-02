@@ -376,5 +376,11 @@ Ext.define('PartKeepr.ProjectReportView', {
             model: "PartKeepr.ProjectBundle.Entity.ProjectReport",
             pageSize: -1
         });
+    },
+    statics: {
+        iconCls: 'fugue-icon drill',
+        title: i18n('Project Reports'),
+        closable: true,
+        menuPath: [{ text: i18n("View")}]
     }
 });

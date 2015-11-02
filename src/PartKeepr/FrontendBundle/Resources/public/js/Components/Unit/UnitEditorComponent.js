@@ -16,5 +16,11 @@ Ext.define('PartKeepr.UnitEditorComponent', {
 		});
 		
 		this.callParent();
-	}
+	},
+    statics: {
+        iconCls: 'partkeepr-icon unit',
+        title: i18n('Units'),
+        closable: true,
+        menuPath: [{text: i18n("Edit")}]
+    }
 });

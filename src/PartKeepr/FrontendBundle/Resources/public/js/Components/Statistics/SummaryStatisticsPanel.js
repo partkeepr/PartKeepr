@@ -1,4 +1,4 @@
-Ext.define('PartKeepr.CurrentStatisticsPanel', {
+Ext.define('PartKeepr.SummaryStatisticsPanel', {
 	extend: 'Ext.panel.Panel',
 	width: 400,
 	height: 250,
@@ -88,5 +88,11 @@ Ext.define('PartKeepr.CurrentStatisticsPanel', {
 	},
 	onStatsLoaded: function (data) {
 		this.tpl.overwrite(this.view.getTargetEl(), data);
-	}
+	},
+    statics: {
+        iconCls: 'web-icon chart_bar',
+        title: i18n('Summary'),
+        closable: true,
+        menuPath: [{text: i18n("View")}, {text: i18n("Statistics"), iconCls: "web-icon chart_bar"}]
+    }
 });

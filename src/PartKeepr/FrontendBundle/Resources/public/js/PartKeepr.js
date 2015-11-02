@@ -6,6 +6,10 @@ Ext.application({
     name: 'PartKeepr',
     loginManager: null,
 
+    init: function () {
+
+
+    },
     launch: function ()
     {
         Ext.setGlyphFontFamily('FontAwesome');
@@ -23,6 +27,13 @@ Ext.application({
         var authenticationProvider = Ext.create(window.parameters.authentication_provider);
         PartKeepr.Auth.AuthenticationProvider.setAuthenticationProvider(authenticationProvider);
 
+        this.control ({
+            'MenuBar menuitem': {
+                click: this.onAppMenuClick,
+                scope: this
+            }
+        });
+
         var config = {};
 
         if (window.parameters.autoLoginUsername) {
@@ -35,6 +46,19 @@ Ext.application({
         this.loginManager.on("login", this.onLogin, this);
         this.loginManager.on("logout", this.onLogout, this);
         this.loginManager.login();
+    },
+    onAppMenuClick: function (item) {
+        var target = item.target["$className"];
+
+        var config = {
+            title: item.target.title,
+            closable: item.target.closable,
+            iconCls: item.target.iconCls
+        };
+
+        var j = Ext.create(target, config);
+        PartKeepr.getApplication().addItem(j);
+        j.show();
     },
     getParameter: function (parameter)
     {

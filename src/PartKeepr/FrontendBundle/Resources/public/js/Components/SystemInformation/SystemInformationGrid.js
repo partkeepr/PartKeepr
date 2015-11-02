@@ -63,5 +63,11 @@ Ext.define('PartKeepr.SystemInformationGrid', {
 
         // Retrieve the system information
        this.store.load();
+    },
+    statics: {
+        iconCls: 'fugue-icon system-monitor',
+        title: i18n('System Information'),
+        closable: true,
+        menuPath: [{text: i18n("View")}]
     }
 });

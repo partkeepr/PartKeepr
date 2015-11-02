@@ -29,5 +29,11 @@ Ext.define('PartKeepr.SystemNoticeEditorComponent', {
         });
 
         this.callParent();
+    },
+    statics: {
+        iconCls: 'fugue-icon service-bell',
+        title: i18n('System Notices'),
+        closable: true,
+        menuPath: [{text: i18n("View")}]
     }
 });

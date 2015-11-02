@@ -20,5 +20,11 @@ Ext.define('PartKeepr.FootprintEditorComponent', {
 		});
 
         this.callParent();
+    },
+    statics: {
+        iconCls: 'fugue-icon fingerprint',
+        title: i18n('Footprints'),
+        closable: true,
+        menuPath: [{ text: i18n("Edit")}]
     }
 });

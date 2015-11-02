@@ -20,5 +20,11 @@ Ext.define('PartKeepr.ProjectEditorComponent', {
         });
 
         this.callParent();
+    },
+    statics: {
+        iconCls: 'fugue-icon drill',
+        title: i18n('Projects'),
+        closable: true,
+        menuPath: [{ text: i18n("Edit")}]
     }
 });

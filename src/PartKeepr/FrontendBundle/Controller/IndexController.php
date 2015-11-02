@@ -60,6 +60,8 @@ class IndexController extends Controller
             $aParameters["motd"] = Configuration::getOption("partkeepr.frontend.motd");
         }
 
+        $aParameters["max_users"] = $this->getParameter("max_users");
+
         $aParameters["authentication_provider"] = $this->getParameter("partkeepr.authentication_provider");
         $aParameters["tip_of_the_day_uri"] = $this->getParameter("partkeepr.tip_of_the_day_uri");
 
