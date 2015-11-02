@@ -35,9 +35,6 @@ Ext.application({
         this.loginManager.on("login", this.onLogin, this);
         this.loginManager.on("logout", this.onLogout, this);
         this.loginManager.login();
-
-
-        Ext.fly(document.body).on('contextmenu', this.onContextMenu, this);
     },
     getParameter: function (parameter)
     {
@@ -52,12 +49,6 @@ Ext.application({
     getPartManager: function ()
     {
         return this.partManager;
-    },
-    onContextMenu: function (e, target)
-    {
-        if (!e.ctrlKey) {
-            e.preventDefault();
-        }
     },
     /**
      * Handles the login function. Initializes the part manager window,
