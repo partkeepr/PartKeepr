@@ -160,7 +160,7 @@ class SetupController extends Controller
         );
 
         $parameters["ldap"] = array(
-            "enabled" => "false",
+            "enabled" => false,
             "host" => "127.0.0.1",
             "port" => null,
             "username" => null,
