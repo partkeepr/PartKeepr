@@ -7,6 +7,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class TemporaryFileControllerTest extends WebTestCase
 {
+    public function setUp()
+    {
+        $this->loadFixtures(array());
+    }
+
     public function testUploadAction()
     {
         $client = static::makeClient(true);
@@ -30,6 +35,7 @@ class TemporaryFileControllerTest extends WebTestCase
             array('userfile' => $image)
         );
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent());
 
         $this->assertObjectHasAttribute("success", $response);
@@ -107,6 +113,8 @@ class TemporaryFileControllerTest extends WebTestCase
         );
 
         $response = json_decode($client->getResponse()->getContent());
+
+        //var_dump($response);
 
         $attribute = "@type";
 
