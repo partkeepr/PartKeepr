@@ -20,7 +20,7 @@ Ext.define('PartKeepr.ManufacturerEditorComponent', {
     },
     statics: {
         iconCls: 'web-icon building',
-        title: i18n('Projects'),
+        title: i18n('Manufacturers'),
         closable: true,
         menuPath: [{text: i18n("Edit")}]
     }
