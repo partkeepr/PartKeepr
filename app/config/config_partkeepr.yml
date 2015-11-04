@@ -682,6 +682,12 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.storage_location_image.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.storage_location_image", "GET" ]
+
     resource.storage_location_image.item_operation.custom_get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -703,7 +709,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.storage_location_image.item_operation.custom_get" ] ]
+                    arguments: [ [ "@resource.storage_location_image.item_operation.get", "@resource.storage_location_image.item_operation.custom_get" ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
