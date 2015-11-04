@@ -160,6 +160,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
         this.callParent();
 
         this.on("activate", this.onActivate, this);
+        this.on("activate", this.onUpdateParameters, this);
     },
     onActivate: function () {
         this.initial = true;

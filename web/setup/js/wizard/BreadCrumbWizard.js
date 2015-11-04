@@ -124,6 +124,8 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
             previousButton = this.down('#previousButton'),
             childViewCount = this.cardContainer.items.getCount();
         if (index < childViewCount) {
+            nextBtn.enable();
+
             this.cardContainer.getLayout().setActiveItem(index);
             this.currentIndex = index;
 
@@ -132,8 +134,6 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
             } else {
                 previousButton.enable();
             }
-
-            nextBtn.enable();
 
             if (index === childViewCount - 1) {
                 nextBtn.setText('Submit');

@@ -87,14 +87,18 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
             this.layout.setActiveItem(1);
         } else {
             this.layout.setActiveItem(0);
+            // Disable the "next" button, this needs to get enabled by the admin user form
+            Ext.ComponentQuery.query('#nextBtn')[0].disable();
         }
 
-        // Disable the "next" button, this needs to get enabled by the database cards
-        Ext.ComponentQuery.query('#nextBtn')[0].disable();
         this.onUpdateParameters();
     },
     onUpdateParameters: function ()
     {
+        if (PartKeeprSetup.getApplication().getSetupConfig().existingConfig === true) {
+            return;
+        }
+
         if (this.username.isValid() && this.password.isValid() && this.email.isValid()) {
             var config = PartKeeprSetup.getApplication().getSetupConfig();
 
