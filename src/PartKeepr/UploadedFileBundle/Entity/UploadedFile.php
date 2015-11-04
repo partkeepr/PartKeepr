@@ -85,7 +85,7 @@ abstract class UploadedFile extends BaseEntity
     private $replacement = null;
 
     /**
-     * @ORM\Column(type="date",nullable=false)
+     * @ORM\Column(type="datetime",nullable=false)
      * @var \DateTime
      */
     private $created;
