@@ -53,6 +53,7 @@ Ext.define('PartKeeprSetup.AuthKeyCard', {
     onActivate: function ()
     {
         Ext.ComponentQuery.query('#nextBtn')[0].disable();
+        this.authKey.focus();
         this.onUpdateParameters();
     },
     onUpdateParameters: function ()
