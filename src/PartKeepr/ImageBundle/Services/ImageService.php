@@ -51,4 +51,21 @@ class ImageService extends UploadedFileService
             $entityManager->remove($file);
         }
     }
+
+    /**
+     * Checks if the system can handle the given mime type as image. Currently hardcoded for GD
+     *
+     * @param $mimeType The mime type to check
+     * @return boolean True if the system can display images of the given mimetype, false otherwise
+     */
+    public function canHandleMimetype ($mimeType) {
+        switch ($mimeType) {
+            case "image/jpeg":
+            case "image/png":
+            case "image/gif":
+                return true;
+            default:
+                return false;
+        }
+    }
 }

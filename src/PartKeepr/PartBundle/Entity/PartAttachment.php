@@ -68,4 +68,12 @@ class PartAttachment extends UploadedFile
     {
         return $this->isImage;
     }
+
+    /**
+     * Sets if the attachment is an image
+     * @param $image
+     */
+    public function setImage($image) {
+        $this->isImage = $image;
+    }
 }

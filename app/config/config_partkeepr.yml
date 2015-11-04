@@ -9,6 +9,13 @@ services:
         tags:
             - { name: "kernel.event_listener", event: "kernel.view", method: "onKernelView" }
 
+    part_image_listener:
+        class: PartKeepr\PartBundle\Listeners\ImageAttachmentListener
+        arguments:
+            - "@partkeepr_image_service"
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
     partkeepr_legacy_user_provider:
         class: PartKeepr\AuthBundle\Security\User\LegacyUserProvider
         arguments:
