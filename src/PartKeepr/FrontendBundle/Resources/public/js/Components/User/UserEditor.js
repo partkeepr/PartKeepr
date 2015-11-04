@@ -37,7 +37,6 @@ Ext.define('PartKeepr.UserEditor', {
     },
     onEditStart: function ()
     {
-        console.log(this.record);
         if (this.record.get("legacy") === true) {
             this.down("#legacyField").setVisible(true);
         }
