@@ -54,8 +54,3 @@ security:
                     admin:
                         password: x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A==
                         roles: 'ROLE_ADMIN'
-    firewalls:
-        main:
-            http_basic:
-                realm: "Secured Demo Area"
-                provider: in_memory
