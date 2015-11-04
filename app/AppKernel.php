@@ -67,17 +67,21 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
+    /**
+     * Loads the configuration for an environment. Also loads a custom configuration for non-text environments from
+     * app/config_config_custom.yml if it exists.
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        $customConfig = __DIR__.'/config/config_custom.yml';
+        if ($this->getEnvironment() !== "test") {
+            $customConfig = __DIR__.'/config/config_custom.yml';
 
-        if (file_exists($customConfig)) {
-            $loader->load($customConfig);
+            if (file_exists($customConfig)) {
+                $loader->load($customConfig);
+            }
         }
-
-
     }
 
     /**
