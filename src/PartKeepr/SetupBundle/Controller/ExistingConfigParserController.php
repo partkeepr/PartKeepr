@@ -15,6 +15,15 @@ class ExistingConfigParserController extends SetupController
      */
     public function parseExistingConfigAction(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+        if (!array_key_exists("authKey", $data) || !$this->verifyAuthKey($data["authKey"])) {
+            $response["success"] = false;
+            $response["message"] = "Invalid Authentication Key";
+            $response["errors"] = array();
+
+            return new JsonResponse($response);
+        }
+
          $response = array(
             "success" => true,
             "errors" => [],
