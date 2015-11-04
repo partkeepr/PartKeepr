@@ -84,19 +84,34 @@ abstract class UploadedFile extends BaseEntity
      */
     private $replacement = null;
 
+    /**
+     * @ORM\Column(type="date",nullable=false)
+     * @var \DateTime
+     */
+    private $created;
+
     public function __construct()
     {
         $this->filename = Uuid::uuid1()->toString();
+        $this->setCreated(new \DateTime());
     }
 
     /**
-     * Sets a replacement image
-     *
-     * @param $replacement
+     * Returns the created date
+     * @return mixed
      */
-    public function setReplacement($replacement)
+    public function getCreated()
     {
-        $this->replacement = $replacement;
+        return $this->created;
+    }
+
+    /**
+     * Sets the created date
+     * @param mixed $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
     }
 
     /**
@@ -110,14 +125,13 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the type of the file. Once the type is set,
-     * it may not be changed later.
+     * Sets a replacement image
      *
-     * @param string $type The type of the file
+     * @param $replacement
      */
-    protected function setType($type)
+    public function setReplacement($replacement)
     {
-        $this->type = $type;
+        $this->replacement = $replacement;
     }
 
     /**
@@ -173,6 +187,41 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
+     * Sets the type of the file. Once the type is set,
+     * it may not be changed later.
+     *
+     * @param string $type The type of the file
+     */
+    protected function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Returns the description for this attachment
+     *
+     * @return string The description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Sets the description for this attachment
+     *
+     * @param string $description The attachment description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getFullFilename () {
+        return $this->getFilename().".".$this->getExtension();
+    }
+
+    /**
      * Returns the plain filename without path and suffix.
      *
      * @return string The plain filename without path and suffix
@@ -180,26 +229,6 @@ abstract class UploadedFile extends BaseEntity
     public function getFilename()
     {
         return $this->filename;
-    }
-
-    /**
-     * Returns the mime type for this file
-     *
-     * @return string The mimetype for this file, e.g. text/plain
-     */
-    public function getMimeType()
-    {
-        return $this->mimetype;
-    }
-
-    /**
-     * Sets the mimetype for this file
-     *
-     * @param string $mimeType The mimetype
-     */
-    public function setMimeType($mimeType)
-    {
-        $this->mimetype = $mimeType;
     }
 
     /**
@@ -228,26 +257,6 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the description for this attachment
-     *
-     * @param string $description The attachment description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * Returns the description for this attachment
-     *
-     * @return string The description
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * Returns the extension for the given mime type.
      *
      * This function simply extracts that information from the mime type;
@@ -270,7 +279,23 @@ abstract class UploadedFile extends BaseEntity
         }
     }
 
-    public function getFullFilename () {
-        return $this->getFilename().".".$this->getExtension();
+    /**
+     * Returns the mime type for this file
+     *
+     * @return string The mimetype for this file, e.g. text/plain
+     */
+    public function getMimeType()
+    {
+        return $this->mimetype;
+    }
+
+    /**
+     * Sets the mimetype for this file
+     *
+     * @param string $mimeType The mimetype
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mimetype = $mimeType;
     }
 }
