@@ -3,17 +3,12 @@ namespace PartKeepr\AuthBundle\Action;
 
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\UserManipulator;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class ChangePasswordAction
 {
@@ -51,7 +46,8 @@ class ChangePasswordAction
         $this->userManager = $userManager;
     }
 
-    public function __invoke (Request $request) {
+    public function __invoke(Request $request)
+    {
         $user = $this->userService->getUser();
 
         if (!$request->request->has("oldpassword") && !$request->request->has("newpassword")) {
@@ -60,19 +56,31 @@ class ChangePasswordAction
 
         $FOSUser = $this->userManager->findUserByUsername($user->getUsername());
 
-        if ($FOSUser === null) {
-            throw new \Exception("Cannot change password for legacy or LDAP users");
+        if ($FOSUser !== null) {
+            $encoder = $this->encoderFactory->getEncoder($FOSUser);
+            $encoded_pass = $encoder->encodePassword($request->request->get("oldpassword"), $FOSUser->getSalt());
+
+            if ($FOSUser->getPassword() != $encoded_pass) {
+                throw new \Exception("Old password is wrong");
+            }
+
+            $this->userManipulator->changePassword($user->getUsername(), $request->request->get("newpassword"));
+        } else {
+            if ($user->isLegacy()) {
+                if ($user->getPassword() !== md5($request->request->get("oldpassword"))) {
+                    throw new \Exception("Old password is wrong");
+                }
+
+                $user->setNewPassword($request->request->get("newpassword"));
+
+                $this->userService->syncData($user);
+            } else {
+                throw new \Exception("Cannot change password for LDAP users");
+            }
         }
 
-        $encoder = $this->encoderFactory->getEncoder($FOSUser);
-        $encoded_pass = $encoder->encodePassword($request->request->get("oldpassword"), $FOSUser->getSalt());
-
-        if ($FOSUser->getPassword() != $encoded_pass) {
-            throw new \Exception("Old password is wrong");
-        }
-
-        $this->userManipulator->changePassword($user->getUsername(), $request->request->get("newpassword"));
-
+        $user->setPassword("");
+        $user->setNewPassword("");
 
         return $user;
     }

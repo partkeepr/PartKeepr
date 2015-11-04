@@ -97,14 +97,15 @@ class UserService
 
         if ($FOSUser === null) {
 
-            if ($user->getPlainPassword() == "") {
+            if ($user->getNewPassword() == "") {
                 throw new \Exception("Password must be set");
             }
 
-            $FOSUser = $this->userManipulator->create($user->getUsername(), $user->getPlainPassword(), "", true, false);
+            $FOSUser = $this->userManipulator->create($user->getUsername(), $user->getNewPassword(), "", true, false);
+            $user->setLegacy(false);
         }
-        if ($user->getPlainPassword() != "") {
-            $this->userManipulator->changePassword($user->getUsername(), $user->getPlainPassword());
+        if ($user->getNewPassword() != "") {
+            $this->userManipulator->changePassword($user->getUsername(), $user->getNewPassword());
         }
 
 

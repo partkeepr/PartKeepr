@@ -75,6 +75,7 @@ class PutUserAction
         );
 
         $this->userService->syncData($data);
+        $data->setNewPassword("");
         $data->setPassword("");
         $data->setLegacy(false);
 

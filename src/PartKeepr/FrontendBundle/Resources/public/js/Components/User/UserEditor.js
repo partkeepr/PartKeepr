@@ -20,7 +20,7 @@ Ext.define('PartKeepr.UserEditor', {
             }, {
                 xtype: 'textfield',
                 inputType: "password",
-                name: 'password',
+                name: 'newPassword',
                 fieldLabel: i18n("Password")
             }, {
                 xtype: 'displayfield',
@@ -31,14 +31,15 @@ Ext.define('PartKeepr.UserEditor', {
             }
         ];
 
-        this.on("startEdit", this.onEditStart, this, {delay: 200});
-
+        this.on("startEdit", this.toggleLegacyField, this, {delay: 200});
         this.callParent();
     },
-    onEditStart: function ()
+    toggleLegacyField: function ()
     {
         if (this.record.get("legacy") === true) {
             this.down("#legacyField").setVisible(true);
+        } else {
+            this.down("#legacyField").setVisible(false);
         }
     }
 });

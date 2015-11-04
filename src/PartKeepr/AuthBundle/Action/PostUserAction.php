@@ -73,6 +73,7 @@ class PostUserAction
         $data->setLegacy(false);
         $this->userService->syncData($data);
 
+        $data->setNewPassword("");
         $data->setPassword("");
 
         return $data;

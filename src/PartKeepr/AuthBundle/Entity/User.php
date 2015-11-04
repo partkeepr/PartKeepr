@@ -3,6 +3,7 @@ namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
+use PartKeepr\DoctrineReflectionBundle\Annotation\VirtualField;
 use PartKeepr\Util\BaseEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,9 +32,11 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     private $password;
 
     /**
+     * @Groups({"default"})
+     * @VirtualField(type="string")
      * @var string
      */
-    private $plainPassword;
+    private $newPassword;
 
     /**
      * @Assert\Email()
@@ -203,7 +206,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      */
     public function getPassword()
     {
-        return $this->plainPassword;
+        return $this->password;
     }
 
     /**
@@ -213,18 +216,18 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      */
     public function setPassword($password)
     {
-        $this->plainPassword = $password;
+        $this->password = $password;
     }
 
-    public function getPlainPassword () {
-        return $this->plainPassword;
+    public function getNewPassword () {
+        return $this->newPassword;
     }
 
     /**
-     * Sets the plain password. Used for password changes
+     * Sets the new password. Used for password changes
      */
-    public function setPlainPassword ($password) {
-
+    public function setNewPassword ($password) {
+        $this->newPassword = $password;
     }
 
     /**
