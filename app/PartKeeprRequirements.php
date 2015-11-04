@@ -47,7 +47,7 @@ class PartKeeprRequirements extends SymfonyRequirements
         } catch (\Exception $e) {
             $this->addRequirement(
                 false,
-                sprintf('Directory %s and all subfolders/files must be writable', $path),
+                sprintf('Directory %s and all subfolders/files must be writable.<br/><br/>If you already set the subfolders and files writable, you might have SELinux installed. Read <a href="https://wiki.partkeepr.org/wiki/SELinux" target="_blank">the PartKeepr SELinux Wiki Article</a> for further information.<br/>', $path),
                 $e->getMessage());
         }
     }
