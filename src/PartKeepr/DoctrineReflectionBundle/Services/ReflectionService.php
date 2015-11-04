@@ -44,9 +44,16 @@ class ReflectionService
         return $entities;
     }
 
+    /**
+     * Returns the ExtJS Model contents for a given entity
+     *
+     * @param $entity string The ExtJS class name
+     *
+     * @return string The ExtJS model code
+     */
     public function getEntity($entity)
     {
-        $bIsTree = false;
+        $bTree = false;
 
         $parentClass = "PartKeepr.data.HydraModel";
 
@@ -54,81 +61,18 @@ class ReflectionService
 
         $cm = $this->em->getClassMetadata($entity);
 
-
         if ($cm->getReflectionClass()->isSubclassOf("PartKeepr\CategoryBundle\Entity\AbstractCategory")) {
             $parentClass = "PartKeepr.data.HydraTreeModel";
-            $bIsTree = true;
+            $bTree = true;
         }
 
-
-        $fields = $cm->getFieldNames();
 
         $fieldMappings = array();
 
-        foreach ($fields as $field) {
-            $currentMapping = $cm->getFieldMapping($field);
+        $fieldMappings = array_merge($fieldMappings, $this->getVirtualFieldMappings($cm));
+        $fieldMappings = array_merge($fieldMappings, $this->getDatabaseFieldMappings($cm));
 
-            if ($currentMapping["fieldName"] == "id") {
-                $currentMapping["fieldName"] = "@id";
-                $currentMapping["type"] = "string";
-            }
-
-            $fieldMappings[] = array(
-                "name" => $currentMapping["fieldName"],
-                "type" => $this->getExtJSFieldMapping($currentMapping["type"]),
-            );
-        }
-
-        $associations = $cm->getAssociationMappings();
-
-        $associationMappings = array();
-
-        foreach ($associations as $association) {
-            $getterPlural = false;
-            $associationType = $association["type"];
-
-            switch ($association["type"]) {
-                case ClassMetadataInfo::MANY_TO_MANY:
-                    $associationType = "MANY_TO_MANY";
-                    $getterPlural = true;
-                    break;
-                case ClassMetadataInfo::MANY_TO_ONE:
-                    $associationType = "MANY_TO_ONE";
-                    $getterPlural = false;
-                    break;
-                case ClassMetadataInfo::ONE_TO_MANY:
-                    $associationType = "ONE_TO_MANY";
-                    $getterPlural = true;
-                    break;
-                case ClassMetadataInfo::ONE_TO_ONE:
-                    $associationType = "ONE_TO_ONE";
-                    $getterPlural = false;
-                    break;
-            }
-
-            $getter = "get".ucfirst($association["fieldName"]);
-            $getterField = lcfirst($cm->getReflectionClass()->getShortName()).str_replace(
-                ".",
-                "",
-                $this->convertPHPToExtJSClassName($association["targetEntity"])
-            );
-
-            if ($getterPlural) {
-                $getterField .= "s";
-            }
-
-
-            // The self-referencing association may not be written for trees, because ExtJS can't load all nodes
-            // in one go.
-            if (!($bIsTree && $association["targetEntity"] == $entity)) {
-                $associationMappings[$associationType][] = array(
-                    "name" => $association["fieldName"],
-                    "target" => $this->convertPHPToExtJSClassName($association["targetEntity"]),
-                    "getter" => $getter,
-                    "getterField" => $getterField,
-                );
-            }
-        }
+        $associationMappings = $this->getDatabaseAssociationMappings($cm, $bTree);
 
         $renderParams = array(
             "fields" => $fieldMappings,
@@ -160,6 +104,134 @@ class ReflectionService
         return $this->templateEngine->render('PartKeeprDoctrineReflectionBundle::model.js.twig', $renderParams);
     }
 
+    /**
+     * Returns association mapping for a given entity
+     *
+     * @param ClassMetadata $cm
+     * @param bool|false    $bTree
+     *
+     * @return array
+     */
+    protected function getDatabaseAssociationMappings(ClassMetadata $cm, $bTree = false)
+    {
+        $associations = $cm->getAssociationMappings();
+
+        $associationMappings = array();
+
+        foreach ($associations as $association) {
+            $getterPlural = false;
+            $associationType = $association["type"];
+
+            switch ($association["type"]) {
+                case ClassMetadataInfo::MANY_TO_MANY:
+                    $associationType = "MANY_TO_MANY";
+                    $getterPlural = true;
+                    break;
+                case ClassMetadataInfo::MANY_TO_ONE:
+                    $associationType = "MANY_TO_ONE";
+                    $getterPlural = false;
+                    break;
+                case ClassMetadataInfo::ONE_TO_MANY:
+                    $associationType = "ONE_TO_MANY";
+                    $getterPlural = true;
+                    break;
+                case ClassMetadataInfo::ONE_TO_ONE:
+                    $associationType = "ONE_TO_ONE";
+                    $getterPlural = false;
+                    break;
+            }
+
+            $getter = "get".ucfirst($association["fieldName"]);
+            $getterField = lcfirst($cm->getReflectionClass()->getShortName()).str_replace(
+                    ".",
+                    "",
+                    $this->convertPHPToExtJSClassName($association["targetEntity"])
+                );
+
+            if ($getterPlural) {
+                $getterField .= "s";
+            }
+
+
+            // The self-referencing association may not be written for trees, because ExtJS can't load all nodes
+            // in one go.
+            if (!($bTree && $association["targetEntity"] == $cm->getName())) {
+                $associationMappings[$associationType][] = array(
+                    "name" => $association["fieldName"],
+                    "target" => $this->convertPHPToExtJSClassName($association["targetEntity"]),
+                    "getter" => $getter,
+                    "getterField" => $getterField,
+                );
+            }
+        }
+
+        return $associationMappings;
+    }
+
+    /**
+     * Returns all virtual field mappings
+     *
+     * @param ClassMetadata $cm
+     *
+     * @return array
+     */
+    protected function getVirtualFieldMappings(ClassMetadata $cm)
+    {
+        $fieldMappings = array();
+
+        foreach ($cm->getReflectionClass()->getProperties() as $property) {
+            $virtualFieldAnnotation = $this->reader->getPropertyAnnotation(
+                $property,
+                'PartKeepr\DoctrineReflectionBundle\Annotation\VirtualField'
+            );
+
+            if ($virtualFieldAnnotation !== null) {
+                $fieldMappings[] = array(
+                    "name" => $property->getName(),
+                    "type" => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
+                );
+            }
+        }
+
+        return $fieldMappings;
+    }
+
+    /**
+     * Returns database field mappings
+     *
+     * @param ClassMetadata $cm
+     *
+     * @return array
+     * @throws \Doctrine\ORM\Mapping\MappingException
+     */
+    protected function getDatabaseFieldMappings(ClassMetadata $cm)
+    {
+        $fieldMappings = array();
+        $fields = $cm->getFieldNames();
+
+        foreach ($fields as $field) {
+            $currentMapping = $cm->getFieldMapping($field);
+
+            if ($currentMapping["fieldName"] == "id") {
+                $currentMapping["fieldName"] = "@id";
+                $currentMapping["type"] = "string";
+            }
+
+            $fieldMappings[] = array(
+                "name" => $currentMapping["fieldName"],
+                "type" => $this->getExtJSFieldMapping($currentMapping["type"]),
+            );
+        }
+
+        return $fieldMappings;
+    }
+
+    /**
+     * Converts a doctrine/PHP type to the ExtJS type
+     * @param $type string the PHP/doctrine type
+     *
+     * @return string The ExtJS type
+     */
     protected function getExtJSFieldMapping($type)
     {
         switch ($type) {
@@ -192,17 +264,29 @@ class ReflectionService
         return "undefined";
     }
 
+    /**
+     * Converts a PHP class name with namespaces to an ExtJS class name with namespaces
+     * @param $className
+     *
+     * @return string
+     */
     protected function convertPHPToExtJSClassName($className)
     {
         return str_replace("\\", ".", $className);
     }
 
+    /**
+     * Converts an ExtJS class name with namespaces to a PHP class name with namespaces
+     * @param $className
+     *
+     * @return string
+     */
     protected function convertExtJSToPHPClassName($className)
     {
         return str_replace(".", "\\", $className);
     }
 
-    public function createCache ($cacheDir)
+    public function createCache($cacheDir)
     {
         @mkdir($cacheDir, 0777, true);
 
@@ -216,7 +300,7 @@ class ReflectionService
     }
 
 
-     protected function writeCacheFile($file, $content)
+    protected function writeCacheFile($file, $content)
     {
         $tmpFile = tempnam(dirname($file), basename($file));
         if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $file)) {
