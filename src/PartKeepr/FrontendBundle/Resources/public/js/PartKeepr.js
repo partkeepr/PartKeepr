@@ -575,7 +575,12 @@ PartKeepr.getApplication = function ()
 
 PartKeepr.getBasePath = function ()
 {
-    return document.getElementsByTagName('base')[0].href;
+    var href = document.getElementsByTagName('base')[0].href;
+
+    if(href.substr(-1) === '/') {
+        return href.substr(0, href.length - 1);
+    }
+    return href;
 };
 
 PartKeepr.getImagePath = function ()
