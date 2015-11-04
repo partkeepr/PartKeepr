@@ -35,26 +35,43 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('The PHP function mb_convert_case does not exist.'),
             sprintf('Please compile PHP with the mbstring functions in case you are using Gentoo, or install php-mbstring on RedHat, Fedora or CentOS.')
         );
+
+        if (ini_get("opcache.enable")) {
+            $this->addPhpIniRequirement("opcache.save_comments", 1,
+                false,
+                "opcache.save_comments must be on",
+                sprintf("The php.ini opcache.save_comments directive must be set to 1."));
+
+            $this->addPhpIniRequirement("opcache.load_comments", 1,
+                false,
+                "opcache.load_comments must be on",
+                sprintf("The php.ini opcache.load_comments directive must be set to 1."));
+        }
     }
 
     /**
      * Checks if a path is writable. If not, generates a requirement
+     *
      * @param $path string The path to check
      */
-    protected function checkWritable ($path) {
+    protected function checkWritable($path)
+    {
         try {
             $this->isWritableRecursive($path);
         } catch (\Exception $e) {
             $this->addRequirement(
                 false,
-                sprintf('Directory %s and all subfolders/files must be writable.<br/><br/>If you already set the subfolders and files writable, you might have SELinux installed. Read <a href="https://wiki.partkeepr.org/wiki/SELinux" target="_blank">the PartKeepr SELinux Wiki Article</a> for further information.<br/>', $path),
+                sprintf('Directory %s and all subfolders/files must be writable.<br/><br/>If you already set the subfolders and files writable, you might have SELinux installed. Read <a href="https://wiki.partkeepr.org/wiki/SELinux" target="_blank">the PartKeepr SELinux Wiki Article</a> for further information.<br/>',
+                    $path),
                 $e->getMessage());
         }
     }
+
     /**
      * Returns a php.ini setting with parsed byte values.
      *
      * Example: If you specify memory_limit=64M, this method will return 67108864 bytes.
+     *
      * @param $setting string The php.ini setting
      *
      * @return int The byts
@@ -66,6 +83,7 @@ class PartKeeprRequirements extends SymfonyRequirements
 
     /**
      * Parses a value with g,m or k modifiers and returns the effective bytes.
+     *
      * @param $val string The value to parse
      *
      * @return int|string The bytes
@@ -94,6 +112,7 @@ class PartKeeprRequirements extends SymfonyRequirements
      * Checks if the given directory and all contained files within it is writable by the current user.
      *
      * @param string $dir The directory to check
+     *
      * @return boolean True if the path is writable
      * @throws \Exception If the directory is not writable
      */
