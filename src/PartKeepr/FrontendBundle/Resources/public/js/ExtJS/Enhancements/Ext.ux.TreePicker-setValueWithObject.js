@@ -26,7 +26,7 @@ Ext.define("PartKeepr.ux.TreePicker", {
         // try to find a record in the store that matches the value
         record = value ? me.store.getNodeById(value) : me.store.getRoot();
         if (value === undefined || value === null) {
-            record = me.store.getRoot();
+            record = me.store.getRoot().firstChild;
             me.value = record.getId();
         } else {
             if (value.isModel) {
