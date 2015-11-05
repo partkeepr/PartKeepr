@@ -4,7 +4,7 @@ Ext.define("PartKeepr.PartCategoryTree", {
 
     ddGroup: 'PartTree',
     categoryModel: 'PartKeepr.PartBundle.Entity.PartCategory',
-    rootVisible: true,
+    rootVisible: false,
 
     initComponent: function ()
     {
