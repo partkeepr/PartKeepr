@@ -6,7 +6,8 @@ Ext.define("PartKeepr.data.HydraProxy", {
         type: 'hydra'
     },
     writer: {
-        type: 'jsonwithassociations'
+        type: 'jsonwithassociations',
+        writeAllFields: true
     },
     appendId: false,
     limitParam: "itemsPerPage",
