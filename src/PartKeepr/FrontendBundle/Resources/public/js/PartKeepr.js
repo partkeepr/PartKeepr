@@ -89,14 +89,11 @@ Ext.application({
     {
         this.createGlobalStores();
 
-        if (window.parameters.userPreferences) {
-            PartKeepr.getApplication().setInitialUserPreferences(window.parameters.userPreferences);
-        }
+        var initialUserPreferences = Ext.decode(this.getLoginManager().getUser().get("initialUserPreferences"));
 
-        if (PartKeepr.initialUserPreferences) {
-            var records = this.getUserPreferenceStore().getProxy().getReader().read(PartKeepr.initialUserPreferences);
-            this.getUserPreferenceStore().loadRecords(records.records);
-        }
+        var records = this.getUserPreferenceStore().getProxy().getReader().read(initialUserPreferences);
+
+        this.getUserPreferenceStore().loadRecords(records.records);
 
         this.createPartManager();
 
@@ -300,6 +297,7 @@ Ext.application({
         this.userPreferenceStore = Ext.create("PartKeepr.data.store.UserPreferenceStore",
             {
                 model: 'PartKeepr.AuthBundle.Entity.UserPreference',
+                autoLoad: false
             });
 
         this.tipOfTheDayStore = Ext.create("PartKeepr.data.store.TipOfTheDayStore");
@@ -336,6 +334,8 @@ Ext.application({
 
             if (decodedValue === null) {
                 return value;
+            } else {
+                return decodedValue;
             }
         } else {
             return (typeof defaultValue == "undefined") ? null : defaultValue;

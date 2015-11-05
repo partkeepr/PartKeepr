@@ -55,6 +55,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      * Marks a user as a legacy user (=old md5 auth)
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
+     *
      * @var boolean
      */
     private $legacy;
@@ -76,9 +77,17 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     private $tipHistories;
 
     /**
+     * Holds the initial serialized user preferences
+     * @VirtualField(type="string")
+     * @Groups({"default"})
+     * @var string
+     */
+    private $initialUserPreferences;
+
+    /**
      * Creates a new user object.
      *
-     * @param string $username The username to set (optional)
+     * @param string       $username The username to set (optional)
      * @param UserProvider $provider The authentification provider
      *
      * @throws \Exception
@@ -104,6 +113,22 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     public function setAdmin($bAdmin)
     {
         $this->admin = (boolean)$bAdmin;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInitialUserPreferences()
+    {
+        return $this->initialUserPreferences;
+    }
+
+    /**
+     * @param string $initialUserPreferences
+     */
+    public function setInitialUserPreferences($initialUserPreferences)
+    {
+        $this->initialUserPreferences = $initialUserPreferences;
     }
 
     /**
@@ -172,26 +197,6 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Returns the username.
-     *
-     * @return string The username
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * Sets the username.
-     *
-     * @param string $username The username to set.
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    /**
      * Returns the admin flag
      *
      * @return boolean True if the user is an admin
@@ -219,14 +224,16 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
         $this->password = $password;
     }
 
-    public function getNewPassword () {
+    public function getNewPassword()
+    {
         return $this->newPassword;
     }
 
     /**
      * Sets the new password. Used for password changes
      */
-    public function setNewPassword ($password) {
+    public function setNewPassword($password)
+    {
         $this->newPassword = $password;
     }
 
@@ -271,17 +278,21 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
 
     /**
      * Returns if the user is a legacy user
+     *
      * @return bool
      */
-    public function isLegacy () {
+    public function isLegacy()
+    {
         return $this->legacy;
     }
 
     /**
      * Marks a user as a legacy user
+     *
      * @param bool|true $legacy
      */
-    public function setLegacy ($legacy = true) {
+    public function setLegacy($legacy = true)
+    {
         $this->legacy = $legacy;
     }
 
@@ -295,15 +306,18 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
         return $this->lastSeen;
     }
 
-    public function getRoles () {
+    public function getRoles()
+    {
         return array();
     }
 
-    public function getSalt () {
+    public function getSalt()
+    {
         return "";
     }
 
-    public function eraseCredentials () {
+    public function eraseCredentials()
+    {
 
     }
 
@@ -318,5 +332,25 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
         }
 
         return true;
+    }
+
+    /**
+     * Returns the username.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Sets the username.
+     *
+     * @param string $username The username to set.
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
     }
 }

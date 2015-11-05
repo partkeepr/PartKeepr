@@ -34,6 +34,7 @@
         <service id="partkeepr.auth.login" class="PartKeepr\AuthBundle\Action\LoginAction">
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="api.serializer"/>
+            <argument type="service" id="partkeepr.user_preference_service"/>
         </service>
         <service id="partkeepr.auth.change_password" class="PartKeepr\AuthBundle\Action\ChangePasswordAction">
             <argument type="service" id="partkeepr.userservice"/>

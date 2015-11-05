@@ -5,7 +5,7 @@ namespace PartKeepr\AuthBundle\Action;
 
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
+use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
@@ -24,16 +24,36 @@ class LoginAction
      */
     private $serializer;
 
+    /**
+     * @var UserPreferenceService
+     */
+    private $userPreferenceService;
+
     public function __construct(
         UserService $userService,
-        Serializer $serializer
+        Serializer $serializer,
+        UserPreferenceService $userPreferenceService
     ) {
         $this->userService = $userService;
         $this->serializer = $serializer;
+        $this->userPreferenceService = $userPreferenceService;
     }
 
     public function __invoke (Request $request) {
         $user = $this->userService->getUser();
+
+        $userPreferences = $this->userPreferenceService->getPreferences($user);
+
+        $arrayUserPreferences = array();
+
+        foreach ($userPreferences as $userPreference) {
+            $arrayUserPreferences[] = array(
+                "preferenceKey" => $userPreference->getPreferenceKey(),
+                "preferenceValue" => $userPreference->getPreferenceValue()
+            );
+        }
+
+        $user->setInitialUserPreferences(json_encode($arrayUserPreferences));
 
         return $user;
     }

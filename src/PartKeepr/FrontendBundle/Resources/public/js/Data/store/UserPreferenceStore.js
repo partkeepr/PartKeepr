@@ -9,7 +9,7 @@ Ext.define('PartKeepr.data.store.UserPreferenceStore', {
     /**
      * Automatically load the store
      */
-    autoLoad: true,
+    autoLoad: false,
 
     /**
      * The model to use
