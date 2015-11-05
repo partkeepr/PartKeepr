@@ -13,7 +13,7 @@ Ext.define('PartKeepr.Statusbar', {
         this.currentUserDisplay = Ext.create("Ext.toolbar.TextItem");
 
         this.showMessageLog = Ext.create("Ext.Button", {
-            glyph: 0xf120,
+            iconCls: 'web-icon application_osx_terminal',
             cls: 'x-btn-icon',
             handler: function ()
             {
