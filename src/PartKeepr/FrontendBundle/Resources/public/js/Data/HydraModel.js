@@ -5,7 +5,7 @@ Ext.define("PartKeepr.data.HydraModel", {
 
     getData: function (options)
     {
-        var data = this.callParent(options);
+        var data = this.callParent(arguments);
 
         if (this.phantom) {
             delete data[this.idProperty];
