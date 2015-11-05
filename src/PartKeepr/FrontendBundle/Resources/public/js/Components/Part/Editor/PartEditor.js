@@ -12,6 +12,7 @@ Ext.define('PartKeepr.PartEditor', {
     // Layout stuff
     border: false,
     layout: 'fit',
+    editAfterSave: false,
 
     /**
      * Initializes the editor fields
@@ -395,22 +396,28 @@ Ext.define('PartKeepr.PartEditor', {
             var newItem;
             if (this.partMode == "create") {
                 if (this.copyPartDataCheckbox.getValue() === true) {
-                    data = this.record.getData(true);
-                    data.id = null;
-                    newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
-                    newItem.setDataWithAssociations(data);
+                    var data = this.record.getData();
+                    console.log(data);
 
+                    var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
+                    newItem.set(data);
+                    newItem.setAssociationData(this.record.getAssociationData());
                     this.editItem(newItem);
                 } else {
                     newItem = Ext.create("PartKeepr.PartBundle.Entity.Part", this.partDefaults);
                     this.editItem(newItem);
                 }
             } else {
-                var data = this.record.getData(true);
-                data.id = null;
-                newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
-                newItem.setDataWithAssociations(data);
+                var data = this.record.getData();
+                delete data["@id"];
 
+                console.log(data);
+                var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
+                newItem.set(data);
+                newItem.setAssociationData(this.record.getAssociationData());
+
+                console.log(newItem);
+                newItem.foobar = 123;
                 this.editItem(newItem);
             }
 

@@ -16,6 +16,7 @@ Ext.define('PartKeepr.Editor', {
     },
     enableButtons: true,
     titleProperty: 'name',
+    editAfterSave: true,
 
     // If false, determinates if we should sync via the store or the record itself.
     // If true, always syncs the record via it's own proxy.
@@ -119,6 +120,8 @@ Ext.define('PartKeepr.Editor', {
             this.fireEvent("itemSaved", this.record);
         }
 
-        this.editItem(record);
+        if (this.editAfterSave) {
+            this.editItem(record);
+        }
     }
 });
