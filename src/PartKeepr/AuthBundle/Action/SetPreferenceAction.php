@@ -60,7 +60,7 @@ class SetPreferenceAction
 
         $data = json_decode($request->getContent());
 
-        if ($data->preferenceKey && $data->preferenceValue) {
+        if (property_exists($data, "preferenceKey") && property_exists($data, "preferenceValue")) {
             $preference = $this->userPreferenceService->setPreference($user, $data->preferenceKey,
                 $data->preferenceValue);
         } else {
