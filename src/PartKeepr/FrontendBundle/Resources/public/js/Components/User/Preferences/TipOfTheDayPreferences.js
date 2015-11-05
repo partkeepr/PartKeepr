@@ -9,7 +9,7 @@ Ext.define('PartKeepr.TipOfTheDayPreferencesPanel', {
             handler: Ext.bind(this.showTipsHandler, this)
         });
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") == "false") {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") == false) {
             this.displayTipsOnLoginCheckbox.setValue(false);
         } else {
             this.displayTipsOnLoginCheckbox.setValue(true);

@@ -8,7 +8,7 @@ Ext.define('PartKeepr.StockPreferencesPanel', {
                 handler: Ext.bind(this.confirmInlineStockLevelChangesHandler, this)
             });
 
-            if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm") == "false") {
+            if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm") == false) {
     			this.confirmInlineStockLevelChangesCheckbox.setValue(false);
     		} else {
     			this.confirmInlineStockLevelChangesCheckbox.setValue(true);

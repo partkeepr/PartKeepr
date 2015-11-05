@@ -176,7 +176,7 @@ Ext.application({
             return;
         }
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") !== "false") {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") !== false) {
             var j = Ext.create("PartKeepr.TipOfTheDayWindow");
 
             if (j.hasTips()) {
@@ -331,7 +331,12 @@ Ext.application({
         var record = this.userPreferenceStore.findRecord("preferenceKey", key);
 
         if (record) {
-            return record.get("preferenceValue");
+            var value = record.get("preferenceValue");
+            var decodedValue = Ext.decode(value, true);
+
+            if (decodedValue === null) {
+                return value;
+            }
         } else {
             return (typeof defaultValue == "undefined") ? null : defaultValue;
         }
@@ -345,10 +350,13 @@ Ext.application({
     setUserPreference: function (key, value)
     {
         var record = this.userPreferenceStore.findRecord("preferenceKey", key);
+        value = Ext.encode(value);
 
         if (record) {
-            record.set("preferenceValue", value);
-            record.save();
+            if (record.get("preferenceValue") != value) {
+                record.set("preferenceValue", value);
+                record.save();
+            }
         } else {
             var j = new PartKeepr.AuthBundle.Entity.UserPreference();
             j.set("preferenceKey", key);
