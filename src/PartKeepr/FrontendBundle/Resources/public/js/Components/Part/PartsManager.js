@@ -176,7 +176,14 @@ Ext.define('PartKeepr.PartManager', {
             value: this.getChildrenIds(record)
         });
 
-        this.store.addFilter(filter);
+        if (record.parentNode.isRoot()) {
+            // Workaround for big installations: Passing all child categories for the root node
+            // to the filter exceeds the HTTP URI length. See
+            // https://github.com/partkeepr/PartKeepr/issues/473
+            this.store.removeFilter(filter);
+        } else {
+            this.store.addFilter(filter);
+        }
     },
     getSelectedCategory: function ()
     {
@@ -272,6 +279,7 @@ Ext.define('PartKeepr.PartManager', {
         copy.setCategory(rec.getCategory());
         copy.setFootprint(rec.getFootprint());
         copy.setStorageLocation(rec.getStorageLocation());
+        copy.setPartUnit(rec.getPartUnit());
 
         var j = Ext.create("PartKeepr.PartEditorWindow", {
             partMode: 'create'
