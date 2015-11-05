@@ -335,17 +335,17 @@ Ext.define('PartKeepr.PartManager', {
             partMode: 'create'
         });
 
-        var defaults = {};
-
         var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().findRecord("default", true);
 
-        defaults.partUnit = defaultPartUnit.getId();
+        var record = Ext.create("PartKeepr.PartBundle.Entity.Part");
 
-        var record = Ext.create("PartKeepr.PartBundle.Entity.Part", defaults);
-        record.setCategory(this.getSelectedCategory());
+        if (this.getSelectedCategory() !== null) {
+            record.setCategory(this.getSelectedCategory());
+        } else {
+            record.setCategory(this.tree.getRootNode().firstChild);
+        }
 
-        // Inject the defaults to the editor, so the editor can create a new item on its own
-        j.editor.partDefaults = defaults;
+        record.setPartUnit(defaultPartUnit);
 
         j.editor.editItem(record);
         j.show();

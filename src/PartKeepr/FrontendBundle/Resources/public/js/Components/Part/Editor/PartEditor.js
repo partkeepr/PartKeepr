@@ -114,11 +114,10 @@ Ext.define('PartKeepr.PartEditor', {
                         minValue: 0
                     }, {
                         xtype: 'PartUnitComboBox',
-                        fieldLabel: i18n("Part Measurement Unit"),
+                        fieldLabel: i18n("Measurement Unit"),
                         columnWidth: 0.5,
                         returnObject: true,
-                        name: 'partUnit',
-                        value: PartKeepr.getApplication().getDefaultPartUnit()
+                        name: 'partUnit'
                     }
                 ]
             }, {
@@ -397,31 +396,26 @@ Ext.define('PartKeepr.PartEditor', {
             if (this.partMode == "create") {
                 if (this.copyPartDataCheckbox.getValue() === true) {
                     var data = this.record.getData();
-                    console.log(data);
+                    delete data["@id"];
 
                     var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
                     newItem.set(data);
                     newItem.setAssociationData(this.record.getAssociationData());
                     this.editItem(newItem);
                 } else {
-                    newItem = Ext.create("PartKeepr.PartBundle.Entity.Part", this.partDefaults);
+                    newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
+                    newItem.setPartUnit(PartKeepr.getApplication().getDefaultPartUnit());
                     this.editItem(newItem);
                 }
             } else {
                 var data = this.record.getData();
                 delete data["@id"];
 
-                console.log(data);
                 var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
                 newItem.set(data);
                 newItem.setAssociationData(this.record.getAssociationData());
-
-                console.log(newItem);
-                newItem.foobar = 123;
                 this.editItem(newItem);
             }
-
-
         }
     },
     bindChildStores: function ()
