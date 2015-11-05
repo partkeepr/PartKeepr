@@ -169,7 +169,8 @@ Ext.application({
     {
         if (!Ext.data.StoreManager.lookup('TipOfTheDayStore') || !Ext.data.StoreManager.lookup(
                 'TipOfTheDayStore').isLoaded() || !Ext.data.StoreManager.lookup(
-                'TipOfTheDayHistoryStore') || !Ext.data.StoreManager.lookup('TipOfTheDayHistoryStore').isLoaded()
+                'TipOfTheDayHistoryStore') || !Ext.data.StoreManager.lookup('TipOfTheDayHistoryStore').isLoaded() ||
+                !this.getUserPreferenceStore().isLoaded()
         ) {
             this.displayTipWindowTask.delay(100);
             return;
