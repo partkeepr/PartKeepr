@@ -100,10 +100,13 @@ Ext.application({
         this.menuBar.enable();
 
         this.doSystemStatusCheck();
-        this.doUnacknowledgedNoticesCheck();
 
-        /* Give the user preference stuff enough time to load */
-        /* @todo Load user preferences directly on login and not via delayed task */
+        this.unacknowledgedNoticesTask = Ext.TaskManager.start({
+            run: this.doUnacknowledgedNoticesCheck,
+            scope: this,
+            interval: 100000
+        });
+
         this.displayTipWindowTask = new Ext.util.DelayedTask(this.displayTipOfTheDayWindow, this);
         this.displayTipWindowTask.delay(100);
 
@@ -119,6 +122,8 @@ Ext.application({
         this.menuBar.disable();
         this.centerPanel.removeAll(true);
         this.getStatusbar().setDisconnected();
+
+        Ext.TaskManager.stop(this.unacknowledgedNoticesTask);
     },
     /**
      * Re-creates the part manager. This is usually called when the "compactLayout" configuration option has been
@@ -240,8 +245,6 @@ Ext.application({
         } else {
             this.statusBar.systemNoticeButton.hide();
         }
-
-        Ext.defer(this.doUnacknowledgedNoticesCheck, 100000, this);
     },
     createGlobalStores: function ()
     {
