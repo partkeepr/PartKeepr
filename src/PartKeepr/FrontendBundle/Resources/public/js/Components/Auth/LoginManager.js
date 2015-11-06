@@ -66,6 +66,13 @@ Ext.define('PartKeepr.Auth.LoginManager', {
      */
     logout: function ()
     {
+        PartKeepr.AuthBundle.Entity.User.callGetCollectionAction("logout",
+            {},
+            Ext.bind(this.onLogout, this),
+            true
+        );
+    },
+    onLogout: function () {
         this.loggedIn = false;
         this.fireEvent("logout");
     },

@@ -13,6 +13,8 @@ use PartKeepr\AuthBundle\Entity\User\Exceptions\InvalidLoginDataException;
 use PartKeepr\AuthBundle\Response\LoginResponse;
 use PartKeepr\AuthBundle\Validator\Constraints\Username;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends FOSRestController
 {
@@ -50,5 +52,19 @@ class DefaultController extends FOSRestController
         } else {
             return false;
         }
+    }
+
+    /**
+     * Logs out the user
+     *
+     * @Routing\Route("/api/users/logout", defaults={"method" = "GET","_format" = "json"})
+     * @param Request $request
+     */
+
+    public function logoutAction (Request $request) {
+        $this->get('security.token_storage')->setToken(null);
+        $request->getSession()->invalidate();
+
+        return new Response("", 200);
     }
 }
