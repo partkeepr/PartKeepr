@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\PartBundle\Exceptions\CategoryNotAssignedException;
+use PartKeepr\PartBundle\Exceptions\MinStockLevelOutOfRangeException;
 use PartKeepr\PartBundle\Exceptions\StorageLocationNotAssignedException;
 use PartKeepr\PartKeepr;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
@@ -631,9 +632,7 @@ class Part extends BaseEntity
         $minStockLevel = intval($minStockLevel);
 
         if ($minStockLevel < 0) {
-            $exception = new OutOfRangeException(PartKeepr::i18n("Minimum Stock Level is out of range"));
-            $exception->setDetail(PartKeepr::i18n("The minimum stock level must be 0 or higher"));
-            throw $exception;
+            throw new MinStockLevelOutOfRangeException();
         }
         $this->minStockLevel = $minStockLevel;
     }

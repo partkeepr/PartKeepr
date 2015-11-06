@@ -3,6 +3,7 @@ namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DistributorBundle\Entity\Distributor;
+use PartKeepr\PartBundle\Exceptions\PackagingUnitOutOfRangeException;
 use PartKeepr\PartKeepr;
 use PartKeepr\Util\BaseEntity;
 use PartKeepr\Util\Exceptions\OutOfRangeException;
@@ -89,9 +90,7 @@ class PartDistributor extends BaseEntity
         $packagingUnit = intval($packagingUnit);
 
         if ($packagingUnit < 1) {
-            $exception = new OutOfRangeException(PartKeepr::i18n("Packaging Unit is out of range"));
-            $exception->setDetail(PartKeepr::i18n("The packaging unit must be 1 or higher"));
-            throw $exception;
+            throw new PackagingUnitOutOfRangeException();
         }
 
         $this->packagingUnit = $packagingUnit;
