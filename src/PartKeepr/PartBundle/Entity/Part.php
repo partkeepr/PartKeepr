@@ -14,7 +14,6 @@ use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use PartKeepr\Util\BaseEntity;
-use PartKeepr\Util\Exceptions\OutOfRangeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

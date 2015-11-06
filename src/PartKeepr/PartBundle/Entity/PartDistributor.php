@@ -4,9 +4,7 @@ namespace PartKeepr\PartBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\PartBundle\Exceptions\PackagingUnitOutOfRangeException;
-use PartKeepr\PartKeepr;
 use PartKeepr\Util\BaseEntity;
-use PartKeepr\Util\Exceptions\OutOfRangeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

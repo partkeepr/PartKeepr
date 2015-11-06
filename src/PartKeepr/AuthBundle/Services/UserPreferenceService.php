@@ -33,10 +33,6 @@ class UserPreferenceService
      */
     public function setPreference(User $user, $key, $value)
     {
-        if (!$this->entityManager->contains($user)) {
-            throw new EntityNotPersistantException();
-        }
-
         $dql = 'SELECT up FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user AND ';
         $dql .= "up.preferenceKey = :key";
 
@@ -88,10 +84,6 @@ class UserPreferenceService
      */
     public function getPreferences(User $user)
     {
-        if (!$this->entityManager->contains($user)) {
-            throw new EntityNotPersistantException();
-        }
-
         $dql = "SELECT up FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user";
 
         $query = $this->entityManager->createQuery($dql);
@@ -112,10 +104,6 @@ class UserPreferenceService
      */
     public function getPreference(User $user, $key)
     {
-        if (!$this->entityManager->contains($user)) {
-            throw new EntityNotPersistantException();
-        }
-
         $dql = "SELECT up FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user AND ";
         $dql .= "up.preferenceKey = :key";
 
@@ -142,10 +130,6 @@ class UserPreferenceService
      */
     public function deletePreference(User $user, $key)
     {
-        if (!$this->entityManager->contains($user)) {
-            throw new EntityNotPersistantException();
-        }
-
         $dql = "DELETE FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user AND ";
         $dql .= "up.preferenceKey = :key";
 
