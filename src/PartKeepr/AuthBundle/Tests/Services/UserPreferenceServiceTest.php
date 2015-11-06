@@ -46,25 +46,6 @@ class UserPreferenceServiceTest extends WebTestCase
 
     }
 
-    public function testGetPreferencesException()
-    {
-        $service = $this->getContainer()->get("partkeepr.user_preference_service");
-        $userService = $this->getContainer()->get("partkeepr.userservice");
-
-        $user = new User("admin", $userService->getBuiltinProvider());
-        $this->setExpectedException("PartKeepr\Util\Exceptions\EntityNotPersistantException");
-        $service->getPreferences($user);
-    }
-
-    public function testGetPreferenceUserException()
-    {
-        $service = $this->getContainer()->get("partkeepr.user_preference_service");
-        $userService = $this->getContainer()->get("partkeepr.userservice");
-        $user = new User("admin", $userService->getBuiltinProvider());
-        $this->setExpectedException("PartKeepr\Util\Exceptions\EntityNotPersistantException");
-        $service->getPreference($user, "BLA");
-    }
-
     public function testGetPreferenceException()
     {
         $service = $this->getContainer()->get("partkeepr.user_preference_service");
@@ -73,29 +54,10 @@ class UserPreferenceServiceTest extends WebTestCase
         /**
          * @var User $user
          */
-        $user = $this->getContainer()->get("partkeepr.userservice")->getProxyUser("admin", $userService->getBuiltinProvider());
+        $user = $this->getContainer()->get("partkeepr.userservice")->getProxyUser("admin",
+            $userService->getBuiltinProvider());
 
         $this->setExpectedException("PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException");
         $service->getPreference($user, "BLA");
-    }
-
-    public function testSetPreferenceException()
-    {
-        $service = $this->getContainer()->get("partkeepr.user_preference_service");
-        $userService = $this->getContainer()->get("partkeepr.userservice");
-
-        $user = new User("admin", $userService->getBuiltinProvider());
-        $this->setExpectedException("PartKeepr\Util\Exceptions\EntityNotPersistantException");
-        $service->setPreference($user, "FOO", "BAR");
-    }
-
-    public function testDeletePreferenceException()
-    {
-        $service = $this->getContainer()->get("partkeepr.user_preference_service");
-        $userService = $this->getContainer()->get("partkeepr.userservice");
-
-        $user = new User("admin", $userService->getBuiltinProvider());
-        $this->setExpectedException("PartKeepr\Util\Exceptions\EntityNotPersistantException");
-        $service->deletePreference($user, "FOO");
     }
 }
