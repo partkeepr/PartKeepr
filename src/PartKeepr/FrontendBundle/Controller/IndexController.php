@@ -6,8 +6,6 @@ use Doctrine\Common\Version as DoctrineCommonVersion;
 use Doctrine\DBAL\Version as DBALVersion;
 use Doctrine\ORM\Version as ORMVersion;
 use PartKeepr\AuthBundle\Entity\User;
-use PartKeepr\PartKeepr;
-use PartKeepr\Util\Configuration;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,8 +17,6 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        PartKeepr::initialize("");
-
         $aParameters = array();
         $aParameters["doctrine_orm_version"] = ORMVersion::VERSION;
         $aParameters["doctrine_dbal_version"] = DBALVersion::VERSION;
