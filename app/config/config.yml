@@ -11,6 +11,7 @@ imports:
     - { resource: config_filesystem.yml }
 
 parameters:
+    partkeepr.category.path_separator: " ➤ "
     max_users: unlimited
 
 fos_rest:

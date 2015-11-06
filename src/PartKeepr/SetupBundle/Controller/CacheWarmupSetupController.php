@@ -58,6 +58,12 @@ class CacheWarmupSetupController extends SetupController
 
             $application->run($input, $output);
 
+            $input = new ArrayInput(array(
+                'command' => 'partkeepr:update-category-paths',
+            ));
+
+            $application->run($input, $output);
+
         } catch (\Exception $e) {
             $response["success"] = false;
             $response["message"] = "Cache warm up error";

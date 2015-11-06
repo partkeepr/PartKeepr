@@ -21,6 +21,3 @@ class GenerateEntityCommand extends ContainerAwareCommand
         $reflectionService->createCache($cacheDir);
     }
 }
-
-
-

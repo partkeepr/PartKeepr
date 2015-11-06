@@ -108,10 +108,10 @@ class StorageLocationCategory extends AbstractCategory
      *
      * @return string The category path
      */
-    public function generateCategoryPath()
+    public function generateCategoryPath($pathSeparator)
     {
         if ($this->getParent() !== null) {
-            return $this->getParent()->generateCategoryPath()." / ".$this->getName();
+            return $this->getParent()->generateCategoryPath($pathSeparator) . $pathSeparator . $this->getName();
         } else {
             return $this->getName();
         }

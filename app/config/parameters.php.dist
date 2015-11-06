@@ -45,6 +45,10 @@ $container->setParameter('partkeepr.frontend.auto_login.username', 'admin');
  */
 $container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
 
+/**
+ * Specifies the category path separator
+ */
+$container->setParameter('partkeepr.category.path_separator', ' ➤ ');
 
 $container->setParameter('mailer_transport', null);
 $container->setParameter('mailer_host', null);
