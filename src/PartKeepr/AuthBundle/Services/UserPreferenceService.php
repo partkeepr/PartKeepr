@@ -6,7 +6,6 @@ use Doctrine\ORM\NoResultException;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Entity\UserPreference;
 use PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException;
-use PartKeepr\Util\Exceptions\EntityNotPersistantException;
 
 class UserPreferenceService
 {
@@ -28,8 +27,6 @@ class UserPreferenceService
      * @param string $value The value to set
      *
      * @return UserPreference The user preference
-     *
-     * @throws EntityNotPersistantException        Thrown if the entity is not persistant
      */
     public function setPreference(User $user, $key, $value)
     {
@@ -65,7 +62,6 @@ class UserPreferenceService
      *
      * @return string        The preference string
      * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException    Thrown if the preference key was not found
-     * @throws EntityNotPersistantException        Thrown if the entity is not persistant
      */
     public function getPreferenceValue(User $user, $key)
     {
@@ -80,7 +76,6 @@ class UserPreferenceService
      * @param \PartKeepr\AuthBundle\Entity\User $user The user
      *
      * @return UserPreference[] An array of UserPreference objects
-     * @throws EntityNotPersistantException Thrown if the user entity is not persistent
      */
     public function getPreferences(User $user)
     {
@@ -100,7 +95,6 @@ class UserPreferenceService
      *
      * @return UserPreference    The preference object
      * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException    Thrown if the preference key was not found
-     * @throws EntityNotPersistantException        Thrown if the entity is not persistant
      */
     public function getPreference(User $user, $key)
     {
@@ -125,8 +119,6 @@ class UserPreferenceService
      *
      * @param \PartKeepr\AuthBundle\Entity\User $user The user to delete the preference for
      * @param string                            $key  The key to delete
-     *
-     * @throws EntityNotPersistantException        Thrown if the entity is not persistant
      */
     public function deletePreference(User $user, $key)
     {
