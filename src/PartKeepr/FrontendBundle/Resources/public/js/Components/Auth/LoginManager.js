@@ -62,7 +62,8 @@ Ext.define('PartKeepr.Auth.LoginManager', {
         }
     },
     /**
-     * Triggers the logout process.
+     * Triggers the logout process by calling the backend's logout function, which in turn
+     * clears the session information and de-authenticates the user.
      */
     logout: function ()
     {
@@ -72,6 +73,10 @@ Ext.define('PartKeepr.Auth.LoginManager', {
             true
         );
     },
+    /**
+     * Callback for the logout action. Fires the logout event, which destroys
+     * all windows.
+     */
     onLogout: function () {
         this.loggedIn = false;
         this.fireEvent("logout");
