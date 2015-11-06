@@ -1,0 +1,3 @@
+_index:
+    resource: "@PartKeeprExportBundle/Controller/ExportController.php"
+    type:     annotation
