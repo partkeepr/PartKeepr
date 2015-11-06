@@ -1,10 +1,49 @@
 <?php
+
+/**
+ * Specifies the database driver. Available options are listed on this page:
+ * http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#driver
+ */
 $container->setParameter('database_driver', 'pdo_mysql');
+
+/**
+ * Specifies the hostname for the database
+ */
 $container->setParameter('database_host', 'localhost');
+/**
+ * Specifies the database port.
+ */
 $container->setParameter('database_port', '3306');
+
+/**
+ * Specifies the database name
+ */
 $container->setParameter('database_name', 'symfony');
+
+/**
+ * Specifies the username for the database
+ */
 $container->setParameter('database_user', 'root');
+
+/**
+ * Specifies the password for the database
+ */
 $container->setParameter('database_password', null);
+
+/**
+ * Specifies if the frontend should perform an auto-login
+ */
+$container->setParameter('partkeepr.frontend.auto_login.enabled', false);
+
+/**
+ * Specifies the auto-login username
+ */
+$container->setParameter('partkeepr.frontend.auto_login.username', 'admin');
+
+/**
+ * Specifies the auto-login password
+ */
+$container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
 
 
 $container->setParameter('mailer_transport', null);

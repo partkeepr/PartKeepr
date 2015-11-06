@@ -37,9 +37,10 @@ class IndexController extends Controller
         $aParameters["availableImageFormats"] = array("JPG", "GIF", "PNG");
 
         /* Automatic Login */
-        if (Configuration::getOption("partkeepr.frontend.autologin.enabled", false) === true) {
-            $aParameters["autoLoginUsername"] = Configuration::getOption("partkeepr.frontend.autologin.username");
-            $aParameters["autoLoginPassword"] = Configuration::getOption("partkeepr.frontend.autologin.password");
+
+        if ($this->getParameterWithDefault("partkeepr.frontend.auto_login.enabled", false) === true) {
+            $aParameters["autoLoginUsername"] = $this->getParameter("partkeepr.frontend.auto_login.username");
+            $aParameters["autoLoginPassword"] = $this->getParameter("partkeepr.frontend.auto_login.password");
         }
 
         if (Configuration::getOption("partkeepr.frontend.motd", false) !== false) {
@@ -64,5 +65,13 @@ class IndexController extends Controller
 
 
         return $this->render('PartKeeprFrontendBundle::index.html.twig', $renderParams);
+    }
+
+    public function getParameterWithDefault ($name, $default) {
+        if ($this->container->hasParameter($name)) {
+            return $this->container->getParameter($name);
+        } else {
+            return $default;
+        }
     }
 }
