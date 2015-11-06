@@ -9,7 +9,6 @@ use Doctrine\ORM\Version as ORMVersion;
 use PartKeepr\CoreBundle\System\OperatingSystem;
 use PartKeepr\CoreBundle\System\SystemInformationRecord;
 use PartKeepr\CronLoggerBundle\Services\CronLoggerService;
-use PartKeepr\Util\Configuration;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -101,15 +100,6 @@ class SystemService extends ContainerAware
         );
 
         $aData[] = new SystemInformationRecord("PartKeepr Version", $this->versionService->getVersion(), "PartKeepr");
-
-        foreach (Configuration::getOptions() as $key => $value) {
-            // Hide passwords
-            if ($key == "partkeepr.database.password" || $key == "partkeepr.migration.partdb.password") {
-                $value = "<hidden>";
-            }
-
-            $aData[] = new SystemInformationRecord($key, $value, "PartKeepr Configuration Information");
-        }
 
         return $aData;
     }

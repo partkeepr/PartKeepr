@@ -4,7 +4,7 @@ namespace PartKeepr\CategoryBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

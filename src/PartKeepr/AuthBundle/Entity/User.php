@@ -4,7 +4,7 @@ namespace PartKeepr\AuthBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\DoctrineReflectionBundle\Annotation\VirtualField;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;

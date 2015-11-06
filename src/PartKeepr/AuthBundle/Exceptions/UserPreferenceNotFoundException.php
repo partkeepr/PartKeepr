@@ -1,21 +1,15 @@
 <?php
 namespace PartKeepr\AuthBundle\Exceptions;
 
-use PartKeepr\AuthBundle\Entity\User;
-use PartKeepr\Util\SerializableException;
+use PartKeepr\CoreBundle\Exceptions\TranslatableException;
 
 /**
  * Is thrown when the user has given wrong credentials.
  */
-class UserPreferenceNotFoundException extends SerializableException
+class UserPreferenceNotFoundException extends TranslatableException
 {
-    public function __construct(User $user, $preferenceKey)
+    public function getMessageKey()
     {
-        $message = sprintf("User preference %s not found for user %s (%s)",
-            $preferenceKey,
-            $user->getUsername(),
-            $user->getId());
-
-        parent::__construct($message);
+        return "The requested user preference was not found";
     }
 }

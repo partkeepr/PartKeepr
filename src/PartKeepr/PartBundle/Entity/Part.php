@@ -8,12 +8,11 @@ use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\PartBundle\Exceptions\CategoryNotAssignedException;
 use PartKeepr\PartBundle\Exceptions\MinStockLevelOutOfRangeException;
 use PartKeepr\PartBundle\Exceptions\StorageLocationNotAssignedException;
-use PartKeepr\PartKeepr;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -624,7 +623,7 @@ class Part extends BaseEntity
      *
      * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
      *
-     * @throws \PartKeepr\Util\Exceptions\OutOfRangeException If the passed stock level is not in range (>=0)
+     * @throws MinStockLevelOutOfRangeException If the passed stock level is not in range (>=0)
      */
     public function setMinStockLevel($minStockLevel)
     {

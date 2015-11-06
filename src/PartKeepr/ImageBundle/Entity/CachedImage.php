@@ -3,7 +3,7 @@ namespace PartKeepr\ImageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 
 /**
  * Represents a cached image. Cached images are used for scale/resize

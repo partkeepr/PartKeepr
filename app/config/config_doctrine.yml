@@ -19,11 +19,6 @@ doctrine:
         connection: ~
         auto_mapping: true
         mappings:
-          model:
-            type: annotation
-            dir: %kernel.root_dir%/../src/backend/PartKeepr/
-            prefix: PartKeepr
-            is_bundle: false
           gedmo_tree:
             type: annotation
             prefix: Gedmo\Tree\Entity

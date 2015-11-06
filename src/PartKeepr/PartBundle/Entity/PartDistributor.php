@@ -4,7 +4,7 @@ namespace PartKeepr\PartBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\PartBundle\Exceptions\PackagingUnitOutOfRangeException;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -81,7 +81,7 @@ class PartDistributor extends BaseEntity
      *
      * @param int $packagingUnit The amount of items in one package
      *
-     * @throws OutOfRangeException When the packaging unit is less than 1
+     * @throws PackagingUnitOutOfRangeException When the packaging unit is less than 1
      */
     public function setPackagingUnit($packagingUnit)
     {

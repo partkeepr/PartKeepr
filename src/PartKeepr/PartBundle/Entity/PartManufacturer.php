@@ -3,7 +3,7 @@ namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ManufacturerBundle\Entity\Manufacturer;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**

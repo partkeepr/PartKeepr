@@ -2,7 +2,7 @@
 namespace PartKeepr\UploadedFileBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
 

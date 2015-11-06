@@ -4,7 +4,7 @@ namespace PartKeepr\FootprintBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;

@@ -2,7 +2,7 @@
 namespace PartKeepr\CronLoggerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 
 /**
  * Holds a project attachment

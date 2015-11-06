@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
-use PartKeepr\Util\BaseEntity;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
