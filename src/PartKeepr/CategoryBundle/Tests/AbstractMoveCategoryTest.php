@@ -58,7 +58,7 @@ abstract class AbstractMoveCategoryTest extends WebTestCase
         );
 
         $this->assertEquals($rootCategory->getId(), $secondCategory->getParent()->getId());
-        $this->assertEquals("Root Node / Second Category", $secondCategory->getCategoryPath());
+        $this->assertEquals("Root Node ➤ Second Category", $secondCategory->getCategoryPath());
     }
 
     abstract public function getFixtureLoaderClass();
