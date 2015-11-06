@@ -38,7 +38,7 @@ services:
     part.category_path_listener:
         class: PartKeepr\PartBundle\Listeners\CategoryPathListener
         arguments:
-            - "service_container"
+            - "@service_container"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
