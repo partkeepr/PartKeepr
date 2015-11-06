@@ -28,8 +28,8 @@ class IndexController extends Controller
         $aParameters["php_version"] = phpversion();
         $aParameters["auto_start_session"] = true;
 
-        $maxPostSize = PartKeepr::getBytesFromHumanReadable(ini_get("post_max_size"));
-        $maxFileSize = PartKeepr::getBytesFromHumanReadable(ini_get("upload_max_filesize"));
+        $maxPostSize = $this->get("partkeepr_systemservice")->format_bytes(ini_get("post_max_size"));
+        $maxFileSize = $this->get("partkeepr_systemservice")->format_bytes(ini_get("upload_max_filesize"));
 
         $aParameters["maxUploadSize"] = min($maxPostSize, $maxFileSize);
 
@@ -43,8 +43,8 @@ class IndexController extends Controller
             $aParameters["autoLoginPassword"] = $this->getParameter("partkeepr.frontend.auto_login.password");
         }
 
-        if (Configuration::getOption("partkeepr.frontend.motd", false) !== false) {
-            $aParameters["motd"] = Configuration::getOption("partkeepr.frontend.motd");
+        if ($this->getParameterWithDefault("partkeepr.frontend.motd", false) !== false) {
+            $aParameters["motd"] = $this->getParameterWithDefault("partkeepr.frontend.motd", false);
         }
 
         $aParameters["max_users"] = $this->getParameter("max_users");
@@ -53,16 +53,7 @@ class IndexController extends Controller
         $aParameters["tip_of_the_day_uri"] = $this->getParameter("partkeepr.tip_of_the_day_uri");
 
         $renderParams = array();
-        $renderParams["debug_all"] = Configuration::getOption("partkeepr.frontend.debug_all", false);
-        $renderParams["debug"] = Configuration::getOption("partkeepr.frontend.debug", false);
         $renderParams["parameters"] = $aParameters;
-
-        if (isset($_SERVER['HTTPS'])) {
-            $renderParams["https"] = true;
-        } else {
-            $renderParams["https"] = false;
-        }
-
 
         return $this->render('PartKeeprFrontendBundle::index.html.twig', $renderParams);
     }

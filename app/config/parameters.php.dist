@@ -91,3 +91,7 @@ $container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
  */
 $container->setParameter('partkeepr.category.path_separator', ' ➤ ');
 
+/**
+ * Specifies a message of the day
+ */
+$container->setParameter('partkeepr.frontend.motd', "This is a MOTD");
