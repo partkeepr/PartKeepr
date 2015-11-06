@@ -9,7 +9,6 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
 use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
-use PartKeepr\AuthBundle\Entity\User\Exceptions\InvalidLoginDataException;
 use PartKeepr\AuthBundle\Response\LoginResponse;
 use PartKeepr\AuthBundle\Validator\Constraints\Username;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
@@ -28,8 +27,7 @@ class DefaultController extends FOSRestController
      *
      * @param ParamFetcher $paramFetcher
      *
-     * @return LoginResponse
-     * @throws InvalidLoginDataException
+     * @return string The salt
      */
     public function getSaltAction(ParamFetcher $paramFetcher)
     {
