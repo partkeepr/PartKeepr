@@ -16,22 +16,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
         });
 
         this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-            clicksToEdit: 1,
-            listeners: {
-                beforeedit: function (editor, e, eOpts)
-                {
-                    if (e.field == "packagePrice") {
-                        e.record.set("packagePrice", e.record.get("price") * e.record.get("packagingUnit"));
-                    }
-                },
-                edit: function (editor, e, eOpts)
-                {
-                    if (e.field == "packagePrice" && e.record.get("packagingUnit")) {
-                        e.record.set("price", e.value / e.record.get("packagingUnit"));
-                    }
-                },
-                scope: this
-            }
+            clicksToEdit: 1
         });
 
         this.plugins = [this.editing];
@@ -114,10 +99,6 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                 renderer: function (val, p, rec)
                 {
                     return PartKeepr.getApplication().formatCurrency(rec.get("price") * rec.get("packagingUnit"));
-                },
-                editor: {
-                    xtype: 'CurrencyField',
-                    allowBlank: true
                 }
             }, {
                 header: i18n("SKU"),
