@@ -16,7 +16,6 @@ Ext.define('PartKeepr.ProjectReportView', {
 
     initComponent: function ()
     {
-
         this.createStores();
 
         this.upperGridEditing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -72,6 +71,7 @@ Ext.define('PartKeepr.ProjectReportView', {
                     header: i18n("Part Name"),
                     renderer: function (val, p, rec)
                     {
+                        console.log(rec);
                         return rec.getPart().get("name");
                     },
                     flex: 1
@@ -144,7 +144,16 @@ Ext.define('PartKeepr.ProjectReportView', {
                 }
             ],
             store: this.projectReportStore,
-            plugins: [this.editing]
+            plugins: [this.editing],
+            bbar: [
+                Ext.create("PartKeepr.Exporter.GridExporterButton", {
+                    itemId: 'export',
+                    genericExporter: false,
+                    tooltip: i18n("Export"),
+                    iconCls: "fugue-icon application-export",
+                    disabled: this.store.isLoading()
+                })
+            ]
         });
 
         this.createReportButton = Ext.create('Ext.button.Button', {
@@ -381,6 +390,6 @@ Ext.define('PartKeepr.ProjectReportView', {
         iconCls: 'fugue-icon drill',
         title: i18n('Project Reports'),
         closable: true,
-        menuPath: [{ text: i18n("View")}]
+        menuPath: [{text: i18n("View")}]
     }
 });
