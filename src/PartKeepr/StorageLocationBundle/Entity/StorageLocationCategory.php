@@ -27,7 +27,7 @@ class StorageLocationCategory extends AbstractCategory
     /**
      * @ORM\OneToMany(targetEntity="StorageLocationCategory", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
-     * @Groups({"default"})
+     * @Groups({"tree"})
      */
     protected $children;
 

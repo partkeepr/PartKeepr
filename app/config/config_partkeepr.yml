@@ -448,10 +448,10 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.part_category.item_operation.get", "@resource.part_category.item_operation.put", "@resource.part_category.item_operation.delete", "@resource.part_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
+                    arguments: [ { groups: [ "default", "tree" ] } ]
             -       method:    "initDenormalizationContext"
                     arguments:
-                        - { groups: [ "default" ] }
+                        - { groups: [ "default", "tree" ] }
 
     resource.part_distributor:
         parent:    "api.resource"
@@ -684,10 +684,10 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.storage_location_category.item_operation.get", "@resource.storage_location_category.item_operation.put", "@resource.storage_location_category.item_operation.delete", "@resource.storage_location_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
+                    arguments: [ { groups: [ "default", "tree" ] } ]
             -       method:    "initDenormalizationContext"
                     arguments:
-                        - { groups: [ "default" ] }
+                        - { groups: [ "default", "tree" ] }
 
     resource.storage_location_image.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"

@@ -29,7 +29,7 @@ class PartCategory extends AbstractCategory
     /**
      * @ORM\OneToMany(targetEntity="PartCategory", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
-     * @Groups({"default"})
+     * @Groups({"tree"})
      */
     protected $children;
 
