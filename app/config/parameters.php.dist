@@ -30,26 +30,6 @@ $container->setParameter('database_user', 'root');
  */
 $container->setParameter('database_password', null);
 
-/**
- * Specifies if the frontend should perform an auto-login
- */
-$container->setParameter('partkeepr.frontend.auto_login.enabled', false);
-
-/**
- * Specifies the auto-login username
- */
-$container->setParameter('partkeepr.frontend.auto_login.username', 'admin');
-
-/**
- * Specifies the auto-login password
- */
-$container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
-
-/**
- * Specifies the category path separator
- */
-$container->setParameter('partkeepr.category.path_separator', ' ➤ ');
-
 $container->setParameter('mailer_transport', null);
 $container->setParameter('mailer_host', null);
 $container->setParameter('mailer_port', null);
@@ -83,3 +63,31 @@ $container->setParameter('fr3d_ldap.user.filter', null);
 $container->setParameter('fr3d_ldap.user.attribute.username', null);
 $container->setParameter('fr3d_ldap.user.attribute.name', null);
 $container->setParameter('fr3d_ldap.user.attribute.email', null);
+
+/**
+ * !!!!!!!!!!!!!!!!!!!!!!!!Note: All parameters below will be overwritten on setup! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ *
+ * The recommended way is to copy the config_custom.yml.dist to config_custom.yml, and put your custom parameters in the
+ * parameters_custom.php file.
+ */
+
+/**
+ * Specifies if the frontend should perform an auto-login
+ */
+$container->setParameter('partkeepr.frontend.auto_login.enabled', false);
+
+/**
+ * Specifies the auto-login username
+ */
+$container->setParameter('partkeepr.frontend.auto_login.username', 'admin');
+
+/**
+ * Specifies the auto-login password
+ */
+$container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
+
+/**
+ * Specifies the category path separator
+ */
+$container->setParameter('partkeepr.category.path_separator', ' ➤ ');
+
