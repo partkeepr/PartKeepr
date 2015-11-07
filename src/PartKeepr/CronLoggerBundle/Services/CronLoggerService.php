@@ -98,6 +98,10 @@ class CronLoggerService
         $query->execute();
     }
 
+    /**
+     * Runs all crons
+     * @throws \Exception
+     */
     public function runCrons () {
         $this->entityManager->beginTransaction();
         $repository = $this->entityManager->getRepository("PartKeeprCronLoggerBundle:CronLogger");
