@@ -3,6 +3,10 @@ namespace PartKeepr\CronLoggerBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\CronLoggerBundle\Entity\CronLogger;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\HttpKernel\Kernel;
 
 class CronLoggerService
 {
@@ -11,9 +15,15 @@ class CronLoggerService
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /**
+     * @var Kernel
+     */
+    private $kernel;
+
+    public function __construct(EntityManager $entityManager, Kernel $kernel)
     {
         $this->entityManager = $entityManager;
+        $this->kernel = $kernel;
     }
 
     /**
@@ -86,5 +96,35 @@ class CronLoggerService
         $query = $this->entityManager->createQuery($dql);
 
         $query->execute();
+    }
+
+    public function runCrons () {
+        $this->entityManager->beginTransaction();
+        $repository = $this->entityManager->getRepository("PartKeeprCronLoggerBundle:CronLogger");
+
+        $cronJobs = $repository->findAll();
+
+        $application = new Application($this->kernel);
+        $application->setAutoExit(false);
+        $output = new NullOutput();
+
+        $minRunDate = new \DateTime();
+        $minRunDate->sub(new \DateInterval('PT6H'));
+
+        foreach ($cronJobs as $cronJob) {
+            if ($minRunDate->getTimestamp() - $cronJob->getLastRunDate()->getTimestamp() < 0) {
+                break;
+            }
+
+            $command = $cronJob->getCronjob();
+
+            $input = new ArrayInput(array(
+                'command' => $command,
+            ));
+
+            $application->run($input, $output);
+        }
+
+        $this->entityManager->commit();
     }
 }
