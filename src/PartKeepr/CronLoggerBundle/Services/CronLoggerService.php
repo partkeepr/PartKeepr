@@ -77,4 +77,14 @@ class CronLoggerService
 
         return $failedCronjobs;
     }
+
+    /**
+     * Clears all cron logger entries
+     */
+    public function clear () {
+        $dql = "DELETE FROM PartKeepr\CronLoggerBundle\Entity\CronLogger c";
+        $query = $this->entityManager->createQuery($dql);
+
+        $query->execute();
+    }
 }

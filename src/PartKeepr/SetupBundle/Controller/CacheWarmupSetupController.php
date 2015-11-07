@@ -64,6 +64,30 @@ class CacheWarmupSetupController extends SetupController
 
             $application->run($input, $output);
 
+            $input = new ArrayInput(array(
+                'command' => 'partkeepr:cron:clear',
+            ));
+
+            $application->run($input, $output);
+
+            $input = new ArrayInput(array(
+                'command' => 'partkeepr:cron:versioncheck',
+            ));
+
+            $application->run($input, $output);
+
+            $input = new ArrayInput(array(
+                'command' => 'partkeepr:cron:synctips',
+            ));
+
+            $application->run($input, $output);
+
+            $input = new ArrayInput(array(
+                'command' => 'partkeepr:cron:create-statistic-snapshot',
+            ));
+
+            $application->run($input, $output);
+
         } catch (\Exception $e) {
             $response["success"] = false;
             $response["message"] = "Cache warm up error";
