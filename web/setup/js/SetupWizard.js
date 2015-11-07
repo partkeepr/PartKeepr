@@ -92,7 +92,7 @@ Ext.define('PartKeeprSetup.SetupWizard', {
                 "Please remember to setup a cronjob:<br/>"+
                 '<code style="background-color: white; border: 1px solid black;">' +
                 "0 0,6,12,18 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/app/console partkeepr:cron:run" +
-                "</code><br/>The cronjob should run at least every 12 hours.<br/><br/>" +
+                "</code><br/>The cronjob should run at least every 12 hours. Remove any legacy PartKeepr cronjobs.<br/><br/>" +
                 "If possible, set your web server's document root to the <b>web/</b> directory.<br/><br/>" +
                 "PartKeepr will be opened when you click the submit button.<br/><br/>"
         }));
