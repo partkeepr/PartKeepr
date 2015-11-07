@@ -124,15 +124,18 @@ Ext.define('PartKeepr.AbstractStockHistoryGrid', {
      * @param e Passed from ExtJS
      * @returns {Boolean}
      */
-    onBeforeEdit: function (e) {
+    onBeforeEdit: function (editor, context, eOpts) {
+        var sameUser = false;
 
         // Checks if the usernames match
-        var sameUser = e.record.get("username") == PartKeepr.getApplication().getUsername();
+        if (context.record.getUser() !== null) {
+            sameUser = context.record.getUser().getId() == PartKeepr.getApplication().getLoginManager().getUser().getId();
+        }
 
-        switch (e.field) {
+        switch (context.field) {
             case "price":
                 // Check the direction is "out". If yes, editing the price field is not allowed
-                if (e.record.get("direction") == "out") {
+                if (context.record.get("direction") == "out") {
                     return false;
                 }
 
