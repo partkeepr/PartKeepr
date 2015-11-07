@@ -105,12 +105,6 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
                         itemId: 'nextBtn',
                         handler: me.onNext,
                         scope: me
-                    },
-                    {
-                        text: 'Cancel',
-                        itemId: 'cancelBtn',
-                        handler: me.onClose,
-                        scope: me
                     }
                 ]
             }

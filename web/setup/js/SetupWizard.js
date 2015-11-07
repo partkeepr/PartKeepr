@@ -33,7 +33,7 @@ Ext.define('PartKeeprSetup.SetupWizard', {
     /**
      * The width and height of the window, in pixels
      */
-    width: 800,
+    width: 900,
     height: 500,
 
     /**
@@ -42,6 +42,11 @@ Ext.define('PartKeeprSetup.SetupWizard', {
     initComponent: function ()
     {
         this.items = this.setupCards();
+        this.on("submit", function () {
+            var target = window.location.href.replace(/setup\/index.html/g, "");
+            window.location.href = target;
+
+        });
         this.callParent();
     },
     /**
@@ -84,8 +89,12 @@ Ext.define('PartKeeprSetup.SetupWizard', {
             border: false,
             bodyStyle: 'background: none;',
             html: "<b>PartKeepr is now set-up.</b><br/><br/>" +
-            "If possible, set your web server's document root to the <b>web/</b> directory.<br/><br/>" +
-            "To open PartKeepr, open the <b>web</b> directory using your browser.<br/><br/>"
+                "Please remember to setup a cronjob:<br/>"+
+                '<code style="background-color: white; border: 1px solid black;">' +
+                "0 0,6,12,18 * * * /usr/bin/php &lt;path-to-partkeepr&gt;/app/console partkeepr:cron:run" +
+                "</code><br/>The cronjob should run at least every 12 hours.<br/><br/>" +
+                "If possible, set your web server's document root to the <b>web/</b> directory.<br/><br/>" +
+                "PartKeepr will be opened when you click the submit button.<br/><br/>"
         }));
 
         return cards;
