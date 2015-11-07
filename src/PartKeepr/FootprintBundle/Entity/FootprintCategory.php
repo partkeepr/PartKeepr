@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
+use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -15,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * The entity for our footprint categories
  * @TargetService(uri="/api/footprint_categories")
  */
-class FootprintCategory extends AbstractCategory
+class FootprintCategory extends AbstractCategory implements CategoryPathInterface
 {
     /**
      * @Gedmo\TreeParent
@@ -95,9 +96,7 @@ class FootprintCategory extends AbstractCategory
     }
 
     /**
-     * Sets the category path
-     *
-     * @param string $categoryPath The category path
+     * {@inheritdoc}
      */
     public function setCategoryPath($categoryPath)
     {
@@ -105,9 +104,7 @@ class FootprintCategory extends AbstractCategory
     }
 
     /**
-     * Generates the category path
-     *
-     * @return string The category path
+     * {@inheritdoc}
      */
     public function generateCategoryPath($pathSeparator)
     {

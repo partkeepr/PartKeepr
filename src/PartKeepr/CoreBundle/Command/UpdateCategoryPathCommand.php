@@ -2,7 +2,7 @@
 namespace PartKeepr\CoreBundle\Command;
 
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-use PartKeepr\CategoryBundle\Entity\AbstractCategory;
+use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,16 +21,16 @@ class UpdateCategoryPathCommand extends ContainerAwareCommand
         $entities = array(
             'PartKeepr\FootprintBundle\Entity\FootprintCategory',
             'PartKeepr\PartBundle\Entity\PartCategory',
-            'PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory'
+            'PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory',
         );
 
         foreach ($entities as $entity) {
             $this->regenerateCategoryPaths($entity);
         }
-
     }
 
-    public function regenerateCategoryPaths ($entity) {
+    public function regenerateCategoryPaths($entity)
+    {
         $repository = $this->getContainer()->get("doctrine.orm.default_entity_manager")->getRepository($entity);
 
         /**
@@ -41,6 +41,9 @@ class UpdateCategoryPathCommand extends ContainerAwareCommand
         $pathSeparator = $this->getContainer()->getParameter("partkeepr.category.path_separator");
 
         foreach ($rootNodes as $rootNode) {
+            /**
+             * @var $rootNode CategoryPathInterface
+             */
             $rootNode->setCategoryPath(uniqid());
         }
 

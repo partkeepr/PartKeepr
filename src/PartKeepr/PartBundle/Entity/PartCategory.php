@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
+use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -17,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @TargetService(uri="/api/part_categories")
  *
  */
-class PartCategory extends AbstractCategory
+class PartCategory extends AbstractCategory implements CategoryPathInterface
 {
     /**
      * @Gedmo\TreeParent
@@ -82,9 +83,7 @@ class PartCategory extends AbstractCategory
     }
 
     /**
-     * Sets the category path
-     *
-     * @param string $categoryPath The category path
+     * {@inheritdoc}
      */
     public function setCategoryPath($categoryPath)
     {
@@ -92,9 +91,7 @@ class PartCategory extends AbstractCategory
     }
 
     /**
-     * Generates the category path
-     *
-     * @return string The category path
+     * {@inheritdoc}
      */
     public function generateCategoryPath($pathSeparator)
     {

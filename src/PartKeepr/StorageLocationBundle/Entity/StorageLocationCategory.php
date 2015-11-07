@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
+use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -15,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * The entity for our storage location categories
  * @TargetService(uri="/api/storage_location_categories")
  */
-class StorageLocationCategory extends AbstractCategory
+class StorageLocationCategory extends AbstractCategory implements CategoryPathInterface
 {
     /**
      * @Gedmo\TreeParent
@@ -94,9 +95,7 @@ class StorageLocationCategory extends AbstractCategory
     }
 
     /**
-     * Sets the category path
-     *
-     * @param string $categoryPath The category path
+     * {@inheritdoc}
      */
     public function setCategoryPath($categoryPath)
     {
@@ -104,9 +103,7 @@ class StorageLocationCategory extends AbstractCategory
     }
 
     /**
-     * Generates the category path
-     *
-     * @return string The category path
+     * {@inheritdoc}
      */
     public function generateCategoryPath($pathSeparator)
     {
