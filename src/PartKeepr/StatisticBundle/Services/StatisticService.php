@@ -15,17 +15,28 @@ class StatisticService
         $this->entityManager = $entityManager;
     }
 
-    public function getPartCount($withPrice = false)
+    /**
+     * Returns the part count
+     *
+     * @param bool|false $withoutPrice Set to true to retrieve all parts where the average price is null
+     *
+     * @return mixed
+     */
+    public function getPartCount($withoutPrice = false)
     {
         $dql = "SELECT COUNT(p.id) FROM PartKeepr\PartBundle\Entity\Part p";
 
-        if ($withPrice === true) {
+        if ($withoutPrice === true) {
             $dql .= " WHERE p.averagePrice IS NOT NULL";
         }
 
         return $this->entityManager->createQuery($dql)->getSingleScalarResult();
     }
 
+    /**
+     * Returns the part category count
+     * @return int
+     */
     public function getPartCategoryCount()
     {
         $dql = "SELECT COUNT(c.id) FROM PartKeepr\PartBundle\Entity\PartCategory c";
@@ -57,6 +68,10 @@ class StatisticService
         return $this->entityManager->createQuery($dql)->getSingleScalarResult();
     }
 
+    /**
+     * Returns the part counts per part unit
+     * @return array An array of arrays with the keys "name" and "stockLevel"
+     */
     public function getUnitCounts()
     {
         $dql = 'SELECT SUM(p.stockLevel) AS stockLevel, pu.name AS name FROM ';
