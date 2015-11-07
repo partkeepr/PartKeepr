@@ -13,16 +13,18 @@ Ext.define('PartKeepr.StockHistoryGrid', {
 
         this.columns.splice(2, 0, {
             header: i18n("Part"),
-            renderer: Ext.util.Format.htmlEncode,
-            dataIndex: 'part_name',
+            renderer: function (val, q, rec) {
+                return rec.getPart().get("name");
+            },
             flex: 1,
             minWidth: 200
         });
 
         this.columns.splice(3, 0, {
             header: i18n("Storage Location"),
-            renderer: Ext.util.Format.htmlEncode,
-            dataIndex: 'storageLocation_name',
+            renderer: function (val, q, rec) {
+                return rec.getPart().getStorageLocation().get("name");
+            },
             flex: 1,
             minWidth: 200
         });
