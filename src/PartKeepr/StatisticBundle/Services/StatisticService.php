@@ -3,6 +3,8 @@ namespace PartKeepr\StatisticBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
+use PartKeepr\StatisticBundle\Entity\StatisticSnapshot;
+use PartKeepr\StatisticBundle\Entity\StatisticSnapshotUnit;
 
 class StatisticService
 {
@@ -77,7 +79,7 @@ class StatisticService
      */
     public function getUnitCounts()
     {
-        $dql = 'SELECT SUM(p.stockLevel) AS stockLevel, pu.name AS name FROM ';
+        $dql = 'SELECT SUM(p.stockLevel) AS stockLevel, pu AS partMeasurementUnit FROM ';
         $dql .= 'PartKeepr\PartBundle\Entity\PartMeasurementUnit pu LEFT JOIN pu.parts p GROUP BY pu.id';
 
         return $this->entityManager->createQuery($dql)->getArrayResult();
@@ -175,4 +177,31 @@ class StatisticService
 
         return $aRecords;
     }
+
+    public function createStatisticSnapshot () {
+
+		$snapshot = new StatisticSnapshot();
+		$snapshot->setParts($this->getPartCount());
+		$snapshot->setCategories($this->getPartCategoryCount());
+
+		$unitCounts = $this->getUnitCounts();
+		$partUnitRepository = $this->entityManager->getRepository("PartKeeprPartBundle:PartMeasurementUnit");
+
+		foreach ($unitCounts as $unitCount) {
+			$snapshotUnit = new StatisticSnapshotUnit();
+			$snapshotUnit->setPartUnit($partUnitRepository->findOneBy(array("id" => $unitCount["partMeasurementUnit"]["id"])));
+			$snapshotUnit->setStatisticSnapshot($snapshot);
+
+			if ($unitCount["stockLevel"] !== null) {
+				$snapshotUnit->setStockLevel($unitCount["stockLevel"]);
+			} else {
+				$snapshotUnit->setStockLevel(0);
+			}
+
+			$snapshot->getUnits()->add($snapshotUnit);
+		}
+
+        $this->entityManager->persist($snapshot);
+        $this->entityManager->flush();
+	}
 }

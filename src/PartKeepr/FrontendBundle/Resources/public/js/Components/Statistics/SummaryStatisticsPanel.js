@@ -47,7 +47,7 @@ Ext.define('PartKeepr.SummaryStatisticsPanel', {
             '<table>',
                 '<tpl for="units">',
                 '<tr>',
-                    '<td style="width: 200px;" class="{[xindex % 2 === 0 ? "e" : "o"]}">{name}</td>',
+                    '<td style="width: 200px;" class="{[xindex % 2 === 0 ? "e" : "o"]}">{partMeasurementUnit.name}</td>',
                     '<td style="width: 200px;" class="{[xindex % 2 === 0 ? "e" : "o"]}">{stockLevel}</td>',
                 '</tr>',
                 '</tpl>',
