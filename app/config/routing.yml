@@ -18,6 +18,11 @@ PartKeeprProjectBundle:
     type:     annotation
     prefix:   /
 
+PartKeeprStatisticBundle:
+    resource: "@PartKeeprStatisticBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 PartKeeprPartBundle:
     resource: "@PartKeeprPartBundle/Controller/"
     type:     annotation
