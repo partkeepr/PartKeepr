@@ -52,8 +52,6 @@ class TipOfTheDayService
         $aPageNames = $this->extractPageNames($tipsString);
 
         $this->updateTipDatabase($aPageNames);
-
-        $this->cronLoggerService->markCronRun("partkeepr:cron:synctips");
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace PartKeepr\TipOfTheDayBundle;
 
-use PartKeepr\TipOfTheDayBundle\Console\Command\SyncTipsCommand;
+use PartKeepr\TipOfTheDayBundle\Command\SyncTipsCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

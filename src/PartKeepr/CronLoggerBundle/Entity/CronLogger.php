@@ -7,6 +7,7 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 /**
  * Holds a project attachment
  *
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="cronjob", columns={"cronjob"})})
  * @ORM\Entity
  **/
 class CronLogger extends BaseEntity
