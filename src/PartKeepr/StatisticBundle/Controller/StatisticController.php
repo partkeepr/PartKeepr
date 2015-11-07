@@ -1,14 +1,16 @@
 <?php
 namespace PartKeepr\StatisticBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Request\ParamFetcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 
 class StatisticController extends FOSRestController
 {
     /**
-     * Exports the given data to a given format
+     * Returns the current system statistics
      *
      * @Routing\Route("/api/statistics/current", defaults={"method" = "get","_format" = "json"})
      * @View()
@@ -31,5 +33,33 @@ class StatisticController extends FOSRestController
         return $aData;
     }
 
+   /**
+     * Returns the sampled statistics for a given period
+     *
+     * @QueryParam(name="start")
+     * @QueryParam(name="end")
+     * @Routing\Route("/api/statistics/sampled", defaults={"method" = "get","_format" = "json"})
+     * @View()
+     *
+     * @param ParamFetcher $paramFetcher
+     * @return array
+     */
+    public function getSampledStatisticAction (ParamFetcher $paramFetcher) {
+        $start = new \DateTime($paramFetcher->get("start"));
+        $end = new \DateTime($paramFetcher->get("end"));
+        return $this->get("partkeepr.statistic.service")->getSampledStatistics($start, $end);
+    }
+
+    /**
+     * Returns the range in which statistics are available
+     *
+     * @Routing\Route("/api/statistics/range", defaults={"method" = "get","_format" = "json"})
+     * @View()
+     *
+     * @return array
+     */
+    public function getStatisticRangeAction () {
+        return $this->get("partkeepr.statistic.service")->getStatisticRange();
+    }
 
 }
