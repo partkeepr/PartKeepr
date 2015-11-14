@@ -56,22 +56,29 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
         this.callParent(arguments);
 
         this.down("partkeepr\\.StorageLocationTree").on("itemclick", this.onCategoryClick, this);
-        this.down("partkeepr\\.StorageLocationGrid").setStore(this.store);
+        this.getGrid().setStore(this.store);
 
-        this.down("partkeepr\\.StorageLocationGrid").on("storageLocationMultiAdd", this.onMultiAddStorageLocation,
+        this.getGrid().on("storageLocationMultiAdd", this.onMultiAddStorageLocation,
             this);
-        this.down("partkeepr\\.StorageLocationGrid").on("itemAdd", this.onAddStorageLocation, this);
-        this.down("partkeepr\\.StorageLocationGrid").on("itemDelete", function (id)
+        this.getGrid().on("itemAdd", this.onAddStorageLocation, this);
+        this.getGrid().on("itemDelete", function (id)
             {
                 this.fireEvent("itemDelete", id);
             }, this
         );
-        this.down("partkeepr\\.StorageLocationGrid").on("itemEdit", function (id)
+        this.getGrid().on("itemEdit", function (id)
             {
                 this.fireEvent("itemEdit", id);
             }, this
         );
-
+    },
+    getGrid: function () {
+        return this.down("partkeepr\\.StorageLocationGrid");
+    },
+    setSearchValue: function (val) {
+        var searchField = this.getGrid().searchField;
+        searchField.setValue(val);
+        searchField.startSearch();
     },
     /**
      * Applies the category filter to the store when a category is selected
@@ -164,7 +171,7 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
      */
     syncChanges: function ()
     {
-        this.down("partkeepr\\.StorageLocationGrid").getStore().load();
+        this.getGrid().getStore().load();
     },
     /**
      * Returns the selection model of the storage location grid
@@ -172,8 +179,7 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
      */
     getSelectionModel: function ()
     {
-        "use strict";
-        return this.down("partkeepr\\.StorageLocationGrid").getSelectionModel();
+        return this.getGrid().getSelectionModel();
     }
 
 
