@@ -21,13 +21,19 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
     },
 
+    /**
+     * @var {Boolean} Specifies if the search field has an active search
+     */
     hasSearch: false,
 
     /**
-     * Defines the parameter name which is being passed to the store's proxy.
+     * @cfg {String} Specifies the target property to search
      */
     targetField: 'query',
 
+    /**
+     * @var {Ext.util.Filter} The filter set by the search field
+     */
     filter: null,
 
     listeners: {
@@ -37,9 +43,6 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
     },
 
-    /**
-     * Initializes the component. Binds the enter key to startSearch.
-     */
     initComponent: function ()
     {
         this.callParent(arguments);
@@ -75,6 +78,11 @@ Ext.define('PartKeepr.form.field.SearchField', {
         var me = this,
             store = me.store;
 
+        if (store.isLoading()) {
+            Ext.defer(this.resetSearch, 200, this);
+            return;
+        }
+
         me.setValue('');
 
         if (me.hasSearch) {
@@ -102,6 +110,11 @@ Ext.define('PartKeepr.form.field.SearchField', {
             return;
         }
 
+        if (store.isLoading()) {
+            Ext.defer(this.startSearch, 200, this);
+            return;
+        }
+
         this.filter.setValue("%" + value + "%");
         store.addFilter(this.filter);
         store.currentPage = 1;
@@ -110,6 +123,11 @@ Ext.define('PartKeepr.form.field.SearchField', {
         me.hasSearch = true;
         this.getTrigger("clear").show();
     },
+    /**
+     * Sets the store to use
+     *
+     * @param {Ext.data.Store} store The store to set
+     */
     setStore: function (store)
     {
         this.store = store;
