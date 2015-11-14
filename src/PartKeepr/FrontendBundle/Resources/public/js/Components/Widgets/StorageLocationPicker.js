@@ -20,6 +20,17 @@ Ext.define("PartKeepr.StorageLocationPicker", {
      */
     selectedStorageLocation: null,
 
+    textValue: "",
+
+    enableKeyEvents: true,
+
+    listeners: {
+        'specialkey': {
+            fn: 'keyHandler',
+            scope: 'this'
+        }
+    },
+
     initComponent: function ()
     {
         this.store = Ext.create("Ext.data.Store", {
@@ -31,54 +42,158 @@ Ext.define("PartKeepr.StorageLocationPicker", {
                 {
                     property: 'category.categoryPath',
                     direction: 'ASC'
-                },{
+                }, {
                     property: 'name',
-                    direction:'ASC'
+                    direction: 'ASC'
                 }
-        ],
+            ],
             groupField: 'categoryPath'
         });
 
-        this.on("change", Ext.bind(this.onFieldChange, this));
+        this.on("keyup", Ext.bind(this.onFieldChange, this));
         this.on("blur", Ext.bind(this.onBlur, this));
 
         this.callParent();
     },
-    onFieldChange: function (f, newValue) {
-        if (this.selectedStorageLocation instanceof PartKeepr.StorageLocationBundle.Entity.StorageLocation) {
-            if (this.selectedStorageLocation.get("name") === newValue) {
-                return;
-            }
-        }
+    onFieldChange: function (field, e)
+    {
+        var newValue = this.inputEl.getValue();
+
         if (!this.typeAheadTask) {
             this.typeAheadTask = new Ext.util.DelayedTask(this.onTypeAhead, this, [newValue]);
         }
 
         this.typeAheadTask.delay(this.typeAheadDelay, false, false, [newValue]);
     },
-    getValue: function () {
+    /**
+     * Handles special keys used in this field.
+     *
+     * Enter: Starts the search
+     * Escape: Removes the search and clears the field contents
+     */
+    keyHandler: function (field, e)
+    {
+        var picker = this.getPicker();
+        var grid = picker.getGrid();
+
+        switch (e.getKey()) {
+            case e.DOWN:
+                var currentSelection = grid.getSelectionModel().getSelection();
+
+                if (currentSelection.length === 0) {
+                    grid.getSelectionModel().select(0);
+                } else {
+                    var index = grid.getStore().indexOf(currentSelection[0]) + 1;
+
+                    if (index < grid.getStore().count()) {
+                        grid.getSelectionModel().select(index);
+                        grid.getView().focusRow(grid.getStore().getAt(index));
+                    }
+                }
+                break;
+            case e.UP:
+                var currentSelection = grid.getSelectionModel().getSelection();
+
+                if (currentSelection.length === 0) {
+                    grid.getSelectionModel().select(grid.getStore().count());
+                } else {
+                    var index = grid.getStore().indexOf(currentSelection[0]) - 1;
+
+                    if (index >= 0) {
+                        grid.getSelectionModel().select(index);
+                        grid.getView().focusRow(grid.getStore().getAt(index));
+                    }
+                }
+                break;
+            case e.ENTER:
+                if (!this.isExpanded) {
+                    this.expand();
+                    return;
+                } else {
+                    this.applyGridSelection(grid);
+                }
+                break;
+            case e.TAB:
+                this.applyGridSelection(grid);
+                break;
+        }
+    },
+    applyGridSelection: function (grid)
+    {
+        var currentSelection = grid.getSelectionModel().getSelection();
+
+        if (currentSelection.length === 1) {
+            this.setValue(currentSelection[0]);
+        }
+
+        this.collapse();
+
+    },
+    getValue: function ()
+    {
         return this.selectedStorageLocation;
     },
-    onTypeAhead: function (newValue) {
-        var picker = this.getPicker(newValue);
-        picker.setSearchValue(newValue);
-        this.expand();
+    onTypeAhead: function (newValue)
+    {
+        if (newValue !== this.textValue) {
+            var picker = this.getPicker();
+            picker.setCategoryFilter(picker.getTree().getRootNode().firstChild);
+            picker.getTree().getSelectionModel().select(picker.getTree().getRootNode().firstChild);
+            picker.setSearchValue(newValue);
+            picker.getGrid().getSelectionModel().deselectAll();
+            this.expand();
+            this.textValue = newValue;
+        }
     },
-    onBlur: function () {
+    onBlur: function ()
+    {
         var picker = this.getPicker();
 
         if (picker.getGrid().getStore().count() === 1) {
             this.setValue(picker.getGrid().getStore().getAt(0));
         }
+
+        this.validate();
     },
-    setValue: function (value) {
+    setValue: function (value)
+    {
         this.selectedStorageLocation = value;
+        this.textValue = value.get("name");
         PartKeepr.StorageLocationPicker.superclass.setValue.call(this, value.get("name"));
+        this.validate();
     },
-     /**
+    getErrors: function (value) {
+        var errors = this.callParent(arguments);
+
+        if (!this.inputEl) {
+            return errors;
+        }
+
+        if (!(this.selectedStorageLocation instanceof PartKeepr.StorageLocationBundle.Entity.StorageLocation) ||
+                this.inputEl.getValue() !== this.selectedStorageLocation.get("name")) {
+            errors.push(i18n("An existing storage location must be selected"));
+        }
+
+        return errors;
+
+    },
+    asdisValid: function () {
+        if (!this.inputEl) {
+            return false;
+        }
+
+        if (this.selectedStorageLocation instanceof PartKeepr.StorageLocationBundle.Entity.StorageLocation &&
+                this.inputEl.getValue() === this.selectedStorageLocation.get("name")) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    /**
      * Creates and returns the tree panel to be used as this field's picker.
      */
-    createPicker: function() {
+    createPicker: function ()
+    {
         var me = this,
             picker = new PartKeepr.StorageLocationNavigation({
                 store: me.store,
@@ -94,7 +209,8 @@ Ext.define("PartKeepr.StorageLocationPicker", {
                 itemEditActions: false,
                 editItemAsObject: true,
                 listeners: {
-                    itemEdit: function (v) {
+                    itemEdit: function (v)
+                    {
                         this.setValue(v);
                         this.collapse();
                     },

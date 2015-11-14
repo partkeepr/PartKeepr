@@ -182,6 +182,7 @@ Ext.define('PartKeepr.EditorGrid', {
 
         this.getSelectionModel().on("select", this._onItemSelect, this);
         this.getSelectionModel().on("deselect", this._onItemDeselect, this);
+        this.getView().on("itemkeydown", this._onItemKeyPress, this);
 
         if (this.automaticPageSize) {
             this.on("resize", this.reassignPageSize, this);
@@ -245,7 +246,11 @@ Ext.define('PartKeepr.EditorGrid', {
             this.deleteButton.disable();
         }
     },
-
+    _onItemKeyPress: function (view, record, item, index, e) {
+        if (e.getKey() == e.ENTER || e.getKey() == e.TAB) {
+            this._onItemEdit(view, record);
+        }
+    },
     /**
      * Called when an item should be edited
      */

@@ -55,7 +55,7 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
 
         this.callParent(arguments);
 
-        this.down("partkeepr\\.StorageLocationTree").on("itemclick", this.onCategoryClick, this);
+        this.getTree().on("itemclick", this.onCategoryClick, this);
         this.getGrid().setStore(this.store);
 
         this.getGrid().on("storageLocationMultiAdd", this.onMultiAddStorageLocation,
@@ -75,6 +75,9 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
     getGrid: function () {
         return this.down("partkeepr\\.StorageLocationGrid");
     },
+    getTree: function () {
+        return this.down("partkeepr\\.StorageLocationTree");
+    },
     setSearchValue: function (val) {
         var searchField = this.getGrid().searchField;
         searchField.setValue(val);
@@ -88,6 +91,9 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
      */
     onCategoryClick: function (tree, record)
     {
+        this.setCategoryFilter(record);
+    },
+    setCategoryFilter: function (record) {
         var filter = Ext.create("Ext.util.Filter", {
             property: 'category',
             operator: 'IN',
@@ -95,6 +101,7 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
         });
 
         this.store.addFilter(filter);
+
     },
     /**
      * Returns the ID for this node and all child nodes
@@ -119,11 +126,11 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
      */
     onAddStorageLocation: function ()
     {
-        var selection = this.down("partkeepr\\.StorageLocationTree").getSelection();
+        var selection = this.getTree().getSelection();
 
         var category;
         if (selection.length === 0) {
-            category = this.down("partkeepr\\.StorageLocationTree").getRootNode().firstChild.getId();
+            category = this.getTree().getRootNode().firstChild.getId();
         } else {
             var item = selection.shift();
             category = item.getId();
@@ -137,11 +144,11 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
      */
     onMultiAddStorageLocation: function ()
     {
-        var selection = this.down("partkeepr\\.StorageLocationTree").getSelection();
+        var selection = this.getTree().getSelection();
 
         var category;
         if (selection.length === 0) {
-            category = this.down("partkeepr\\.StorageLocationTree").getRootNode().firstChild.getId();
+            category = this.getTree().getRootNode().firstChild.getId();
         } else {
             var item = selection.shift();
             category = item.getId();
