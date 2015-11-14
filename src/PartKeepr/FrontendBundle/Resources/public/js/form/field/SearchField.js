@@ -103,7 +103,8 @@ Ext.define('PartKeepr.form.field.SearchField', {
     {
         var me = this,
             store = me.store,
-            value = me.getValue();
+            value = me.getValue(),
+            searchValue = "%" + value + "%";
 
         if (value.length < 1) {
             me.resetSearch();
@@ -115,7 +116,10 @@ Ext.define('PartKeepr.form.field.SearchField', {
             return;
         }
 
-        this.filter.setValue("%" + value + "%");
+        if (this.filter.getValue() === searchValue) {
+            return;
+        }
+        this.filter.setValue(searchValue);
         store.addFilter(this.filter);
         store.currentPage = 1;
         store.load({start: 0});
