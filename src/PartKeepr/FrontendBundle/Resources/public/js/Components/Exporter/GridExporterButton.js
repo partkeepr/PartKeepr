@@ -22,7 +22,6 @@ Ext.define("PartKeepr.Exporter.GridExporterButton", {
             }
         ];
 
-        console.log(this.genericExporter);
         if (this.genericExporter) {
             this.menu.push({
                 text: i18n("Custom Export…"),
