@@ -20,7 +20,7 @@ Ext.define('PartKeepr.PartEditor', {
     initComponent: function ()
     {
         // Defines the overall height of all fields, used to calculate the anchoring for the description field
-        var overallHeight = (this.partMode == "create") ? '-290' : '-235';
+        var overallHeight = (this.partMode == "create") ? '-300' : '-245';
 
         this.nameField = Ext.create("Ext.form.field.Text", {
             name: 'name',
