@@ -11,14 +11,6 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
     ],
     initComponent: function ()
     {
-        this.keys = [
-            {
-                key: Ext.event.Event.ENTER,
-                handler: this.onEnter,
-                scope: this
-            }
-        ];
-
         this.buttons = [
             {
                 text: i18n("Save"),
@@ -40,11 +32,16 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
 
         this.down("CategoryEditorForm").loadRecord(this.record);
 
+        this.down("textfield[name=name]").on("keypress", this.onEnter, this);
+        this.down("textfield[name=description]").on("keypress", this.onEnter, this);
+
         this.on("show", Ext.bind(this._onShow, this));
     },
-    onEnter: function ()
+    onEnter: function (field, e)
     {
-        this.onSave();
+        if (e.getKey() == e.ENTER) {
+            this.onSave();
+        }
     },
     _onShow: function () {
         this.down("CategoryEditorForm").items.first().focus();
