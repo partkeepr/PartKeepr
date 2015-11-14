@@ -7,35 +7,59 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
      * @var {Ext.data.Store}
      */
     store: null,
-    items: [
-        {
-            xtype: 'partkeepr.StorageLocationTree',
-            region: 'center'
-        }, {
+    verticalLayout: false,
+    dragAndDrop: true,
+    categoryEditActions: true,
+    itemEditActions: true,
+    editItemAsObject: false,
+
+    initComponent: function ()
+    {
+        var gridConfig = {
             xtype: 'partkeepr.StorageLocationGrid',
             resizable: true,
             split: true,
-            region: 'south',
-            height: "50%",
-            viewConfig: {
+            titleProperty: "name"
+        };
+
+        if (this.verticalLayout) {
+            gridConfig.region = "east";
+            gridConfig.width = "75%";
+        } else {
+            gridConfig.region = "south";
+            gridConfig.height = "50%";
+        }
+
+        if (this.dragAndDrop) {
+            gridConfig.viewConfig = {
                 plugins: {
                     ddGroup: 'StorageLocationTree',
                     ptype: 'gridviewdragdrop',
                     enableDrop: false
                 }
-            },
-            enableDragDrop: true
-        }
-    ],
+            };
 
-    initComponent: function ()
-    {
+            gridConfig.enableDragDrop = true;
+        }
+
+        gridConfig.enableEditing = this.itemEditActions;
+        gridConfig.editItemAsObject = this.editItemAsObject;
+
+        this.items = [
+            {
+                xtype: 'partkeepr.StorageLocationTree',
+                region: 'center',
+                categoryEditActions: this.categoryEditActions
+            }, gridConfig
+        ];
+
         this.callParent(arguments);
 
         this.down("partkeepr\\.StorageLocationTree").on("itemclick", this.onCategoryClick, this);
         this.down("partkeepr\\.StorageLocationGrid").setStore(this.store);
 
-        this.down("partkeepr\\.StorageLocationGrid").on("storageLocationMultiAdd", this.onMultiAddStorageLocation, this);
+        this.down("partkeepr\\.StorageLocationGrid").on("storageLocationMultiAdd", this.onMultiAddStorageLocation,
+            this);
         this.down("partkeepr\\.StorageLocationGrid").on("itemAdd", this.onAddStorageLocation, this);
         this.down("partkeepr\\.StorageLocationGrid").on("itemDelete", function (id)
             {
@@ -131,7 +155,8 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
     /**
      * Reloads the store after the multi-create window was closed
      */
-    onMultiCreateWindowDestroy: function () {
+    onMultiCreateWindowDestroy: function ()
+    {
         this.store.load();
     },
     /**

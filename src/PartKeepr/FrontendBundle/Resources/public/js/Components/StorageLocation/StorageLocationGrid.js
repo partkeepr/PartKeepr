@@ -21,22 +21,24 @@ Ext.define('PartKeepr.StorageLocationGrid', {
     {
         this.callParent();
 
-        // Adds a button which shows the multi-create window
-        this.multiCreateButton = Ext.create("Ext.button.Button", {
-            iconCls: 'partkeepr-icon storagelocation_multiadd',
-            tooltip: i18n("Multi-create storage locations"),
-            handler: this.onMultiCreateClick,
-            scope: this
-        });
+        if (this.enableEditing) {
+            // Adds a button which shows the multi-create window
+            this.multiCreateButton = Ext.create("Ext.button.Button", {
+                iconCls: 'partkeepr-icon storagelocation_multiadd',
+                tooltip: i18n("Multi-create storage locations"),
+                handler: this.onMultiCreateClick,
+                scope: this
+            });
 
-        this.topToolbar.insert(2, {xtype: 'tbseparator'});
-        this.topToolbar.insert(3, this.multiCreateButton);
+            this.topToolbar.insert(2, {xtype: 'tbseparator'});
+            this.topToolbar.insert(3, this.multiCreateButton);
+        }
     },
     /**
      * Creates a new storage location multi-create window.
      */
     onMultiCreateClick: function ()
     {
-        this.fireEvent("storageLocationMultiAdd")
+        this.fireEvent("storageLocationMultiAdd");
     }
 });

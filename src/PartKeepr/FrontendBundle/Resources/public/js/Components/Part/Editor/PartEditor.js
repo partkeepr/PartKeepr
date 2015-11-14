@@ -29,24 +29,13 @@ Ext.define('PartKeepr.PartEditor', {
             labelWidth: 150
         });
 
-        this.storageLocationComboBox = Ext.create("PartKeepr.StorageLocationComboBox",
+        this.storageLocationComboBox = Ext.create("PartKeepr.StorageLocationPicker",
             {
                 fieldLabel: i18n("Storage Location"),
                 name: 'storageLocation',
                 allowBlank: false,
                 labelWidth: 150
             });
-
-        this.storageLocationComboBox.store.on("load", function ()
-        {
-            // Re-trigger validation because of asynchronous loading of the storage location field,
-            // which would be marked invalid because validation happens immediately, but after loading
-            // the storage locations, the field is valid, but not re-validated.
-
-            // This workaround is done twice; once after the store is loaded and once when we start editing,
-            // because we don't know which event will come first
-            this.getForm().isValid();
-        }, this);
 
         this.footprintNone = Ext.create("Ext.form.field.Radio", {
             boxLabel: i18n("None"),

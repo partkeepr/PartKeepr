@@ -67,6 +67,11 @@ Ext.define('PartKeepr.EditorGrid', {
     enableEditing: true,
 
     /**
+     * @cfg {Boolean} boolean Defines if the edit event should pass the object (true) or as id (false)
+     */
+    editItemAsObject: false,
+
+    /**
      * @cfg {String} The title property
      */
     titleProperty: null,
@@ -74,6 +79,7 @@ Ext.define('PartKeepr.EditorGrid', {
     listeners: {
         'reconfigure': 'onReconfigure'
     },
+
     /**
      * @event itemSelect
      * Fires if a record was selected within the grid.
@@ -245,7 +251,11 @@ Ext.define('PartKeepr.EditorGrid', {
      */
     _onItemEdit: function (view, record)
     {
-        this.fireEvent("itemEdit", record.getId());
+        if (this.editItemAsObject) {
+            this.fireEvent("itemEdit", record);
+        } else {
+            this.fireEvent("itemEdit", record.getId());
+        }
     },
     /**
      * Called when an item was selected

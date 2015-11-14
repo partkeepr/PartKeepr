@@ -10,6 +10,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     hideHeaders: true,
     categoryModel: null,
     categoryService: null,
+    categoryEditActions: true,
     columns: [
         {
             xtype: 'treecolumn',
@@ -20,8 +21,8 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     ],
     initComponent: function ()
     {
-
         this.createToolbar();
+
 
         this.callParent();
 
@@ -131,20 +132,26 @@ Ext.define("PartKeepr.CategoryEditorTree", {
             disabled: true
         });
 
-        this.toolbar = Ext.create("Ext.toolbar.Toolbar", {
-            enableOverflow: true,
-            dock: 'top',
-            items: [
-                this.toolbarExpandButton,
-                this.toolbarCollapseButton,
-                this.toolbarReloadButton,
+        var actions = [
+            this.toolbarExpandButton,
+            this.toolbarCollapseButton,
+            this.toolbarReloadButton
+        ];
+
+        if (this.categoryEditActions) {
+            actions.push(
                 {
                     xtype: 'tbseparator'
                 },
                 this.toolbarAddButton,
                 this.toolbarEditButton,
                 this.toolbarDeleteButton
-            ]
+            );
+        }
+        this.toolbar = Ext.create("Ext.toolbar.Toolbar", {
+            enableOverflow: true,
+            dock: 'top',
+            items: actions
         });
 
         Ext.apply(this, {
