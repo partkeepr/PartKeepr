@@ -67,6 +67,20 @@ class SetupController extends Controller
     }
 
     /**
+     * @Route("/setup/webserverTest")
+     */
+    public function webserverTestAction()
+    {
+        $response  = array(
+            "success" => true,
+            "message" => "Web Server configuration OK",
+            "errors" => array()
+        );
+
+        return new JsonResponse($response);
+    }
+
+    /**
      * @Route("/setup/generateAuthKey")
      */
     public function generateAuthKeyAction()
