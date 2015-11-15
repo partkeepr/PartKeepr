@@ -1,12 +1,11 @@
 <?php
 namespace PartKeepr\SetupBundle\Controller;
 
+use PartKeepr\SetupBundle\Visitor\ConfigVisitor;
 use PartKeepr\SetupBundle\Visitor\LegacyConfigVisitor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Yaml\Parser;
 
 class ExistingConfigParserController extends SetupController
 {
@@ -24,22 +23,20 @@ class ExistingConfigParserController extends SetupController
             return new JsonResponse($response);
         }
 
-         $response = array(
+        $response = array(
             "success" => true,
             "errors" => [],
             "message" => "Existing configuration imported successfully",
         );
 
         try {
+            $config = array(
+                "values" => array(),
+            );
+
             $legacyConfig = $this->legacyConfigParser();
 
-            if (count($legacyConfig) == 0) {
-                $response["message"] = "No configuration found";
-            } else {
-                $config = array(
-                    "values" => array()
-                );
-
+            if (count($legacyConfig) > 0) {
                 if (array_key_exists("partkeepr.database.driver", $legacyConfig)) {
                     $config["values"]["database_driver"] = $legacyConfig["partkeepr.database.driver"];
                 }
@@ -97,38 +94,15 @@ class ExistingConfigParserController extends SetupController
                 $response["config"] = $config;
             }
 
-            /*if (file_exists($this->getConfigPath(false))) {
-                $yaml = new Parser();
-                $data = $yaml->parse(file_get_contents($this->getConfigPath(false)));
+            $config = $this->configParser();
 
-                if (array_key_exists("parameters", $data)) {
-                    if (array_key_exists("database_driver", $data["parameters"])) {
-                    $config["database"]["driver"] = $this->getParameter("database_driver");
-                }
+            if (count($config) > 0) {
+                $response["config"]["values"] = $config;
+            }
 
-                if (array_key_exists("database_driver", $data["parameters"])) {
-                    $config["database"]["host"] = $this->getParameter("database_host");
-                }
-
-                if (array_key_exists("database_driver", $data["parameters"])) {
-                    $config["database"]["port"] = $this->getParameter("database_port");
-                }
-
-                if (array_key_exists("database_driver", $data["parameters"])) {
-                    $config["database"]["dbname"] = $this->getParameter("database_name");
-                }
-
-                if (array_key_exists("database_driver", $data["parameters"])) {
-                    $config["database"]["username"] = $this->getParameter("database_user");
-                }
-
-                if (array_key_exists("database_driver", $data["parameters"])) {
-                    $config["database"]["password"] = $this->getParameter("database_password");
-                }
-                }
-            }*/
-
-
+            if (count($response["config"]) == 0) {
+                $response["message"] = "No configuration found";
+            }
 
         } catch (\Exception $e) {
             $response["success"] = false;
@@ -139,12 +113,13 @@ class ExistingConfigParserController extends SetupController
         return new JsonResponse($response);
     }
 
-    protected function legacyConfigParser () {
-        if (file_exists($this->getLegacyAuthConfigPath())) {
+    protected function legacyConfigParser()
+    {
+        if (file_exists($this->getLegacyConfigPath())) {
             $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
             $traverser = new \PHPParser_NodeTraverser();
             $traverser->addVisitor(new LegacyConfigVisitor());
-            $statements = $parser->parse(file_get_contents($this->getLegacyAuthConfigPath()));
+            $statements = $parser->parse(file_get_contents($this->getLegacyConfigPath()));
             $traverser->traverse($statements);
 
             return LegacyConfigVisitor::getConfigValues();
@@ -153,7 +128,23 @@ class ExistingConfigParserController extends SetupController
         return array();
     }
 
-    protected function getLegacyAuthConfigPath () {
+    protected function configParser()
+    {
+        if (file_exists($this->getConfigPath(false))) {
+            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
+            $traverser = new \PHPParser_NodeTraverser();
+            $traverser->addVisitor(new ConfigVisitor());
+            $statements = $parser->parse(file_get_contents($this->getConfigPath(false)));
+            $traverser->traverse($statements);
+
+            return ConfigVisitor::getConfigValues();
+        }
+
+        return array();
+    }
+
+    protected function getLegacyConfigPath()
+    {
         return dirname(__FILE__)."/../../../../config.php";
     }
 
