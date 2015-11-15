@@ -163,6 +163,9 @@ Ext.define("PartKeepr.StorageLocationPicker", {
     },
     setValue: function (value)
     {
+        if (value === null || !(value instanceof PartKeepr.StorageLocationBundle.Entity.StorageLocation)) {
+            return;
+        }
         this.selectedStorageLocation = value;
         this.textValue = value.get("name");
         PartKeepr.StorageLocationPicker.superclass.setValue.call(this, value.get("name"));
