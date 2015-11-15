@@ -43,7 +43,9 @@ Ext.define('PartKeeprSetup.SetupWizard', {
     {
         this.items = this.setupCards();
         this.on("submit", function () {
-            var target = window.location.href.replace(/setup\/index.html/g, "");
+            var target = window.location.href.replace(/setup\/index.html$/, "");
+            target.replace(/setup\/$/, "");
+            target.replace(/setup$/, "");
             window.location.href = target;
 
         });
