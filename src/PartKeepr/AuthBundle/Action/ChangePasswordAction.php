@@ -6,7 +6,11 @@ use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\UserManipulator;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\AuthBundle\Exceptions\OldPasswordWrongException;
+use PartKeepr\AuthBundle\Exceptions\PasswordChangeNotAllowedException;
 use PartKeepr\AuthBundle\Services\UserService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 
@@ -34,20 +38,32 @@ class ChangePasswordAction
      */
     private $userManager;
 
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
     public function __construct(
         UserService $userService,
         UserManipulator $userManipulator,
         EncoderFactory $encoderFactory,
-        UserManagerInterface $userManager
+        UserManagerInterface $userManager,
+        ContainerInterface $container
     ) {
         $this->userService = $userService;
         $this->userManipulator = $userManipulator;
         $this->encoderFactory = $encoderFactory;
         $this->userManager = $userManager;
+        $this->container = $container;
     }
 
     public function __invoke(Request $request)
     {
+        if ($this->container->hasParameter("partkeepr.auth.allow_password_change") &&
+            $this->container->getParameter("partkeepr.auth.allow_password_change") === false) {
+            throw new PasswordChangeNotAllowedException();
+        }
+
         $user = $this->userService->getUser();
 
         if (!$request->request->has("oldpassword") && !$request->request->has("newpassword")) {
@@ -61,14 +77,14 @@ class ChangePasswordAction
             $encoded_pass = $encoder->encodePassword($request->request->get("oldpassword"), $FOSUser->getSalt());
 
             if ($FOSUser->getPassword() != $encoded_pass) {
-                throw new \Exception("Old password is wrong");
+                throw new OldPasswordWrongException();
             }
 
             $this->userManipulator->changePassword($user->getUsername(), $request->request->get("newpassword"));
         } else {
             if ($user->isLegacy()) {
                 if ($user->getPassword() !== md5($request->request->get("oldpassword"))) {
-                    throw new \Exception("Old password is wrong");
+                    throw new OldPasswordWrongException();
                 }
 
                 $user->setNewPassword($request->request->get("newpassword"));

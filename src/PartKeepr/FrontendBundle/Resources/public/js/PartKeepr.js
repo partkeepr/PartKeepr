@@ -69,7 +69,7 @@ Ext.application({
     },
     getParameter: function (parameter)
     {
-        if (window.parameters[parameter]) {
+        if (window.parameters[parameter] !== undefined) {
             return window.parameters[parameter];
         }
     },

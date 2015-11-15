@@ -18,6 +18,10 @@ Ext.define('PartKeepr.UserPreferencePanel', {
             this.passwordChangePanel,
             this.stockPanel
         ];
+
+        if (PartKeepr.getApplication().getParameter("password_change") === false) {
+            Ext.Array.remove(this.items, this.passwordChangePanel);
+        }
         this.callParent();
     },
     statics: {

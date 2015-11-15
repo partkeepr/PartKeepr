@@ -41,6 +41,7 @@
             <argument type="service" id="fos_user.util.user_manipulator"/>
             <argument type="service" id="security.encoder_factory"/>
             <argument type="service" id="fos_user.user_manager"/>
+            <argument type="service" id="service_container"/>
         </service>
     </services>
 </container>

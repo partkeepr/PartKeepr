@@ -42,10 +42,12 @@ class IndexController extends Controller
             $aParameters["motd"] = $this->getParameterWithDefault("partkeepr.frontend.motd", false);
         }
 
-        $aParameters["max_users"] = $this->getParameter("partkeepr.auth.max_users");
+        $aParameters["max_users"] = $this->getParameterWithDefault("partkeepr.auth.max_users", "unlimited");
 
         $aParameters["authentication_provider"] = $this->getParameter("partkeepr.authentication_provider");
         $aParameters["tip_of_the_day_uri"] = $this->getParameter("partkeepr.tip_of_the_day_uri");
+
+        $aParameters["password_change"] = $this->getParameterWithDefault("partkeepr.auth.allow_password_change", true);
 
         $renderParams = array();
         $renderParams["parameters"] = $aParameters;
