@@ -135,8 +135,14 @@ Ext.define("PartKeepr.StorageLocationPicker", {
     },
     onTypeAhead: function (newValue)
     {
+        var picker = this.getPicker();
+
+        if (picker.getTree().getStore().isLoading()) {
+            Ext.defer(this.onTypeAhead, 200, this, [newValue]);
+            return;
+        }
+
         if (newValue !== this.textValue) {
-            var picker = this.getPicker();
             picker.setCategoryFilter(picker.getTree().getRootNode().firstChild);
             picker.getTree().getSelectionModel().select(picker.getTree().getRootNode().firstChild);
             picker.setSearchValue(newValue);
@@ -176,18 +182,6 @@ Ext.define("PartKeepr.StorageLocationPicker", {
 
         return errors;
 
-    },
-    asdisValid: function () {
-        if (!this.inputEl) {
-            return false;
-        }
-
-        if (this.selectedStorageLocation instanceof PartKeepr.StorageLocationBundle.Entity.StorageLocation &&
-                this.inputEl.getValue() === this.selectedStorageLocation.get("name")) {
-            return true;
-        } else {
-            return false;
-        }
     },
     /**
      * Creates and returns the tree panel to be used as this field's picker.
