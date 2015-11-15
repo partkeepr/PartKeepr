@@ -12,13 +12,15 @@ Ext.application({
     createLayout: function ()
     {
         var initialConfig = {
-            database: {
-                driver: "",
-                host: "",
-                name: "",
-                user: "",
-                password: "",
-                port: null
+            values: {
+                database_driver: "",
+                database_host: "",
+                database_port: "",
+                database_name: "",
+                database_user: "",
+                database_password: "",
+                authentication_provider: "PartKeepr.Auth.WSSEAuthenticationProvider",
+                locale: "en"
             },
             adminuser: {
                 username: "",

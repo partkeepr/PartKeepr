@@ -14,7 +14,7 @@ class CacheWarmupSetupController extends SetupController
     /**
      * @Route("/setup/_int_cache_warmup")
      */
-    public function intSetupSchemaAction()
+    public function intCacheWarmupAction()
     {
         $response = array(
             "success" => true,

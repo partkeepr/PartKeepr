@@ -190,12 +190,12 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
 
         Ext.apply(config, {
             database: {
-                driver: 'pdo_pgsql',
-                host: this.hostname.getValue(),
-                user: this.username.getValue(),
-                password: this.password.getValue(),
-                name: this.databaseName.getValue(),
-                port: this.port.getValue()
+                database_driver: 'pdo_pgsql',
+                database_host: this.hostname.getValue(),
+                database_user: this.username.getValue(),
+                database_password: this.password.getValue(),
+                database_name: this.databaseName.getValue(),
+                database_port: this.port.getValue()
             }
         });
     }

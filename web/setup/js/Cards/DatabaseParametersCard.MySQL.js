@@ -31,7 +31,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
         this.hostname = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Hostname',
             labelWidth: this.defaults.labelWidth,
-            value: PartKeeprSetup.getApplication().getSetupConfig().database.host
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_host
         });
 
         this.hostname.on("change", this.onUpdateParameters, this);
@@ -39,7 +39,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
         this.username = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Username',
             labelWidth: this.defaults.labelWidth,
-            value: PartKeeprSetup.getApplication().getSetupConfig().database.username
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_user
         });
 
         this.username.on("change", this.onUpdateParameters, this);
@@ -48,7 +48,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
             fieldLabel: 'Database Password',
             inputType: "password",
             labelWidth: this.defaults.labelWidth,
-            value: PartKeeprSetup.getApplication().getSetupConfig().database.password
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_password
         });
 
         this.password.on("change", this.onUpdateParameters, this);
@@ -56,7 +56,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
         this.databaseName = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Name',
             labelWidth: this.defaults.labelWidth,
-            value: PartKeeprSetup.getApplication().getSetupConfig().database.name
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_name
         });
 
         this.databaseName.on("change", this.onUpdateParameters, this);
@@ -72,7 +72,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
             validator: function (value)
             {
                 if (value === "" || value === 0) {
-                    this.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.port);
+                    this.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_port);
                 }
                 return true;
             },
@@ -85,7 +85,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
         this.portDefault = Ext.create("Ext.form.field.Checkbox", {
             boxLabel: 'Default',
             flex: 1,
-            checked: (PartKeeprSetup.getApplication().getSetupConfig().database.port === 3306),
+            checked: (PartKeeprSetup.getApplication().getSetupConfig().values.database_port === 3306),
             listeners: {
                 change: function (field)
                 {
@@ -164,13 +164,13 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
     },
     onActivate: function () {
         this.initial = true;
-        this.hostname.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.host);
-        this.username.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.user);
-        this.password.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.password);
-        this.databaseName.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.name);
+        this.hostname.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_host);
+        this.username.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_user);
+        this.password.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_password);
+        this.databaseName.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_name);
 
-        if (PartKeeprSetup.getApplication().getSetupConfig().database.port) {
-            this.port.setValue(PartKeeprSetup.getApplication().getSetupConfig().database.port);
+        if (PartKeeprSetup.getApplication().getSetupConfig().values.database_port) {
+            this.port.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_port);
             this.portDefault.setValue(false);
             this.port.setDisabled(false);
         }
@@ -215,13 +215,13 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
         var config = PartKeeprSetup.getApplication().getSetupConfig();
 
         Ext.apply(config, {
-            database: {
-                driver: 'pdo_mysql',
-                host: this.hostname.getValue(),
-                user: this.username.getValue(),
-                password: this.password.getValue(),
-                name: this.databaseName.getValue(),
-                port: this.port.getValue()
+            values: {
+                database_driver: 'pdo_mysql',
+                database_host: this.hostname.getValue(),
+                database_user: this.username.getValue(),
+                database_password: this.password.getValue(),
+                database_name: this.databaseName.getValue(),
+                database_port: this.port.getValue()
             }
         });
 

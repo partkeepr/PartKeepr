@@ -2,7 +2,10 @@
 namespace PartKeepr\SetupBundle\Controller;
 
 use Doctrine\DBAL\Exception\DriverException;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -139,72 +142,56 @@ class SetupController extends Controller
     {
         $data = json_decode($request->getContent(), true);
 
-        $parameters = array();
-        $parameters["database"] = array(
-            "driver" => null,
-            "host" => null,
-            "user" => null,
-            "password" => null,
-            "name" => null,
-            "port" => 3306,
+        $parameters = array(
+            "database_driver" => null,
+            "database_host" => null,
+            "database_port" => null,
+            "database_name" => null,
+            "database_password" => null,
+
+            "mailer_transport" => null,
+            "mailer_host" => null,
+            "mailer_port" => null,
+            "mailer_encryption" => null,
+            "mailer_user" => null,
+            "mailer_password" => null,
+            "mailer_auth_mode" => null,
+
+            "authentication_provider" => "PartKeepr.Auth.HTTPBasicAuthenticationProvider",
+
+            "locale" => "en",
+
+            "secret" => $this->generateSecret(),
+
+            "fr3d_ldap.driver.host" => "127.0.0.1",
+            "fr3d_ldap.driver.port" => null,
+            "fr3d_ldap.driver.username" => null,
+            "fr3d_ldap.driver.password" => null,
+            "fr3d_ldap.driver.bindRequiresDn" => false,
+            "fr3d_ldap.driver.baseDn" => "",
+            "fr3d_ldap.driver.accountFilterFormat" => null,
+            "fr3d_ldap.driver.optReferrals" => null,
+            "fr3d_ldap.driver.useSsl" => null,
+            "fr3d_ldap.driver.useStartTls" => null,
+            "fr3d_ldap.driver.accountCanonicalForm" => null,
+            "fr3d_ldap.driver.accountDomainName" => null,
+            "fr3d_ldap.driver.accountDomainNameShort" => null,
+            "fr3d_ldap.user.enabled" => false,
+            "fr3d_ldap.user.baseDn" => "dc=example,dc=com",
+            "fr3d_ldap.user.filter" => null,
+            "fr3d_ldap.user.attribute.username" => null,
+            "fr3d_ldap.user.attribute.name" => null,
+            "fr3d_ldap.user.attribute.email" => null,
         );
 
-        $parameters["mailer"] = array(
-            "transport" => null,
-            "host" => null,
-            "port" => null,
-            "encryption" => null,
-            "username" => null,
-            "password" => null,
-            "auth_mode" => null,
-        );
+        $this->applyIf($parameters, $data["values"]);
 
-        $parameters["ldap"] = array(
-            "enabled" => false,
-            "host" => "127.0.0.1",
-            "port" => null,
-            "username" => null,
-            "password" => null,
-            "bindrequiresdn" => false,
-            "basedn" => "",
-            "ssl" => null,
-            "starttls" => null,
-            "user_basedn" => "dc=blabla,dc=com",
-            "user_filter" => null,
-            "user_username" => null,
-            "user_name" => null,
-            "user_email" => null,
-        );
-
-        $parameters["legacyAuth"] = false;
-
-        $secret = "";
-        for ($i = 0; $i < 32; $i++) {
-            $secret .= chr(65 + rand(0, 16));
-        }
-        $parameters["secret"] = $this->generateSecret();
-
-
-        if (array_key_exists("database", $data)) {
-            $parameters["database"] = $this->applyIf($parameters["database"], $data["database"]);
-        }
-
-        if (array_key_exists("mailer", $data)) {
-            $parameters["mailer"] = $this->applyIf($parameters["mailer"], $data["mailer"]);
-        }
-
-        if (array_key_exists("ldap", $data)) {
-            $parameters["ldap"] = $this->applyIf($parameters["ldap"], $data["ldap"]);
-        }
-
-        if (array_key_exists("legacyAuth", $data)) {
-            $parameters["legacyAuth"] = $data["legacyAuth"];
-        }
-
+        $parameters = array_merge($parameters, $data["values"]);
         array_walk_recursive($parameters, function (&$item, $key) { $item = var_export($item, true); });
 
+        ksort($parameters);
 
-        $contents = $this->container->get('templating')->render('PartKeeprSetupBundle::parameters.php.twig', $parameters);
+        $contents = $this->container->get('templating')->render('PartKeeprSetupBundle::parameters.php.twig', array("parameters" => $parameters));
 
         file_put_contents($this->getConfigPath($test), $contents);
     }

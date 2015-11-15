@@ -37,34 +37,34 @@ class ExistingConfigParserController extends SetupController
                 $response["message"] = "No configuration found";
             } else {
                 $config = array(
-                    "database" => array()
+                    "values" => array()
                 );
 
                 if (array_key_exists("partkeepr.database.driver", $legacyConfig)) {
-                    $config["database"]["driver"] = $legacyConfig["partkeepr.database.driver"];
+                    $config["values"]["database_driver"] = $legacyConfig["partkeepr.database.driver"];
                 }
 
                 if (array_key_exists("partkeepr.database.host", $legacyConfig)) {
-                    $config["database"]["host"] = $legacyConfig["partkeepr.database.host"];
+                    $config["values"]["database_host"] = $legacyConfig["partkeepr.database.host"];
                 }
 
                 if (array_key_exists("partkeepr.database.username", $legacyConfig)) {
-                    $config["database"]["user"] = $legacyConfig["partkeepr.database.username"];
+                    $config["values"]["database_user"] = $legacyConfig["partkeepr.database.username"];
                 }
 
                 if (array_key_exists("partkeepr.database.password", $legacyConfig)) {
-                    $config["database"]["password"] = $legacyConfig["partkeepr.database.password"];
+                    $config["values"]["database_password"] = $legacyConfig["partkeepr.database.password"];
                 }
 
                 if (array_key_exists("partkeepr.database.dbname", $legacyConfig)) {
-                    $config["database"]["name"] = $legacyConfig["partkeepr.database.dbname"];
+                    $config["values"]["database_name"] = $legacyConfig["partkeepr.database.dbname"];
                 }
 
                 if (array_key_exists("partkeepr.database.port", $legacyConfig)) {
-                    $config["database"]["port"] = $legacyConfig["partkeepr.database.port"];
+                    $config["values"]["database_port"] = $legacyConfig["partkeepr.database.port"];
                 }
 
-                $config["legacyAuth"] = true;
+                $config["values"]["authentication_provider"] = "PartKeepr.Auth.HTTPBasicAuthenticationProvider";
                 $response["config"] = $config;
             }
 
