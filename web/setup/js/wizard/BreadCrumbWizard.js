@@ -75,11 +75,15 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
             items: cardItems
         });
         me.items = [
-            Ext.create('Ext.Img', {
-                style: 'background-color: white;',
+            {
+                xtype: 'container',
+                layout: 'center',
+                style: 'background-color: white; padding: 5px;',
+                items: Ext.create('Ext.Img', {
                 height: 90,
                 src: 'images/partkeepr-setup.svg'
             }),
+            },
             me.breadCrumbContainer,
             me.cardContainer,
             {
