@@ -17,7 +17,7 @@ class LegacyConfigVisitor extends \PHPParser_NodeVisitorAbstract
                     } elseif ($node->args[1]->value instanceof \PHPParser_Node_Scalar_LNumber) {
                         self::$configValues[$node->args[0]->value->value] = $node->args[1]->value->value;
                     } elseif ($node->args[1]->value instanceof \PHPParser_Node_Expr_ConstFetch) {
-                        self::$configValues[$node->args[0]->value->value] = $node->args[1]->value->name->parts[0];
+                        self::$configValues[$node->args[0]->value->value] = boolval($node->args[1]->value->name->parts[0]);
                     }
                 }
             }
