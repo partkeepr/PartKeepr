@@ -116,8 +116,6 @@ Ext.define('PartKeepr.PartEditor', {
                 name: 'category',
                 displayField: "name",
                 returnObject: true,
-                store: Ext.create("PartKeepr.data.store.PartCategoryStore"),
-                rootVisible: false
             },
             this.storageLocationComboBox,
             {
