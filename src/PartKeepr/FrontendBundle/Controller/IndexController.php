@@ -33,7 +33,6 @@ class IndexController extends Controller
         $aParameters["availableImageFormats"] = array("JPG", "GIF", "PNG");
 
         /* Automatic Login */
-
         if ($this->getParameterWithDefault("partkeepr.frontend.auto_login.enabled", false) === true) {
             $aParameters["autoLoginUsername"] = $this->getParameter("partkeepr.frontend.auto_login.username");
             $aParameters["autoLoginPassword"] = $this->getParameter("partkeepr.frontend.auto_login.password");
@@ -43,7 +42,7 @@ class IndexController extends Controller
             $aParameters["motd"] = $this->getParameterWithDefault("partkeepr.frontend.motd", false);
         }
 
-        $aParameters["max_users"] = $this->getParameter("max_users");
+        $aParameters["max_users"] = $this->getParameter("partkeepr.auth.max_users");
 
         $aParameters["authentication_provider"] = $this->getParameter("partkeepr.authentication_provider");
         $aParameters["tip_of_the_day_uri"] = $this->getParameter("partkeepr.tip_of_the_day_uri");

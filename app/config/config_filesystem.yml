@@ -1,36 +1,32 @@
-parameters:
-    data_directory: %kernel.root_dir%/../data/
-    quota: false
-
 knp_gaufrette:
     adapters:
         iclogo:
             local:
-                directory: %data_directory%images/iclogo/
+                directory: %partkeepr.filesystem.data_directory%images/iclogo/
         temp:
             local:
-                directory: %data_directory%temp/
+                directory: %partkeepr.filesystem.data_directory%temp/
         tempfile:
             local:
-                directory: %data_directory%files/Temporary/
+                directory: %partkeepr.filesystem.data_directory%files/Temporary/
         footprintattachment:
             local:
-                directory: %data_directory%files/FootprintAttachment/
+                directory: %partkeepr.filesystem.data_directory%files/FootprintAttachment/
         footprint:
             local:
-                directory: %data_directory%images/footprint/
+                directory: %partkeepr.filesystem.data_directory%images/footprint/
         partattachment:
             local:
-                directory: %data_directory%files/PartAttachment/
+                directory: %partkeepr.filesystem.data_directory%files/PartAttachment/
         storagelocation:
             local:
-                directory: %data_directory%images/storagelocation/
+                directory: %partkeepr.filesystem.data_directory%images/storagelocation/
         mimetype_icons:
             local:
                 directory: %kernel.root_dir%/../src/PartKeepr/MimetypeIconsBundle/Resources/public/images/mimes/
         projectattachment:
             local:
-                directory: %data_directory%files/ProjectAttachment/
+                directory: %partkeepr.filesystem.data_directory%files/ProjectAttachment/
     filesystems:
         iclogo:
             adapter: iclogo

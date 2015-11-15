@@ -214,7 +214,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
 
         var config = PartKeeprSetup.getApplication().getSetupConfig();
 
-        Ext.apply(config, {
+        Ext.merge(config, {
             values: {
                 database_driver: 'pdo_mysql',
                 database_host: this.hostname.getValue(),

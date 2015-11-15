@@ -157,6 +157,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     onBeforeRunTest: function ()
     {
         this.params = PartKeeprSetup.getApplication().getSetupConfig();
+        console.log(this.params);
     },
     /**
      * Gets called after test exeuction. Useful for post-processing any result

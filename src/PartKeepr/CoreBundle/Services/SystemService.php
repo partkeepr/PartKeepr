@@ -158,7 +158,7 @@ class SystemService extends ContainerAware
      */
     public function getFreeDiskSpace()
     {
-        if ($this->container->getParameter("quota") === false) {
+        if ($this->container->getParameter("partkeepr.filesystem.quota") === false) {
             return disk_free_space($this->container->getParameter("data_directory"));
         } else {
             return $this->getTotalDiskSpace() - $this->getUsedDiskSpace();
@@ -167,10 +167,10 @@ class SystemService extends ContainerAware
 
     public function getTotalDiskSpace()
     {
-        if ($this->container->getParameter("quota") === false) {
+        if ($this->container->getParameter("partkeepr.filesystem.quota") === false) {
             return disk_total_space($this->container->getParameter("data_directory"));
         } else {
-            return $this->container->getParameter("quota");
+            return $this->container->getParameter("partkeepr.filesystem.quota");
         }
     }
 
@@ -183,7 +183,7 @@ class SystemService extends ContainerAware
      */
     public function getUsedDiskSpace()
     {
-        if ($this->container->getParameter("quota") === false) {
+        if ($this->container->getParameter("partkeepr.filesystem.quota") === false) {
             return $this->getTotalDiskSpace() - $this->getFreeDiskSpace();
         }
 

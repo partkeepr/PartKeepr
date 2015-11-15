@@ -65,6 +65,35 @@ class ExistingConfigParserController extends SetupController
                 }
 
                 $config["values"]["authentication_provider"] = "PartKeepr.Auth.HTTPBasicAuthenticationProvider";
+
+                if (array_key_exists("partkeepr.frontend.motd", $legacyConfig)) {
+                    $config["values"]["partkeepr.frontend.motd"] = $legacyConfig["partkeepr.frontend.motd"];
+                }
+
+                if (array_key_exists("partkeepr.frontend.autologin.enabled", $legacyConfig)) {
+                    $config["values"]["partkeepr.frontend.auto_login.enabled"] = $legacyConfig["partkeepr.frontend.autologin.enabled"];
+                }
+
+                if (array_key_exists("partkeepr.frontend.autologin.username", $legacyConfig)) {
+                    $config["values"]["partkeepr.frontend.auto_login.username"] = $legacyConfig["partkeepr.frontend.autologin.username"];
+                }
+
+                if (array_key_exists("partkeepr.frontend.autologin.password", $legacyConfig)) {
+                    $config["values"]["partkeepr.frontend.auto_login.password"] = $legacyConfig["partkeepr.frontend.autologin.password"];
+                }
+
+                if (array_key_exists("partkeepr.cronjobs.disablecheck", $legacyConfig)) {
+                    $config["values"]["partkeepr.cronjob.check"] = $legacyConfig["partkeepr.cronjobs.disablecheck"];
+                }
+
+                if (array_key_exists("partkeepr.category.path_separator", $legacyConfig)) {
+                    $config["values"]["partkeepr.category.path_separator"] = $legacyConfig["partkeepr.category.path_separator"];
+                }
+
+                if (array_key_exists("partkeepr.frontend.allow_password_change", $legacyConfig)) {
+                    $config["values"]["partkeepr.auth.allow_password_change"] = $legacyConfig["partkeepr.frontend.allow_password_change"];
+                }
+
                 $response["config"] = $config;
             }
 

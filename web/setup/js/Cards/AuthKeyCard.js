@@ -61,7 +61,7 @@ Ext.define('PartKeeprSetup.AuthKeyCard', {
         if (this.authKey.isValid()) {
             var config = PartKeeprSetup.getApplication().getSetupConfig();
 
-            Ext.apply(config, {authKey: this.authKey.getValue()});
+            Ext.merge(config, {authKey: this.authKey.getValue()});
 
             Ext.ComponentQuery.query('#nextBtn')[0].enable();
         } else {

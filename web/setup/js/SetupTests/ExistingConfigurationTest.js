@@ -11,7 +11,8 @@ Ext.define('PartKeeprSetup.ExistingConfigurationTest', {
         if (data.config) {
             var config = PartKeeprSetup.getApplication().getSetupConfig();
 
-            Ext.apply(config, data.config);
+            Ext.merge(config, data.config);
+            console.log(config);
             config.existingConfig = true;
         }
     }

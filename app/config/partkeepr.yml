@@ -1,9 +1,6 @@
-parameters:
-    partkeepr.category.path_separator: " ➤ "
-
 partkeepr:
   image_cache_directory: %kernel.cache_dir%/imagecache/
-  cronjob_check: false
+  cronjob_check: %partkeepr.cronjob.check%
   authentication_provider: %authentication_provider%
   directories:
     iclogo: %kernel.root_dir%/../data/images/iclogo/

@@ -36,6 +36,7 @@ Ext.application({
 
         var win = Ext.create("Ext.window.Window", {
             layout: "fit",
+            constrain: true,
             title: "PartKeepr Setup",
             items: Ext.create("PartKeeprSetup.SetupWizard")
         });
