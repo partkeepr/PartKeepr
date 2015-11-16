@@ -30,6 +30,8 @@
     while excluding stuff the end-user doesn't need (like .git directories, and some 3rdparty stuff).
     -->
     <target name="prepare-archiving">
+        <exec command="composer install" passthru="true" checkreturn="true" />
+
         <delete quiet="true">
             <fileset dir="${packagepath}"/>
         </delete>
