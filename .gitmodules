@@ -1,6 +1,0 @@
-[submodule "3rdparty/ext-wizard"]
-	path = 3rdparty/ext-wizard
-	url = git://github.com/partkeepr/Ext.ux.Wizard.git
-[submodule "3rdparty/Ext.ux.Exporter"]
-	path = 3rdparty/Ext.ux.Exporter
-	url = git://github.com/partkeepr/Ext.ux.Exporter.git
