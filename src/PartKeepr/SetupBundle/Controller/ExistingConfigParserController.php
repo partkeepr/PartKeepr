@@ -38,9 +38,9 @@ class ExistingConfigParserController extends SetupController
 
             if (count($response["config"]) == 0) {
                 $response["message"] = "No configuration found";
-                $response["config"]["existingConfig"] = false;
+                $response["existingConfig"] = false;
             } else {
-                $response["config"]["existingConfig"] = true;
+                $response["existingConfig"] = true;
             }
 
         } catch (\Exception $e) {
