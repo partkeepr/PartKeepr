@@ -34,6 +34,16 @@
         <exec command="composer install" passthru="true" checkreturn="true" />
 
         <delete file="app/config/parameters.php"/>
+
+        <delete dir="{$packagepath}/web/js/packages/extjs6/classic"/>
+        <delete dir="{$packagepath}/web/js/packages/extjs6/modern"/>
+        <delete dir="{$packagepath}/web/js/packages/extjs6/cmd"/>
+        <delete dir="{$packagepath}/web/js/packages/extjs6/packages"/>
+        <delete dir="{$packagepath}/web/js/packages/extjs6/resources"/>
+        <delete dir="{$packagepath}/web/js/packages/extjs6/sass"/>
+        <delete dir="{$packagepath}/web/js/packages/extjs6/templates"/>
+        <delete dir="{$packagepath}/web/js/packages/extjs6/welcome"/>
+
         <delete quiet="true">
             <fileset dir="${packagepath}"/>
         </delete>
