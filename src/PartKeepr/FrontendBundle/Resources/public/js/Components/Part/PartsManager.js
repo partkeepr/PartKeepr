@@ -285,7 +285,7 @@ Ext.define('PartKeepr.PartManager', {
             partMode: 'create'
         });
 
-        j.editor.on("partSaved", this.onPartSaved, this);
+        j.editor.on("partSaved", this.onNewPartSaved, this);
         j.editor.editItem(copy);
         j.show();
     },
@@ -305,7 +305,7 @@ Ext.define('PartKeepr.PartManager', {
             partMode: 'create'
         });
 
-        j.editor.on("partSaved", this.onPartSaved, this);
+        j.editor.on("partSaved", this.onNewPartSaved, this);
         j.editor.editItem(newItem);
         j.show();
     },
@@ -348,6 +348,7 @@ Ext.define('PartKeepr.PartManager', {
         record.setPartUnit(defaultPartUnit);
 
         j.editor.editItem(record);
+        j.editor.on("partSaved", this.onNewPartSaved, this);
         j.show();
 
         return j;
@@ -361,6 +362,9 @@ Ext.define('PartKeepr.PartManager', {
         j.editor.on("partSaved", this.onPartSaved, this);
         j.editor.editItem(part);
         j.show();
+    },
+    onNewPartSaved: function (record) {
+        this.grid.getStore().reload();
     },
     onPartSaved: function (record)
     {
