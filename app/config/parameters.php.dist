@@ -30,6 +30,11 @@ $container->setParameter('database_user', 'root');
  */
 $container->setParameter('database_password', null);
 
+/**
+ * Specifies the PartKeepr data directory
+ */
+$container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_dir%/../data/');
+
 $container->setParameter('mailer_transport', null);
 $container->setParameter('mailer_host', null);
 $container->setParameter('mailer_port', null);
