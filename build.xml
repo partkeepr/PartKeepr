@@ -19,6 +19,9 @@
         <phingcall target="prepare-archiving"/>
         <phingcall target="set-version"/>
 
+        <delete file="partkeepr-${partkeepr.version}.tbz2"/>
+        <delete file="partkeepr-${partkeepr.version}.zip"/>
+
         <zip destfile="partkeepr-${partkeepr.version}.zip" basedir="${packagepath}"
              prefix="partkeepr-${partkeepr.version}/"/>
         <tar destfile="partkeepr-${partkeepr.version}.tbz2" compression="bzip2" basedir="${packagepath}"
