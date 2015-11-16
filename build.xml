@@ -30,6 +30,7 @@
     while excluding stuff the end-user doesn't need (like .git directories, and some 3rdparty stuff).
     -->
     <target name="prepare-archiving">
+        <copy file="app/config/parameters.php.dist" tofile="app/config/parameters.php"/>
         <exec command="composer install" passthru="true" checkreturn="true" />
 
         <delete quiet="true">
