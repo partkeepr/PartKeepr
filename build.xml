@@ -35,23 +35,24 @@
 
         <delete file="app/config/parameters.php"/>
 
-        <delete dir="{$packagepath}/web/js/packages/extjs6/classic"/>
-        <delete dir="{$packagepath}/web/js/packages/extjs6/modern"/>
-        <delete dir="{$packagepath}/web/js/packages/extjs6/cmd"/>
-        <delete dir="{$packagepath}/web/js/packages/extjs6/packages"/>
-        <delete dir="{$packagepath}/web/js/packages/extjs6/resources"/>
-        <delete dir="{$packagepath}/web/js/packages/extjs6/sass"/>
-        <delete dir="{$packagepath}/web/js/packages/extjs6/templates"/>
-        <delete dir="{$packagepath}/web/js/packages/extjs6/welcome"/>
-
         <delete quiet="true">
             <fileset dir="${packagepath}"/>
         </delete>
 
         <copy todir="${packagepath}" includeemptydirs="false">
             <fileset dir=".">
-                <exclude name=".git/**/*"/>
-                <exclude name="vendor/**/.git/**/*"/>
+                <exclude name="partkeepr*.zip"/>
+                <exclude name="partkeepr*.tbz2"/>
+                <exclude name=".git/**"/>
+                <exclude name="vendor/**/.git/"/>
+                <exclude name="web/js/packages/extjs6/modern/**"/>
+                <exclude name="web/js/packages/extjs6/classic/**"/>
+                <exclude name="web/js/packages/extjs6/cmd/**"/>
+                <exclude name="web/js/packages/extjs6/packages/**"/>
+                <exclude name="web/js/packages/extjs6/resources/**"/>
+                <exclude name="web/js/packages/extjs6/sass/**"/>
+                <exclude name="web/js/packages/extjs6/templates/**"/>
+                <exclude name="web/js/packages/extjs6/welcome/**"/>
             </fileset>
         </copy>
     </target>
