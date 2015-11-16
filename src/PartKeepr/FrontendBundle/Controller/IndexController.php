@@ -24,8 +24,8 @@ class IndexController extends Controller
         $aParameters["php_version"] = phpversion();
         $aParameters["auto_start_session"] = true;
 
-        $maxPostSize = $this->get("partkeepr_systemservice")->format_bytes(ini_get("post_max_size"));
-        $maxFileSize = $this->get("partkeepr_systemservice")->format_bytes(ini_get("upload_max_filesize"));
+        $maxPostSize = $this->get("partkeepr_systemservice")->getBytesFromHumanReadable(ini_get("post_max_size"));
+        $maxFileSize = $this->get("partkeepr_systemservice")->getBytesFromHumanReadable(ini_get("upload_max_filesize"));
 
         $aParameters["maxUploadSize"] = min($maxPostSize, $maxFileSize);
 

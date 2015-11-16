@@ -241,4 +241,24 @@ class SystemService extends ContainerAware
 
         return sprintf('%.1f %sB', $number / pow($unit, $exp), $pre);
     }
+
+    /**
+	 * Returns the effective size from a human-readable byte format.
+	 *
+	 * Example:
+	 * getBytesFromHumanReadable("1M") will return 1048576.
+	 *
+	 * @param string $size_str The byte
+	 * @return int The bytes
+	 */
+	public function getBytesFromHumanReadable ($size_str)
+	{
+	    switch (substr ($size_str, -1))
+	    {
+	        case 'M': case 'm': return (int)$size_str * 1048576;
+	        case 'K': case 'k': return (int)$size_str * 1024;
+	        case 'G': case 'g': return (int)$size_str * 1073741824;
+	        default: return $size_str;
+	    }
+	}
 }
