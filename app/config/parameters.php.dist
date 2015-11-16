@@ -35,6 +35,11 @@ $container->setParameter('database_password', null);
  */
 $container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_dir%/../data/');
 
+/**
+ * Specifies if PartKeepr should check for non-running cronjobs
+ */
+$container->setParameter('partkeepr.cronjob.check', true);
+
 $container->setParameter('mailer_transport', null);
 $container->setParameter('mailer_host', null);
 $container->setParameter('mailer_port', null);
