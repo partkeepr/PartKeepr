@@ -95,7 +95,7 @@ class SystemService extends ContainerAware
 
         $aData[] = new SystemInformationRecord(
             "Data Directory",
-            realpath($this->container->getParameter("data_directory")),
+            realpath($this->container->getParameter("partkeepr.filesystem.data_directory")),
             "PartKeepr"
         );
 
@@ -159,7 +159,7 @@ class SystemService extends ContainerAware
     public function getFreeDiskSpace()
     {
         if ($this->container->getParameter("partkeepr.filesystem.quota") === false) {
-            return disk_free_space($this->container->getParameter("data_directory"));
+            return disk_free_space($this->container->getParameter("partkeepr.filesystem.data_directory"));
         } else {
             return $this->getTotalDiskSpace() - $this->getUsedDiskSpace();
         }
@@ -168,7 +168,7 @@ class SystemService extends ContainerAware
     public function getTotalDiskSpace()
     {
         if ($this->container->getParameter("partkeepr.filesystem.quota") === false) {
-            return disk_total_space($this->container->getParameter("data_directory"));
+            return disk_total_space($this->container->getParameter("partkeepr.filesystem.data_directory"));
         } else {
             return $this->container->getParameter("partkeepr.filesystem.quota");
         }
