@@ -33,6 +33,7 @@
         <copy file="app/config/parameters.php.dist" tofile="app/config/parameters.php"/>
         <exec command="composer install" passthru="true" checkreturn="true" />
 
+        <delete file="app/config/parameters.php"/>
         <delete quiet="true">
             <fileset dir="${packagepath}"/>
         </delete>
