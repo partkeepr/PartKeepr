@@ -66,7 +66,6 @@
     "jms/translation-bundle": "dev-master",
     "partkeepr/remote-file-loader": "dev-master",
     "nfq-alpha/sprite-bundle": "^1.0",
-    "ddeboer/data-import": "@stable",
     "symfony/property-access": "^2.7",
     "sonata-project/exporter": "^1.4",
     "knplabs/knp-gaufrette-bundle": "^0.2.0"
