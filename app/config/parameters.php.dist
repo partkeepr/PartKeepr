@@ -105,3 +105,9 @@ $container->setParameter('partkeepr.category.path_separator', ' ➤ ');
  * Specifies a message of the day
  */
 $container->setParameter('partkeepr.frontend.motd', "This is a MOTD");
+
+/**
+ * Specifies if a quota should be used.
+ * If set to false, no quota is used. Set it to a numeric value to set a quota.
+ */
+$container->setParameter('partkeepr.filesystem.quota', false);
