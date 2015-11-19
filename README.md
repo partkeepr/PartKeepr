@@ -12,6 +12,8 @@ designed for electronic components.
 
 PartKeepr is written in **PHP** and using the [**Symfony2**](http://symfony.com) framework.
 
+Note that currently some major refactoring takes place, if you want to keep track of the new development branch, please visit https://github.com/partkeepr/PartKeepr/tree/sf2migration.
+
 Demo Site
 ---------
 
