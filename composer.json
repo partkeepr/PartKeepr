@@ -43,7 +43,6 @@
     "symfony/monolog-bundle": "~2.4",
     "sensio/distribution-bundle": "~4.0.0",
     "sensio/framework-extra-bundle": "~3.0",
-    "sensio/generator-bundle": "~2.3",
     "nelmio/api-doc-bundle": "~2.9@dev",
     "friendsofsymfony/rest-bundle": "~1.7.1",
     "cbsi/doctrine2-nestedset": "dev-master",
