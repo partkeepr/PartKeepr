@@ -126,7 +126,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
         });
 
         this.toolbarEditButton = Ext.create("Ext.button.Button", {
-            tooltip: i18n("Delete Category"),
+            tooltip: i18n("Edit Category"),
             handler: Ext.bind(this.showCategoryEditDialog, this),
             iconCls: 'web-icon folder_edit',
             disabled: true
