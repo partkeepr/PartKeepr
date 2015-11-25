@@ -65,8 +65,12 @@ class RemoveStockAction
         $user = $this->userService->getUser();
 
         $stock = new StockEntry(0 - intval($quantity), $user);
-        $part->addStockEntry($stock);
 
+        if ($request->request->has("comment") && $request->request->get("comment") !== null) {
+            $stock->setComment($request->request->get("comment"));
+        }
+
+        $part->addStockEntry($stock);
         $this->registry->getManager()->persist($stock);
         $this->registry->getManager()->flush();
 

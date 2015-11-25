@@ -178,8 +178,7 @@ Ext.define('PartKeepr.PartStockWindow', {
 		this.setTitle(this.removePartText);
 		this.priceField.hide();
 		this.priceCheckbox.hide();
-		this.commentField.hide();
-		this.setHeight(105);
+		this.setHeight(132);
 		this.okButton.setIconCls("web-icon brick_delete");
 		this.show();
 	}

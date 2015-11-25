@@ -221,10 +221,11 @@ Ext.define('PartKeepr.PartDisplay', {
     /**
      * Callback after the "delete stock" dialog is complete.
      */
-    deletePartHandler: function (quantity)
+    deletePartHandler: function (quantity, unused_price, comment)
     {
         this.record.callPutAction("removeStock", {
             quantity: quantity,
+            comment: comment,
         }, null, true);
     },
     /**
