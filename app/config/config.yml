@@ -69,7 +69,7 @@ sprite_generator:
             padding: 5
             spriteClass: fugue-icon
             cssFormat: css
-            imagePositioning: one-column
+            imagePositioning: min-image
             imageGenerator: gd2
         partkeepr:
             inDir: %kernel.root_dir%/../src/PartKeepr/FrontendBundle/Resources/public/images/icons/
@@ -79,7 +79,7 @@ sprite_generator:
             padding: 5
             spriteClass: partkeepr-icon
             cssFormat: css
-            imagePositioning: one-column
+            imagePositioning: min-image
             imageGenerator: gd2
 
 fr3d_ldap:
