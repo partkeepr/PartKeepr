@@ -63,8 +63,8 @@ class ExistingConfigParserController extends SetupController
                 $config["database_driver"] = $legacyConfig["partkeepr.database.driver"];
             }
 
-            if (array_key_exists("partkeepr.database.host", $legacyConfig)) {
-                $config["database_host"] = $legacyConfig["partkeepr.database.host"];
+            if (array_key_exists("partkeepr.database.hostname", $legacyConfig)) {
+                $config["database_host"] = $legacyConfig["partkeepr.database.hostname"];
             }
 
             if (array_key_exists("partkeepr.database.username", $legacyConfig)) {
