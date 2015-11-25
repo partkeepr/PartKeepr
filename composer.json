@@ -28,6 +28,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/partkeepr/FR3DLdapBundle"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/partkeepr/sprite-generator"
     }
     ],
   "require": {
@@ -64,7 +68,7 @@
     "reputation-vip/composer-assets-installer": "^1.0",
     "jms/translation-bundle": "dev-master",
     "partkeepr/remote-file-loader": "dev-master",
-    "nfq-alpha/sprite-bundle": "^1.0",
+    "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "symfony/property-access": "^2.7",
     "sonata-project/exporter": "^1.4",
     "knplabs/knp-gaufrette-bundle": "^0.2.0"
