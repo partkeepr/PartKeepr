@@ -23,6 +23,6 @@ Ext.define('PartKeepr.SystemNoticeButton', {
      * @return nothing
      */
 	onClick: function () {
-		PartKeepr.getApplication().menuBar.showSystemNotices();
+		PartKeepr.getApplication().openAppItem("PartKeepr.SystemNoticeEditorComponent");
 	}
 });

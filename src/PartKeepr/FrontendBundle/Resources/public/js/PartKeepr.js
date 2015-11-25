@@ -48,14 +48,15 @@ Ext.application({
         this.loginManager.login();
     },
     onAppMenuClick: function (item) {
-        var target = item.target["$className"];
-
+        this.openAppItem(item.target["$className"]);
+    },
+    openAppItem: function (target) {
         targetClass = Ext.ClassManager.get(target);
 
         var config = {
-            title: item.target.title,
-            closable: item.target.closable,
-            iconCls: item.target.iconCls
+            title: targetClass.title,
+            closable: targetClass.closable,
+            iconCls: targetClass.iconCls
         };
 
         var j = Ext.create(target, config);
