@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e71b451d08dc2849dbc643c86d7f7cea",
-    "content-hash": "b9333f5086ae78767ffb32312f2fe5ec",
+    "hash": "11b4358c4296199bc24a58305394ae06",
+    "content-hash": "98a8aab9ea859603e1848a2ea3dd88be",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -1149,7 +1149,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/5a6e0a23c47c4f3b284d7606c24a905c1ac384ca",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/503ea5cc9c8ae38790a6899d842aaa92d55258bb",
                 "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
                 "shasum": ""
             },
@@ -1293,7 +1293,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/9be187a8e9f3267f3164d5b3d47dc1613a29a5a5",
+                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/0b2ffdcfb46fb9d5667d0bd2392d870c43473496",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "shasum": ""
             },
@@ -2434,7 +2434,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/eafa2ade0b140adb9af99d7dc7526bf37a6fcb41",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/97707ea5f438622ce31ab836e1d78bb70bfe101d",
                 "reference": "9af37448fa2f82856d068205afa96e9874527672",
                 "shasum": ""
             },
@@ -2505,16 +2505,16 @@
         },
         {
             "name": "nfq-alpha/sprite-bundle",
-            "version": "1.0.2",
+            "version": "dev-min-image-fix",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nfq-alpha/sprite-generator.git",
-                "reference": "ca9e54285cd3c9f7f87003d67160379053ee8eb0"
+                "url": "https://github.com/partkeepr/sprite-generator.git",
+                "reference": "5e93829623d1d685b3f4228097534c9aa3a6af5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nfq-alpha/sprite-generator/zipball/ca9e54285cd3c9f7f87003d67160379053ee8eb0",
-                "reference": "ca9e54285cd3c9f7f87003d67160379053ee8eb0",
+                "url": "https://api.github.com/repos/partkeepr/sprite-generator/zipball/5e93829623d1d685b3f4228097534c9aa3a6af5a",
+                "reference": "5e93829623d1d685b3f4228097534c9aa3a6af5a",
                 "shasum": ""
             },
             "require": {
@@ -2528,7 +2528,6 @@
                     "SpriteGenerator": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2543,7 +2542,10 @@
             "keywords": [
                 "sprite"
             ],
-            "time": "2014-09-15 11:00:13"
+            "support": {
+                "source": "https://github.com/partkeepr/sprite-generator/tree/min-image-fix"
+            },
+            "time": "2015-11-25 17:32:07"
         },
         {
             "name": "nikic/php-parser",
@@ -3222,7 +3224,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/7b3144572617b0555f9a443317dbc2f9cf5b524e",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/12df2454bd3840d94892fe932eadc0138bf36922",
                 "reference": "7b3144572617b0555f9a443317dbc2f9cf5b524e",
                 "shasum": ""
             },
@@ -5384,6 +5386,7 @@
         "escapestudios/wsse-authentication-bundle": 20,
         "jms/translation-bundle": 20,
         "partkeepr/remote-file-loader": 20,
+        "nfq-alpha/sprite-bundle": 20,
         "codeclimate/php-test-reporter": 20
     },
     "prefer-stable": false,
