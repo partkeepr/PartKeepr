@@ -25,7 +25,7 @@ class SchemaSetupController extends SetupController
         $metadatas = $entityManager->getMetadataFactory()->getAllMetadata();
 
         try {
-            $schemaTool->updateSchema($metadatas);
+            $schemaTool->updateSchema($metadatas, true);
         } catch (\Exception $e) {
             $response["success"] = false;
             $response["message"] = "Database setup error";
