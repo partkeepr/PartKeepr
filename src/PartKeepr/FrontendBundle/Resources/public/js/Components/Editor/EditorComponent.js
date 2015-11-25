@@ -65,7 +65,7 @@ Ext.define('PartKeepr.EditorComponent', {
          */
         this.navigation = Ext.create(this.navigationClass, {
             region: 'west',
-            width: 265,
+            width: 300,
             split: true,
             store: this.store,
             titleProperty: this.titleProperty
