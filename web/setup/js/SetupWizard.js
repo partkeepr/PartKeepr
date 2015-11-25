@@ -74,9 +74,9 @@ Ext.define('PartKeeprSetup.SetupWizard', {
             "PartKeeprSetup.AuthKeyCard",
             "PartKeeprSetup.ExistingConfigParserCard",
             "PartKeeprSetup.DatabaseParametersCard",
-            "PartKeeprSetup.DatabaseConnectivityTestCard",
-            "PartKeeprSetup.AdminUserCard",
             "PartKeeprSetup.DatabaseSetupCard",
+            "PartKeeprSetup.AdminUserCard",
+            "PartKeeprSetup.UserSetupCard",
         ];
 
         for (var card = 0; card < cardNames.length; card++) {

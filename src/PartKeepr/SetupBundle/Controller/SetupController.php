@@ -13,6 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SetupController extends Controller
 {
+    /**
+     * The authentification key length
+     */
     const KEY_LENGTH = 32;
 
     /**

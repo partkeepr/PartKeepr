@@ -15,15 +15,14 @@ Ext.define('PartKeeprSetup.DatabaseSetupCard', {
      */
     setupTests: function ()
     {
+        this.tests.push(new PartKeeprSetup.DatabaseConnectivityTest());
         this.tests.push(new PartKeeprSetup.SchemaSetup());
         this.tests.push(new PartKeeprSetup.SchemaMigration());
-        this.tests.push(new PartKeeprSetup.AdminUserSetup());
         this.tests.push(new PartKeeprSetup.PartUnitSetup());
         this.tests.push(new PartKeeprSetup.FootprintSetup());
         this.tests.push(new PartKeeprSetup.SiPrefixSetup());
         this.tests.push(new PartKeeprSetup.UnitSetup());
         this.tests.push(new PartKeeprSetup.ManufacturerSetup());
-        this.tests.push(new PartKeeprSetup.ConfigSetup());
-        this.tests.push(new PartKeeprSetup.WarmupCacheSetup());
+        this.tests.push(new PartKeeprSetup.ExistingUserTest());
     }
 });

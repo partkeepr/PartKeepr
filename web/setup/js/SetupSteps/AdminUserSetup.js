@@ -10,7 +10,7 @@ Ext.define('PartKeeprSetup.AdminUserSetup', {
     onBeforeRunTest: function () {
         this.callParent(arguments);
 
-        if (PartKeeprSetup.getApplication().getSetupConfig().existingConfig === true) {
+        if (PartKeeprSetup.getApplication().getSetupConfig().createUser === false) {
             this.skip = true;
         }
     }

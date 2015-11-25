@@ -106,9 +106,8 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
             rec.set("message", test.resultMessage);
             rec.set("errors", test.errors.join("<br/>"));
             rec.set("waiting", false);
+            rec.commit();
         }
-
-        rec.commit();
 
         if (!test.success) {
             this.fireEvent("test-error");

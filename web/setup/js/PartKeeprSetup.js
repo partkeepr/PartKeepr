@@ -27,8 +27,10 @@ Ext.application({
                 password: "",
                 email: ""
             },
-            existingConfig: false,
+            createUser: false,
             legacyAuth: false,
+            existingUsers: 0,
+            legacyUsers: 0,
             authKey: ""
         };
 

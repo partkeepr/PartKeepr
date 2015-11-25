@@ -12,10 +12,14 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
     bodyStyle: 'background: none;',
 
     autoScroll: true,
-    breadCrumbTitle: 'Admin User',
-    layout: 'card',
+    breadCrumbTitle: 'User Data',
+    layout: {
+        type: 'vbox',
+        pack: 'start',
+        align: 'stretch'
+    },
     defaults: {
-        labelWidth: 120
+        labelWidth: 150
     },
 
     /**
@@ -54,11 +58,42 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
 
         this.email.on("change", this.onUpdateParameters, this);
 
-        this.items = [
-            {
-                bodyStyle: 'background:none;padding-bottom: 10px;',
-                border: false,
-                items: [{
+        this.createNewUserRadioGroup = Ext.create("Ext.form.RadioGroup", {
+            columns: 1,
+            items: [
+                {
+                    boxLabel: 'Leave existing users untouched', name: 'create', inputValue: false, columnWidth: .4
+                },
+                {
+                    boxLabel: 'Create new user', name: 'create', inputValue: true
+                }
+            ]
+        });
+
+        this.createNewUserRadioGroup.on("change", this.onUserModeChanged, this);
+
+        this.authenticationMethodRadioGroup = Ext.create("Ext.form.RadioGroup", {
+            labelAlign: 'top',
+            height: 75,
+            fieldLabel: 'Authentication Method',
+            columns: 1,
+            items: [
+                {
+                    boxLabel: 'HTTP Basic', name: 'authentication_provider', inputValue: 'PartKeepr.Auth.HTTPBasicAuthenticationProvider'
+                },
+                {
+                    boxLabel: 'WSSE', name: 'authentication_provider', inputValue: 'PartKeepr.Auth.WSSEAuthenticationProvider'
+                }
+            ]
+        });
+
+        //this.authenticationMethodRadioGroup.on("change", this.onAuthenticationMethodChanged, this);
+
+        this.userInputForm = Ext.create("Ext.Panel", {
+            bodyStyle: 'background:none;padding-bottom: 10px;',
+            border: false,
+            items: [
+                {
                     border: false,
                     bodyStyle: 'background:none;padding-bottom: 10px;',
                     html: 'Please enter the user which will become the administrator:'
@@ -66,39 +101,66 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
                 this.username,
                 this.password,
                 this.email
-                ]
-            }, {
-                    border: false,
-                    bodyStyle: 'background:none;padding-bottom: 10px;',
-                    html: 'An existing installation has been detected, no new user will be created. Click Next to continue.'
-                }
-
+            ],
+            flex: 1
+        });
+        this.items = [
+            this.createNewUserRadioGroup,
+            this.userInputForm,
+            this.authenticationMethodRadioGroup,
+            {
+                xtype: 'fieldcontainer',
+                hideEmptyLabel: true,
+                height: 20,
+                border: false,
+                bodyStyle: 'background: none;',
+                html: '<a href="https://wiki.partkeepr.org/wiki/KB00006:Authentication_Provider" target="_blank">Help me decide</a>'
+            }
         ];
 
         this.callParent();
         this.on("activate", this.onActivate, this);
+    },
+    onAuthenticationMethodChanged: function () {
+        var values = this.authenticationMethodRadioGroup.getValue();
+
+        console.log(values);
+        PartKeeprSetup.getApplication().getSetupConfig().values.authentication_provider = values.authentication_provider;
+    },
+    onUserModeChanged: function ()
+    {
+        var values = this.createNewUserRadioGroup.getValue();
+
+        if (values.create === true) {
+            Ext.ComponentQuery.query('#nextBtn')[0].disable();
+            this.userInputForm.show();
+        } else {
+            Ext.ComponentQuery.query('#nextBtn')[0].enable();
+            this.userInputForm.hide();
+        }
+
+        PartKeeprSetup.getApplication().getSetupConfig().createUser = values.create;
     },
     /**
      * Gets called when the card is activated
      */
     onActivate: function ()
     {
-        if (PartKeeprSetup.getApplication().getSetupConfig().existingConfig === true) {
-            this.layout.setActiveItem(1);
+        if (PartKeeprSetup.getApplication().getSetupConfig().createUser === false) {
+            this.createNewUserRadioGroup.setValue({ create: false});
         } else {
-            this.layout.setActiveItem(0);
-            // Disable the "next" button, this needs to get enabled by the admin user form
-            Ext.ComponentQuery.query('#nextBtn')[0].disable();
+            this.createNewUserRadioGroup.setValue({ create: true});
         }
 
-        this.onUpdateParameters();
+        this.authenticationMethodRadioGroup.setValue({ authentication_provider: PartKeeprSetup.getApplication().getSetupConfig().values.authentication_provider});
+
+        if (PartKeeprSetup.getApplication().getSetupConfig().existingUsers === 0) {
+            this.createNewUserRadioGroup.hide();
+            Ext.ComponentQuery.query('#nextBtn')[0].disable();
+        }
     },
     onUpdateParameters: function ()
     {
-        if (PartKeeprSetup.getApplication().getSetupConfig().existingConfig === true) {
-            return;
-        }
-
         if (this.username.isValid() && this.password.isValid() && this.email.isValid()) {
             var config = PartKeeprSetup.getApplication().getSetupConfig();
 

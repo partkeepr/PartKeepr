@@ -72,8 +72,13 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     {
         this.onBeforeRunTest();
 
+        this.callback.outputTestMessage(this);
+
         if (this.skip === true) {
             this.fireEvent("complete", this);
+            this.success = true;
+            this.resultMessage = "Skipped";
+            this.callback.appendTestResult(this);
             return;
         }
         var url = this.url;
@@ -82,7 +87,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
             url = url + this.action;
         }
 
-        this.callback.outputTestMessage(this);
+
         Ext.Ajax.request({
             url: url,
             success: this.onSuccess,
