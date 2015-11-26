@@ -50,6 +50,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
     footprintFilter: null,
     statusFilter: null,
     conditionFilter: null,
+    internalPartNumberFilter: null,
 
     /**
      * Initializes the component
@@ -92,7 +93,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 this.manufacturerFilter,
                 this.footprintFilter,
                 this.statusFilter,
-                this.conditionFilter
+                this.conditionFilter,
+                this.internalPartNumberFilter
             ]
         };
 
@@ -178,6 +180,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.statusFilter.setValue("");
 
         this.conditionFilter.setValue("");
+        this.internalPartNumberFilter.setValue("");
 
         this.onApply();
     },
@@ -424,6 +427,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
             anchor: '100%'
         });
 
+        this.internalPartNumberFilter = Ext.create("Ext.form.field.Text", {
+            fieldLabel: i18n("Internal Part Number"),
+            anchor: '100%'
+        });
+
     },
     /**
      * Applies the filter parameters to the passed extraParams object.
@@ -563,6 +571,14 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 property: 'condition',
                 operator: "LIKE",
                 value: "%" + this.conditionFilter.getValue() + "%"
+            }));
+        }
+
+        if (this.internalPartNumberFilter.getValue() !== "") {
+            filters.push(Ext.create("Ext.util.Filter", {
+                property: 'internalPartNumber',
+                operator: "LIKE",
+                value: "%" + this.internalPartNumberFilter.getValue() + "%"
             }));
         }
         return filters;
