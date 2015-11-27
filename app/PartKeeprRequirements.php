@@ -31,6 +31,12 @@ class PartKeeprRequirements extends SymfonyRequirements
         $this->checkWritable(realpath(dirname(__FILE__)."/../web/"));
 
         $this->addRequirement(
+            function_exists("apc_fetch"),
+            sprintf('PHP APCu cache not found'),
+            sprintf('Install the PHP APCu cache')
+        );
+
+        $this->addRequirement(
             function_exists("mb_convert_case"),
             sprintf('The PHP function mb_convert_case does not exist.'),
             sprintf('Please compile PHP with the mbstring functions in case you are using Gentoo, or install php-mbstring on RedHat, Fedora or CentOS.')

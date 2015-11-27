@@ -6,3 +6,4 @@ dunglas_api:
             items_per_page:
                 client_can_change: true
     supported_formats: [ "jsonld", "csv", "xlsx" ]
+    cache: api.mapping.cache.apc
