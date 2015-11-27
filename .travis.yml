@@ -5,12 +5,6 @@ php:
     - 7.0
     - nightly
 
-addons:
-  apt:
-    sources:
-    packages:
-    - php5-apcu
-
 script:
     - phpunit -c app/ --coverage-clover build/logs/clover.xml
 
@@ -32,8 +26,10 @@ addons:
     repo_token: 9bf99f3d5903f9f2ae2280f49cc469ef219bb965205cd324847f22d4698257d9
 
 before_install:
+  - echo $TRAVIS_PHP_VERSION
   - echo "extension=ldap.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - echo "extension=apcu.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then pecl config-set preferred_state beta; printf "yes\n" | pecl install apcu-4.0.8; fi;
   - if [[ $TRAVIS_PHP_VERSION =~ 7.[01] ]] ; then pecl config-set preferred_state beta; printf "yes\n" | pecl install apcu; fi;
 
 before_script:
