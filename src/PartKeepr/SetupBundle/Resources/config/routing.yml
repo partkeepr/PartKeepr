@@ -45,3 +45,7 @@ _setup_parseconfig:
 _setup_existingusers:
     resource: "@PartKeeprSetupBundle/Controller/ExistingUserSetupController.php"
     type:     annotation
+
+_setup_filemigration:
+    resource: "@PartKeeprSetupBundle/Controller/FileMigrationController.php"
+    type:     annotation

@@ -1,8 +1,6 @@
 <?php
 namespace PartKeepr\SetupBundle\Controller;
 
-use PartKeepr\SetupBundle\Visitor\ConfigVisitor;
-use PartKeepr\SetupBundle\Visitor\LegacyConfigVisitor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,6 +9,7 @@ class ExistingConfigParserController extends SetupController
 {
     /**
      * @Route("/setup/parseExistingConfig")
+     * @param Request $request
      */
     public function parseExistingConfigAction(Request $request)
     {
@@ -112,44 +111,12 @@ class ExistingConfigParserController extends SetupController
             if (array_key_exists("partkeepr.frontend.allow_password_change", $legacyConfig)) {
                 $config["partkeepr.auth.allow_password_change"] = $legacyConfig["partkeepr.frontend.allow_password_change"];
             }
+
+            if (array_key_exists("partkeepr.files.path", $legacyConfig)) {
+                $config["partkeepr.filesystem.data_directory"] = $legacyConfig["partkeepr.files.path"];
+            }
         }
 
         return $config;
     }
-
-    protected function legacyConfigParser()
-    {
-        if (file_exists($this->getLegacyConfigPath())) {
-            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
-            $traverser = new \PHPParser_NodeTraverser();
-            $traverser->addVisitor(new LegacyConfigVisitor());
-            $statements = $parser->parse(file_get_contents($this->getLegacyConfigPath()));
-            $traverser->traverse($statements);
-
-            return LegacyConfigVisitor::getConfigValues();
-        }
-
-        return array();
-    }
-
-    protected function configParser()
-    {
-        if (file_exists($this->getConfigPath(false))) {
-            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
-            $traverser = new \PHPParser_NodeTraverser();
-            $traverser->addVisitor(new ConfigVisitor());
-            $statements = $parser->parse(file_get_contents($this->getConfigPath(false)));
-            $traverser->traverse($statements);
-
-            return ConfigVisitor::getConfigValues();
-        }
-
-        return array();
-    }
-
-    protected function getLegacyConfigPath()
-    {
-        return dirname(__FILE__)."/../../../../config.php";
-    }
-
 }

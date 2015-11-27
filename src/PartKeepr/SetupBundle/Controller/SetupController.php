@@ -2,10 +2,9 @@
 namespace PartKeepr\SetupBundle\Controller;
 
 use Doctrine\DBAL\Exception\DriverException;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+use PartKeepr\SetupBundle\Visitor\ConfigVisitor;
+use PartKeepr\SetupBundle\Visitor\LegacyConfigVisitor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +42,7 @@ class SetupController extends Controller
 
     /**
      * @Route("/setup/testConnectivity")
+     * @param Request $request
      */
     public function testConnectivityAction(Request $request)
     {
@@ -55,6 +55,7 @@ class SetupController extends Controller
 
     /**
      * @Route("/setup/saveConfig")
+     * @param Request $request
      */
     public function saveConfigAction(Request $request)
     {
@@ -241,6 +242,41 @@ class SetupController extends Controller
             $filename = "parameters.php";
         }
         return dirname(__FILE__)."/../../../../app/config/".$filename;
+    }
+
+    protected function legacyConfigParser()
+    {
+        if (file_exists($this->getLegacyConfigPath())) {
+            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
+            $traverser = new \PHPParser_NodeTraverser();
+            $traverser->addVisitor(new LegacyConfigVisitor());
+            $statements = $parser->parse(file_get_contents($this->getLegacyConfigPath()));
+            $traverser->traverse($statements);
+
+            return LegacyConfigVisitor::getConfigValues();
+        }
+
+        return array();
+    }
+
+    protected function configParser()
+    {
+        if (file_exists($this->getConfigPath(false))) {
+            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
+            $traverser = new \PHPParser_NodeTraverser();
+            $traverser->addVisitor(new ConfigVisitor());
+            $statements = $parser->parse(file_get_contents($this->getConfigPath(false)));
+            $traverser->traverse($statements);
+
+            return ConfigVisitor::getConfigValues();
+        }
+
+        return array();
+    }
+
+    protected function getLegacyConfigPath()
+    {
+        return dirname(__FILE__)."/../../../../config.php";
     }
 
 }

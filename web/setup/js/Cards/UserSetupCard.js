@@ -4,8 +4,7 @@
 Ext.define('PartKeeprSetup.UserSetupCard', {
     extend: 'PartKeeprSetup.AbstractTestCard',
 
-    cardMessage: "Admin user is being created",
-    breadCrumbTitle: 'User Setup',
+    breadCrumbTitle: 'Setup (2/2)',
     rerunTestText: "Re-run setup",
     /**
      * Sets up the tests
@@ -14,6 +13,7 @@ Ext.define('PartKeeprSetup.UserSetupCard', {
     {
         this.tests.push(new PartKeeprSetup.AdminUserSetup());
         this.tests.push(new PartKeeprSetup.ConfigSetup());
+        this.tests.push(new PartKeeprSetup.FileMigrationSetup());
         this.tests.push(new PartKeeprSetup.WarmupCacheSetup());
     }
 });

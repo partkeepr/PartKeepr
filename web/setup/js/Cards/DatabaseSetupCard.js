@@ -8,7 +8,7 @@ Ext.define('PartKeeprSetup.DatabaseSetupCard', {
     extend: 'PartKeeprSetup.AbstractTestCard',
 
     cardMessage: "PartKeepr is now being set-up.",
-    breadCrumbTitle: 'Setup',
+    breadCrumbTitle: 'Setup (1/2)',
     rerunTestText: "Re-run setup",
     /**
      * Sets up the tests
