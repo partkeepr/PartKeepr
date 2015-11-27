@@ -274,19 +274,24 @@ Ext.define('PartKeepr.PartManager', {
      */
     createPartDuplicate: function (rec)
     {
-        var copy = rec.copy();
+        var data = rec.getData();
+        var associationData = rec.getAssociationData();
 
-        copy.setCategory(rec.getCategory());
-        copy.setFootprint(rec.getFootprint());
-        copy.setStorageLocation(rec.getStorageLocation());
-        copy.setPartUnit(rec.getPartUnit());
+        var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
+        newItem.set(data);
+        newItem.setAssociationData({
+            category: associationData.category,
+            partUnit: associationData.partUnit,
+            storageLocation: associationData.storageLocation,
+            footprint: associationData.footprint
+        });
 
         var j = Ext.create("PartKeepr.PartEditorWindow", {
             partMode: 'create'
         });
 
         j.editor.on("partSaved", this.onNewPartSaved, this);
-        j.editor.editItem(copy);
+        j.editor.editItem(newItem);
         j.show();
     },
     /**
@@ -363,7 +368,8 @@ Ext.define('PartKeepr.PartManager', {
         j.editor.editItem(part);
         j.show();
     },
-    onNewPartSaved: function (record) {
+    onNewPartSaved: function (record)
+    {
         this.grid.getStore().reload();
     },
     onPartSaved: function (record)
