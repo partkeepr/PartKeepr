@@ -5,6 +5,12 @@ php:
     - 7.0
     - nightly
 
+addons:
+  apt:
+    sources:
+    packages:
+    - php5-apcu
+
 script:
     - phpunit -c app/ --coverage-clover build/logs/clover.xml
 
@@ -27,8 +33,8 @@ addons:
 
 before_install:
   - echo "extension=ldap.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
-  - if [[ $TRAVIS_PHP_VERSION =~ 5.[34] ]] ; then echo 'extension="apc.so"' >> ./tests/travis/php.ini; fi;
-  - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then pecl config-set preferred_state beta; printf "yes\n" | pecl install apcu; fi;
+  - echo "extension=apc.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - if [[ $TRAVIS_PHP_VERSION =~ 7.[01] ]] ; then pecl config-set preferred_state beta; printf "yes\n" | pecl install apcu; fi;
 
 before_script:
   - cp app/config/parameters.php.dist app/config/parameters.php
