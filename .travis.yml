@@ -27,6 +27,8 @@ addons:
 
 before_install:
   - echo "extension=ldap.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - pear config-set preferred_state beta
+  - yes '' | pecl install apcu
 
 before_script:
   - cp app/config/parameters.php.dist app/config/parameters.php
