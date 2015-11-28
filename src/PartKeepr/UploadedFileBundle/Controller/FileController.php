@@ -2,6 +2,7 @@
 namespace PartKeepr\UploadedFileBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Gaufrette\Adapter\Local;
 use Gaufrette\Exception\FileNotFound;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -61,8 +62,10 @@ abstract class FileController extends Controller
                 array("Content-Type" => $file->getMimeType())
             );
         } catch (FileNotFound $e) {
-            $this->get("logger")->addError(sprintf("File %s not found in storage %s", $file->getFilename(),
+            $this->get("logger")->addError(
+                sprintf("File %s not found in storage %s", $file->getFullFilename(),
                 $file->getType()));
+
 
             return new Response(
                 "404 File not found",
