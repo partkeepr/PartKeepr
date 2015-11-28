@@ -174,7 +174,11 @@ Ext.define('PartKeepr.PartEditor', {
                     }, {
                         xtype: 'displayfield',
                         fieldLabel: i18n("Internal ID"),
-                        name: 'id'
+                        name: '@id',
+                        renderer: function (value) {
+                            var values = value.split("/");
+                            return values[values.length-1];
+                        }
                     }
                 ]
 
