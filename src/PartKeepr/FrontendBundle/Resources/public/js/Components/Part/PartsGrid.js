@@ -298,10 +298,9 @@ Ext.define('PartKeepr.PartsGrid', {
 
         ];
     },
-    averagePriceRenderer: function ()
+    averagePriceRenderer: function (val)
     {
-        "use strict";
-        return 0;
+        return PartKeepr.getApplication().formatCurrency(val);
     },
     /**
      * Renders the storage location
