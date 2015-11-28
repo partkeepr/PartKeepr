@@ -7,6 +7,7 @@ $partKeeprRequirements = new PartKeeprRequirements();
 $iniPath = $partKeeprRequirements->getPhpIniConfigPath();
 
 $errors = array();
+$warnings = array();
 $success = true;
 
 foreach ($partKeeprRequirements->getRequirements() as $req) {
@@ -19,8 +20,18 @@ foreach ($partKeeprRequirements->getRequirements() as $req) {
     }
 }
 
+foreach ($partKeeprRequirements->getRecommendations() as $recommendation) {
+    /**
+     * @var Requirement $recommendation
+     */
+
+    if (!$recommendation->isFulfilled()) {
+        $warnings[] = "<b>".$recommendation->getTestMessage()."</b><br/>".$recommendation->getHelpHtml()."<br/>";
+    }
+}
+
 if ($success === false) {
     $errors[] = "The php.ini file used: ".get_cfg_var("cfg_file_path");
     $errors[] = '<a target="_blank" href="https://wiki.partkeepr.org/wiki/KB00004:Symfony2 Requirements">Read more…</a>';
 }
-echo json_encode(array("success" => $success, "message" => "Symfony2 Requirements", "errors" => $errors));
+echo json_encode(array("success" => $success, "message" => "Symfony2/PartKeepr Requirements", "warnings" => $warnings, "errors" => $errors));
