@@ -48,7 +48,9 @@ Ext.application({
         this.loginManager.login();
     },
     onAppMenuClick: function (item) {
-        this.openAppItem(item.target["$className"]);
+        if (typeof item.target === "function") {
+            this.openAppItem(item.target["$className"]);
+        }
     },
     openAppItem: function (target) {
         targetClass = Ext.ClassManager.get(target);
