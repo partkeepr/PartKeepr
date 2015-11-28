@@ -22,6 +22,12 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
                 name: 'errors',
                 type: 'string'
             }, {
+                name: 'warnings',
+                type: 'string'
+            },  {
+                name: 'noWarning',
+                type: 'boolean'
+            }, {
                 name: 'waiting',
                 type: 'boolean'
             }
@@ -41,7 +47,12 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
                 }
 
                 if (val) {
-                    return '<span title="OK" style="vertical-align: top;" class="web-icon accept"></span>';
+                    if (record.get("warnings").length > 0) {
+                        return '<span title="OK" style="vertical-align: top;" class="web-icon error"></span>';
+                    } else {
+                        return '<span title="OK" style="vertical-align: top;" class="web-icon accept"></span>';
+                    }
+
                 } else {
                     return '<span title="Error" style="vertical-align: top;" class="web-icon cancel"></span>';
                 }
@@ -50,18 +61,33 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
             flex: 2,
             dataIndex: 'message'
         }, {
-            flex: 0.5,
+            width: 130,
             xtype: 'widgetcolumn',
             dataIndex: 'success',
             widget: {
                 hidden: true,
                 xtype: 'button',
                 defaultBindProperty: "hidden",
-                text: "Show details",
+                text: "Show Errors",
                 handler: function (widgetColumn)
                 {
                     var record = widgetColumn.getWidgetRecord();
                     Ext.Msg.alert("Error Details", record.get("errors"));
+                }
+            }
+        },{
+            width: 130,
+            xtype: 'widgetcolumn',
+            dataIndex: 'noWarning',
+            widget: {
+                hidden: true,
+                xtype: 'button',
+                defaultBindProperty: "hidden",
+                text: "Show Warnings",
+                handler: function (widgetColumn)
+                {
+                    var record = widgetColumn.getWidgetRecord();
+                    Ext.Msg.alert("Warning Details", record.get("warnings"));
                 }
             }
         }
@@ -88,7 +114,8 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
         this.store.add({
             name: test.message,
             success: true,
-            waiting: true
+            waiting: true,
+            noWarning: true
         });
     },
     /**
@@ -105,6 +132,14 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
             rec.set("success", test.success);
             rec.set("message", test.resultMessage);
             rec.set("errors", test.errors.join("<br/>"));
+
+            if (test.warnings.length > 0) {
+                rec.set("warnings", test.warnings.join("<br/>"));
+                rec.set("noWarning", false);
+            } else {
+                rec.set("noWarning", true);
+            }
+
             rec.set("waiting", false);
             rec.commit();
         }

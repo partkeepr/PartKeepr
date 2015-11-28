@@ -34,17 +34,13 @@ Ext.define('PartKeeprSetup.AbstractTest', {
 
     message: "",
     errors: [],
+    warnings: [],
 
     /**
      * Defines if a test should be skipped. No output will be generated.
      * @var {Boolean}
      */
     skip: false,
-
-    /**
-     * Defines any warnings for the test.
-     */
-    warnings: null,
 
     /**
      * Defines additional parameters which are to be sent with the request. The format is an object,
@@ -142,6 +138,10 @@ Ext.define('PartKeeprSetup.AbstractTest', {
             this.success = false;
         } else {
             this.success = true;
+        }
+
+        if (obj.warnings !== undefined && Ext.isArray(obj.warnings)) {
+            this.warnings = obj.warnings;
         }
 
         this.resultMessage = obj.message;
