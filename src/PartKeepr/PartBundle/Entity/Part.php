@@ -804,7 +804,12 @@ class Part extends BaseEntity
             $sum += $stockLevel->getStockLevel();
         }
 
-        $this->setAveragePrice($price / $sum);
+        if ($sum > 0) {
+            $this->setAveragePrice($price / $sum);
+        } else {
+            $this->setAveragePrice(0);
+        }
+        
         $this->setStockLevel($sum);
 
         if ($sum < $this->getMinStockLevel()) {
