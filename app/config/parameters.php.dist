@@ -83,13 +83,6 @@ $container->setParameter('fr3d_ldap.user.attribute.name', null);
 $container->setParameter('fr3d_ldap.user.attribute.email', null);
 
 /**
- * !!!!!!!!!!!!!!!!!!!!!!!!Note: All parameters below will be overwritten on setup! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- *
- * The recommended way is to copy the config_custom.yml.dist to config_custom.yml, and put your custom parameters in the
- * parameters_custom.php file.
- */
-
-/**
  * Specifies if the frontend should perform an auto-login
  */
 $container->setParameter('partkeepr.frontend.auto_login.enabled', false);
