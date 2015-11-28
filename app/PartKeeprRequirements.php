@@ -30,10 +30,17 @@ class PartKeeprRequirements extends SymfonyRequirements
         $this->checkWritable(realpath(dirname(__FILE__)."/../app/"));
         $this->checkWritable(realpath(dirname(__FILE__)."/../web/"));
 
-        $this->addRequirement(
+        $this->addRecommendation(
             function_exists("apc_fetch"),
             sprintf('PHP APCu cache not found'),
-            sprintf('Install the PHP APCu cache')
+            sprintf('For best performance install the PHP APCu cache')
+        );
+
+        $this->addPhpIniRecommendation("max_execution_time",
+            ini_get("max_execution_time") > 30,
+            true,
+            sprintf('Maximum Execution Time might be too low'),
+            sprintf('Your maximum execution time is set to %d seconds, which might be too low for low-end systems. If you encounter problems, please increase the value.', ini_get("max_execution_time"))
         );
 
         $this->addRequirement(
