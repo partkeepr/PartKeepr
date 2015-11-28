@@ -139,6 +139,7 @@ class Part extends BaseEntity
      * The average price for the part. Note that this is a cached value.
      *
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=false)
+     * @Groups({"default"})
      * @var float
      */
     private $averagePrice = 0;
@@ -636,15 +637,21 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the average price for this unit
-     *
-     * @todo Is this actually used?
-     *
+     * Sets the average price for this part
      * @param float $price The price to set
      */
     public function setAveragePrice($price)
     {
         $this->averagePrice = $price;
+    }
+
+    /**
+     * Returns the acrage price
+     *
+     * @return float
+     */
+    public function getAveragePrice () {
+        return $this->averagePrice;
     }
 
     /**
@@ -788,15 +795,16 @@ class Part extends BaseEntity
         $price = 0;
 
         foreach ($this->getStockLevels() as $stockLevel) {
-            $price += $stockLevel->getPrice();
 
             if ($stockLevel->getStockLevel() < 0) {
                 $this->setRemovals(true);
+            } else {
+                $price += $stockLevel->getPrice() * $stockLevel->getStockLevel();
             }
             $sum += $stockLevel->getStockLevel();
         }
 
-        $this->setAveragePrice($price);
+        $this->setAveragePrice($price / $sum);
         $this->setStockLevel($sum);
 
         if ($sum < $this->getMinStockLevel()) {
