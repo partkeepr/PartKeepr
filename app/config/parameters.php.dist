@@ -1,5 +1,13 @@
 <?php
 
+/***********************************************************************************************************************
+ * This is an example file for all PartKeepr-related configuration options.
+ *
+ * PartKeepr sets all relevant Symfony2 configurations via this file. If you require more flexibility for your setup,
+ * create an app/config/config_custom.yml file which will be parsed if it exists.
+ *
+ **********************************************************************************************************************/
+
 /**
  * Specifies the database driver. Available options are listed on this page:
  * http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#driver
@@ -111,3 +119,21 @@ $container->setParameter('partkeepr.frontend.motd', "This is a MOTD");
  * If set to false, no quota is used. Set it to a numeric value to set a quota.
  */
 $container->setParameter('partkeepr.filesystem.quota', false);
+
+/**
+ * Specifies the dunglas cache. Defaults to false.
+ * You can use the APCu cache by specifying "api.mapping.cache.apc" here.
+ *
+ * Further reading: https://api-platform.com/doc/1.0/api-bundle/performances
+ */
+$container->setParameter('cache.dunglas', false);
+
+/**
+ * Specifies the doctrine cache. Defaults to "array", but can be "apc".
+ *
+ * Further reading: http://symfony.com/doc/current/bundles/DoctrineBundle/configuration.html#caching-drivers
+ *
+ * For complex caching scenarios, you are advised to use a custom configuration file as described at the top of this
+ * file.
+ */
+$container->setParameter('cache.doctrine', 'array');
