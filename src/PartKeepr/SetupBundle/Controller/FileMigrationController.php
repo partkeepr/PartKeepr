@@ -65,8 +65,10 @@ class FileMigrationController extends SetupController
             $legacyMovePath = $legacyFilePath."/".$legacyFileDirectory."/";
             $newMovePath = $legacyFilePath."/files/".$legacyFileDirectory."/";
 
-            $this->moveFiles($legacyMovePath, $newMovePath);
-            $response["message"] = "Old image directories moved";
+            if (is_dir($legacyMovePath)) {
+                $this->moveFiles($legacyMovePath, $newMovePath);
+                $response["message"] = "Old image directories moved";
+            }
         }
 
         $legacyImageDirectories = array("footprint", "iclogo", "part", "storagelocation");
@@ -75,8 +77,10 @@ class FileMigrationController extends SetupController
             $legacyMovePath = $legacyImagePath."/".$legacyImageDirectory."/";
             $newMovePath = $legacyFilePath."/images/".$legacyImageDirectory."/";
 
-            $this->moveFiles($legacyMovePath, $newMovePath);
-            $response["message"] = "Old image directories moved";
+            if (is_dir($legacyMovePath)) {
+                $this->moveFiles($legacyMovePath, $newMovePath);
+                $response["message"] = "Old image directories moved";
+            }
         }
 
         return new JsonResponse($response);
