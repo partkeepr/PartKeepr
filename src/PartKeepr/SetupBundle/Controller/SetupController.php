@@ -160,6 +160,7 @@ class SetupController extends Controller
     {
         $data = json_decode($request->getContent(), true);
 
+        // Parameter defaults to ensure they exist
         $parameters = array(
             "database_driver" => null,
             "database_host" => null,
@@ -205,8 +206,15 @@ class SetupController extends Controller
             "partkeepr.cronjob.check" => true,
             "partkeepr.filesystem.quota" => false,
             "partkeepr.auth.max_users" => "unlimited",
-            "partkeepr.category.path_separator" => " ➤ "
+            "partkeepr.category.path_separator" => " ➤ ",
+            "cache.dunglas" => false,
+            "cache.doctrine" => "array"
         );
+
+        if (function_exists("apc_fetch")) {
+            $parameters["cache.dunglas"] = "api.mapping.cache.apc";
+            $parameters["cache.doctrine"] = "apc";
+        }
 
         $this->applyIf($parameters, $data["values"]);
 

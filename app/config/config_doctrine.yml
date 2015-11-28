@@ -18,6 +18,9 @@ doctrine:
         auto_generate_proxy_classes: %kernel.debug%
         connection: ~
         auto_mapping: true
+        metadata_cache_driver: %cache.doctrine%
+        query_cache_driver: %cache.doctrine%
+        result_cache_driver: %cache.doctrine%
         mappings:
           gedmo_tree:
             type: annotation
