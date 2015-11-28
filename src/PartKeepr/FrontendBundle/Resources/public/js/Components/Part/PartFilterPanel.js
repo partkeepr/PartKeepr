@@ -35,6 +35,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
     stockFilter: null,
     partsWithoutPrice: null,
     distributorOrderNumberFilter: null,
+    manufacturerPartNumberFilter: null,
     createDateField: null,
     createDateFilterSelect: null,
     createDateFilter: null,
@@ -91,6 +92,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 this.distributorOrderNumberFilter,
                 this.distributorFilter,
                 this.manufacturerFilter,
+                this.manufacturerPartNumberFilter,
                 this.footprintFilter,
                 this.statusFilter,
                 this.conditionFilter,
@@ -161,6 +163,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.categoryFilter.setValue({category: 'all'});
         this.stockFilter.setValue({stock: 'any'});
         this.distributorOrderNumberFilter.setValue("");
+        this.manufacturerPartNumberFilter.setValue("");
 
         this.createDateFilterSelect.setValue("");
         this.createDateField.setValue("");
@@ -277,6 +280,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.distributorOrderNumberFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Order Number"),
+            anchor: '100%'
+        });
+
+        this.manufacturerPartNumberFilter = Ext.create("Ext.form.field.Text", {
+            fieldLabel: i18n("Manufacturer Part Number"),
             anchor: '100%'
         });
 
@@ -531,6 +539,14 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 property: 'distributors.orderNumber',
                 operator: "LIKE",
                 value: "%" + this.distributorOrderNumberFilter.getValue() + "%"
+            }));
+        }
+
+        if (this.manufacturerPartNumberFilter.getValue() !== "") {
+            filters.push(Ext.create("Ext.util.Filter", {
+                property: 'manufacturers.partNumber',
+                operator: "LIKE",
+                value: "%" + this.manufacturerPartNumberFilter.getValue() + "%"
             }));
         }
 
