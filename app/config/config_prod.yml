@@ -15,11 +15,11 @@ monolog:
     handlers:
         main:
             type:         fingers_crossed
-            action_level: error
+            action_level: warning
             handler:      nested
         nested:
             type:  stream
-            path:  %kernel.logs_dir%/%database_name%.log
-            level: debug
+            path:  %kernel.logs_dir%/partkeepr.log
+            level: warning
         console:
             type:  console
