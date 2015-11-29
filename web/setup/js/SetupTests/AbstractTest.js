@@ -36,6 +36,8 @@ Ext.define('PartKeeprSetup.AbstractTest', {
     errors: [],
     warnings: [],
 
+    method: 'POST',
+
     /**
      * Defines if a test should be skipped. No output will be generated.
      * @var {Boolean}
@@ -88,6 +90,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
             url: url,
             success: this.onSuccess,
             failure: this.onFailure,
+            method: this.method,
             scope: this,
             params: Ext.encode(this.params),
             timeout: 120000

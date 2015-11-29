@@ -5,6 +5,7 @@ Ext.define('PartKeeprSetup.WebserverRewriteTest', {
     extend: 'PartKeeprSetup.AbstractTest',
     url: 'webserver-test',
     name: "PHP",
+    method: 'GET',
     message: "Testing webserver rewrite capability",
     onFailure: function (response) {
         this.success = false;
