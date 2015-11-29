@@ -1,11 +1,11 @@
 /**
- * Tests if the web server can handle pathInfo
+ * Tests if the web server can handle rewrites
  */
-Ext.define('PartKeeprSetup.WebserverTest', {
+Ext.define('PartKeeprSetup.WebserverRewriteTest', {
     extend: 'PartKeeprSetup.AbstractTest',
-    action: 'webserverTest',
+    url: 'webserver-test',
     name: "PHP",
-    message: "Testing webserver settings",
+    message: "Testing webserver rewrite capability",
     onFailure: function (response) {
         this.success = false;
         this.resultMessage = "Web Server misconfiguration";

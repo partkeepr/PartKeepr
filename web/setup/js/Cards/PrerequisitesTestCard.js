@@ -15,6 +15,7 @@ Ext.define('PartKeeprSetup.PrerequisitesTestCard', {
         this.tests.push(new PartKeeprSetup.PHPPrerequisitesTest());
         this.tests.push(new PartKeeprSetup.PHPSettingsTest());
         this.tests.push(new PartKeeprSetup.WebserverTest());
+        this.tests.push(new PartKeeprSetup.WebserverRewriteTest());
         this.tests.push(new PartKeeprSetup.GenerateAuthKey());
     }
 });
