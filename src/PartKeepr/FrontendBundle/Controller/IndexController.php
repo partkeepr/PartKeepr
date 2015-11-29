@@ -17,6 +17,13 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
+        if ($this->getParameter("partkeepr.maintenance") !== false) {
+            $renderParams["maintenanceTitle"] = $this->getParameter("partkeepr.maintenance.title");
+            $renderParams["maintenanceMessage"] = $this->getParameter("partkeepr.maintenance.message");
+
+            return $this->render("@PartKeeprFrontend/maintenance.html.twig", $renderParams);
+        }
+
         $aParameters = array();
         $aParameters["doctrine_orm_version"] = ORMVersion::VERSION;
         $aParameters["doctrine_dbal_version"] = DBALVersion::VERSION;

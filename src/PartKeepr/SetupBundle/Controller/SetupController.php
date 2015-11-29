@@ -207,6 +207,9 @@ class SetupController extends Controller
             "partkeepr.filesystem.quota" => false,
             "partkeepr.auth.max_users" => "unlimited",
             "partkeepr.category.path_separator" => " ➤ ",
+            "partkeepr.maintance" => false,
+            "partkeepr.maintance.title" => "",
+            "partkeepr.maintance.message" => "",
             "cache.dunglas" => false,
             "cache.doctrine" => "array"
         );

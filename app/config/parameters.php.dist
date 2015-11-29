@@ -130,3 +130,20 @@ $container->setParameter('cache.dunglas', false);
  * file.
  */
 $container->setParameter('cache.doctrine', 'array');
+
+/**
+ * Defines if a maintenance page should be displayed.
+ */
+$container->setParameter('partkeepr.maintance', false);
+
+/**
+ * Defines if a maintenance page should be displayed. Set to false to prevent a maintenance page being
+ * displayed, or to a string which should occur on the maintenance page.
+ */
+$container->setParameter('partkeepr.maintance.title', '');
+
+/**
+ * Defines if a maintenance page should be displayed. Set to false to prevent a maintenance page being
+ * displayed, or to a string which should occur on the maintenance page.
+ */
+$container->setParameter('partkeepr.maintance.message', '');
