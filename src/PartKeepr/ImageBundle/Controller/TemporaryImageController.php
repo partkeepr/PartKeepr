@@ -20,7 +20,7 @@ class TemporaryImageController extends ImageController
     /**
      * Handles a temporary image upload
      *
-     * @RequestParam(name="url",description="An URL where the image is located")
+     * @RequestParam(name="url",description="An URL where the image is located",strict=false)
      * ApiDoc(section="image",output="PartKeepr\ImageBundle\Response\TemporaryImageUploadResponse")
      * @View()
      *

@@ -2,14 +2,14 @@
 namespace PartKeepr\ImageBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Imagine\Exception\InvalidArgumentException;
+use Gaufrette\Exception\FileNotFound;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PartKeepr\ImageBundle\Entity\CachedImage;
 use PartKeepr\ImageBundle\Entity\Image as PartKeeprImage;
-use PartKeepr\ImageBundle\Response\ImageNotFoundResponse;
+use PartKeepr\ImageBundle\Response\ImageResponse;
 use PartKeepr\UploadedFileBundle\Controller\FileController;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,15 +22,15 @@ abstract class ImageController extends FileController
      * @ApiDoc(
      *  description="Returns a scaled and cached image. Note that the binary data is directly returned.",
      *  parameters={
-     *      {"name"="width", "dataType"="integer", "required"=true, "description"="The width in pixels"},
-     *      {"name"="height", "dataType"="integer", "required"=true, "description"="The height in pixels"}
+     *      {"name"="maxWidth", "dataType"="integer", "required"=false, "description"="The width in pixels"},
+     *      {"name"="maxHeight", "dataType"="integer", "required"=false, "description"="The height in pixels"}
      *  }
      * )
      *
      * @param Request $request
      * @param         $id
      *
-     * @return ImageNotFoundResponse|Response
+     * @return ImageResponse|Response
      */
     public function getImageAction(Request $request, $id)
     {
@@ -47,23 +47,28 @@ abstract class ImageController extends FileController
         $width = $request->get("maxWidth");
         $height = $request->get("maxHeight");
 
-        if ($width == 0) {
+        if ($width === null) {
             $width = 200;
         }
 
-        if ($height == 0) {
+        if ($height === null) {
             $height = 200;
         }
 
         if ($image === null) {
-            return new ImageNotFoundResponse($width, $height);
+            return new ImageResponse($width, $height, 404, "404 not found");
         }
 
         try {
             $file = $this->fitWithin($image, $width, $height);
-        } catch (InvalidArgumentException $e) {
+        } catch (FileNotFound $e) {
             $this->get('logger')->error($e->getMessage());
-            return new ImageNotFoundResponse($width, $height);
+
+            return new ImageResponse($width, $height, 404, "404 not found");
+        } catch (\Exception $e) {
+            $this->get('logger')->error($e->getMessage());
+
+            return new ImageResponse($width, $height, 500, "500 Server Error");
         }
 
         return new Response(file_get_contents($file), 200, array("Content-Type" => "image/png"));
@@ -96,10 +101,10 @@ abstract class ImageController extends FileController
     /**
      * Scales the image to fit within the given size.
      *
-     * @param UploadedFile   $image   The image to scale
-     * @param int            $width   The width
-     * @param int            $height  The height
-     * @param boolean        $padding If true, pad the output image to the given size (transparent background).
+     * @param UploadedFile $image   The image to scale
+     * @param int          $width   The width
+     * @param int          $height  The height
+     * @param boolean      $padding If true, pad the output image to the given size (transparent background).
      *
      * @return string The path to the scaled file
      */
@@ -121,7 +126,7 @@ abstract class ImageController extends FileController
 
         $imagine = new Imagine();
 
-        $localCacheFile = $this->getImageCacheDirectory() . $image->getFullFilename();
+        $localCacheFile = $this->getImageCacheDirectory().$image->getFullFilename();
         $storage = $this->get("partkeepr_uploadedfile_service")->getStorage($image);
 
         file_put_contents($localCacheFile, $storage->read($image->getFullFilename()));
@@ -139,10 +144,10 @@ abstract class ImageController extends FileController
     /**
      * Returns the path to an image which has been cached in a particular width, height and mode.
      *
-     * @param UploadedFile   $image  The image
-     * @param integer        $width  The width
-     * @param integer        $height The height
-     * @param string         $mode   The mode
+     * @param UploadedFile $image  The image
+     * @param integer      $width  The width
+     * @param integer      $height The height
+     * @param string       $mode   The mode
      *
      * @return string
      */

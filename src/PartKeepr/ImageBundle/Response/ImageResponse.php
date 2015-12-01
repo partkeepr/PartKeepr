@@ -1,19 +1,22 @@
 <?php
 namespace PartKeepr\ImageBundle\Response;
 
+
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Symfony\Component\HttpFoundation\Response;
 
-class ImageNotFoundResponse extends Response
+class ImageResponse extends Response
 {
     /**
      * Constructs a new ImageNotFoundResponse
-     * @param mixed|string $maxWidth
-     * @param int          $maxHeight
+     * @param int   $maxWidth
+     * @param int   $maxHeight
+     * @param int   $code
+     * @param string $message
      */
-    public function __construct ($maxWidth, $maxHeight) {
+    public function __construct ($maxWidth, $maxHeight, $code, $message) {
         if ($maxWidth == 0) {
             $maxWidth = 300;
         }
@@ -35,7 +38,7 @@ class ImageNotFoundResponse extends Response
 
         $font = $imagine->font($path, 24, $black);
 
-        $image->draw()->text("404 Not Found", $font, new Point(0, 0));
+        $image->draw()->text($message, $font, new Point(0, 0));
 
         $box = $image->getSize();
         $box = $box->widen($maxWidth);
@@ -46,6 +49,6 @@ class ImageNotFoundResponse extends Response
 
         $image->resize($box);
 
-        return parent::__construct($image->get("png"), 404, array("Content-Type" => "image/png"));
+        return parent::__construct($image->get("png"), $code, array("Content-Type" => "image/png"));
     }
 }
