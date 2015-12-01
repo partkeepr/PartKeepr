@@ -134,16 +134,16 @@ $container->setParameter('cache.doctrine', 'array');
 /**
  * Defines if a maintenance page should be displayed.
  */
-$container->setParameter('partkeepr.maintance', false);
+$container->setParameter('partkeepr.maintenance', false);
 
 /**
  * Defines if a maintenance page should be displayed. Set to false to prevent a maintenance page being
  * displayed, or to a string which should occur on the maintenance page.
  */
-$container->setParameter('partkeepr.maintance.title', '');
+$container->setParameter('partkeepr.maintenance.title', '');
 
 /**
  * Defines if a maintenance page should be displayed. Set to false to prevent a maintenance page being
  * displayed, or to a string which should occur on the maintenance page.
  */
-$container->setParameter('partkeepr.maintance.message', '');
+$container->setParameter('partkeepr.maintenance.message', '');
