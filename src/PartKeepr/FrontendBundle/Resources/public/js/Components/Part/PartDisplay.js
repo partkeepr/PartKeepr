@@ -9,7 +9,7 @@ Ext.define('PartKeepr.PartDisplay', {
     overflowY: 'auto',
 
     fieldConfigs: {
-        categoryName: {
+        "category.name": {
             displayName: i18n("Category Name")
         },
         stockLevel: {
@@ -18,10 +18,10 @@ Ext.define('PartKeepr.PartDisplay', {
         minStockLevel: {
             displayName: i18n("Minimum Stock Level")
         },
-        footprintName: {
+        "footprint.name": {
             displayName: i18n("Footprint")
         },
-        storageLocationName: {
+        "storageLocation.name": {
             displayName: i18n("Storage Location")
         },
         comment: {
@@ -30,12 +30,6 @@ Ext.define('PartKeepr.PartDisplay', {
         createDate: {
             displayName: i18n("Create Date"),
             type: 'date',
-            renderer: function (v)
-            {
-                "use strict";
-                var format = Ext.getDateFormat();
-                return Ext.Date.format(v, format);
-            }
         },
         status: {
             displayName: i18n("Status")
@@ -47,11 +41,18 @@ Ext.define('PartKeepr.PartDisplay', {
             displayName: i18n("Needs Review"),
             type: 'boolean'
         },
-        projects: {
-            displayName: i18n("Projects")
+        projectNames: {
+            displayName: i18n("Used in Projects")
+        },
+        "@id": {
+            displayName: i18n("Internal ID"),
+            renderer: function (value)
+            {
+                var values = value.split("/");
+                return values[values.length - 1];
+            }
         }
-    }
-    ,
+    },
 
     /**
      * Initializes the component and adds a template as well as the add/remove stock and edit part buttons.
@@ -167,17 +168,20 @@ Ext.define('PartKeepr.PartDisplay', {
     {
         this.record = r;
 
-        var values = {};
+        var values = {}, value;
 
         var recordData = this.record.getData();
 
-        for (var i in recordData) {
-            if (this.fieldConfigs[i]) {
-                if (typeof recordData[i] === "string") {
-                    values[i] = htmlentities(recordData[i]); // phpjs
+        for (var i in this.fieldConfigs) {
+            value = this.record.get(i);
+            if (value !== undefined) {
+                if (typeof(value === "string")) {
+                    values[i] = htmlentities(value); // phpjs
                 } else {
-                    values[i] = recordData[i];
+                    values[i] = value;
                 }
+            } else {
+                values[i] = i18n("none");
             }
         }
 

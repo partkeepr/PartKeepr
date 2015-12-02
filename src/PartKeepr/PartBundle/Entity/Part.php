@@ -3,6 +3,7 @@ namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\PartBundle\Exceptions\CategoryNotAssignedException;
@@ -12,7 +13,6 @@ use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -638,6 +638,7 @@ class Part extends BaseEntity
 
     /**
      * Sets the average price for this part
+     *
      * @param float $price The price to set
      */
     public function setAveragePrice($price)
@@ -650,7 +651,8 @@ class Part extends BaseEntity
      *
      * @return float
      */
-    public function getAveragePrice () {
+    public function getAveragePrice()
+    {
         return $this->averagePrice;
     }
 
@@ -789,6 +791,22 @@ class Part extends BaseEntity
         return $this->projectParts;
     }
 
+    /**
+     * Returns the project names this part is used in
+     * @Groups({"default"})
+     *
+     * @return array
+     */
+    public function getProjectNames()
+    {
+        $projectNames = [];
+        foreach ($this->projectParts as $projectPart) {
+            $projectNames[] = $projectPart->getProject()->getName();
+        }
+
+        return array_unique($projectNames);
+    }
+
     public function recomputeStockLevels()
     {
         $sum = 0;
@@ -809,7 +827,7 @@ class Part extends BaseEntity
         } else {
             $this->setAveragePrice(0);
         }
-        
+
         $this->setStockLevel($sum);
 
         if ($sum < $this->getMinStockLevel()) {
