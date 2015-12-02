@@ -88,6 +88,10 @@ class CacheWarmupSetupController extends SetupController
 
             $application->run($input, $output);
 
+            if (function_exists("apc_clear_cache")) {
+                apc_clear_cache();
+            }
+
         } catch (\Exception $e) {
             $response["success"] = false;
             $response["message"] = "Cache warm up error";
