@@ -84,6 +84,7 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
 
         me.setValue('');
+        this.filter.setValue('');
 
         if (me.hasSearch) {
 
