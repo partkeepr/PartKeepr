@@ -87,7 +87,7 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
             ]
         });
 
-        //this.authenticationMethodRadioGroup.on("change", this.onAuthenticationMethodChanged, this);
+        this.authenticationMethodRadioGroup.on("change", this.onAuthenticationMethodChanged, this);
 
         this.userInputForm = Ext.create("Ext.Panel", {
             bodyStyle: 'background:none;padding-bottom: 10px;',
@@ -123,8 +123,6 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
     },
     onAuthenticationMethodChanged: function () {
         var values = this.authenticationMethodRadioGroup.getValue();
-
-        console.log(values);
         PartKeeprSetup.getApplication().getSetupConfig().values.authentication_provider = values.authentication_provider;
     },
     onUserModeChanged: function ()
