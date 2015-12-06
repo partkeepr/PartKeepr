@@ -44,7 +44,8 @@ class PartKeeprRequirements extends SymfonyRequirements
             ini_get("max_execution_time") > 30,
             true,
             sprintf('Maximum Execution Time might be too low'),
-            sprintf('Your maximum execution time is set to %d seconds, which might be too low for low-end systems. If you encounter problems, please increase the value.', ini_get("max_execution_time"))
+            sprintf('Your maximum execution time is set to %d seconds, which might be too low for low-end systems. If you encounter problems, please increase the value.',
+                ini_get("max_execution_time"))
         );
 
         $this->addRequirement(
@@ -54,15 +55,17 @@ class PartKeeprRequirements extends SymfonyRequirements
         );
 
         if (ini_get("opcache.enable")) {
-            $this->addPhpIniRequirement("opcache.save_comments", 1,
-                false,
-                "opcache.save_comments must be on",
-                sprintf("The php.ini opcache.save_comments directive must be set to 1."));
+            if (version_compare(phpversion(), "7.0", "<")) {
+                $this->addPhpIniRequirement("opcache.save_comments", 1,
+                    false,
+                    "opcache.save_comments must be on",
+                    sprintf("The php.ini opcache.save_comments directive must be set to 1."));
 
-            $this->addPhpIniRequirement("opcache.load_comments", 1,
-                false,
-                "opcache.load_comments must be on",
-                sprintf("The php.ini opcache.load_comments directive must be set to 1."));
+                $this->addPhpIniRequirement("opcache.load_comments", 1,
+                    false,
+                    "opcache.load_comments must be on",
+                    sprintf("The php.ini opcache.load_comments directive must be set to 1."));
+            }
         }
     }
 
