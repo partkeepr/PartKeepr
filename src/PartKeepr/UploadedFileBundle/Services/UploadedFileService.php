@@ -52,7 +52,7 @@ class UploadedFileService extends ContainerAware
             throw new DiskSpaceExhaustedException();
         }
 
-        $storage->write($file->getFullFilename(), file_get_contents($filesystemFile->getPathname()));
+        $storage->write($file->getFullFilename(), file_get_contents($filesystemFile->getPathname()), true);
     }
 
     public function replaceFromData(UploadedFile $file, $data, $filename)
