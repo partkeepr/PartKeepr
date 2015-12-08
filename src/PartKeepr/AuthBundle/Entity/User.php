@@ -2,9 +2,9 @@
 namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\DoctrineReflectionBundle\Annotation\VirtualField;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -80,9 +80,18 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      * Holds the initial serialized user preferences
      * @VirtualField(type="string")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $initialUserPreferences;
+
+    /**
+     * Defines if the user is active
+     * @ORM\Column(type="boolean")
+     *
+     * @var bool
+     */
+    private $active;
 
     /**
      * Creates a new user object.
@@ -113,6 +122,26 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     public function setAdmin($bAdmin)
     {
         $this->admin = (boolean)$bAdmin;
+    }
+
+    /**
+     * Returns if the user is active
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Sets if the user is active
+     *
+     * @param boolean $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
     }
 
     /**
