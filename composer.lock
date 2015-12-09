@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "11b4358c4296199bc24a58305394ae06",
-    "content-hash": "98a8aab9ea859603e1848a2ea3dd88be",
+    "hash": "1a1adf369fdc1f185cc62c6434d4276f",
+    "content-hash": "200d726eb338339706f43eba6ed99137",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -1149,7 +1149,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/503ea5cc9c8ae38790a6899d842aaa92d55258bb",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/b386d2a17634192fc406acc4090d58eb6e903ca5",
                 "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
                 "shasum": ""
             },
@@ -1293,7 +1293,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/0b2ffdcfb46fb9d5667d0bd2392d870c43473496",
+                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/631222db0bfea0cc940a080186d390ff0c486d48",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "shasum": ""
             },
@@ -1416,17 +1416,17 @@
         },
         {
             "name": "escapestudios/wsse-authentication-bundle",
-            "version": "dev-master",
+            "version": "dev-advancedUserInterface",
             "target-dir": "Escape/WSSEAuthenticationBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle.git",
-                "reference": "9983b129fbe57947206c2e3ec0389daba5f16715"
+                "reference": "29f43b5e10e8e2b5381335841108fc2745aed3e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/felicitus/EscapeWSSEAuthenticationBundle/zipball/9983b129fbe57947206c2e3ec0389daba5f16715",
-                "reference": "9983b129fbe57947206c2e3ec0389daba5f16715",
+                "url": "https://api.github.com/repos/felicitus/EscapeWSSEAuthenticationBundle/zipball/29f43b5e10e8e2b5381335841108fc2745aed3e2",
+                "reference": "29f43b5e10e8e2b5381335841108fc2745aed3e2",
                 "shasum": ""
             },
             "require": {
@@ -1470,9 +1470,9 @@
                 "wsse"
             ],
             "support": {
-                "source": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle/tree/master"
+                "source": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle/tree/advancedUserInterface"
             },
-            "time": "2015-09-15 15:19:00"
+            "time": "2015-12-09 14:45:56"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -1674,7 +1674,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/45d6f40178216a840885b4ca6d7de9e67068568a",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e39b040e272c72f0a090c67d802e1d3b2d0b0313",
                 "reference": "d5b28c367d393f9d9fbc48c4138b2a74d51c0c83",
                 "shasum": ""
             },
@@ -2434,7 +2434,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/97707ea5f438622ce31ab836e1d78bb70bfe101d",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/19d4e37365edd5104e31662a2d3b510d92a7e78a",
                 "reference": "9af37448fa2f82856d068205afa96e9874527672",
                 "shasum": ""
             },
@@ -3224,7 +3224,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/12df2454bd3840d94892fe932eadc0138bf36922",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/6672ca37fe19a8e2a8ae52a93a7163e1b00ef7d5",
                 "reference": "7b3144572617b0555f9a443317dbc2f9cf5b524e",
                 "shasum": ""
             },
@@ -3408,7 +3408,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/21918ec9a7578f0732e386cd7fd1d57988c6f413",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/5492b9bf9e007be1dc5b8147aa0a31d7b142607b",
                 "reference": "21918ec9a7578f0732e386cd7fd1d57988c6f413",
                 "shasum": ""
             },
