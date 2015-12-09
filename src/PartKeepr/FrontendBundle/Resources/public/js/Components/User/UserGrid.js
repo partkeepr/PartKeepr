@@ -2,18 +2,31 @@ Ext.define('PartKeepr.UserGrid', {
     extend: 'PartKeepr.EditorGrid',
     alias: 'widget.UserGrid',
     columns: [
-        {header: i18n("User"), dataIndex: 'username', flex: 1},
         {
-            header: i18n("Provider"), renderer: function (value, metaData, record)
-        {
-            if (record.getProvider() !== null) {
-                return record.getProvider().get("type");
-            } else {
-                return "";
-            }
+            header: i18n("User"),
+            dataIndex: 'username',
+            flex: 1
+        }, {
+            header: i18n("Provider"),
+            renderer: function (value, metaData, record)
+            {
+                if (record.getProvider() !== null) {
+                    return record.getProvider().get("type");
+                } else {
+                    return "";
+                }
 
 
-        }, flex: 1
+            },
+            flex: 1
+        },
+        {
+            header: i18n("Active"),
+            xtype: 'booleancolumn',
+            dataIndex: 'active',
+            trueText: '<span style="vertical-align: top;" class="web-icon accept"/>',
+            falseText: '<span style="vertical-align: top;" class="web-icon cancel"/>',
+            flex: 0.5
         }
     ],
     addButtonText: i18n("Add User"),
