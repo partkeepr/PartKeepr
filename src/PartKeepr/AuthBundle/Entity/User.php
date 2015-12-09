@@ -95,6 +95,15 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     private $active;
 
     /**
+     * Defines if the user is protected. Protection defines that the user may not be changed or removed.
+     * @ORM\Column(type="boolean")
+     * @Groups({"default"})
+     *
+     * @var bool
+     */
+    private $protected;
+
+    /**
      * Creates a new user object.
      *
      * @param string       $username The username to set (optional)
@@ -113,6 +122,8 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
         }
 
         $this->setAdmin(false);
+        $this->setActive(true);
+        $this->setProtected(false);
     }
 
     /**
@@ -123,6 +134,22 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     public function setAdmin($bAdmin)
     {
         $this->admin = (boolean)$bAdmin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProtected()
+    {
+        return $this->protected;
+    }
+
+    /**
+     * @param mixed $protected
+     */
+    public function setProtected($protected)
+    {
+        $this->protected = $protected;
     }
 
     /**
@@ -261,6 +288,8 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
 
     /**
      * Sets the new password. Used for password changes
+     *
+     * @param string $password The new password
      */
     public function setNewPassword($password)
     {

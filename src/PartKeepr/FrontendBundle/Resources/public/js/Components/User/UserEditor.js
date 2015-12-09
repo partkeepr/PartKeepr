@@ -35,14 +35,35 @@ Ext.define('PartKeepr.UserEditor', {
                 fieldLabel: i18n("Active"),
                 name: "active",
                 hidden: true
+            }, {
+                value: i18n("This is a protected user, which may not be changed"),
+                xtype: 'displayfield',
+                itemId: 'protectedNotice',
+                hidden: true
             }
         ];
 
-        this.on("startEdit", this.toggleLegacyField, this, {delay: 200});
+        this.on("startEdit", this.onStartEdit, this, {delay: 200});
         this.callParent();
     },
-    toggleLegacyField: function ()
+    onStartEdit: function ()
     {
+        if (this.record.get("protected") === true) {
+            this.items.each(function (item) {
+                if (item instanceof Ext.form.field.Base && !(item instanceof Ext.form.field.Display)) {
+                    item.disable();
+                }
+            });
+            this.saveButton.disable();
+        } else {
+            this.items.each(function (item) {
+                if (item instanceof Ext.form.field.Base && !(item instanceof Ext.form.field.Display)) {
+                    item.enable();
+                }
+            });
+            this.saveButton.enable();
+        }
+
         var isBuiltInProvider = this.record.getProvider() !== null &&
             this.record.getProvider().get("type") === "Builtin" &&
             this.record.get("legacy") === false;
@@ -55,6 +76,12 @@ Ext.define('PartKeepr.UserEditor', {
 
         if (this.record.phantom) {
             this.down("#activeCheckbox").setValue(true);
+        }
+
+        if (this.record.get("protected") === true) {
+            this.down("#protectedNotice").setVisible(true);
+        } else {
+            this.down("#protectedNotice").setVisible(false);
         }
 
         if (this.record.get("legacy") === true) {

@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr\AuthBundle\Services;
 
-
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -9,7 +8,6 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\UserManipulator;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Entity\UserProvider;
-use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class UserService
@@ -48,6 +46,11 @@ class UserService
         $this->userManager = $userManager;
     }
 
+    /**
+     * Returns the PartKeeprUser based on the user token within the Symfony2 environment.
+     *
+     * @return User The proxy user
+     */
     public function getUser()
     {
         $tokenProvider = $this->tokenStorage->getToken()->getAttribute("provider");
@@ -55,7 +58,7 @@ class UserService
         $provider = $this->getProvider($tokenProvider);
         $username = $this->tokenStorage->getToken()->getUsername();
 
-        return $this->getProxyUser($username, $provider);
+        return $this->getProxyUser($username, $provider, true);
     }
 
     public function getProvider($providerClass)
@@ -84,7 +87,9 @@ class UserService
 
     /**
      * Syncronizes the data of the given user with the FOSRestBundle
+     *
      * @throws \Exception If the password was not set
+     *
      * @param $user
      */
     public function syncData(User $user)
@@ -139,7 +144,18 @@ class UserService
         return $this->getProviderByType(self::BUILTIN_PROVIDER);
     }
 
-    public function getProxyUser($username, $provider)
+    /**
+     * Returns the proxy user for a given username and provider.
+     *
+     * @param            $username
+     * @param            $provider
+     * @param bool|false $create If set to true
+     *
+     * @return mixed|User
+     * @throws NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getProxyUser($username, UserProvider $provider, $create = false)
     {
         /**
          * @var QueryBuilder $queryBuilder
@@ -160,7 +176,11 @@ class UserService
 
             return $user;
         } catch (NoResultException $e) {
-            return $this->createProxyUser($username, $provider);
+            if ($create === false) {
+                throw $e;
+            } else {
+                return $this->createProxyUser($username, $provider);
+            }
         }
 
     }
@@ -169,9 +189,31 @@ class UserService
     {
         $user = new User($username, $provider);
         $user->setLegacy(false);
+        $user->setProtected(false);
+        $user->setActive(true);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         return $user;
+    }
+
+    /**
+     * Protects a given user against changes.
+     * @param User $user
+     */
+    public function protect(User $user)
+    {
+        $user->setProtected(true);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Unprotects a given user against changes.
+     * @param User $user
+     */
+    public function unprotect(User $user)
+    {
+        $user->setProtected(false);
+        $this->entityManager->flush();
     }
 }
