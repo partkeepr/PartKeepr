@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr\AuthBundle\Command;
 
-use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
