@@ -110,6 +110,7 @@ class UserService
 
 
         $FOSUser->setEmail($user->getEmail());
+        $FOSUser->setEnabled($user->isActive());
     }
 
     public function getProviderByType($type)

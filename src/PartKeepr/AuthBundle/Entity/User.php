@@ -88,6 +88,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     /**
      * Defines if the user is active
      * @ORM\Column(type="boolean")
+     * @Groups({"default"})
      *
      * @var bool
      */

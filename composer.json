@@ -63,7 +63,7 @@
     "doctrine/doctrine-migrations-bundle": "dev-master",
     "stof/doctrine-extensions-bundle": "~1.1@dev",
     "friendsofsymfony/user-bundle": "~2.0@dev",
-    "escapestudios/wsse-authentication-bundle": "2.3.x-dev",
+    "escapestudios/wsse-authentication-bundle": "dev-advancedUserInterface",
     "atelierspierrot/famfamfam-silk-sprite": "^1.0",
     "reputation-vip/composer-assets-installer": "^1.0",
     "jms/translation-bundle": "dev-master",
