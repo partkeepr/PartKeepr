@@ -167,6 +167,13 @@ class UserTest extends WebTestCase
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
         $this->assertObjectHasAttribute("hydra:description", $response);
         $this->assertEquals($exception->getMessageKey(), $response->{"hydra:description"});
+
+        $client->request("DELETE", $iri);
+
+        $response = json_decode($client->getResponse()->getContent());
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertObjectHasAttribute("hydra:description", $response);
+        $this->assertEquals($exception->getMessageKey(), $response->{"hydra:description"});
     }
 
     public function testUserUnprotect()
