@@ -33,7 +33,7 @@ security:
             pattern: ^/api/users/getSalt
             security: false
         main:
-            stateless: false
+            stateless: false # Stores authentification within a cookie. This is important to allow file uploads without having to send authentification data.
             pattern: ^/api/.*
             provider: chain_provider
             fr3d_ldap_httpbasic:
