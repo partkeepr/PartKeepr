@@ -2,9 +2,11 @@
 namespace PartKeepr\AuthBundle\Tests;
 
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
 use PartKeepr\CoreBundle\Tests\WebTestCase;
 
 class UserTest extends WebTestCase
@@ -16,11 +18,16 @@ class UserTest extends WebTestCase
 
     public function setUp()
     {
-        $this->fixtures = $this->loadFixtures(
+        /**
+         * @var ORMExecutor $ormExecutor
+         */
+        $ormExecutor = $this->loadFixtures(
             array(
                 'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
-            )
-        )->getReferenceRepository();
+            ));
+
+
+        $this->fixtures = $ormExecutor->getReferenceRepository();
     }
 
     public function testCreateUser()
@@ -143,6 +150,23 @@ class UserTest extends WebTestCase
         $userService->protect($user);
 
         $this->assertTrue($user->isProtected());
+
+        $client = static::makeClient(true);
+
+        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iri = $iriConverter->getIriFromItem($user);
+
+        $data = [
+            "username" => "foo"
+            ];
+        $client->request("PUT", $iri, array(), array(), array(), json_encode($data));
+
+        $response = json_decode($client->getResponse()->getContent());
+
+        $exception = new UserProtectedException();
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertObjectHasAttribute("hydra:description", $response);
+        $this->assertEquals($exception->getMessageKey(), $response->{"hydra:description"});
     }
 
     public function testUserUnprotect()

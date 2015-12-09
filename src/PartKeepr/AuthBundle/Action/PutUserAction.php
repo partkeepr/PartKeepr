@@ -7,6 +7,7 @@ use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,6 +52,7 @@ class PutUserAction
      *
      * @throws NotFoundHttpException
      * @throws RuntimeException
+     * @throws UserProtectedException
      */
     public function __invoke(Request $request, $id)
     {
@@ -66,6 +68,10 @@ class PutUserAction
 
         $context = $resourceType->getDenormalizationContext();
         $context['object_to_populate'] = $data;
+
+        if ($data->isProtected()) {
+            throw new UserProtectedException();
+        }
 
         $data = $this->serializer->deserialize(
             $request->getContent(),
