@@ -1041,11 +1041,16 @@ services:
              -    "partkeepr.user.post"         # Controller
              -    "PartKeeprUserPost"
 
-    resource.user.item_operation.delete:
+    resource.user.item_operation.delete_custom:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.user", "DELETE" ]
+        arguments:
+            -    "@resource.user"
+            -    [ "DELETE" ]
+            -    "/users/{id}"           # Path
+            -    "partkeepr.user.delete"         # Controller
+            -    "PartKeeprUserDelete"
 
     resource.user_provider:
         parent:    "api.resource"
@@ -1072,7 +1077,7 @@ services:
             -       method:     "initCollectionOperations"
                     arguments: [ [ "@resource.user.collection_operation.get", "@resource.user.collection_operation.post_custom", "@resource.user.collection_operation.get_providers" ] ]
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.user.item_operation.get", "@resource.user.item_operation.get", "@resource.user.item_operation.put_custom", "@resource.user.item_operation.delete", "@resource.user.item_operation.get_preferences", "@resource.user.item_operation.set_preference", "@resource.user.item_operation.delete_preference", "@resource.user.item_operation.login", "@resource.user.item_operation.change_password" ] ]
+                    arguments: [ [ "@resource.user.item_operation.get", "@resource.user.item_operation.get", "@resource.user.item_operation.put_custom", "@resource.user.item_operation.delete_custom", "@resource.user.item_operation.get_preferences", "@resource.user.item_operation.set_preference", "@resource.user.item_operation.delete_preference", "@resource.user.item_operation.login", "@resource.user.item_operation.change_password" ] ]
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default" ] }
