@@ -2,22 +2,34 @@
 namespace PartKeepr\AuthBundle\Tests;
 
 
+use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\CoreBundle\Tests\WebTestCase;
 
 class UserTest extends WebTestCase
 {
+    /**
+     * @var ProxyReferenceRepository
+     */
+    protected $fixtures;
+
     public function setUp()
     {
-        $this->loadFixtures(array());
+        $this->fixtures = $this->loadFixtures(
+            array(
+                'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
+            )
+        )->getReferenceRepository();
     }
 
-    public function testCreateUser () {
+    public function testCreateUser()
+    {
         $client = static::makeClient(true);
 
         $data = array(
             "username" => "foobartest",
-            "newPassword" => "1234"
+            "newPassword" => "1234",
         );
 
         $client->request("POST", "/api/users", array(), array(), array(), json_encode($data));
@@ -31,7 +43,8 @@ class UserTest extends WebTestCase
         $this->assertFalse($response->{"legacy"});
     }
 
-    public function testChangeUserPassword () {
+    public function testChangeUserPassword()
+    {
         $builtinProvider = $this->getContainer()->get("partkeepr.userservice")->getBuiltinProvider();
 
         $user = new User("bernd");
@@ -63,7 +76,8 @@ class UserTest extends WebTestCase
         $this->assertFalse($response->{"legacy"});
     }
 
-    public function testSelfChangeUserPassword () {
+    public function testSelfChangeUserPassword()
+    {
         $builtinProvider = $this->getContainer()->get("partkeepr.userservice")->getBuiltinProvider();
 
         $user = new User("bernd2");
@@ -76,7 +90,7 @@ class UserTest extends WebTestCase
 
         $client = static::makeClient(false, array(
                 'PHP_AUTH_USER' => "bernd2",
-                'PHP_AUTH_PW'   => "admin"
+                'PHP_AUTH_PW' => "admin",
             )
         );
 
@@ -85,7 +99,7 @@ class UserTest extends WebTestCase
 
         $parameters = array(
             "oldpassword" => "admin",
-            "newpassword" => "foobar"
+            "newpassword" => "foobar",
         );
 
         $client->request("PUT", $iri, $parameters);
@@ -99,7 +113,7 @@ class UserTest extends WebTestCase
 
         $client = static::makeClient(false, array(
                 'PHP_AUTH_USER' => "bernd2",
-                'PHP_AUTH_PW'   => "foobar"
+                'PHP_AUTH_PW' => "foobar",
             )
         );
 
@@ -110,5 +124,43 @@ class UserTest extends WebTestCase
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
         $this->assertObjectHasAttribute("@type", $response);
         $this->assertEquals("Error", $response->{"@type"});
+    }
+
+    public function testUserProtect()
+    {
+        /**
+         * @var FOSUser $fosUser
+         */
+        $fosUser = $this->fixtures->getReference("user.admin");
+        $userService = $this->getContainer()->get("partkeepr.userservice");
+
+
+        $user = $userService->getProxyUser($fosUser->getUsername(), $userService->getBuiltinProvider(), true);
+
+        /**
+         * @var User $user
+         */
+        $userService->protect($user);
+
+        $this->assertTrue($user->isProtected());
+    }
+
+    public function testUserUnprotect()
+    {
+        /**
+         * @var FOSUser $fosUser
+         */
+        $fosUser = $this->fixtures->getReference("user.admin");
+        $userService = $this->getContainer()->get("partkeepr.userservice");
+
+
+        $user = $userService->getProxyUser($fosUser->getUsername(), $userService->getBuiltinProvider(), true);
+
+        /**
+         * @var User $user
+         */
+        $userService->unprotect($user);
+
+        $this->assertFalse($user->isProtected());
     }
 }

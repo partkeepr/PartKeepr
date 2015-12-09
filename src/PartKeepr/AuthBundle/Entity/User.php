@@ -137,15 +137,15 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
-    public function getProtected()
+    public function isProtected()
     {
         return $this->protected;
     }
 
     /**
-     * @param mixed $protected
+     * @param boolean $protected
      */
     public function setProtected($protected)
     {

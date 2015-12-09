@@ -22,8 +22,17 @@ class UnprotectUserCommand extends ContainerAwareCommand
     {
         $userService = $this->getContainer()->get("partkeepr.userservice");
 
-        $user = $userService->getProxyUser($input->getArgument("username"), $userService->getBuiltinProvider());
-        $userService->unprotect($user);
+        $fosUser = $this->getContainer()->get("fos_user.user_manager")->findUserByUsername(
+            $input->getArgument("username")
+        );
+
+        if ($fosUser === null) {
+            $output->writeln(sprintf("User %s not found", $input->getArgument("username")));
+        } else {
+            $user = $userService->getProxyUser($fosUser->getUsername(), $userService->getBuiltinProvider(), true);
+            $userService->unprotect($user);
+            $output->writeln(sprintf("User %s unprotected against changes", $input->getArgument("username")));
+        }
     }
 }
 
