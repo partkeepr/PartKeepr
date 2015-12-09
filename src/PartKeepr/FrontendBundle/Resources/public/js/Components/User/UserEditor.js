@@ -26,7 +26,8 @@ Ext.define('PartKeepr.UserEditor', {
                 xtype: 'displayfield',
                 itemId: 'legacyField',
                 fieldLabel: i18n("Legacy User"),
-                value: i18n('This user is a legacy user. You must provide a password in order to change the user. Please read <a href="https://wiki.partkeepr.org/wiki/Authentication" target="_blank">the PartKeepr Wiki regarding Authentication</a> for further information.'),
+                value: i18n(
+                    'This user is a legacy user. You must provide a password in order to change the user. Please read <a href="https://wiki.partkeepr.org/wiki/Authentication" target="_blank">the PartKeepr Wiki regarding Authentication</a> for further information.'),
                 hidden: true
             }, {
                 xtype: 'checkbox',
@@ -42,10 +43,18 @@ Ext.define('PartKeepr.UserEditor', {
     },
     toggleLegacyField: function ()
     {
-        if (this.record.getProvider().get("type") === "Builtin" && this.record.get("legacy") === false) {
+        var isBuiltInProvider = this.record.getProvider() !== null &&
+            this.record.getProvider().get("type") === "Builtin" &&
+            this.record.get("legacy") === false;
+
+        if (isBuiltInProvider || this.record.phantom === true) {
             this.down("#activeCheckbox").setVisible(true);
         } else {
             this.down("#activeCheckbox").setVisible(false);
+        }
+
+        if (this.record.phantom) {
+            this.down("#activeCheckbox").setValue(true);
         }
 
         if (this.record.get("legacy") === true) {
