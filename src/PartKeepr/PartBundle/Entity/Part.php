@@ -231,6 +231,7 @@ class Part extends BaseEntity
         $this->parameters = new ArrayCollection();
         $this->attachments = new ArrayCollection();
         $this->stockLevels = new ArrayCollection();
+        $this->projectParts = new ArrayCollection();
         $this->setCreateDate(new \DateTime());
         $this->setNeedsReview(false);
     }

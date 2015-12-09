@@ -147,3 +147,14 @@ $container->setParameter('partkeepr.maintenance.title', '');
  * displayed, or to a string which should occur on the maintenance page.
  */
 $container->setParameter('partkeepr.maintenance.message', '');
+
+/**
+ * Defines a limit for the maximum amount of users allowed. Valid values are false (no limit) or an integer number
+ */
+$container->setParameter('partkeepr.users.limit', false);
+
+/**
+ * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number
+ */
+$container->setParameter('partkeepr.parts.limit', false);
+

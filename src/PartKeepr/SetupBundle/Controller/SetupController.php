@@ -43,6 +43,7 @@ class SetupController extends Controller
     /**
      * @Route("/setup/testConnectivity")
      * @param Request $request
+     * @return Response
      */
     public function testConnectivityAction(Request $request)
     {
@@ -56,6 +57,7 @@ class SetupController extends Controller
     /**
      * @Route("/setup/saveConfig")
      * @param Request $request
+     * @return JsonResponse
      */
     public function saveConfigAction(Request $request)
     {
@@ -211,7 +213,9 @@ class SetupController extends Controller
             "partkeepr.maintenance.title" => "",
             "partkeepr.maintenance.message" => "",
             "cache.dunglas" => false,
-            "cache.doctrine" => "array"
+            "cache.doctrine" => "array",
+            "partkeepr.parts.limit" => false,
+            "partkeepr.users.limit" => false
         );
 
         if (function_exists("apc_fetch")) {
@@ -222,7 +226,7 @@ class SetupController extends Controller
         $this->applyIf($parameters, $data["values"]);
 
         $parameters = array_merge($parameters, $data["values"]);
-        array_walk_recursive($parameters, function (&$item, $key) { $item = var_export($item, true); });
+        array_walk_recursive($parameters, function (&$item) { $item = var_export($item, true); });
 
         ksort($parameters);
 

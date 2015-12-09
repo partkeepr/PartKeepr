@@ -15,6 +15,7 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="fos_user.util.user_manipulator"/>
             <argument type="service" id="fos_user.user_manager"/>
+            <argument type="string">%partkeepr.users.limit%</argument>
         </service>
         <service id="partkeepr.user_preference_service" class="PartKeepr\AuthBundle\Services\UserPreferenceService">
             <argument type="service" id="doctrine.orm.entity_manager"/>

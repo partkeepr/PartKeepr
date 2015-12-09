@@ -7,6 +7,7 @@ use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\AuthBundle\Exceptions\UserLimitReachedException;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -50,6 +51,7 @@ class PostUserAction
      *
      * @throws NotFoundHttpException
      * @throws RuntimeException
+     * @throws UserLimitReachedException
      */
     public function __invoke(Request $request)
     {
@@ -58,6 +60,9 @@ class PostUserAction
          */
         list($resourceType, $format) = $this->extractAttributes($request);
 
+        if ($this->userService->checkUserLimit() === true) {
+            throw new UserLimitReachedException();
+        }
         /**
          * @var User $data
          */

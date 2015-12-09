@@ -7,6 +7,7 @@ use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\AuthBundle\Exceptions\UserLimitReachedException;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,6 +54,7 @@ class PutUserAction
      * @throws NotFoundHttpException
      * @throws RuntimeException
      * @throws UserProtectedException
+     * @throws UserLimitReachedException
      */
     public function __invoke(Request $request, $id)
     {
@@ -79,6 +81,12 @@ class PutUserAction
             $format,
             $context
         );
+
+        if ($data->isActive()) {
+            if ($this->userService->checkUserLimit()) {
+                throw new UserLimitReachedException();
+            }
+        }
 
         $this->userService->syncData($data);
         $data->setNewPassword("");

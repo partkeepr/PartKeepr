@@ -6,6 +6,7 @@ use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
+use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -21,9 +22,15 @@ class DeleteUserAction
      */
     private $dataProvider;
 
-    public function __construct(DataProviderInterface $dataProvider)
+    /**
+     * @var UserService
+     */
+    private $userService;
+
+    public function __construct(DataProviderInterface $dataProvider, UserService $userService)
     {
         $this->dataProvider = $dataProvider;
+        $this->userService = $userService;
     }
 
     /**
@@ -50,6 +57,9 @@ class DeleteUserAction
         if ($item->isProtected()) {
             throw new UserProtectedException();
         }
+
+        $this->userService->deleteFOSUser($item);
+
 
         return $item;
     }

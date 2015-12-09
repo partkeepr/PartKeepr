@@ -4,10 +4,10 @@
 namespace PartKeepr\PartBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\IriConverterInterface;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Exception\RuntimeException;
-use PartKeepr\CategoryBundle\Services\CategoryService;
+use PartKeepr\PartBundle\Exceptions\PartLimitExceededException;
+use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -16,28 +16,21 @@ class PostAction
     use ActionUtilTrait;
 
     /**
-     * @var CategoryService
-     */
-    private $categoryService;
-
-    /**
-     * @var IriConverterInterface
-     */
-    private $iriConverter;
-
-    /**
      * @var SerializerInterface
      */
     private $serializer;
 
+    /**
+     * @var PartService
+     */
+    private $partService;
+
     public function __construct(
-        CategoryService $categoryService,
-        IriConverterInterface $iriConverter,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        PartService $partService
     ) {
-        $this->categoryService = $categoryService;
-        $this->iriConverter = $iriConverter;
         $this->serializer = $serializer;
+        $this->partService = $partService;
     }
 
     /**
@@ -48,40 +41,21 @@ class PostAction
      * @return mixed
      *
      * @throws RuntimeException
+     * @throws PartLimitExceededException
      */
     public function __invoke(Request $request)
     {
         /**
          * @var $resourceType ResourceInterface
          */
+        if ($this->partService->checkPartLimit()) {
+            throw new PartLimitExceededException();
+        }
+
         list($resourceType, $format) = $this->extractAttributes($request);
 
-        $data = $request->getContent();
-
-        $decodedData = json_decode($data);
-
-        $localTreeExists = false;
-        if (property_exists($decodedData,"category") && $decodedData->category == "@local-tree-root") {
-            $localTreeExists = true;
-
-        }
-
-        if (property_exists($decodedData,"category") && is_object($decodedData->category) && property_exists($decodedData->category, "@id") && $decodedData->category->{"@id"} == "@local-tree-root") {
-            $localTreeExists = true;
-        }
-
-        if ($localTreeExists === true) {
-            $root = $this->categoryService->getRootNode();
-            $iri = $this->iriConverter->getIriFromItem($root);
-
-            $decodedData->category = $iri;
-            $data = json_encode($decodedData);
-        }
-
-
-
         return $this->serializer->deserialize(
-            $data,
+            $request->getContent(),
             $resourceType->getEntityClass(),
             $format,
             $resourceType->getDenormalizationContext()

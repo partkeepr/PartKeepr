@@ -32,18 +32,27 @@ class UserService
      */
     private $userManager;
 
+    /**
+     * The maximum number of users allowed
+     *
+     * @var int|bool
+     */
+    private $userLimit;
+
     const BUILTIN_PROVIDER = "Builtin";
 
     public function __construct(
         TokenStorage $tokenStorage,
         EntityManager $entityManager,
         UserManipulator $userManipulator,
-        UserManagerInterface $userManager
+        UserManagerInterface $userManager,
+        $userLimit = false
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
         $this->userManipulator = $userManipulator;
         $this->userManager = $userManager;
+        $this->userLimit = $userLimit;
     }
 
     /**
@@ -116,6 +125,22 @@ class UserService
 
         $FOSUser->setEmail($user->getEmail());
         $FOSUser->setEnabled($user->isActive());
+    }
+
+    /**
+     * Deletes an user from the FOSUser system
+     * @param User $user
+     */
+    public function deleteFOSUser (User $user) {
+         if ($user->getProvider()->getType() !== self::BUILTIN_PROVIDER) {
+            return;
+        }
+
+        $FOSUser = $this->userManager->findUserByUsername($user->getUsername());
+
+        if ($FOSUser !== null) {
+            $this->userManager->deleteUser($FOSUser);
+        }
     }
 
     public function getProviderByType($type)
@@ -199,6 +224,7 @@ class UserService
 
     /**
      * Protects a given user against changes.
+     *
      * @param User $user
      */
     public function protect(User $user)
@@ -209,11 +235,39 @@ class UserService
 
     /**
      * Unprotects a given user against changes.
+     *
      * @param User $user
      */
     public function unprotect(User $user)
     {
         $user->setProtected(false);
         $this->entityManager->flush();
+    }
+
+    /**
+     * Returns the number of users present in the system
+     * @return mixed
+     */
+    public function getUserCount()
+    {
+        $dql = "SELECT COUNT(u) FROM PartKeepr\\AuthBundle\\Entity\\FOSUser u WHERE u.enabled = 1";
+        $query = $this->entityManager->createQuery($dql);
+
+        return $query->getSingleScalarResult();
+    }
+
+    /**
+     * Checks if the amount of users is exceeded
+     * @return bool
+     */
+    public function checkUserLimit()
+    {
+        if ($this->userLimit !== false) {
+            if ($this->getUserCount() >= $this->userLimit) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

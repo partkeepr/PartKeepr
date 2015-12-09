@@ -266,6 +266,17 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.part.collection_operation.custom_post:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments:
+            -   "@resource.part"
+            -   [ "POST" ]
+            -   "/parts"
+            -   "partkeepr.part.post"
+            -   "PartPost"
+
     resource.part.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -324,6 +335,8 @@ services:
         calls:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.part.item_operation.get", "@resource.part.item_operation.put", "@resource.part.item_operation.delete", "@resource.part.item_operation.add_stock", "@resource.part.item_operation.remove_stock", "@resource.part.item_operation.set_stock" ] ]
+            -       method:     "initCollectionOperations"
+                    arguments: [ [ "@resource.part.collection_operation.get", "@resource.part.collection_operation.custom_post" ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
