@@ -37,7 +37,7 @@
   "require": {
     "php": ">=5.6.0",
     "fr3d/ldap-bundle": "dev-master",
-    "symfony/symfony": "~2.7",
+    "symfony/symfony": "~2.7.7",
     "incenteev/composer-parameter-handler": "~2.0",
     "doctrine/orm": "~2.5",
     "doctrine/doctrine-bundle": "~1.2",
