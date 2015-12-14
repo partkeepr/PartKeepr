@@ -72,7 +72,9 @@
     "symfony/property-access": "^2.7",
     "sonata-project/exporter": "^1.4",
     "knplabs/knp-gaufrette-bundle": "^0.2.0",
-    "snc/redis-bundle": "^1.1"
+    "phpseclib/phpseclib": "~1.0",
+    "snc/redis-bundle": "^1.1",
+    "predis/predis": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "4.8.*",
