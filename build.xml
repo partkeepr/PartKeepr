@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="PartKeepr" default="regenerate-environment">
     <property name="env" value="prod"/>
+    <property name="console" value="app/console"/>
     <property file="build.properties"/>
 
     <target name="regenerate-environment">
-        <exec command="php app/console cache:clear --env=${env}"/>
-        <exec command="php app/console cache:warmup --env=${env}"/>
-        <exec command="php app/console nfq:sprite:generate --env=${env}"/>
-        <exec command="php app/console assets:install --env=${env}"/>
-        <exec command="php app/console generate:extjs:entities --env=${env}"/>
-        <exec command="php app/console assetic:dump --env=${env}"/>
+        <exec command="php ${console} cache:clear --env=${env}"/>
+        <exec command="php ${console} cache:warmup --env=${env}"/>
+        <exec command="php ${console} nfq:sprite:generate --env=${env}"/>
+        <exec command="php ${console} assets:install --env=${env}"/>
+        <exec command="php ${console} generate:extjs:entities --env=${env}"/>
+        <exec command="php ${console} assetic:dump --env=${env}"/>
     </target>
 
     <target name="release">
