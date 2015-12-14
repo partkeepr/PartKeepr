@@ -31,7 +31,7 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
             new \FR3D\LdapBundle\FR3DLdapBundle(),
-            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
         );
 
         // Developer bundles
@@ -64,7 +64,8 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\ExportBundle\PartKeeprExportBundle();
         $bundles[] = new PartKeepr\StatisticBundle\PartKeeprStatisticBundle();
 
-        return $bundles;
+
+        return array_merge($bundles, $this->getCustomBundles());
     }
 
     /**
@@ -82,6 +83,15 @@ class AppKernel extends Kernel
                 $loader->load($customConfig);
             }
         }
+    }
+
+    /**
+     * Returns any custom bundles for a custom setup. Override this
+     * method in a custom AppKernel.
+     * @return array
+     */
+    public function getCustomBundles () {
+        return [];
     }
 
     /**
