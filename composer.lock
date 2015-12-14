@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "32b1ff7387c811393192dac6ffa72901",
-    "content-hash": "3f41181aeb4a7ec6ffbf4a48de743873",
+    "hash": "ceee91c7dfff869bb9850a698f9c3f17",
+    "content-hash": "e3e72cb8cfa61d3447cd01bdd2efc647",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -1149,7 +1149,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/b386d2a17634192fc406acc4090d58eb6e903ca5",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f7d138d7b2b741a82247d18ceab236acf91a4d4e",
                 "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
                 "shasum": ""
             },
@@ -1293,7 +1293,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/631222db0bfea0cc940a080186d390ff0c486d48",
+                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/6dff846ccf22ad7768f6bab78faf0eb8f4cda26b",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "shasum": ""
             },
@@ -1979,7 +1979,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/c2b4c6def557a8bcaae1df0745b57e5daac103ac",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/c97c57151ce0283d89a1bea8dbdb15b222052135",
                 "reference": "8eff56746b73762dfe06414faf0fb609bfe51754",
                 "shasum": ""
             },
@@ -2434,7 +2434,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/19d4e37365edd5104e31662a2d3b510d92a7e78a",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/93b189b16ad0d410eb9b300eae7ab0ad7d8edede",
                 "reference": "9af37448fa2f82856d068205afa96e9874527672",
                 "shasum": ""
             },
@@ -3150,6 +3150,66 @@
             ],
             "description": "A security checker for your composer.lock",
             "time": "2015-08-11 12:11:25"
+        },
+        {
+            "name": "snc/redis-bundle",
+            "version": "1.1.9",
+            "target-dir": "Snc/RedisBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/snc/SncRedisBundle.git",
+                "reference": "77f65e3d86a5e21b9bf3710d7e021595df2b6417"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/snc/SncRedisBundle/zipball/77f65e3d86a5e21b9bf3710d7e021595df2b6417",
+                "reference": "77f65e3d86a5e21b9bf3710d7e021595df2b6417",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": ">=2.1,<3.0",
+                "symfony/yaml": ">=2.1,<3.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "1.*",
+                "phpunit/phpunit": "4.*",
+                "predis/predis": "~1.0",
+                "symfony/console": ">=2.1,<3.0"
+            },
+            "suggest": {
+                "monolog/monolog": "If you want to use the monolog redis handler.",
+                "predis/predis": "If you want to use predis.",
+                "symfony/console": "If you want to use commands to interact with the redis database"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Snc\\RedisBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Henrik Westphal",
+                    "email": "henrik.westphal@gmail.com"
+                },
+                {
+                    "name": "Community contributors",
+                    "homepage": "https://github.com/snc/SncRedisBundle/contributors"
+                }
+            ],
+            "description": "A Redis bundle for Symfony2",
+            "homepage": "https://github.com/snc/SncRedisBundle",
+            "keywords": [
+                "nosql",
+                "redis",
+                "symfony"
+            ],
+            "time": "2015-06-30 09:08:50"
         },
         {
             "name": "sonata-project/exporter",
