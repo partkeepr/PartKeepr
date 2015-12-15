@@ -3,7 +3,7 @@ namespace PartKeepr\CronLoggerBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\CronLoggerBundle\Entity\CronLogger;
-use Symfony\Component\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpKernel\Kernel;
@@ -91,7 +91,8 @@ class CronLoggerService
     /**
      * Clears all cron logger entries
      */
-    public function clear () {
+    public function clear()
+    {
         $dql = "DELETE FROM PartKeepr\CronLoggerBundle\Entity\CronLogger c";
         $query = $this->entityManager->createQuery($dql);
 
@@ -100,9 +101,11 @@ class CronLoggerService
 
     /**
      * Runs all crons
+     *
      * @throws \Exception
      */
-    public function runCrons () {
+    public function runCrons()
+    {
         $this->entityManager->beginTransaction();
         $repository = $this->entityManager->getRepository("PartKeeprCronLoggerBundle:CronLogger");
 
