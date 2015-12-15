@@ -71,7 +71,6 @@ Ext.define('PartKeepr.ProjectReportView', {
                     header: i18n("Part Name"),
                     renderer: function (val, p, rec)
                     {
-                        console.log(rec);
                         return rec.getPart().get("name");
                     },
                     flex: 1
@@ -339,7 +338,7 @@ Ext.define('PartKeepr.ProjectReportView', {
             }
 
             if (cheapest !== null) {
-                activeRecord.set("distributor_name", cheapest.get("distributor_name"));
+                activeRecord.setDistributor(cheapest.getDistributor());
                 activeRecord.set("distributor_order_number", cheapest.get("orderNumber"));
                 activeRecord.set("price", cheapest.get("price"));
                 activeRecord.set("sum_order", activeRecord.get("missing") * activeRecord.get("price"));
