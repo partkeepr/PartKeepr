@@ -319,12 +319,15 @@ Ext.define('PartKeepr.ProjectReportView', {
         var activeRecord;
 
         for (var i = 0; i < partCount; i++) {
+            cheapest = null;
+            cheapestPrice = null;     
+
             activeRecord = this.reportResult.store.getAt(i);
 
             for (var j = 0; j < activeRecord.getPart().distributors().count(); j++) {
                 var activeDistributor = activeRecord.getPart().distributors().getAt(j);
 
-                if (cheapestPrice === null && parseFloat(activeDistributor.get("price")) !== 0) {
+                if (cheapestPrice == null && parseFloat(activeDistributor.get("price")) !== 0) {
                     cheapestPrice = activeDistributor.get("price");
                     cheapest = activeDistributor;
                 } else {
