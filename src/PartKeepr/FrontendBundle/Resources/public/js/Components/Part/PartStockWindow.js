@@ -121,7 +121,7 @@ Ext.define('PartKeepr.PartStockWindow', {
             {
                 text: i18n("Close"),
                 handler: this.onCloseClick,
-                icon: "web-icon cancel",
+                iconCls: "web-icon cancel",
                 scope: this
             }, this.okButton
         ];
