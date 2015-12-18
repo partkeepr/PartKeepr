@@ -11,6 +11,7 @@ Ext.define('PartKeepr.PartManager', {
     id: 'partkeepr-partmanager',
     border: false,
     padding: 5,
+    dragAndDrop: true,
 
     /**
      * Defines if the border layout should be compact or regular.
@@ -70,9 +71,24 @@ Ext.define('PartKeepr.PartManager', {
         this.detail = Ext.create("PartKeepr.PartDisplay", {title: i18n("Part Details")});
         this.detail.on("editPart", this.onEditPart, this);
 
+        var gridConfig = {
+            title: i18n("Parts List"), region: 'center', layout: 'fit', store: this.getStore()
+        };
+
+        if (this.dragAndDrop) {
+            gridConfig.viewConfig = {
+                plugins: {
+                    ddGroup: 'PartTree',
+                    ptype: 'gridviewdragdrop',
+                    enableDrop: false
+                }
+            };
+
+            gridConfig.enableDragDrop = true;
+        }
+
         // Create the grid
-        this.grid = Ext.create("PartKeepr.PartsGrid",
-            {title: i18n("Parts List"), region: 'center', layout: 'fit', store: this.getStore()});
+        this.grid = Ext.create("PartKeepr.PartsGrid", gridConfig);
         this.grid.on("editPart", this.onEditPart, this);
 
         // Create the grid listeners

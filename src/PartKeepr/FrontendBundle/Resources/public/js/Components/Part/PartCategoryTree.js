@@ -2,7 +2,13 @@ Ext.define("PartKeepr.PartCategoryTree", {
     extend: 'PartKeepr.CategoryEditorTree',
     alias: 'widget.PartCategoryTree',
 
-    ddGroup: 'PartTree',
+    viewConfig: {
+        plugins: {
+            ptype: 'treeviewdragdrop',
+            sortOnDrop: true,
+            ddGroup: 'PartTree'
+        }
+    },
     categoryModel: 'PartKeepr.PartBundle.Entity.PartCategory',
     rootVisible: false,
 
@@ -22,5 +28,19 @@ Ext.define("PartKeepr.PartCategoryTree", {
             disabled: true
         });
         this.toolbar.add(['->', this.syncButton]);
+    },
+    listeners: {
+        "foreignModelDrop": function (record, target)
+        {
+            record.setCategory(target);
+            record.save({
+                success: function ()
+                {
+                    if (record.store && record.store.reload) {
+                        record.store.reload();
+                    }
+                }
+            });
+        }
     }
 });
