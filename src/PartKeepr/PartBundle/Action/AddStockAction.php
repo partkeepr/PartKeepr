@@ -65,7 +65,9 @@ class AddStockAction
         $quantity = $request->request->get("quantity");
         $user = $this->userService->getUser();
 
-        $stock = new StockEntry(intval($quantity), $user);
+        $stock = new StockEntry();
+        $stock->setUser($user);
+        $stock->setStockLevel(intval($quantity));
 
         if ($request->request->has("price") && $request->request->get("price") !== null) {
             $stock->setPrice(floatval($request->request->get("price")));

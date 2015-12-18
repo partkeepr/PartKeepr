@@ -69,7 +69,9 @@ class SetStockAction
 
         if ($correctionQuantity != 0) {
 
-            $stock = new StockEntry($correctionQuantity, $user);
+            $stock = new StockEntry();
+            $stock->setStockLevel($correctionQuantity);
+            $stock->setUser($user);
 
             if ($request->request->has("comment") && $request->request->get("comment") !== null) {
                 $stock->setComment($request->request->get("comment"));

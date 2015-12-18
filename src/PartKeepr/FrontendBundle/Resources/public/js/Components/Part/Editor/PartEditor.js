@@ -226,6 +226,7 @@ Ext.define('PartKeepr.PartEditor', {
                 fieldLabel: i18n("Stock User"),
                 name: 'initialStockLevelUser',
                 columnWidth: 0.5,
+                returnObject: true
             });
 
             basicEditorFields.push({
@@ -355,6 +356,22 @@ Ext.define('PartKeepr.PartEditor', {
         // Force footprint to be "null" when the checkbox is checked.
         if (this.footprintNone.getValue() === true) {
             this.record.setFootprint(null);
+        }
+
+        var initialStockLevel = this.initialStockLevel.getValue();
+
+        if (this.record.phantom && initialStockLevel > 0) {
+            var stockLevel = Ext.create("PartKeepr.StockBundle.Entity.StockEntry");
+            stockLevel.set("stockLevel", initialStockLevel);
+            stockLevel.setUser(this.initialStockLevelUser.getValue());
+
+            if (this.initialStockLevelPricePerItem.getValue() === true) {
+                stockLevel.set("price", this.initialStockLevelPrice.getValue() / initialStockLevel);
+            } else {
+                stockLevel.set("price", this.initialStockLevelPrice.getValue());
+            }
+
+            this.record.stockLevels().add(stockLevel);
         }
 
     },

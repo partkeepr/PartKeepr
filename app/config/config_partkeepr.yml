@@ -343,7 +343,7 @@ services:
                     arguments: [ { groups: [ "default" ] } ]
             -       method:    "initDenormalizationContext"
                     arguments:
-                        - { groups: [ "default" ] }
+                        - { groups: [ "default", "stock" ] }
 
     resource.part_attachment.item_operation.custom_get_image:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"

@@ -22,7 +22,7 @@ class StockEntry extends BaseEntity
     private $stockLevel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="stockLevels")
+     * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="stockEntries")
      * @Groups({"default"})
      */
     private $part;
@@ -34,6 +34,7 @@ class StockEntry extends BaseEntity
     private $user;
 
     /**
+     * The price per item.
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
      * @Groups({"default"})
      * @var float
@@ -68,14 +69,9 @@ class StockEntry extends BaseEntity
      * Creates a new stock entry. A stock entry tracks how many parts
      * were the stockLevel is the amount of items added/removed,
      * by which user and how much the user paid for it (for adding parts only!)
-     *
-     * @param int                               $stockLevel The stock level. Positive value means added parts, negative values means removed parts.
-     * @param \PartKeepr\AuthBundle\Entity\User $user       The user who removed/added parts
      */
-    public function __construct($stockLevel, User $user = null)
+    public function __construct()
     {
-        $this->setStockLevel($stockLevel);
-        $this->setUser($user);
         $this->setDateTime(new \DateTime());
         $this->setCorrection(false);
     }

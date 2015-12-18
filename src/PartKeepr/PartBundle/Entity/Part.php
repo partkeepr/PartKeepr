@@ -147,6 +147,7 @@ class Part extends BaseEntity
     /**
      * The stock level history
      * @ORM\OneToMany(targetEntity="PartKeepr\StockBundle\Entity\StockEntry",mappedBy="part",cascade={"persist", "remove"})
+     * @Groups({"stock"})
      *
      * @var ArrayCollection
      */
@@ -707,11 +708,21 @@ class Part extends BaseEntity
      *
      * @param StockEntry $stockEntry
      */
-    public function addStockEntry(StockEntry $stockEntry)
+    public function addStockLevel(StockEntry $stockEntry)
     {
-        $this->executeSaveListener();
         $stockEntry->setPart($this);
-        $this->getStockLevels()->add($stockEntry);
+        $this->stockLevels->add($stockEntry);
+    }
+
+    /**
+     * Removes a stock entry from this part
+     *
+     * @param StockEntry $stockEntry
+     */
+    public function removeStockLevel($stockEntry)
+    {
+        $stockEntry->setPart(null);
+        $this->stockLevels->removeElement($stockEntry);
     }
 
     /**

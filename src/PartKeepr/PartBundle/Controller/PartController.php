@@ -47,7 +47,9 @@ class PartController extends FOSRestController
              */
             $part = $iriConverter->getItemFromIri($removal->part);
 
-            $stock = new StockEntry(0 - intval($removal->amount), $user);
+            $stock = new StockEntry();
+            $stock->setStockLevel(0 - intval($removal->amount));
+            $stock->setUser($user);
 
             if (!property_exists($removal, "comment")) {
                 $stock->setComment($removal->comment);
