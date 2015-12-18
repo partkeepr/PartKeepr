@@ -55,7 +55,7 @@ class PartController extends FOSRestController
                 $stock->setComment($removal->comment);
             }
 
-            $part->addStockEntry($stock);
+            $part->addStockLevel($stock);
         }
 
         $this->get("doctrine.orm.entity_manager")->flush();

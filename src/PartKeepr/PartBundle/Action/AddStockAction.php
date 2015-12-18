@@ -77,7 +77,7 @@ class AddStockAction
             $stock->setComment($request->request->get("comment"));
         }
 
-        $part->addStockEntry($stock);
+        $part->addStockLevel($stock);
         $this->registry->getManager()->persist($stock);
         $this->registry->getManager()->flush();
 
