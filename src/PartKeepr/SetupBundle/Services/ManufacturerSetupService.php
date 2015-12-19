@@ -39,6 +39,11 @@ class ManufacturerSetupService
         $this->kernel = $kernel;
     }
 
+    /**
+     * Imports manufacturers.
+     *
+     * @return array An array with the keys "skipped" and "imported" which contain the number of manufacturers skipped and imported
+     */
     public function importManufacturers()
     {
         $path = $this->kernel->locateResource(self::MANUFACTURER_PATH.self::MANUFACTURER_DATA);
@@ -89,6 +94,7 @@ class ManufacturerSetupService
      * Checks if the specified manufacturer exists
      *
      * @param string $name The manufacturer name
+     *
      * @return true if the manufacturer exists, false otherwise
      */
     protected function manufacturerExists($name)
