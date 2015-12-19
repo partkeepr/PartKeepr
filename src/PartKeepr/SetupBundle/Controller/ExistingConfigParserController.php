@@ -10,6 +10,7 @@ class ExistingConfigParserController extends SetupController
     /**
      * @Route("/setup/parseExistingConfig")
      * @param Request $request
+     * @return JsonResponse
      */
     public function parseExistingConfigAction(Request $request)
     {
@@ -29,7 +30,7 @@ class ExistingConfigParserController extends SetupController
         );
 
         try {
-            $response["config"] = $this->configParser();
+            $response["config"] = $this->get("partkeepr.setup.config_service")->configParser();
 
             if (count($response["config"]) == 0) {
                 $response["config"] = $this->getLegacyConfig();
@@ -55,7 +56,7 @@ class ExistingConfigParserController extends SetupController
     {
         $config = array();
 
-        $legacyConfig = $this->legacyConfigParser();
+        $legacyConfig = $this->get("partkeepr.setup.config_service")->legacyConfigParser();
 
         if (count($legacyConfig) > 0) {
             if (array_key_exists("partkeepr.database.driver", $legacyConfig)) {

@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="partkeepr.setup.footprint_service" class="PartKeepr\SetupBundle\Services\FootprintSetupService">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="partkeepr.footprint.category_service"/>
+            <argument type="service" id="partkeepr_uploadedfile_service"/>
+            <argument type="service" id="kernel"/>
+        </service>
+
+        <service id="partkeepr.setup.manufacturer_service"
+                 class="PartKeepr\SetupBundle\Services\ManufacturerSetupService">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="partkeepr_uploadedfile_service"/>
+            <argument type="service" id="kernel"/>
+        </service>
+
+        <service id="partkeepr.setup.part_unit_service" class="PartKeepr\SetupBundle\Services\PartUnitSetupService">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+        </service>
+
+        <service id="partkeepr.setup.si_prefix_service" class="PartKeepr\SetupBundle\Services\SiPrefixSetupService">
+            <argument id="doctrine.orm.default_entity_manager" type="service"/>
+            <argument id="kernel" type="service"/>
+        </service>
+
+        <service id="partkeepr.setup.unit_service" class="PartKeepr\SetupBundle\Services\UnitSetupService">
+            <argument id="doctrine.orm.default_entity_manager" type="service"/>
+            <argument id="kernel" type="service"/>
+        </service>
+
+    </services>
+</container>

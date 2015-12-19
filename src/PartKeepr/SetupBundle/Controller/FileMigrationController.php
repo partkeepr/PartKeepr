@@ -13,6 +13,7 @@ class FileMigrationController extends SetupController
      * @Route("/setup/migrateFiles")
      *
      * @param Request $request
+     * @return Response
      */
     public function migrateFilesAction(Request $request)
     {
@@ -34,7 +35,7 @@ class FileMigrationController extends SetupController
             "message" => "No files to migrate",
         );
 
-        $legacyConfig = $this->legacyConfigParser();
+        $legacyConfig = $this->get("partkeepr.setup.config_service")->legacyConfigParser();
 
         $legacyFilePath = $this->get("kernel")->getRootDir()."/../data/";
         $legacyImagePath = $this->get("kernel")->getRootDir()."/../data/images/";

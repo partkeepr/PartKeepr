@@ -2,8 +2,7 @@
 namespace PartKeepr\SetupBundle\Controller;
 
 use Doctrine\DBAL\Exception\DriverException;
-use PartKeepr\SetupBundle\Visitor\ConfigVisitor;
-use PartKeepr\SetupBundle\Visitor\LegacyConfigVisitor;
+use PartKeepr\SetupBundle\Services\ConfigSetupService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,11 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SetupController extends Controller
 {
-    /**
-     * The authentification key length
-     */
-    const KEY_LENGTH = 32;
-
     /**
      * @Route("/setup/_int_test_connectivity")
      */
@@ -43,6 +37,7 @@ class SetupController extends Controller
     /**
      * @Route("/setup/testConnectivity")
      * @param Request $request
+     *
      * @return Response
      */
     public function testConnectivityAction(Request $request)
@@ -57,6 +52,7 @@ class SetupController extends Controller
     /**
      * @Route("/setup/saveConfig")
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function saveConfigAction(Request $request)
@@ -69,6 +65,7 @@ class SetupController extends Controller
             "errors" => [],
             "message" => "Configuration saved successful",
         );
+
         return new JsonResponse($response);
     }
 
@@ -77,10 +74,10 @@ class SetupController extends Controller
      */
     public function webserverTestAction()
     {
-        $response  = array(
+        $response = array(
             "success" => true,
             "message" => "Web Server configuration OK",
-            "errors" => array()
+            "errors" => array(),
         );
 
         return new JsonResponse($response);
@@ -91,14 +88,14 @@ class SetupController extends Controller
      */
     public function generateAuthKeyAction()
     {
-        $response  = array(
+        $response = array(
             "success" => true,
             "message" => "Auth key successfully generated",
-            "errors" => array()
+            "errors" => array(),
         );
 
         $parameters = array(
-            "authkey" => $this->generateSecret()
+            "authkey" => $this->get("partkeepr.setup.config_service")->generateSecret()
         );
 
         $contents = $this->container->get('templating')->render('PartKeeprSetupBundle::authkey.php.twig', $parameters);
@@ -133,23 +130,14 @@ class SetupController extends Controller
         }
     }
 
-    protected function generateSecret () {
-        $secret = "";
-        for ($i = 0; $i < self::KEY_LENGTH; $i++) {
-            $secret .= chr(65 + rand(0, 16));
-        }
-        return  $secret;
-
-
-    }
-
-    protected function verifyAuthKey ($givenKey) {
+    protected function verifyAuthKey($givenKey)
+    {
         $findText = "Your auth key is: ";
 
         $data = file_get_contents($this->getAuthKeyPath());
         $position = strpos($data, $findText);
 
-        $key = substr($data, $position + strlen($findText), self::KEY_LENGTH);
+        $key = substr($data, $position + strlen($findText), ConfigSetupService::KEY_LENGTH);
 
         if ($key === $givenKey) {
             return true;
@@ -162,136 +150,17 @@ class SetupController extends Controller
     {
         $data = json_decode($request->getContent(), true);
 
-        // Parameter defaults to ensure they exist
-        $parameters = array(
-            "database_driver" => null,
-            "database_host" => null,
-            "database_port" => null,
-            "database_name" => null,
-            "database_password" => null,
+        $configService = $this->get("partkeepr.setup.config_service");
 
-            "mailer_transport" => null,
-            "mailer_host" => null,
-            "mailer_port" => null,
-            "mailer_encryption" => null,
-            "mailer_user" => null,
-            "mailer_password" => null,
-            "mailer_auth_mode" => null,
+        $config = $configService->getConfig($data["values"]);
 
-            "authentication_provider" => "PartKeepr.Auth.HTTPBasicAuthenticationProvider",
-
-            "locale" => "en",
-
-            "secret" => $this->generateSecret(),
-
-            "fr3d_ldap.driver.host" => "127.0.0.1",
-            "fr3d_ldap.driver.port" => null,
-            "fr3d_ldap.driver.username" => null,
-            "fr3d_ldap.driver.password" => null,
-            "fr3d_ldap.driver.bindRequiresDn" => false,
-            "fr3d_ldap.driver.baseDn" => "",
-            "fr3d_ldap.driver.accountFilterFormat" => null,
-            "fr3d_ldap.driver.optReferrals" => null,
-            "fr3d_ldap.driver.useSsl" => null,
-            "fr3d_ldap.driver.useStartTls" => null,
-            "fr3d_ldap.driver.accountCanonicalForm" => null,
-            "fr3d_ldap.driver.accountDomainName" => null,
-            "fr3d_ldap.driver.accountDomainNameShort" => null,
-            "fr3d_ldap.user.enabled" => false,
-            "fr3d_ldap.user.baseDn" => "dc=example,dc=com",
-            "fr3d_ldap.user.filter" => null,
-            "fr3d_ldap.user.attribute.username" => null,
-            "fr3d_ldap.user.attribute.name" => null,
-            "fr3d_ldap.user.attribute.email" => null,
-
-            "partkeepr.filesystem.data_directory" => "%kernel.root_dir%/../data/",
-            "partkeepr.cronjob.check" => true,
-            "partkeepr.filesystem.quota" => false,
-            "partkeepr.auth.max_users" => "unlimited",
-            "partkeepr.category.path_separator" => " ➤ ",
-            "partkeepr.maintenance" => false,
-            "partkeepr.maintenance.title" => "",
-            "partkeepr.maintenance.message" => "",
-            "cache.dunglas" => false,
-            "cache.doctrine" => "array",
-            "partkeepr.parts.limit" => false,
-            "partkeepr.users.limit" => false
-        );
-
-        if (function_exists("apc_fetch")) {
-            $parameters["cache.dunglas"] = "api.mapping.cache.apc";
-            $parameters["cache.doctrine"] = "apc";
-        }
-
-        $this->applyIf($parameters, $data["values"]);
-
-        $parameters = array_merge($parameters, $data["values"]);
-        array_walk_recursive($parameters, function (&$item) { $item = var_export($item, true); });
-
-        ksort($parameters);
-
-        $contents = $this->container->get('templating')->render('PartKeeprSetupBundle::parameters.php.twig', array("parameters" => $parameters));
-
-        file_put_contents($this->getConfigPath($test), $contents);
+        file_put_contents($configService->getConfigPath($test), $config);
     }
 
-    private function applyIf($target, $source)
+    private function getAuthKeyPath()
     {
-        foreach ($target as $key => $value) {
-            if (array_key_exists($key, $source)) {
-                $target[$key] = $source[$key];
-            }
-        }
-
-        return $target;
-    }
-
-    private function getAuthKeyPath () {
         return dirname(__FILE__)."/../../../../app/authkey.php";
     }
 
-    protected function getConfigPath ($test) {
-        if ($test) {
-            $filename = "parameters_setup.php";
-        } else {
-            $filename = "parameters.php";
-        }
-        return dirname(__FILE__)."/../../../../app/config/".$filename;
-    }
-
-    protected function legacyConfigParser()
-    {
-        if (file_exists($this->getLegacyConfigPath())) {
-            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
-            $traverser = new \PHPParser_NodeTraverser();
-            $traverser->addVisitor(new LegacyConfigVisitor());
-            $statements = $parser->parse(file_get_contents($this->getLegacyConfigPath()));
-            $traverser->traverse($statements);
-
-            return LegacyConfigVisitor::getConfigValues();
-        }
-
-        return array();
-    }
-
-    protected function configParser()
-    {
-        if (file_exists($this->getConfigPath(false))) {
-            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
-            $traverser = new \PHPParser_NodeTraverser();
-            $traverser->addVisitor(new ConfigVisitor());
-            $statements = $parser->parse(file_get_contents($this->getConfigPath(false)));
-            $traverser->traverse($statements);
-
-            return ConfigVisitor::getConfigValues();
-        }
-
-        return array();
-    }
-
-    protected function getLegacyConfigPath()
-    {
-        return dirname(__FILE__)."/../../../../config.php";
-    }
 
 }
