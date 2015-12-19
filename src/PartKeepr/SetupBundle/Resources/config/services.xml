@@ -28,5 +28,10 @@
             <argument id="kernel" type="service"/>
         </service>
 
+        <service id="partkeepr.setup.unit_service" class="PartKeepr\SetupBundle\Services\UnitSetupService">
+            <argument id="doctrine.orm.default_entity_manager" type="service"/>
+            <argument id="kernel" type="service"/>
+        </service>
+
     </services>
 </container>
