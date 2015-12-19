@@ -1,7 +1,6 @@
 <?php
 namespace PartKeepr\SetupBundle\Controller;
 
-use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +10,8 @@ class PartUnitSetupController extends SetupController
 {
     /**
      * @Route("/setup/createPartUnits")
+     * @param Request $request
+     * @return Response
      */
     public function createPartUnitsAction(Request $request)
     {
@@ -31,22 +32,7 @@ class PartUnitSetupController extends SetupController
         );
 
         try {
-            $entityManager = $this->get("doctrine.orm.default_entity_manager");
-
-            $dql = "SELECT COUNT(p) FROM PartKeepr\PartBundle\Entity\PartMeasurementUnit p WHERE p.default = :default";
-            $query = $entityManager->createQuery($dql);
-            $query->setParameter("default", true);
-
-            if ($query->getSingleScalarResult() == 0) {
-                $partUnit = new PartMeasurementUnit();
-                $partUnit->setName("Pieces");
-                $partUnit->setShortName("pcs");
-                $partUnit->setDefault(true);
-
-                $entityManager->persist($partUnit);
-                $entityManager->flush();
-
-            }
+            $this->get("partkeepr.setup.part_unit_service")->setupDefaultPartUnit();
         } catch (\Exception $e) {
             $response["success"] = false;
             $response["message"] = "Part unit setup error";

@@ -11,5 +11,9 @@
             <argument type="service" id="partkeepr_uploadedfile_service"/>
             <argument type="service" id="kernel"/>
         </service>
+
+        <service id="partkeepr.setup.part_unit_service" class="PartKeepr\SetupBundle\Services\PartUnitSetupService">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+        </service>
     </services>
 </container>
