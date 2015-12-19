@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="partkeepr.setup.footprint_service" class="PartKeepr\SetupBundle\Services\FootprintSetupService">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="partkeepr.footprint.category_service" />
+            <argument type="service" id="partkeepr_uploadedfile_service"/>
+            <argument type="service" id="kernel"/>
+        </service>
+    </services>
+</container>
