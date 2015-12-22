@@ -100,10 +100,6 @@ fr3d_ldap:
     user:
         baseDn: "%fr3d_ldap.user.baseDn%"
         filter: "%fr3d_ldap.user.filter%"
-        attributes: # Specify ldap attributes mapping [ldap attribute, user object method]
-           - { ldap_attr: samaccountname,  user_method: setUsername }
-           - { ldap_attr: email,  user_method: setEmail }
-
 
 services:
     serializer.normalizer.custom:

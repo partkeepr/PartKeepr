@@ -78,8 +78,8 @@ $container->setParameter('fr3d_ldap.driver.accountDomainNameShort', null);
 $container->setParameter('fr3d_ldap.user.enabled', false);
 $container->setParameter('fr3d_ldap.user.baseDn', 'dc=blabla,dc=com');
 $container->setParameter('fr3d_ldap.user.filter', null);
-$container->setParameter('fr3d_ldap.user.attribute.username', null);
-$container->setParameter('fr3d_ldap.user.attribute.email', null);
+$container->setParameter('fr3d_ldap.user.attribute.username', "samaccountname");
+$container->setParameter('fr3d_ldap.user.attribute.email', "email");
 
 /**
  * Specifies if the frontend should perform an auto-login

@@ -52,7 +52,7 @@ class ConfigSetupService
             "secret" => $this->generateSecret(),
 
             "fr3d_ldap.driver.host" => "127.0.0.1",
-            "fr3d_ldap.driver.port" => null,
+            "fr3d_ldap.driver.port" => 389,
             "fr3d_ldap.driver.username" => null,
             "fr3d_ldap.driver.password" => null,
             "fr3d_ldap.driver.bindRequiresDn" => false,
@@ -67,8 +67,8 @@ class ConfigSetupService
             "fr3d_ldap.user.enabled" => false,
             "fr3d_ldap.user.baseDn" => "dc=example,dc=com",
             "fr3d_ldap.user.filter" => null,
-            "fr3d_ldap.user.attribute.username" => null,
-            "fr3d_ldap.user.attribute.email" => null,
+            "fr3d_ldap.user.attribute.username" => "samaccountname",
+            "fr3d_ldap.user.attribute.email" => "email",
 
             "partkeepr.filesystem.data_directory" => "%kernel.root_dir%/../data/",
             "partkeepr.cronjob.check" => true,
@@ -90,6 +90,14 @@ class ConfigSetupService
         }
 
         $this->applyIf($parameters, $config);
+
+        if ($config["fr3d_ldap.user.attribute.username"] === null) {
+            $config["fr3d_ldap.user.attribute.username"] = "samaccountname";
+        }
+
+        if ($config["fr3d_ldap.user.attribute.email"] === null) {
+            $config["fr3d_ldap.user.attribute.email"] = "email";
+        }
 
         $parameters = array_merge($parameters, $config);
         array_walk_recursive($parameters, function (&$item) {
