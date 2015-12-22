@@ -68,7 +68,6 @@ class ConfigSetupService
             "fr3d_ldap.user.baseDn" => "dc=example,dc=com",
             "fr3d_ldap.user.filter" => null,
             "fr3d_ldap.user.attribute.username" => null,
-            "fr3d_ldap.user.attribute.name" => null,
             "fr3d_ldap.user.attribute.email" => null,
 
             "partkeepr.filesystem.data_directory" => "%kernel.root_dir%/../data/",

@@ -79,7 +79,6 @@ $container->setParameter('fr3d_ldap.user.enabled', false);
 $container->setParameter('fr3d_ldap.user.baseDn', 'dc=blabla,dc=com');
 $container->setParameter('fr3d_ldap.user.filter', null);
 $container->setParameter('fr3d_ldap.user.attribute.username', null);
-$container->setParameter('fr3d_ldap.user.attribute.name', null);
 $container->setParameter('fr3d_ldap.user.attribute.email', null);
 
 /**
@@ -103,9 +102,11 @@ $container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
 $container->setParameter('partkeepr.category.path_separator', ' ➤ ');
 
 /**
- * Specifies a message of the day
+ * Specifies a message of the day. Set to any string instead of false
+ * to display a MOTD. Example
+ * $container->setParameter('partkeepr.frontend.motd', "This is a MOTD");
  */
-$container->setParameter('partkeepr.frontend.motd', "This is a MOTD");
+$container->setParameter('partkeepr.frontend.motd', false);
 
 /**
  * Specifies if a quota should be used.
