@@ -175,9 +175,10 @@ Ext.define('PartKeepr.PartEditor', {
                         xtype: 'displayfield',
                         fieldLabel: i18n("Internal ID"),
                         name: '@id',
-                        renderer: function (value) {
+                        renderer: function (value)
+                        {
                             var values = value.split("/");
-                            return values[values.length-1];
+                            return values[values.length - 1];
                         }
                     }
                 ]
@@ -358,22 +359,23 @@ Ext.define('PartKeepr.PartEditor', {
             this.record.setFootprint(null);
         }
 
-        var initialStockLevel = this.initialStockLevel.getValue();
+        if (this.initialStockLevel) {
+            var initialStockLevel = this.initialStockLevel.getValue();
 
-        if (this.record.phantom && initialStockLevel > 0) {
-            var stockLevel = Ext.create("PartKeepr.StockBundle.Entity.StockEntry");
-            stockLevel.set("stockLevel", initialStockLevel);
-            stockLevel.setUser(this.initialStockLevelUser.getValue());
+            if (this.record.phantom && initialStockLevel > 0) {
+                var stockLevel = Ext.create("PartKeepr.StockBundle.Entity.StockEntry");
+                stockLevel.set("stockLevel", initialStockLevel);
+                stockLevel.setUser(this.initialStockLevelUser.getValue());
 
-            if (this.initialStockLevelPricePerItem.getValue() === true) {
-                stockLevel.set("price", this.initialStockLevelPrice.getValue() / initialStockLevel);
-            } else {
-                stockLevel.set("price", this.initialStockLevelPrice.getValue());
+                if (this.initialStockLevelPricePerItem.getValue() === true) {
+                    stockLevel.set("price", this.initialStockLevelPrice.getValue() / initialStockLevel);
+                } else {
+                    stockLevel.set("price", this.initialStockLevelPrice.getValue());
+                }
+
+                this.record.stockLevels().add(stockLevel);
             }
-
-            this.record.stockLevels().add(stockLevel);
         }
-
     },
     onEditStart: function ()
     {
