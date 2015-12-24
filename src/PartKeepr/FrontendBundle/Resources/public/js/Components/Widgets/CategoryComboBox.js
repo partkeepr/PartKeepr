@@ -5,7 +5,7 @@ Ext.define("PartKeepr.CategoryComboBox", {
 
     editable: true,
 
-   /**
+    /**
      * @cfg {Number} typeAheadDelay
      * The length of time in milliseconds to wait until the typeahead function is called
      */
@@ -36,8 +36,7 @@ Ext.define("PartKeepr.CategoryComboBox", {
         reload: {
             cls: "x-form-reload-trigger",
             weight: -1,
-            handler: function ()
-            {
+            handler: function () {
                 this.store.load();
             },
             scope: 'this'
@@ -46,8 +45,7 @@ Ext.define("PartKeepr.CategoryComboBox", {
 
     _oldValue: null,
 
-    initComponent: function ()
-    {
+    initComponent: function () {
         this.store = Ext.create("PartKeepr.data.store.PartCategoryStore");
 
         this.on("keyup", Ext.bind(this.onFieldChange, this));
@@ -56,13 +54,11 @@ Ext.define("PartKeepr.CategoryComboBox", {
         this.listenersStore = this.store.on({
             scope: this,
             // Workaround to remember the value when loading
-            beforeload: function ()
-            {
+            beforeload: function () {
                 this._oldValue = this.getValue();
             },
             // Set the old value when load is complete
-            load: function ()
-            {
+            load: function () {
                 if (this._oldValue !== null) {
                     this.setValue(this._oldValue);
                 }
@@ -71,13 +67,11 @@ Ext.define("PartKeepr.CategoryComboBox", {
 
         this.callParent();
     },
-    onBlur: function ()
-    {
+    onBlur: function () {
         this.applySelection();
         this.validate();
     },
-    onFieldChange: function (field, e)
-    {
+    onFieldChange: function () {
         var newValue = this.inputEl.getValue();
 
         if (!this.typeAheadTask) {
@@ -86,15 +80,16 @@ Ext.define("PartKeepr.CategoryComboBox", {
 
         this.typeAheadTask.delay(this.typeAheadDelay, false, false, [newValue]);
     },
-    setValue: function (value)
-    {
-        this.textValue = value.get("name");
+    setValue: function (value) {
+        if (value !== null) {
+            this.textValue = value.get("name");
+        } else {
+            this.textValue = "";
+        }
         this.callParent(arguments);
         this.validate();
-
     },
-    onTypeAhead: function (newValue)
-    {
+    onTypeAhead: function (newValue) {
         if (newValue !== this.textValue) {
             var picker = this.getPicker();
             var store = picker.getStore();
@@ -113,23 +108,23 @@ Ext.define("PartKeepr.CategoryComboBox", {
             this.textValue = newValue;
         }
     },
-   /**
+    /**
      * Handles special keys used in this field.
      *
      * Enter: Starts the search
      * Escape: Removes the search and clears the field contents
      */
-    keyHandler: function (field, e)
-    {
-        var picker = this.getPicker();
+    keyHandler: function (field, e) {
+        var picker = this.getPicker(),
+            currentSelection, index;
         switch (e.getKey()) {
             case e.DOWN:
-                var currentSelection = picker.getSelectionModel().getSelection();
+                currentSelection = picker.getSelectionModel().getSelection();
 
                 if (currentSelection.length === 0) {
                     picker.getSelectionModel().select(0);
                 } else {
-                    var index = picker.getStore().indexOf(currentSelection[0]) + 1;
+                    index = picker.getStore().indexOf(currentSelection[0]) + 1;
 
                     if (index < picker.getStore().count()) {
                         picker.getSelectionModel().select(index);
@@ -137,12 +132,12 @@ Ext.define("PartKeepr.CategoryComboBox", {
                 }
                 break;
             case e.UP:
-                var currentSelection = picker.getSelectionModel().getSelection();
+                currentSelection = picker.getSelectionModel().getSelection();
 
                 if (currentSelection.length === 0) {
                     picker.getSelectionModel().select(0);
                 } else {
-                    var index = picker.getStore().indexOf(currentSelection[0]) - 1;
+                    index = picker.getStore().indexOf(currentSelection[0]) - 1;
 
                     if (index >= 0) {
                         picker.getSelectionModel().select(index);
@@ -164,8 +159,7 @@ Ext.define("PartKeepr.CategoryComboBox", {
 
         this.inputEl.focus();
     },
-    applySelection: function ()
-    {
+    applySelection: function () {
         var currentSelection = this.getPicker().getSelectionModel().getSelection();
 
         if (currentSelection.length === 1) {
@@ -182,11 +176,10 @@ Ext.define("PartKeepr.CategoryComboBox", {
         }
 
         if (!(this.getValue() instanceof PartKeepr.PartBundle.Entity.PartCategory) ||
-                this.inputEl.getValue() !== this.getValue().get("name")) {
+            this.inputEl.getValue() !== this.getValue().get("name")) {
             errors.push(i18n("A category must be selected"));
         }
 
         return errors;
-
-    },
+    }
 });
