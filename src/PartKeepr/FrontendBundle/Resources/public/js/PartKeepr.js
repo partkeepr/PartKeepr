@@ -592,9 +592,15 @@ PartKeepr.getBasePath = function ()
 {
     var href = document.getElementsByTagName('base')[0].href;
 
+
+    if(href.substr(-2) === '//') {
+        return href.substr(0, href.length - 2);
+    }
+
     if(href.substr(-1) === '/') {
         return href.substr(0, href.length - 1);
     }
+
     return href;
 };
 
