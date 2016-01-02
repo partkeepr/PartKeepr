@@ -115,7 +115,7 @@ Ext.define('PartKeepr.PartEditor', {
                 fieldLabel: i18n("Category"),
                 name: 'category',
                 displayField: "name",
-                returnObject: true,
+                returnObject: true
             },
             this.storageLocationComboBox,
             {
@@ -403,26 +403,30 @@ Ext.define('PartKeepr.PartEditor', {
         if (this.keepOpenCheckbox.getValue() !== true && this.createCopyCheckbox.getValue() !== true) {
             this.fireEvent("editorClose", this);
         } else {
-            var newItem;
+            var newItem, data;
+
             if (this.partMode == "create") {
                 if (this.copyPartDataCheckbox.getValue() === true) {
-                    var data = this.record.getData();
+                    data = this.record.getData();
                     delete data["@id"];
 
-                    var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
+                    newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
                     newItem.set(data);
                     newItem.setAssociationData(this.record.getAssociationData());
                     this.editItem(newItem);
                 } else {
                     newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
                     newItem.setPartUnit(PartKeepr.getApplication().getDefaultPartUnit());
+
+                    newItem.setCategory(this.record.getCategory());
+
                     this.editItem(newItem);
                 }
             } else {
-                var data = this.record.getData();
+                data = this.record.getData();
                 delete data["@id"];
 
-                var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
+                newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
                 newItem.set(data);
                 newItem.setAssociationData(this.record.getAssociationData());
                 this.editItem(newItem);
