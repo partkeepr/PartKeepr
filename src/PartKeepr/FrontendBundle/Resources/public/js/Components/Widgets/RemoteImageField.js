@@ -69,7 +69,7 @@ Ext.define('PartKeepr.RemoteImageField', {
 
         if (value !== null) {
             this.image.setSrc(
-                value.getId() + "/getImage?maxWidth=" + this.imageWidth + "&maxHeight=" + this.imageHeight + "&ts=" + new Date().getTime());
+                value.getId() + "/getImage?maxWidth=" + this.maxWidth + "&maxHeight=" + this.maxHeight + "&ts=" + new Date().getTime());
         } else {
             this.image.setSrc("");
         }
