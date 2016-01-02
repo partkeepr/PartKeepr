@@ -36,18 +36,34 @@
             }
         }
     </script>
+    {% if debug %}
+        {% javascripts output='js/compiled/extjs.js'
+        'js/packages/extjs6/build/ext-all-debug.js'
+        'js/packages/extjs6/build/packages/ux/classic/ux-debug.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% else %}
+        {% javascripts output='js/compiled/extjs.js'
+        'js/packages/extjs6/build/ext-all.js'
+        'js/packages/extjs6/build/packages/ux/classic/ux.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% endif %}
     {% javascripts output='js/compiled/main.js'
-    'js/packages/extjs6/build/ext-all-debug.js'
     'js/packages/extjs6/build/packages/charts/classic/charts.js'
-    'js/packages/extjs6/build/packages/ux/classic/ux-debug.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/CallActions.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/field/Array.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraTreeModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.field.Date-ISO8601.js' %}
-
     <script type="text/javascript" src="{{ asset_url }}"></script>
+
     {% endjavascripts %}
+
+
+
+
 
     {% javascripts output='js/compiled/models.js'
         'bundles/doctrinereflection/*'

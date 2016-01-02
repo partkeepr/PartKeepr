@@ -5,7 +5,6 @@ namespace PartKeepr\FrontendBundle\Controller;
 use Doctrine\Common\Version as DoctrineCommonVersion;
 use Doctrine\DBAL\Version as DBALVersion;
 use Doctrine\ORM\Version as ORMVersion;
-use PartKeepr\AuthBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -58,6 +57,7 @@ class IndexController extends Controller
 
         $renderParams = array();
         $renderParams["parameters"] = $aParameters;
+        $renderParams["debug"] = $this->get("kernel")->isDebug();
 
         return $this->render('PartKeeprFrontendBundle::index.html.twig', $renderParams);
     }
