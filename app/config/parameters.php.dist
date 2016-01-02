@@ -8,6 +8,10 @@
  *
  **********************************************************************************************************************/
 
+//======================================================================================================================
+// Database Settings
+//======================================================================================================================
+
 /**
  * Specifies the database driver. Available options are listed on this page:
  * http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#driver
@@ -38,48 +42,106 @@ $container->setParameter('database_user', 'root');
  */
 $container->setParameter('database_password', null);
 
-/**
- * Specifies the PartKeepr data directory
- */
-$container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_dir%/../data/');
+//======================================================================================================================
+// Mailer Settings
+// Currently not used, the defaults are fine
+//======================================================================================================================
 
-/**
- * Specifies if PartKeepr should check for non-running cronjobs
- */
-$container->setParameter('partkeepr.cronjob.check', true);
-
+// The mailer transport. Can be smtp, mail, sendmail or gmail
 $container->setParameter('mailer_transport', null);
+
+// The mail server host name or IP
 $container->setParameter('mailer_host', null);
+
+// The mail server port to use
 $container->setParameter('mailer_port', null);
+
+// The encryption method to use. Can be ssl, tls or null for unencrypted mail transport
 $container->setParameter('mailer_encryption', null);
+
+// The mail server username
 $container->setParameter('mailer_user', null);
+
+// The mail server password
 $container->setParameter('mailer_password', null);
+
+// The mail server auth mode. Can be plain, login or cram-md5
 $container->setParameter('mailer_auth_mode', null);
 
-$container->setParameter('authentication_provider', 'PartKeepr.Auth.WSSEAuthenticationProvider');
+//======================================================================================================================
+// Misc framework settings
+//======================================================================================================================
 
+// The locale to use. Currently only en is supported
 $container->setParameter('locale', 'en');
 
+// The secret. See http://symfony.com/doc/current/reference/configuration/framework.html#secret
 $container->setParameter('secret', 'COAAFJGGLPHPDGGNCNILHFGECFMMACKC');
 
+//======================================================================================================================
+// LDAP Configuration
+// Example for Active Directory:
+// https://github.com/Maks3w/FR3DLdapBundle/blob/master/Resources/doc/cookbook/active-directory.md
+//======================================================================================================================
+
+// The LDAP Server Host
 $container->setParameter('fr3d_ldap.driver.host', '127.0.0.1');
+
+// The LDAP Sever Port
 $container->setParameter('fr3d_ldap.driver.port', null);
+
+// The username to use for LDAP queries
 $container->setParameter('fr3d_ldap.driver.username', null);
+
+// The password to use for LDAP queries
 $container->setParameter('fr3d_ldap.driver.password', null);
+
+// true to require a DN for binding attemts, false otherwise
 $container->setParameter('fr3d_ldap.driver.bindRequiresDn', false);
+
+// The base DN to query for users
 $container->setParameter('fr3d_ldap.driver.baseDn', '');
+
+// sprintf format %s will be the username
 $container->setParameter('fr3d_ldap.driver.accountFilterFormat', null);
+
 $container->setParameter('fr3d_ldap.driver.optReferrals', null);
+
+// true to use SSL, false otherwise
 $container->setParameter('fr3d_ldap.driver.useSsl', null);
+
+// true to use startTls, false otherwise
 $container->setParameter('fr3d_ldap.driver.useStartTls', null);
+
+// currently not used
 $container->setParameter('fr3d_ldap.driver.accountCanonicalForm', null);
+
 $container->setParameter('fr3d_ldap.driver.accountDomainName', null);
 $container->setParameter('fr3d_ldap.driver.accountDomainNameShort', null);
+
+// set to true to enable LDAP
 $container->setParameter('fr3d_ldap.user.enabled', false);
+
+// sets the base DN
 $container->setParameter('fr3d_ldap.user.baseDn', 'dc=blabla,dc=com');
+
+// The filter to use for queries
 $container->setParameter('fr3d_ldap.user.filter', null);
+
+// The username attribute
 $container->setParameter('fr3d_ldap.user.attribute.username', "samaccountname");
+
+// The email attribute
 $container->setParameter('fr3d_ldap.user.attribute.email', "email");
+
+
+//======================================================================================================================
+// PartKeepr settings
+//======================================================================================================================
+
+// The authentication provider to use. Can be either PartKeepr.Auth.WSSEAuthenticationProvider or
+// PartKeepr.Auth.HTTPBasicAuthenticationProvider
+$container->setParameter('authentication_provider', 'PartKeepr.Auth.WSSEAuthenticationProvider');
 
 /**
  * Specifies if the frontend should perform an auto-login
@@ -159,3 +221,12 @@ $container->setParameter('partkeepr.users.limit', false);
  */
 $container->setParameter('partkeepr.parts.limit', false);
 
+/**
+ * Specifies the PartKeepr data directory
+ */
+$container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_dir%/../data/');
+
+/**
+ * Specifies if PartKeepr should check for non-running cronjobs
+ */
+$container->setParameter('partkeepr.cronjob.check', true);
