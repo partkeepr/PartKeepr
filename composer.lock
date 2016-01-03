@@ -1149,7 +1149,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/f7d138d7b2b741a82247d18ceab236acf91a4d4e",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/8b05ef63be8c86b183d237becb1aeb908b7fc657",
                 "reference": "d196ddc229f50c66c5a015c158adb78a2dfb4351",
                 "shasum": ""
             },
@@ -1293,7 +1293,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/6dff846ccf22ad7768f6bab78faf0eb8f4cda26b",
+                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/65c2820e73ac2eecb2b99da3e594ae8e4d9be9d1",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "shasum": ""
             },
@@ -1421,12 +1421,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle.git",
-                "reference": "29f43b5e10e8e2b5381335841108fc2745aed3e2"
+                "reference": "f0f75ff74a1fcb960d7b1f39dd10600f8cdaa20a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/felicitus/EscapeWSSEAuthenticationBundle/zipball/29f43b5e10e8e2b5381335841108fc2745aed3e2",
-                "reference": "29f43b5e10e8e2b5381335841108fc2745aed3e2",
+                "url": "https://api.github.com/repos/felicitus/EscapeWSSEAuthenticationBundle/zipball/f0f75ff74a1fcb960d7b1f39dd10600f8cdaa20a",
+                "reference": "f0f75ff74a1fcb960d7b1f39dd10600f8cdaa20a",
                 "shasum": ""
             },
             "require": {
@@ -1470,9 +1470,9 @@
                 "wsse"
             ],
             "support": {
-                "source": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle/tree/advancedUserInterface"
+                "source": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle/tree/PSR3Logging"
             },
-            "time": "2015-12-09 14:45:56"
+            "time": "2016-01-03 15:44:13"
         },
         {
             "name": "fortawesome/font-awesome",
@@ -1674,7 +1674,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e39b040e272c72f0a090c67d802e1d3b2d0b0313",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e5e7a2b8984da8dfedaf44adc7e5f60a62ad280c",
                 "reference": "d5b28c367d393f9d9fbc48c4138b2a74d51c0c83",
                 "shasum": ""
             },
@@ -2434,7 +2434,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/93b189b16ad0d410eb9b300eae7ab0ad7d8edede",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1ae2cfa9a50279d722d6b6e7b02322cef948d55d",
                 "reference": "9af37448fa2f82856d068205afa96e9874527672",
                 "shasum": ""
             },
@@ -3032,7 +3032,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/823f8bca6983d1af99c060ba96fc3ddf647d0589",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/94304e12fe02c01eb41b101a0846583d1adc8e88",
                 "reference": "2fb164fd889120a9d9ba19d825e270e5293eecc5",
                 "shasum": ""
             },
@@ -3612,7 +3612,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/5492b9bf9e007be1dc5b8147aa0a31d7b142607b",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/68aa9c0afb5f644799438058e15aa0c5399ea8f3",
                 "reference": "21918ec9a7578f0732e386cd7fd1d57988c6f413",
                 "shasum": ""
             },
@@ -4391,7 +4391,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/892163d67e3bd9c190d43655acb69657da765c7b",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/02790d733f9eb43d0a5981962c41846092fb387f",
                 "reference": "85b5de950678a25f3e85adb6bc26de7f7f231d18",
                 "shasum": ""
             },
