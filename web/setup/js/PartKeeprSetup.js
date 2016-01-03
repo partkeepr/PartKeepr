@@ -19,7 +19,7 @@ Ext.application({
                 database_name: "",
                 database_user: "",
                 database_password: "",
-                authentication_provider: "PartKeepr.Auth.WSSEAuthenticationProvider",
+                authentication_provider: "PartKeepr.Auth.HTTPBasicAuthenticationProvider",
                 locale: "en"
             },
             adminuser: {
