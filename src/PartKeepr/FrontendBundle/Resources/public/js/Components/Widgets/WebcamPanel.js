@@ -56,7 +56,7 @@ Ext.define('PartKeepr.WebcamPanel', {
     },
     _onAfterRender: function () {
         if (Ext.isIE) {
-            Ext.window.MessageBox.alert("Internet Explorer does not have webcam support.");
+            Ext.MessageBox.alert("Internet Explorer does not have webcam support.");
             return;
         }
         this.video = this.down("#video").getEl().dom;
