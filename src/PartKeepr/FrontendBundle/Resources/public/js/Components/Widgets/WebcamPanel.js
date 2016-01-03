@@ -20,7 +20,7 @@ Ext.define('PartKeepr.WebcamPanel', {
         xtype: 'component',
         itemId: 'canvas',
         autoEl: {
-            tag: 'canvas',
+            tag: 'canvas'
         }
     }],
     video: null,
@@ -55,6 +55,10 @@ Ext.define('PartKeepr.WebcamPanel', {
         // @todo: Implement video error handler
     },
     _onAfterRender: function () {
+        if (Ext.isIE) {
+            Ext.window.MessageBox.alert("Internet Explorer does not have webcam support.");
+            return;
+        }
         this.video = this.down("#video").getEl().dom;
         this.canvas = this.down("#canvas").getEl().dom;
 
@@ -94,7 +98,18 @@ Ext.define('PartKeepr.WebcamPanel', {
         this.takePhotoButton.setText(i18n("Uploading..."));
     },
     _onBeforeDestroy: function () {
-        this.stream.stop();
+        // stream.stop is deprecated for newer chrome versions,
+        // use getTracks instead
+        if (this.stream.getTracks) {
+            var tracks= this.stream.getTracks();
+
+            for (var i=0;i<tracks.length;i++) {
+                tracks[i].stop();
+            }
+        } else {
+            this.stream.stop();
+        }
+
         this.video.pause();
         this.video.src=null;
     }
