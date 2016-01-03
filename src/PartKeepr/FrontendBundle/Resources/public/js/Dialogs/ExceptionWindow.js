@@ -165,6 +165,7 @@ Ext.define('PartKeepr.ExceptionWindow', {
             this.detailDiv.update("");
         }
 
+
         if (exception.getTrace()) {
             var traceData = this.convertTraceToTree(exception.getTrace());
 
@@ -195,6 +196,9 @@ Ext.define('PartKeepr.ExceptionWindow', {
         fullDetails += requestData;
 
         this.requestDetails.setValue(nl2br(requestData));
+
+        fullDetails += "\n\n" + i18n("Response Status Code") + "\n" + separator + "\n";
+        fullDetails += response.status;
 
         fullDetails += "\n\n" + i18n("Response") + "\n" + separator + "\n";
         fullDetails += response.responseText;
