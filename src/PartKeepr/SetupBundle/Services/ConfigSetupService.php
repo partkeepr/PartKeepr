@@ -28,7 +28,8 @@ class ConfigSetupService
         $this->twig = $twig;
     }
 
-    public function getConfig ($config) {
+    public function getConfig($config)
+    {
         // Parameter defaults to ensure they exist
         $parameters = array(
             "database_driver" => null,
@@ -81,7 +82,7 @@ class ConfigSetupService
             "cache.dunglas" => false,
             "cache.doctrine" => "array",
             "partkeepr.parts.limit" => false,
-            "partkeepr.users.limit" => false
+            "partkeepr.users.limit" => false,
         );
 
         if (function_exists("apc_fetch")) {
@@ -91,15 +92,16 @@ class ConfigSetupService
 
         $this->applyIf($parameters, $config);
 
-        if ($config["fr3d_ldap.user.attribute.username"] === null) {
-            $config["fr3d_ldap.user.attribute.username"] = "samaccountname";
-        }
-
-        if ($config["fr3d_ldap.user.attribute.email"] === null) {
-            $config["fr3d_ldap.user.attribute.email"] = "email";
-        }
-
         $parameters = array_merge($parameters, $config);
+
+        if ($parameters["fr3d_ldap.user.attribute.username"] === null) {
+            $parameters["fr3d_ldap.user.attribute.username"] = "samaccountname";
+        }
+
+        if ($parameters["fr3d_ldap.user.attribute.email"] === null) {
+            $parameters["fr3d_ldap.user.attribute.email"] = "email";
+        }
+
         array_walk_recursive($parameters, function (&$item) {
             $item = var_export($item, true);
         });
@@ -109,6 +111,7 @@ class ConfigSetupService
         return $this->twig->render('PartKeeprSetupBundle::parameters.php.twig',
             array("parameters" => $parameters));
     }
+
     public function legacyConfigParser()
     {
         if (file_exists($this->getLegacyConfigPath())) {
@@ -166,7 +169,7 @@ class ConfigSetupService
         return $target;
     }
 
-        public function generateSecret()
+    public function generateSecret()
     {
         $secret = "";
         for ($i = 0; $i < self::KEY_LENGTH; $i++) {
