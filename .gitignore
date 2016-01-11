@@ -41,3 +41,5 @@ app/config/parameters_setup.php
 /composer.phar
 
 !.keep
+!app/logs/.htaccess
+!app/logs/ignore.json
