@@ -80,10 +80,11 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
                 layout: 'center',
                 style: 'background-color: white; padding: 5px;',
                 items: Ext.create('Ext.Img', {
-                height: 90,
-                width: 495,
-                src: 'images/partkeepr-setup.svg'
-            }),
+                    height: 90,
+                    width: 495,
+                    src: 'images/partkeepr-setup.svg',
+                    alt: 'PartKeepr'
+                }),
             },
             me.breadCrumbContainer,
             me.cardContainer,
