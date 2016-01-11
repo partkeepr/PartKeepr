@@ -1,5 +1,30 @@
 # Changelog
 
+## PartKeepr 0.77
+
+This is mainly a bugfix release. Noteworthy bugfixes:
+
+* The HTTP Status code is now shown in exception windows for easier debugging [#549](https://github.com/partkeepr/PartKeepr/issues/549)
+* Obsolete database tables from 0.1.9 are now removed [#548](https://github.com/partkeepr/PartKeepr/issues/548)
+* Fixed drag'n'drop of parts [#540](https://github.com/partkeepr/PartKeepr/issues/540)
+* Initial stock level value is now correctly entered in the database [#534](https://github.com/partkeepr/PartKeepr/issues/534)
+* The ubuntu font is now loaded via HTTPS [#520](https://github.com/partkeepr/PartKeepr/issues/520)
+* Footprint images are now shown again  [#518](https://github.com/partkeepr/PartKeepr/issues/518)
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A0.77+is%3Aclosed)
+
+## PartKeepr 0.76
+
+Noteworthy new features and bugfixes:
+
+* It is now possible to search for a manufacturer's part number [#489](https://github.com/partkeepr/PartKeepr/issues/489)
+* Re-added "used in projects", footprint, storage location and category name as in PartKeepr 0.1.9 [#514](https://github.com/partkeepr/PartKeepr/issues/514)
+* Added APC cache support
+* Setup now prompts for the authentication method to use
+* Icons are now displayed properly again in Firefox [#481](https://github.com/partkeepr/PartKeepr/issues/481)
+
+For a mostly complete list of new features and bugfixes, please refer to  [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A0.76+is%3Aclosed)
+
 ## PartKeepr 0.75
 
 Noteworthy new features:

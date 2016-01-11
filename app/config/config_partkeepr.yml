@@ -283,11 +283,17 @@ services:
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.part", "GET" ]
 
-    resource.part.item_operation.put:
+    resource.part.item_operation.custom_put:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.part", "PUT" ]
+        arguments:
+              -   "@resource.part"
+              -   [ "PUT" ]
+              -   "/parts/{id}"
+              -   "partkeepr.part.put"
+              -   "PartPut"
+
 
     resource.part.item_operation.delete:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
@@ -334,7 +340,7 @@ services:
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.part.item_operation.get", "@resource.part.item_operation.put", "@resource.part.item_operation.delete", "@resource.part.item_operation.add_stock", "@resource.part.item_operation.remove_stock", "@resource.part.item_operation.set_stock" ] ]
+                    arguments: [ [ "@resource.part.item_operation.get", "@resource.part.item_operation.custom_put", "@resource.part.item_operation.delete", "@resource.part.item_operation.add_stock", "@resource.part.item_operation.remove_stock", "@resource.part.item_operation.set_stock" ] ]
             -       method:     "initCollectionOperations"
                     arguments: [ [ "@resource.part.collection_operation.get", "@resource.part.collection_operation.custom_post" ] ]
             -       method:    "initFilters"

@@ -2,6 +2,8 @@ The following steps describe how a new PartKeepr release is being built:
 
 * Check if any unit tests have failed
 
+* Edit CHANGELOG.md within the repository
+
 * Create a new GIT tag using:
   
   git tag -s <version>

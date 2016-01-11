@@ -166,7 +166,7 @@ class StockEntry extends BaseEntity
      *
      * @param Part $part The part to set
      */
-    public function setPart(Part $part)
+    public function setPart(Part $part = null)
     {
         $this->part = $part;
     }
