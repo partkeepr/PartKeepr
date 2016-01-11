@@ -14,7 +14,7 @@
     </target>
 
     <target name="release">
-        <propertyprompt propertyName="partkeepr.version" defaultValue=""
+        <propertyprompt propertyName="partkeepr.version" useExistingValue="true" defaultValue=""
                         promptText="Please enter the version number of the build to generate (e.g. 0.1)"/>
 
         <phingcall target="prepare-archiving"/>
