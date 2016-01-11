@@ -9,6 +9,10 @@
             <argument type="service" id="api.serializer" />
             <argument type="service" id="partkeepr.part_service" />
         </service>
+         <service id="partkeepr.part.put" class="PartKeepr\PartBundle\Action\PartPutAction">
+            <argument type="service" id="api.data_provider"/>
+            <argument type="service" id="api.serializer" />
+        </service>
         <service id="partkeepr.part.add_stock" class="PartKeepr\PartBundle\Action\AddStockAction">
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="partkeepr.userservice" />
