@@ -65,7 +65,7 @@ class StockHistoryLostTest extends WebTestCase
 
         $client->request("PUT", $iri, array(), array(), array(), json_encode($responseObj));
 
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $this->getContainer()->get("doctrine.orm.default_entity_manager")->refresh($part1);
         $this->assertEquals(1, count($part1->getStockLevels()));

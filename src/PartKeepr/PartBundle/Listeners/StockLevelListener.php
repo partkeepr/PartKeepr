@@ -37,7 +37,9 @@ class StockLevelListener extends ContainerAware
         }
 
         foreach ($parts as $part) {
-            $this->updateStockLevel($part, $eventArgs);
+            if ($part !== null) {
+                $this->updateStockLevel($part, $eventArgs);
+            }
         }
     }
 

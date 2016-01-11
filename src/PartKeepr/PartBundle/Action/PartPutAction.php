@@ -46,7 +46,6 @@ class PartPutAction
      * @throws RuntimeException
      * @throws UserProtectedException
      * @throws UserLimitReachedException
-     * @throws \Exception If a stockLevels attribute is found in the request
      */
     public function __invoke(Request $request, $id)
     {
@@ -59,11 +58,13 @@ class PartPutAction
          * Workaround to ensure stockLevels are not overwritten in a PUT request.
          * @see https://github.com/partkeepr/PartKeepr/issues/551
          */
-        $data = json_decode($request->getContent());
+        $data = json_decode($request->getContent(), true);
 
-        if (property_exists($data, "stockLevels")) {
-            throw new \Exception("stockLevels may not be written in a PUT request!");
+        if (array_key_exists("stockLevels", $data)) {
+            unset($data["stockLevels"]);
         }
+
+        $requestData = json_encode($data);
 
         $data = $this->getItem($this->dataProvider, $resourceType, $id);
 
@@ -71,7 +72,7 @@ class PartPutAction
         $context['object_to_populate'] = $data;
 
         $data = $this->serializer->deserialize(
-            $request->getContent(),
+            $requestData,
             $resourceType->getEntityClass(),
             $format,
             $context
