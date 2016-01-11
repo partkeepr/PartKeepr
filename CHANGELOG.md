@@ -1,5 +1,14 @@
 # Changelog
 
+## PartKeepr 0.78
+
+This is an emergency release for the broken 0.77 version. Bugfixes:
+
+* Fixed error when saving a part causes oss of stock history [#551](https://github.com/partkeepr/PartKeepr/issues/551)
+* Fixed security issue and setup check for accessing app/logs [#553](https://github.com/partkeepr/PartKeepr/issues/553)
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A0.78+is%3Aclosed)
+
 ## PartKeepr 0.77
 
 This is mainly a bugfix release. Noteworthy bugfixes:
