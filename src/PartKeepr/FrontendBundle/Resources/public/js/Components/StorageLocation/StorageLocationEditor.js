@@ -6,7 +6,8 @@ Ext.define('PartKeepr.StorageLocationEditor', {
     layout: 'column',
     defaultListenerScope: true,
 
-    initComponent: function () {
+    initComponent: function ()
+    {
         var config = {};
 
         Ext.Object.merge(config, {
@@ -52,6 +53,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
             labelWidth: 110,
             layout: 'fit',
             height: 246,
+            itemId: 'containedParts',
             items: this.gridPanel
         });
 
@@ -94,7 +96,8 @@ Ext.define('PartKeepr.StorageLocationEditor', {
         this.on("startEdit", this.onStartEdit, this);
         this.callParent();
     },
-    onFileUploaded: function (data) {
+    onFileUploaded: function (data)
+    {
         var uploadedFile = Ext.create("PartKeepr.UploadedFileBundle.Entity.TempUploadedFile", data);
 
         if (this.record.getImage() === null) {
@@ -105,16 +108,26 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 
         this.down('#image').setValue(uploadedFile);
     },
-    onStartEdit: function () {
-        var filter = Ext.create("Ext.util.Filter", {
-            property: "storageLocation",
-            operator: "=",
-            value: this.record.getId()
-        });
+    /**
+     * Gets called as soon as storage location editing begins.
+     */
+    onStartEdit: function ()
+    {
+        if (!this.record.phantom) {
+            this.down('#containedParts').setVisible(true);
+            var filter = Ext.create("Ext.util.Filter", {
+                property: "storageLocation",
+                operator: "=",
+                value: this.record.getId()
+            });
 
-        this.store.addFilter(filter);
-        this.store.load();
+            this.store.addFilter(filter);
+            this.store.load();
+        } else {
+            this.down('#containedParts').setVisible(false);
+        }
+
+
         this.down('#image').setValue(this.record.getImage());
     }
-
 });
