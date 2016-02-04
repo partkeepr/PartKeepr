@@ -9,13 +9,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SchemaMigrationSetupController extends SetupController
+class SchemaMigrationSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/_int_migrate_schema")
      */
-    public function intMigrateSchemaAction()
+    public function intMigrateSchemaAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],

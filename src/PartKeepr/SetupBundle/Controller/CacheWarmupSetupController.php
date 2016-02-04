@@ -9,13 +9,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CacheWarmupSetupController extends SetupController
+class CacheWarmupSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/_int_cache_warmup")
      */
-    public function intCacheWarmupAction()
+    public function intCacheWarmupAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],

@@ -7,13 +7,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SchemaSetupController extends SetupController
+class SchemaSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/_int_setup_schema")
      */
-    public function intSetupSchemaAction()
+    public function intSetupSchemaAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],

@@ -8,13 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class ManufacturerSetupController extends SetupController
+class ManufacturerSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/_int_create_manufacturers")
      */
-    public function intCreateManufacturersAction()
+    public function intCreateManufacturersAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],
