@@ -66,7 +66,8 @@ Ext.define('PartKeeprSetup.SetupWizard', {
             bodyStyle: 'background: none;',
             html: 'This wizard guides you through the setup of <b>PartKeepr</b>.<br/><br/>Note that you can ' +
             're-start setup any time, even if you already have an existing database. No existing data will ' +
-            'be overwritten.'
+            'be overwritten.<br/><br/><strong>If you are upgrading, make sure you created a backup of your ' +
+            'database and filesystem!</strong>'
         }));
 
         var cardNames = [
