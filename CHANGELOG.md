@@ -1,5 +1,10 @@
 # Changelog
 
+## PartKeepr 0.79
+
+This is a security release, which fixes a security issue which is present in versions 0.75 - 0.78.
+
+
 ## PartKeepr 0.78
 
 This is an emergency release for the broken 0.77 version. Bugfixes:
