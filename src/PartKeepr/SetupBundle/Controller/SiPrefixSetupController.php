@@ -10,13 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class SiPrefixSetupController extends SetupController
+class SiPrefixSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/_int_create_si_prefixes")
      */
-    public function intCreateSiPrefixes()
+    public function intCreateSiPrefixes(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],

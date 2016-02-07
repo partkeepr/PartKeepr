@@ -5,22 +5,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ExistingConfigParserController extends SetupController
+class ExistingConfigParserController extends SetupBaseController
 {
     /**
      * @Route("/setup/parseExistingConfig")
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function parseExistingConfigAction(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
-        if (!array_key_exists("authKey", $data) || !$this->verifyAuthKey($data["authKey"])) {
-            $response["success"] = false;
-            $response["message"] = "Invalid Authentication Key";
-            $response["errors"] = array();
-
-            return new JsonResponse($response);
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
         }
 
         $response = array(

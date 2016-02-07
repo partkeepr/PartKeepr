@@ -8,13 +8,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UnitSetupController extends SetupController
+class UnitSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/_int_create_units")
      */
-    public function intCreateUnitsAction()
+    public function intCreateUnitsAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],

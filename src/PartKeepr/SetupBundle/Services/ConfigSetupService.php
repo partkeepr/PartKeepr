@@ -178,4 +178,18 @@ class ConfigSetupService
 
         return $secret;
     }
+
+    public function getAuthKey () {
+        $findText = "Your auth key is: ";
+
+        $data = file_get_contents($this->getAuthKeyPath());
+        $position = strpos($data, $findText);
+
+        return substr($data, $position + strlen($findText), ConfigSetupService::KEY_LENGTH);
+    }
+
+    public function getAuthKeyPath()
+    {
+        return dirname(__FILE__)."/../../../../app/authkey.php";
+    }
 }

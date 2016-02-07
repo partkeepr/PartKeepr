@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PartUnitSetupController extends SetupController
+class PartUnitSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/createPartUnits")
@@ -23,8 +23,12 @@ class PartUnitSetupController extends SetupController
     /**
      * @Route("/setup/_int_create_part_units")
      */
-    public function intCreatePartUnitsAction()
+    public function intCreatePartUnitsAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],

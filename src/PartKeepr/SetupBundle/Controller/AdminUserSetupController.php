@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminUserSetupController extends SetupController
+class AdminUserSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/createUser")
@@ -25,6 +25,19 @@ class AdminUserSetupController extends SetupController
      */
     public function intCreateUserAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
+        $data = json_decode($request->getContent(), true);
+        if (!array_key_exists("authKey", $data) || !$this->verifyAuthKey($data["authKey"])) {
+            $response["success"] = false;
+            $response["message"] = "Invalid Authentication Key";
+            $response["errors"] = array();
+
+            return new JsonResponse($response);
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],
