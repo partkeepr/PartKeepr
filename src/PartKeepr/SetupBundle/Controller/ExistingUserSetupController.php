@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ExistingUserSetupController extends SetupController
+class ExistingUserSetupController extends SetupBaseController
 {
     /**
      * Checks if there are existing userds in the database
@@ -14,6 +14,10 @@ class ExistingUserSetupController extends SetupController
      */
     public function testExistingUsersAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $this->dumpConfig($request);
 
         $response = $this->handleRequest($request, "/setup/_int_test_existing_users");
@@ -24,11 +28,13 @@ class ExistingUserSetupController extends SetupController
     /**
      * @Route("/setup/_int_test_existing_users")
      */
-    public function intTestExistingUsersAction()
+    public function intTestExistingUsersAction(Request $request)
     {
-        $repository = $this->getDoctrine()->getRepository("PartKeeprAuthBundle:User");
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
 
-        $legacyUsersDQL = "SELECT COUNT(u) FROM PartKeepr\AuthBundle\Entity\User u WHERE u.legacy = 1";
+        $legacyUsersDQL = "SELECT COUNT(u) FROM PartKeepr\AuthBundle\Entity\User u WHERE u.legacy = true";
 
         $legacyUsersQuery = $this->get("doctrine.orm.default_entity_manager")->createQuery($legacyUsersDQL);
 

@@ -6,13 +6,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FootprintSetupController extends SetupController
+class FootprintSetupController extends SetupBaseController
 {
     /**
      * @Route("/setup/_int_create_footprints")
      */
-    public function intCreateFootprints()
+    public function intCreateFootprints(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],

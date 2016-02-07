@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FileMigrationController extends SetupController
+class FileMigrationController extends SetupBaseController
 {
     /**
      * Checks if there are existing userds in the database
@@ -27,8 +27,12 @@ class FileMigrationController extends SetupController
     /**
      * @Route("/setup/_int_migrate_files_action")
      */
-    public function intMigrateFilesAction()
+    public function intMigrateFilesAction(Request $request)
     {
+        if (!$this->ensureAuthKey($request)) {
+            return $this->getAuthKeyErrorResponse();
+        }
+
         $response = array(
             "success" => true,
             "errors" => [],
