@@ -22,7 +22,7 @@ class PartKeeprRequirements extends SymfonyRequirements
         $this->addRequirement(
             function_exists("curl_init"),
             sprintf('CURL library not found'),
-            sprintf('Install the GD library extension'));
+            sprintf('Install the CURL library extension'));
 
         $this->addPhpIniRequirement("memory_limit", $this->getBytesIniSetting("memory_limit") > 128000000,
             false,
