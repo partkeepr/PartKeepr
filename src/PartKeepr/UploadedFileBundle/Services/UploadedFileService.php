@@ -57,7 +57,8 @@ class UploadedFileService extends ContainerAware
 
     public function replaceFromData(UploadedFile $file, $data, $filename)
     {
-        $tempName = tempnam("/tmp", "PARTKEEPR");
+        $tmpdir = ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir();
+        $tempName = tempnam($tmpdir, "PARTKEEPR");
 
         file_put_contents($tempName, $data);
 
