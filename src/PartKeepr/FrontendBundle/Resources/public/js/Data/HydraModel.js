@@ -73,7 +73,7 @@ Ext.define("PartKeepr.data.HydraModel", {
      */
     setAssociationData: function (data)
     {
-        var setterName, getterName, roleName, store;
+        var setterName, getterName, roleName, store, idProperty;
 
         for (roleName in data) {
             if (this.associations[roleName]) {
@@ -81,6 +81,14 @@ Ext.define("PartKeepr.data.HydraModel", {
                 if (this.associations[roleName].isMany === true) {
                     getterName = this.associations[roleName].getterName;
                     store = this[getterName]();
+
+                    for (var i=0;i<data[roleName].length;i++) {
+                        // Delete existing IDs for duplicated data
+                        if (data[roleName][i].isEntity) {
+                            idProperty = data[roleName][i].idProperty;
+                            delete data[roleName][i].data[idProperty];
+                        }
+                    }
                     store.add(data[roleName]);
                 } else {
                     setterName = this.associations[roleName].setterName;
