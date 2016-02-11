@@ -8,7 +8,11 @@ Ext.define('PartKeeprSetup.WebserverLogDirectoryTest', {
     name: "PHP",
     message: "app/logs access check",
     onSuccess: function (response) {
-        var responseObj = Ext.decode(response.responseText);
+        try {
+            var responseObj = Ext.decode(response.responseText);
+        } catch (e) {
+            var responseObj = {};
+        }
 
         if (responseObj.message && responseObj.message === "readable") {
             this.success = false;
@@ -22,9 +26,14 @@ Ext.define('PartKeeprSetup.WebserverLogDirectoryTest', {
             if (this.success) {
                 this.fireEvent("complete", this);
             }
-
+        } else {
+            this.onFailure();
         }
     },
+    /**
+     * This method is being called when a 404 or 500 error is returned - which indicates that the logs directory is
+     * not readable.
+     */
     onFailure: function () {
         this.success = true;
         this.resultMessage = "app/logs not readable";
