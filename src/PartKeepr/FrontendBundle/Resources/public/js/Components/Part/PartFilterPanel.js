@@ -228,24 +228,26 @@ Ext.define('PartKeepr.PartFilterPanel', {
             fieldLabel: i18n("Storage Location")
         });
 
-        // Create the category scope field
-        this.categoryFilter = Ext.create("Ext.form.RadioGroup", {
-            fieldLabel: i18n("Category Scope"),
-            columns: 1,
-            items: [
-                {
-                    boxLabel: i18n("All Subcategories"),
-                    name: 'category',
-                    inputValue: "all",
-                    checked: true
-                },
-                {
-                    boxLabel: i18n("Selected Category"),
-                    name: 'category',
-                    inputValue: "selected"
-                }
-            ]
-        });
+        if (this.partManager !== null) {
+            // Create the category scope field
+            this.categoryFilter = Ext.create("Ext.form.RadioGroup", {
+                fieldLabel: i18n("Category Scope"),
+                columns: 1,
+                items: [
+                    {
+                        boxLabel: i18n("All Subcategories"),
+                        name: 'category',
+                        inputValue: "all",
+                        checked: true
+                    },
+                    {
+                        boxLabel: i18n("Selected Category"),
+                        name: 'category',
+                        inputValue: "selected"
+                    }
+                ]
+            });
+        }
 
         // Create the stock level filter field
         this.stockFilter = Ext.create("Ext.form.RadioGroup", {
@@ -457,22 +459,24 @@ Ext.define('PartKeepr.PartFilterPanel', {
             }));
         }
 
-        if (this.categoryFilter.getValue().category === "all") {
-            if (this.partManager.getSelectedCategory() !== null) {
+        if (this.partManager !== null) {
+            if (this.categoryFilter.getValue().category === "all") {
+                if (this.partManager.getSelectedCategory() !== null) {
+                    filters.push(Ext.create("Ext.util.Filter", {
+                        id: 'categoryFilter',
+                        property: 'category',
+                        operator: 'IN',
+                        value: this.partManager.getChildrenIds(this.partManager.getSelectedCategory())
+                    }));
+                }
+            } else {
                 filters.push(Ext.create("Ext.util.Filter", {
                     id: 'categoryFilter',
                     property: 'category',
-                    operator: 'IN',
-                    value: this.partManager.getChildrenIds(this.partManager.getSelectedCategory())
+                    operator: '=',
+                    value: this.partManager.getSelectedCategory()
                 }));
             }
-        } else {
-            filters.push(Ext.create("Ext.util.Filter", {
-                id: 'categoryFilter',
-                property: 'category',
-                operator: '=',
-                value: this.partManager.getSelectedCategory()
-            }));
         }
 
         if (this.partsWithoutPrice.getValue() === true) {
