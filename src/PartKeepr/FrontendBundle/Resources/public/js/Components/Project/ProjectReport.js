@@ -314,33 +314,40 @@ Ext.define('PartKeepr.ProjectReportView', {
     onAutoFillClick: function ()
     {
         var partCount = this.reportResult.store.count();
-        var cheapest = null;
-        var cheapestPrice = null;
+        var cheapestDistributor, activeDistributor;
+        var lowestPrice;
+		var firstPositive;
         var activeRecord;
 
         for (var i = 0; i < partCount; i++) {
             activeRecord = this.reportResult.store.getAt(i);
+			firstPositive = true;
+			lowestPrice = 0;
+			cheapestDistributor = null;
 
             for (var j = 0; j < activeRecord.getPart().distributors().count(); j++) {
-                var activeDistributor = activeRecord.getPart().distributors().getAt(j);
-
-                if (cheapestPrice === null && parseFloat(activeDistributor.get("price")) !== 0) {
-                    cheapestPrice = activeDistributor.get("price");
-                    cheapest = activeDistributor;
-                } else {
-                    if (parseFloat(activeDistributor.get("price")) !== 0 && parseFloat(
-                            activeDistributor.get("price")) < cheapestPrice) {
-                        cheapestPrice = activeDistributor.get("price");
-                        cheapest = activeDistributor;
-                    }
-                }
-
+                activeDistributor = activeRecord.getPart().distributors().getAt(j);
+				currentPrice = parseFloat(activeDistributor.get("price"));
+				
+				if (currentPrice != 0) 	{
+					if (firstPositive) {
+						lowestPrice = currentPrice;
+						cheapestDistributor = activeDistributor;
+						firstPositive = false;
+					}
+					else {
+						if (currentPrice < lowestPrice) {
+							lowestPrice = currentPrice;
+							cheapestDistributor = activeDistributor;
+						}
+					}
+				}
             }
 
-            if (cheapest !== null) {
-                activeRecord.setDistributor(cheapest.getDistributor());
-                activeRecord.set("distributor_order_number", cheapest.get("orderNumber"));
-                activeRecord.set("price", cheapest.get("price"));
+            if (cheapestDistributor !== null) {
+                activeRecord.setDistributor(cheapestDistributor.getDistributor());
+                activeRecord.set("distributor_order_number", cheapestDistributor.get("orderNumber"));
+                activeRecord.set("price", cheapestDistributor.get("price"));
                 activeRecord.set("sum_order", activeRecord.get("missing") * activeRecord.get("price"));
                 activeRecord.set("sum", activeRecord.get("quantity") * activeRecord.get("price"));
             }
