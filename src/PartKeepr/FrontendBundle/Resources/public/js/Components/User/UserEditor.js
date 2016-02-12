@@ -11,6 +11,8 @@ Ext.define('PartKeepr.UserEditor', {
             {
                 xtype: 'textfield',
                 name: 'username',
+                regex: /^[a-zA-Za0-9.\-_\/\\]{3,50}$/,
+                regexText: i18n("The username must be 3-50 characters in length and may only contain the following characters: a-z, A-Z, 0-9, an underscore (_), a backslash (\), a slash (/), a dot (.) or a dash (-)"),
                 fieldLabel: i18n("User")
             }, {
                 xtype: 'textfield',

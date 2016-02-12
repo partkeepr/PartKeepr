@@ -31,6 +31,8 @@ Ext.define('PartKeeprSetup.AdminUserCard', {
             fieldLabel: 'Username',
             labelWidth: this.defaults.labelWidth,
             allowBlank: false,
+            regex: /^[a-zA-Za0-9.\-_\/\\]{3,50}$/,
+            regexText: "The username must be 3-50 characters in length and may only contain the following characters: a-z, A-Z, 0-9, an underscore (_), a backslash (\), a slash (/), a dot (.) or a dash (-)",
             value: PartKeeprSetup.getApplication().getSetupConfig().adminuser.username
         });
 
