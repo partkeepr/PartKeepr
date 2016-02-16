@@ -2886,16 +2886,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "844134df95e42b93ed5506a2d11ca5accda99412"
+                "reference": "f60e365be28d9218b4bcdc0ab96ac7e338668f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/844134df95e42b93ed5506a2d11ca5accda99412",
-                "reference": "844134df95e42b93ed5506a2d11ca5accda99412",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f60e365be28d9218b4bcdc0ab96ac7e338668f11",
+                "reference": "f60e365be28d9218b4bcdc0ab96ac7e338668f11",
                 "shasum": ""
             },
             "require": {
@@ -2909,8 +2909,7 @@
             },
             "suggest": {
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
-                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
-                "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations.",
+                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
                 "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 5.0.0."
             },
             "type": "library",
@@ -2953,6 +2952,11 @@
                     "name": "Hans-Jürgen Petrich",
                     "email": "petrich@tronic-media.com",
                     "role": "Developer"
+                },
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com",
+                    "role": "Developer"
                 }
             ],
             "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
@@ -2976,7 +2980,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2015-08-04 02:22:12"
+            "time": "2016-01-18 17:07:12"
         },
         {
             "name": "predis/predis",
