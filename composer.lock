@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "42173fa8c435253151554c61de5871ae",
-    "content-hash": "e634ed455ffdd558f4a572d5852754f6",
+    "hash": "3f523e5e56ba75a458b97d06d0b8be0d",
+    "content-hash": "4c17ae264135316cde40d057c7c230ee",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -3116,16 +3116,16 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "dev-master",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "2fb164fd889120a9d9ba19d825e270e5293eecc5"
+                "reference": "3cc2dd253e296ce05f99635b2f633048adfbaa96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/e6ac8b0ef23b5a1936a8ba284c934aa34f2aea98",
-                "reference": "2fb164fd889120a9d9ba19d825e270e5293eecc5",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/3cc2dd253e296ce05f99635b2f633048adfbaa96",
+                "reference": "3cc2dd253e296ce05f99635b2f633048adfbaa96",
                 "shasum": ""
             },
             "require": {
@@ -3144,17 +3144,13 @@
                 "squizlabs/php_codesniffer": "^2.3"
             },
             "suggest": {
-                "ircmaxell/random-lib": "Provides RandomLib to use with the RandomLibAdapter",
-                "moontoast/math": "Support for converting UUID to 128-bit integer (in string form).",
+                "ext-uuid": "Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator",
+                "ircmaxell/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
+                "moontoast/math": "Provides support for converting UUID to 128-bit integer (in string form).",
                 "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
-                "ramsey/uuid-doctrine": "Allow the use of a UUID as Doctrine field type."
+                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Ramsey\\Uuid\\": "src/"
@@ -3186,7 +3182,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2015-09-29 17:21:43"
+            "time": "2015-12-17 15:21:44"
         },
         {
             "name": "reputation-vip/composer-assets-installer",
@@ -6139,7 +6135,6 @@
         "partkeepr/extjs6": 20,
         "symfony/doctrine-bridge": 20,
         "dunglas/api-bundle": 20,
-        "ramsey/uuid": 20,
         "doctrine/migrations": 20,
         "doctrine/doctrine-migrations-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
