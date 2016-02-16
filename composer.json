@@ -52,7 +52,6 @@
     "partkeepr/extjs6": "dev-master",
     "fortawesome/font-awesome": "4.*",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
-    "symfony/doctrine-bridge": "2.7.x-dev",
     "dunglas/api-bundle": "dev-master",
     "brainbits/fugue-icons-bundle": "^3.5",
     "imagine/imagine": "^0.6.2",

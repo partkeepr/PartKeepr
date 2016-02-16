@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bb06492ae113fd38d67e89fc96194fdb",
-    "content-hash": "e24668ed1f40d3cd88acd6fedf5a78e3",
+    "hash": "a7de96eda5031f06d198232c787d099c",
+    "content-hash": "1fd0807fc10b3a22f05b5d56e5757cfa",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -3643,77 +3643,6 @@
             "time": "2015-11-17 09:45:47"
         },
         {
-            "name": "symfony/doctrine-bridge",
-            "version": "2.7.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/doctrine-bridge.git",
-                "reference": "21918ec9a7578f0732e386cd7fd1d57988c6f413"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/fcfbf2891f12d6c835b85d90e45db7e6d22ebf79",
-                "reference": "21918ec9a7578f0732e386cd7fd1d57988c6f413",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": "~2.4",
-                "php": ">=5.3.9"
-            },
-            "require-dev": {
-                "doctrine/data-fixtures": "1.0.*",
-                "doctrine/dbal": "~2.4",
-                "doctrine/orm": "~2.4,>=2.4.5",
-                "symfony/dependency-injection": "~2.2",
-                "symfony/expression-language": "~2.2",
-                "symfony/form": "~2.7,>=2.7.1",
-                "symfony/http-kernel": "~2.2",
-                "symfony/property-access": "~2.3",
-                "symfony/security": "~2.2",
-                "symfony/stopwatch": "~2.2",
-                "symfony/translation": "~2.0,>=2.0.5",
-                "symfony/validator": "~2.5,>=2.5.5"
-            },
-            "suggest": {
-                "doctrine/data-fixtures": "",
-                "doctrine/dbal": "",
-                "doctrine/orm": "",
-                "symfony/form": "",
-                "symfony/validator": ""
-            },
-            "type": "symfony-bridge",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Bridge\\Doctrine\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Doctrine Bridge",
-            "homepage": "https://symfony.com",
-            "time": "2015-11-18 13:41:01"
-        },
-        {
             "name": "symfony/monolog-bundle",
             "version": "v2.8.2",
             "source": {
@@ -6084,7 +6013,6 @@
         "fr3d/ldap-bundle": 20,
         "nelmio/api-doc-bundle": 20,
         "partkeepr/extjs6": 20,
-        "symfony/doctrine-bridge": 20,
         "dunglas/api-bundle": 20,
         "doctrine/migrations": 20,
         "doctrine/doctrine-migrations-bundle": 20,
