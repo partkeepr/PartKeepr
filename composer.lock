@@ -4822,12 +4822,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeclimate/php-test-reporter.git",
-                "reference": "85b5de950678a25f3e85adb6bc26de7f7f231d18"
+                "reference": "02790d733f9eb43d0a5981962c41846092fb387f"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/02790d733f9eb43d0a5981962c41846092fb387f",
-                "reference": "85b5de950678a25f3e85adb6bc26de7f7f231d18",
+                "reference": "02790d733f9eb43d0a5981962c41846092fb387f",
                 "shasum": ""
             },
             "require": {
@@ -4846,7 +4846,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1.x-dev"
+                    "dev-master": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -4872,7 +4872,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2015-09-08 14:22:33"
+            "time": "2015-12-17 00:52:54"
         },
         {
             "name": "ddeboer/data-import",
