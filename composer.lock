@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3f523e5e56ba75a458b97d06d0b8be0d",
-    "content-hash": "4c17ae264135316cde40d057c7c230ee",
+    "hash": "bb06492ae113fd38d67e89fc96194fdb",
+    "content-hash": "e24668ed1f40d3cd88acd6fedf5a78e3",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -136,56 +136,6 @@
                 "icons"
             ],
             "time": "2013-05-15 12:31:26"
-        },
-        {
-            "name": "cbsi/doctrine2-nestedset",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cbsi/doctrine2-nestedset.git",
-                "reference": "afdf6fa813b03b1947cc7fdb731b9039e7636ffa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cbsi/doctrine2-nestedset/zipball/afdf6fa813b03b1947cc7fdb731b9039e7636ffa",
-                "reference": "afdf6fa813b03b1947cc7fdb731b9039e7636ffa",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "doctrine/common": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "DoctrineExtensions\\NestedSet\\Tests": "tests/",
-                    "DoctrineExtensions\\NestedSet": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL 2.1"
-            ],
-            "authors": [
-                {
-                    "name": "Brandon Turner",
-                    "homepage": "https://github.com/blt04"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/cbsi/doctrine2-nestedset/graphs/contributors"
-                }
-            ],
-            "description": "This Doctrine2 extension implements the nested set model (modified pre-order tree traversal algorithm) for Doctrine2. ",
-            "homepage": "https://github.com/cbsi/doctrine2-nestedset",
-            "keywords": [
-                "doctrine2",
-                "extentions",
-                "nested set"
-            ],
-            "time": "2013-09-19 20:56:46"
         },
         {
             "name": "composer/installers",
@@ -6133,7 +6083,6 @@
     "stability-flags": {
         "fr3d/ldap-bundle": 20,
         "nelmio/api-doc-bundle": 20,
-        "cbsi/doctrine2-nestedset": 20,
         "partkeepr/extjs6": 20,
         "symfony/doctrine-bridge": 20,
         "dunglas/api-bundle": 20,

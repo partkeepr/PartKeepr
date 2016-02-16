@@ -49,7 +49,6 @@
     "sensio/framework-extra-bundle": "~3.0",
     "nelmio/api-doc-bundle": "~2.9@dev",
     "friendsofsymfony/rest-bundle": "~1.7.1",
-    "cbsi/doctrine2-nestedset": "dev-master",
     "partkeepr/extjs6": "dev-master",
     "fortawesome/font-awesome": "4.*",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
