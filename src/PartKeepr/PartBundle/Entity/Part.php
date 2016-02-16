@@ -841,7 +841,7 @@ class Part extends BaseEntity
 			else {
 				if  ($sum < 0) {
 					$price = 0;
-					$sum = 0;
+					//$sum = 0;
 				}
 				else
 					if ($sum < $lastPosEntryQuant){
