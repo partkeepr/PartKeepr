@@ -171,7 +171,6 @@ class PartDistributor extends BaseEntity
      */
     public function setPrice($price)
     {
-        echo "/** price set to ".$price." **/";
         $this->price = $price;
     }
 
