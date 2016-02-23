@@ -6,6 +6,7 @@ use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
+use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -27,16 +28,25 @@ class DeleteUserAction
      */
     private $userService;
 
-    public function __construct(DataProviderInterface $dataProvider, UserService $userService)
-    {
+    /**
+     * @var UserPreferenceService
+     */
+    private $userPreferenceService;
+
+    public function __construct(
+        DataProviderInterface $dataProvider,
+        UserService $userService,
+        UserPreferenceService $userPreferenceService
+    ) {
         $this->dataProvider = $dataProvider;
         $this->userService = $userService;
+        $this->userPreferenceService = $userPreferenceService;
     }
 
     /**
      * Returns an item to delete.
      *
-     * @param Request    $request
+     * @param Request $request
      * @param string|int $id
      *
      * @return mixed
@@ -59,6 +69,7 @@ class DeleteUserAction
         }
 
         $this->userService->deleteFOSUser($item);
+        $this->userPreferenceService->deletePreferences($item);
 
 
         return $item;

@@ -157,8 +157,8 @@ class UserTest extends WebTestCase
         $iri = $iriConverter->getIriFromItem($user);
 
         $data = [
-            "username" => "foo"
-            ];
+            "username" => "foo",
+        ];
         $client->request("PUT", $iri, array(), array(), array(), json_encode($data));
 
         $response = json_decode($client->getResponse()->getContent());
@@ -193,5 +193,42 @@ class UserTest extends WebTestCase
         $userService->unprotect($user);
 
         $this->assertFalse($user->isProtected());
+    }
+
+    /**
+     * Tests the proper user deletion if user preferences exist.
+     *
+     * Unit test for Bug #569
+     *
+     * @see https://github.com/partkeepr/PartKeepr/issues/569
+     */
+    public function testUserWithPreferencesDeletion()
+    {
+        $client = static::makeClient(true);
+
+        $data = array(
+            "username" => "preferenceuser",
+            "newPassword" => "1234",
+        );
+
+        $client->request("POST", "/api/users", array(), array(), array(), json_encode($data));
+
+        $userPreferenceService = $this->getContainer()->get("partkeepr.user_preference_service");
+        $userService = $this->getContainer()->get("partkeepr.userservice");
+
+        /**
+         * @var User $user
+         */
+        $user = $userService->getProxyUser("preferenceuser", $userService->getBuiltinProvider(), true);
+
+        $userPreferenceService->setPreference($user, "foo", "bar");
+
+        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iri = $iriConverter->getIriFromItem($user);
+
+        $client->request("DELETE", $iri);
+
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        $this->assertEmpty($client->getResponse()->getContent());
     }
 }

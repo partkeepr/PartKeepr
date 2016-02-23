@@ -132,4 +132,19 @@ class UserPreferenceService
         $query->execute();
     }
 
+    /**
+     * Removes all preferences for specific user. This is usually used when removing the user.
+     *
+     * @param \PartKeepr\AuthBundle\Entity\User $user The user to delete the preference for
+     */
+    public function deletePreferences(User $user)
+    {
+        $dql = "DELETE FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user";
+
+        $query = $this->entityManager->createQuery($dql);
+        $query->setParameter("user", $user);
+
+        $query->execute();
+    }
+
 }
