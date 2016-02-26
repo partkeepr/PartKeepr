@@ -824,39 +824,40 @@ class Part extends BaseEntity
         $sum = 0;
         $price = 0;
 		
-		$totalPartStockPrice = 0;
+        $totalPartStockPrice = 0;
         $lastPosEntryQuant = 0;
         $lastPosEntryPrice = 0;
 
         foreach ($this->getStockLevels() as $stockLevel) {
-			
-			$sum += $stockLevel->getStockLevel();
-			
-			if ($stockLevel->getStockLevel() > 0) {
-				$lastPosEntryQuant = $stockLevel->getStockLevel();
-				$lastPosEntryPrice = $stockLevel->getPrice();
-				$totalPartStockPrice += $lastPosEntryPrice * $lastPosEntryQuant;
-				$price = $totalPartStockPrice / $sum;
+            
+            $sum += $stockLevel->getStockLevel();
+            
+            if ($stockLevel->getStockLevel() > 0) {
+
+                $lastPosEntryQuant = $stockLevel->getStockLevel();
+                $lastPosEntryPrice = $stockLevel->getPrice();
+                $totalPartStockPrice += $lastPosEntryPrice * $lastPosEntryQuant;
+                $price = $totalPartStockPrice / $sum;
 			}
 			else {
-				if  ($sum < 0) {
-					$price = 0;
-					//$sum = 0;
+			    if ($sum < 0) {
+			        $price = 0;
 				}
-				else
-					if ($sum < $lastPosEntryQuant){
-						$totalPartStockPrice = $sum * $lastPosEntryPrice;
-						$price = $totalPartStockPrice / $sum;
+				else {
+				    if ($sum < $lastPosEntryQuant){
+				        $totalPartStockPrice = $sum * $lastPosEntryPrice;
+				        $price = $totalPartStockPrice / $sum;
 					}
 					else {
-						$totalPartStockPrice += $stockLevel->getStockLevel() * $price;
-						$price = $totalPartStockPrice / $sum;
+					    $totalPartStockPrice += $stockLevel->getStockLevel() * $price;
+					    $price = $totalPartStockPrice / $sum;
 					}
+				}
 			}
 		}
 
         $this->setStockLevel($sum);
-		$this->setAveragePrice($price);
+        $this->setAveragePrice($price);
 
         if ($sum < $this->getMinStockLevel()) {
             $this->setLowStock(true);
