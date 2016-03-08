@@ -37,7 +37,6 @@ class ProjectPart extends BaseEntity
      * Specifies the project which belongs to this project part
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project", inversedBy="parts")
-     * @Groups({"default"})
      * @var Project
      */
     private $project;
