@@ -231,6 +231,17 @@ abstract class UploadedFile extends BaseEntity
         return $this->filename;
     }
 
+
+    /**
+     * Sets the plain filename without path and suffix.
+     *
+     * @param $filename string The plain filename without path and suffix
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
     /**
      * Returns the extension for the file
      *
