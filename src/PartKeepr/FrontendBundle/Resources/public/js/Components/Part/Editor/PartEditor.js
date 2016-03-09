@@ -200,13 +200,6 @@ Ext.define('PartKeepr.PartEditor', {
             layout: 'fit'
         });
 
-        // Creates the parameter grid
-        this.partParameterGrid = Ext.create("PartKeepr.PartParameterGrid", {
-            title: i18n("Parameters"),
-            iconCls: 'web-icon table',
-            layout: 'fit'
-        });
-
         // Creates the attachment grid
         this.partAttachmentGrid = Ext.create("PartKeepr.PartAttachmentGrid", {
             title: i18n("Attachments"),
@@ -283,7 +276,6 @@ Ext.define('PartKeepr.PartEditor', {
                 },
                 this.partDistributorGrid,
                 this.partManufacturerGrid,
-                this.partParameterGrid,
                 this.partAttachmentGrid
             ]
         };
