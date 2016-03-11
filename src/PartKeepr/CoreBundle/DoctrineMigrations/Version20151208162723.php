@@ -15,7 +15,7 @@ class Version20151208162723 extends BaseMigration
     public function up(Schema $schema)
     {
         $this->performDatabaseUpgrade();
-        $activeUsersSQL = "UPDATE PartKeeprUser SET active = 1";
+        $activeUsersSQL = "UPDATE PartKeeprUser SET active = true";
         $this->addSql($activeUsersSQL);
     }
 
