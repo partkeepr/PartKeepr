@@ -827,6 +827,7 @@ class Part extends BaseEntity
         $totalPartStockPrice = 0;
         $lastPosEntryQuant = 0;
         $lastPosEntryPrice = 0;
+        $negativeStock = 0;
 
         foreach ($this->getStockLevels() as $stockLevel) {
             
@@ -836,14 +837,17 @@ class Part extends BaseEntity
 
                 $lastPosEntryQuant = $stockLevel->getStockLevel();
                 $lastPosEntryPrice = $stockLevel->getPrice();
-                $totalPartStockPrice += $lastPosEntryPrice * $lastPosEntryQuant;
+                $totalPartStockPrice += $lastPosEntryPrice * ($lastPosEntryQuant + $negativeStock);
                 $price = $totalPartStockPrice / $sum;
 			}
 			else {
-			    if ($sum < 0) {
+			    if ($sum <= 0) {
 			        $price = 0;
+			        $totalPartStockPrice = 0;
+			        $negativeStock = $sum;
 				}
 				else {
+				    $negativeStock = 0;
 				    if ($sum < $lastPosEntryQuant){
 				        $totalPartStockPrice = $sum * $lastPosEntryPrice;
 				        $price = $totalPartStockPrice / $sum;
