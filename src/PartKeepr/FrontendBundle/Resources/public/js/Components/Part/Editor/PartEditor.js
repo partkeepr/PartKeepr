@@ -429,7 +429,6 @@ Ext.define('PartKeepr.PartEditor', {
     {
         this.partDistributorGrid.bindStore(this.record.distributors());
         this.partManufacturerGrid.bindStore(this.record.manufacturers());
-        this.partParameterGrid.bindStore(this.record.parameters());
         this.partAttachmentGrid.bindStore(this.record.attachments());
     },
     setTitle: function (title)
