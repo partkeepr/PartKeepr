@@ -4,12 +4,12 @@ Use the [GitHub issue tracker](https://github.com/partkeepr/PartKeepr) for bugs 
 
 Guidelines:
 
- * Create _one issue per bug or feature request_
- * _Do not mix_ multiple bugs or feature requests into a single issue
- * _Search the issue tracker_ if the issue has already been reported
+ * Create __one issue per bug or feature request__
+ * __Do not mix__ multiple bugs or feature requests into a single issue
+ * __Search the issue tracker__ if the issue has already been reported
  * Ensure you are running the latest version of PartKeepr
  * Try to reproduce the problem on [demo.partkeepr.org](demo.partkeepr.org) prior reporting the issue and indicate in the issue that you have done so
- * Report your _browser type and version_, any _JavaScript errors in the console_ and any other details like _server operating system_, _php version_ etc.
+ * Report your __browser type and version__, any __JavaScript errors in the console__ and any other details like __server operating system__, __php version__ etc.
 
 
 Use the dedicated mailing list or IRC for general questions as described on the [PartKeepr Support Page](https://www.partkeepr.org/support/).
