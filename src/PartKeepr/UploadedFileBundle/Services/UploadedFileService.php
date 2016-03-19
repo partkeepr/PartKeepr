@@ -3,6 +3,7 @@
 
 namespace PartKeepr\UploadedFileBundle\Services;
 
+use Gaufrette\Exception\FileNotFound;
 use Gaufrette\Filesystem;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\UploadedFileBundle\Exceptions\DiskSpaceExhaustedException;
@@ -68,9 +69,16 @@ class UploadedFileService extends ContainerAware
         unlink($tempName);
     }
 
-    public function delete (UploadedFile $file) {
+    public function delete(UploadedFile $file)
+    {
         $storage = $this->getStorage($file);
-        $storage->delete($file->getFullFilename());
+
+        try {
+            $storage->delete($file->getFullFilename());
+        } catch (FileNotFound $e) {
+            $this->container->get("logger")->alert(sprintf("Unable to delete file %s", $file->getFullFilename()),
+                array($e, $file));
+        }
     }
 
     /**
@@ -135,7 +143,7 @@ class UploadedFileService extends ContainerAware
             // Strip ANY tags from the error message. curl tends to spit out <url> is not valid, which then
             // confuses the error message parser on the client side.
             $curlError = str_replace(array(">", "<"), "", $curlError);
-            throw new \Exception("replaceFromURL error: ".$curlError);
+            throw new \Exception("replaceFromURL error: " . $curlError);
         }
 
         curl_close($curl);
@@ -152,16 +160,17 @@ class UploadedFileService extends ContainerAware
      */
     public function getStorageDirectory(UploadedFile $file)
     {
-        return $this->container->getParameter("partkeepr.directories.".$file->getType());
+        return $this->container->getParameter("partkeepr.directories." . $file->getType());
     }
 
-     /**
+    /**
      * @param UploadedFile $file
      *
      * @return Filesystem
      */
-    public function getStorage (UploadedFile $file) {
+    public function getStorage(UploadedFile $file)
+    {
         $type = strtolower($file->getType());
-        return $this->container->get("filesystem_".$type);
+        return $this->container->get("filesystem_" . $type);
     }
 }
