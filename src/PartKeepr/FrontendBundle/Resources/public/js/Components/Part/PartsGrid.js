@@ -294,6 +294,12 @@ Ext.define('PartKeepr.PartsGrid', {
                 header: i18n("Create Date"),
                 dataIndex: 'createDate',
                 hidden: true
+            }, {
+                header: i18n("Internal ID"),
+                dataIndex: 'id',
+                //renderer: Ext.util.Format.htmlEncode,
+                renderer: this.internalIdRenderer,
+                hidden: true
             }
 
         ];
@@ -364,6 +370,17 @@ Ext.define('PartKeepr.PartsGrid', {
         if (rec.get("needsReview") === true) {
             ret += '<span class="web-icon flag_orange"' + '" title="' + i18n("Needs review") + '"></span>';
         }
+
+        return ret;
+    },
+    internalIdRenderer: function (val, q, rec)
+    {
+        var ret = "";
+        
+        var values = rec.id.split("/");
+        var idstr = values[values.length - 1];
+        var idint = parseInt(idstr);
+        ret = idstr + " (#"+idint.toString(36)+")";
 
         return ret;
     },

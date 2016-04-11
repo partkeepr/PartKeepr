@@ -178,7 +178,9 @@ Ext.define('PartKeepr.PartEditor', {
                         renderer: function (value)
                         {
                             var values = value.split("/");
-                            return values[values.length - 1];
+                            var idstr = values[values.length - 1];
+                            var idint = parseInt(idstr);
+                            return idstr + " (#"+idint.toString(36)+")";
                         }
                     }
                 ]
