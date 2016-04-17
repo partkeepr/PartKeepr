@@ -636,7 +636,15 @@ class Part extends BaseEntity
         if ($minStockLevel < 0) {
             throw new MinStockLevelOutOfRangeException();
         }
+
         $this->minStockLevel = $minStockLevel;
+
+        if ($this->getStockLevel() < $this->getMinStockLevel()) {
+            $this->setLowStock(true);
+        } else {
+            $this->setLowStock(false);
+        }
+
     }
 
     /**
