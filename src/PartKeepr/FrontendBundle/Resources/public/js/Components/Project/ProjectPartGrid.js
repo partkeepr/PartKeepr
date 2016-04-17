@@ -153,7 +153,7 @@ Ext.define('PartKeepr.ProjectPartGrid', {
     {
         var selection = this.getView().getSelectionModel().getSelection()[0];
         if (selection) {
-            Ext.getCmp("partkeepr-partmanager").onEditPart(selection.get("part_id"));
+            Ext.getCmp("partkeepr-partmanager").onEditPart(selection.getPart());
         }
     },
 
