@@ -4,6 +4,8 @@ namespace PartKeepr\ProjectBundle\Tests;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
+use PartKeepr\ProjectBundle\Entity\Project;
+use PartKeepr\ProjectBundle\Entity\ProjectAttachment;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectTest extends WebTestCase
@@ -155,12 +157,54 @@ class ProjectTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->markTestIncomplete(
-            "This test can't be completed yet. See https://github.com/dunglas/DunglasApiBundle/issues/285"
-        );
-
         $this->assertInternalType("array", $response->parts);
         $this->assertArrayNotHasKey(1, $response->parts,
             "When removing an entry from the ArrayCollection, the array must be resorted!");
+        $this->assertEquals(1, count($response->parts));
+    }
+
+    public function testProjectAttachmentRemoval()
+    {
+        $client = static::makeClient(true);
+
+        /**
+         * @var $project Project
+         */
+        $project = $this->fixtures->getReference("project");
+
+        $projectAttachment = new ProjectAttachment();
+
+        $fileService = $this->getContainer()->get("partkeepr_uploadedfile_service");
+        $fileService->replaceFromData($projectAttachment, "BLA", "test.txt");
+
+        $project->addAttachment($projectAttachment);
+        $this->getContainer()->get("doctrine.orm.default_entity_manager")->flush($project);
+
+        $project->removeAttachment($projectAttachment);
+
+        $serializedProject = $this->getContainer()->get("serializer")->normalize(
+            $project,
+            'jsonld'
+        );
+
+        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iri = $iriConverter->getIriFromItem($project);
+
+        $client->request(
+            'PUT',
+            $iri,
+            array(),
+            array(),
+            array(),
+            json_encode($serializedProject)
+        );
+
+        $response = json_decode($client->getResponse()->getContent());
+
+        $this->assertInternalType("array", $response->attachments);
+        $this->assertArrayNotHasKey(1, $response->attachments,
+            "When removing an entry from the ArrayCollection, the array must be resorted!");
+
+        $this->assertEquals(0, count($response->attachments));
     }
 }

@@ -9,6 +9,7 @@ use PartKeepr\FootprintBundle\Entity\Footprint;
 use PartKeepr\PartBundle\Exceptions\CategoryNotAssignedException;
 use PartKeepr\PartBundle\Exceptions\MinStockLevelOutOfRangeException;
 use PartKeepr\PartBundle\Exceptions\StorageLocationNotAssignedException;
+use PartKeepr\ProjectBundle\Entity\Project;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
@@ -813,7 +814,9 @@ class Part extends BaseEntity
     {
         $projectNames = [];
         foreach ($this->projectParts as $projectPart) {
-            $projectNames[] = $projectPart->getProject()->getName();
+            if ($projectPart->getProject() instanceof Project) {
+                $projectNames[] = $projectPart->getProject()->getName();
+            }
         }
 
         return array_unique($projectNames);

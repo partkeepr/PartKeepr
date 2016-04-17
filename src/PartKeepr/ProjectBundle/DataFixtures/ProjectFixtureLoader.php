@@ -4,6 +4,7 @@ namespace PartKeepr\ProjectBundle\DataFixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use PartKeepr\ProjectBundle\Entity\Project;
+use PartKeepr\ProjectBundle\Entity\ProjectAttachment;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 
 class ProjectFixtureLoader extends AbstractFixture
