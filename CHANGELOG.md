@@ -1,5 +1,33 @@
 # Changelog
 
+## PartKeepr 1.0.0-alpha2
+
+This is a bugfix release only.
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.0.0-alpha2)
+
+## PartKeepr 1.0.0-alpha1
+
+This is a bugfix release only.
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.0.0-alpha1)
+
+## PartKeepr 0.82
+
+This is a bugfix release only.
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A0.82)
+
+## PartKeepr 0.81
+
+This is a bugfix release only.
+ 
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A0.80)
+
+## PartKeepr 0.80
+
+Skipped due to a packaging error
+
 ## PartKeepr 0.79
 
 This is a security release, which fixes a security issue which is present in versions 0.75 - 0.78.
