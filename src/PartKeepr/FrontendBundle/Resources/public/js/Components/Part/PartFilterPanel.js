@@ -52,6 +52,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
     statusFilter: null,
     conditionFilter: null,
     internalPartNumberFilter: null,
+    commentFilter: null,
 
     /**
      * Initializes the component
@@ -96,7 +97,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 this.footprintFilter,
                 this.statusFilter,
                 this.conditionFilter,
-                this.internalPartNumberFilter
+                this.internalPartNumberFilter,
+                this.commentFilter
             ]
         };
 
@@ -184,6 +186,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.conditionFilter.setValue("");
         this.internalPartNumberFilter.setValue("");
+        this.commentFilter.setValue("");
 
         this.onApply();
     },
@@ -442,6 +445,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
             anchor: '100%'
         });
 
+        this.commentFilter = Ext.create("Ext.form.field.Text", {
+            fieldLabel: i18n("Comment"),
+            anchor: '100%'
+        });
+
     },
     /**
      * Applies the filter parameters to the passed extraParams object.
@@ -599,6 +607,14 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 property: 'internalPartNumber',
                 operator: "LIKE",
                 value: "%" + this.internalPartNumberFilter.getValue() + "%"
+            }));
+        }
+
+        if (this.commentFilter.getValue() !== "") {
+            filters.push(Ext.create("Ext.util.Filter", {
+                property: 'comment',
+                operator: "LIKE",
+                value: "%" + this.commentFilter.getValue() + "%"
             }));
         }
         return filters;
