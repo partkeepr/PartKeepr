@@ -27,7 +27,6 @@ class ProjectAttachment extends UploadedFile
      * The project object
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project", inversedBy="attachments")
-     * @Groups({"default"})
      * @var Project
      */
     private $project = null;

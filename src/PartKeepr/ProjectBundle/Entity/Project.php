@@ -37,7 +37,7 @@ class Project extends BaseEntity
     /**
      * Holds the parts needed for this project
      *
-     * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectPart",mappedBy="project",cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectPart",mappedBy="project",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      * @var ArrayCollection
      */
@@ -135,7 +135,7 @@ class Project extends BaseEntity
      */
     public function getParts()
     {
-        return $this->parts;
+        return $this->parts->getValues();
     }
 
     /**
@@ -168,7 +168,7 @@ class Project extends BaseEntity
      */
     public function getAttachments()
     {
-        return $this->attachments;
+        return $this->attachments->getValues();
     }
 
     /**
@@ -191,7 +191,9 @@ class Project extends BaseEntity
      */
     public function removeAttachment($projectAttachment)
     {
-        $projectAttachment->setProject(null);
+        if ($projectAttachment instanceof ProjectAttachment) {
+            $projectAttachment->setProject(null);
+        }
         $this->attachments->removeElement($projectAttachment);
     }
 }
