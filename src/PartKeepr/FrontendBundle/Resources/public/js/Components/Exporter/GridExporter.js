@@ -62,7 +62,7 @@ Ext.define("PartKeepr.Exporter.GridExporter", {
             headers: {}
         };
 
-        options.headers["Accept"] = "text/comma-separated-values";
+        options.headers["Accept"] = this.format;
         options.jsonData = rows;
         options.method = "POST";
         //this.down("#formatSelector").getValue().get("mimetype");
