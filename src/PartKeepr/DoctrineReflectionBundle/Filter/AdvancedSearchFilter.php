@@ -117,9 +117,9 @@ class AdvancedSearchFilter extends AbstractFilter
                 if ($filter["association"] !== null) {
                     // Pull in associations
                     $this->addJoins($queryBuilder, $filter);
-                } else {
-                    $filter["value"] = $this->getFilterValueFromUrl($filter["value"]);
                 }
+
+                $filter["value"] = $this->getFilterValueFromUrl($filter["value"]);
 
                 $queryBuilder->andWhere(
                     $this->getFilterExpression($queryBuilder, $filter)
