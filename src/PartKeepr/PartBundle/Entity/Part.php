@@ -832,8 +832,8 @@ class Part extends BaseEntity
 
     public function recomputeStockLevels()
     {
-        $sum = 0;
-        $price = 0;
+        $currentStock = 0;
+        $avgPrice = 0;
 		
         $totalPartStockPrice = 0;
         $lastPosEntryQuant = 0;
@@ -842,39 +842,35 @@ class Part extends BaseEntity
 
         foreach ($this->getStockLevels() as $stockLevel) {
             
-            $sum += $stockLevel->getStockLevel();
+            $currentStock += $stockLevel->getStockLevel();
             
             if ($stockLevel->getStockLevel() > 0) {
-
                 $lastPosEntryQuant = $stockLevel->getStockLevel();
                 $lastPosEntryPrice = $stockLevel->getPrice();
                 $totalPartStockPrice += $lastPosEntryPrice * ($lastPosEntryQuant + $negativeStock);
-                $price = $totalPartStockPrice / $sum;
-			}
-			else {
-			    if ($sum <= 0) {
-			        $price = 0;
-			        $totalPartStockPrice = 0;
-			        $negativeStock = $sum;
-				}
-				else {
-				    $negativeStock = 0;
-				    if ($sum < $lastPosEntryQuant){
-				        $totalPartStockPrice = $sum * $lastPosEntryPrice;
-				        $price = $totalPartStockPrice / $sum;
-					}
-					else {
-					    $totalPartStockPrice += $stockLevel->getStockLevel() * $price;
-					    $price = $totalPartStockPrice / $sum;
-					}
-				}
-			}
+                $avgPrice = $totalPartStockPrice / $currentStock;
+            } else {
+                if ($currentStock <= 0) {
+                    $avgPrice = 0;
+                    $totalPartStockPrice = 0;
+                    $negativeStock = $currentStock;
+                } else {
+                    $negativeStock = 0;
+                    if ($currentStock < $lastPosEntryQuant) {
+                        $totalPartStockPrice = $currentStock * $lastPosEntryPrice;
+                        $avgPrice = $totalPartStockPrice / $currentStock;
+                    } else {
+                        $totalPartStockPrice += $stockLevel->getStockLevel() * $avgPrice;
+                        $avgPrice = $totalPartStockPrice / $currentStock;
+                    }
+                }
+            }
 		}
 
-        $this->setStockLevel($sum);
-        $this->setAveragePrice($price);
+        $this->setStockLevel($currentStock);
+        $this->setAveragePrice($avgPrice);
 
-        if ($sum < $this->getMinStockLevel()) {
+        if ($currentStock < $this->getMinStockLevel()) {
             $this->setLowStock(true);
         } else {
             $this->setLowStock(false);
