@@ -844,18 +844,17 @@ class Part extends BaseEntity
             
             $currentStock += $stockLevel->getStockLevel();
             
-            if ($stockLevel->getStockLevel() > 0) {
-                $lastPosEntryQuant = $stockLevel->getStockLevel();
-                $lastPosEntryPrice = $stockLevel->getPrice();
-                $totalPartStockPrice += $lastPosEntryPrice * ($lastPosEntryQuant + $negativeStock);
-                $avgPrice = $totalPartStockPrice / $currentStock;
+            if ($currentStock <= 0) {
+                $avgPrice = 0;
+                $totalPartStockPrice = 0;
+                $negativeStock = $currentStock;
             } else {
-                if ($currentStock <= 0) {
-                    $avgPrice = 0;
-                    $totalPartStockPrice = 0;
-                    $negativeStock = $currentStock;
+                if ($stockLevel->getStockLevel() > 0) {
+                    $lastPosEntryQuant = $stockLevel->getStockLevel();
+                    $lastPosEntryPrice = $stockLevel->getPrice();
+                    $totalPartStockPrice += $lastPosEntryPrice * ($lastPosEntryQuant + $negativeStock);
+                    $avgPrice = $totalPartStockPrice / $currentStock;
                 } else {
-                    $negativeStock = 0;
                     if ($currentStock < $lastPosEntryQuant) {
                         $totalPartStockPrice = $currentStock * $lastPosEntryPrice;
                         $avgPrice = $totalPartStockPrice / $currentStock;
@@ -863,6 +862,7 @@ class Part extends BaseEntity
                         $totalPartStockPrice += $stockLevel->getStockLevel() * $avgPrice;
                         $avgPrice = $totalPartStockPrice / $currentStock;
                     }
+                    $negativeStock = 0;
                 }
             }
 		}
