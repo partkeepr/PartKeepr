@@ -359,7 +359,7 @@ Ext.define('PartKeepr.PartEditor', {
                 stockLevel.set("stockLevel", initialStockLevel);
                 stockLevel.setUser(this.initialStockLevelUser.getValue());
 
-                if (this.initialStockLevelPricePerItem.getValue() === true) {
+                if (this.initialStockLevelPricePerItem.getValue() === false) {
                     stockLevel.set("price", this.initialStockLevelPrice.getValue() / initialStockLevel);
                 } else {
                     stockLevel.set("price", this.initialStockLevelPrice.getValue());
