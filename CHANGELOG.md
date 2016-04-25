@@ -1,12 +1,26 @@
 # Changelog
 
-## PartKeepr 1.0.0-alpha2
+## PartKeepr 1.0.0-beta.1
+
+This is a bugfix release only.
+
+Bugfixes for this version:
+
+* Fixed an issue where the "Price per Item" checkbox has inverted behavior [#653](https://github.com/partkeepr/PartKeepr/issues/653)
+* Fixed an issue where the currency symbol is not stored when set [#652](https://github.com/partkeepr/PartKeepr/issues/652)
+* Fixed a "division by zero" error when upgrading from an earlier PartKeepr version [#650](https://github.com/partkeepr/PartKeepr/issues/650)
+* Fixed an issue where the xlsx format is not correctly set when exporting data [#646](https://github.com/partkeepr/PartKeepr/issues/646)
+* Fixed an issue where distributor and manufacturer filters don't work [#647](https://github.com/partkeepr/PartKeepr/issues/647)
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.0.0-beta.1+is%3Aclosed)
+
+## PartKeepr 1.0.0-alpha.2
 
 This is a bugfix release only.
 
 For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.0.0-alpha2)
 
-## PartKeepr 1.0.0-alpha1
+## PartKeepr 1.0.0-alpha.1
 
 This is a bugfix release only.
 
