@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle;
 
 use PartKeepr\TipOfTheDayBundle\Command\SyncTipsCommand;
@@ -8,7 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class PartKeeprTipOfTheDayBundle extends Bundle
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function registerCommands(Application $application)
     {

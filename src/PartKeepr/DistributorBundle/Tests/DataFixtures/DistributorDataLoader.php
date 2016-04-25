@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\DistributorBundle\Tests\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -10,11 +11,11 @@ class DistributorDataLoader extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $distributor = new Distributor();
-        $distributor->setName("TEST");
+        $distributor->setName('TEST');
 
         $manager->persist($distributor);
         $manager->flush();
 
-        $this->addReference("distributor.first", $distributor);
+        $this->addReference('distributor.first', $distributor);
     }
 }

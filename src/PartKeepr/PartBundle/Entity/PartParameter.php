@@ -1,10 +1,10 @@
 <?php
+
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
 use PartKeepr\UnitBundle\Entity\Unit;
-
 
 /**
  * This object represents a parameter. Each parameter can have an unit (defined by the class "Unit") associated with
@@ -17,7 +17,8 @@ class PartParameter
     /**
      * @ORM\Id @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @var integer
+     *
+     * @var int
      */
     private $id;
 
@@ -30,7 +31,8 @@ class PartParameter
     private $part;
 
     /**
-     * The name of the parameter (e.g. Resistance, Voltage)
+     * The name of the parameter (e.g. Resistance, Voltage).
+     *
      * @ORM\Column(type="string")
      *
      * @var string
@@ -38,7 +40,8 @@ class PartParameter
     private $name;
 
     /**
-     * A description for this parameter
+     * A description for this parameter.
+     *
      * @ORM\Column(type="string")
      *
      * @var string
@@ -49,6 +52,7 @@ class PartParameter
      * The unit for this type. May be null.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\UnitBundle\Entity\Unit")
+     *
      * @var \PartKeepr\UnitBundle\Entity\Unit
      */
     private $unit;
@@ -58,6 +62,7 @@ class PartParameter
      *
      * Example: If you have 10µ, the value field will contain "10", the prefix object is linked to the SiPrefix
      * representing "µ" and the rawValue field will contain 0.000001
+     *
      * @ORM\Column(type="float")
      *
      * @var float
@@ -65,7 +70,8 @@ class PartParameter
     private $value;
 
     /**
-     * The SiPrefix of the unit
+     * The SiPrefix of the unit.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
      *
      * @var object
@@ -74,6 +80,7 @@ class PartParameter
 
     /**
      * The raw value of the unit.
+     *
      * @ORM\Column(type="float")
      *
      * @var float
@@ -81,7 +88,7 @@ class PartParameter
     private $rawValue;
 
     /**
-     * Sets the name for this parameter
+     * Sets the name for this parameter.
      *
      * @param string $name The name
      */
@@ -91,7 +98,7 @@ class PartParameter
     }
 
     /**
-     * Returns the name for this parameter
+     * Returns the name for this parameter.
      *
      * @return string The name for this parameter
      */
@@ -101,7 +108,7 @@ class PartParameter
     }
 
     /**
-     * Sets the description for this parameter
+     * Sets the description for this parameter.
      *
      * @param string $description The description
      */
@@ -111,7 +118,7 @@ class PartParameter
     }
 
     /**
-     * Returns the description
+     * Returns the description.
      *
      * @return string The description
      */
@@ -121,7 +128,7 @@ class PartParameter
     }
 
     /**
-     * Sets the unit
+     * Sets the unit.
      *
      * @param \PartKeepr\UnitBundle\Entity\Unit $unit The unit to set
      */
@@ -131,7 +138,7 @@ class PartParameter
     }
 
     /**
-     * Returns the unit
+     * Returns the unit.
      *
      * @return \PartKeepr\UnitBundle\Entity\Unit the unit
      */
@@ -141,7 +148,7 @@ class PartParameter
     }
 
     /**
-     * Sets the part
+     * Sets the part.
      *
      * @param Part $part The part to set
      */
@@ -151,7 +158,7 @@ class PartParameter
     }
 
     /**
-     * Returns the part
+     * Returns the part.
      *
      * @return \PartKeepr\PartBundle\Entity\Part the part
      */
@@ -161,7 +168,7 @@ class PartParameter
     }
 
     /**
-     * Sets the value
+     * Sets the value.
      *
      * @param float $value The value to set
      */
@@ -173,7 +180,7 @@ class PartParameter
     }
 
     /**
-     * Returns the value
+     * Returns the value.
      *
      * @return float The value
      */
@@ -183,7 +190,7 @@ class PartParameter
     }
 
     /**
-     * Sets the si prefix for this parameter
+     * Sets the si prefix for this parameter.
      *
      * @param \PartKeepr\SiPrefixBundle\Entity\SiPrefix $prefix The prefix to set, or null
      */
@@ -195,7 +202,7 @@ class PartParameter
     }
 
     /**
-     * Returns the si prefix for this parameter
+     * Returns the si prefix for this parameter.
      *
      * @return \PartKeepr\SiPrefixBundle\Entity\SiPrefix the si prefix or null
      */

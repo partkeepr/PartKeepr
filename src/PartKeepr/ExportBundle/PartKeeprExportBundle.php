@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ExportBundle;
 
+namespace PartKeepr\ExportBundle;
 
 use PartKeepr\ExportBundle\DependencyInjection\Compiler\CsvFormatPass;
 use PartKeepr\ExportBundle\DependencyInjection\Compiler\XmlExcelFormatPass;

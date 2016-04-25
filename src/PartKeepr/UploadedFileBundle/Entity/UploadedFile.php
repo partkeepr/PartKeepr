@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\UploadedFileBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -42,7 +43,7 @@ abstract class UploadedFile extends BaseEntity
     private $originalFilename;
 
     /**
-     * The MimeType for the file
+     * The MimeType for the file.
      *
      * @ORM\Column(type="string")
      * @Groups({"default"})
@@ -52,16 +53,18 @@ abstract class UploadedFile extends BaseEntity
     private $mimetype;
 
     /**
-     * The size of the uploaded file
+     * The size of the uploaded file.
+     *
      * @ORM\Column(type="integer")
      * @Groups({"default"})
      *
-     * @var integer
+     * @var int
      */
     private $size;
 
     /**
-     * Holds the extension of the given file
+     * Holds the extension of the given file.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -70,7 +73,8 @@ abstract class UploadedFile extends BaseEntity
     private $extension;
 
     /**
-     * The description of this attachment
+     * The description of this attachment.
+     *
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
      *
@@ -80,12 +84,14 @@ abstract class UploadedFile extends BaseEntity
 
     /**
      * Holds an ID of a replacement image.
+     *
      * @Groups({"default"})
      */
     private $replacement = null;
 
     /**
      * @ORM\Column(type="datetime",nullable=false)
+     *
      * @var \DateTime
      */
     private $created;
@@ -97,7 +103,8 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Returns the created date
+     * Returns the created date.
+     *
      * @return mixed
      */
     public function getCreated()
@@ -106,7 +113,8 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the created date
+     * Sets the created date.
+     *
      * @param mixed $created
      */
     public function setCreated($created)
@@ -115,7 +123,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Returns the replacement image, if set
+     * Returns the replacement image, if set.
      *
      * @return mixed
      */
@@ -125,7 +133,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets a replacement image
+     * Sets a replacement image.
      *
      * @param $replacement
      */
@@ -135,7 +143,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Returns the original filename
+     * Returns the original filename.
      *
      * @return string The original filename
      */
@@ -145,7 +153,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the original filename
+     * Sets the original filename.
      *
      * @param string $filename The original filename
      */
@@ -155,9 +163,9 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Returns the size of this file
+     * Returns the size of this file.
      *
-     * @return integer The size in bytes
+     * @return int The size in bytes
      */
     public function getSize()
     {
@@ -165,9 +173,9 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the size of the file
+     * Sets the size of the file.
      *
-     * @param integer $size The size in bytes
+     * @param int $size The size in bytes
      */
     public function setSize($size)
     {
@@ -175,7 +183,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Returns the type of the file
+     * Returns the type of the file.
      *
      * @param none
      *
@@ -198,7 +206,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Returns the description for this attachment
+     * Returns the description for this attachment.
      *
      * @return string The description
      */
@@ -208,7 +216,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the description for this attachment
+     * Sets the description for this attachment.
      *
      * @param string $description The attachment description
      */
@@ -217,8 +225,9 @@ abstract class UploadedFile extends BaseEntity
         $this->description = $description;
     }
 
-    public function getFullFilename () {
-        return $this->getFilename().".".$this->getExtension();
+    public function getFullFilename()
+    {
+        return $this->getFilename().'.'.$this->getExtension();
     }
 
     /**
@@ -231,7 +240,6 @@ abstract class UploadedFile extends BaseEntity
         return $this->filename;
     }
 
-
     /**
      * Sets the plain filename without path and suffix.
      *
@@ -243,14 +251,14 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Returns the extension for the file
+     * Returns the extension for the file.
      *
      * @return string The extension
      */
     public function getExtension()
     {
-        if ($this->extension == "") {
-            /** @noinspection PhpDeprecationInspection */
+        if ($this->extension == '') {
+            /* @noinspection PhpDeprecationInspection */
             return $this->getLegacyExtension();
         }
 
@@ -258,7 +266,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the extension for this file
+     * Sets the extension for this file.
      *
      * @param string $extension The extension
      */
@@ -277,21 +285,22 @@ abstract class UploadedFile extends BaseEntity
      * @todo Implement conversion from mimetype to extension in the setup routine
      *
      * @return string The extension
+     *
      * @deprecated
      */
     public function getLegacyExtension()
     {
-        $data = explode("/", $this->getMimeType());
+        $data = explode('/', $this->getMimeType());
 
         if (array_key_exists(1, $data)) {
             return $data[1];
         } else {
-            return "undefined";
+            return 'undefined';
         }
     }
 
     /**
-     * Returns the mime type for this file
+     * Returns the mime type for this file.
      *
      * @return string The mimetype for this file, e.g. text/plain
      */
@@ -301,7 +310,7 @@ abstract class UploadedFile extends BaseEntity
     }
 
     /**
-     * Sets the mimetype for this file
+     * Sets the mimetype for this file.
      *
      * @param string $mimeType The mimetype
      */

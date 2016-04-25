@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CategoryBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,7 +9,6 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- *
  * @ORM\MappedSuperclass()
  * @ORM\Table(indexes={@ORM\Index(columns={"lft"}),@ORM\Index(columns={"rgt"})})
  *
@@ -20,33 +20,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
 abstract class AbstractCategory extends BaseEntity
 {
     /**
-     * The parent category. This needs to be re-defined in the class with the proper relations
+     * The parent category. This needs to be re-defined in the class with the proper relations.
+     *
      * @var
      */
     protected $parent;
 
     /**
-     * The "left" property of the nested set
+     * The "left" property of the nested set.
+     *
      * @ORM\Column(type="integer")
      *
      * @Gedmo\TreeLeft
-     * @var integer
+     *
+     * @var int
      */
     private $lft;
 
     /**
-     * The "right" property of the nested set
+     * The "right" property of the nested set.
+     *
      * @ORM\Column(type="integer")
      *
      * @Gedmo\TreeRight
-     * @var integer
+     *
+     * @var int
      */
     private $rgt;
 
     /**
      * @Gedmo\TreeLevel
      * @ORM\Column(name="lvl", type="integer")
-     * @var integer
+     *
+     * @var int
      */
     private $lvl;
 
@@ -57,7 +63,8 @@ abstract class AbstractCategory extends BaseEntity
     private $root;
 
     /**
-     * The name of the category
+     * The name of the category.
+     *
      * @ORM\Column(length=128)
      * @Groups({"default"})
      *
@@ -66,7 +73,8 @@ abstract class AbstractCategory extends BaseEntity
     private $name;
 
     /**
-     * The description of the category
+     * The description of the category.
+     *
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
      *
@@ -76,16 +84,18 @@ abstract class AbstractCategory extends BaseEntity
 
     /**
      * @Groups({"default"})
+     *
      * @var bool
      */
     public $expanded = true;
 
-    public function __construct () {
+    public function __construct()
+    {
         $this->children = new ArrayCollection();
     }
 
     /**
-     * Sets the name of this category
+     * Sets the name of this category.
      *
      * @param string $name The name to set
      */
@@ -95,7 +105,7 @@ abstract class AbstractCategory extends BaseEntity
     }
 
     /**
-     * Returns the name of this category
+     * Returns the name of this category.
      *
      * @return string The category name
      */
@@ -104,9 +114,8 @@ abstract class AbstractCategory extends BaseEntity
         return $this->name;
     }
 
-
     /**
-     * Returns the level of this category
+     * Returns the level of this category.
      *
      * @return int
      */
@@ -116,7 +125,7 @@ abstract class AbstractCategory extends BaseEntity
     }
 
     /**
-     * Sets the description for this category
+     * Sets the description for this category.
      *
      * @param string $description The description of this category
      */
@@ -126,7 +135,7 @@ abstract class AbstractCategory extends BaseEntity
     }
 
     /**
-     * Returns the description of this category
+     * Returns the description of this category.
      *
      * @return string The description
      */
@@ -141,6 +150,7 @@ abstract class AbstractCategory extends BaseEntity
      * @return int The left value
      *
      * (non-PHPdoc)
+     *
      * @see DoctrineExtensions\NestedSet.Node::getLeftValue()
      */
     public function getLeftValue()
@@ -167,6 +177,7 @@ abstract class AbstractCategory extends BaseEntity
      * @return int The right value
      *
      * (non-PHPdoc)
+     *
      * @see DoctrineExtensions\NestedSet.Node::getRightValue()
      */
     public function getRightValue()
@@ -175,7 +186,7 @@ abstract class AbstractCategory extends BaseEntity
     }
 
     /**
-     * Sets the "right" value of the nested set
+     * Sets the "right" value of the nested set.
      *
      * @param $rgt int The right value
      *
@@ -189,7 +200,8 @@ abstract class AbstractCategory extends BaseEntity
     }
 
     /**
-     * Sets the root of the tree
+     * Sets the root of the tree.
+     *
      * @param $root
      */
     public function setRoot($root)
@@ -198,7 +210,8 @@ abstract class AbstractCategory extends BaseEntity
     }
 
     /**
-     * Returns the root of the tree
+     * Returns the root of the tree.
+     *
      * @return mixed
      */
     public function getRoot()

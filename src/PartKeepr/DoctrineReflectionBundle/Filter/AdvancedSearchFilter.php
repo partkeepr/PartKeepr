@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
- * Class AdvancedSearchFilter
+ * Class AdvancedSearchFilter.
  *
  * Allows filtering by different operators and nested associations. Expects a query parameter "filter" which includes
  * JSON in the following format:
@@ -36,16 +37,16 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private $propertyAccessor;
 
-    const OPERATOR_LESS_THAN = "<";
-    const OPERATOR_GREATER_THAN = ">";
-    const OPERATOR_EQUALS = "=";
-    const OPERATOR_GREATER_THAN_EQUALS = ">=";
-    const OPERATOR_LESS_THAN_EQUALS = ">=";
-    const OPERATOR_NOT_EQUALS = "!=";
-    const OPERATOR_IN = "in";
-    const OPERATOR_LIKE = "like";
+    const OPERATOR_LESS_THAN = '<';
+    const OPERATOR_GREATER_THAN = '>';
+    const OPERATOR_EQUALS = '=';
+    const OPERATOR_GREATER_THAN_EQUALS = '>=';
+    const OPERATOR_LESS_THAN_EQUALS = '>=';
+    const OPERATOR_NOT_EQUALS = '!=';
+    const OPERATOR_IN = 'in';
+    const OPERATOR_LIKE = 'like';
 
-    const OPERATORS = array(
+    const OPERATORS = [
         self::OPERATOR_LESS_THAN,
         self::OPERATOR_GREATER_THAN,
         self::OPERATOR_EQUALS,
@@ -54,22 +55,22 @@ class AdvancedSearchFilter extends AbstractFilter
         self::OPERATOR_NOT_EQUALS,
         self::OPERATOR_IN,
         self::OPERATOR_LIKE,
-    );
+    ];
 
-    private $aliases = array();
+    private $aliases = [];
 
     private $parameterCount = 0;
 
     private $requestStack;
 
-    private $joins = array();
+    private $joins = [];
 
     /**
      * @param ManagerRegistry           $managerRegistry
      * @param IriConverterInterface     $iriConverter
      * @param PropertyAccessorInterface $propertyAccessor
-     * @param null|array                $properties Null to allow filtering on all properties with the exact strategy
-     *                                              or a map of property name with strategy.
+     * @param null|array                $properties       Null to allow filtering on all properties with the exact strategy
+     *                                                    or a map of property name with strategy.
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
@@ -86,7 +87,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
     public function getDescription(ResourceInterface $resource)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -103,23 +104,22 @@ class AdvancedSearchFilter extends AbstractFilter
         }
 
         $properties = $this->extractProperties($request);
-        $filters = $properties["filters"];
-        $sorters = $properties["sorters"];
+        $filters = $properties['filters'];
+        $sorters = $properties['sorters'];
 
         foreach ($filters as $filter) {
-            if (isset($fieldNames[$filter["property"]]) && $filter["association"] === null) {
+            if (isset($fieldNames[$filter['property']]) && $filter['association'] === null) {
                 $queryBuilder
                     ->andWhere(
                         $this->getFilterExpression($queryBuilder, $filter)
                     );
-
             } else {
-                if ($filter["association"] !== null) {
+                if ($filter['association'] !== null) {
                     // Pull in associations
                     $this->addJoins($queryBuilder, $filter);
                 }
 
-                $filter["value"] = $this->getFilterValueFromUrl($filter["value"]);
+                $filter['value'] = $this->getFilterValueFromUrl($filter['value']);
 
                 $queryBuilder->andWhere(
                     $this->getFilterExpression($queryBuilder, $filter)
@@ -128,7 +128,7 @@ class AdvancedSearchFilter extends AbstractFilter
         }
 
         foreach ($sorters as $sorter) {
-            if ($sorter["association"] !== null) {
+            if ($sorter['association'] !== null) {
                 // Pull in associations
                 $this->addJoins($queryBuilder, $sorter);
             }
@@ -147,7 +147,7 @@ class AdvancedSearchFilter extends AbstractFilter
     private function getFilterValueFromUrl($value)
     {
         if (is_array($value)) {
-            $items = array();
+            $items = [];
 
             foreach ($value as $iri) {
                 try {
@@ -183,30 +183,30 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private function addJoins(QueryBuilder $queryBuilder, $filter)
     {
-        if (in_array($filter["association"], $this->joins)) {
+        if (in_array($filter['association'], $this->joins)) {
             // Association already added, return
             return;
         }
 
-        $associations = explode(".", $filter["association"]);
+        $associations = explode('.', $filter['association']);
 
-        $fullAssociation = "o";
+        $fullAssociation = 'o';
 
         foreach ($associations as $key => $association) {
             if (isset($associations[$key - 1])) {
                 $parent = $associations[$key - 1];
             } else {
-                $parent = "o";
+                $parent = 'o';
             }
 
-            $fullAssociation .= ".".$association;
+            $fullAssociation .= '.'.$association;
 
             $alias = $this->getAlias($fullAssociation);
 
-            $queryBuilder->join($parent.".".$association, $alias);
+            $queryBuilder->join($parent.'.'.$association, $alias);
         }
 
-        $this->joins[] = $filter["association"];
+        $this->joins[] = $filter['association'];
     }
 
     /**
@@ -215,29 +215,30 @@ class AdvancedSearchFilter extends AbstractFilter
      * @param QueryBuilder $queryBuilder
      * @param              $filter
      *
-     * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
      * @throws \Exception
+     *
+     * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
      */
     private function getFilterExpression(QueryBuilder $queryBuilder, $filter)
     {
-        if ($filter["association"] !== null) {
-            $alias = $this->getAlias("o.".$filter["association"]).".".$filter["property"];
+        if ($filter['association'] !== null) {
+            $alias = $this->getAlias('o.'.$filter['association']).'.'.$filter['property'];
         } else {
-            $alias = "o.".$filter["property"];
+            $alias = 'o.'.$filter['property'];
         }
 
-        if (strtolower($filter["operator"]) == self::OPERATOR_IN) {
-            if (!is_array($filter["value"])) {
-                throw new \Exception("Value needs to be an array for the IN operator");
+        if (strtolower($filter['operator']) == self::OPERATOR_IN) {
+            if (!is_array($filter['value'])) {
+                throw new \Exception('Value needs to be an array for the IN operator');
             }
 
-            return $queryBuilder->expr()->in($alias, $filter["value"]);
+            return $queryBuilder->expr()->in($alias, $filter['value']);
         } else {
-            $paramName = ":param".$this->parameterCount;
+            $paramName = ':param'.$this->parameterCount;
             $this->parameterCount++;
-            $queryBuilder->setParameter($paramName, $filter["value"]);
+            $queryBuilder->setParameter($paramName, $filter['value']);
 
-            switch (strtolower($filter["operator"])) {
+            switch (strtolower($filter['operator'])) {
                 case self::OPERATOR_EQUALS:
                     return $queryBuilder->expr()->eq($alias, $paramName);
                     break;
@@ -260,7 +261,7 @@ class AdvancedSearchFilter extends AbstractFilter
                     return $queryBuilder->expr()->like($alias, $paramName);
                     break;
                 default:
-                    throw new \Exception("Unknown filter");
+                    throw new \Exception('Unknown filter');
             }
         }
     }
@@ -271,18 +272,19 @@ class AdvancedSearchFilter extends AbstractFilter
      * @param QueryBuilder $queryBuilder
      * @param              $sorter
      *
-     * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
      * @throws \Exception
+     *
+     * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
      */
     private function applyOrderByExpression(QueryBuilder $queryBuilder, $sorter)
     {
-        if ($sorter["association"] !== null) {
-            $alias = $this->getAlias("o.".$sorter["association"]).".".$sorter["property"];
+        if ($sorter['association'] !== null) {
+            $alias = $this->getAlias('o.'.$sorter['association']).'.'.$sorter['property'];
         } else {
-            $alias = "o.".$sorter["property"];
+            $alias = 'o.'.$sorter['property'];
         }
 
-        return $queryBuilder->addOrderBy($alias, $sorter["direction"]);
+        return $queryBuilder->addOrderBy($alias, $sorter['direction']);
     }
 
     /**
@@ -290,10 +292,10 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     protected function extractProperties(Request $request)
     {
-        $filters = array();
+        $filters = [];
 
-        if ($request->query->has("filter")) {
-            $data = json_decode($request->query->get("filter"));
+        if ($request->query->has('filter')) {
+            $data = json_decode($request->query->get('filter'));
 
             if (is_array($data)) {
                 foreach ($data as $filter) {
@@ -304,10 +306,10 @@ class AdvancedSearchFilter extends AbstractFilter
             }
         }
 
-        $sorters = array();
+        $sorters = [];
 
-        if ($request->query->has("order")) {
-            $data = json_decode($request->query->get("order"));
+        if ($request->query->has('order')) {
+            $data = json_decode($request->query->get('order'));
 
             if (is_array($data)) {
                 foreach ($data as $sorter) {
@@ -318,7 +320,7 @@ class AdvancedSearchFilter extends AbstractFilter
             }
         }
 
-        return array("filters" => $filters, "sorters" => $sorters);
+        return ['filters' => $filters, 'sorters' => $sorters];
     }
 
     /**
@@ -331,7 +333,7 @@ class AdvancedSearchFilter extends AbstractFilter
     private function getAlias($property)
     {
         if (!array_key_exists($property, $this->aliases)) {
-            $this->aliases[$property] = "t".count($this->aliases);
+            $this->aliases[$property] = 't'.count($this->aliases);
         }
 
         return $this->aliases[$property];
@@ -342,43 +344,43 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @param $data
      *
-     * @return array An array containing the property, operator and value keys
      * @throws \Exception
+     *
+     * @return array An array containing the property, operator and value keys
      */
     private function extractJSONFilters($data)
     {
-        $filter = array();
+        $filter = [];
 
-        if (property_exists($data, "property")) {
-            if (strpos($data->property, ".") !== false) {
-                $associations = explode(".", $data->property);
+        if (property_exists($data, 'property')) {
+            if (strpos($data->property, '.') !== false) {
+                $associations = explode('.', $data->property);
 
                 $property = array_pop($associations);
 
-                $filter["association"] = implode(".", $associations);
-                $filter["property"] = $property;
+                $filter['association'] = implode('.', $associations);
+                $filter['property'] = $property;
             } else {
-                $filter["association"] = null;
-                $filter["property"] = $data->property;
+                $filter['association'] = null;
+                $filter['property'] = $data->property;
             }
-
         } else {
-            throw new \Exception("You need to set the filter property");
+            throw new \Exception('You need to set the filter property');
         }
 
-        if (property_exists($data, "operator")) {
+        if (property_exists($data, 'operator')) {
             if (!in_array(strtolower($data->operator), self::OPERATORS)) {
-                throw new \Exception(sprintf("Invalid operator %s", $data->operator));
+                throw new \Exception(sprintf('Invalid operator %s', $data->operator));
             }
-            $filter["operator"] = $data->operator;
+            $filter['operator'] = $data->operator;
         } else {
-            $filter["operator"] = self::OPERATOR_EQUALS;
+            $filter['operator'] = self::OPERATOR_EQUALS;
         }
 
-        if (property_exists($data, "value")) {
-            $filter["value"] = $data->value;
+        if (property_exists($data, 'value')) {
+            $filter['value'] = $data->value;
         } else {
-            throw new \Exception("No value specified");
+            throw new \Exception('No value specified');
         }
 
         return $filter;
@@ -389,42 +391,42 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @param $data
      *
-     * @return array An array containing the property, operator and value keys
      * @throws \Exception
+     *
+     * @return array An array containing the property, operator and value keys
      */
     private function extractJSONSorters($data)
     {
-        $sorter = array();
+        $sorter = [];
 
         if ($data->property) {
-            if (strpos($data->property, ".") !== false) {
-                $associations = explode(".", $data->property);
+            if (strpos($data->property, '.') !== false) {
+                $associations = explode('.', $data->property);
 
                 $property = array_pop($associations);
 
-                $sorter["association"] = implode(".", $associations);
-                $sorter["property"] = $property;
+                $sorter['association'] = implode('.', $associations);
+                $sorter['property'] = $property;
             } else {
-                $sorter["association"] = null;
-                $sorter["property"] = $data->property;
+                $sorter['association'] = null;
+                $sorter['property'] = $data->property;
             }
-
         } else {
-            throw new \Exception("You need to set the filter property");
+            throw new \Exception('You need to set the filter property');
         }
 
         if ($data->direction) {
             switch (strtoupper($data->direction)) {
-                case "DESC":
-                    $sorter["direction"] = "DESC";
+                case 'DESC':
+                    $sorter['direction'] = 'DESC';
                     break;
-                case "ASC":
+                case 'ASC':
                 default:
-                    $sorter["direction"] = "ASC";
+                    $sorter['direction'] = 'ASC';
                     break;
             }
         } else {
-            $sorter["direction"] = "ASC";
+            $sorter['direction'] = 'ASC';
         }
 
         return $sorter;

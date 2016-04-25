@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\FootprintBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,20 +35,22 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
 
     /**
      * @ORM\OneToMany(targetEntity="Footprint", mappedBy="category")
-     *
      */
     protected $footprints;
 
     /**
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     protected $categoryPath;
 
     /**
-     * Sets the parent category
+     * Sets the parent category.
+     *
      * @Groups({"default"})
+     *
      * @param AbstractCategory|null $parent
      */
     public function setParent(AbstractCategory $parent = null)
@@ -56,7 +59,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
     }
 
     /**
-     * Returns the parent category
+     * Returns the parent category.
      *
      * @return mixed
      */
@@ -66,7 +69,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
     }
 
     /**
-     * Returns the footprints
+     * Returns the footprints.
      *
      * @return ArrayCollection
      */
@@ -76,7 +79,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
     }
 
     /**
-     * Returns the children
+     * Returns the children.
      *
      * @return ArrayCollection
      */
@@ -86,7 +89,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
     }
 
     /**
-     * Returns the category path
+     * Returns the category path.
      *
      * @return string
      */
@@ -109,7 +112,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
     public function generateCategoryPath($pathSeparator)
     {
         if ($this->getParent() !== null) {
-            return $this->getParent()->generateCategoryPath($pathSeparator) . $pathSeparator . $this->getName();
+            return $this->getParent()->generateCategoryPath($pathSeparator).$pathSeparator.$this->getName();
         } else {
             return $this->getName();
         }

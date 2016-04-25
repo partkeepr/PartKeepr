@@ -9,7 +9,6 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
 use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
-use PartKeepr\AuthBundle\Response\LoginResponse;
 use PartKeepr\AuthBundle\Validator\Constraints\Username;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends FOSRestController
 {
     /**
-     * Retrieves the salt for a given user
+     * Retrieves the salt for a given user.
      *
      * @Routing\Route("/api/users/getSalt", defaults={"method" = "post","_format" = "json"})
      * @Routing\Method({"POST"})
@@ -34,16 +33,16 @@ class DefaultController extends FOSRestController
         $entityManager = $this->getDoctrine()->getManager();
 
         /**
-         * @var $repository EntityRepository
+         * @var EntityRepository
          */
         $repository = $entityManager->getRepository(
             'PartKeepr\AuthBundle\Entity\FOSUser'
         );
 
         /**
-         * @var $user FOSUser
+         * @var FOSUser
          */
-        $user = $repository->findOneBy(array("username" => $paramFetcher->get("username")));
+        $user = $repository->findOneBy(['username' => $paramFetcher->get('username')]);
 
         if ($user !== null) {
             return $user->getSalt();
@@ -53,16 +52,17 @@ class DefaultController extends FOSRestController
     }
 
     /**
-     * Logs out the user
+     * Logs out the user.
      *
      * @Routing\Route("/api/users/logout", defaults={"method" = "GET","_format" = "json"})
+     *
      * @param Request $request
      */
-
-    public function logoutAction (Request $request) {
+    public function logoutAction(Request $request)
+    {
         $this->get('security.token_storage')->setToken(null);
         $request->getSession()->invalidate();
 
-        return new Response("", 200);
+        return new Response('', 200);
     }
 }

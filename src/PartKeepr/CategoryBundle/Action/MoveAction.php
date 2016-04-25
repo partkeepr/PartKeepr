@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CategoryBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Returns the tree root node
+ * Returns the tree root node.
  */
 class MoveAction
 {
@@ -49,9 +50,9 @@ class MoveAction
      *
      * @param Request $request
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException|RootNodeNotFoundException|RootMayNotBeMovedException|MissingParentCategoryException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request, $id)
     {
@@ -59,10 +60,9 @@ class MoveAction
 
         $entity = $this->getItem($this->dataProvider, $resourceType, $id);
 
-        $parentId = $request->request->get("parent");
+        $parentId = $request->request->get('parent');
 
         $parentEntity = $this->iriConverter->getItemFromIri($parentId);
-
 
         if ($parentEntity === null) {
             throw new MissingParentCategoryException($parentId);
@@ -76,6 +76,6 @@ class MoveAction
 
         $this->registry->getManager()->flush();
 
-        return new Response($request->request->get("parent"));
+        return new Response($request->request->get('parent'));
     }
 }

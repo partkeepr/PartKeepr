@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\AuthBundle\Tests;
 
+namespace PartKeepr\AuthBundle\Tests;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
@@ -19,13 +19,12 @@ class UserTest extends WebTestCase
     public function setUp()
     {
         /**
-         * @var ORMExecutor $ormExecutor
+         * @var ORMExecutor
          */
         $ormExecutor = $this->loadFixtures(
-            array(
+            [
                 'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
-            ));
-
+            ]);
 
         $this->fixtures = $ormExecutor->getReferenceRepository();
     }
@@ -34,117 +33,116 @@ class UserTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $data = array(
-            "username" => "foobartest",
-            "newPassword" => "1234",
-        );
+        $data = [
+            'username'    => 'foobartest',
+            'newPassword' => '1234',
+        ];
 
-        $client->request("POST", "/api/users", array(), array(), array(), json_encode($data));
+        $client->request('POST', '/api/users', [], [], [], json_encode($data));
 
         $response = json_decode($client->getResponse()->getContent());
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals("foobartest", $response->{"username"});
-        $this->assertEmpty($response->{"password"});
-        $this->assertEmpty($response->{"newPassword"});
-        $this->assertFalse($response->{"legacy"});
+        $this->assertEquals('foobartest', $response->{'username'});
+        $this->assertEmpty($response->{'password'});
+        $this->assertEmpty($response->{'newPassword'});
+        $this->assertFalse($response->{'legacy'});
     }
 
     public function testChangeUserPassword()
     {
-        $builtinProvider = $this->getContainer()->get("partkeepr.userservice")->getBuiltinProvider();
+        $builtinProvider = $this->getContainer()->get('partkeepr.userservice')->getBuiltinProvider();
 
-        $user = new User("bernd");
-        $user->setPassword(md5("admin"));
+        $user = new User('bernd');
+        $user->setPassword(md5('admin'));
         $user->setLegacy(true);
         $user->setProvider($builtinProvider);
 
-        $this->getContainer()->get("doctrine.orm.default_entity_manager")->persist($user);
-        $this->getContainer()->get("doctrine.orm.default_entity_manager")->flush($user);
+        $this->getContainer()->get('doctrine.orm.default_entity_manager')->persist($user);
+        $this->getContainer()->get('doctrine.orm.default_entity_manager')->flush($user);
 
         $client = static::makeClient(true);
 
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
         $iri = $iriConverter->getIriFromItem($user);
 
-        $client->request("GET", $iri);
+        $client->request('GET', $iri);
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $response->{"newPassword"} = "foobar";
+        $response->{'newPassword'} = 'foobar';
 
-        $client->request("PUT", $iri, array(), array(), array(), json_encode($response));
+        $client->request('PUT', $iri, [], [], [], json_encode($response));
 
         $response = json_decode($client->getResponse()->getContent());
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEmpty($response->{"password"});
-        $this->assertEmpty($response->{"newPassword"});
-        $this->assertFalse($response->{"legacy"});
+        $this->assertEmpty($response->{'password'});
+        $this->assertEmpty($response->{'newPassword'});
+        $this->assertFalse($response->{'legacy'});
     }
 
     public function testSelfChangeUserPassword()
     {
-        $builtinProvider = $this->getContainer()->get("partkeepr.userservice")->getBuiltinProvider();
+        $builtinProvider = $this->getContainer()->get('partkeepr.userservice')->getBuiltinProvider();
 
-        $user = new User("bernd2");
-        $user->setPassword(md5("admin"));
+        $user = new User('bernd2');
+        $user->setPassword(md5('admin'));
         $user->setLegacy(true);
         $user->setProvider($builtinProvider);
 
-        $this->getContainer()->get("doctrine.orm.default_entity_manager")->persist($user);
-        $this->getContainer()->get("doctrine.orm.default_entity_manager")->flush($user);
+        $this->getContainer()->get('doctrine.orm.default_entity_manager')->persist($user);
+        $this->getContainer()->get('doctrine.orm.default_entity_manager')->flush($user);
 
-        $client = static::makeClient(false, array(
-                'PHP_AUTH_USER' => "bernd2",
-                'PHP_AUTH_PW' => "admin",
-            )
+        $client = static::makeClient(false, [
+                'PHP_AUTH_USER' => 'bernd2',
+                'PHP_AUTH_PW'   => 'admin',
+            ]
         );
 
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
-        $iri = $iriConverter->getIriFromItem($user)."/changePassword";
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iri = $iriConverter->getIriFromItem($user).'/changePassword';
 
-        $parameters = array(
-            "oldpassword" => "admin",
-            "newpassword" => "foobar",
-        );
+        $parameters = [
+            'oldpassword' => 'admin',
+            'newpassword' => 'foobar',
+        ];
 
-        $client->request("PUT", $iri, $parameters);
+        $client->request('PUT', $iri, $parameters);
 
         $response = json_decode($client->getResponse()->getContent());
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertFalse($response->{"legacy"});
-        $this->assertEmpty($response->{"password"});
-        $this->assertEmpty($response->{"newPassword"});
+        $this->assertFalse($response->{'legacy'});
+        $this->assertEmpty($response->{'password'});
+        $this->assertEmpty($response->{'newPassword'});
 
-        $client = static::makeClient(false, array(
-                'PHP_AUTH_USER' => "bernd2",
-                'PHP_AUTH_PW' => "foobar",
-            )
+        $client = static::makeClient(false, [
+                'PHP_AUTH_USER' => 'bernd2',
+                'PHP_AUTH_PW'   => 'foobar',
+            ]
         );
 
-        $client->request("PUT", $iri, $parameters);
+        $client->request('PUT', $iri, $parameters);
 
         $response = json_decode($client->getResponse()->getContent());
 
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
-        $this->assertObjectHasAttribute("@type", $response);
-        $this->assertEquals("Error", $response->{"@type"});
+        $this->assertObjectHasAttribute('@type', $response);
+        $this->assertEquals('Error', $response->{'@type'});
     }
 
     public function testUserProtect()
     {
         /**
-         * @var FOSUser $fosUser
+         * @var FOSUser
          */
-        $fosUser = $this->fixtures->getReference("user.admin");
-        $userService = $this->getContainer()->get("partkeepr.userservice");
-
+        $fosUser = $this->fixtures->getReference('user.admin');
+        $userService = $this->getContainer()->get('partkeepr.userservice');
 
         $user = $userService->getProxyUser($fosUser->getUsername(), $userService->getBuiltinProvider(), true);
 
-        /**
+        /*
          * @var User $user
          */
         $userService->protect($user);
@@ -153,41 +151,40 @@ class UserTest extends WebTestCase
 
         $client = static::makeClient(true);
 
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
         $iri = $iriConverter->getIriFromItem($user);
 
         $data = [
-            "username" => "foo",
+            'username' => 'foo',
         ];
-        $client->request("PUT", $iri, array(), array(), array(), json_encode($data));
+        $client->request('PUT', $iri, [], [], [], json_encode($data));
 
         $response = json_decode($client->getResponse()->getContent());
 
         $exception = new UserProtectedException();
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
-        $this->assertObjectHasAttribute("hydra:description", $response);
-        $this->assertEquals($exception->getMessageKey(), $response->{"hydra:description"});
+        $this->assertObjectHasAttribute('hydra:description', $response);
+        $this->assertEquals($exception->getMessageKey(), $response->{'hydra:description'});
 
-        $client->request("DELETE", $iri);
+        $client->request('DELETE', $iri);
 
         $response = json_decode($client->getResponse()->getContent());
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
-        $this->assertObjectHasAttribute("hydra:description", $response);
-        $this->assertEquals($exception->getMessageKey(), $response->{"hydra:description"});
+        $this->assertObjectHasAttribute('hydra:description', $response);
+        $this->assertEquals($exception->getMessageKey(), $response->{'hydra:description'});
     }
 
     public function testUserUnprotect()
     {
         /**
-         * @var FOSUser $fosUser
+         * @var FOSUser
          */
-        $fosUser = $this->fixtures->getReference("user.admin");
-        $userService = $this->getContainer()->get("partkeepr.userservice");
-
+        $fosUser = $this->fixtures->getReference('user.admin');
+        $userService = $this->getContainer()->get('partkeepr.userservice');
 
         $user = $userService->getProxyUser($fosUser->getUsername(), $userService->getBuiltinProvider(), true);
 
-        /**
+        /*
          * @var User $user
          */
         $userService->unprotect($user);
@@ -206,27 +203,27 @@ class UserTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $data = array(
-            "username" => "preferenceuser",
-            "newPassword" => "1234",
-        );
+        $data = [
+            'username'    => 'preferenceuser',
+            'newPassword' => '1234',
+        ];
 
-        $client->request("POST", "/api/users", array(), array(), array(), json_encode($data));
+        $client->request('POST', '/api/users', [], [], [], json_encode($data));
 
-        $userPreferenceService = $this->getContainer()->get("partkeepr.user_preference_service");
-        $userService = $this->getContainer()->get("partkeepr.userservice");
+        $userPreferenceService = $this->getContainer()->get('partkeepr.user_preference_service');
+        $userService = $this->getContainer()->get('partkeepr.userservice');
 
         /**
-         * @var User $user
+         * @var User
          */
-        $user = $userService->getProxyUser("preferenceuser", $userService->getBuiltinProvider(), true);
+        $user = $userService->getProxyUser('preferenceuser', $userService->getBuiltinProvider(), true);
 
-        $userPreferenceService->setPreference($user, "foo", "bar");
+        $userPreferenceService->setPreference($user, 'foo', 'bar');
 
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
         $iri = $iriConverter->getIriFromItem($user);
 
-        $client->request("DELETE", $iri);
+        $client->request('DELETE', $iri);
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
         $this->assertEmpty($client->getResponse()->getContent());

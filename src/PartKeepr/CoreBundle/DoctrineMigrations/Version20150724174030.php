@@ -27,7 +27,7 @@ class Version20150724174030 extends BaseMigration
         if (count($rootNodes) === 0) {
             // Ensure that the root category exists
             $rootNode = new StorageLocationCategory();
-            $rootNode->setName("Root Node");
+            $rootNode->setName('Root Node');
             $this->getEM()->persist($rootNode);
             $this->getEM()->flush();
         } else {

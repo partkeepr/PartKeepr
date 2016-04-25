@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle;
 
 class PartKeeprVersion

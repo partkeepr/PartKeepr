@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ImageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

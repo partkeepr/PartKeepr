@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -27,9 +28,9 @@ class Configuration implements ConfigurationInterface
                 ->info('The URI where tips are loaded from')
             ->end()
             ->arrayNode('required_cronjobs')
-                ->treatNullLike(array())
+                ->treatNullLike([])
                 ->prototype('scalar')->end()
-                ->defaultValue(array('partkeepr:cron:synctips'))
+                ->defaultValue(['partkeepr:cron:synctips'])
             ->end()
             ->scalarNode('tip_of_the_day_list')
                 ->cannotBeEmpty()

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle\Tests;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
@@ -15,10 +16,10 @@ class TipOfTheDayTest extends WebTestCase
     public function setUp()
     {
         $this->fixtures = $this->loadFixtures(
-            array(
+            [
                 'PartKeepr\TipOfTheDayBundle\DataFixtures\TipOfTheDayLoader',
                 'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
-            )
+            ]
         )->getReferenceRepository();
     }
 
@@ -26,15 +27,15 @@ class TipOfTheDayTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $tip = $this->fixtures->getReference("tipoftheday");
+        $tip = $this->fixtures->getReference('tipoftheday');
 
         /**
-         * @var $iriConverter IriConverter
+         * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
 
         $iri = $iriConverter->getIriFromItem($tip);
-        $iri .= "/markTipRead";
+        $iri .= '/markTipRead';
 
         $client->request(
             'PUT',
@@ -43,11 +44,11 @@ class TipOfTheDayTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertObjectHasAttribute("name", $response);
-        $this->assertObjectHasAttribute("@type", $response);
+        $this->assertObjectHasAttribute('name', $response);
+        $this->assertObjectHasAttribute('@type', $response);
 
-        $this->assertEquals("TipOfTheDay", $response->{"@type"});
-        $this->assertEquals("FOO", $response->name);
+        $this->assertEquals('TipOfTheDay', $response->{'@type'});
+        $this->assertEquals('FOO', $response->name);
 
         $client->request(
             'GET',
@@ -56,21 +57,20 @@ class TipOfTheDayTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertObjectHasAttribute("@type", $response);
-        $this->assertObjectHasAttribute("hydra:member", $response);
+        $this->assertObjectHasAttribute('@type', $response);
+        $this->assertObjectHasAttribute('hydra:member', $response);
 
-        $this->assertEquals("hydra:Collection", $response->{"@type"});
+        $this->assertEquals('hydra:Collection', $response->{'@type'});
 
-        $this->assertArrayHasKey(0, $response->{"hydra:member"});
-        $this->assertEquals("FOO", $response->{"hydra:member"}[0]->name);
-
+        $this->assertArrayHasKey(0, $response->{'hydra:member'});
+        $this->assertEquals('FOO', $response->{'hydra:member'}[0]->name);
 
         $client->request(
             'POST',
             '/api/tip_of_the_days/markAllTipsAsUnread'
         );
 
-        $this->assertEquals("OK", $client->getResponse()->getContent());
+        $this->assertEquals('OK', $client->getResponse()->getContent());
 
         $client->request(
             'GET',
@@ -79,11 +79,11 @@ class TipOfTheDayTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertObjectHasAttribute("@type", $response);
-        $this->assertObjectHasAttribute("hydra:member", $response);
+        $this->assertObjectHasAttribute('@type', $response);
+        $this->assertObjectHasAttribute('hydra:member', $response);
 
-        $this->assertEquals("hydra:Collection", $response->{"@type"});
+        $this->assertEquals('hydra:Collection', $response->{'@type'});
 
-        $this->assertEquals(0, count($response->{"hydra:member"}));
+        $this->assertEquals(0, count($response->{'hydra:member'}));
     }
 }

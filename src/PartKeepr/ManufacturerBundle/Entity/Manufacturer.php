@@ -1,15 +1,16 @@
 <?php
+
 namespace PartKeepr\ManufacturerBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents a manufacturer
+ * Represents a manufacturer.
  *
  * @ORM\Entity
  * @TargetService(uri="/api/manufacturers")
@@ -17,7 +18,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Manufacturer extends BaseEntity
 {
     /**
-     * The name of the manufacturer
+     * The name of the manufacturer.
+     *
      * @ORM\Column(type="string",unique=true)
      * @Groups({"default"})
      *
@@ -26,7 +28,8 @@ class Manufacturer extends BaseEntity
     private $name;
 
     /**
-     * The address of the manufacturer
+     * The address of the manufacturer.
+     *
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
      *
@@ -35,7 +38,8 @@ class Manufacturer extends BaseEntity
     private $address;
 
     /**
-     * The URL
+     * The URL.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -44,7 +48,8 @@ class Manufacturer extends BaseEntity
     private $url;
 
     /**
-     * The email
+     * The email.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -53,7 +58,8 @@ class Manufacturer extends BaseEntity
     private $email;
 
     /**
-     * The comment
+     * The comment.
+     *
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
      *
@@ -62,7 +68,8 @@ class Manufacturer extends BaseEntity
     private $comment;
 
     /**
-     * The phone number
+     * The phone number.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -71,7 +78,8 @@ class Manufacturer extends BaseEntity
     private $phone;
 
     /**
-     * The fax number
+     * The fax number.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -80,7 +88,8 @@ class Manufacturer extends BaseEntity
     private $fax;
 
     /**
-     * All ic logos of this manufacturer
+     * All ic logos of this manufacturer.
+     *
      * @ORM\OneToMany(targetEntity="PartKeepr\ManufacturerBundle\Entity\ManufacturerICLogo",mappedBy="manufacturer",cascade={"persist", "remove"}, orphanRemoval=true)
      *
      * @UploadedFileCollection()
@@ -89,7 +98,7 @@ class Manufacturer extends BaseEntity
     private $icLogos;
 
     /**
-     * Creates a new manufacturer instance
+     * Creates a new manufacturer instance.
      */
     public function __construct()
     {
@@ -97,7 +106,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the name
+     * Sets the name.
      *
      * @param string $name The name
      */
@@ -107,7 +116,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the name
+     * Returns the name.
      *
      * @return string The name
      */
@@ -117,7 +126,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the phone number
+     * Sets the phone number.
      *
      * @param string $phone The phone number
      */
@@ -127,7 +136,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the phone number
+     * Returns the phone number.
      *
      * @return string The phone number
      */
@@ -137,7 +146,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the fax number
+     * Sets the fax number.
      *
      * @param string $fax The fax number
      */
@@ -147,7 +156,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the fax number
+     * Returns the fax number.
      *
      * @return string The fax number
      */
@@ -157,7 +166,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the address
+     * Sets the address.
      *
      * @param string $address The address
      */
@@ -167,7 +176,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the address
+     * Returns the address.
      *
      * @return string The address
      */
@@ -177,7 +186,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the comment
+     * Sets the comment.
      *
      * @param string $comment The comment
      */
@@ -187,7 +196,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the comment
+     * Returns the comment.
      *
      * @return string The comment
      */
@@ -197,7 +206,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the email
+     * Sets the email.
      *
      * @param string $email The email
      */
@@ -207,7 +216,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the email
+     * Returns the email.
      *
      * @return string The email
      */
@@ -217,7 +226,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Sets the URL
+     * Sets the URL.
      *
      * @param string $url The URL
      */
@@ -227,7 +236,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the URL
+     * Returns the URL.
      *
      * @return string The url
      */
@@ -237,7 +246,7 @@ class Manufacturer extends BaseEntity
     }
 
     /**
-     * Returns the ic logos
+     * Returns the ic logos.
      *
      * @return ArrayCollection The array with all ic logos
      */

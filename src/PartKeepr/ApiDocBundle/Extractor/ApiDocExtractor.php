@@ -1,21 +1,20 @@
 <?php
+
 namespace PartKeepr\ApiDocBundle\Extractor;
 
-
-use Symfony\Component\Routing\Route;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\Routing\Route;
 
 class ApiDocExtractor extends \Nelmio\ApiDocBundle\Extractor\ApiDocExtractor
 {
     /**
-     *
      * Parses annotations for a given method, and adds new information to the given ApiDoc
      * annotation. Useful to extract information from the FOSRestBundle annotations.
      *
      * This method has been adjusted so that it can read annotations from the parent class.
      *
-     * @param ApiDoc           $annotation
-     * @param Route            $route
+     * @param ApiDoc            $annotation
+     * @param Route             $route
      * @param \ReflectionMethod $method
      */
     protected function parseAnnotations(ApiDoc $annotation, Route $route, \ReflectionMethod $method)
@@ -25,7 +24,7 @@ class ApiDocExtractor extends \Nelmio\ApiDocBundle\Extractor\ApiDocExtractor
         $declaringClass = $method->getDeclaringClass();
         $parentClass = $declaringClass->getParentClass();
 
-        $parentAnnotations = array();
+        $parentAnnotations = [];
 
         if ($parentClass && $parentClass->hasMethod($method->getShortName())) {
             $parentMethod = $parentClass->getMethod($method->getShortName());

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Security\Authentication;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
 
 /**
- * Class AuthenticationProviderManager
+ * Class AuthenticationProviderManager.
  *
  * Re-implementation of the Symfony AuthenticationProviderManager to store the authentication provider in
  * a token property.
@@ -51,7 +52,7 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
         }
 
         $this->providers = $providers;
-        $this->eraseCredentials = (bool)$eraseCredentials;
+        $this->eraseCredentials = (bool) $eraseCredentials;
     }
 
     public function setEventDispatcher(EventDispatcherInterface $dispatcher)
@@ -76,7 +77,7 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
                 $result = $provider->authenticate($token);
 
                 if (null !== $result) {
-                    $result->setAttribute("provider", get_class($provider));
+                    $result->setAttribute('provider', get_class($provider));
                     break;
                 }
             } catch (AccountStatusException $e) {

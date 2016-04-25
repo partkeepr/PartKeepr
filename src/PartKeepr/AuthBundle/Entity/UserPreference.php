@@ -1,8 +1,8 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\DoctrineReflectionBundle\Annotation\IgnoreIds;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,7 +22,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class UserPreference
 {
     /**
-     * Defines the key of the user preference
+     * Defines the key of the user preference.
+     *
      * @ORM\Column(type="string",length=255)
      * @ORM\Id()
      *
@@ -44,7 +45,8 @@ class UserPreference
     private $preferenceValue;
 
     /**
-     * Defines the user
+     * Defines the user.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
      * @ORM\Id()
      *
@@ -52,9 +54,8 @@ class UserPreference
      */
     private $user;
 
-
     /**
-     * Sets the user for this entry
+     * Sets the user for this entry.
      *
      * @param \PartKeepr\AuthBundle\Entity\User $user
      */
@@ -64,7 +65,7 @@ class UserPreference
     }
 
     /**
-     * Returns the user associated with this entry
+     * Returns the user associated with this entry.
      *
      * @return \PartKeepr\AuthBundle\Entity\User
      */
@@ -74,7 +75,7 @@ class UserPreference
     }
 
     /**
-     * Sets the key for this user preference
+     * Sets the key for this user preference.
      *
      * @param string $key The key name
      */
@@ -84,7 +85,7 @@ class UserPreference
     }
 
     /**
-     * Returns the key of this entry
+     * Returns the key of this entry.
      *
      * @return string
      */
@@ -94,7 +95,7 @@ class UserPreference
     }
 
     /**
-     * Sets the value for this entry
+     * Sets the value for this entry.
      *
      * @param mixed $value
      */
@@ -104,7 +105,7 @@ class UserPreference
     }
 
     /**
-     * Returns the value for this entry
+     * Returns the value for this entry.
      *
      * @return mixed The value
      */

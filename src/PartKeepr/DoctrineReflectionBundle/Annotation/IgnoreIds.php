@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\DoctrineReflectionBundle\Annotation;
 
 use Doctrine\ORM\Mapping\Annotation;

@@ -1,18 +1,20 @@
 <?php
+
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
- * Holds a part image
+ * Holds a part image.
  *
  * @ORM\Entity
  **/
 class PartImage extends Image
 {
     /**
-     * The part object
+     * The part object.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="images")
      *
      * @var Part
@@ -20,7 +22,7 @@ class PartImage extends Image
     private $part = null;
 
     /**
-     * Creates a new part image instance
+     * Creates a new part image instance.
      */
     public function __construct()
     {
@@ -28,7 +30,7 @@ class PartImage extends Image
     }
 
     /**
-     * Sets the part
+     * Sets the part.
      *
      * @param Part $part The part to set
      */
@@ -38,7 +40,7 @@ class PartImage extends Image
     }
 
     /**
-     * Returns the part
+     * Returns the part.
      *
      * @return Part the part
      */

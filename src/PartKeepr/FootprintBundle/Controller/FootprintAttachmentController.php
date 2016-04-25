@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\FootprintBundle\Controller;
 
 use PartKeepr\UploadedFileBundle\Controller\FileController;
@@ -6,10 +7,10 @@ use PartKeepr\UploadedFileBundle\Controller\FileController;
 class FootprintAttachmentController extends FileController
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getEntityClass()
     {
-        return "PartKeepr\\FootprintBundle\\Entity\\FootprintAttachment";
+        return 'PartKeepr\\FootprintBundle\\Entity\\FootprintAttachment';
     }
 }

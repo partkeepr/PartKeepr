@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\StatisticBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

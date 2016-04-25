@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CategoryBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -10,7 +11,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Returns the tree root node
+ * Returns the tree root node.
  */
 class GetRootNodeAction
 {
@@ -31,20 +32,20 @@ class GetRootNodeAction
      *
      * @param Request $request
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException|RootNodeNotFoundException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
         list($resourceType) = $this->extractAttributes($request);
 
-        /**
+        /*
          * @var ResourceInterface $resourceType
          */
         $repository = $this->manager->getRepository($resourceType->getEntityClass());
 
-        /**
+        /*
          * @var $repository AbstractTreeRepository
          */
         $rootNodes = $repository->getRootNodes();

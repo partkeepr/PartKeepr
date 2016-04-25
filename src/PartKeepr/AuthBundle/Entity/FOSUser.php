@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

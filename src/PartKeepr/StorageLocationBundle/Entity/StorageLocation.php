@@ -1,9 +1,10 @@
 <?php
+
 namespace PartKeepr\StorageLocationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -13,7 +14,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class StorageLocation extends BaseEntity
 {
     /**
-     * Holds the name for our storage location
+     * Holds the name for our storage location.
+     *
      * @ORM\Column(type="string",unique=true)
      * @Groups({"default"})
      *
@@ -22,17 +24,19 @@ class StorageLocation extends BaseEntity
     private $name;
 
     /**
-     * Holds the storage location image
+     * Holds the storage location image.
+     *
      * @ORM\OneToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocationImage",
      *               mappedBy="storageLocation",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      * @UploadedFile()
+     *
      * @var StorageLocationImage
      */
     private $image;
 
     /**
-     * The category of the storage location
+     * The category of the storage location.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory",
      *                inversedBy="storageLocations")
@@ -43,7 +47,8 @@ class StorageLocation extends BaseEntity
     private $category;
 
     /**
-     * Returns the category path
+     * Returns the category path.
+     *
      * @Groups({"default"})
      *
      * @return string
@@ -53,12 +58,12 @@ class StorageLocation extends BaseEntity
         if ($this->category !== null) {
             return $this->category->getCategoryPath();
         } else {
-            return "";
+            return '';
         }
     }
 
     /**
-     * Sets the category for this storage location
+     * Sets the category for this storage location.
      *
      * @param StorageLocationCategory $category The category
      *
@@ -70,7 +75,7 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Returns the category of this storage location
+     * Returns the category of this storage location.
      *
      * @return StorageLocationCategory The storage location category
      */
@@ -80,7 +85,7 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Sets the name for the storage location
+     * Sets the name for the storage location.
      *
      * @param string $name the name to set
      */
@@ -90,7 +95,7 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Returns the name of the storage location
+     * Returns the name of the storage location.
      *
      * @return string The name
      */
@@ -100,7 +105,7 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Sets the storage location image
+     * Sets the storage location image.
      *
      * @param StorageLocationImage $image The storage location image
      *
@@ -121,7 +126,7 @@ class StorageLocation extends BaseEntity
     }
 
     /**
-     * Returns the storage location image
+     * Returns the storage location image.
      *
      * @return StorageLocationImage The storage location image
      */

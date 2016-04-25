@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
@@ -9,5 +10,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class PasswordMD5Hash extends Constraint
 {
-    public $message = "The password must be an MD5 hash of exactly 32 characters in length";
+    public $message = 'The password must be an MD5 hash of exactly 32 characters in length';
 }

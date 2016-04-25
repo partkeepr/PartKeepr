@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\UploadedFileBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +15,6 @@ class TempUploadedFile extends UploadedFile
     public function __construct()
     {
         parent::__construct();
-        $this->setType("tempfile");
+        $this->setType('tempfile');
     }
 }

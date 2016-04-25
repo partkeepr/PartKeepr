@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CronLoggerBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -27,7 +28,7 @@ class CronLoggerService
     }
 
     /**
-     * Marks a specific cronjob as ran
+     * Marks a specific cronjob as ran.
      *
      * @param string $cronjob The name of the cronjob
      *
@@ -37,7 +38,7 @@ class CronLoggerService
     {
         $dql = "SELECT c FROM PartKeepr\CronLoggerBundle\Entity\CronLogger c WHERE c.cronjob = :cronjob";
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("cronjob", $cronjob);
+        $query->setParameter('cronjob', $cronjob);
 
         try {
             $result = $query->getSingleResult();
@@ -55,7 +56,7 @@ class CronLoggerService
     }
 
     /**
-     * Returns a list of all inactive cronjobs
+     * Returns a list of all inactive cronjobs.
      *
      * @param none
      *
@@ -64,32 +65,31 @@ class CronLoggerService
     public function getInactiveCronjobs($requiredCronjobs)
     {
         $dql = "SELECT c.cronjob FROM PartKeepr\CronLoggerBundle\Entity\CronLogger c WHERE c.cronjob = :cronjob";
-        $dql .= " AND c.lastRunDate > :date";
+        $dql .= ' AND c.lastRunDate > :date';
 
         $query = $this->entityManager->createQuery($dql);
 
         $date = new \DateTime();
         $date->sub(new \DateInterval('P1D'));
-        $query->setParameter("date", $date);
+        $query->setParameter('date', $date);
 
-        $failedCronjobs = array();
+        $failedCronjobs = [];
 
         foreach ($requiredCronjobs as $cronjob) {
-            $query->setParameter("cronjob", $cronjob);
+            $query->setParameter('cronjob', $cronjob);
 
             try {
                 $query->getSingleResult();
             } catch (\Exception $e) {
                 $failedCronjobs[] = $cronjob;
             }
-
         }
 
         return $failedCronjobs;
     }
 
     /**
-     * Clears all cron logger entries
+     * Clears all cron logger entries.
      */
     public function clear()
     {
@@ -100,14 +100,14 @@ class CronLoggerService
     }
 
     /**
-     * Runs all crons
+     * Runs all crons.
      *
      * @throws \Exception
      */
     public function runCrons()
     {
         $this->entityManager->beginTransaction();
-        $repository = $this->entityManager->getRepository("PartKeeprCronLoggerBundle:CronLogger");
+        $repository = $this->entityManager->getRepository('PartKeeprCronLoggerBundle:CronLogger');
 
         $cronJobs = $repository->findAll();
 
@@ -125,9 +125,9 @@ class CronLoggerService
 
             $command = $cronJob->getCronjob();
 
-            $input = new ArrayInput(array(
+            $input = new ArrayInput([
                 'command' => $command,
-            ));
+            ]);
 
             $application->run($input, $output);
         }

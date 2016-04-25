@@ -1,11 +1,12 @@
 <?php
+
 namespace PartKeepr\UnitBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,7 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Unit extends BaseEntity
 {
     /**
-     * The name of the unit (e.g. Volts, Ampere, Farad, Metres)
+     * The name of the unit (e.g. Volts, Ampere, Farad, Metres).
+     *
      * @ORM\Column(type="string")
      * @Groups({"default"})
      * @Assert\Type(type="string")
@@ -29,7 +31,8 @@ class Unit extends BaseEntity
     private $name;
 
     /**
-     * The symbol of the unit (e.g. V, A, F, m)
+     * The symbol of the unit (e.g. V, A, F, m).
+     *
      * @ORM\Column(type="string")
      * @Groups({"default"})
      * @Assert\Type(type="string")
@@ -40,7 +43,8 @@ class Unit extends BaseEntity
     private $symbol;
 
     /**
-     * Defines the allowed SiPrefixes for this parameter unit
+     * Defines the allowed SiPrefixes for this parameter unit.
+     *
      * @ORM\ManyToMany(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
      * @ORM\JoinTable(name="UnitSiPrefixes",
      *            joinColumns={@ORM\JoinColumn(name="unit_id", referencedColumnName="id")},
@@ -50,6 +54,7 @@ class Unit extends BaseEntity
      * @Assert\All({
      *      @Assert\Type(type="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
      * })
+     *
      * @var ArrayCollection
      */
     private $prefixes;
@@ -63,7 +68,7 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Sets the name for this unit
+     * Sets the name for this unit.
      *
      * @param string $name the name for this unit
      */
@@ -73,7 +78,7 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Returns the name for this unit
+     * Returns the name for this unit.
      *
      * @return string The unit name
      */
@@ -83,7 +88,7 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Sets the symbol for this unit
+     * Sets the symbol for this unit.
      *
      * @param string $symbol The symbol
      */
@@ -93,7 +98,7 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Returns the symbol for this unit
+     * Returns the symbol for this unit.
      *
      * @return string The symbol
      */
@@ -103,7 +108,7 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Returns the si-prefix list for this unit
+     * Returns the si-prefix list for this unit.
      *
      * @return ArrayCollection An array of SiPrefix objects
      */
@@ -113,7 +118,7 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Sets the SiPrefixes
+     * Sets the SiPrefixes.
      *
      * @param $array
      */

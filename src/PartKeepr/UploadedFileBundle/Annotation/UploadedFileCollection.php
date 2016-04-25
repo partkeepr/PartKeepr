@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\UploadedFileBundle\Annotation;
 
 use Doctrine\ORM\Mapping\Annotation;

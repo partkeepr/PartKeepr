@@ -1,12 +1,13 @@
 <?php
+
 namespace PartKeepr\FootprintBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
-use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFile;
+use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -16,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Footprint extends BaseEntity
 {
     /**
-     * Holds the footprint name
+     * Holds the footprint name.
      *
      * @ORM\Column(length=64,unique=true)
      * @Groups({"default"})
@@ -26,7 +27,7 @@ class Footprint extends BaseEntity
     private $name;
 
     /**
-     * Holds the footprint description
+     * Holds the footprint description.
      *
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
@@ -36,7 +37,7 @@ class Footprint extends BaseEntity
     private $description;
 
     /**
-     * The category of the footprint
+     * The category of the footprint.
      *
      * @ORM\ManyToOne(targetEntity="FootprintCategory", inversedBy="footprints")
      * @Groups({"default"})
@@ -46,19 +47,20 @@ class Footprint extends BaseEntity
     private $category;
 
     /**
-     * Holds the footprint image
+     * Holds the footprint image.
      *
      * @ORM\OneToOne(targetEntity="PartKeepr\FootprintBundle\Entity\FootprintImage",
      *               mappedBy="footprint", cascade={"persist", "remove"}, orphanRemoval=true)
      *
      * @Groups({"default"})
      * @UploadedFile()
+     *
      * @var FootprintImage
      */
     private $image;
 
     /**
-     * Holds the footprint attachments
+     * Holds the footprint attachments.
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\FootprintBundle\Entity\FootprintAttachment",
      *                mappedBy="footprint", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -70,7 +72,8 @@ class Footprint extends BaseEntity
     private $attachments;
 
     /**
-     * Returns the category path
+     * Returns the category path.
+     *
      * @Groups({"default"})
      *
      * @return string
@@ -80,12 +83,12 @@ class Footprint extends BaseEntity
         if ($this->category !== null) {
             return $this->category->getCategoryPath();
         } else {
-            return "";
+            return '';
         }
     }
 
     /**
-     * Constructs a new Footprint entity
+     * Constructs a new Footprint entity.
      */
     public function __construct()
     {
@@ -93,7 +96,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Sets the name of this footprint
+     * Sets the name of this footprint.
      *
      * @param string $name The footprint name
      *
@@ -105,7 +108,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Returns the name of this footprint
+     * Returns the name of this footprint.
      *
      * @return string The name of this footprint
      */
@@ -115,7 +118,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Sets the description of this footprint
+     * Sets the description of this footprint.
      *
      * @param string $description The description
      *
@@ -127,7 +130,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Returns the description of this footprint
+     * Returns the description of this footprint.
      *
      * @return string The description
      */
@@ -137,7 +140,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Sets the category for this footprint
+     * Sets the category for this footprint.
      *
      * @param FootprintCategory $category The category
      *
@@ -149,7 +152,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Returns the category of this footprint
+     * Returns the category of this footprint.
      *
      * @return FootprintCategory The footprint category
      */
@@ -159,7 +162,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Sets the footprint image
+     * Sets the footprint image.
      *
      * @param FootprintImage $image The footprint image
      *
@@ -180,7 +183,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Returns the footprint image
+     * Returns the footprint image.
      *
      * @return FootprintImage The footprint image
      */
@@ -190,7 +193,7 @@ class Footprint extends BaseEntity
     }
 
     /**
-     * Returns the attachments for this footprint
+     * Returns the attachments for this footprint.
      *
      * @return ArrayCollection The attachments
      */
@@ -203,7 +206,7 @@ class Footprint extends BaseEntity
      * Adds an IC Logo.
      *
      * @param FootprintAttachment|\PartKeepr\UploadedFileBundle\Entity\TempUploadedFile $attachment
-     *        Either a FootprintAttachment or a TempUploadedFile
+     *                                                                                              Either a FootprintAttachment or a TempUploadedFile
      *
      * @return void
      */

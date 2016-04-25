@@ -1,29 +1,28 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Response;
 
 use PartKeepr\AuthBundle\Entity\UserPreference;
 
 /**
- * Class LoginResponse
+ * Class LoginResponse.
  *
  * Defines the login response for use with the REST API.
- *
- * @package PartKeepr\AuthBundle\Response
  */
-class LoginResponse {
-
+class LoginResponse
+{
     /**
-     * Holds the session id
+     * Holds the session id.
      */
     public $sessionId;
 
     /**
-     * Holds the username
+     * Holds the username.
      */
     public $username;
 
     /**
-     * Defines if the current user is an administrator
+     * Defines if the current user is an administrator.
      */
     public $isAdmin;
 
@@ -31,5 +30,4 @@ class LoginResponse {
      * @var UserPreference[] The user preferences
      */
     public $userPreferences;
-
 }

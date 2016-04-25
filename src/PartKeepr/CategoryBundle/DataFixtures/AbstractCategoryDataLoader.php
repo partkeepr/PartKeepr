@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CategoryBundle\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -10,24 +11,24 @@ abstract class AbstractCategoryDataLoader extends AbstractFixture
     {
         $entityClass = $this->getEntityClass();
         $rootNode = new $entityClass();
-        $rootNode->setName("Root Node");
+        $rootNode->setName('Root Node');
 
         $firstCategory = new $entityClass();
         $firstCategory->setParent($rootNode);
-        $firstCategory->setName("First Category");
+        $firstCategory->setName('First Category');
 
         $secondCategory = new $entityClass();
         $secondCategory->setParent($firstCategory);
-        $secondCategory->setName("Second Category");
+        $secondCategory->setName('Second Category');
 
         $manager->persist($rootNode);
         $manager->persist($firstCategory);
         $manager->persist($secondCategory);
         $manager->flush();
 
-        $this->addReference($this->getReferencePrefix() . ".root", $rootNode);
-        $this->addReference($this->getReferencePrefix() . ".first", $firstCategory);
-        $this->addReference($this->getReferencePrefix() . ".second", $secondCategory);
+        $this->addReference($this->getReferencePrefix().'.root', $rootNode);
+        $this->addReference($this->getReferencePrefix().'.first', $firstCategory);
+        $this->addReference($this->getReferencePrefix().'.second', $secondCategory);
     }
 
     /**
@@ -39,5 +40,4 @@ abstract class AbstractCategoryDataLoader extends AbstractFixture
      * @return string Returns the prefix for the reference
      */
     abstract protected function getReferencePrefix();
-
 }

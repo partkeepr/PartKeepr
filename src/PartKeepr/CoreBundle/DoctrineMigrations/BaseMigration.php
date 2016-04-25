@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
@@ -27,12 +28,12 @@ abstract class BaseMigration extends AbstractMigration implements ContainerAware
     protected function performDatabaseUpgrade()
     {
         /**
-         * @var $entityManager EntityManager
+         * @var EntityManager
          */
-        $entityManager = $this->container->get("doctrine")->getManager();
+        $entityManager = $this->container->get('doctrine')->getManager();
         $tool = new SchemaTool($entityManager);
 
-        $meta = $this->container->get("doctrine")->getManager()->getMetadataFactory()->getAllMetadata();
+        $meta = $this->container->get('doctrine')->getManager()->getMetadataFactory()->getAllMetadata();
 
         $tool->updateSchema($meta, true);
     }
@@ -42,6 +43,6 @@ abstract class BaseMigration extends AbstractMigration implements ContainerAware
      */
     protected function getEM()
     {
-        return $this->container->get("doctrine")->getManager();
+        return $this->container->get('doctrine')->getManager();
     }
 }

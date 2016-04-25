@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Tests;
 
 use PartKeepr\CategoryBundle\Tests\AbstractMoveCategoryTest;
@@ -12,6 +13,6 @@ class MoveActionTest extends AbstractMoveCategoryTest
 
     public function getReferencePrefix()
     {
-        return "partcategory";
+        return 'partcategory';
     }
 }

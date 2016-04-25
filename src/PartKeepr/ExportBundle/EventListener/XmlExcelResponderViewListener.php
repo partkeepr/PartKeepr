@@ -1,8 +1,8 @@
 <?php
+
 namespace PartKeepr\ExportBundle\EventListener;
 
 use Exporter\Writer\XmlExcelWriter;
-
 
 class XmlExcelResponderViewListener extends AbstractResponderViewListener
 {

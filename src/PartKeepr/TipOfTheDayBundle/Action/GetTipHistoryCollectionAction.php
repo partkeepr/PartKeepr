@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -29,13 +30,13 @@ class GetTipHistoryCollectionAction
     }
 
     /**
-     * Retrieves a filtered tip of the day history list. Filters by the currently logged in user by default
+     * Retrieves a filtered tip of the day history list. Filters by the currently logged in user by default.
      *
      * @param Request $request
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
@@ -44,11 +45,11 @@ class GetTipHistoryCollectionAction
         $collection = $this->dataProvider->getCollection($resourceType);
         $user = $this->userService->getUser();
 
-        $resultCollection = array();
+        $resultCollection = [];
 
         foreach ($collection as $item) {
             /**
-             * @var $item TipOfTheDayHistory
+             * @var TipOfTheDayHistory
              */
             if ($item->getUser() == $user) {
                 $resultCollection[] = $item;

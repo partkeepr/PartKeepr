@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\PartBundle\Action;
 
+namespace PartKeepr\PartBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\ResourceInterface;
@@ -37,31 +37,31 @@ class PartPutAction
     /**
      * Create a new item.
      *
-     * @param Request $request
+     * @param Request    $request
      * @param string|int $id
-     *
-     * @return mixed
      *
      * @throws NotFoundHttpException
      * @throws RuntimeException
      * @throws UserProtectedException
      * @throws UserLimitReachedException
+     *
+     * @return mixed
      */
     public function __invoke(Request $request, $id)
     {
-         /**
-         * @var $resourceType ResourceInterface
+        /**
+         * @var ResourceInterface
          */
         list($resourceType, $format) = $this->extractAttributes($request);
 
-        /**
+        /*
          * Workaround to ensure stockLevels are not overwritten in a PUT request.
          * @see https://github.com/partkeepr/PartKeepr/issues/551
          */
         $data = json_decode($request->getContent(), true);
 
-        if (array_key_exists("stockLevels", $data)) {
-            unset($data["stockLevels"]);
+        if (array_key_exists('stockLevels', $data)) {
+            unset($data['stockLevels']);
         }
 
         $requestData = json_encode($data);

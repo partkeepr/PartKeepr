@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -7,13 +8,12 @@ use Dunglas\ApiBundle\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * Returns the tree root node
+ * Returns the tree root node.
  */
 class GetPreferencesAction
 {
@@ -49,9 +49,9 @@ class GetPreferencesAction
      *
      * @param Request $request
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException|RootNodeNotFoundException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
@@ -61,7 +61,7 @@ class GetPreferencesAction
 
         list($resourceType) = $this->extractAttributes($request);
 
-        /**
+        /*
          * @var ResourceInterface $resourceType
          */
         $serializedData = $this->serializer->normalize(

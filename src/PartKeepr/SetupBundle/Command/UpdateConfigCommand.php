@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SetupBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -11,16 +12,16 @@ class UpdateConfigCommand extends ContainerAwareCommand
     {
         parent::configure();
         $this->setName('partkeepr:setup:update-config');
-        $this->setDescription("Updates the PartKeepr configuration with all required config parameters");
+        $this->setDescription('Updates the PartKeepr configuration with all required config parameters');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $configService = $this->getContainer()->get("partkeepr.setup.config_service");
+        $configService = $this->getContainer()->get('partkeepr.setup.config_service');
         $config = $configService->configParser();
         $configOutput = $configService->getConfig($config);
 
         file_put_contents($configService->getConfigPath(false), $configOutput);
-        $output->writeln("Config updated");
+        $output->writeln('Config updated');
     }
 }

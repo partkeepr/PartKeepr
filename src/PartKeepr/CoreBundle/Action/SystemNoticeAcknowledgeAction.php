@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\CoreBundle\Action;
 
+namespace PartKeepr\CoreBundle\Action;
 
 use Doctrine\ORM\EntityManager;
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -32,14 +32,14 @@ class SystemNoticeAcknowledgeAction
     }
 
     /**
-     * Sets the acknowledged flag for a system notice
+     * Sets the acknowledged flag for a system notice.
      *
      * @param Request $request The request
      * @param int     $id      The ID of the system notice
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request, $id)
     {
@@ -47,7 +47,7 @@ class SystemNoticeAcknowledgeAction
 
         $systemNotice = $this->getItem($this->dataProvider, $resourceType, $id);
 
-        /**
+        /*
          * @var $systemNotice SystemNotice
          */
         $systemNotice->setAcknowledged();

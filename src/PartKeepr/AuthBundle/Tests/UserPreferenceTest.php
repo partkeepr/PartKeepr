@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\AuthBundle\Tests;
 
+namespace PartKeepr\AuthBundle\Tests;
 
 use PartKeepr\CoreBundle\Tests\WebTestCase;
 
@@ -9,9 +9,9 @@ class UserPreferenceTest extends WebTestCase
     public function setUp()
     {
         $this->loadFixtures(
-            array(
+            [
                 'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
-            )
+            ]
         )->getReferenceRepository();
     }
 
@@ -19,47 +19,46 @@ class UserPreferenceTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $request = array(
-            "preferenceKey" => "foobar",
-            "preferenceValue" => "1234",
-        );
+        $request = [
+            'preferenceKey'   => 'foobar',
+            'preferenceValue' => '1234',
+        ];
 
         $client->request(
             'POST',
             '/api/user_preferences',
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($request)
         );
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertInternalType("object", $response, var_export($client->getResponse()->getContent(), true));
+        $this->assertInternalType('object', $response, var_export($client->getResponse()->getContent(), true));
 
-        $this->assertObjectHasAttribute("preferenceKey", $response);
-        $this->assertObjectHasAttribute("preferenceValue", $response);
-        $this->assertEquals("foobar", $response->preferenceKey);
-        $this->assertEquals("1234", $response->preferenceValue);
+        $this->assertObjectHasAttribute('preferenceKey', $response);
+        $this->assertObjectHasAttribute('preferenceValue', $response);
+        $this->assertEquals('foobar', $response->preferenceKey);
+        $this->assertEquals('1234', $response->preferenceValue);
 
         $client->request(
             'GET',
             '/api/user_preferences',
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json')
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json']
         );
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertInternalType("array", $response);
+        $this->assertInternalType('array', $response);
 
         $preference = $response[0];
 
-        $this->assertObjectHasAttribute("preferenceKey", $preference);
-        $this->assertObjectHasAttribute("preferenceValue", $preference);
-        $this->assertEquals("foobar", $preference->preferenceKey);
-        $this->assertEquals("1234", $preference->preferenceValue);
-
+        $this->assertObjectHasAttribute('preferenceKey', $preference);
+        $this->assertObjectHasAttribute('preferenceValue', $preference);
+        $this->assertEquals('foobar', $preference->preferenceKey);
+        $this->assertEquals('1234', $preference->preferenceValue);
     }
 }

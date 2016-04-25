@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,7 +17,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * The entity for our part categories
  *
  * @TargetService(uri="/api/part_categories")
- *
  */
 class PartCategory extends AbstractCategory implements CategoryPathInterface
 {
@@ -37,12 +37,14 @@ class PartCategory extends AbstractCategory implements CategoryPathInterface
     /**
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     protected $categoryPath;
 
     /**
-     * Sets the parent category
+     * Sets the parent category.
+     *
      * @Groups({"default"})
      *
      * @param AbstractCategory|null $parent
@@ -53,7 +55,7 @@ class PartCategory extends AbstractCategory implements CategoryPathInterface
     }
 
     /**
-     * Returns the parent category
+     * Returns the parent category.
      *
      * @return mixed
      */
@@ -63,7 +65,7 @@ class PartCategory extends AbstractCategory implements CategoryPathInterface
     }
 
     /**
-     * Returns the children
+     * Returns the children.
      *
      * @return ArrayCollection
      */
@@ -73,7 +75,7 @@ class PartCategory extends AbstractCategory implements CategoryPathInterface
     }
 
     /**
-     * Returns the category path
+     * Returns the category path.
      *
      * @return string
      */
@@ -96,7 +98,7 @@ class PartCategory extends AbstractCategory implements CategoryPathInterface
     public function generateCategoryPath($pathSeparator)
     {
         if ($this->getParent() !== null) {
-            return $this->getParent()->generateCategoryPath($pathSeparator) . $pathSeparator . $this->getName();
+            return $this->getParent()->generateCategoryPath($pathSeparator).$pathSeparator.$this->getName();
         } else {
             return $this->getName();
         }

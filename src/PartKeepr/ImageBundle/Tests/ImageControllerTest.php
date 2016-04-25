@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImageBundle\Tests;
 
+namespace PartKeepr\ImageBundle\Tests;
 
 use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\ImageBundle\Entity\TempImage;
@@ -8,12 +8,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageControllerTest extends WebTestCase
 {
-    public function testGetImage () {
+    public function testGetImage()
+    {
         $client = static::makeClient(true);
 
-        $file = __DIR__."/Fixtures/files/uploadtest.png";
+        $file = __DIR__.'/Fixtures/files/uploadtest.png';
         $originalFilename = 'uploadtest.png';
-        $mimeType = "image/png";
+        $mimeType = 'image/png';
 
         $image = new UploadedFile(
             $file,
@@ -25,37 +26,37 @@ class ImageControllerTest extends WebTestCase
         $client->request(
             'POST',
             '/api/temp_images/upload',
-            array(),
-            array('userfile' => $image)
+            [],
+            ['userfile' => $image]
         );
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $property = "@id";
+        $property = '@id';
         $imageId = $response->image->$property;
-        $uri = $imageId . "/getImage";
+        $uri = $imageId.'/getImage';
 
         $client->request(
             'GET',
             $uri
         );
 
-        $this->assertEquals("image/png", $client->getResponse()->headers->get("Content-Type"));
+        $this->assertEquals('image/png', $client->getResponse()->headers->get('Content-Type'));
 
         $imageSize = getimagesizefromstring($client->getResponse()->getContent());
 
         $this->assertEquals(51, $imageSize[0]);
         $this->assertEquals(23, $imageSize[1]);
 
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
 
         $image = $iriConverter->getItemFromIri($imageId);
 
-        /**
+        /*
          * @var $image TempImage
          */
 
-        $this->getContainer()->get("partkeepr_image_service")->delete($image);
+        $this->getContainer()->get('partkeepr_image_service')->delete($image);
 
         $client->request(
             'GET',
@@ -63,6 +64,5 @@ class ImageControllerTest extends WebTestCase
         );
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-
     }
 }

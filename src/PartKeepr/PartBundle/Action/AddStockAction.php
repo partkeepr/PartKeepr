@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Adds stock to a given part
+ * Adds stock to a given part.
  */
 class AddStockAction
 {
@@ -47,11 +48,11 @@ class AddStockAction
      * Retrieves a collection of resources.
      *
      * @param Request $request The request
-     * @param int $id The ID of the part
-     *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @param int     $id      The ID of the part
      *
      * @throws RuntimeException|RootNodeNotFoundException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request, $id)
     {
@@ -59,22 +60,22 @@ class AddStockAction
 
         $part = $this->getItem($this->dataProvider, $resourceType, $id);
 
-        /**
+        /*
          * @var $part Part
          */
-        $quantity = $request->request->get("quantity");
+        $quantity = $request->request->get('quantity');
         $user = $this->userService->getUser();
 
         $stock = new StockEntry();
         $stock->setUser($user);
         $stock->setStockLevel(intval($quantity));
 
-        if ($request->request->has("price") && $request->request->get("price") !== null) {
-            $stock->setPrice(floatval($request->request->get("price")));
+        if ($request->request->has('price') && $request->request->get('price') !== null) {
+            $stock->setPrice(floatval($request->request->get('price')));
         }
 
-        if ($request->request->has("comment") && $request->request->get("comment") !== null) {
-            $stock->setComment($request->request->get("comment"));
+        if ($request->request->has('comment') && $request->request->get('comment') !== null) {
+            $stock->setComment($request->request->get('comment'));
         }
 
         $part->addStockLevel($stock);

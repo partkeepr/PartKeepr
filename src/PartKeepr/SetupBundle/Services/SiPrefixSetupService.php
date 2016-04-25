@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\SetupBundle\Services;
 
+namespace PartKeepr\SetupBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
@@ -9,8 +9,8 @@ use Symfony\Component\Yaml\Parser;
 
 class SiPrefixSetupService
 {
-    const SIPREFIX_PATH = "@PartKeeprSetupBundle/Resources/setup-data/";
-    const SIPREFIX_DATA = "siprefixes.yml";
+    const SIPREFIX_PATH = '@PartKeeprSetupBundle/Resources/setup-data/';
+    const SIPREFIX_DATA = 'siprefixes.yml';
 
     /**
      * @var EntityManager
@@ -59,19 +59,19 @@ class SiPrefixSetupService
                 $count++;
             }
 
-            $prefix->setExponent($prefixData["exponent"]);
-            $prefix->setSymbol($prefixData["symbol"]);
-            $prefix->setBase($prefixData["base"]);
+            $prefix->setExponent($prefixData['exponent']);
+            $prefix->setSymbol($prefixData['symbol']);
+            $prefix->setBase($prefixData['base']);
 
             $updated++;
         }
         $this->entityManager->flush();
 
-        return array("updated" => $updated-$count, "imported" => $count);
+        return ['updated' => $updated - $count, 'imported' => $count];
     }
 
     /**
-     * Finds an SI Prefix by name
+     * Finds an SI Prefix by name.
      *
      * @param string $name The SI Prefix name
      *
@@ -79,8 +79,8 @@ class SiPrefixSetupService
      */
     protected function getSiPrefix($name)
     {
-        $repository = $this->entityManager->getRepository("PartKeeprSiPrefixBundle:SiPrefix");
+        $repository = $this->entityManager->getRepository('PartKeeprSiPrefixBundle:SiPrefix');
 
-        return $repository->findOneBy(array("prefix" => $name));
+        return $repository->findOneBy(['prefix' => $name]);
     }
 }

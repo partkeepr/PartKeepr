@@ -3,8 +3,8 @@
 namespace PartKeepr\AuthBundle\Tests\Controller;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\AuthBundle\Entity\FOSUser;
+use PartKeepr\CoreBundle\Tests\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -16,9 +16,9 @@ class DefaultControllerTest extends WebTestCase
     public function setUp()
     {
         $this->fixtures = $this->loadFixtures(
-            array(
+            [
                 'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
-            )
+            ]
         )->getReferenceRepository();
     }
 
@@ -26,24 +26,22 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $request = array("username" => "admin");
-
+        $request = ['username' => 'admin'];
 
         $client->request(
             'POST',
             '/api/users/getSalt',
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($request)
         );
 
-
         $response = json_decode($client->getResponse()->getContent());
 
-        $admin = $this->fixtures->getReference("user.admin");
+        $admin = $this->fixtures->getReference('user.admin');
 
-        /**
+        /*
          * @var FOSUser $admin
          */
 

@@ -1,10 +1,11 @@
 <?php
+
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\PartBundle\Exceptions\PackagingUnitOutOfRangeException;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -16,6 +17,7 @@ class PartDistributor extends BaseEntity
 {
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="distributors")
+     *
      * @var Part
      */
     private $part;
@@ -27,7 +29,8 @@ class PartDistributor extends BaseEntity
     private $distributor;
 
     /**
-     * The order number for the part and distributor
+     * The order number for the part and distributor.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -41,7 +44,8 @@ class PartDistributor extends BaseEntity
      *
      * @ORM\Column(type="integer")
      * @Groups({"default"})
-     * @var integer
+     *
+     * @var int
      */
     private $packagingUnit;
 
@@ -51,14 +55,17 @@ class PartDistributor extends BaseEntity
      *
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
      * @Groups({"default"})
+     *
      * @var float
      */
     private $price;
 
     /**
      * The distributor's SKU (stock keeping unit) for the part.  Used with barcodes.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $sku;
@@ -95,7 +102,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the packaging unit
+     * Returns the packaging unit.
      *
      * @return int The packaging unit
      */
@@ -105,7 +112,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Sets the part
+     * Sets the part.
      *
      * @param Part $part The part
      */
@@ -115,7 +122,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the part
+     * Returns the part.
      *
      * @return Part The part
      */
@@ -125,7 +132,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Sets the distributor
+     * Sets the distributor.
      *
      * @param \PartKeepr\DistributorBundle\Entity\Distributor $distributor The distributor
      */
@@ -135,7 +142,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the distributor
+     * Returns the distributor.
      *
      * @return Distributor The distributor
      */
@@ -145,7 +152,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Sets the order number
+     * Sets the order number.
      *
      * @param string $orderNumber The order number
      */
@@ -155,7 +162,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the order number
+     * Returns the order number.
      *
      * @return string The order number
      */
@@ -165,7 +172,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Sets the price
+     * Sets the price.
      *
      * @param float $price
      */
@@ -175,7 +182,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the price
+     * Returns the price.
      */
     public function getPrice()
     {
@@ -183,7 +190,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Sets the SKU (stock keeping unit)
+     * Sets the SKU (stock keeping unit).
      *
      * @param string $sku The SKU
      */
@@ -193,7 +200,7 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the SKU (stock keeping unit)
+     * Returns the SKU (stock keeping unit).
      *
      * @return string The SKU
      */

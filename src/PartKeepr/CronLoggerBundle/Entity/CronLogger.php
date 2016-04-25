@@ -1,11 +1,12 @@
 <?php
+
 namespace PartKeepr\CronLoggerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 
 /**
- * Holds a project attachment
+ * Holds a project attachment.
  *
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="cronjob", columns={"cronjob"})})
  * @ORM\Entity
@@ -14,18 +15,20 @@ class CronLogger extends BaseEntity
 {
     /**
      * @ORM\Column(type="datetime")
+     *
      * @var \DateTime
      */
     private $lastRunDate;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @var string
      */
     private $cronjob;
 
     /**
-     * Sets the last run date and time for this entry
+     * Sets the last run date and time for this entry.
      *
      * @param \DateTime $date The date and time
      */
@@ -35,7 +38,7 @@ class CronLogger extends BaseEntity
     }
 
     /**
-     * Returns the date and time for this entry
+     * Returns the date and time for this entry.
      *
      * @return \DateTime the date and time for this entry
      */
@@ -45,7 +48,7 @@ class CronLogger extends BaseEntity
     }
 
     /**
-     * Sets the cronjob for this entry
+     * Sets the cronjob for this entry.
      *
      * @param string $cronjob the title for this entry
      */
@@ -55,7 +58,7 @@ class CronLogger extends BaseEntity
     }
 
     /**
-     * Returns the cronjob for this entry
+     * Returns the cronjob for this entry.
      *
      * @return string the title
      */
