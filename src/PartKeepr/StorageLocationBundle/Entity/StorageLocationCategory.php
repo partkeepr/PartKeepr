@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\StorageLocationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,13 +41,16 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
     /**
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     protected $categoryPath;
 
     /**
-     * Sets the parent category
+     * Sets the parent category.
+     *
      * @Groups({"default"})
+     *
      * @param AbstractCategory|null $parent
      */
     public function setParent(AbstractCategory $parent = null)
@@ -55,7 +59,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
     }
 
     /**
-     * Returns the parent category
+     * Returns the parent category.
      *
      * @return mixed
      */
@@ -65,7 +69,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
     }
 
     /**
-     * Returns the storage locations
+     * Returns the storage locations.
      *
      * @return ArrayCollection
      */
@@ -75,7 +79,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
     }
 
     /**
-     * Returns the children
+     * Returns the children.
      *
      * @return ArrayCollection
      */
@@ -85,7 +89,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
     }
 
     /**
-     * Returns the category path
+     * Returns the category path.
      *
      * @return string
      */
@@ -108,7 +112,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
     public function generateCategoryPath($pathSeparator)
     {
         if ($this->getParent() !== null) {
-            return $this->getParent()->generateCategoryPath($pathSeparator) . $pathSeparator . $this->getName();
+            return $this->getParent()->generateCategoryPath($pathSeparator).$pathSeparator.$this->getName();
         } else {
             return $this->getName();
         }

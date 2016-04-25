@@ -1,18 +1,12 @@
 <?php
+
 namespace PartKeepr\UploadedFileBundle\EventListener;
 
 use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Dunglas\ApiBundle\Api\IriConverterInterface;
-use PartKeepr\ImageBundle\Entity\Image;
-use PartKeepr\ImageBundle\Entity\TempImage;
 use PartKeepr\ImageBundle\Services\ImageService;
-use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\UploadedFileBundle\Services\UploadedFileService;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class FileRemovalListener
@@ -47,7 +41,8 @@ class FileRemovalListener
         $this->propertyAccessor = $propertyAccessor;
     }
 
-    public function onFlush(OnFlushEventArgs $eventArgs) {
+    public function onFlush(OnFlushEventArgs $eventArgs)
+    {
         $em = $eventArgs->getEntityManager();
         $uow = $em->getUnitOfWork();
         foreach ($uow->getScheduledEntityDeletions() as $entity) {

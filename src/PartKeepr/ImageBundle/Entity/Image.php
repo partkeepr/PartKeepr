@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ImageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,11 +13,11 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
  */
 abstract class Image extends UploadedFile
 {
-    const IMAGE_ICLOGO = "iclogo";
-    const IMAGE_TEMP = "temp";
-    const IMAGE_PART = "part";
-    const IMAGE_STORAGELOCATION = "storagelocation";
-    const IMAGE_FOOTPRINT = "footprint";
+    const IMAGE_ICLOGO = 'iclogo';
+    const IMAGE_TEMP = 'temp';
+    const IMAGE_PART = 'part';
+    const IMAGE_STORAGELOCATION = 'storagelocation';
+    const IMAGE_FOOTPRINT = 'footprint';
 
     /**
      * Constructs a new image object.
@@ -40,11 +41,11 @@ abstract class Image extends UploadedFile
     protected function setType($type)
     {
         switch ($type) {
-            case Image::IMAGE_ICLOGO:
-            case Image::IMAGE_TEMP:
-            case Image::IMAGE_PART:
-            case Image::IMAGE_FOOTPRINT:
-            case Image::IMAGE_STORAGELOCATION:
+            case self::IMAGE_ICLOGO:
+            case self::IMAGE_TEMP:
+            case self::IMAGE_PART:
+            case self::IMAGE_FOOTPRINT:
+            case self::IMAGE_STORAGELOCATION:
                 parent::setType($type);
                 break;
             default:

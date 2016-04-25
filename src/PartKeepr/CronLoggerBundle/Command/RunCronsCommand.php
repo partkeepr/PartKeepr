@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CronLoggerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -11,11 +12,11 @@ class RunCronsCommand extends ContainerAwareCommand
     {
         parent::configure();
         $this->setName('partkeepr:cron:run');
-        $this->setDescription("Runs all cron jobs");
+        $this->setDescription('Runs all cron jobs');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getContainer()->get("partkeepr.cronlogger_service")->runCrons();
+        $this->getContainer()->get('partkeepr.cronlogger_service')->runCrons();
     }
 }

@@ -1,13 +1,14 @@
 <?php
+
 namespace PartKeepr\DistributorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents a distributor
+ * Represents a distributor.
  *
  * @ORM\Entity
  * @TargetService(uri="/api/distributors")
@@ -15,7 +16,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Distributor extends BaseEntity
 {
     /**
-     * Holds the name of the distributor
+     * Holds the name of the distributor.
+     *
      * @ORM\Column(type="string",unique=true)
      * @Groups({"default"})
      *
@@ -24,7 +26,8 @@ class Distributor extends BaseEntity
     private $name;
 
     /**
-     * Holds the address of the distributor
+     * Holds the address of the distributor.
+     *
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
      *
@@ -33,7 +36,8 @@ class Distributor extends BaseEntity
     private $address;
 
     /**
-     * Holds the URL of the distributor
+     * Holds the URL of the distributor.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -42,7 +46,8 @@ class Distributor extends BaseEntity
     private $url;
 
     /**
-     * Holds the phone number of the distributor
+     * Holds the phone number of the distributor.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -51,7 +56,8 @@ class Distributor extends BaseEntity
     private $phone;
 
     /**
-     * Holds the fax number of the distributor
+     * Holds the fax number of the distributor.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -60,7 +66,8 @@ class Distributor extends BaseEntity
     private $fax;
 
     /**
-     * Holds the email of the distributor
+     * Holds the email of the distributor.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -69,7 +76,8 @@ class Distributor extends BaseEntity
     private $email;
 
     /**
-     * Holds a comment for the distributor
+     * Holds a comment for the distributor.
+     *
      * @ORM\Column(type="text",nullable=true)
      * @Groups({"default"})
      *
@@ -78,7 +86,8 @@ class Distributor extends BaseEntity
     private $comment;
 
     /**
-     * Holds the SKU lookup URL of the distributor
+     * Holds the SKU lookup URL of the distributor.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -87,7 +96,7 @@ class Distributor extends BaseEntity
     private $skuurl;
 
     /**
-     * Sets the name for the distributor
+     * Sets the name for the distributor.
      *
      * @param string $name The distributor's name
      */
@@ -97,7 +106,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the name of the distributor
+     * Returns the name of the distributor.
      *
      * @return string The distributor's name
      */
@@ -107,7 +116,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the address of this distributor
+     * Sets the address of this distributor.
      *
      * @param string $address The address of the distributor
      */
@@ -117,7 +126,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the address of this distributor
+     * Returns the address of this distributor.
      *
      * @return string The address of this distributor
      */
@@ -127,7 +136,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the phone number for this distributor
+     * Sets the phone number for this distributor.
      *
      * @param string $phone The phone number of this distributor
      */
@@ -137,7 +146,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the phone number of this distributor
+     * Returns the phone number of this distributor.
      *
      * @return string The phone number
      */
@@ -147,7 +156,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the fax number for this distributor
+     * Sets the fax number for this distributor.
      *
      * @param string $fax The fax number
      */
@@ -157,7 +166,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the fax number for this distributor
+     * Returns the fax number for this distributor.
      *
      * @return string $fax The fax number
      */
@@ -167,7 +176,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the comment for this distributor
+     * Sets the comment for this distributor.
      *
      * @param string $comment The comment for this distributor
      */
@@ -177,7 +186,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the comment for this distributor
+     * Returns the comment for this distributor.
      *
      * @return string The comment
      */
@@ -187,7 +196,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the email for this distributor
+     * Sets the email for this distributor.
      *
      * @param string $email The email for this distributor
      */
@@ -197,7 +206,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the email for this distributor
+     * Returns the email for this distributor.
      *
      * @return string The email
      */
@@ -207,7 +216,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the URL for this distributor
+     * Sets the URL for this distributor.
      *
      * @param string $url The URL for this distributor
      */
@@ -217,7 +226,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the URL for this distributor
+     * Returns the URL for this distributor.
      *
      * @return string The URL
      */
@@ -227,7 +236,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the SKU lookup URL for this distributor
+     * Sets the SKU lookup URL for this distributor.
      *
      * @param string $skuurl The SKU lookup URL for this distributor
      */
@@ -237,7 +246,7 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Returns the SKU lookup URL for this distributor
+     * Returns the SKU lookup URL for this distributor.
      *
      * @return string The SKU lookup URL
      */

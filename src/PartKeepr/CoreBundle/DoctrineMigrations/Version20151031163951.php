@@ -2,11 +2,10 @@
 
 namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Ensures that each footprint has a category assigned
+ * Ensures that each footprint has a category assigned.
  */
 class Version20151031163951 extends BaseMigration
 {
@@ -19,7 +18,7 @@ class Version20151031163951 extends BaseMigration
             'PartKeeprFootprintBundle:Footprint'
         );
 
-        $rootNode = $this->getContainer()->get("partkeepr.footprint.category_service")->getRootNode();
+        $rootNode = $this->getContainer()->get('partkeepr.footprint.category_service')->getRootNode();
 
         $footprints = $footprintRepository->findAll();
 

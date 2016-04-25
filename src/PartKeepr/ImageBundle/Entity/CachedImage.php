@@ -1,9 +1,10 @@
 <?php
+
 namespace PartKeepr\ImageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
  * Represents a cached image. Cached images are used for scale/resize
@@ -15,9 +16,9 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 class CachedImage extends BaseEntity
 {
     /**
-     * Specifies the ID of the original image
+     * Specifies the ID of the original image.
      *
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer")
      */
     private $originalId;
@@ -31,7 +32,7 @@ class CachedImage extends BaseEntity
     private $originalType;
 
     /**
-     * The cache filename of the image
+     * The cache filename of the image.
      *
      * @var string
      * @ORM\Column(type="string")
@@ -46,13 +47,13 @@ class CachedImage extends BaseEntity
      */
     public function __construct(UploadedFile $image, $cacheFile)
     {
-        $this->originalId = (int)$image->getId();
+        $this->originalId = (int) $image->getId();
         $this->originalType = $image->getType();
         $this->cacheFile = $cacheFile;
     }
 
     /**
-     * Returns the cache file
+     * Returns the cache file.
      *
      * @return string The cache file including path
      */
@@ -62,7 +63,7 @@ class CachedImage extends BaseEntity
     }
 
     /**
-     * Returns the original ID
+     * Returns the original ID.
      *
      * @return int
      */
@@ -72,7 +73,7 @@ class CachedImage extends BaseEntity
     }
 
     /**
-     * Returns the original type
+     * Returns the original type.
      *
      * @return string
      */

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ExportBundle\EventListener;
 
 use Exporter\Writer\WriterInterface;
@@ -6,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-
 
 abstract class AbstractResponderViewListener
 {
@@ -48,16 +48,15 @@ abstract class AbstractResponderViewListener
                 break;
         }
 
-        $columns = array();
+        $columns = [];
 
-        if ($event->getRequest()->query->has("columns")) {
-            $columns = json_decode($event->getRequest()->query->get("columns"));
+        if ($event->getRequest()->query->has('columns')) {
+            $columns = json_decode($event->getRequest()->query->get('columns'));
         }
 
         $data = $this->flatten($controllerResult, $columns);
 
-
-        $file = tempnam(sys_get_temp_dir(), "partkeepr_export");
+        $file = tempnam(sys_get_temp_dir(), 'partkeepr_export');
         unlink($file);
         $writer = $this->getWriter($file);
         $writer->open();
@@ -73,7 +72,7 @@ abstract class AbstractResponderViewListener
     }
 
     /**
-     * Returns the writer
+     * Returns the writer.
      *
      * @param $file
      *
@@ -92,7 +91,7 @@ abstract class AbstractResponderViewListener
     protected function flatten($data, $mappings)
     {
         $accessor = PropertyAccess::createPropertyAccessor();
-        $finalData = array();
+        $finalData = [];
         foreach ($data as $key => $row) {
             foreach ($mappings as $mapping) {
                 try {
@@ -104,10 +103,7 @@ abstract class AbstractResponderViewListener
                         }
                     }
                 } catch (\Exception $e) {
-
                 }
-
-
             }
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\UploadedFileBundle\EventListener;
 
 use Doctrine\Common\Annotations\Reader;
@@ -82,7 +83,6 @@ class TemporaryFileEventListener
                 'PartKeepr\UploadedFileBundle\Annotation\UploadedFile'
             );
 
-
             $manyToOneAnnotation = $this->reader->getPropertyAnnotation(
                 $property,
                 'Doctrine\ORM\Mapping\OneToMany'
@@ -123,7 +123,7 @@ class TemporaryFileEventListener
 
                         if ($item !== null && $item->getReplacement() !== null) {
                             /**
-                             * @var $tempImage UploadedFile
+                             * @var UploadedFile
                              */
                             $tempImage = $this->iriConverter->getItemFromIri($item->getReplacement());
                             $this->replaceFile($item, $tempImage);
@@ -149,7 +149,7 @@ class TemporaryFileEventListener
     protected function setReplacementFile($targetEntity, $source, $target)
     {
         /**
-         * @var $newFile UploadedFile
+         * @var UploadedFile
          */
         $newFile = new $targetEntity();
 
@@ -163,7 +163,6 @@ class TemporaryFileEventListener
 
         return $newFile;
     }
-
 
     protected function replaceFile(UploadedFile $target, UploadedFile $source)
     {

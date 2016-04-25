@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\MimetypeIconsBundle\Services;
 
 use Symfony\Component\Config\FileLocator;
@@ -18,7 +19,7 @@ class MimetypeIconService extends ContainerAware
     }
 
     /**
-     * Returns the file path to an image file which represents the passed mimetype
+     * Returns the file path to an image file which represents the passed mimetype.
      *
      * @param string $mimetype The mimetype
      *
@@ -26,19 +27,18 @@ class MimetypeIconService extends ContainerAware
      */
     public function getMimetypeIcon($mimetype)
     {
-        $file = str_replace("/", "-", $mimetype).".svg";
+        $file = str_replace('/', '-', $mimetype).'.svg';
 
-        $iconDirectory = $this->container->getParameter("partkeepr.directories.mimetype_icons");
+        $iconDirectory = $this->container->getParameter('partkeepr.directories.mimetype_icons');
 
         $fileLocator = new FileLocator($iconDirectory);
         try {
             $iconFile = $fileLocator->locate($file);
         } catch (\InvalidArgumentException $e) {
-            $file = "empty.svg";
+            $file = 'empty.svg';
             $iconFile = $fileLocator->locate($file);
         }
 
         return $iconFile;
-
     }
 }

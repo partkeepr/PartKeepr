@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Listeners;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -9,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class StockLevelListener extends ContainerAware
 {
     /**
-     * Recomputes the stock level for each part
+     * Recomputes the stock level for each part.
      *
      * @param OnFlushEventArgs $eventArgs The event arguments as given by Doctrine
      */
@@ -18,7 +19,7 @@ class StockLevelListener extends ContainerAware
         $entityManager = $eventArgs->getEntityManager();
         $uow = $entityManager->getUnitOfWork();
 
-        $parts = array();
+        $parts = [];
 
         foreach ($uow->getScheduledEntityInsertions() as $updated) {
             if ($updated instanceof StockEntry) {
@@ -44,7 +45,7 @@ class StockLevelListener extends ContainerAware
     }
 
     /**
-     * Updates the stock level for a specific part
+     * Updates the stock level for a specific part.
      *
      * @param Part             $part      The part to update
      * @param OnFlushEventArgs $eventArgs The event arguments

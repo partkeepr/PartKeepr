@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CronLoggerBundle\Tests;
 
 use PartKeepr\CoreBundle\Tests\WebTestCase;
@@ -7,22 +8,22 @@ class CronLoggerTest extends WebTestCase
 {
     public function testCronLogger()
     {
-        $cronlogger = $this->getContainer()->get("partkeepr.cronlogger_service");
+        $cronlogger = $this->getContainer()->get('partkeepr.cronlogger_service');
 
-        $cronLoggerEntry = $cronlogger->markCronRun("test");
+        $cronLoggerEntry = $cronlogger->markCronRun('test');
 
-        $this->assertEquals("test", $cronLoggerEntry->getCronjob());
+        $this->assertEquals('test', $cronLoggerEntry->getCronjob());
         $this->assertInstanceOf("\DateTime", $cronLoggerEntry->getLastRunDate());
 
-        $cronLoggerEntry->setLastRunDate(new \DateTime("1999-01-01 00:00:00"));
+        $cronLoggerEntry->setLastRunDate(new \DateTime('1999-01-01 00:00:00'));
 
-        $inactiveCronjobs = $cronlogger->getInactiveCronjobs(array("test"));
-        $this->assertEquals(false, in_array("test", $inactiveCronjobs));
+        $inactiveCronjobs = $cronlogger->getInactiveCronjobs(['test']);
+        $this->assertEquals(false, in_array('test', $inactiveCronjobs));
 
-        $this->getContainer()->get("doctrine.orm.entity_manager")->flush();
+        $this->getContainer()->get('doctrine.orm.entity_manager')->flush();
 
-        $inactiveCronjobs = $cronlogger->getInactiveCronjobs(array("test"));
+        $inactiveCronjobs = $cronlogger->getInactiveCronjobs(['test']);
 
-        $this->assertEquals(true, in_array("test", $inactiveCronjobs));
+        $this->assertEquals(true, in_array('test', $inactiveCronjobs));
     }
 }

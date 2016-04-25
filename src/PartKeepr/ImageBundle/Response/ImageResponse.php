@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImageBundle\Response;
 
+namespace PartKeepr\ImageBundle\Response;
 
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
@@ -10,13 +10,15 @@ use Symfony\Component\HttpFoundation\Response;
 class ImageResponse extends Response
 {
     /**
-     * Constructs a new ImageNotFoundResponse
-     * @param int   $maxWidth
-     * @param int   $maxHeight
-     * @param int   $code
+     * Constructs a new ImageNotFoundResponse.
+     *
+     * @param int    $maxWidth
+     * @param int    $maxHeight
+     * @param int    $code
      * @param string $message
      */
-    public function __construct ($maxWidth, $maxHeight, $code, $message) {
+    public function __construct($maxWidth, $maxHeight, $code, $message)
+    {
         if ($maxWidth == 0) {
             $maxWidth = 300;
         }
@@ -30,10 +32,10 @@ class ImageResponse extends Response
         $size = new Box(300, 300);
         $image = $imagine->create($size);
 
-        $black = $image->palette()->color("000");
+        $black = $image->palette()->color('000');
 
-        $path = realpath(__DIR__ .
-            "/../Resources/public/fonts/OpenSans-Regular.ttf"
+        $path = realpath(__DIR__.
+            '/../Resources/public/fonts/OpenSans-Regular.ttf'
         );
 
         $font = $imagine->font($path, 24, $black);
@@ -49,6 +51,6 @@ class ImageResponse extends Response
 
         $image->resize($box);
 
-        return parent::__construct($image->get("png"), $code, array("Content-Type" => "image/png"));
+        return parent::__construct($image->get('png'), $code, ['Content-Type' => 'image/png']);
     }
 }

@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\CronLoggerBundle\Controller;
 
+namespace PartKeepr\CronLoggerBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,9 +11,10 @@ class CronRunnerController extends FOSRestController
     /**
      * @Route("/api/cron/run")
      */
-    public function runCronsAction () {
-        $this->get("partkeepr.cronlogger_service")->runCrons();
+    public function runCronsAction()
+    {
+        $this->get('partkeepr.cronlogger_service')->runCrons();
 
-        return new Response("", 200);
+        return new Response('', 200);
     }
 }

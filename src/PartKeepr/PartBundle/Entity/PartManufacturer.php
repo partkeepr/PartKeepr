@@ -1,9 +1,10 @@
 <?php
+
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\ManufacturerBundle\Entity\Manufacturer;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\ManufacturerBundle\Entity\Manufacturer;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -13,6 +14,7 @@ class PartManufacturer extends BaseEntity
 {
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part",inversedBy="manufacturers")
+     *
      * @var Part
      */
     private $part;
@@ -24,16 +26,17 @@ class PartManufacturer extends BaseEntity
     private $manufacturer;
 
     /**
-     * The part number
+     * The part number.
      *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $partNumber;
 
     /**
-     * Sets the part which belongs to this manufacturer entry
+     * Sets the part which belongs to this manufacturer entry.
      *
      * @param Part $part
      */
@@ -43,7 +46,7 @@ class PartManufacturer extends BaseEntity
     }
 
     /**
-     * Returns the part which belongs to this manufacturer entry
+     * Returns the part which belongs to this manufacturer entry.
      */
     public function getPart()
     {
@@ -51,7 +54,7 @@ class PartManufacturer extends BaseEntity
     }
 
     /**
-     * Sets the manufacturer which belongs to this entry
+     * Sets the manufacturer which belongs to this entry.
      *
      * @param Manufacturer $manufacturer
      */
@@ -61,7 +64,7 @@ class PartManufacturer extends BaseEntity
     }
 
     /**
-     * Returns the manufacturer which belongs to this part
+     * Returns the manufacturer which belongs to this part.
      */
     public function getManufacturer()
     {
@@ -69,7 +72,7 @@ class PartManufacturer extends BaseEntity
     }
 
     /**
-     * Sets the manufacturer-specific part number
+     * Sets the manufacturer-specific part number.
      *
      * @param string $partNumber
      */
@@ -79,7 +82,7 @@ class PartManufacturer extends BaseEntity
     }
 
     /**
-     * Returns the manufacturer-specific part number
+     * Returns the manufacturer-specific part number.
      *
      * @return string The part number
      */

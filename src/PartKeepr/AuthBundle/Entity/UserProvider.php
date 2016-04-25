@@ -1,9 +1,10 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -18,6 +19,7 @@ class UserProvider extends BaseEntity
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $type;
@@ -25,6 +27,7 @@ class UserProvider extends BaseEntity
     /**
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
+     *
      * @var bool
      */
     private $editable;
@@ -65,5 +68,4 @@ class UserProvider extends BaseEntity
     {
         $this->type = $type;
     }
-
 }

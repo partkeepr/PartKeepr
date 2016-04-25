@@ -1,11 +1,12 @@
 <?php
+
 namespace PartKeepr\StockBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -35,8 +36,10 @@ class StockEntry extends BaseEntity
 
     /**
      * The price per item.
+     *
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=true)
      * @Groups({"default"})
+     *
      * @var float
      */
     private $price;
@@ -44,6 +47,7 @@ class StockEntry extends BaseEntity
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"default"})
+     *
      * @var \DateTime
      */
     private $dateTime;
@@ -53,22 +57,23 @@ class StockEntry extends BaseEntity
      *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
-     * @var boolean
+     *
+     * @var bool
      */
     private $correction;
 
     /**
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $comment;
 
-
     /**
      * Creates a new stock entry. A stock entry tracks how many parts
      * were the stockLevel is the amount of items added/removed,
-     * by which user and how much the user paid for it (for adding parts only!)
+     * by which user and how much the user paid for it (for adding parts only!).
      */
     public function __construct()
     {
@@ -76,9 +81,8 @@ class StockEntry extends BaseEntity
         $this->setCorrection(false);
     }
 
-
     /**
-     * Sets the date+time
+     * Sets the date+time.
      *
      * @param \DateTime $dateTime The date+time
      */
@@ -110,7 +114,7 @@ class StockEntry extends BaseEntity
     /**
      * Returns if the entry is a correction entry.
      *
-     * @return boolean True if the entry is a correction entry, false otherwise
+     * @return bool True if the entry is a correction entry, false otherwise
      */
     public function getCorrection()
     {
@@ -192,7 +196,7 @@ class StockEntry extends BaseEntity
     }
 
     /**
-     * Returns the user for this entry
+     * Returns the user for this entry.
      *
      * @return User the user
      */
@@ -216,7 +220,7 @@ class StockEntry extends BaseEntity
     /**
      * Returns if the current stock entry is a removal.
      *
-     * @return boolean True if the entry is a removal, false otherwise
+     * @return bool True if the entry is a removal, false otherwise
      */
     public function isRemoval()
     {
@@ -228,7 +232,7 @@ class StockEntry extends BaseEntity
     }
 
     /**
-     * Sets a comment
+     * Sets a comment.
      *
      * @param string $comment
      */
@@ -238,7 +242,7 @@ class StockEntry extends BaseEntity
     }
 
     /**
-     * Returns the comment
+     * Returns the comment.
      *
      * @return string The comment
      */

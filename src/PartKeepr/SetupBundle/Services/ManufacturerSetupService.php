@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SetupBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -11,8 +12,8 @@ use Symfony\Component\Yaml\Parser;
 
 class ManufacturerSetupService
 {
-    const MANUFACTURER_PATH = "@PartKeeprSetupBundle/Resources/setup-data/manufacturers/";
-    const MANUFACTURER_DATA = "manufacturers.yml";
+    const MANUFACTURER_PATH = '@PartKeeprSetupBundle/Resources/setup-data/manufacturers/';
+    const MANUFACTURER_DATA = 'manufacturers.yml';
 
     /**
      * @var EntityManager
@@ -53,7 +54,6 @@ class ManufacturerSetupService
         $yaml = new Parser();
         $data = $yaml->parse(file_get_contents($path));
 
-
         foreach ($data as $manufacturerName => $manufacturerData) {
             if ($this->manufacturerExists($manufacturerName)) {
                 $skipped++;
@@ -66,7 +66,7 @@ class ManufacturerSetupService
 
         $this->entityManager->flush();
 
-        return array("skipped" => $skipped, "imported" => $count);
+        return ['skipped' => $skipped, 'imported' => $count];
     }
 
     protected function createManufacturer($manufacturerName, $manufacturerData)
@@ -74,9 +74,8 @@ class ManufacturerSetupService
         $manufacturer = new Manufacturer();
         $manufacturer->setName($manufacturerName);
 
-        if (array_key_exists("iclogos", $manufacturerData)) {
-
-            foreach ($manufacturerData["iclogos"] as $icLogo) {
+        if (array_key_exists('iclogos', $manufacturerData)) {
+            foreach ($manufacturerData['iclogos'] as $icLogo) {
                 $manufacturerIcLogo = new ManufacturerICLogo();
 
                 $file = $this->kernel->locateResource(self::MANUFACTURER_PATH.$icLogo);
@@ -89,9 +88,8 @@ class ManufacturerSetupService
         $this->entityManager->persist($manufacturer);
     }
 
-
     /**
-     * Checks if the specified manufacturer exists
+     * Checks if the specified manufacturer exists.
      *
      * @param string $name The manufacturer name
      *
@@ -101,7 +99,7 @@ class ManufacturerSetupService
     {
         $dql = "SELECT COUNT(m) FROM PartKeepr\ManufacturerBundle\Entity\Manufacturer m WHERE m.name = :name";
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("name", $name);
+        $query->setParameter('name', $name);
 
         if ($query->getSingleScalarResult() == 0) {
             return false;

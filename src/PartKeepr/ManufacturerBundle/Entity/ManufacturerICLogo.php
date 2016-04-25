@@ -1,18 +1,20 @@
 <?php
+
 namespace PartKeepr\ManufacturerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
- * Holds a manufacturer IC logo
+ * Holds a manufacturer IC logo.
  *
  * @ORM\Entity
  **/
 class ManufacturerICLogo extends Image
 {
     /**
-     * The manufacturer object
+     * The manufacturer object.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ManufacturerBundle\Entity\Manufacturer", inversedBy="icLogos")
      * @ORM\JoinColumn(name="manufacturer_id",referencedColumnName="id")
      *
@@ -21,7 +23,7 @@ class ManufacturerICLogo extends Image
     private $manufacturer = null;
 
     /**
-     * Creates a new IC logo instance
+     * Creates a new IC logo instance.
      */
     public function __construct()
     {
@@ -29,7 +31,7 @@ class ManufacturerICLogo extends Image
     }
 
     /**
-     * Sets the manufacturer
+     * Sets the manufacturer.
      *
      * @param Manufacturer $manufacturer The manufacturer to set
      */
@@ -39,7 +41,7 @@ class ManufacturerICLogo extends Image
     }
 
     /**
-     * Returns the manufacturer
+     * Returns the manufacturer.
      *
      * @return Manufacturer the manufacturer
      */

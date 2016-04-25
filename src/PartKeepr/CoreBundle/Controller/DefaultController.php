@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\View;
@@ -8,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 class DefaultController extends FOSRestController
 {
     /**
-     * Returns system status
+     * Returns system status.
      *
      * @Routing\Route("/api/system_status", defaults={"method" = "get","_format" = "json"})
      * @View()
@@ -17,11 +18,11 @@ class DefaultController extends FOSRestController
      */
     public function getSystemStatusAction()
     {
-        return $this->get("partkeepr_systemservice")->getSystemStatus();
+        return $this->get('partkeepr_systemservice')->getSystemStatus();
     }
 
     /**
-     * Returns system information
+     * Returns system information.
      *
      * @Routing\Route("/api/system_information", defaults={"method" = "get","_format" = "json"})
      * @View()
@@ -30,11 +31,11 @@ class DefaultController extends FOSRestController
      */
     public function getSystemInformationAction()
     {
-        return $this->get("partkeepr_systemservice")->getSystemInformation();
+        return $this->get('partkeepr_systemservice')->getSystemInformation();
     }
 
     /**
-     * Returns available disk space
+     * Returns available disk space.
      *
      * @Routing\Route("/api/disk_space", defaults={"method" = "get","_format" = "json"})
      * @View()
@@ -43,9 +44,9 @@ class DefaultController extends FOSRestController
      */
     public function getDiskFreeSpaceAction()
     {
-        return array(
-            "disk_total" => $this->get("partkeepr_systemservice")->getTotalDiskSpace(),
-            "disk_used" => $this->get("partkeepr_systemservice")->getUsedDiskSpace(),
-        );
+        return [
+            'disk_total' => $this->get('partkeepr_systemservice')->getTotalDiskSpace(),
+            'disk_used'  => $this->get('partkeepr_systemservice')->getUsedDiskSpace(),
+        ];
     }
 }

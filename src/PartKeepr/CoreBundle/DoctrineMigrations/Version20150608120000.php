@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
+namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 
@@ -11,7 +11,7 @@ class Version20150608120000 extends BaseMigration
      */
     public function up(Schema $schema)
     {
-        $averagePriceFixSQL = "UPDATE Part SET averagePrice = 0 WHERE averagePrice IS NULL";
+        $averagePriceFixSQL = 'UPDATE Part SET averagePrice = 0 WHERE averagePrice IS NULL';
         $this->addSql($averagePriceFixSQL);
     }
 
@@ -21,6 +21,5 @@ class Version20150608120000 extends BaseMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

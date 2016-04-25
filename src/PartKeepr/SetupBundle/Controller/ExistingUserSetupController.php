@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SetupBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,7 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 class ExistingUserSetupController extends SetupBaseController
 {
     /**
-     * Checks if there are existing userds in the database
+     * Checks if there are existing userds in the database.
+     *
      * @Route("/setup/testExistingUsers")
      */
     public function testExistingUsersAction(Request $request)
@@ -20,7 +22,7 @@ class ExistingUserSetupController extends SetupBaseController
 
         $this->dumpConfig($request);
 
-        $response = $this->handleRequest($request, "/setup/_int_test_existing_users");
+        $response = $this->handleRequest($request, '/setup/_int_test_existing_users');
 
         return new Response($response->getContent());
     }
@@ -36,22 +38,22 @@ class ExistingUserSetupController extends SetupBaseController
 
         $legacyUsersDQL = "SELECT COUNT(u) FROM PartKeepr\AuthBundle\Entity\User u WHERE u.legacy = true";
 
-        $legacyUsersQuery = $this->get("doctrine.orm.default_entity_manager")->createQuery($legacyUsersDQL);
+        $legacyUsersQuery = $this->get('doctrine.orm.default_entity_manager')->createQuery($legacyUsersDQL);
 
         $totalUsersDQL = "SELECT COUNT(u) FROM PartKeepr\AuthBundle\Entity\User u";
 
-        $totalUsersQuery = $this->get("doctrine.orm.default_entity_manager")->createQuery($totalUsersDQL);
+        $totalUsersQuery = $this->get('doctrine.orm.default_entity_manager')->createQuery($totalUsersDQL);
 
-        $response = array(
-            "success" => true,
-            "legacyUsers" => (int)$legacyUsersQuery->getSingleScalarResult(),
-            "totalUsers" => (int)$totalUsersQuery->getSingleScalarResult(),
-            "errors" => [],
-            "message" => "No existing users found",
-        );
+        $response = [
+            'success'     => true,
+            'legacyUsers' => (int) $legacyUsersQuery->getSingleScalarResult(),
+            'totalUsers'  => (int) $totalUsersQuery->getSingleScalarResult(),
+            'errors'      => [],
+            'message'     => 'No existing users found',
+        ];
 
         if ($totalUsersQuery->getSingleScalarResult() > 0) {
-            $response["message"] = "Existing users found";
+            $response['message'] = 'Existing users found';
         }
 
         return new JsonResponse($response);

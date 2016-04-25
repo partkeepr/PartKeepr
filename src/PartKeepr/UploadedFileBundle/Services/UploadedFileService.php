@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PartKeepr\UploadedFileBundle\Services;
 
 use Gaufrette\Exception\FileNotFound;
@@ -49,7 +48,7 @@ class UploadedFileService extends ContainerAware
 
         $storage = $this->getStorage($file);
 
-        if ($filesystemFile->getSize() > $this->container->get("partkeepr_systemservice")->getFreeDiskSpace()) {
+        if ($filesystemFile->getSize() > $this->container->get('partkeepr_systemservice')->getFreeDiskSpace()) {
             throw new DiskSpaceExhaustedException();
         }
 
@@ -59,7 +58,7 @@ class UploadedFileService extends ContainerAware
     public function replaceFromData(UploadedFile $file, $data, $filename)
     {
         $tmpdir = ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir();
-        $tempName = tempnam($tmpdir, "PARTKEEPR");
+        $tempName = tempnam($tmpdir, 'PARTKEEPR');
 
         file_put_contents($tempName, $data);
 
@@ -76,8 +75,8 @@ class UploadedFileService extends ContainerAware
         try {
             $storage->delete($file->getFullFilename());
         } catch (FileNotFound $e) {
-            $this->container->get("logger")->alert(sprintf("Unable to delete file %s", $file->getFullFilename()),
-                array($e, $file));
+            $this->container->get('logger')->alert(sprintf('Unable to delete file %s', $file->getFullFilename()),
+                [$e, $file]);
         }
     }
 
@@ -115,17 +114,17 @@ class UploadedFileService extends ContainerAware
          */
         $curl = curl_init();
 
-        $header[0] = "Accept: text/xml,application/xml,application/xhtml+xml,";
-        $header[0] .= "text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
-        $header[] = "Cache-Control: max-age=0";
-        $header[] = "Connection: keep-alive";
-        $header[] = "Keep-Alive: 300";
-        $header[] = "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
-        $header[] = "Accept-Language: en-us,en;q=0.5";
-        $header[] = "Pragma: ";
+        $header[0] = 'Accept: text/xml,application/xml,application/xhtml+xml,';
+        $header[0] .= 'text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5';
+        $header[] = 'Cache-Control: max-age=0';
+        $header[] = 'Connection: keep-alive';
+        $header[] = 'Keep-Alive: 300';
+        $header[] = 'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7';
+        $header[] = 'Accept-Language: en-us,en;q=0.5';
+        $header[] = 'Pragma: ';
 
-        $browser = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3) Gecko/2008092510 ";
-        $browser .= "Ubuntu/8.04 (hardy) Firefox/3.0.3";
+        $browser = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3) Gecko/2008092510 ';
+        $browser .= 'Ubuntu/8.04 (hardy) Firefox/3.0.3';
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_USERAGENT, $browser);
@@ -142,8 +141,8 @@ class UploadedFileService extends ContainerAware
             $curlError = curl_error($curl);
             // Strip ANY tags from the error message. curl tends to spit out <url> is not valid, which then
             // confuses the error message parser on the client side.
-            $curlError = str_replace(array(">", "<"), "", $curlError);
-            throw new \Exception("replaceFromURL error: " . $curlError);
+            $curlError = str_replace(['>', '<'], '', $curlError);
+            throw new \Exception('replaceFromURL error: '.$curlError);
         }
 
         curl_close($curl);
@@ -160,7 +159,7 @@ class UploadedFileService extends ContainerAware
      */
     public function getStorageDirectory(UploadedFile $file)
     {
-        return $this->container->getParameter("partkeepr.directories." . $file->getType());
+        return $this->container->getParameter('partkeepr.directories.'.$file->getType());
     }
 
     /**
@@ -171,6 +170,7 @@ class UploadedFileService extends ContainerAware
     public function getStorage(UploadedFile $file)
     {
         $type = strtolower($file->getType());
-        return $this->container->get("filesystem_" . $type);
+
+        return $this->container->get('filesystem_'.$type);
     }
 }

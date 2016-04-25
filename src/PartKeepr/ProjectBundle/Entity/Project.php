@@ -1,16 +1,17 @@
 <?php
+
 namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents a project
+ * Represents a project.
  *
  * @ORM\Entity
  * @TargetService("/api/projects")
@@ -18,46 +19,51 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Project extends BaseEntity
 {
     /**
-     * Specifies the name of the project
+     * Specifies the name of the project.
      *
      * @ORM\Column(type="string")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $name;
 
     /**
-     * Specifies the user this project belongs to
+     * Specifies the user this project belongs to.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\AuthBundle\Entity\User")
+     *
      * @var User
      */
     private $user;
 
     /**
-     * Holds the parts needed for this project
+     * Holds the parts needed for this project.
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectPart",mappedBy="project",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
+     *
      * @var ArrayCollection
      */
     private $parts;
 
     /**
-     * Holds the description of this project
+     * Holds the description of this project.
      *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $description;
 
     /**
-     * Holds the project attachments
+     * Holds the project attachments.
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectAttachment",mappedBy="project",cascade={"persist", "remove"}, orphanRemoval=true)
      * @UploadedFileCollection()
      * @Groups({"default"})
+     *
      * @var ArrayCollection
      */
     private $attachments;
@@ -69,7 +75,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Sets the user for this project
+     * Sets the user for this project.
      *
      * @param User $user
      */
@@ -79,7 +85,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Gets the user for this project
+     * Gets the user for this project.
      *
      * @return User
      */
@@ -89,7 +95,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Sets the name for this project
+     * Sets the name for this project.
      *
      * @param string $name
      */
@@ -99,7 +105,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Returns the name of this project
+     * Returns the name of this project.
      *
      * @return string
      */
@@ -109,7 +115,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Sets the description of this project
+     * Sets the description of this project.
      *
      * @param string $description The description to set
      */
@@ -119,7 +125,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Returns the description of this project
+     * Returns the description of this project.
      *
      * @return string The description
      */
@@ -129,7 +135,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Returns the project parts array
+     * Returns the project parts array.
      *
      * @return ProjectPart[] An array of ProjectPart objects
      */
@@ -139,7 +145,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Adds a Project Part
+     * Adds a Project Part.
      *
      * @param ProjectPart $projectPart A part to add
      */
@@ -150,7 +156,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Removes a Project Part
+     * Removes a Project Part.
      *
      * @param ProjectPart $projectPart A part to remove
      */
@@ -160,9 +166,8 @@ class Project extends BaseEntity
         $this->parts->removeElement($projectPart);
     }
 
-
     /**
-     * Returns the attachments for this project
+     * Returns the attachments for this project.
      *
      * @return ProjectAttachment[] The attachments
      */
@@ -172,7 +177,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Adds a Project Attachment
+     * Adds a Project Attachment.
      *
      * @param ProjectAttachment $projectAttachment An attachment to add
      */
@@ -185,7 +190,7 @@ class Project extends BaseEntity
     }
 
     /**
-     * Removes a Project Attachment
+     * Removes a Project Attachment.
      *
      * @param ProjectAttachment $projectAttachment An attachment to remove
      */

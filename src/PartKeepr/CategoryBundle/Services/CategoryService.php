@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\CategoryBundle\Services;
 
+namespace PartKeepr\CategoryBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
@@ -29,10 +29,11 @@ class CategoryService
     }
 
     /**
-     * Returns the root node for a tree
+     * Returns the root node for a tree.
+     *
+     * @throws RootNodeNotFoundException
      *
      * @return AbstractCategory
-     * @throws RootNodeNotFoundException
      */
     public function getRootNode()
     {
@@ -47,12 +48,13 @@ class CategoryService
         return $rootNode;
     }
 
-    public function getEntityClass () {
+    public function getEntityClass()
+    {
         return $this->entityClass;
     }
 
     /**
-     * Creates the root node for a tree if it doesn't exist
+     * Creates the root node for a tree if it doesn't exist.
      */
     public function ensureRootNodeExists()
     {
@@ -60,10 +62,10 @@ class CategoryService
             $this->getRootNode();
         } catch (RootNodeNotFoundException $e) {
             /**
-             * @var AbstractCategory $rootNode
+             * @var AbstractCategory
              */
-            $rootNode = new $this->entityClass;
-            $rootNode->setName("Root Category");
+            $rootNode = new $this->entityClass();
+            $rootNode->setName('Root Category');
 
             $this->entityManager->persist($rootNode);
             $this->entityManager->flush();

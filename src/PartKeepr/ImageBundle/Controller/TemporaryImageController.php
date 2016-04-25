@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ImageBundle\Controller;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -18,7 +19,7 @@ class TemporaryImageController extends ImageController
     use ActionUtilTrait;
 
     /**
-     * Handles a temporary image upload
+     * Handles a temporary image upload.
      *
      * @RequestParam(name="url",description="An URL where the image is located",strict=false)
      * ApiDoc(section="image",output="PartKeepr\ImageBundle\Response\TemporaryImageUploadResponse")
@@ -26,32 +27,33 @@ class TemporaryImageController extends ImageController
      *
      * @param Request $request The request to process
      *
-     * @return JsonResponse The JSON response from the temporary image upload
      * @throws \Exception An exception if neither the userfile form parameter or an URL was given
+     *
+     * @return JsonResponse The JSON response from the temporary image upload
      */
     public function uploadAction(Request $request)
     {
         $image = new TempImage();
-        $imageService = $this->get("partkeepr_image_service");
+        $imageService = $this->get('partkeepr_image_service');
 
         if ($request->files->has('userfile') && $request->files->get('userfile') != null) {
             $file = $request->files->get('userfile');
-            /**
+            /*
              * @var $file UploadedFile
              */
             $imageService->replace($image, new File($file->getPathname()));
             $image->setOriginalFilename($file->getClientOriginalName());
-        } elseif ($request->request->has("url")) {
-            $imageService->replaceFromURL($image, $request->request->get("url"));
+        } elseif ($request->request->has('url')) {
+            $imageService->replaceFromURL($image, $request->request->get('url'));
         } else {
-            throw new \Exception("Error: No valid file given");
+            throw new \Exception('Error: No valid file given');
         }
 
         $this->getDoctrine()->getManager()->persist($image);
         $this->getDoctrine()->getManager()->flush();
 
         /**
-         * @var ResourceInterface $resourceType
+         * @var ResourceInterface
          */
         list($resourceType) = $this->extractAttributes($request);
 
@@ -65,7 +67,7 @@ class TemporaryImageController extends ImageController
     }
 
     /**
-     * Uploads a webcam image
+     * Uploads a webcam image.
      *
      * @param Request $request The request to process
      *
@@ -74,13 +76,12 @@ class TemporaryImageController extends ImageController
     public function webcamUploadAction(Request $request)
     {
         $image = new TempImage();
-        $imageService = $this->get("partkeepr_image_service");
-
+        $imageService = $this->get('partkeepr_image_service');
 
         $data = $request->getContent();
 
         $base64 = explode(',', $data);
-        $imageService->replaceFromData($image, base64_decode($base64[1]), "webcam.png");
+        $imageService->replaceFromData($image, base64_decode($base64[1]), 'webcam.png');
 
         $this->getDoctrine()->getManager()->persist($image);
         $this->getDoctrine()->getManager()->flush();
@@ -89,10 +90,10 @@ class TemporaryImageController extends ImageController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getEntityClass()
     {
-        return "PartKeepr\\ImageBundle\\Entity\\TempImage";
+        return 'PartKeepr\\ImageBundle\\Entity\\TempImage';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,7 +27,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Part extends BaseEntity
 {
     /**
-     * The category of the part
+     * The category of the part.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartCategory")
      * @Groups({"default"})
      *
@@ -35,16 +37,18 @@ class Part extends BaseEntity
     private $category;
 
     /**
-     * The part's name
+     * The part's name.
      *
      * @ORM\Column
      * @Groups({"default"})
+     *
      * @var string
      */
     private $name;
 
     /**
-     * The part's short description
+     * The part's short description.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -53,7 +57,8 @@ class Part extends BaseEntity
     private $description;
 
     /**
-     * The footprint of this part
+     * The footprint of this part.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\FootprintBundle\Entity\Footprint")
      * @Groups({"default"})
      *
@@ -64,6 +69,7 @@ class Part extends BaseEntity
     /**
      * The unit in which the part's "amount" is calculated. This is necessary to count parts
      * in "pieces", "meters" or "grams".
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit", inversedBy="parts")
      * @Groups({"default"})
      *
@@ -72,7 +78,8 @@ class Part extends BaseEntity
     private $partUnit;
 
     /**
-     * Defines the storage location of this part
+     * Defines the storage location of this part.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
      * @Groups({"default"})
      *
@@ -81,7 +88,8 @@ class Part extends BaseEntity
     private $storageLocation;
 
     /**
-     * Holds the manufacturers which can manufacture this part
+     * Holds the manufacturers which can manufacture this part.
+     *
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      *
@@ -90,7 +98,8 @@ class Part extends BaseEntity
     private $manufacturers;
 
     /**
-     * Holds the distributors from where we can buy the part
+     * Holds the distributors from where we can buy the part.
+     *
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
      *
@@ -99,7 +108,8 @@ class Part extends BaseEntity
     private $distributors;
 
     /**
-     * Holds the part attachments
+     * Holds the part attachments.
+     *
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartAttachment",
      *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
@@ -110,11 +120,12 @@ class Part extends BaseEntity
     private $attachments;
 
     /**
-     * The comment for this part
+     * The comment for this part.
+     *
      * @ORM\Column(type="text")
      * @Groups({"default"})
      */
-    private $comment = "";
+    private $comment = '';
 
     /**
      * The stock level. Note that this is a cached value, because it makes our summary queries easier.
@@ -122,7 +133,8 @@ class Part extends BaseEntity
      * @todo It would be nice if we could get rid of that.
      * @ORM\Column(type="integer")
      * @Groups({"default"})
-     * @var integer
+     *
+     * @var int
      */
     private $stockLevel = 0;
 
@@ -132,7 +144,8 @@ class Part extends BaseEntity
      *
      * @Groups({"default"})
      * @ORM\Column(type="integer")
-     * @var integer
+     *
+     * @var int
      */
     private $minStockLevel = 0;
 
@@ -141,12 +154,14 @@ class Part extends BaseEntity
      *
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=false)
      * @Groups({"default"})
+     *
      * @var float
      */
     private $averagePrice = 0;
 
     /**
-     * The stock level history
+     * The stock level history.
+     *
      * @ORM\OneToMany(targetEntity="PartKeepr\StockBundle\Entity\StockEntry",mappedBy="part",cascade={"persist", "remove"})
      * @Groups({"stock"})
      *
@@ -155,7 +170,8 @@ class Part extends BaseEntity
     private $stockLevels;
 
     /**
-     * The parameters for this part
+     * The parameters for this part.
+     *
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartParameter",
      *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
      *
@@ -164,7 +180,8 @@ class Part extends BaseEntity
     private $parameters;
 
     /**
-     * The part status for this part
+     * The part status for this part.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -173,16 +190,18 @@ class Part extends BaseEntity
     private $status;
 
     /**
-     * Defines if the part needs review
+     * Defines if the part needs review.
+     *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
      *
-     * @var boolean
+     * @var bool
      */
     private $needsReview;
 
     /**
-     * Defines the condition of the part
+     * Defines the condition of the part.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -191,7 +210,8 @@ class Part extends BaseEntity
     private $partCondition;
 
     /**
-     * The create date+time for this part
+     * The create date+time for this part.
+     *
      * @ORM\Column(type="datetime",nullable=true)
      * @Groups({"default"})
      *
@@ -201,12 +221,14 @@ class Part extends BaseEntity
 
     /**
      * @ORM\OneToMany(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectPart", mappedBy="part")
+     *
      * @var ProjectPart[]
      **/
     private $projectParts;
 
     /**
-     * The internal part number
+     * The internal part number.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
      *
@@ -216,13 +238,15 @@ class Part extends BaseEntity
 
     /**
      * @ORM\Column(type="boolean",nullable=false)
-     * @var boolean
+     *
+     * @var bool
      */
     private $removals = false;
 
     /**
      * @ORM\Column(type="boolean",nullable=false)
-     * @var boolean
+     *
+     * @var bool
      */
     private $lowStock = false;
 
@@ -239,7 +263,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the create date for this part
+     * Sets the create date for this part.
      *
      * @param \DateTime $dateTime The create date+time
      */
@@ -249,7 +273,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isLowStock()
     {
@@ -257,7 +281,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * @param boolean $lowStock
+     * @param bool $lowStock
      */
     public function setLowStock($lowStock)
     {
@@ -273,7 +297,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the name of this part
+     * Returns the name of this part.
      *
      * @return string The part name
      */
@@ -283,7 +307,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the name for this part
+     * Sets the name for this part.
      *
      * @param string $name The part's name
      */
@@ -293,7 +317,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the internal part number for this part
+     * Returns the internal part number for this part.
      *
      * @return string the internal part number
      */
@@ -303,7 +327,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the internal part number for this part
+     * Sets the internal part number for this part.
      *
      * @param string $partNumber
      */
@@ -313,7 +337,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the short description of this part
+     * Returns the short description of this part.
      *
      * @return string The part description
      */
@@ -323,7 +347,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the description for this part
+     * Sets the description for this part.
      *
      * @param string $description The part's short description
      */
@@ -333,7 +357,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the part unit
+     * Returns the part unit.
      *
      * @param none
      *
@@ -345,10 +369,9 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the part unit
+     * Sets the part unit.
      *
      * @param PartMeasurementUnit $partUnit The part unit object to set
-     *
      */
     public function setPartUnit(PartMeasurementUnit $partUnit)
     {
@@ -356,9 +379,9 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the review flag
+     * Returns the review flag.
      *
-     * @return boolean True if the part needs review, false otherwise
+     * @return bool True if the part needs review, false otherwise
      */
     public function getNeedsReview()
     {
@@ -366,9 +389,9 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the review flag
+     * Sets the review flag.
      *
-     * @param boolean $bReview True if the part needs review, false otherwise
+     * @param bool $bReview True if the part needs review, false otherwise
      */
     public function setNeedsReview($bReview)
     {
@@ -376,7 +399,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the condition of this part
+     * Returns the condition of this part.
      *
      * @return string The part condition
      */
@@ -386,7 +409,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the condition for this part
+     * Sets the condition for this part.
      *
      * @param string $partCondition The part's condition
      */
@@ -396,7 +419,8 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the category path
+     * Returns the category path.
+     *
      * @Groups({"default"})
      *
      * @return string
@@ -406,12 +430,12 @@ class Part extends BaseEntity
         if ($this->category !== null) {
             return $this->category->getCategoryPath();
         } else {
-            return "";
+            return '';
         }
     }
 
     /**
-     * Retrieves the footprint
+     * Retrieves the footprint.
      */
     public function getFootprint()
     {
@@ -419,7 +443,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the footprint for this part
+     * Sets the footprint for this part.
      *
      * @param \PartKeepr\FootprintBundle\Entity\Footprint $footprint The footprint to set
      */
@@ -429,7 +453,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the comment for this part
+     * Returns the comment for this part.
      *
      * @return string The comment
      */
@@ -439,7 +463,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the comment for this part
+     * Sets the comment for this part.
      *
      * @param string $comment The comment for this part
      */
@@ -449,7 +473,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the distributors array
+     * Returns the distributors array.
      *
      * @return ArrayCollection the distributors
      */
@@ -459,7 +483,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the part attachments array
+     * Returns the part attachments array.
      *
      * @return ArrayCollection the part attachments
      */
@@ -469,7 +493,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the manufacturers array
+     * Returns the manufacturers array.
      *
      * @return ArrayCollection the manufacturers
      */
@@ -479,7 +503,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the parameters assigned to this part
+     * Returns the parameters assigned to this part.
      *
      * @return array An array of PartParameter objects
      */
@@ -489,7 +513,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the create date
+     * Returns the create date.
      *
      * @return \DateTime The create date+time
      */
@@ -522,8 +546,8 @@ class Part extends BaseEntity
     /**
      * Checks if the requirements for database persisting are given.
      *
-     * @throws CategoryNotAssignedException            Thrown if no category is set
-     * @throws StorageLocationNotAssignedException    Thrown if no storage location is set
+     * @throws CategoryNotAssignedException        Thrown if no category is set
+     * @throws StorageLocationNotAssignedException Thrown if no storage location is set
      *
      * @ORM\PrePersist
      */
@@ -551,7 +575,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the assigned category
+     * Returns the assigned category.
      *
      * @return PartCategory
      */
@@ -561,7 +585,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the category for this part
+     * Sets the category for this part.
      *
      * @param PartCategory $category The category
      */
@@ -583,7 +607,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the storage location for this part
+     * Returns the storage location for this part.
      *
      * @return \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
      */
@@ -601,7 +625,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns all stock entries
+     * Returns all stock entries.
      *
      * @return ArrayCollection
      */
@@ -611,7 +635,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the minimum stock level
+     * Returns the minimum stock level.
      *
      * @return int
      */
@@ -621,7 +645,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Set the minimum stock level for this part
+     * Set the minimum stock level for this part.
      *
      * Only positive values are allowed.
      *
@@ -644,11 +668,10 @@ class Part extends BaseEntity
         } else {
             $this->setLowStock(false);
         }
-
     }
 
     /**
-     * Sets the average price for this part
+     * Sets the average price for this part.
      *
      * @param float $price The price to set
      */
@@ -658,7 +681,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the acrage price
+     * Returns the acrage price.
      *
      * @return float
      */
@@ -668,7 +691,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the storage location for this part
+     * Sets the storage location for this part.
      *
      * @param \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
      */
@@ -678,7 +701,6 @@ class Part extends BaseEntity
     }
 
     /**
-     *
      * Checks if the requirements for database persisting are given.
      *
      * For a list of exceptions, see
@@ -693,7 +715,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the stock level
+     * Returns the stock level.
      *
      * @return int The stock level
      */
@@ -703,7 +725,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the stock level
+     * Sets the stock level.
      *
      * @param $stockLevel int The stock level to set
      */
@@ -713,7 +735,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Adds a new stock entry to this part
+     * Adds a new stock entry to this part.
      *
      * @param StockEntry $stockEntry
      */
@@ -724,7 +746,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Removes a stock entry from this part
+     * Removes a stock entry from this part.
      *
      * @param StockEntry $stockEntry
      */
@@ -735,7 +757,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Adds a Part Attachment
+     * Adds a Part Attachment.
      *
      * @param PartAttachment $partAttachment An attachment to add
      */
@@ -748,7 +770,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Removes a Part Attachment
+     * Removes a Part Attachment.
      *
      * @param PartAttachment $partAttachment An attachment to remove
      */
@@ -759,7 +781,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Adds a Part Manufacturer
+     * Adds a Part Manufacturer.
      *
      * @param PartManufacturer $partManufacturer A part manufacturer to add
      */
@@ -770,7 +792,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Removes a part manufacturer
+     * Removes a part manufacturer.
      *
      * @param PartManufacturer $partManufacturer A part manufacturer to remove
      */
@@ -781,7 +803,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Adds a Part Distributor
+     * Adds a Part Distributor.
      *
      * @param PartDistributor $partDistributor A part distributor to add
      */
@@ -792,7 +814,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Removes a part distributor
+     * Removes a part distributor.
      *
      * @param PartDistributor $partDistributor A part distributor to remove
      */
@@ -803,7 +825,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the project parts
+     * Returns the project parts.
      *
      * @return ArrayCollection
      */
@@ -813,7 +835,8 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns the project names this part is used in
+     * Returns the project names this part is used in.
+     *
      * @Groups({"default"})
      *
      * @return array
@@ -834,16 +857,15 @@ class Part extends BaseEntity
     {
         $currentStock = 0;
         $avgPrice = 0;
-		
+
         $totalPartStockPrice = 0;
         $lastPosEntryQuant = 0;
         $lastPosEntryPrice = 0;
         $negativeStock = 0;
 
         foreach ($this->getStockLevels() as $stockLevel) {
-            
             $currentStock += $stockLevel->getStockLevel();
-            
+
             if ($currentStock <= 0) {
                 $avgPrice = 0;
                 $totalPartStockPrice = 0;
@@ -865,7 +887,7 @@ class Part extends BaseEntity
                     $negativeStock = 0;
                 }
             }
-		}
+        }
 
         $this->setStockLevel($currentStock);
         $this->setAveragePrice($avgPrice);

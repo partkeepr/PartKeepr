@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Sets the stock for a given part
+ * Sets the stock for a given part.
  */
 class SetStockAction
 {
@@ -42,15 +43,16 @@ class SetStockAction
         $this->userService = $userService;
         $this->registry = $registry;
     }
+
     /**
      * Retrieves a collection of resources.
      *
      * @param Request $request The request
-     * @param int $id The ID of the part
-     *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @param int     $id      The ID of the part
      *
      * @throws RuntimeException|RootNodeNotFoundException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request, $id)
     {
@@ -58,23 +60,22 @@ class SetStockAction
 
         $part = $this->getItem($this->dataProvider, $resourceType, $id);
 
-        /**
+        /*
          * @var $part Part
          */
-        $quantity = $request->request->get("quantity");
+        $quantity = $request->request->get('quantity');
         $user = $this->userService->getUser();
 
         $oldQuantity = $part->getStockLevel();
         $correctionQuantity = $quantity - $oldQuantity;
 
         if ($correctionQuantity != 0) {
-
             $stock = new StockEntry();
             $stock->setStockLevel($correctionQuantity);
             $stock->setUser($user);
 
-            if ($request->request->has("comment") && $request->request->get("comment") !== null) {
-                $stock->setComment($request->request->get("comment"));
+            if ($request->request->has('comment') && $request->request->get('comment') !== null) {
+                $stock->setComment($request->request->get('comment'));
             }
 
             $part->addStockLevel($stock);

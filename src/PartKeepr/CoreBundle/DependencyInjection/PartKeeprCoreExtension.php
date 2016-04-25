@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
@@ -29,8 +29,8 @@ class PartKeeprCoreExtension extends Extension
         $container->setParameter('partkeepr.tip_of_the_day_list', $config['tip_of_the_day_list']);
         $container->setParameter('partkeepr.required_cronjobs', $config['required_cronjobs']);
 
-        foreach ($config["directories"] as $key => $value) {
-            $container->setParameter("partkeepr.directories.".$key, $value);
+        foreach ($config['directories'] as $key => $value) {
+            $container->setParameter('partkeepr.directories.'.$key, $value);
         }
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -40,6 +40,6 @@ class PartKeeprCoreExtension extends Extension
 
     public function getAlias()
     {
-        return "partkeepr";
+        return 'partkeepr';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\FootprintBundle\Listeners;
 
 use Doctrine\ORM\EntityManager;
@@ -9,7 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class CategoryPathListener extends ContainerAware
 {
-    public function __construct (Container $container) {
+    public function __construct(Container $container)
+    {
         $this->setContainer($container);
     }
 
@@ -45,7 +47,7 @@ class CategoryPathListener extends ContainerAware
     public function updateCategoryPaths(FootprintCategory $footprintCategory, OnFlushEventArgs $eventArgs)
     {
         $entityManager = $eventArgs->getEntityManager();
-        $pathSeparator = $this->container->getParameter("partkeepr.category.path_separator");
+        $pathSeparator = $this->container->getParameter('partkeepr.category.path_separator');
 
         $footprintCategory->setCategoryPath($footprintCategory->generateCategoryPath($pathSeparator));
 

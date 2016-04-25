@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -33,13 +34,13 @@ class UserService
     private $userManager;
 
     /**
-     * The maximum number of users allowed
+     * The maximum number of users allowed.
      *
      * @var int|bool
      */
     private $userLimit;
 
-    const BUILTIN_PROVIDER = "Builtin";
+    const BUILTIN_PROVIDER = 'Builtin';
 
     public function __construct(
         TokenStorage $tokenStorage,
@@ -62,7 +63,7 @@ class UserService
      */
     public function getUser()
     {
-        $tokenProvider = $this->tokenStorage->getToken()->getAttribute("provider");
+        $tokenProvider = $this->tokenStorage->getToken()->getAttribute('provider');
 
         $provider = $this->getProvider($tokenProvider);
         $username = $this->tokenStorage->getToken()->getUsername();
@@ -87,19 +88,20 @@ class UserService
                 return self::BUILTIN_PROVIDER;
                 break;
             case 'FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider':
-                return "LDAP";
+                return 'LDAP';
                 break;
             default:
-                throw new \Exception("Unknown provider ".$providerClass);
+                throw new \Exception('Unknown provider '.$providerClass);
         }
     }
 
     /**
-     * Syncronizes the data of the given user with the FOSRestBundle
+     * Syncronizes the data of the given user with the FOSRestBundle.
      *
-     * @throws \Exception If the password was not set
      *
      * @param $user
+     *
+     * @throws \Exception If the password was not set
      */
     public function syncData(User $user)
     {
@@ -110,29 +112,29 @@ class UserService
         $FOSUser = $this->userManager->findUserByUsername($user->getUsername());
 
         if ($FOSUser === null) {
-
-            if ($user->getNewPassword() == "") {
-                throw new \Exception("Password must be set");
+            if ($user->getNewPassword() == '') {
+                throw new \Exception('Password must be set');
             }
 
-            $FOSUser = $this->userManipulator->create($user->getUsername(), $user->getNewPassword(), "", true, false);
+            $FOSUser = $this->userManipulator->create($user->getUsername(), $user->getNewPassword(), '', true, false);
             $user->setLegacy(false);
         }
-        if ($user->getNewPassword() != "") {
+        if ($user->getNewPassword() != '') {
             $this->userManipulator->changePassword($user->getUsername(), $user->getNewPassword());
         }
-
 
         $FOSUser->setEmail($user->getEmail());
         $FOSUser->setEnabled($user->isActive());
     }
 
     /**
-     * Deletes an user from the FOSUser system
+     * Deletes an user from the FOSUser system.
+     *
      * @param User $user
      */
-    public function deleteFOSUser (User $user) {
-         if ($user->getProvider()->getType() !== self::BUILTIN_PROVIDER) {
+    public function deleteFOSUser(User $user)
+    {
+        if ($user->getProvider()->getType() !== self::BUILTIN_PROVIDER) {
             return;
         }
 
@@ -145,7 +147,7 @@ class UserService
 
     public function getProviderByType($type)
     {
-        $provider = $this->entityManager->getRepository("PartKeeprAuthBundle:UserProvider")->findOneBy(array("type" => $type));
+        $provider = $this->entityManager->getRepository('PartKeeprAuthBundle:UserProvider')->findOneBy(['type' => $type]);
 
         if ($provider !== null) {
             return $provider;
@@ -174,25 +176,26 @@ class UserService
      *
      * @param            $username
      * @param            $provider
-     * @param bool|false $create If set to true
+     * @param bool|false $create   If set to true
      *
-     * @return mixed|User
      * @throws NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return mixed|User
      */
     public function getProxyUser($username, UserProvider $provider, $create = false)
     {
         /**
-         * @var QueryBuilder $queryBuilder
+         * @var QueryBuilder
          */
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
-        $queryBuilder->select("u")
-            ->from("PartKeeprAuthBundle:User", "u")
-            ->where("u.provider = :provider")
-            ->andWhere("u.username = :username")
-            ->setParameter("provider", $provider)
-            ->setParameter("username", $username);
+        $queryBuilder->select('u')
+            ->from('PartKeeprAuthBundle:User', 'u')
+            ->where('u.provider = :provider')
+            ->andWhere('u.username = :username')
+            ->setParameter('provider', $provider)
+            ->setParameter('username', $username);
 
         $query = $queryBuilder->getQuery();
 
@@ -207,7 +210,6 @@ class UserService
                 return $this->createProxyUser($username, $provider);
             }
         }
-
     }
 
     private function createProxyUser($username, $provider)
@@ -245,19 +247,21 @@ class UserService
     }
 
     /**
-     * Returns the number of users present in the system
+     * Returns the number of users present in the system.
+     *
      * @return mixed
      */
     public function getUserCount()
     {
-        $dql = "SELECT COUNT(u) FROM PartKeepr\\AuthBundle\\Entity\\FOSUser u WHERE u.enabled = 1";
+        $dql = 'SELECT COUNT(u) FROM PartKeepr\\AuthBundle\\Entity\\FOSUser u WHERE u.enabled = 1';
         $query = $this->entityManager->createQuery($dql);
 
         return $query->getSingleScalarResult();
     }
 
     /**
-     * Checks if the amount of users is exceeded
+     * Checks if the amount of users is exceeded.
+     *
      * @return bool
      */
     public function checkUserLimit()

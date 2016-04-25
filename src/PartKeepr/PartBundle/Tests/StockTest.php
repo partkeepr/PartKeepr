@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Tests;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
@@ -17,21 +18,21 @@ class StockTest extends WebTestCase
     public function setUp()
     {
         $this->fixtures = $this->loadFixtures(
-            array(
+            [
                 'PartKeepr\StorageLocationBundle\DataFixtures\CategoryDataLoader',
                 'PartKeepr\StorageLocationBundle\DataFixtures\StorageLocationLoader',
                 'PartKeepr\PartBundle\DataFixtures\CategoryDataLoader',
                 'PartKeepr\PartBundle\DataFixtures\PartDataLoader',
-            )
+            ]
         )->getReferenceRepository();
     }
 
     private function getStockLevel(Part $part)
     {
         /**
-         * @var Query $query
+         * @var Query
          */
-        $query = $this->getContainer()->get("doctrine")->getManager()->createQuery("SELECT p.stockLevel FROM PartKeeprPartBundle:Part p WHERE p.id = :id")->setParameter("id",
+        $query = $this->getContainer()->get('doctrine')->getManager()->createQuery('SELECT p.stockLevel FROM PartKeeprPartBundle:Part p WHERE p.id = :id')->setParameter('id',
             $part->getId());
 
         return $query->getSingleScalarResult();
@@ -42,38 +43,37 @@ class StockTest extends WebTestCase
         $client = static::makeClient(true);
 
         /**
-         * @var $part Part
+         * @var Part
          */
-        $part = $this->fixtures->getReference("part.1");
+        $part = $this->fixtures->getReference('part.1');
         $oldStockLevel = $this->getStockLevel($part);
 
         /**
-         * @var $iriConverter IriConverter
+         * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
 
         $iri = $iriConverter->getIriFromItem($part);
-        $iri .= "/addStock";
+        $iri .= '/addStock';
 
-        $request = array(
-            "quantity" => 5,
-        );
+        $request = [
+            'quantity' => 5,
+        ];
 
         $client->request(
             'PUT',
             $iri,
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($request)
         );
 
         $result = json_decode($client->getResponse()->getContent());
         $newStockLevel = $this->getStockLevel($part);
 
-
         $this->assertEquals($oldStockLevel + 5, $newStockLevel);
-        $this->assertObjectHasAttribute("stockLevel", $result);
+        $this->assertObjectHasAttribute('stockLevel', $result);
         $this->assertEquals($newStockLevel, $result->stockLevel);
     }
 
@@ -82,38 +82,37 @@ class StockTest extends WebTestCase
         $client = static::makeClient(true);
 
         /**
-         * @var $part Part
+         * @var Part
          */
-        $part = $this->fixtures->getReference("part.1");
+        $part = $this->fixtures->getReference('part.1');
         $oldStockLevel = $this->getStockLevel($part);
 
         /**
-         * @var $iriConverter IriConverter
+         * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
 
         $iri = $iriConverter->getIriFromItem($part);
-        $iri .= "/removeStock";
+        $iri .= '/removeStock';
 
-        $request = array(
-            "quantity" => 7,
-        );
+        $request = [
+            'quantity' => 7,
+        ];
 
         $client->request(
             'PUT',
             $iri,
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($request)
         );
 
         $result = json_decode($client->getResponse()->getContent());
         $newStockLevel = $this->getStockLevel($part);
 
-
         $this->assertEquals($oldStockLevel - 7, $newStockLevel);
-        $this->assertObjectHasAttribute("stockLevel", $result);
+        $this->assertObjectHasAttribute('stockLevel', $result);
         $this->assertEquals($newStockLevel, $result->stockLevel);
     }
 
@@ -122,38 +121,36 @@ class StockTest extends WebTestCase
         $client = static::makeClient(true);
 
         /**
-         * @var $part Part
+         * @var Part
          */
-        $part = $this->fixtures->getReference("part.1");
+        $part = $this->fixtures->getReference('part.1');
 
         /**
-         * @var $iriConverter IriConverter
+         * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
 
         $iri = $iriConverter->getIriFromItem($part);
-        $iri .= "/setStock";
+        $iri .= '/setStock';
 
-        $request = array(
-            "quantity" => 33,
-        );
+        $request = [
+            'quantity' => 33,
+        ];
 
         $client->request(
             'PUT',
             $iri,
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($request)
         );
 
         $result = json_decode($client->getResponse()->getContent());
         $newStockLevel = $this->getStockLevel($part);
 
-
         $this->assertEquals(33, $newStockLevel);
-        $this->assertObjectHasAttribute("stockLevel", $result);
+        $this->assertObjectHasAttribute('stockLevel', $result);
         $this->assertEquals($newStockLevel, $result->stockLevel);
     }
-
 }

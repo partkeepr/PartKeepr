@@ -1,16 +1,14 @@
 <?php
-namespace PartKeepr\AuthBundle\Action;
 
+namespace PartKeepr\AuthBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\UserManipulator;
-use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Exceptions\OldPasswordWrongException;
 use PartKeepr\AuthBundle\Exceptions\PasswordChangeNotAllowedException;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 
@@ -59,44 +57,44 @@ class ChangePasswordAction
 
     public function __invoke(Request $request)
     {
-        if ($this->container->hasParameter("partkeepr.auth.allow_password_change") &&
-            $this->container->getParameter("partkeepr.auth.allow_password_change") === false) {
+        if ($this->container->hasParameter('partkeepr.auth.allow_password_change') &&
+            $this->container->getParameter('partkeepr.auth.allow_password_change') === false) {
             throw new PasswordChangeNotAllowedException();
         }
 
         $user = $this->userService->getUser();
 
-        if (!$request->request->has("oldpassword") && !$request->request->has("newpassword")) {
-            throw new \Exception("old password and new password need to be specified");
+        if (!$request->request->has('oldpassword') && !$request->request->has('newpassword')) {
+            throw new \Exception('old password and new password need to be specified');
         }
 
         $FOSUser = $this->userManager->findUserByUsername($user->getUsername());
 
         if ($FOSUser !== null) {
             $encoder = $this->encoderFactory->getEncoder($FOSUser);
-            $encoded_pass = $encoder->encodePassword($request->request->get("oldpassword"), $FOSUser->getSalt());
+            $encoded_pass = $encoder->encodePassword($request->request->get('oldpassword'), $FOSUser->getSalt());
 
             if ($FOSUser->getPassword() != $encoded_pass) {
                 throw new OldPasswordWrongException();
             }
 
-            $this->userManipulator->changePassword($user->getUsername(), $request->request->get("newpassword"));
+            $this->userManipulator->changePassword($user->getUsername(), $request->request->get('newpassword'));
         } else {
             if ($user->isLegacy()) {
-                if ($user->getPassword() !== md5($request->request->get("oldpassword"))) {
+                if ($user->getPassword() !== md5($request->request->get('oldpassword'))) {
                     throw new OldPasswordWrongException();
                 }
 
-                $user->setNewPassword($request->request->get("newpassword"));
+                $user->setNewPassword($request->request->get('newpassword'));
 
                 $this->userService->syncData($user);
             } else {
-                throw new \Exception("Cannot change password for LDAP users");
+                throw new \Exception('Cannot change password for LDAP users');
             }
         }
 
-        $user->setPassword("");
-        $user->setNewPassword("");
+        $user->setPassword('');
+        $user->setNewPassword('');
 
         return $user;
     }

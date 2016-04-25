@@ -1,11 +1,12 @@
 <?php
+
 namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use PartKeepr\AuthBundle\Entity\UserProvider;
 
 /**
- * Attaches the builtin user provider to all existing users
+ * Attaches the builtin user provider to all existing users.
  */
 class Version20151001180120 extends BaseMigration
 {
@@ -20,11 +21,11 @@ class Version20151001180120 extends BaseMigration
             'PartKeeprAuthBundle:UserProvider'
         );
 
-        $builtinProvider = $userProviderRepository->findOneBy(array("type" => "Builtin"));
+        $builtinProvider = $userProviderRepository->findOneBy(['type' => 'Builtin']);
 
         if ($builtinProvider === null) {
             $builtinProvider = new UserProvider();
-            $builtinProvider->setType("Builtin");
+            $builtinProvider->setType('Builtin');
 
             $this->getEM()->persist($builtinProvider);
         }
@@ -44,7 +45,6 @@ class Version20151001180120 extends BaseMigration
         }
 
         $this->getEM()->flush();
-
     }
 
     /**
@@ -53,6 +53,5 @@ class Version20151001180120 extends BaseMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

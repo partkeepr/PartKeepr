@@ -1,13 +1,13 @@
 <?php
+
 namespace PartKeepr\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Holds a system notice
+ * Holds a system notice.
  *
  * @ORM\Entity
  * @TargetService("/api/system_notices")
@@ -17,6 +17,7 @@ class SystemNotice extends BaseEntity
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"default"})
+     *
      * @var \DateTime
      */
     private $date;
@@ -24,12 +25,13 @@ class SystemNotice extends BaseEntity
     /**
      * @ORM\Column(type="string")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $title;
 
     /**
-     * The description of this notice
+     * The description of this notice.
      *
      * @ORM\Column(type="text")
      * @Groups({"default"})
@@ -39,16 +41,18 @@ class SystemNotice extends BaseEntity
     private $description;
 
     /**
-     * Defines if the system notice has been acknowledged
+     * Defines if the system notice has been acknowledged.
+     *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
      *
-     * @var boolean
+     * @var bool
      */
     private $acknowledged = false;
 
     /**
      * Specifies the type. This is required for unique notices which shouldn't pop up every time we create them.
+     *
      * @ORM\Column(type="string")
      * @Groups({"default"})
      *
@@ -57,7 +61,7 @@ class SystemNotice extends BaseEntity
     private $type;
 
     /**
-     * Sets the date and time for this entry
+     * Sets the date and time for this entry.
      *
      * @param \DateTime $date The date and time
      */
@@ -67,7 +71,7 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Returns the date and time for this entry
+     * Returns the date and time for this entry.
      *
      * @return \DateTime the date and time for this entry
      */
@@ -77,7 +81,7 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Sets the title for this entry
+     * Sets the title for this entry.
      *
      * @param string $title the title for this entry
      */
@@ -87,7 +91,7 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Returns the title for this entry
+     * Returns the title for this entry.
      *
      * @return string the title
      */
@@ -97,7 +101,7 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Sets the description
+     * Sets the description.
      *
      * @param string $description
      */
@@ -107,7 +111,7 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Returns the description
+     * Returns the description.
      *
      * @return string The description
      */
@@ -117,9 +121,9 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Sets the value of the acknowledged flag
+     * Sets the value of the acknowledged flag.
      *
-     * @param boolean $bAck True if the notice should be acknowledged (default), false otherwise
+     * @param bool $bAck True if the notice should be acknowledged (default), false otherwise
      */
     public function setAcknowledged($bAck = true)
     {
@@ -127,9 +131,9 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Returns the value of the acknowledged flag
+     * Returns the value of the acknowledged flag.
      *
-     * @return boolean true if this notice has been acknowledged, false otherwise
+     * @return bool true if this notice has been acknowledged, false otherwise
      */
     public function isAcknowledged()
     {
@@ -137,7 +141,7 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Sets the type of this entry
+     * Sets the type of this entry.
      *
      * @param string $type
      */
@@ -147,7 +151,7 @@ class SystemNotice extends BaseEntity
     }
 
     /**
-     * Returns the type of this entry
+     * Returns the type of this entry.
      *
      * @return string The type
      */

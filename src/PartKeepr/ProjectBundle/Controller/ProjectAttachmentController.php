@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ProjectBundle\Controller;
 
 use PartKeepr\ImageBundle\Controller\ImageController;
@@ -6,10 +7,10 @@ use PartKeepr\ImageBundle\Controller\ImageController;
 class ProjectAttachmentController extends ImageController
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getEntityClass()
     {
-        return "PartKeepr\\ProjectBundle\\Entity\\ProjectAttachment";
+        return 'PartKeepr\\ProjectBundle\\Entity\\ProjectAttachment';
     }
 }

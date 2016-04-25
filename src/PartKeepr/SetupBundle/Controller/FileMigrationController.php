@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SetupBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,17 +10,19 @@ use Symfony\Component\HttpFoundation\Response;
 class FileMigrationController extends SetupBaseController
 {
     /**
-     * Checks if there are existing userds in the database
+     * Checks if there are existing userds in the database.
+     *
      * @Route("/setup/migrateFiles")
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function migrateFilesAction(Request $request)
     {
         $this->dumpConfig($request);
 
-        $response = $this->handleRequest($request, "/setup/_int_migrate_files_action");
+        $response = $this->handleRequest($request, '/setup/_int_migrate_files_action');
 
         return new Response($response->getContent());
     }
@@ -33,58 +36,57 @@ class FileMigrationController extends SetupBaseController
             return $this->getAuthKeyErrorResponse();
         }
 
-        $response = array(
-            "success" => true,
-            "errors" => [],
-            "message" => "No files to migrate",
-        );
+        $response = [
+            'success' => true,
+            'errors'  => [],
+            'message' => 'No files to migrate',
+        ];
 
-        $legacyConfig = $this->get("partkeepr.setup.config_service")->legacyConfigParser();
+        $legacyConfig = $this->get('partkeepr.setup.config_service')->legacyConfigParser();
 
-        $legacyFilePath = $this->get("kernel")->getRootDir()."/../data/";
-        $legacyImagePath = $this->get("kernel")->getRootDir()."/../data/images/";
+        $legacyFilePath = $this->get('kernel')->getRootDir().'/../data/';
+        $legacyImagePath = $this->get('kernel')->getRootDir().'/../data/images/';
 
-        $legacyFileDirectories = array("FootprintAttachment", "PartAttachment", "ProjectAttachment");
+        $legacyFileDirectories = ['FootprintAttachment', 'PartAttachment', 'ProjectAttachment'];
 
-        if (array_key_exists("partkeepr.files.path", $legacyConfig)) {
-            $legacyFilePath = $legacyConfig["partkeepr.files.path"];
+        if (array_key_exists('partkeepr.files.path', $legacyConfig)) {
+            $legacyFilePath = $legacyConfig['partkeepr.files.path'];
         }
 
-        if (array_key_exists("partkeepr.images.path", $legacyConfig)) {
-            $legacyImagePath = $legacyConfig["partkeepr.images.path"];
+        if (array_key_exists('partkeepr.images.path', $legacyConfig)) {
+            $legacyImagePath = $legacyConfig['partkeepr.images.path'];
         }
 
-        $newFilesPath = $legacyFilePath."/files/";
-        $newImagesPath = $legacyFilePath."/images/";
+        $newFilesPath = $legacyFilePath.'/files/';
+        $newImagesPath = $legacyFilePath.'/images/';
 
         if (!is_dir($newFilesPath)) {
             mkdir($newFilesPath, 0777, true);
         }
-
 
         if (!is_dir($newImagesPath)) {
             mkdir($newImagesPath, 0777, true);
         }
 
         foreach ($legacyFileDirectories as $legacyFileDirectory) {
-            $legacyMovePath = $legacyFilePath."/".$legacyFileDirectory."/";
-            $newMovePath = $legacyFilePath."/files/".$legacyFileDirectory."/";
+            $legacyMovePath = $legacyFilePath.'/'.$legacyFileDirectory.'/';
+            $newMovePath = $legacyFilePath.'/files/'.$legacyFileDirectory.'/';
 
             if (is_dir($legacyMovePath)) {
                 $this->moveFiles($legacyMovePath, $newMovePath);
-                $response["message"] = "Old image directories moved";
+                $response['message'] = 'Old image directories moved';
             }
         }
 
-        $legacyImageDirectories = array("footprint", "iclogo", "part", "storagelocation");
+        $legacyImageDirectories = ['footprint', 'iclogo', 'part', 'storagelocation'];
 
         foreach ($legacyImageDirectories as $legacyImageDirectory) {
-            $legacyMovePath = $legacyImagePath."/".$legacyImageDirectory."/";
-            $newMovePath = $legacyFilePath."/images/".$legacyImageDirectory."/";
+            $legacyMovePath = $legacyImagePath.'/'.$legacyImageDirectory.'/';
+            $newMovePath = $legacyFilePath.'/images/'.$legacyImageDirectory.'/';
 
             if (is_dir($legacyMovePath)) {
                 $this->moveFiles($legacyMovePath, $newMovePath);
-                $response["message"] = "Old image directories moved";
+                $response['message'] = 'Old image directories moved';
             }
         }
 
@@ -101,9 +103,8 @@ class FileMigrationController extends SetupBaseController
 
         foreach ($iterator as $file) {
             if (!$file->isDot()) {
-                rename($file->getPathName(), $target."/".$file->getFilename());
+                rename($file->getPathName(), $target.'/'.$file->getFilename());
             }
         }
     }
-
 }

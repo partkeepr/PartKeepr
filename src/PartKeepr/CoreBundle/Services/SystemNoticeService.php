@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -22,7 +23,7 @@ class SystemNoticeService extends ContainerAware
         $dql = "SELECT sn FROM PartKeepr\CoreBundle\Entity\SystemNotice sn WHERE sn.type = :type";
         $query = $this->entityManager->createQuery($dql);
 
-        $query->setParameter("type", $type);
+        $query->setParameter('type', $type);
 
         try {
             $notice = $query->getSingleResult();

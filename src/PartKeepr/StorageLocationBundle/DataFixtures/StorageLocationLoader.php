@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\StorageLocationBundle\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -10,12 +11,12 @@ class StorageLocationLoader extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $storageLocation = new StorageLocation();
-        $storageLocation->setName("test");
-        $storageLocation->setCategory($this->getReference("storagelocationcategory.first"));
+        $storageLocation->setName('test');
+        $storageLocation->setCategory($this->getReference('storagelocationcategory.first'));
 
         $manager->persist($storageLocation);
         $manager->flush();
 
-        $this->addReference("storagelocation.first", $storageLocation);
+        $this->addReference('storagelocation.first', $storageLocation);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\DoctrineReflectionBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -11,13 +12,13 @@ class GenerateEntityCommand extends ContainerAwareCommand
     {
         parent::configure();
         $this->setName('generate:extjs:entities');
-        $this->setDescription("Generates Sencha ExtJS models");
+        $this->setDescription('Generates Sencha ExtJS models');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $reflectionService = $this->getContainer()->get("doctrine_reflection_service");
-        $cacheDir = $this->getContainer()->get("kernel")->getRootDir()."/../web/bundles/doctrinereflection/";
+        $reflectionService = $this->getContainer()->get('doctrine_reflection_service');
+        $cacheDir = $this->getContainer()->get('kernel')->getRootDir().'/../web/bundles/doctrinereflection/';
         $reflectionService->createCache($cacheDir);
     }
 }

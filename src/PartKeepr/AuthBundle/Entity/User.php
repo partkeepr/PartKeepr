@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -34,6 +35,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     /**
      * @Groups({"default"})
      * @VirtualField(type="string")
+     *
      * @var string
      */
     private $newPassword;
@@ -42,6 +44,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      * @Assert\Email()
      * @Groups({"default"})
      * @ORM\Column(length=255,nullable=true)
+     *
      * @var string
      */
     private $email;
@@ -52,11 +55,12 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     private $admin;
 
     /**
-     * Marks a user as a legacy user (=old md5 auth)
+     * Marks a user as a legacy user (=old md5 auth).
+     *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
      *
-     * @var boolean
+     * @var bool
      */
     private $legacy;
 
@@ -77,7 +81,8 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     private $tipHistories;
 
     /**
-     * Holds the initial serialized user preferences
+     * Holds the initial serialized user preferences.
+     *
      * @VirtualField(type="string")
      * @Groups({"default"})
      *
@@ -86,7 +91,8 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     private $initialUserPreferences;
 
     /**
-     * Defines if the user is active
+     * Defines if the user is active.
+     *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
      *
@@ -96,6 +102,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
 
     /**
      * Defines if the user is protected. Protection defines that the user may not be changed or removed.
+     *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
      *
@@ -127,17 +134,17 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Sets the admin flag
+     * Sets the admin flag.
      *
-     * @param boolean $bAdmin True if the user is an admin, false otherwise
+     * @param bool $bAdmin True if the user is an admin, false otherwise
      */
     public function setAdmin($bAdmin)
     {
-        $this->admin = (boolean)$bAdmin;
+        $this->admin = (bool) $bAdmin;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isProtected()
     {
@@ -145,7 +152,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * @param boolean $protected
+     * @param bool $protected
      */
     public function setProtected($protected)
     {
@@ -153,9 +160,9 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Returns if the user is active
+     * Returns if the user is active.
      *
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -163,9 +170,9 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Sets if the user is active
+     * Sets if the user is active.
      *
-     * @param boolean $active
+     * @param bool $active
      */
     public function setActive($active)
     {
@@ -221,7 +228,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Returns the authentification provider
+     * Returns the authentification provider.
      *
      * @return UserProvider
      */
@@ -231,7 +238,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Sets the authentification provider
+     * Sets the authentification provider.
      *
      * @param UserProvider $provider
      */
@@ -254,9 +261,9 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Returns the admin flag
+     * Returns the admin flag.
      *
-     * @return boolean True if the user is an admin
+     * @return bool True if the user is an admin
      */
     public function isAdmin()
     {
@@ -287,7 +294,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Sets the new password. Used for password changes
+     * Sets the new password. Used for password changes.
      *
      * @param string $password The new password
      */
@@ -303,7 +310,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      *
      * @param string $password The unhashed password
      *
-     * @return boolean    true if the passwords match, false otherwise
+     * @return bool true if the passwords match, false otherwise
      */
     public function comparePassword($password)
     {
@@ -316,7 +323,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      *
      * @param string $hashedPassword The md5-hashed password
      *
-     * @return boolean    true if the passwords match, false otherwise
+     * @return bool true if the passwords match, false otherwise
      */
     public function compareHashedPassword($hashedPassword)
     {
@@ -332,11 +339,11 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      */
     public function updateSeen()
     {
-        $this->lastSeen = new \DateTime("now");
+        $this->lastSeen = new \DateTime('now');
     }
 
     /**
-     * Returns if the user is a legacy user
+     * Returns if the user is a legacy user.
      *
      * @return bool
      */
@@ -346,7 +353,7 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
     }
 
     /**
-     * Marks a user as a legacy user
+     * Marks a user as a legacy user.
      *
      * @param bool|true $legacy
      */
@@ -367,22 +374,21 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
 
     public function getRoles()
     {
-        return array();
+        return [];
     }
 
     public function getSalt()
     {
-        return "";
+        return '';
     }
 
     public function eraseCredentials()
     {
-
     }
 
     public function isEqualTo(UserInterface $user)
     {
-        if (!$user instanceof User) {
+        if (!$user instanceof self) {
             return false;
         }
 

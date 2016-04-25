@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\SetupBundle\Services;
 
+namespace PartKeepr\SetupBundle\Services;
 
 use PartKeepr\SetupBundle\Visitor\ConfigVisitor;
 use PartKeepr\SetupBundle\Visitor\LegacyConfigVisitor;
@@ -9,7 +9,7 @@ use Symfony\Bundle\TwigBundle\TwigEngine;
 class ConfigSetupService
 {
     /**
-     * The authentification key length
+     * The authentification key length.
      */
     const KEY_LENGTH = 32;
 
@@ -31,75 +31,75 @@ class ConfigSetupService
     public function getConfig($config)
     {
         // Parameter defaults to ensure they exist
-        $parameters = array(
-            "database_driver" => null,
-            "database_host" => null,
-            "database_port" => null,
-            "database_name" => null,
-            "database_password" => null,
+        $parameters = [
+            'database_driver'   => null,
+            'database_host'     => null,
+            'database_port'     => null,
+            'database_name'     => null,
+            'database_password' => null,
 
-            "mailer_transport" => null,
-            "mailer_host" => null,
-            "mailer_port" => null,
-            "mailer_encryption" => null,
-            "mailer_user" => null,
-            "mailer_password" => null,
-            "mailer_auth_mode" => null,
+            'mailer_transport'  => null,
+            'mailer_host'       => null,
+            'mailer_port'       => null,
+            'mailer_encryption' => null,
+            'mailer_user'       => null,
+            'mailer_password'   => null,
+            'mailer_auth_mode'  => null,
 
-            "authentication_provider" => "PartKeepr.Auth.HTTPBasicAuthenticationProvider",
+            'authentication_provider' => 'PartKeepr.Auth.HTTPBasicAuthenticationProvider',
 
-            "locale" => "en",
+            'locale' => 'en',
 
-            "secret" => $this->generateSecret(),
+            'secret' => $this->generateSecret(),
 
-            "fr3d_ldap.driver.host" => "127.0.0.1",
-            "fr3d_ldap.driver.port" => 389,
-            "fr3d_ldap.driver.username" => null,
-            "fr3d_ldap.driver.password" => null,
-            "fr3d_ldap.driver.bindRequiresDn" => false,
-            "fr3d_ldap.driver.baseDn" => "",
-            "fr3d_ldap.driver.accountFilterFormat" => null,
-            "fr3d_ldap.driver.optReferrals" => null,
-            "fr3d_ldap.driver.useSsl" => null,
-            "fr3d_ldap.driver.useStartTls" => null,
-            "fr3d_ldap.driver.accountCanonicalForm" => null,
-            "fr3d_ldap.driver.accountDomainName" => null,
-            "fr3d_ldap.driver.accountDomainNameShort" => null,
-            "fr3d_ldap.user.enabled" => false,
-            "fr3d_ldap.user.baseDn" => "dc=example,dc=com",
-            "fr3d_ldap.user.filter" => null,
-            "fr3d_ldap.user.attribute.username" => "samaccountname",
-            "fr3d_ldap.user.attribute.email" => "email",
+            'fr3d_ldap.driver.host'                   => '127.0.0.1',
+            'fr3d_ldap.driver.port'                   => 389,
+            'fr3d_ldap.driver.username'               => null,
+            'fr3d_ldap.driver.password'               => null,
+            'fr3d_ldap.driver.bindRequiresDn'         => false,
+            'fr3d_ldap.driver.baseDn'                 => '',
+            'fr3d_ldap.driver.accountFilterFormat'    => null,
+            'fr3d_ldap.driver.optReferrals'           => null,
+            'fr3d_ldap.driver.useSsl'                 => null,
+            'fr3d_ldap.driver.useStartTls'            => null,
+            'fr3d_ldap.driver.accountCanonicalForm'   => null,
+            'fr3d_ldap.driver.accountDomainName'      => null,
+            'fr3d_ldap.driver.accountDomainNameShort' => null,
+            'fr3d_ldap.user.enabled'                  => false,
+            'fr3d_ldap.user.baseDn'                   => 'dc=example,dc=com',
+            'fr3d_ldap.user.filter'                   => null,
+            'fr3d_ldap.user.attribute.username'       => 'samaccountname',
+            'fr3d_ldap.user.attribute.email'          => 'email',
 
-            "partkeepr.filesystem.data_directory" => "%kernel.root_dir%/../data/",
-            "partkeepr.cronjob.check" => true,
-            "partkeepr.filesystem.quota" => false,
-            "partkeepr.auth.max_users" => "unlimited",
-            "partkeepr.category.path_separator" => " ➤ ",
-            "partkeepr.maintenance" => false,
-            "partkeepr.maintenance.title" => "",
-            "partkeepr.maintenance.message" => "",
-            "cache.dunglas" => false,
-            "cache.doctrine" => "array",
-            "partkeepr.parts.limit" => false,
-            "partkeepr.users.limit" => false,
-        );
+            'partkeepr.filesystem.data_directory' => '%kernel.root_dir%/../data/',
+            'partkeepr.cronjob.check'             => true,
+            'partkeepr.filesystem.quota'          => false,
+            'partkeepr.auth.max_users'            => 'unlimited',
+            'partkeepr.category.path_separator'   => ' ➤ ',
+            'partkeepr.maintenance'               => false,
+            'partkeepr.maintenance.title'         => '',
+            'partkeepr.maintenance.message'       => '',
+            'cache.dunglas'                       => false,
+            'cache.doctrine'                      => 'array',
+            'partkeepr.parts.limit'               => false,
+            'partkeepr.users.limit'               => false,
+        ];
 
-        if (function_exists("apc_fetch")) {
-            $parameters["cache.dunglas"] = "api.mapping.cache.apc";
-            $parameters["cache.doctrine"] = "apc";
+        if (function_exists('apc_fetch')) {
+            $parameters['cache.dunglas'] = 'api.mapping.cache.apc';
+            $parameters['cache.doctrine'] = 'apc';
         }
 
         $this->applyIf($parameters, $config);
 
         $parameters = array_merge($parameters, $config);
 
-        if ($parameters["fr3d_ldap.user.attribute.username"] === null) {
-            $parameters["fr3d_ldap.user.attribute.username"] = "samaccountname";
+        if ($parameters['fr3d_ldap.user.attribute.username'] === null) {
+            $parameters['fr3d_ldap.user.attribute.username'] = 'samaccountname';
         }
 
-        if ($parameters["fr3d_ldap.user.attribute.email"] === null) {
-            $parameters["fr3d_ldap.user.attribute.email"] = "email";
+        if ($parameters['fr3d_ldap.user.attribute.email'] === null) {
+            $parameters['fr3d_ldap.user.attribute.email'] = 'email';
         }
 
         array_walk_recursive($parameters, function (&$item) {
@@ -109,7 +109,7 @@ class ConfigSetupService
         ksort($parameters);
 
         return $this->twig->render('PartKeeprSetupBundle::parameters.php.twig',
-            array("parameters" => $parameters));
+            ['parameters' => $parameters]);
     }
 
     public function legacyConfigParser()
@@ -124,7 +124,7 @@ class ConfigSetupService
             return LegacyConfigVisitor::getConfigValues();
         }
 
-        return array();
+        return [];
     }
 
     public function configParser()
@@ -139,23 +139,23 @@ class ConfigSetupService
             return ConfigVisitor::getConfigValues();
         }
 
-        return array();
+        return [];
     }
 
     public function getConfigPath($test)
     {
         if ($test) {
-            $filename = "parameters_setup.php";
+            $filename = 'parameters_setup.php';
         } else {
-            $filename = "parameters.php";
+            $filename = 'parameters.php';
         }
 
-        return dirname(__FILE__)."/../../../../app/config/".$filename;
+        return dirname(__FILE__).'/../../../../app/config/'.$filename;
     }
 
     public function getLegacyConfigPath()
     {
-        return dirname(__FILE__)."/../../../../config.php";
+        return dirname(__FILE__).'/../../../../config.php';
     }
 
     public function applyIf($target, $source)
@@ -171,7 +171,7 @@ class ConfigSetupService
 
     public function generateSecret()
     {
-        $secret = "";
+        $secret = '';
         for ($i = 0; $i < self::KEY_LENGTH; $i++) {
             $secret .= chr(65 + rand(0, 16));
         }
@@ -179,17 +179,18 @@ class ConfigSetupService
         return $secret;
     }
 
-    public function getAuthKey () {
-        $findText = "Your auth key is: ";
+    public function getAuthKey()
+    {
+        $findText = 'Your auth key is: ';
 
         $data = file_get_contents($this->getAuthKeyPath());
         $position = strpos($data, $findText);
 
-        return substr($data, $position + strlen($findText), ConfigSetupService::KEY_LENGTH);
+        return substr($data, $position + strlen($findText), self::KEY_LENGTH);
     }
 
     public function getAuthKeyPath()
     {
-        return dirname(__FILE__)."/../../../../app/authkey.php";
+        return dirname(__FILE__).'/../../../../app/authkey.php';
     }
 }

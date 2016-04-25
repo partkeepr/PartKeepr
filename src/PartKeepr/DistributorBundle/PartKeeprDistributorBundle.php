@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\DistributorBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

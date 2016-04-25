@@ -1,14 +1,11 @@
 <?php
 
-
 namespace PartKeepr\SetupBundle\Controller;
-
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class SiPrefixSetupController extends SetupBaseController
 {
@@ -21,18 +18,18 @@ class SiPrefixSetupController extends SetupBaseController
             return $this->getAuthKeyErrorResponse();
         }
 
-        $response = array(
-            "success" => true,
-            "errors" => [],
-            "message" => "SI Prefixes successfully created/updated",
-        );
+        $response = [
+            'success' => true,
+            'errors'  => [],
+            'message' => 'SI Prefixes successfully created/updated',
+        ];
 
         try {
-            $this->get("partkeepr.setup.si_prefix_service")->importSiPrefixes();
+            $this->get('partkeepr.setup.si_prefix_service')->importSiPrefixes();
         } catch (\Exception $e) {
-            $response["success"] = false;
-            $response["message"] = "SI Prefix creation error";
-            $response["errors"] = [$e->getMessage()];
+            $response['success'] = false;
+            $response['message'] = 'SI Prefix creation error';
+            $response['errors'] = [$e->getMessage()];
         }
 
         return new JsonResponse($response);
@@ -40,15 +37,15 @@ class SiPrefixSetupController extends SetupBaseController
 
     /**
      * @Route("/setup/createSiPrefixes")
+     *
      * @param Request $request
+     *
      * @return Response
      */
     public function createSiPrefixesAction(Request $request)
     {
-        $response = $this->handleRequest($request, "/setup/_int_create_si_prefixes");
+        $response = $this->handleRequest($request, '/setup/_int_create_si_prefixes');
 
         return new Response($response->getContent());
     }
-
-
 }

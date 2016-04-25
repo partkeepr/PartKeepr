@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\RESTBundle\Request;
 
 use FOS\RestBundle\Request\ParamReader as FOSRestParamReader;
@@ -7,7 +8,7 @@ class ParamReader extends FOSRestParamReader
 {
     public function getParamsFromMethod(\ReflectionMethod $method)
     {
-        $parentParams = array();
+        $parentParams = [];
         $params = parent::getParamsFromMethod($method);
 
         // This loads the annotations of the parent method
