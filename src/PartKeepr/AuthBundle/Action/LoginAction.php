@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PartKeepr\AuthBundle\Action;
-
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
@@ -39,18 +37,19 @@ class LoginAction
         $this->userPreferenceService = $userPreferenceService;
     }
 
-    public function __invoke (Request $request) {
+    public function __invoke(Request $request)
+    {
         $user = $this->userService->getUser();
 
         $userPreferences = $this->userPreferenceService->getPreferences($user);
 
-        $arrayUserPreferences = array();
+        $arrayUserPreferences = [];
 
         foreach ($userPreferences as $userPreference) {
-            $arrayUserPreferences[] = array(
-                "preferenceKey" => $userPreference->getPreferenceKey(),
-                "preferenceValue" => $userPreference->getPreferenceValue()
-            );
+            $arrayUserPreferences[] = [
+                'preferenceKey'   => $userPreference->getPreferenceKey(),
+                'preferenceValue' => $userPreference->getPreferenceValue(),
+            ];
         }
 
         $user->setInitialUserPreferences(json_encode($arrayUserPreferences));

@@ -1,18 +1,20 @@
 <?php
+
 namespace PartKeepr\StorageLocationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
- * Holds a storage location image
+ * Holds a storage location image.
  *
  * @ORM\Entity
  **/
 class StorageLocationImage extends Image
 {
     /**
-     * The storage location object
+     * The storage location object.
+     *
      * @ORM\OneToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation",inversedBy="image")
      *
      * @var StorageLocation
@@ -20,7 +22,7 @@ class StorageLocationImage extends Image
     private $storageLocation = null;
 
     /**
-     * Creates a new storage location image instance
+     * Creates a new storage location image instance.
      */
     public function __construct()
     {
@@ -28,7 +30,7 @@ class StorageLocationImage extends Image
     }
 
     /**
-     * Sets the storage location
+     * Sets the storage location.
      *
      * @param StorageLocation $storageLocation The storage location to set
      */
@@ -38,7 +40,7 @@ class StorageLocationImage extends Image
     }
 
     /**
-     * Returns the storage location
+     * Returns the storage location.
      *
      * @return StorageLocation the storage location
      */

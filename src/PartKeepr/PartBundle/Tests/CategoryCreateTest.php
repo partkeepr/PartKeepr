@@ -1,12 +1,11 @@
 <?php
-namespace PartKeepr\PartBundle\Tests;
 
+namespace PartKeepr\PartBundle\Tests;
 
 use PartKeepr\CategoryBundle\Tests\AbstractCategoryCreateTest;
 
 class CategoryCreateTest extends AbstractCategoryCreateTest
 {
-
     public function getResourceClass()
     {
         return 'PartKeepr\PartBundle\Entity\PartCategory';
@@ -19,6 +18,6 @@ class CategoryCreateTest extends AbstractCategoryCreateTest
 
     public function getReferencePrefix()
     {
-        return "partcategory";
+        return 'partcategory';
     }
 }

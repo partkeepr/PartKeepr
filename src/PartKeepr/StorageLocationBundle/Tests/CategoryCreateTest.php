@@ -1,12 +1,11 @@
 <?php
-namespace PartKeepr\StorageLocationBundle\Tests;
 
+namespace PartKeepr\StorageLocationBundle\Tests;
 
 use PartKeepr\CategoryBundle\Tests\AbstractCategoryCreateTest;
 
 class CategoryCreateTest extends AbstractCategoryCreateTest
 {
-
     public function getResourceClass()
     {
         return 'PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory';
@@ -19,6 +18,6 @@ class CategoryCreateTest extends AbstractCategoryCreateTest
 
     public function getReferencePrefix()
     {
-        return "storagelocationcategory";
+        return 'storagelocationcategory';
     }
 }

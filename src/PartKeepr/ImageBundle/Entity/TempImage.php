@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ImageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

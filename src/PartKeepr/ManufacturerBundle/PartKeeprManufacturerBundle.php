@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ManufacturerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

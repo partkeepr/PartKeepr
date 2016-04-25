@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PartKeepr\PartBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -34,18 +33,18 @@ class PostAction
     }
 
     /**
-     * Injects the specific root node ID if "@local-tree-root" was specified
+     * Injects the specific root node ID if "@local-tree-root" was specified.
      *
      * @param Request $request
      *
-     * @return mixed
-     *
      * @throws RuntimeException
      * @throws PartLimitExceededException
+     *
+     * @return mixed
      */
     public function __invoke(Request $request)
     {
-        /**
+        /*
          * @var $resourceType ResourceInterface
          */
         if ($this->partService->checkPartLimit()) {
@@ -60,6 +59,5 @@ class PostAction
             $format,
             $resourceType->getDenormalizationContext()
         );
-
     }
 }

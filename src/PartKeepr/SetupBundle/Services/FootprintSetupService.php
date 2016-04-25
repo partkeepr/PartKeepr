@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\SetupBundle\Services;
 
+namespace PartKeepr\SetupBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\CategoryBundle\Services\CategoryService;
@@ -14,8 +14,8 @@ use Symfony\Component\Yaml\Parser;
 
 class FootprintSetupService
 {
-    const FOOTPRINT_PATH = "@PartKeeprSetupBundle/Resources/setup-data/footprints/";
-    const FOOTPRINT_DATA = "footprints.yml";
+    const FOOTPRINT_PATH = '@PartKeeprSetupBundle/Resources/setup-data/footprints/';
+    const FOOTPRINT_DATA = 'footprints.yml';
 
     /**
      * @var EntityManager
@@ -50,7 +50,7 @@ class FootprintSetupService
     }
 
     /**
-     * Imports the existing footprints. Skips existing footprints
+     * Imports the existing footprints. Skips existing footprints.
      *
      * @return array An array with the keys "skipped" and "imported" which contain the number of footprints skipped and imported
      */
@@ -76,35 +76,34 @@ class FootprintSetupService
 
         $this->entityManager->flush();
 
-        return array("skipped" => $skipped, "imported" => $count);
+        return ['skipped' => $skipped, 'imported' => $count];
     }
 
     protected function createFootprint($footprintName, $footprintData)
     {
 
         /**
-         * @var FootprintCategory $footprintCategoryRootNode
+         * @var FootprintCategory
          */
         $footprintCategoryRootNode = $this->footprintCategoryService->getRootNode();
 
         $footprint = new Footprint();
         $footprint->setName($footprintName);
 
-        if (array_key_exists("description", $footprintData)) {
-            $footprint->setDescription($footprintData["description"]);
+        if (array_key_exists('description', $footprintData)) {
+            $footprint->setDescription($footprintData['description']);
         }
 
-        if (array_key_exists("category", $footprintData)) {
-            $footprintCategory = $this->addFootprintCategoryPath(explode("/", $footprintData["category"]),
+        if (array_key_exists('category', $footprintData)) {
+            $footprintCategory = $this->addFootprintCategoryPath(explode('/', $footprintData['category']),
                 $footprintCategoryRootNode);
             $footprint->setCategory($footprintCategory);
         }
 
-        if (array_key_exists("image", $footprintData)) {
+        if (array_key_exists('image', $footprintData)) {
             $footprintImage = new FootprintImage();
 
-
-            $file = $this->kernel->locateResource(self::FOOTPRINT_PATH.$footprintData["image"]);
+            $file = $this->kernel->locateResource(self::FOOTPRINT_PATH.$footprintData['image']);
             $this->uploadedFileService->replaceFromFilesystem($footprintImage, new File($file));
 
             $footprint->setImage($footprintImage);
@@ -114,14 +113,14 @@ class FootprintSetupService
     }
 
     /**
-     * Creates a node structure for the given path
+     * Creates a node structure for the given path.
      *
      * @param $path       array The components of the path
      * @param $parentNode FootprintCategory  The parent node
      *
      * @return FootprintCategory
      */
-    protected function addFootprintCategoryPath(Array $path, FootprintCategory $parentNode)
+    protected function addFootprintCategoryPath(array $path, FootprintCategory $parentNode)
     {
         if (count($path) == 0) {
             return $parentNode;
@@ -149,17 +148,17 @@ class FootprintSetupService
     }
 
     /**
-     * Checks if the specified footprint exists
+     * Checks if the specified footprint exists.
      *
      * @param string $name The footprint name
      *
-     * @return boolean true if the footprints exists, false otherwise
+     * @return bool true if the footprints exists, false otherwise
      */
     protected function footprintExists($name)
     {
         $dql = "SELECT COUNT(fp) FROM PartKeepr\FootprintBundle\Entity\Footprint fp WHERE fp.name = :name";
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("name", $name);
+        $query->setParameter('name', $name);
 
         if ($query->getSingleScalarResult() == 0) {
             return false;

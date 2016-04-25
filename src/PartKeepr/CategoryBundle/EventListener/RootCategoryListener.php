@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CategoryBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
@@ -23,7 +24,7 @@ class RootCategoryListener extends ContainerAware
     }
 
     /**
-     * Checks that only one root category exists
+     * Checks that only one root category exists.
      *
      * @param OnFlushEventArgs $eventArgs The event arguments as given by Doctrine
      */
@@ -33,7 +34,6 @@ class RootCategoryListener extends ContainerAware
         $uow = $entityManager->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $insertion) {
-
             if (is_a($insertion, $this->container->get($this->service)->getEntityClass())) {
                 $this->checkForRoot($insertion);
             }
@@ -50,7 +50,6 @@ class RootCategoryListener extends ContainerAware
                 $this->ensureRootStays($deletion);
             }
         }
-
     }
 
     protected function ensureRootstays(AbstractCategory $category)
@@ -70,7 +69,6 @@ class RootCategoryListener extends ContainerAware
                     throw new OnlySingleRootNodeAllowedException();
                 }
             } catch (RootNodeNotFoundException $e) {
-
             }
         }
     }

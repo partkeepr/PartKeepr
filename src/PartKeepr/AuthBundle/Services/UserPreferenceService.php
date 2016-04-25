@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -31,11 +32,11 @@ class UserPreferenceService
     public function setPreference(User $user, $key, $value)
     {
         $dql = 'SELECT up FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user AND ';
-        $dql .= "up.preferenceKey = :key";
+        $dql .= 'up.preferenceKey = :key';
 
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("user", $user);
-        $query->setParameter("key", $key);
+        $query->setParameter('user', $user);
+        $query->setParameter('key', $key);
 
         try {
             $userPreference = $query->getSingleResult();
@@ -55,13 +56,14 @@ class UserPreferenceService
     }
 
     /**
-     * Returns a specific preference value for the given user
+     * Returns a specific preference value for the given user.
      *
      * @param User   $user The user to retrieve the preference for
      * @param string $key  The preference key to retrieve
      *
-     * @return string        The preference string
-     * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException    Thrown if the preference key was not found
+     * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException Thrown if the preference key was not found
+     *
+     * @return string The preference string
      */
     public function getPreferenceValue(User $user, $key)
     {
@@ -71,7 +73,7 @@ class UserPreferenceService
     }
 
     /**
-     * Returns all preferences for the given user
+     * Returns all preferences for the given user.
      *
      * @param \PartKeepr\AuthBundle\Entity\User $user The user
      *
@@ -82,28 +84,29 @@ class UserPreferenceService
         $dql = "SELECT up FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user";
 
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("user", $user);
+        $query->setParameter('user', $user);
 
         return $query->getResult();
     }
 
     /**
-     * Returns a specific preference object for the given user
+     * Returns a specific preference object for the given user.
      *
      * @param \PartKeepr\AuthBundle\Entity\User $user The user to retrieve the preference for
      * @param string                            $key  The preference key to retrieve
      *
-     * @return UserPreference    The preference object
-     * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException    Thrown if the preference key was not found
+     * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException Thrown if the preference key was not found
+     *
+     * @return UserPreference The preference object
      */
     public function getPreference(User $user, $key)
     {
         $dql = "SELECT up FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user AND ";
-        $dql .= "up.preferenceKey = :key";
+        $dql .= 'up.preferenceKey = :key';
 
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("user", $user);
-        $query->setParameter("key", $key);
+        $query->setParameter('user', $user);
+        $query->setParameter('key', $key);
 
         try {
             $up = $query->getSingleResult();
@@ -123,11 +126,11 @@ class UserPreferenceService
     public function deletePreference(User $user, $key)
     {
         $dql = "DELETE FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user AND ";
-        $dql .= "up.preferenceKey = :key";
+        $dql .= 'up.preferenceKey = :key';
 
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("user", $user);
-        $query->setParameter("key", $key);
+        $query->setParameter('user', $user);
+        $query->setParameter('key', $key);
 
         $query->execute();
     }
@@ -142,9 +145,8 @@ class UserPreferenceService
         $dql = "DELETE FROM PartKeepr\AuthBundle\Entity\UserPreference up WHERE up.user = :user";
 
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("user", $user);
+        $query->setParameter('user', $user);
 
         $query->execute();
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SetupBundle\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,18 +18,18 @@ class FootprintSetupController extends SetupBaseController
             return $this->getAuthKeyErrorResponse();
         }
 
-        $response = array(
-            "success" => true,
-            "errors" => [],
-            "message" => "Default footprints successfully created",
-        );
+        $response = [
+            'success' => true,
+            'errors'  => [],
+            'message' => 'Default footprints successfully created',
+        ];
 
         try {
-            $this->get("partkeepr.setup.footprint_service")->importFootprints();
+            $this->get('partkeepr.setup.footprint_service')->importFootprints();
         } catch (\Exception $e) {
-            $response["success"] = false;
-            $response["message"] = "Footprint creation error";
-            $response["errors"] = [$e->getMessage()];
+            $response['success'] = false;
+            $response['message'] = 'Footprint creation error';
+            $response['errors'] = [$e->getMessage()];
         }
 
         return new JsonResponse($response);
@@ -41,9 +42,8 @@ class FootprintSetupController extends SetupBaseController
      */
     public function createFootprintsAction(Request $request)
     {
-        $response = $this->handleRequest($request, "/setup/_int_create_footprints");
+        $response = $this->handleRequest($request, '/setup/_int_create_footprints');
 
         return new Response($response->getContent());
     }
-
 }

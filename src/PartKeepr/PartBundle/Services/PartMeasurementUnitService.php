@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PartKeepr\PartBundle\Services;
-
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
@@ -11,19 +9,21 @@ class PartMeasurementUnitService
 {
     private $entityManager;
 
-    public function __construct (EntityManager $entityManager) {
+    public function __construct(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
-    public function setDefault (PartMeasurementUnit $partMeasurementUnit) {
+    public function setDefault(PartMeasurementUnit $partMeasurementUnit)
+    {
         $this->entityManager->beginTransaction();
 
         $dql = 'UPDATE PartKeepr\PartBundle\Entity\PartMeasurementUnit pu SET pu.default = :default WHERE pu.id = :id';
 
         $this->entityManager->createQuery($dql)
-            ->setParameter("id", $partMeasurementUnit->getId())
+            ->setParameter('id', $partMeasurementUnit->getId())
             ->setParameter(
-            "default",
+            'default',
             true,
             \PDO::PARAM_BOOL
         )->execute();
@@ -31,9 +31,9 @@ class PartMeasurementUnitService
         $dql = 'UPDATE PartKeepr\PartBundle\Entity\PartMeasurementUnit pu SET pu.default = :default WHERE pu.id != :id';
 
         $this->entityManager->createQuery($dql)
-            ->setParameter("id", $partMeasurementUnit->getId())
+            ->setParameter('id', $partMeasurementUnit->getId())
             ->setParameter(
-            "default",
+            'default',
             false,
             \PDO::PARAM_BOOL
         )->execute();

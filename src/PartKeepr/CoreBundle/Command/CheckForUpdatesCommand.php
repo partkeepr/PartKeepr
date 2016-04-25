@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -11,12 +12,12 @@ class CheckForUpdatesCommand extends ContainerAwareCommand
     {
         parent::configure();
         $this->setName('partkeepr:cron:versioncheck');
-        $this->setDescription("Checks for PartKeepr updates");
+        $this->setDescription('Checks for PartKeepr updates');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getContainer()->get("partkeepr.versionservice")->doVersionCheck();
-        $this->getContainer()->get("partkeepr.cronlogger_service")->markCronRun("partkeepr:cron:versioncheck");
+        $this->getContainer()->get('partkeepr.versionservice')->doVersionCheck();
+        $this->getContainer()->get('partkeepr.cronlogger_service')->markCronRun('partkeepr:cron:versioncheck');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CategoryBundle\Tests;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
@@ -15,83 +16,84 @@ abstract class AbstractCategoryCreateTest extends WebTestCase
     public function setUp()
     {
         $this->fixtures = $this->loadFixtures(
-            array(
+            [
                 $this->getFixtureLoaderClass(),
-            )
+            ]
         )->getReferenceRepository();
     }
 
-    public function testCreateCategory () {
+    public function testCreateCategory()
+    {
         $client = static::makeClient(true);
 
-        $rootCategory = $this->fixtures->getReference($this->getReferencePrefix().".root");
+        $rootCategory = $this->fixtures->getReference($this->getReferencePrefix().'.root');
 
         /**
-         * @var $iriConverter IriConverter
+         * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $request = array(
-            "parent" => $iriConverter->getIriFromItem($rootCategory),
-            "name" => "test"
-        );
+        $request = [
+            'parent' => $iriConverter->getIriFromItem($rootCategory),
+            'name'   => 'test',
+        ];
 
-        $resource = $this->getContainer()->get("api.resource_collection")->getResourceForEntity($this->getResourceClass());
+        $resource = $this->getContainer()->get('api.resource_collection')->getResourceForEntity($this->getResourceClass());
         $iri = $iriConverter->getIriFromResource($resource);
 
         $client->request(
             'POST',
             $iri,
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($request)
         );
 
         $responseObject = json_decode($client->getResponse()->getContent());
 
-        $this->assertInternalType("object", $responseObject);
+        $this->assertInternalType('object', $responseObject);
 
-        $this->assertObjectHasAttribute("@id", $responseObject);
-        $this->assertObjectHasAttribute("name", $responseObject);
+        $this->assertObjectHasAttribute('@id', $responseObject);
+        $this->assertObjectHasAttribute('name', $responseObject);
 
-        $item = $iriConverter->getItemFromIri($responseObject->{"@id"});
-
+        $item = $iriConverter->getItemFromIri($responseObject->{'@id'});
 
         $this->assertNotNull($item->getParent());
         $this->assertEquals($item->getParent()->getId(), $rootCategory->getId());
     }
 
-    public function testCreateRootCategory () {
+    public function testCreateRootCategory()
+    {
         $client = static::makeClient(true);
 
         /**
-         * @var $iriConverter IriConverter
+         * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get("api.iri_converter");
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $request = array(
-            "name" => "test"
-        );
+        $request = [
+            'name' => 'test',
+        ];
 
-        $resource = $this->getContainer()->get("api.resource_collection")->getResourceForEntity($this->getResourceClass());
+        $resource = $this->getContainer()->get('api.resource_collection')->getResourceForEntity($this->getResourceClass());
         $iri = $iriConverter->getIriFromResource($resource);
 
         $client->request(
             'POST',
             $iri,
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($request)
         );
 
         $responseObject = json_decode($client->getResponse()->getContent());
 
-        $this->assertObjectHasAttribute("@type", $responseObject);
-        $this->assertObjectHasAttribute("hydra:description", $responseObject);
+        $this->assertObjectHasAttribute('@type', $responseObject);
+        $this->assertObjectHasAttribute('hydra:description', $responseObject);
 
-        $this->assertEquals("There may be only one root node", $responseObject->{"hydra:description"});
+        $this->assertEquals('There may be only one root node', $responseObject->{'hydra:description'});
     }
 
     abstract public function getFixtureLoaderClass();

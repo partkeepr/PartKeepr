@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\UploadedFileBundle\Controller;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -19,7 +20,7 @@ class TemporaryFileController extends FileController
     use ActionUtilTrait;
 
     /**
-     * Handles a temporary file upload
+     * Handles a temporary file upload.
      *
      * @RequestParam(name="url",description="An URL where the file is located",strict=false)
      * @ApiDoc(section="file",output="PartKeepr\UploadedFileBundleBundle\Response\TemporaryFileUploadResponse")
@@ -27,45 +28,46 @@ class TemporaryFileController extends FileController
      *
      * @param Request $request The request to process
      *
-     * @return JsonResponse The JSON response from the temporary file upload
      * @throws \Exception An exception if neither the userfile form parameter or an URL was given
+     *
+     * @return JsonResponse The JSON response from the temporary file upload
      */
     public function uploadAction(Request $request)
     {
         $uploadedFile = new TempUploadedFile();
-        $fileService = $this->get("partkeepr_uploadedfile_service");
+        $fileService = $this->get('partkeepr_uploadedfile_service');
 
         if ($request->files->has('userfile') && $request->files->get('userfile') != null) {
             $file = $request->files->get('userfile');
             if (!$file->isValid()) {
                 switch ($file->getError()) {
                     case UPLOAD_ERR_INI_SIZE:
-                        $error = $this->get("translator")->trans("The uploaded file is too large.");
+                        $error = $this->get('translator')->trans('The uploaded file is too large.');
                         break;
                     default:
-                        $error = $this->get("translator")->trans("Unknown error, error code %code",
-                            array("code" => $file->getError()));
+                        $error = $this->get('translator')->trans('Unknown error, error code %code',
+                            ['code' => $file->getError()]);
                         break;
                 }
 
                 throw new \Exception($error);
             }
-            /**
+            /*
              * @var $file UploadedFile
              */
             $fileService->replace($uploadedFile, new File($file->getPathname()));
             $uploadedFile->setOriginalFilename($file->getClientOriginalName());
-        } elseif ($request->request->has("url")) {
-            $fileService->replaceFromURL($uploadedFile, $request->request->get("url"));
+        } elseif ($request->request->has('url')) {
+            $fileService->replaceFromURL($uploadedFile, $request->request->get('url'));
         } else {
-            throw new \Exception($this->get("translator")->trans("No valid file given"));
+            throw new \Exception($this->get('translator')->trans('No valid file given'));
         }
 
         $this->getDoctrine()->getManager()->persist($uploadedFile);
         $this->getDoctrine()->getManager()->flush();
 
         /**
-         * @var ResourceInterface $resourceType
+         * @var ResourceInterface
          */
         list($resourceType) = $this->extractAttributes($request);
 
@@ -79,7 +81,7 @@ class TemporaryFileController extends FileController
     }
 
     /**
-     * Uploads a webcam image
+     * Uploads a webcam image.
      *
      * @param Request $request The request to process
      *
@@ -88,13 +90,12 @@ class TemporaryFileController extends FileController
     public function webcamUploadAction(Request $request)
     {
         $file = new TempUploadedFile();
-        $fileService = $this->get("partkeepr_uploadedfile_service");
-
+        $fileService = $this->get('partkeepr_uploadedfile_service');
 
         $data = $request->getContent();
 
         $base64 = explode(',', $data);
-        $fileService->replaceFromData($file, base64_decode($base64[1]), "webcam.png");
+        $fileService->replaceFromData($file, base64_decode($base64[1]), 'webcam.png');
 
         $this->getDoctrine()->getManager()->persist($file);
         $this->getDoctrine()->getManager()->flush();
@@ -103,10 +104,10 @@ class TemporaryFileController extends FileController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getEntityClass()
     {
-        return "PartKeepr\\UploadedFileBundle\\Entity\\TempUploadedFile";
+        return 'PartKeepr\\UploadedFileBundle\\Entity\\TempUploadedFile';
     }
 }

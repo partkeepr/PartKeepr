@@ -1,11 +1,11 @@
 <?php
+
 namespace PartKeepr\ImageBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Gaufrette\Exception\FileNotFound;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
-use Imagine\Image\Point;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PartKeepr\ImageBundle\Entity\CachedImage;
 use PartKeepr\ImageBundle\Entity\Image as PartKeeprImage;
@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class ImageController extends FileController
 {
     /**
-     *
      * @ApiDoc(
      *  description="Returns a scaled and cached image. Note that the binary data is directly returned.",
      *  parameters={
@@ -35,17 +34,17 @@ abstract class ImageController extends FileController
     public function getImageAction(Request $request, $id)
     {
         /**
-         * @var $em EntityManager
+         * @var EntityManager
          */
         $em = $this->getDoctrine()->getManager();
 
         /**
-         * @var $image PartKeeprImage
+         * @var PartKeeprImage
          */
         $image = $em->find($this->getEntityClass(), $id);
 
-        $width = $request->get("maxWidth");
-        $height = $request->get("maxHeight");
+        $width = $request->get('maxWidth');
+        $height = $request->get('maxHeight');
 
         if ($width === null) {
             $width = 200;
@@ -56,7 +55,7 @@ abstract class ImageController extends FileController
         }
 
         if ($image === null) {
-            return new ImageResponse($width, $height, 404, "404 not found");
+            return new ImageResponse($width, $height, 404, '404 not found');
         }
 
         try {
@@ -64,15 +63,14 @@ abstract class ImageController extends FileController
         } catch (FileNotFound $e) {
             $this->get('logger')->error($e->getMessage());
 
-            return new ImageResponse($width, $height, 404, "404 not found");
+            return new ImageResponse($width, $height, 404, '404 not found');
         } catch (\Exception $e) {
             $this->get('logger')->error($e->getMessage());
 
-            return new ImageResponse($width, $height, 500, "500 Server Error");
+            return new ImageResponse($width, $height, 500, '500 Server Error');
         }
 
-        return new Response(file_get_contents($file), 200, array("Content-Type" => "image/png"));
-
+        return new Response(file_get_contents($file), 200, ['Content-Type' => 'image/png']);
     }
 
     /**
@@ -82,7 +80,7 @@ abstract class ImageController extends FileController
      */
     public function getImageCacheDirectory()
     {
-        return $this->container->getParameter("partkeepr.image_cache_directory");
+        return $this->container->getParameter('partkeepr.image_cache_directory');
     }
 
     /**
@@ -104,7 +102,7 @@ abstract class ImageController extends FileController
      * @param UploadedFile $image   The image to scale
      * @param int          $width   The width
      * @param int          $height  The height
-     * @param boolean      $padding If true, pad the output image to the given size (transparent background).
+     * @param bool         $padding If true, pad the output image to the given size (transparent background).
      *
      * @return string The path to the scaled file
      */
@@ -113,9 +111,9 @@ abstract class ImageController extends FileController
         $this->ensureCacheDirExists();
 
         if ($padding) {
-            $mode = "fwp";
+            $mode = 'fwp';
         } else {
-            $mode = "fw";
+            $mode = 'fw';
         }
 
         $outputFile = $this->getImageCacheFilename($image, $width, $height, $mode);
@@ -127,7 +125,7 @@ abstract class ImageController extends FileController
         $imagine = new Imagine();
 
         $localCacheFile = $this->getImageCacheDirectory().$image->getFullFilename();
-        $storage = $this->get("partkeepr_uploadedfile_service")->getStorage($image);
+        $storage = $this->get('partkeepr_uploadedfile_service')->getStorage($image);
 
         file_put_contents($localCacheFile, $storage->read($image->getFullFilename()));
 
@@ -145,8 +143,8 @@ abstract class ImageController extends FileController
      * Returns the path to an image which has been cached in a particular width, height and mode.
      *
      * @param UploadedFile $image  The image
-     * @param integer      $width  The width
-     * @param integer      $height The height
+     * @param int          $width  The width
+     * @param int          $height The height
      * @param string       $mode   The mode
      *
      * @return string
@@ -154,8 +152,8 @@ abstract class ImageController extends FileController
     public function getImageCacheFilename(UploadedFile $image, $width, $height, $mode)
     {
         $outputFile = $this->getImageCacheDirectory();
-        $outputFile .= "/".sha1($image->getFilename());
-        $outputFile .= $width."x".$height."_".$mode.".png";
+        $outputFile .= '/'.sha1($image->getFilename());
+        $outputFile .= $width.'x'.$height.'_'.$mode.'.png';
 
         return $outputFile;
     }
@@ -163,10 +161,10 @@ abstract class ImageController extends FileController
     /**
      * Checks if the database contains the cache file.
      *
-     * @param UploadedFile   $image
-     * @param                $width
-     * @param                $height
-     * @param                $mode
+     * @param UploadedFile $image
+     * @param              $width
+     * @param              $height
+     * @param              $mode
      *
      * @return bool
      */
@@ -175,15 +173,15 @@ abstract class ImageController extends FileController
         $cacheFilename = $this->getImageCacheFilename($image, $width, $height, $mode);
 
         /**
-         * @var $em EntityManager
+         * @var EntityManager
          */
         $em = $this->getDoctrine()->getManager();
 
         $queryBuilder = $em->createQueryBuilder();
-        $queryBuilder->select("COUNT(c)")
-            ->from('PartKeepr\ImageBundle\Entity\CachedImage', "c")
-            ->where("c.cacheFile = :file")
-            ->setParameter("file", $cacheFilename);
+        $queryBuilder->select('COUNT(c)')
+            ->from('PartKeepr\ImageBundle\Entity\CachedImage', 'c')
+            ->where('c.cacheFile = :file')
+            ->setParameter('file', $cacheFilename);
 
         if ($queryBuilder->getQuery()->getSingleScalarResult() > 0) {
             return true;

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
 use Doctrine\ORM\EntityManager;
@@ -29,21 +30,21 @@ class MarkTipsAsUnreadAction
     }
 
     /**
-     * Marks all tips as unread
+     * Marks all tips as unread.
      *
      * @param Request $request The request
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
         $dql = "DELETE FROM PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory th WHERE th.user = :user";
         $query = $this->entityManager->createQuery($dql);
-        $query->setParameter("user", $this->userService->getUser());
+        $query->setParameter('user', $this->userService->getUser());
         $query->execute();
 
-        return new Response("OK");
+        return new Response('OK');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\FootprintBundle\Controller;
 
 use PartKeepr\ImageBundle\Controller\ImageController;
@@ -6,10 +7,10 @@ use PartKeepr\ImageBundle\Controller\ImageController;
 class FootprintImageController extends ImageController
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getEntityClass()
     {
-        return "PartKeepr\\FootprintBundle\\Entity\\FootprintImage";
+        return 'PartKeepr\\FootprintBundle\\Entity\\FootprintImage';
     }
 }

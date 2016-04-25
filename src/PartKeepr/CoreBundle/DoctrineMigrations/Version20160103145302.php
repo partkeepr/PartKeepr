@@ -6,7 +6,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Drops legacy tables
+ * Drops legacy tables.
  */
 class Version20160103145302 extends AbstractMigration
 {
@@ -15,13 +15,13 @@ class Version20160103145302 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        $tablesToDrop = array(
-            "LastNotification",
-            "Event",
-            "Session",
-            "PrintingJobConfiguration",
-            "PrintingJob"
-        );
+        $tablesToDrop = [
+            'LastNotification',
+            'Event',
+            'Session',
+            'PrintingJobConfiguration',
+            'PrintingJob',
+        ];
         foreach ($tablesToDrop as $table) {
             if ($schema->hasTable($table)) {
                 $schema->dropTable($table);
@@ -35,6 +35,5 @@ class Version20160103145302 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

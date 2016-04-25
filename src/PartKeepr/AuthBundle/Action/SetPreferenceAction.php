@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
@@ -7,13 +8,12 @@ use Dunglas\ApiBundle\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * Returns the tree root node
+ * Returns the tree root node.
  */
 class SetPreferenceAction
 {
@@ -49,10 +49,10 @@ class SetPreferenceAction
      *
      * @param Request $request
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     * @throws \Exception If the format is invalid
-     *
+     * @throws \Exception                                 If the format is invalid
      * @throws RuntimeException|RootNodeNotFoundException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
@@ -60,16 +60,16 @@ class SetPreferenceAction
 
         $data = json_decode($request->getContent());
 
-        if (property_exists($data, "preferenceKey") && property_exists($data, "preferenceValue")) {
+        if (property_exists($data, 'preferenceKey') && property_exists($data, 'preferenceValue')) {
             $preference = $this->userPreferenceService->setPreference($user, $data->preferenceKey,
                 $data->preferenceValue);
         } else {
-            throw new \Exception("Invalid format");
+            throw new \Exception('Invalid format');
         }
 
         list($resourceType) = $this->extractAttributes($request);
 
-        /**
+        /*
          * @var ResourceInterface $resourceType
          */
 

@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\AuthBundle\Action;
 
+namespace PartKeepr\AuthBundle\Action;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\ResourceInterface;
@@ -46,25 +46,25 @@ class PutUserAction
     /**
      * Create a new item.
      *
-     * @param Request $request
+     * @param Request    $request
      * @param string|int $id
-     *
-     * @return mixed
      *
      * @throws NotFoundHttpException
      * @throws RuntimeException
      * @throws UserProtectedException
      * @throws UserLimitReachedException
+     *
+     * @return mixed
      */
     public function __invoke(Request $request, $id)
     {
-         /**
-         * @var $resourceType ResourceInterface
+        /**
+         * @var ResourceInterface
          */
         list($resourceType, $format) = $this->extractAttributes($request);
 
         /**
-         * @var User $data
+         * @var User
          */
         $data = $this->getItem($this->dataProvider, $resourceType, $id);
 
@@ -89,8 +89,8 @@ class PutUserAction
         }
 
         $this->userService->syncData($data);
-        $data->setNewPassword("");
-        $data->setPassword("");
+        $data->setNewPassword('');
+        $data->setPassword('');
         $data->setLegacy(false);
 
         return $data;

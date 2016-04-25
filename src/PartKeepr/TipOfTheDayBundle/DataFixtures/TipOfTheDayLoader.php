@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -10,13 +11,11 @@ class TipOfTheDayLoader extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $tipOfTheDay = new TipOfTheDay();
-        $tipOfTheDay->setName("FOO");
+        $tipOfTheDay->setName('FOO');
 
         $manager->persist($tipOfTheDay);
         $manager->flush();
 
-        $this->addReference("tipoftheday", $tipOfTheDay);
+        $this->addReference('tipoftheday', $tipOfTheDay);
     }
 }
-
-

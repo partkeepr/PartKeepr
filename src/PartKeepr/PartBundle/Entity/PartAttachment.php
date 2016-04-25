@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -6,7 +7,7 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Holds a part attachment
+ * Holds a part attachment.
  *
  * @ORM\Entity
  **/
@@ -14,25 +15,27 @@ class PartAttachment extends UploadedFile
 {
     /**
      * Defines if the attachment is an image.
+     *
      * @ORM\Column(type="boolean",nullable=true)
      * @Groups({"default"})
      *
-     * @var boolean
+     * @var bool
      */
     private $isImage;
 
     /**
-     * Creates a new part attachment
+     * Creates a new part attachment.
      */
     public function __construct()
     {
         parent::__construct();
-        $this->setType("PartAttachment");
+        $this->setType('PartAttachment');
         $this->isImage = null;
     }
 
     /**
-     * The part object
+     * The part object.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="attachments")
      *
      * @var Part
@@ -40,7 +43,7 @@ class PartAttachment extends UploadedFile
     private $part = null;
 
     /**
-     * Sets the part
+     * Sets the part.
      *
      * @param Part $part The part to set
      */
@@ -50,7 +53,7 @@ class PartAttachment extends UploadedFile
     }
 
     /**
-     * Returns the part
+     * Returns the part.
      *
      * @return Part the part
      */
@@ -62,7 +65,7 @@ class PartAttachment extends UploadedFile
     /**
      * Returns if the attachment is an image or not.
      *
-     * @return True if the attachment is an image, false otherwise
+     * @return true if the attachment is an image, false otherwise
      */
     public function isImage()
     {
@@ -70,10 +73,12 @@ class PartAttachment extends UploadedFile
     }
 
     /**
-     * Sets if the attachment is an image
+     * Sets if the attachment is an image.
+     *
      * @param $image
      */
-    public function setImage($image) {
+    public function setImage($image)
+    {
         $this->isImage = $image;
     }
 }

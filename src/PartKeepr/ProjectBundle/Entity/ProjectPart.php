@@ -1,14 +1,15 @@
 <?php
+
 namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
-use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents a project part
+ * Represents a project part.
  *
  * @ORM\Entity
  * @TargetService("/api/project_parts")
@@ -16,42 +17,46 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class ProjectPart extends BaseEntity
 {
     /**
-     * The part this project part refers to
+     * The part this project part refers to.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="projectParts")
      * @Groups({"default"})
+     *
      * @var Part
      */
     private $part;
 
     /**
-     * Specifies the amount of parts
+     * Specifies the amount of parts.
      *
      * @ORM\Column(type="integer")
      * @Groups({"default"})
-     * @var integer
+     *
+     * @var int
      */
     private $quantity;
 
     /**
-     * Specifies the project which belongs to this project part
+     * Specifies the project which belongs to this project part.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project", inversedBy="parts")
+     *
      * @var Project
      */
     private $project;
 
     /**
-     * Specifies the remarks for this entry
+     * Specifies the remarks for this entry.
      *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $remarks;
 
     /**
-     * Sets the part which belongs to this entry
+     * Sets the part which belongs to this entry.
      *
      * @param Part $part
      */
@@ -61,7 +66,7 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Returns the part which belongs to this entry
+     * Returns the part which belongs to this entry.
      *
      * @return Part
      */
@@ -71,7 +76,7 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Sets the quantity for this entry
+     * Sets the quantity for this entry.
      *
      * @param int $quantity
      */
@@ -81,7 +86,7 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Returns the quantity for this project
+     * Returns the quantity for this project.
      *
      * @return int the amount of parts needed
      */
@@ -91,7 +96,7 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Sets the project assigned to this entry
+     * Sets the project assigned to this entry.
      *
      * @param Project $project
      */
@@ -101,7 +106,7 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Returns the project assigned to this entry
+     * Returns the project assigned to this entry.
      *
      * @return Project
      */
@@ -111,7 +116,7 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Sets the remarks for this entry
+     * Sets the remarks for this entry.
      *
      * @param string $remarks
      */
@@ -121,7 +126,7 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Returns the remarks for this entry
+     * Returns the remarks for this entry.
      *
      * @return string
      */

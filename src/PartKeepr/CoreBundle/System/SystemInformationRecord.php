@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle\System;
 
 /**
@@ -21,21 +22,21 @@ namespace PartKeepr\CoreBundle\System;
 class SystemInformationRecord
 {
     /**
-     * Holds the category name
+     * Holds the category name.
      *
      * @var string
      */
     public $category;
 
     /**
-     * Holds the name
+     * Holds the name.
      *
      * @var string
      */
     public $name;
 
     /**
-     * Holds the value
+     * Holds the value.
      *
      * @var mixed
      */

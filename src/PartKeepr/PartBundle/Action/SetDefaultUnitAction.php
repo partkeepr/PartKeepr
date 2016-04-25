@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PartKeepr\PartBundle\Action;
-
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Exception\RuntimeException;
@@ -25,7 +23,8 @@ class SetDefaultUnitAction
      */
     private $dataProvider;
 
-    public function __construct (DataProviderInterface $dataProvider, PartMeasurementUnitService $partMeasurementUnitService) {
+    public function __construct(DataProviderInterface $dataProvider, PartMeasurementUnitService $partMeasurementUnitService)
+    {
         $this->dataProvider = $dataProvider;
         $this->partMeasurementUnitService = $partMeasurementUnitService;
     }
@@ -34,18 +33,18 @@ class SetDefaultUnitAction
      * Retrieves a collection of resources.
      *
      * @param Request $request The request
-     * @param int $id The ID of the part
-     *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @param int     $id      The ID of the part
      *
      * @throws RuntimeException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);
 
         /**
-         * @var PartMeasurementUnit $partMeasurementUnit
+         * @var PartMeasurementUnit
          */
         $partMeasurementUnit = $this->getItem($this->dataProvider, $resourceType, $id);
 

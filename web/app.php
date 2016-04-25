@@ -17,8 +17,8 @@ $apcLoader->register(true);
 require_once __DIR__.'/../app/AppKernel.php';
 //require_once __DIR__.'/../app/AppCache.php';
 
-if (!file_exists("../app/config/parameters.php")) {
-    echo "Unable to load parameters.php - please run setup to generate a parameters.php file.";
+if (!file_exists('../app/config/parameters.php')) {
+    echo 'Unable to load parameters.php - please run setup to generate a parameters.php file.';
     exit;
 }
 $kernel = new AppKernel('prod', false);

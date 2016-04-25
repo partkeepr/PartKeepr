@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SetupBundle\Controller;
 
 use Doctrine\Bundle\MigrationsBundle\Command\DoctrineCommand;
@@ -20,11 +21,11 @@ class SchemaMigrationSetupController extends SetupBaseController
             return $this->getAuthKeyErrorResponse();
         }
 
-        $response = array(
-            "success" => true,
-            "errors" => [],
-            "message" => "Database schema successfully migrated",
-        );
+        $response = [
+            'success' => true,
+            'errors'  => [],
+            'message' => 'Database schema successfully migrated',
+        ];
 
         $configuration = $this->getMigrationConfiguration();
         $migration = new Migration($configuration);
@@ -36,10 +37,9 @@ class SchemaMigrationSetupController extends SetupBaseController
         return new JsonResponse($response);
     }
 
-
     protected function getMigrationConfiguration()
     {
-        $config = new Configuration($this->get("doctrine.dbal.default_connection"));
+        $config = new Configuration($this->get('doctrine.dbal.default_connection'));
 
         DoctrineCommand::configureMigrations($this->container, $config);
 
@@ -51,10 +51,8 @@ class SchemaMigrationSetupController extends SetupBaseController
      */
     public function migrateSchemaAction(Request $request)
     {
-        $response = $this->handleRequest($request, "/setup/_int_migrate_schema");
+        $response = $this->handleRequest($request, '/setup/_int_migrate_schema');
 
         return new Response($response->getContent());
     }
-
-
 }

@@ -1,9 +1,10 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -23,12 +24,13 @@ class TipOfTheDay extends BaseEntity
     /**
      * @ORM\Column(type="string")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $name;
 
     /**
-     * Sets the name for this tip
+     * Sets the name for this tip.
      *
      * @param string $name The name
      */
@@ -38,7 +40,7 @@ class TipOfTheDay extends BaseEntity
     }
 
     /**
-     * Returns the name for this tip
+     * Returns the name for this tip.
      *
      * @return string The name
      */

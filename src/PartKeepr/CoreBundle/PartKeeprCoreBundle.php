@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle;
 
 use PartKeepr\CoreBundle\DependencyInjection\PartKeeprCoreExtension;

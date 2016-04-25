@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\AuthBundle\Security\User;
 
+namespace PartKeepr\AuthBundle\Security\User;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\AuthBundle\Entity\User;
@@ -16,15 +16,16 @@ class LegacyUserProvider implements UserProviderInterface
      */
     private $entityManager;
 
-    public function __construct (EntityManager $entityManager) {
+    public function __construct(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
     public function loadUserByUsername($username)
     {
-        $repository = $this->entityManager->getRepository("PartKeepr\\AuthBundle\\Entity\\User");
+        $repository = $this->entityManager->getRepository('PartKeepr\\AuthBundle\\Entity\\User');
 
-        $user = $repository->findOneBy(array("username" => $username, "legacy" => true));
+        $user = $repository->findOneBy(['username' => $username, 'legacy' => true]);
 
         if ($user !== null) {
             return $user;

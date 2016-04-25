@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\AuthBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;

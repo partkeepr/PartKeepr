@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PartKeepr\SetupBundle\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,18 +18,18 @@ class UnitSetupController extends SetupBaseController
             return $this->getAuthKeyErrorResponse();
         }
 
-        $response = array(
-            "success" => true,
-            "errors" => [],
-            "message" => "Default units successfully created/updated",
-        );
+        $response = [
+            'success' => true,
+            'errors'  => [],
+            'message' => 'Default units successfully created/updated',
+        ];
 
         try {
-            $this->get("partkeepr.setup.unit_service")->importUnits();
+            $this->get('partkeepr.setup.unit_service')->importUnits();
         } catch (\Exception $e) {
-            $response["success"] = false;
-            $response["message"] = "Unit creation error";
-            $response["errors"] = [$e->getMessage()];
+            $response['success'] = false;
+            $response['message'] = 'Unit creation error';
+            $response['errors'] = [$e->getMessage()];
         }
 
         return new JsonResponse($response);
@@ -38,13 +37,14 @@ class UnitSetupController extends SetupBaseController
 
     /**
      * @Route("/setup/createUnits")
+     *
      * @param Request $request
      *
      * @return Response
      */
     public function createUnitAction(Request $request)
     {
-        $response = $this->handleRequest($request, "/setup/_int_create_units");
+        $response = $this->handleRequest($request, '/setup/_int_create_units');
 
         return new Response($response->getContent());
     }

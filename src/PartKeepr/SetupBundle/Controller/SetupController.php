@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SetupBundle\Controller;
 
 use Doctrine\DBAL\Exception\DriverException;
@@ -18,26 +19,26 @@ class SetupController extends SetupBaseController
             return $this->getAuthKeyErrorResponse();
         }
 
-        $response = array(
-            "success" => true,
-            "errors" => [],
-            "message" => "Connection successful",
-        );
+        $response = [
+            'success' => true,
+            'errors'  => [],
+            'message' => 'Connection successful',
+        ];
 
         try {
-            $this->get("doctrine.dbal.default_connection")->connect();
+            $this->get('doctrine.dbal.default_connection')->connect();
         } catch (DriverException $e) {
-            $response["success"] = false;
-            $response["message"] = "Connection Error";
-            $response["errors"] = [$e->getMessage()];
+            $response['success'] = false;
+            $response['message'] = 'Connection Error';
+            $response['errors'] = [$e->getMessage()];
         }
 
         return new JsonResponse($response);
     }
 
-
     /**
      * @Route("/setup/testConnectivity")
+     *
      * @param Request $request
      *
      * @return Response
@@ -46,13 +47,14 @@ class SetupController extends SetupBaseController
     {
         $this->dumpConfig($request);
 
-        $response = $this->handleRequest($request, "/setup/_int_test_connectivity");
+        $response = $this->handleRequest($request, '/setup/_int_test_connectivity');
 
         return new Response($response->getContent());
     }
 
     /**
      * @Route("/setup/saveConfig")
+     *
      * @param Request $request
      *
      * @return JsonResponse
@@ -61,12 +63,11 @@ class SetupController extends SetupBaseController
     {
         $this->dumpConfig($request, false);
 
-
-        $response = array(
-            "success" => true,
-            "errors" => [],
-            "message" => "Configuration saved successful",
-        );
+        $response = [
+            'success' => true,
+            'errors'  => [],
+            'message' => 'Configuration saved successful',
+        ];
 
         return new JsonResponse($response);
     }
@@ -76,11 +77,11 @@ class SetupController extends SetupBaseController
      */
     public function webserverTestAction()
     {
-        $response = array(
-            "success" => true,
-            "message" => "Web Server configuration OK",
-            "errors" => array(),
-        );
+        $response = [
+            'success' => true,
+            'message' => 'Web Server configuration OK',
+            'errors'  => [],
+        ];
 
         return new JsonResponse($response);
     }
@@ -90,20 +91,19 @@ class SetupController extends SetupBaseController
      */
     public function generateAuthKeyAction()
     {
-        $response = array(
-            "success" => true,
-            "message" => "Auth key successfully generated",
-            "errors" => array(),
-        );
+        $response = [
+            'success' => true,
+            'message' => 'Auth key successfully generated',
+            'errors'  => [],
+        ];
 
-        $parameters = array(
-            "authkey" => $this->get("partkeepr.setup.config_service")->generateSecret()
-        );
+        $parameters = [
+            'authkey' => $this->get('partkeepr.setup.config_service')->generateSecret(),
+        ];
 
         $contents = $this->container->get('templating')->render('PartKeeprSetupBundle::authkey.php.twig', $parameters);
-        file_put_contents($this->get("partkeepr.setup.config_service")->getAuthKeyPath(), $contents);
+        file_put_contents($this->get('partkeepr.setup.config_service')->getAuthKeyPath(), $contents);
 
         return new JsonResponse($response);
     }
-
 }

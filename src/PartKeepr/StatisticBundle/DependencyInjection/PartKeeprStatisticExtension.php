@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\StatisticBundle\DependencyInjection;
 
+namespace PartKeepr\StatisticBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

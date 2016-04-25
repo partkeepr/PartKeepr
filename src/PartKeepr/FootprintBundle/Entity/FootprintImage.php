@@ -1,18 +1,20 @@
 <?php
+
 namespace PartKeepr\FootprintBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
- * Holds a footprint image
+ * Holds a footprint image.
  *
  * @ORM\Entity
  **/
 class FootprintImage extends Image
 {
     /**
-     * The footprint object
+     * The footprint object.
+     *
      * @ORM\OneToOne(targetEntity="PartKeepr\FootprintBundle\Entity\Footprint",inversedBy="image")
      *
      * @var Footprint
@@ -20,7 +22,7 @@ class FootprintImage extends Image
     private $footprint = null;
 
     /**
-     * Creates a new IC logo instance
+     * Creates a new IC logo instance.
      */
     public function __construct()
     {
@@ -28,7 +30,7 @@ class FootprintImage extends Image
     }
 
     /**
-     * Sets the footprint
+     * Sets the footprint.
      *
      * @param Footprint $footprint The footprint to set
      */
@@ -38,7 +40,7 @@ class FootprintImage extends Image
     }
 
     /**
-     * Returns the footprint
+     * Returns the footprint.
      *
      * @return Footprint the footprint
      */

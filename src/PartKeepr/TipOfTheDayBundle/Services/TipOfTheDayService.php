@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -9,7 +10,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TipOfTheDayService
 {
-
     /**
      * @var ContainerInterface
      */
@@ -45,7 +45,7 @@ class TipOfTheDayService
      */
     public function syncTips()
     {
-        $uri = $this->container->getParameter("partkeepr.tip_of_the_day_list");
+        $uri = $this->container->getParameter('partkeepr.tip_of_the_day_list');
 
         $tipsString = $this->remoteFileLoader->createLoader()->load($uri);
 
@@ -89,12 +89,12 @@ class TipOfTheDayService
     private function extractPageNames($response)
     {
         $aTipsStructure = json_decode($response, true);
-        $aTips = $aTipsStructure["query"]["categorymembers"];
+        $aTips = $aTipsStructure['query']['categorymembers'];
 
-        $aPageNames = array();
+        $aPageNames = [];
 
         foreach ($aTips as $tip) {
-            $aPageNames[] = $tip["title"];
+            $aPageNames[] = $tip['title'];
         }
 
         return $aPageNames;

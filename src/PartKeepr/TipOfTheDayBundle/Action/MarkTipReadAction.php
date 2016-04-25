@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
 use Doctrine\ORM\EntityManager;
@@ -40,14 +41,14 @@ class MarkTipReadAction
     }
 
     /**
-     * Marks a specific tip as read
+     * Marks a specific tip as read.
      *
      * @param Request $request The request
      * @param int     $id      The ID of the system notice
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request, $id)
     {
@@ -55,7 +56,7 @@ class MarkTipReadAction
 
         $tip = $this->getItem($this->dataProvider, $resourceType, $id);
 
-        /**
+        /*
          * @var $tip TipOfTheDay
          */
         $tipOfTheDayHistoryItem = new TipOfTheDayHistory();

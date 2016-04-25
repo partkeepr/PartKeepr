@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PartKeepr\ImageBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -21,29 +20,29 @@ class ImageService extends UploadedFileService
     }
 
     /**
-     * Invalidates any cached files
+     * Invalidates any cached files.
      *
      * @param UploadedFile $file The file to invalidate
      */
     public function invalidate(UploadedFile $file)
     {
         /**
-         * @var $entityManager EntityManager
+         * @var EntityManager
          */
-        $entityManager = $this->container->get("doctrine")->getManager();
+        $entityManager = $this->container->get('doctrine')->getManager();
         $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select(array("c"))
+        $queryBuilder->select(['c'])
             ->from('PartKeepr\ImageBundle\Entity\CachedImage', 'c')
-            ->where("c.originalId = :id")
-            ->andWhere("c.originalType = :type")
-            ->setParameter("id", $file->getId())
-            ->setParameter("type", $file->getType());
+            ->where('c.originalId = :id')
+            ->andWhere('c.originalType = :type')
+            ->setParameter('id', $file->getId())
+            ->setParameter('type', $file->getType());
 
         $query = $queryBuilder->getQuery();
 
         foreach ($query->getResult() as $file) {
             /**
-             * @var $file CachedImage
+             * @var CachedImage
              */
             if (file_exists($file->getCacheFile())) {
                 unlink($file->getCacheFile());
@@ -53,16 +52,18 @@ class ImageService extends UploadedFileService
     }
 
     /**
-     * Checks if the system can handle the given mime type as image. Currently hardcoded for GD
+     * Checks if the system can handle the given mime type as image. Currently hardcoded for GD.
      *
      * @param $mimeType The mime type to check
-     * @return boolean True if the system can display images of the given mimetype, false otherwise
+     *
+     * @return bool True if the system can display images of the given mimetype, false otherwise
      */
-    public function canHandleMimetype ($mimeType) {
+    public function canHandleMimetype($mimeType)
+    {
         switch ($mimeType) {
-            case "image/jpeg":
-            case "image/png":
-            case "image/gif":
+            case 'image/jpeg':
+            case 'image/png':
+            case 'image/gif':
                 return true;
             default:
                 return false;

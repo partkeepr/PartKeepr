@@ -8,7 +8,7 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         // Base 3rd party bundles required for PartKeepr operation
-        $bundles = array(
+        $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -31,11 +31,11 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
             new \FR3D\LdapBundle\FR3DLdapBundle(),
-            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
-        );
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+        ];
 
         // Developer bundles
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
@@ -64,7 +64,6 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\ExportBundle\PartKeeprExportBundle();
         $bundles[] = new PartKeepr\StatisticBundle\PartKeeprStatisticBundle();
 
-
         return array_merge($bundles, $this->getCustomBundles());
     }
 
@@ -76,7 +75,7 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
 
-        if ($this->getEnvironment() !== "test") {
+        if ($this->getEnvironment() !== 'test') {
             $customConfig = __DIR__.'/config/config_custom.yml';
 
             if (file_exists($customConfig)) {
@@ -88,19 +87,22 @@ class AppKernel extends Kernel
     /**
      * Returns any custom bundles for a custom setup. Override this
      * method in a custom AppKernel.
+     *
      * @return array
      */
-    public function getCustomBundles () {
+    public function getCustomBundles()
+    {
         return [];
     }
 
     /**
-     * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT
+     * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT.
+     *
      * @return string
      */
     public function getCacheDir()
     {
-        $environment = getenv("PARTKEEPR_ENVIRONMENT");
+        $environment = getenv('PARTKEEPR_ENVIRONMENT');
 
         if ($environment === false) {
             $environment = $this->environment;
@@ -113,11 +115,13 @@ class AppKernel extends Kernel
      * Override to avoid stripping comments.
      *
      * @see https://github.com/partkeepr/PartKeepr/issues/438
+     *
      * @param string $source
      *
      * @return string
      */
-    public static function stripComments($source) {
+    public static function stripComments($source)
+    {
         return $source;
     }
 }

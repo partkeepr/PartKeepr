@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\CoreBundle\Tests;
 
 class SystemInformationTest extends WebTestCase
@@ -14,12 +15,12 @@ class SystemInformationTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertInternalType("array", $response);
+        $this->assertInternalType('array', $response);
 
-        $this->assertInternalType("object", $response[0]);
-        $this->assertObjectHasAttribute("category", $response[0]);
-        $this->assertObjectHasAttribute("name", $response[0]);
-        $this->assertObjectHasAttribute("value", $response[0]);
+        $this->assertInternalType('object', $response[0]);
+        $this->assertObjectHasAttribute('category', $response[0]);
+        $this->assertObjectHasAttribute('name', $response[0]);
+        $this->assertObjectHasAttribute('value', $response[0]);
     }
 
     public function testSystemStatus()
@@ -33,10 +34,10 @@ class SystemInformationTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertInternalType("object", $response);
-        $this->assertObjectHasAttribute("inactiveCronjobCount", $response);
-        $this->assertObjectHasAttribute("inactiveCronjobs", $response);
-        $this->assertInternalType("array", $response->inactiveCronjobs);
-        $this->assertObjectHasAttribute("schemaStatus", $response);
+        $this->assertInternalType('object', $response);
+        $this->assertObjectHasAttribute('inactiveCronjobCount', $response);
+        $this->assertObjectHasAttribute('inactiveCronjobs', $response);
+        $this->assertInternalType('array', $response->inactiveCronjobs);
+        $this->assertObjectHasAttribute('schemaStatus', $response);
     }
 }

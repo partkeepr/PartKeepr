@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\PartBundle\DataFixtures;
 
+namespace PartKeepr\PartBundle\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -12,25 +12,24 @@ class PartDataLoader extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $partUnit = new PartMeasurementUnit();
-        $partUnit->setName("pieces");
-        $partUnit->setShortName("pcs");
+        $partUnit->setName('pieces');
+        $partUnit->setShortName('pcs');
         $partUnit->setDefault(true);
 
         $part = new Part();
-        $part->setName("FOOBAR");
+        $part->setName('FOOBAR');
         $part->setPartUnit($partUnit);
-        $category = $this->getReference("partcategory.first");
-        $storageLocation = $this->getReference("storagelocation.first");
+        $category = $this->getReference('partcategory.first');
+        $storageLocation = $this->getReference('storagelocation.first');
 
         $part->setCategory($category);
         $part->setStorageLocation($storageLocation);
 
-
         $part2 = new Part();
-        $part2->setName("FOOBAR2");
+        $part2->setName('FOOBAR2');
 
-        $category = $this->getReference("partcategory.first");
-        $storageLocation = $this->getReference("storagelocation.first");
+        $category = $this->getReference('partcategory.first');
+        $storageLocation = $this->getReference('storagelocation.first');
 
         $part2->setCategory($category);
         $part2->setStorageLocation($storageLocation);
@@ -42,7 +41,7 @@ class PartDataLoader extends AbstractFixture
 
         $manager->flush();
 
-        $this->addReference("part.1", $part);
-        $this->addReference("part.2", $part2);
+        $this->addReference('part.1', $part);
+        $this->addReference('part.2', $part2);
     }
 }

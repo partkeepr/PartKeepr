@@ -1,27 +1,29 @@
 <?php
+
 namespace PartKeepr\FootprintBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
- * Holds a footprint attachment
+ * Holds a footprint attachment.
  *
  * @ORM\Entity
  **/
 class FootprintAttachment extends UploadedFile
 {
     /**
-     * Creates a new footprint attachment
+     * Creates a new footprint attachment.
      */
     public function __construct()
     {
         parent::__construct();
-        $this->setType("FootprintAttachment");
+        $this->setType('FootprintAttachment');
     }
 
     /**
-     * The footprint object
+     * The footprint object.
+     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\FootprintBundle\Entity\Footprint",inversedBy="attachments")
      *
      * @var Footprint
@@ -29,7 +31,7 @@ class FootprintAttachment extends UploadedFile
     private $footprint = null;
 
     /**
-     * Sets the footprint
+     * Sets the footprint.
      *
      * @param Footprint $footprint The footprint to set
      */
@@ -39,7 +41,7 @@ class FootprintAttachment extends UploadedFile
     }
 
     /**
-     * Returns the footprint
+     * Returns the footprint.
      *
      * @return Footprint the footprint
      */

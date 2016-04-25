@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SiPrefixBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\StatisticBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -19,7 +20,7 @@ class StatisticService
     }
 
     /**
-     * Returns the part count
+     * Returns the part count.
      *
      * @param bool|false $withoutPrice Set to true to retrieve all parts where the average price is null
      *
@@ -30,14 +31,14 @@ class StatisticService
         $dql = "SELECT COUNT(p.id) FROM PartKeepr\PartBundle\Entity\Part p";
 
         if ($withoutPrice === true) {
-            $dql .= " WHERE p.averagePrice IS NOT NULL";
+            $dql .= ' WHERE p.averagePrice IS NOT NULL';
         }
 
         return $this->entityManager->createQuery($dql)->getSingleScalarResult();
     }
 
     /**
-     * Returns the part category count
+     * Returns the part category count.
      *
      * @return int
      */
@@ -73,7 +74,7 @@ class StatisticService
     }
 
     /**
-     * Returns the part counts per part unit
+     * Returns the part counts per part unit.
      *
      * @return array An array of arrays with the keys "name" and "stockLevel"
      */
@@ -86,17 +87,18 @@ class StatisticService
     }
 
     /**
-	 * Returns the range of all recorded statistic snapshots.
-	 */
-	public function getStatisticRange () {
-		$dql = "SELECT MIN(sts.dateTime) AS startDate, MAX(sts.dateTime) AS endDate FROM PartKeepr\\StatisticBundle\\Entity\\StatisticSnapshot sts";
-		$query = $this->entityManager->createQuery($dql);
+     * Returns the range of all recorded statistic snapshots.
+     */
+    public function getStatisticRange()
+    {
+        $dql = 'SELECT MIN(sts.dateTime) AS startDate, MAX(sts.dateTime) AS endDate FROM PartKeepr\\StatisticBundle\\Entity\\StatisticSnapshot sts';
+        $query = $this->entityManager->createQuery($dql);
 
-		return $query->getSingleResult();
-	}
+        return $query->getSingleResult();
+    }
 
     /**
-     * Gets the sampled statistics
+     * Gets the sampled statistics.
      *
      * @param \DateTime $startDate
      * @param \DateTime $endDate
@@ -108,14 +110,14 @@ class StatisticService
     {
         if ($startDate->getTimestamp() > $endDate->getTimestamp()) {
             // Swap both times
-            list($startDate, $endDate) = array($endDate, $startDate);
+            list($startDate, $endDate) = [$endDate, $startDate];
         }
 
         $intervalSize = intval(($endDate->getTimestamp() - $startDate->getTimestamp()) / $sampleSize);
 
         $queryStartTime = clone $startDate;
         $queryEndTime = clone $startDate;
-        $queryEndTime->add(new \DateInterval("PT".$intervalSize."S"));
+        $queryEndTime->add(new \DateInterval('PT'.$intervalSize.'S'));
 
         $partUnitQuery = "SELECT pu FROM PartKeepr\PartBundle\Entity\PartMeasurementUnit pu";
         $query = $this->entityManager->createQuery($partUnitQuery);
@@ -128,80 +130,78 @@ class StatisticService
         $dql = "SELECT AVG(stsu.stockLevel) AS stockLevel FROM PartKeepr\StatisticBundle\Entity\StatisticSnapshotUnit stsu JOIN stsu.statisticSnapshot sts WHERE sts.dateTime >= :start AND sts.dateTime <= :end AND stsu.partUnit = :partUnit";
         $subQuery = $this->entityManager->createQuery($dql);
 
-        $aRecords = array();
+        $aRecords = [];
 
         for ($i = 0; $i < $sampleSize; $i++) {
-            $mainQuery->setParameter("start", $queryStartTime);
-            $mainQuery->setParameter("end", $queryEndTime);
+            $mainQuery->setParameter('start', $queryStartTime);
+            $mainQuery->setParameter('end', $queryEndTime);
 
             $result = $mainQuery->getResult();
 
             $record = $result[0];
 
-            if ($record["parts"] !== null) {
-                $record["parts"] = floatval($record["parts"]);
+            if ($record['parts'] !== null) {
+                $record['parts'] = floatval($record['parts']);
             }
 
-            if ($record["categories"] !== null) {
-                $record["categories"] = floatval($record["categories"]);
+            if ($record['categories'] !== null) {
+                $record['categories'] = floatval($record['categories']);
             }
 
             foreach ($aPartUnits as $partUnit) {
-                /**
+                /*
                  * @var $partUnit PartMeasurementUnit
                  */
-                $subQuery->setParameter("start", $queryStartTime);
-                $subQuery->setParameter("end", $queryEndTime);
-                $subQuery->setParameter("partUnit", $partUnit);
+                $subQuery->setParameter('start', $queryStartTime);
+                $subQuery->setParameter('end', $queryEndTime);
+                $subQuery->setParameter('partUnit', $partUnit);
 
                 $aResult = $subQuery->getResult();
 
-                if ($aResult[0]["stockLevel"] !== null) {
-                    $record["units"][$partUnit->getName()] = floatval($aResult[0]["stockLevel"]);
+                if ($aResult[0]['stockLevel'] !== null) {
+                    $record['units'][$partUnit->getName()] = floatval($aResult[0]['stockLevel']);
                 } else {
-                    $record["units"][$partUnit->getName()] = null;
+                    $record['units'][$partUnit->getName()] = null;
                 }
-
             }
 
-            $record["start"] = $queryStartTime->format("Y-m-d H:i:s");
+            $record['start'] = $queryStartTime->format('Y-m-d H:i:s');
 
-            if ($record["parts"] !== null) {
+            if ($record['parts'] !== null) {
                 $aRecords[] = $record;
             }
 
-
-            $queryStartTime->add(new \DateInterval("PT".$intervalSize."S"));
-            $queryEndTime->add(new \DateInterval("PT".$intervalSize."S"));
+            $queryStartTime->add(new \DateInterval('PT'.$intervalSize.'S'));
+            $queryEndTime->add(new \DateInterval('PT'.$intervalSize.'S'));
         }
 
         return $aRecords;
     }
 
-    public function createStatisticSnapshot () {
+    public function createStatisticSnapshot()
+    {
+        $snapshot = new StatisticSnapshot();
+        $snapshot->setParts($this->getPartCount());
+        $snapshot->setCategories($this->getPartCategoryCount());
 
-		$snapshot = new StatisticSnapshot();
-		$snapshot->setParts($this->getPartCount());
-		$snapshot->setCategories($this->getPartCategoryCount());
+        $unitCounts = $this->getUnitCounts();
+        $partUnitRepository = $this->entityManager->getRepository('PartKeeprPartBundle:PartMeasurementUnit');
 
-		$unitCounts = $this->getUnitCounts();
-		$partUnitRepository = $this->entityManager->getRepository("PartKeeprPartBundle:PartMeasurementUnit");
+        foreach ($unitCounts as $unitCount) {
+            $snapshotUnit = new StatisticSnapshotUnit();
+            $snapshotUnit->setPartUnit($partUnitRepository->findOneBy(['id' => $unitCount['partMeasurementUnit']['id']]));
+            $snapshotUnit->setStatisticSnapshot($snapshot);
 
-		foreach ($unitCounts as $unitCount) {
-			$snapshotUnit = new StatisticSnapshotUnit();
-			$snapshotUnit->setPartUnit($partUnitRepository->findOneBy(array("id" => $unitCount["partMeasurementUnit"]["id"])));
-			$snapshotUnit->setStatisticSnapshot($snapshot);
+            if ($unitCount['stockLevel'] !== null) {
+                $snapshotUnit->setStockLevel($unitCount['stockLevel']);
+            } else {
+                $snapshotUnit->setStockLevel(0);
+            }
 
-			if ($unitCount["stockLevel"] !== null) {
-				$snapshotUnit->setStockLevel($unitCount["stockLevel"]);
-			} else {
-				$snapshotUnit->setStockLevel(0);
-			}
-
-			$snapshot->getUnits()->add($snapshotUnit);
-		}
+            $snapshot->getUnits()->add($snapshotUnit);
+        }
 
         $this->entityManager->persist($snapshot);
         $this->entityManager->flush();
-	}
+    }
 }

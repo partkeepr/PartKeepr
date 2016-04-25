@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PartKeepr\SetupBundle\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -11,8 +10,8 @@ use Symfony\Component\Yaml\Parser;
 
 class UnitSetupService
 {
-    const UNIT_PATH = "@PartKeeprSetupBundle/Resources/setup-data/";
-    const UNIT_DATA = "units.yml";
+    const UNIT_PATH = '@PartKeeprSetupBundle/Resources/setup-data/';
+    const UNIT_DATA = 'units.yml';
 
     /**
      * @var EntityManager
@@ -39,8 +38,9 @@ class UnitSetupService
     /**
      * Imports units.
      *
-     * @return array An array with the keys "skipped" and "imported" which contain the number of units skipped and imported
      * @throws \Exception If an error occured
+     *
+     * @return array An array with the keys "skipped" and "imported" which contain the number of units skipped and imported
      */
     public function importUnits()
     {
@@ -58,17 +58,17 @@ class UnitSetupService
             if ($unit === null) {
                 $unit = new Unit();
                 $unit->setName($unitName);
-                $unit->setSymbol($unitData["symbol"]);
+                $unit->setSymbol($unitData['symbol']);
 
-                if (array_key_exists("prefixes", $unitData)) {
-                    if (!is_array($unitData["prefixes"])) {
+                if (array_key_exists('prefixes', $unitData)) {
+                    if (!is_array($unitData['prefixes'])) {
                         throw new \Exception($unitName." doesn't contain a prefix list, or the prefix list is not an array.");
                     }
 
-                    foreach ($unitData["prefixes"] as $name) {
+                    foreach ($unitData['prefixes'] as $name) {
                         $prefix = $this->getSiPrefix($name);
                         if ($prefix === null) {
-                            throw new \Exception("Unable to find SI Prefix ".$name);
+                            throw new \Exception('Unable to find SI Prefix '.$name);
                         }
 
                         $unit->getPrefixes()->add($prefix);
@@ -82,24 +82,25 @@ class UnitSetupService
             }
         }
 
-        return array("imported" => $count, "skipped" => $skipped);
+        return ['imported' => $count, 'skipped' => $skipped];
     }
 
     /**
-     * Checks if the specified SI Prefix
+     * Checks if the specified SI Prefix.
      *
      * @param string $name The footprint name
+     *
      * @return Unit|null
      */
     protected function getUnit($name)
     {
-        $repository = $this->entityManager->getRepository("PartKeeprUnitBundle:Unit");
+        $repository = $this->entityManager->getRepository('PartKeeprUnitBundle:Unit');
 
-        return $repository->findOneBy(array("name" => $name));
+        return $repository->findOneBy(['name' => $name]);
     }
 
     /**
-     * Finds an SI Prefix by name
+     * Finds an SI Prefix by name.
      *
      * @param string $name The SI Prefix name
      *
@@ -107,8 +108,8 @@ class UnitSetupService
      */
     protected function getSiPrefix($name)
     {
-        $repository = $this->entityManager->getRepository("PartKeeprSiPrefixBundle:SiPrefix");
+        $repository = $this->entityManager->getRepository('PartKeeprSiPrefixBundle:SiPrefix');
 
-        return $repository->findOneBy(array("prefix" => $name));
+        return $repository->findOneBy(['prefix' => $name]);
     }
 }
