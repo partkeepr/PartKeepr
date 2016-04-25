@@ -367,7 +367,7 @@ Ext.application({
             var j = new PartKeepr.AuthBundle.Entity.UserPreference();
             j.set("preferenceKey", key);
             j.set("preferenceValue", value);
-
+            j.save();
             this.userPreferenceStore.add(j);
         }
     },
