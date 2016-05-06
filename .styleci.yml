@@ -1,0 +1,4 @@
+preset: recommended
+
+disabled:
+  - phpdoc_to_comment
