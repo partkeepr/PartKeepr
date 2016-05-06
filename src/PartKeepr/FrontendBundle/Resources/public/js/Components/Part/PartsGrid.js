@@ -257,6 +257,7 @@ Ext.define('PartKeepr.PartsGrid', {
                 renderer: Ext.util.Format.htmlEncode
             }, {
                 header: i18n("Storage Location"),
+                dataIndex: 'storageLocation.name',
                 renderer: this.storageLocationRenderer
             }, {
                 header: i18n("Status"),
@@ -285,6 +286,7 @@ Ext.define('PartKeepr.PartsGrid', {
                 renderer: this.averagePriceRenderer
             }, {
                 header: i18n("Footprint"),
+                dataIndex: 'footprint.name',
                 renderer: this.footprintRenderer
             }, {
                 header: i18n("Category"),
