@@ -405,7 +405,9 @@ Ext.define('PartKeepr.PartEditor', {
                     newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
                     newItem.set(data);
                     newItem.setAssociationData(this.record.getAssociationData());
+                    newItem.stockLevels().removeAll();
                     this.editItem(newItem);
+
                 } else {
                     newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
                     newItem.setPartUnit(PartKeepr.getApplication().getDefaultPartUnit());
