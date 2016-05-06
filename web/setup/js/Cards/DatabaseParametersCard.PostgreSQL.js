@@ -189,7 +189,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
         var config = PartKeeprSetup.getApplication().getSetupConfig();
 
         Ext.merge(config, {
-            database: {
+            values: {
                 database_driver: 'pdo_pgsql',
                 database_host: this.hostname.getValue(),
                 database_user: this.username.getValue(),
