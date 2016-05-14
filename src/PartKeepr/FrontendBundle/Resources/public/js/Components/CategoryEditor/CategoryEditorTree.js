@@ -32,13 +32,16 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     },
     onBeforeDrop: function (node, data, overModel, dropPosition, dropHandlers)
     {
-        var draggedRecord = data.records[0];
+        var draggedRecords = data.records;
         var droppedOn = this.getView().getRecord(node);
 
-        if (!(draggedRecord instanceof PartKeepr.data.HydraTreeModel)) {
-            // Workaround for EXTJS-13725 where dropping of non-tree-models cause issues
-            dropHandlers.cancelDrop();
-            this.fireEvent("foreignModelDrop", draggedRecord, droppedOn);
+        for (draggedRecord in draggedRecords) {
+            if (!(draggedRecord instanceof PartKeepr.data.HydraTreeModel)) {
+                // Workaround for EXTJS-13725 where dropping of non-tree-models cause issues
+                dropHandlers.cancelDrop();
+            }
+
+            this.fireEvent("foreignModelDrop", draggedRecords, droppedOn);
         }
     },
     onItemSelect: function (selected) {
