@@ -30,17 +30,12 @@ Ext.define("PartKeepr.PartCategoryTree", {
         this.toolbar.add(['->', this.syncButton]);
     },
     listeners: {
-        "foreignModelDrop": function (record, target)
+        "foreignModelDrop": function (records, target)
         {
-            record.setCategory(target);
-            record.save({
-                success: function ()
-                {
-                    if (record.store && record.store.reload) {
-                        record.store.reload();
-                    }
-                }
-            });
+            for (var i in records) {
+                records[i].setCategory(target);
+                records[i].save();
+            }
         }
     }
 });
