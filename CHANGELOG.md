@@ -1,5 +1,16 @@
 # Changelog
 
+## PartKeepr 1.0.0
+
+This is the PartKeepr 1.0.0 release. Bugfixes for this version:
+
+* Fixed an issue where dragging and dropping multiple parts only copied the first part [#663](https://github.com/partkeepr/PartKeepr/issues/663)
+* Fixed an issue where setup would always revert to MySQL instead of the selected PostgreSQL driver [#659](https://github.com/partkeepr/PartKeepr/issues/659)
+* Fixed an issue where stock levels would be copied to the new part if "Takeover all data" in the create part dialog was selected [#660](https://github.com/partkeepr/PartKeepr/issues/660)
+* Fixed an issue where sorting by storage location name doesn't work in the parts view [#620](https://github.com/partkeepr/PartKeepr/issues/620)
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.0.0+is%3Aclosed)
+
 ## PartKeepr 1.0.0-beta.1
 
 This is a bugfix release only.
