@@ -406,6 +406,7 @@ Ext.define('PartKeepr.PartEditor', {
                     newItem.set(data);
                     newItem.setAssociationData(this.record.getAssociationData());
                     newItem.stockLevels().removeAll();
+                    newItem.set("stockLevel", 0);
                     this.editItem(newItem);
 
                 } else {
