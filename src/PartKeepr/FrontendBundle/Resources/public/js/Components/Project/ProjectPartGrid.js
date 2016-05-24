@@ -90,6 +90,16 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             }
         ];
 
+        this.bbar = [
+            Ext.create("PartKeepr.Exporter.GridExporterButton", {
+                itemId: 'export',
+                genericExporter: false,
+                tooltip: i18n("Export"),
+                iconCls: "fugue-icon application-export",
+                disabled: this.store.isLoading()
+            })
+        ];
+
         this.callParent();
 
         this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
