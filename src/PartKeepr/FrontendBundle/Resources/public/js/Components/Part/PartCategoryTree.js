@@ -33,8 +33,17 @@ Ext.define("PartKeepr.PartCategoryTree", {
         "foreignModelDrop": function (records, target)
         {
             for (var i in records) {
-                records[i].setCategory(target);
-                records[i].save();
+                switch (Ext.getClassName(records[i])) {
+                    case "PartKeepr.PartBundle.Entity.Part":
+                        records[i].setCategory(target);
+                        records[i].save();
+                        break;
+                    case "PartKeepr.PartBundle.Entity.PartCategory":
+                        records[i].callPutAction("move", { parent: target.getId() }, Ext.bind(function () {
+                            this.store.load();
+                        }, this));
+                        break;
+                }
             }
         }
     }
