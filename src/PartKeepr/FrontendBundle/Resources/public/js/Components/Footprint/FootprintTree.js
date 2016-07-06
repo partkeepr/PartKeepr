@@ -23,15 +23,26 @@ Ext.define("PartKeepr.FootprintTree", {
         "foreignModelDrop": function (records, target)
         {
             for (var i in records) {
-                records[i].setCategory(target);
-                records[i].save({
-                    success: function ()
-                    {
-                        if (records[i].store && records[i].store.reload) {
-                            records[i].store.reload();
-                        }
-                    }
-                });
+                switch (Ext.getClassName(records[i])) {
+                    case "PartKeepr.FootprintBundle.Entity.Footprint":
+                        records[i].setCategory(target);
+                        records[i].save({
+                            success: function ()
+                            {
+                                if (records[i].store && records[i].store.reload) {
+                                    records[i].store.reload();
+                                }
+                            }
+                        });
+                        break;
+                    case "PartKeepr.FootprintBundle.Entity.FootprintCategory":
+                        records[i].callPutAction("move", {parent: target.getId()}, Ext.bind(function ()
+                        {
+                            this.store.load();
+                        }, this));
+                        break;
+
+                }
             }
         }
     }
