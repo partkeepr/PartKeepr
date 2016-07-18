@@ -175,11 +175,7 @@ Ext.define('PartKeepr.PartDisplay', {
         for (var i in this.fieldConfigs) {
             value = this.record.get(i);
             if (value !== undefined) {
-                if (typeof(value === "string")) {
-                    values[i] = htmlentities(value); // phpjs
-                } else {
-                    values[i] = value;
-                }
+                values[i] = value;
             } else {
                 values[i] = i18n("none");
             }
