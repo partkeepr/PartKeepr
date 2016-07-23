@@ -89,6 +89,9 @@ Ext.define('PartKeepr.PartEditor', {
                 name: 'description'
             }, {
                 layout: 'column',
+                margin: {
+                    bottom: "0 5px 5px 0"
+                },
                 border: false,
                 items: [
                     {
@@ -102,6 +105,7 @@ Ext.define('PartKeepr.PartEditor', {
                         columnWidth: 0.5,
                         minValue: 0
                     }, {
+                        padding: "0 0 0 5px",
                         xtype: 'PartUnitComboBox',
                         fieldLabel: i18n("Measurement Unit"),
                         labelWidth: 120,
