@@ -91,7 +91,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
         foreach ($filters as $filter) {
             /**
-             * @var $filter Filter
+             * @var Filter $filter
              */
             if (isset($fieldNames[$filter->getProperty()]) && $filter->getAssociation() === null) {
                 if ($filter->hasSubFilters()) {
@@ -99,7 +99,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
                     foreach ($filter->getSubFilters() as $subFilter) {
                         /**
-                         * @var $subFilter Filter
+                         * @var Filter $subFilter
                          */
                         if ($subFilter->getAssociation() !== null) {
                             $this->addJoins($queryBuilder, $subFilter);
@@ -108,7 +108,7 @@ class AdvancedSearchFilter extends AbstractFilter
                         $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
                     }
 
-                    $expressions = call_user_func_array(array($queryBuilder->expr(), "orX"), $subFilterExpressions);
+                    $expressions = call_user_func_array([$queryBuilder->expr(), "orX"], $subFilterExpressions);
                     $queryBuilder->andWhere($expressions);
                 } else {
                     $queryBuilder->andWhere(
@@ -129,7 +129,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
                     foreach ($filter->getSubFilters() as $subFilter) {
                         /**
-                         * @var $subFilter Filter
+                         * @var Filter $subFilter
                          */
                         if ($subFilter->getAssociation() !== null) {
                             $this->addJoins($queryBuilder, $subFilter);
@@ -138,7 +138,7 @@ class AdvancedSearchFilter extends AbstractFilter
                         $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
                     }
 
-                    $expressions = call_user_func_array(array($queryBuilder->expr(), "orX"), $subFilterExpressions);
+                    $expressions = call_user_func_array([$queryBuilder->expr(), "orX"], $subFilterExpressions);
                     $queryBuilder->andWhere($expressions);
                 } else {
                     $queryBuilder->andWhere(
@@ -151,7 +151,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
         foreach ($sorters as $sorter) {
             /**
-             * @var $sorter Sorter
+             * @var Sorter $sorter
              */
             if ($sorter->getAssociation() !== null) {
                 // Pull in associations
