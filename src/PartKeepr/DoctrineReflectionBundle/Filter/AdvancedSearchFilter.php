@@ -95,22 +95,22 @@ class AdvancedSearchFilter extends AbstractFilter
              */
             if (isset($fieldNames[$filter->getProperty()]) && $filter->getAssociation() === null) {
                 if ($filter->hasSubFilters()) {
-                $subFilterExpressions = [];
+                    $subFilterExpressions = [];
 
-                foreach ($filter->getSubFilters() as $subFilter) {
-                    /**
-                     * @var $subFilter Filter
-                     */
-                    if ($subFilter->getAssociation() !== null) {
-                        $this->addJoins($queryBuilder, $subFilter);
+                    foreach ($filter->getSubFilters() as $subFilter) {
+                        /**
+                         * @var $subFilter Filter
+                         */
+                        if ($subFilter->getAssociation() !== null) {
+                            $this->addJoins($queryBuilder, $subFilter);
+                        }
+
+                        $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
                     }
 
-                    $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
-                }
-
-                $expressions = call_user_func_array(array($queryBuilder->expr(), "orX"), $subFilterExpressions);
-                $queryBuilder->andWhere($expressions);
-            } else {
+                    $expressions = call_user_func_array(array($queryBuilder->expr(), "orX"), $subFilterExpressions);
+                    $queryBuilder->andWhere($expressions);
+                } else {
                     $queryBuilder->andWhere(
                         $this->getFilterExpression($queryBuilder, $filter)
                     );
@@ -287,7 +287,7 @@ class AdvancedSearchFilter extends AbstractFilter
                     return $queryBuilder->expr()->like($alias, $paramName);
                     break;
                 default:
-                    throw new \Exception('Unknown operator '.$filter->getOperator());
+                    throw new \Exception('Unknown operator ' . $filter->getOperator());
             }
         }
     }
@@ -457,7 +457,7 @@ class AdvancedSearchFilter extends AbstractFilter
                     break;
                 case 'ASC':
                 default:
-                $sorter->setDirection("ASC");
+                    $sorter->setDirection("ASC");
                     break;
             }
         } else {

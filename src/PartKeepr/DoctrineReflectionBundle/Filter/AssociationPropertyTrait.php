@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
+namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
 trait AssociationPropertyTrait
 {
@@ -44,6 +44,4 @@ trait AssociationPropertyTrait
     {
         $this->association = $association;
     }
-
-
 }
