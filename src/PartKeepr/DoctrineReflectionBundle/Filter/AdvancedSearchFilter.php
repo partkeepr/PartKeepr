@@ -37,26 +37,6 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private $propertyAccessor;
 
-    const OPERATOR_LESS_THAN = '<';
-    const OPERATOR_GREATER_THAN = '>';
-    const OPERATOR_EQUALS = '=';
-    const OPERATOR_GREATER_THAN_EQUALS = '>=';
-    const OPERATOR_LESS_THAN_EQUALS = '>=';
-    const OPERATOR_NOT_EQUALS = '!=';
-    const OPERATOR_IN = 'in';
-    const OPERATOR_LIKE = 'like';
-
-    const OPERATORS = [
-        self::OPERATOR_LESS_THAN,
-        self::OPERATOR_GREATER_THAN,
-        self::OPERATOR_EQUALS,
-        self::OPERATOR_GREATER_THAN_EQUALS,
-        self::OPERATOR_LESS_THAN_EQUALS,
-        self::OPERATOR_NOT_EQUALS,
-        self::OPERATOR_IN,
-        self::OPERATOR_LIKE,
-    ];
-
     private $aliases = [];
 
     private $parameterCount = 0;
@@ -69,6 +49,7 @@ class AdvancedSearchFilter extends AbstractFilter
      * @param ManagerRegistry           $managerRegistry
      * @param IriConverterInterface     $iriConverter
      * @param PropertyAccessorInterface $propertyAccessor
+     * @param RequestStack              $requestStack
      * @param null|array                $properties       Null to allow filtering on all properties with the exact strategy
      *                                                    or a map of property name with strategy.
      */
@@ -104,31 +85,39 @@ class AdvancedSearchFilter extends AbstractFilter
         }
 
         $properties = $this->extractProperties($request);
+
         $filters = $properties['filters'];
         $sorters = $properties['sorters'];
 
         foreach ($filters as $filter) {
-            if (isset($fieldNames[$filter['property']]) && $filter['association'] === null) {
+            /**
+             * @var $filter Filter
+             */
+            if (isset($fieldNames[$filter->getProperty()]) && $filter->getAssociation() === null) {
                 $queryBuilder
                     ->andWhere(
                         $this->getFilterExpression($queryBuilder, $filter)
                     );
             } else {
-                if ($filter['association'] !== null) {
+                if ($filter->getAssociation() !== null) {
                     // Pull in associations
                     $this->addJoins($queryBuilder, $filter);
                 }
 
-                $filter['value'] = $this->getFilterValueFromUrl($filter['value']);
+                $filter->setValue($this->getFilterValueFromUrl($filter->getValue()));
 
                 $queryBuilder->andWhere(
                     $this->getFilterExpression($queryBuilder, $filter)
                 );
+
             }
         }
 
         foreach ($sorters as $sorter) {
-            if ($sorter['association'] !== null) {
+            /**
+             * @var $sorter Sorter
+             */
+            if ($sorter->getAssociation() !== null) {
                 // Pull in associations
                 $this->addJoins($queryBuilder, $sorter);
             }
@@ -181,14 +170,14 @@ class AdvancedSearchFilter extends AbstractFilter
      * @param QueryBuilder $queryBuilder
      * @param              $filter
      */
-    private function addJoins(QueryBuilder $queryBuilder, $filter)
+    private function addJoins(QueryBuilder $queryBuilder, AssociationPropertyInterface $filter)
     {
-        if (in_array($filter['association'], $this->joins)) {
+        if (in_array($filter->getAssociation(), $this->joins)) {
             // Association already added, return
             return;
         }
 
-        $associations = explode('.', $filter['association']);
+        $associations = explode('.', $filter->getAssociation());
 
         $fullAssociation = 'o';
 
@@ -199,14 +188,14 @@ class AdvancedSearchFilter extends AbstractFilter
                 $parent = 'o';
             }
 
-            $fullAssociation .= '.'.$association;
+            $fullAssociation .= '.' . $association;
 
             $alias = $this->getAlias($fullAssociation);
 
-            $queryBuilder->join($parent.'.'.$association, $alias);
+            $queryBuilder->join($parent . '.' . $association, $alias);
         }
 
-        $this->joins[] = $filter['association'];
+        $this->joins[] = $filter->getAssociation();
     }
 
     /**
@@ -219,49 +208,49 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
      */
-    private function getFilterExpression(QueryBuilder $queryBuilder, $filter)
+    private function getFilterExpression(QueryBuilder $queryBuilder, Filter $filter)
     {
-        if ($filter['association'] !== null) {
-            $alias = $this->getAlias('o.'.$filter['association']).'.'.$filter['property'];
+        if ($filter->getAssociation() !== null) {
+            $alias = $this->getAlias('o.' . $filter->getAssociation()) . '.' . $filter->getProperty();
         } else {
-            $alias = 'o.'.$filter['property'];
+            $alias = 'o.' . $filter->getProperty();
         }
 
-        if (strtolower($filter['operator']) == self::OPERATOR_IN) {
-            if (!is_array($filter['value'])) {
+        if (strtolower($filter->getOperator()) == Filter::OPERATOR_IN) {
+            if (!is_array($filter->getValue())) {
                 throw new \Exception('Value needs to be an array for the IN operator');
             }
 
-            return $queryBuilder->expr()->in($alias, $filter['value']);
+            return $queryBuilder->expr()->in($alias, $filter->getValue());
         } else {
-            $paramName = ':param'.$this->parameterCount;
+            $paramName = ':param' . $this->parameterCount;
             $this->parameterCount++;
-            $queryBuilder->setParameter($paramName, $filter['value']);
+            $queryBuilder->setParameter($paramName, $filter->getValue());
 
-            switch (strtolower($filter['operator'])) {
-                case self::OPERATOR_EQUALS:
+            switch (strtolower($filter->getOperator())) {
+                case Filter::OPERATOR_EQUALS:
                     return $queryBuilder->expr()->eq($alias, $paramName);
                     break;
-                case self::OPERATOR_GREATER_THAN:
+                case Filter::OPERATOR_GREATER_THAN:
                     return $queryBuilder->expr()->gt($alias, $paramName);
                     break;
-                case self::OPERATOR_GREATER_THAN_EQUALS:
+                case Filter::OPERATOR_GREATER_THAN_EQUALS:
                     return $queryBuilder->expr()->gte($alias, $paramName);
                     break;
-                case self::OPERATOR_LESS_THAN:
+                case Filter::OPERATOR_LESS_THAN:
                     return $queryBuilder->expr()->lt($alias, $paramName);
                     break;
-                case self::OPERATOR_LESS_THAN_EQUALS:
+                case Filter::OPERATOR_LESS_THAN_EQUALS:
                     return $queryBuilder->expr()->lte($alias, $paramName);
                     break;
-                case self::OPERATOR_NOT_EQUALS:
+                case Filter::OPERATOR_NOT_EQUALS:
                     return $queryBuilder->expr()->neq($alias, $paramName);
                     break;
-                case self::OPERATOR_LIKE:
+                case Filter::OPERATOR_LIKE:
                     return $queryBuilder->expr()->like($alias, $paramName);
                     break;
                 default:
-                    throw new \Exception('Unknown filter');
+                    throw new \Exception('Unknown operator '.$filter->getOperator());
             }
         }
     }
@@ -276,15 +265,15 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return \Doctrine\ORM\Query\Expr\Comparison|\Doctrine\ORM\Query\Expr\Func
      */
-    private function applyOrderByExpression(QueryBuilder $queryBuilder, $sorter)
+    private function applyOrderByExpression(QueryBuilder $queryBuilder, Sorter $sorter)
     {
-        if ($sorter['association'] !== null) {
-            $alias = $this->getAlias('o.'.$sorter['association']).'.'.$sorter['property'];
+        if ($sorter->getAssociation() !== null) {
+            $alias = $this->getAlias('o.' . $sorter->getAssociation()) . '.' . $sorter->getProperty();
         } else {
-            $alias = 'o.'.$sorter['property'];
+            $alias = 'o.' . $sorter['property'];
         }
 
-        return $queryBuilder->addOrderBy($alias, $sorter['direction']);
+        return $queryBuilder->addOrderBy($alias, $sorter->getDirection());
     }
 
     /**
@@ -333,7 +322,7 @@ class AdvancedSearchFilter extends AbstractFilter
     private function getAlias($property)
     {
         if (!array_key_exists($property, $this->aliases)) {
-            $this->aliases[$property] = 't'.count($this->aliases);
+            $this->aliases[$property] = 't' . count($this->aliases);
         }
 
         return $this->aliases[$property];
@@ -350,7 +339,7 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private function extractJSONFilters($data)
     {
-        $filter = [];
+        $filter = new Filter();
 
         if (property_exists($data, 'property')) {
             if (strpos($data->property, '.') !== false) {
@@ -358,27 +347,27 @@ class AdvancedSearchFilter extends AbstractFilter
 
                 $property = array_pop($associations);
 
-                $filter['association'] = implode('.', $associations);
-                $filter['property'] = $property;
+
+                $filter->setAssociation(implode('.', $associations));
+                $filter->setProperty($property);
             } else {
-                $filter['association'] = null;
-                $filter['property'] = $data->property;
+                $filter->setAssociation(null);
+                $filter->setProperty($data->property);
             }
+
+
         } else {
             throw new \Exception('You need to set the filter property');
         }
 
         if (property_exists($data, 'operator')) {
-            if (!in_array(strtolower($data->operator), self::OPERATORS)) {
-                throw new \Exception(sprintf('Invalid operator %s', $data->operator));
-            }
-            $filter['operator'] = $data->operator;
+            $filter->setOperator($data->operator);
         } else {
-            $filter['operator'] = self::OPERATOR_EQUALS;
+            $filter->setOperator(Filter::OPERATOR_EQUALS);
         }
 
         if (property_exists($data, 'value')) {
-            $filter['value'] = $data->value;
+            $filter->setValue($data->value);
         } else {
             throw new \Exception('No value specified');
         }
@@ -393,11 +382,11 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @throws \Exception
      *
-     * @return array An array containing the property, operator and value keys
+     * @return Sorter A Sorter object
      */
     private function extractJSONSorters($data)
     {
-        $sorter = [];
+        $sorter = new Sorter();
 
         if ($data->property) {
             if (strpos($data->property, '.') !== false) {
@@ -405,11 +394,11 @@ class AdvancedSearchFilter extends AbstractFilter
 
                 $property = array_pop($associations);
 
-                $sorter['association'] = implode('.', $associations);
-                $sorter['property'] = $property;
+                $sorter->setAssociation(implode('.', $associations));
+                $sorter->setProperty($property);
             } else {
-                $sorter['association'] = null;
-                $sorter['property'] = $data->property;
+                $sorter->setAssociation(null);
+                $sorter->setProperty($data->property);
             }
         } else {
             throw new \Exception('You need to set the filter property');
@@ -418,15 +407,15 @@ class AdvancedSearchFilter extends AbstractFilter
         if ($data->direction) {
             switch (strtoupper($data->direction)) {
                 case 'DESC':
-                    $sorter['direction'] = 'DESC';
+                    $sorter->setDirection("DESC");
                     break;
                 case 'ASC':
                 default:
-                    $sorter['direction'] = 'ASC';
+                $sorter->setDirection("ASC");
                     break;
             }
         } else {
-            $sorter['direction'] = 'ASC';
+            $sorter->setDirection("ASC");
         }
 
         return $sorter;

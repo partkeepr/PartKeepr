@@ -29,7 +29,7 @@ class PartDataLoader extends AbstractFixture
         $part2->setName('FOOBAR2');
 
         $category = $this->getReference('partcategory.first');
-        $storageLocation = $this->getReference('storagelocation.first');
+        $storageLocation = $this->getReference('storagelocation.second');
 
         $part2->setCategory($category);
         $part2->setStorageLocation($storageLocation);
