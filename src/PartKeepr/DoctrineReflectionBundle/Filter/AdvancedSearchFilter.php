@@ -98,7 +98,12 @@ class AdvancedSearchFilter extends AbstractFilter
                 $subFilterExpressions = [];
 
                 foreach ($filter->getSubFilters() as $subFilter) {
-                    $this->addJoins($queryBuilder, $subFilter);
+                    /**
+                     * @var $subFilter Filter
+                     */
+                    if ($subFilter->getAssociation() !== null) {
+                        $this->addJoins($queryBuilder, $subFilter);
+                    }
 
                     $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
                 }
@@ -123,7 +128,12 @@ class AdvancedSearchFilter extends AbstractFilter
                     $subFilterExpressions = [];
 
                     foreach ($filter->getSubFilters() as $subFilter) {
-                        $this->addJoins($queryBuilder, $subFilter);
+                        /**
+                         * @var $subFilter Filter
+                         */
+                        if ($subFilter->getAssociation() !== null) {
+                            $this->addJoins($queryBuilder, $subFilter);
+                        }
 
                         $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
                     }
@@ -150,6 +160,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
             $this->applyOrderByExpression($queryBuilder, $sorter);
         }
+
     }
 
     /**
@@ -296,7 +307,7 @@ class AdvancedSearchFilter extends AbstractFilter
         if ($sorter->getAssociation() !== null) {
             $alias = $this->getAlias('o.' . $sorter->getAssociation()) . '.' . $sorter->getProperty();
         } else {
-            $alias = 'o.' . $sorter['property'];
+            $alias = 'o.' . $sorter->getProperty();
         }
 
         return $queryBuilder->addOrderBy($alias, $sorter->getDirection());

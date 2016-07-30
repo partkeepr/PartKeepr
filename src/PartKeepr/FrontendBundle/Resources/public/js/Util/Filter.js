@@ -16,7 +16,7 @@ Ext.define('PartKeepr.util.Filter', {
             return !Ext.Array.contains(v, this.getCandidateValue(candidate, v));
         };
         //<debug>
-        var warn = Ext.util.Filter.isInvalid(config);
+        var warn = PartKeepr.util.Filter.isInvalid(config);
         if (warn) {
             Ext.log.warn(warn);
         }
@@ -28,4 +28,69 @@ Ext.define('PartKeepr.util.Filter', {
         'in': 1,
         'notin': 1
     },
+    /**
+     * Returns this filter's state.
+     * @return {Object}
+     */
+    getState: function () {
+        var config = this.getInitialConfig(),
+            result = {},
+            name;
+
+        for (name in config) {
+            // We only want the instance properties in this case, not inherited ones,
+            // so we need hasOwnProperty to filter out our class values.
+
+            if (name === "subfilters") {
+                if (config[name] instanceof Array) {
+                    var tempConfigs = new Array();
+
+                    for (var i=0;i<config[name].length;i++) {
+                        tempConfigs.push(config[name][i].getState());
+                    }
+
+                    result[name] = tempConfigs;
+                }
+            } else if (config.hasOwnProperty(name)) {
+                    result[name] = config[name];
+
+            }
+        }
+
+        delete result.root;
+
+        if (config["subfilters"] instanceof Array) {
+            // Do nothing for now
+        } else {
+            result.value = this.getValue();
+        }
+        return result;
+    },
+    inheritableStatics: {
+        /**
+         * Checks whether the filter will produce a meaningful value. Since filters
+         * may be used in conjunction with data binding, this is a sanity check to
+         * check whether the resulting filter will be able to match.
+         *
+         * @param {Object} cfg The filter config object
+         * @return {Boolean} `true` if the filter will produce a valid value
+         *
+         * @private
+         */
+        isInvalid: function(cfg) {
+            return false;
+            if (!cfg.filterFn) {
+                // If we don't have a filterFn, we must have a property
+                if (!cfg.property) {
+                    return 'A Filter requires either a property or a filterFn to be set';
+                }
+
+                if (!cfg.hasOwnProperty('value') && !cfg.operator) {
+                    return 'A Filter requires either a property and value, or a filterFn to be set';
+                }
+
+            }
+            return false;
+        }
+    }
 });

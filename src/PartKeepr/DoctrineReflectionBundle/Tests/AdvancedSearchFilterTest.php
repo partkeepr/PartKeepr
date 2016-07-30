@@ -223,7 +223,7 @@ class AdvancedSearchFilterTest extends WebTestCase
         $this->assertCount(2, $data["hydra:member"]);
     }
 
-    public function testOrFilter()
+    public function testOrFilterJoin()
     {
         $client = static::makeClient(true);
 
@@ -240,6 +240,43 @@ class AdvancedSearchFilterTest extends WebTestCase
                         "property" => "storageLocation.name",
                         "operator" => "=",
                         "value" => "test2"
+                    )
+                )
+            )
+        );
+
+
+        $client->request(
+            'GET',
+            "/api/parts?filter=" . json_encode($filter),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json']
+        );
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey("hydra:member", $data);
+        $this->assertCount(2, $data["hydra:member"]);
+    }
+
+    public function testOrFilter()
+    {
+        $client = static::makeClient(true);
+
+        $filter = array(
+            array(
+                "mode" => "OR",
+                "subfilters" => array(
+                    array(
+                        "property" => "name",
+                        "operator" => "=",
+                        "value" => "FOOBAR"
+                    ),
+                    array(
+                        "property" => "name",
+                        "operator" => "=",
+                        "value" => "FOOBAR2"
                     )
                 )
             )

@@ -135,9 +135,17 @@ Ext.define('PartKeepr.EditorGrid', {
             }, this)
         });
 
+        var targetField = this.titleProperty;
+
+        if (this.searchField) {
+            targetField = this.searchField;
+        }
+
+        console.log(targetField);
+
         this.searchField = Ext.create("PartKeepr.form.field.SearchField", {
             store: this.store,
-            targetField: this.titleProperty
+            targetField: targetField
         });
 
         var topToolbarItems = [];
