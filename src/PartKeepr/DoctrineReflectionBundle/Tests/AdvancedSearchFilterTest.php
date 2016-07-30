@@ -28,7 +28,8 @@ class AdvancedSearchFilterTest extends WebTestCase
     }
 
 
-    public function testEqualFilter () {
+    public function testEqualFilter()
+    {
         $client = static::makeClient(true);
 
         $filter = array(
@@ -42,7 +43,7 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $client->request(
             'GET',
-            "/api/parts?filter=".json_encode($filter),
+            "/api/parts?filter=" . json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -50,8 +51,6 @@ class AdvancedSearchFilterTest extends WebTestCase
 
 
         $data = json_decode($client->getResponse()->getContent(), true);
-
-        print_r($data);
 
         $this->assertArrayHasKey("hydra:member", $data);
         $this->assertCount(1, $data["hydra:member"]);
@@ -62,10 +61,12 @@ class AdvancedSearchFilterTest extends WebTestCase
          */
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $this->assertEquals($iriConverter->getIriFromItem($this->fixtures->getReference("part.1")), $data["hydra:member"][0]["@id"] );
+        $this->assertEquals($iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
+            $data["hydra:member"][0]["@id"]);
     }
 
-    public function testEqualFilterSame () {
+    public function testEqualFilterSame()
+    {
         $client = static::makeClient(true);
 
         $filter = array(
@@ -79,7 +80,7 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $client->request(
             'GET',
-            "/api/parts?filter=".json_encode($filter),
+            "/api/parts?filter=" . json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -97,10 +98,12 @@ class AdvancedSearchFilterTest extends WebTestCase
          */
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $this->assertEquals($iriConverter->getIriFromItem($this->fixtures->getReference("part.1")), $data["hydra:member"][0]["@id"] );
+        $this->assertEquals($iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
+            $data["hydra:member"][0]["@id"]);
     }
 
-    public function testIDReference () {
+    public function testIDReference()
+    {
         $client = static::makeClient(true);
 
         /**
@@ -118,7 +121,7 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $client->request(
             'GET',
-            "/api/parts?filter=".json_encode($filter),
+            "/api/parts?filter=" . json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -131,7 +134,8 @@ class AdvancedSearchFilterTest extends WebTestCase
         $this->assertCount(1, $data["hydra:member"]);
     }
 
-    public function testIDReferenceArray () {
+    public function testIDReferenceArray()
+    {
         $client = static::makeClient(true);
 
         /**
@@ -143,14 +147,16 @@ class AdvancedSearchFilterTest extends WebTestCase
             array(
                 "property" => "storageLocation",
                 "operator" => "IN",
-                "value" => [ $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
-                    $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.second"))]
+                "value" => [
+                    $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
+                    $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.second"))
+                ]
             )
         );
 
         $client->request(
             'GET',
-            "/api/parts?filter=".json_encode($filter),
+            "/api/parts?filter=" . json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -163,7 +169,8 @@ class AdvancedSearchFilterTest extends WebTestCase
         $this->assertGreaterThan(1, $data["hydra:member"]);
     }
 
-    public function testLikeFilter () {
+    public function testLikeFilter()
+    {
         $client = static::makeClient(true);
 
         $filter = array(
@@ -177,7 +184,7 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $client->request(
             'GET',
-            "/api/parts?filter=".json_encode($filter),
+            "/api/parts?filter=" . json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -190,7 +197,8 @@ class AdvancedSearchFilterTest extends WebTestCase
         $this->assertCount(2, $data["hydra:member"]);
     }
 
-    public function testSorter () {
+    public function testSorter()
+    {
         $client = static::makeClient(true);
 
         $order = array(
@@ -203,7 +211,7 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $client->request(
             'GET',
-            "/api/parts?order=".json_encode($order),
+            "/api/parts?order=" . json_encode($order),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -211,13 +219,44 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
-        print_r($data);
-
         $this->assertArrayHasKey("hydra:member", $data);
         $this->assertCount(2, $data["hydra:member"]);
     }
 
     public function testOrFilter()
     {
+        $client = static::makeClient(true);
+
+        $filter = array(
+            array(
+                "mode" => "OR",
+                "subfilters" => array(
+                    array(
+                        "property" => "storageLocation.name",
+                        "operator" => "=",
+                        "value" => "test"
+                    ),
+                    array(
+                        "property" => "storageLocation.name",
+                        "operator" => "=",
+                        "value" => "test2"
+                    )
+                )
+            )
+        );
+
+
+        $client->request(
+            'GET',
+            "/api/parts?filter=" . json_encode($filter),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json']
+        );
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey("hydra:member", $data);
+        $this->assertCount(2, $data["hydra:member"]);
     }
 }
