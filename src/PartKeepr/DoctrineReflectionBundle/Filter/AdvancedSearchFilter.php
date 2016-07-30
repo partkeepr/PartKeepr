@@ -94,10 +94,23 @@ class AdvancedSearchFilter extends AbstractFilter
              * @var $filter Filter
              */
             if (isset($fieldNames[$filter->getProperty()]) && $filter->getAssociation() === null) {
-                $queryBuilder
-                    ->andWhere(
+                if ($filter->hasSubFilters()) {
+                $subFilterExpressions = [];
+
+                foreach ($filter->getSubFilters() as $subFilter) {
+                    $this->addJoins($queryBuilder, $subFilter);
+
+                    $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
+                }
+
+                $expressions = call_user_func_array(array($queryBuilder->expr(), "orX"), $subFilterExpressions);
+                $queryBuilder->andWhere($expressions);
+            } else {
+                    $queryBuilder->andWhere(
                         $this->getFilterExpression($queryBuilder, $filter)
                     );
+                }
+
             } else {
                 if ($filter->getAssociation() !== null) {
                     // Pull in associations
@@ -106,9 +119,22 @@ class AdvancedSearchFilter extends AbstractFilter
 
                 $filter->setValue($this->getFilterValueFromUrl($filter->getValue()));
 
-                $queryBuilder->andWhere(
-                    $this->getFilterExpression($queryBuilder, $filter)
-                );
+                if ($filter->hasSubFilters()) {
+                    $subFilterExpressions = [];
+
+                    foreach ($filter->getSubFilters() as $subFilter) {
+                        $this->addJoins($queryBuilder, $subFilter);
+
+                        $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
+                    }
+
+                    $expressions = call_user_func_array(array($queryBuilder->expr(), "orX"), $subFilterExpressions);
+                    $queryBuilder->andWhere($expressions);
+                } else {
+                    $queryBuilder->andWhere(
+                        $this->getFilterExpression($queryBuilder, $filter)
+                    );
+                }
 
             }
         }
@@ -354,8 +380,17 @@ class AdvancedSearchFilter extends AbstractFilter
                 $filter->setAssociation(null);
                 $filter->setProperty($data->property);
             }
-
-
+        } elseif (property_exists($data, "subfilters")) {
+            if (is_array($data->subfilters)) {
+                $subfilters = [];
+                foreach ($data->subfilters as $subfilter) {
+                    $subfilters[] = $this->extractJSONFilters($subfilter);
+                }
+                $filter->setSubFilters($subfilters);
+                return $filter;
+            } else {
+                throw new \Exception("The subfilters must be an array of objects");
+            }
         } else {
             throw new \Exception('You need to set the filter property');
         }

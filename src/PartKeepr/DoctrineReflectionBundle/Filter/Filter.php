@@ -133,6 +133,10 @@ class Filter implements AssociationPropertyInterface
         $this->subFilters = $subFilters;
     }
 
+    public function hasSubFilters () {
+        return count($this->subFilters) > 0;
+    }
+
 
     public function validate()
     {
