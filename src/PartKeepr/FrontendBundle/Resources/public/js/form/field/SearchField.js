@@ -43,15 +43,30 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
     },
 
-    initComponent: function ()
-    {
+    initComponent: function () {
         this.callParent(arguments);
 
-        this.filter = Ext.create("Ext.util.Filter", {
-            property: this.targetField,
-            value: '',
-            operator: 'like'
-        });
+        if (this.targetField instanceof Array) {
+            var subFilters = new Array();
+            for (var i = 0; i < this.targetField.length; i++) {
+                subFilters.push(Ext.create("PartKeepr.util.Filter", {
+                    property: this.targetField[i],
+                    value: '',
+                    operator: 'like'
+                }));
+            }
+
+            this.filter = Ext.create("PartKeepr.util.Filter", {
+                type: "OR",
+                subfilters: subFilters
+            });
+        } else {
+            this.filter = Ext.create("PartKeepr.util.Filter", {
+                property: this.targetField,
+                value: '',
+                operator: 'like'
+            });
+        }
     },
     /**
      * Handles special keys used in this field.
@@ -59,8 +74,7 @@ Ext.define('PartKeepr.form.field.SearchField', {
      * Enter: Starts the search
      * Escape: Removes the search and clears the field contents
      */
-    keyHandler: function (field, e)
-    {
+    keyHandler: function (field, e) {
         switch (e.getKey()) {
             case e.ENTER:
                 this.startSearch();
@@ -73,8 +87,7 @@ Ext.define('PartKeepr.form.field.SearchField', {
     /**
      * Resets the search field to empty and re-triggers the store to load the matching records.
      */
-    resetSearch: function ()
-    {
+    resetSearch: function () {
         var me = this,
             store = me.store;
 
@@ -84,6 +97,12 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
 
         me.setValue('');
+        if (this.filter.subfilters instanceof Array) {
+            for (var i=0;i<this.filter.subfilters.length;i++) {
+                this.filter.subfilters[i].setValue('');
+            }
+        }
+
         this.filter.setValue('');
 
         if (me.hasSearch) {
@@ -100,8 +119,7 @@ Ext.define('PartKeepr.form.field.SearchField', {
     /**
      * Starts the search with the entered value.
      */
-    startSearch: function ()
-    {
+    startSearch: function () {
         var me = this,
             store = me.store,
             value = me.getValue(),
@@ -120,6 +138,13 @@ Ext.define('PartKeepr.form.field.SearchField', {
         if (this.filter.getValue() === searchValue) {
             return;
         }
+
+        if (this.filter.subfilters instanceof Array) {
+            for (var i=0;i<this.filter.subfilters.length;i++) {
+                this.filter.subfilters[i].setValue(searchValue);
+            }
+        }
+
         this.filter.setValue(searchValue);
         store.addFilter(this.filter);
         store.currentPage = 1;
@@ -133,8 +158,7 @@ Ext.define('PartKeepr.form.field.SearchField', {
      *
      * @param {Ext.data.Store} store The store to set
      */
-    setStore: function (store)
-    {
+    setStore: function (store) {
         this.store = store;
     }
 });
