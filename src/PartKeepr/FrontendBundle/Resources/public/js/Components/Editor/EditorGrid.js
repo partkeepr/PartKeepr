@@ -83,7 +83,7 @@ Ext.define('PartKeepr.EditorGrid', {
     /**
      * @event itemSelect
      * Fires if a record was selected within the grid.
-     * @param {Object} record The selected record
+     * @param {Object} Ext.data.Record The selected record
      */
     initComponent: function ()
     {
@@ -140,8 +140,6 @@ Ext.define('PartKeepr.EditorGrid', {
         if (this.searchField) {
             targetField = this.searchField;
         }
-
-        console.log(targetField);
 
         this.searchField = Ext.create("PartKeepr.form.field.SearchField", {
             store: this.store,
@@ -200,9 +198,6 @@ Ext.define('PartKeepr.EditorGrid', {
      * Re-calculates and re-assigns the page size for the assigned store.
      *
      * Automatically reloads the store.
-     *
-     * @param none
-     * @return nothing
      */
     reassignPageSize: function ()
     {
@@ -237,7 +232,7 @@ Ext.define('PartKeepr.EditorGrid', {
         this.bottomToolbar.setStore(store);
 
     },
-    syncChanges: function (record)
+    syncChanges: function ()
     {
         // Simply reload the store for now
         this.store.load();
@@ -245,7 +240,7 @@ Ext.define('PartKeepr.EditorGrid', {
     /**
      * Called when an item was selected. Enables/disables the delete button.
      */
-    _updateDeleteButton: function (selectionModel, record)
+    _updateDeleteButton: function ()
     {
         /* Right now, we support delete on a single record only */
         if (this.getSelectionModel().getCount() == 1) {
