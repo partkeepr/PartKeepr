@@ -43,7 +43,7 @@ Ext.define('PartKeepr.PartsGrid', {
 
     /**
      * Configure drag'n'drop.
-     * @todo Check if this messes up with the Part Dropdown in the project view
+     * @todo Check if this messes up with the Part drop down in the project view
      */
     viewConfig: {
         plugins: {
@@ -172,8 +172,6 @@ Ext.define('PartKeepr.PartsGrid', {
      *
      * Right now, this is hardcoded to alt+x.
      *
-     * @param none
-     * @return nothing
      */
     mapSearchHotkey: function ()
     {
@@ -368,8 +366,9 @@ Ext.define('PartKeepr.PartsGrid', {
     reviewRenderer: function (val, q, rec)
     {
         var ret = "";
+
         if (rec.get("needsReview") === true) {
-            ret += '<span class="web-icon flag_orange"' + '" title="' + i18n("Needs review") + '"></span>';
+            ret += '<span class="web-icon flag_orange" title="' + i18n("Needs review") + '"></span>';
         }
 
         return ret;
@@ -391,6 +390,7 @@ Ext.define('PartKeepr.PartsGrid', {
     /**
      * Handles editing of the grid fields. Right now, only the stock level editing is supported.
      *
+     * @param editor Not used
      * @param e An edit event, as documented in
      *            http://docs.sencha.com/ext-js/4-0/#!/api/Ext.grid.plugin.CellEditing-event-edit
      */
