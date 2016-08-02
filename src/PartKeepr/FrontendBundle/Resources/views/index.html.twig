@@ -39,7 +39,10 @@
     {% if debug %}
         {% javascripts output='js/compiled/extjs.js'
         'js/packages/extjs6/build/ext-all-debug.js'
-        'js/packages/extjs6/build/packages/ux/classic/ux-debug.js' %}
+        'js/packages/extjs6/packages/ux/classic/src/TreePicker.js'
+        'js/packages/extjs6/packages/ux/classic/src/TabCloseMenu.js'
+        'js/packages/extjs6/packages/ux/classic/src/statusbar/StatusBar.js'
+        'js/packages/extjs6/packages/ux/classic/src/IFrame.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
     {% else %}
