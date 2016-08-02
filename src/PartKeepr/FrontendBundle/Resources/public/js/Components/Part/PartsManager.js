@@ -188,20 +188,22 @@ Ext.define('PartKeepr.PartManager', {
             this.down("#thumbnailViewStatusMessage").setText(q);
         }, this);
 
+        this.thumbnailViewToolbar = Ext.create("Ext.toolbar.Paging", {
+            store: this.grid.store,
+            enableOverflow: true,
+            dock: 'bottom',
+            displayInfo: false,
+            items: [{xtype: 'tbfill'}, {
+                xtype: 'tbtext',
+                itemId: "thumbnailViewStatusMessage"
+            }
+            ]
+        });
+
         this.thumbnailPanel = Ext.create("Ext.panel.Panel", {
             title: i18n("Thumbnail View"),
             scrollable: true,
-            bbar: Ext.create("Ext.toolbar.Paging", {
-                store: this.grid.store,
-                enableOverflow: true,
-                dock: 'bottom',
-                displayInfo: false,
-                items: [{xtype: 'tbfill'}, {
-                    xtype: 'tbtext',
-                    itemId: "thumbnailViewStatusMessage"
-                }
-                ]
-            }),
+            bbar: this.thumbnailViewToolbar,
             items: this.thumbnailView
         });
 
@@ -214,7 +216,9 @@ Ext.define('PartKeepr.PartManager', {
             this.loadMask = Ext.create("Ext.LoadMask", {
                 store: this.grid.store,
                 target: this.thumbnailPanel
-            })
+            });
+
+            this.thumbnailViewToolbar.onLoad();
         }, this);
 
         if (this.compactLayout) {
