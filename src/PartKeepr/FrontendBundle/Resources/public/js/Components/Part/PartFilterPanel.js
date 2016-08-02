@@ -52,6 +52,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
     statusFilter: null,
     conditionFilter: null,
     internalPartNumberFilter: null,
+    internalIdFilter: null,
     commentFilter: null,
 
     /**
@@ -98,7 +99,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 this.statusFilter,
                 this.conditionFilter,
                 this.internalPartNumberFilter,
-                this.commentFilter
+                this.commentFilter,
+                this.internalIdFilter
             ]
         };
 
@@ -187,6 +189,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.conditionFilter.setValue("");
         this.internalPartNumberFilter.setValue("");
         this.commentFilter.setValue("");
+        this.internalIdFilter.setValue("");
 
         this.onApply();
     },
@@ -444,6 +447,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
             fieldLabel: i18n("Internal Part Number"),
             anchor: '100%'
         });
+        
+        this.internalIdFilter = Ext.create("Ext.form.field.Text", {
+            fieldLabel: i18n("Internal Id"),
+            anchor: '100%'
+        });
 
         this.commentFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Comment"),
@@ -617,6 +625,22 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 value: "%" + this.commentFilter.getValue() + "%"
             }));
         }
+        
+        if (this.internalIdFilter.getValue() !== "") {
+        	var idstr = this.internalIdFilter.getValue();
+        	if (idstr.substring(0,1) == "#") {
+        		idstr = idstr.substring(1);
+        		var idint = parseInt(idstr,36);
+        	} else {
+        		var idint = parseInt(idstr,10);
+        	}
+            filters.push(Ext.create("Ext.util.Filter", {
+                property: 'id',
+                operator: "=",
+                value: idint
+            }));
+        }
+        
         return filters;
     }
 });
