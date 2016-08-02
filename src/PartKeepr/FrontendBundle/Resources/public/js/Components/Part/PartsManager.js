@@ -190,6 +190,7 @@ Ext.define('PartKeepr.PartManager', {
 
         this.thumbnailPanel = Ext.create("Ext.panel.Panel", {
             title: i18n("Thumbnail View"),
+            scrollable: true,
             bbar: Ext.create("Ext.toolbar.Paging", {
                 store: this.grid.store,
                 enableOverflow: true,
