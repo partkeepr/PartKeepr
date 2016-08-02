@@ -58,7 +58,11 @@ Ext.define('PartKeepr.PartsGrid', {
     autoScroll: false,
     invalidateScrollerOnRefresh: true,
     titleProperty: 'name',
-    searchField: ["name", "description", "comment", "internalPartNumber"],
+    searchFieldSystemPreference: "partkeepr.part.search.field",
+    searchFieldSystemPreferenceDefaults: ["name", "description", "comment", "internalPartNumber"],
+    splitSearchTermSystemPreference: "partkeepr.part.search.split",
+    splitSearchTermSystemPreferenceDefaults: true,
+
     initComponent: function ()
     {
 

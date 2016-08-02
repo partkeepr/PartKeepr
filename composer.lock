@@ -1100,7 +1100,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/0074c9416fd8782273b8d390895c6d603b59ae15",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/7ab492c6a65ebe7c0f4665bf96320bef4fb31b70",
                 "reference": "7ab492c6a65ebe7c0f4665bf96320bef4fb31b70",
                 "shasum": ""
             },
@@ -1240,12 +1240,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dunglas/DunglasApiBundle.git",
+                "url": "https://github.com/api-platform/core.git",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/DunglasApiBundle/zipball/bb72d0569aaf51420c1b8cfc5b653fa7053ffdfb",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "reference": "b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
                 "shasum": ""
             },
@@ -1628,7 +1628,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e770bfa2fd0fc665f55cd7cfeb34bddeffb892f4",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/d5b28c367d393f9d9fbc48c4138b2a74d51c0c83",
                 "reference": "d5b28c367d393f9d9fbc48c4138b2a74d51c0c83",
                 "shasum": ""
             },
@@ -1975,7 +1975,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/c97c57151ce0283d89a1bea8dbdb15b222052135",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/8eff56746b73762dfe06414faf0fb609bfe51754",
                 "reference": "8eff56746b73762dfe06414faf0fb609bfe51754",
                 "shasum": ""
             },
@@ -2430,7 +2430,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/07545629aa99441cfec1c18619050a346ea273f9",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/9af37448fa2f82856d068205afa96e9874527672",
                 "reference": "9af37448fa2f82856d068205afa96e9874527672",
                 "shasum": ""
             },
@@ -2505,12 +2505,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/partkeepr/sprite-generator.git",
-                "reference": "5e93829623d1d685b3f4228097534c9aa3a6af5a"
+                "reference": "f43c6c350ef340ed37c237d64855103f1676001f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/partkeepr/sprite-generator/zipball/5e93829623d1d685b3f4228097534c9aa3a6af5a",
-                "reference": "5e93829623d1d685b3f4228097534c9aa3a6af5a",
+                "url": "https://api.github.com/repos/partkeepr/sprite-generator/zipball/f43c6c350ef340ed37c237d64855103f1676001f",
+                "reference": "f43c6c350ef340ed37c237d64855103f1676001f",
                 "shasum": ""
             },
             "require": {
@@ -2541,7 +2541,7 @@
             "support": {
                 "source": "https://github.com/partkeepr/sprite-generator/tree/min-image-fix"
             },
-            "time": "2015-11-25 17:32:07"
+            "time": "2016-08-01 15:59:08"
         },
         {
             "name": "nikic/php-parser",

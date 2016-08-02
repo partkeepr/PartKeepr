@@ -31,6 +31,27 @@ Ext.define('PartKeepr.form.field.SearchField', {
      */
     targetField: 'query',
 
+
+    /**
+     * @cfg {String} Specifies the system property which defines all fields to be searched
+     */
+    searchFieldSystemPreference: null,
+
+    /**
+     * @cfg {Array} Specifies the default fields to be searched
+     */
+    searchFieldSystemPreferenceDefaults: [],
+
+    /**
+     * @cfg {String} Specifies the system property which defines if the search terms should be splitted
+     */
+    splitSearchTermSystemPreference: null,
+
+    /**
+     * @cfg {String} Specifies the default for search term splitting
+     */
+    splitSearchTermSystemPreferenceDefaults: true,
+
     /**
      * @var {Ext.util.Filter} The filter set by the search field
      */
@@ -45,28 +66,6 @@ Ext.define('PartKeepr.form.field.SearchField', {
 
     initComponent: function () {
         this.callParent(arguments);
-
-        if (this.targetField instanceof Array) {
-            var subFilters = new Array();
-            for (var i = 0; i < this.targetField.length; i++) {
-                subFilters.push(Ext.create("PartKeepr.util.Filter", {
-                    property: this.targetField[i],
-                    value: '',
-                    operator: 'like'
-                }));
-            }
-
-            this.filter = Ext.create("PartKeepr.util.Filter", {
-                type: "OR",
-                subfilters: subFilters
-            });
-        } else {
-            this.filter = Ext.create("PartKeepr.util.Filter", {
-                property: this.targetField,
-                value: '',
-                operator: 'like'
-            });
-        }
     },
     /**
      * Handles special keys used in this field.
@@ -97,17 +96,11 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
 
         me.setValue('');
-        if (this.filter.subfilters instanceof Array) {
-            for (var i=0;i<this.filter.subfilters.length;i++) {
-                this.filter.subfilters[i].setValue('');
-            }
-        }
-
         this.filter.setValue('');
 
         if (me.hasSearch) {
 
-            store.removeFilter(this.filter);
+            store.getFilters().clear();
 
             store.currentPage = 1;
             store.load({start: 0});
@@ -122,10 +115,53 @@ Ext.define('PartKeepr.form.field.SearchField', {
     startSearch: function () {
         var me = this,
             store = me.store,
-            value = me.getValue(),
-            searchValue = "%" + value + "%";
+            searchValue = me.getValue(),
+            searchTerms = searchValue.split(" "),
+            splitTerms = true,
+            i,
+            j,
+            subFilters = [];
 
-        if (value.length < 1) {
+        if (this.splitSearchTermSystemPreference !== null) {
+            splitTerms = Boolean(PartKeepr.getApplication().getSystemPreference(this.splitSearchTermSystemPreference, this.splitSearchTermSystemPreferenceDefaults));
+        }
+
+        if (this.searchFieldSystemPreference !== null) {
+            var fields = PartKeepr.getApplication().getSystemPreference(this.searchFieldSystemPreference, this.searchFieldSystemPreferenceDefaults)
+
+            for (i = 0; i < fields.length; i++) {
+                if (splitTerms === true) {
+                    for (j = 0; j < searchTerms.length; j++) {
+                        subFilters.push(this.createFilter(fields[i], searchTerms[j]));
+                    }
+                } else {
+                    subFilters.push(this.createFilter(fields[i], searchValue));
+                }
+
+            }
+
+            this.filter = Ext.create("PartKeepr.util.Filter", {
+                type: "OR",
+                subfilters: subFilters
+            });
+        } else {
+            if (splitTerms === true) {
+                for (j = 0; j < searchTerms.length; j++) {
+                    for (j = 0; j < searchTerms.length; j++) {
+                        subFilters.push(this.createFilter(this.targetField, searchTerms[j]));
+                    }
+                }
+
+                this.filter = Ext.create("PartKeepr.util.Filter", {
+                    type: "OR",
+                    subfilters: subFilters
+                });
+            } else {
+                this.filter = this.createFilter(this.targetField, searchValue);
+            }
+        }
+
+        if (searchValue.length < 1) {
             me.resetSearch();
             return;
         }
@@ -135,23 +171,21 @@ Ext.define('PartKeepr.form.field.SearchField', {
             return;
         }
 
-        if (this.filter.getValue() === searchValue) {
-            return;
-        }
-
-        if (this.filter.subfilters instanceof Array) {
-            for (var i=0;i<this.filter.subfilters.length;i++) {
-                this.filter.subfilters[i].setValue(searchValue);
-            }
-        }
-
         this.filter.setValue(searchValue);
-        store.addFilter(this.filter);
+        store.getFilters().clear();
+        store.setFilters(this.filter);
         store.currentPage = 1;
         store.load({start: 0});
 
         me.hasSearch = true;
         this.getTrigger("clear").show();
+    },
+    createFilter: function (property, term) {
+        return Ext.create("PartKeepr.util.Filter", {
+            property: property,
+            value: "%" + term + "%",
+            operator: 'like'
+        });
     },
     /**
      * Sets the store to use

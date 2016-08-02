@@ -72,6 +72,26 @@ Ext.define('PartKeepr.EditorGrid', {
     editItemAsObject: false,
 
     /**
+     * @cfg {String} Specifies the system property which defines all fields to be searched
+     */
+    searchFieldSystemPreference: null,
+
+    /**
+     * @cfg {Array} Specifies the default fields to be searched
+     */
+    searchFieldSystemPreferenceDefaults: [],
+
+    /**
+     * @cfg {String} Specifies the system property which defines if the search terms should be splitted
+     */
+    splitSearchTermSystemPreference: null,
+
+    /**
+     * @cfg {String} Specifies the default for search term splitting
+     */
+    splitSearchTermSystemPreferenceDefaults: true,
+
+    /**
      * @cfg {String} The title property
      */
     titleProperty: null,
@@ -137,13 +157,13 @@ Ext.define('PartKeepr.EditorGrid', {
 
         var targetField = this.titleProperty;
 
-        if (this.searchField) {
-            targetField = this.searchField;
-        }
-
         this.searchField = Ext.create("PartKeepr.form.field.SearchField", {
             store: this.store,
-            targetField: targetField
+            targetField: targetField,
+            searchFieldSystemPreference: this.searchFieldSystemPreference,
+            searchFieldSystemPreferenceDefaults: this.searchFieldSystemPreferenceDefaults,
+            splitSearchTermSystemPreference: this.splitSearchTermSystemPreference,
+            splitSearchTermSystemPreferenceDefaults: this.splitSearchTermSystemPreferenceDefaults
         });
 
         var topToolbarItems = [];
