@@ -19,7 +19,7 @@ Ext.define('PartKeepr.ManufacturerEditorComponent', {
         this.callParent();
     },
     statics: {
-        iconCls: 'web-icon building',
+        iconCls: 'fugue-icon building',
         title: i18n('Manufacturers'),
         closable: true,
         menuPath: [{text: i18n("Edit")}]

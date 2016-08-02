@@ -45,7 +45,11 @@
     {% else %}
         {% javascripts output='js/compiled/extjs.js'
         'js/packages/extjs6/build/ext-all.js'
-        'js/packages/extjs6/build/packages/ux/classic/ux.js' %}
+        'js/packages/extjs6/packages/ux/classic/src/TreePicker.js'
+        'js/packages/extjs6/packages/ux/classic/src/TabCloseMenu.js'
+        'js/packages/extjs6/packages/ux/classic/src/statusbar/StatusBar.js'
+        'js/packages/extjs6/packages/ux/classic/src/IFrame.js'
+        %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
@@ -66,9 +70,9 @@
 
 
     {% javascripts output='js/compiled/models.js'
-        'bundles/doctrinereflection/*'
+    'bundles/doctrinereflection/*'
     %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
     {% javascripts output='js/compiled/main2.js'
@@ -87,7 +91,6 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/WSSEAuthenticationProvider.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/store/TipOfTheDayStore.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/store/TipOfTheDayHistoryStore.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Data/store/SystemPreferenceStore.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/store/UserProvidersStore.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReport.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/ProjectReportList.js'
@@ -235,11 +238,6 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryEditor/CategoryEditorForm.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Picker/CharPicker.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/StorageLocationPicker.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Panel.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Tree.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/PreferenceEditor.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/FulltextSearch.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/FieldSelector.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/Message.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Card.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Header.js'

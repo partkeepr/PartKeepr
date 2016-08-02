@@ -200,7 +200,7 @@ Ext.define('PartKeepr.PartEditor', {
         // Creates the manufacturer grid
         this.partManufacturerGrid = Ext.create("PartKeepr.PartManufacturerGrid", {
             title: i18n("Manufacturers"),
-            iconCls: 'web-icon building',
+            iconCls: 'fugue-icon building',
             layout: 'fit'
         });
 

@@ -30,9 +30,9 @@ Ext.define('PartKeepr.UserGrid', {
         }
     ],
     addButtonText: i18n("Add User"),
-    addButtonIconCls: 'web-icon user_add',
+    addButtonIconCls: 'fugue-icon user--plus',
     deleteButtonText: i18n("Delete User"),
-    deleteButtonIconCls: 'web-icon user_delete',
+    deleteButtonIconCls: 'fugue-icon user--minus',
     automaticPageSize: true,
 
     initComponent: function ()
