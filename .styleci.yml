@@ -2,3 +2,4 @@ preset: recommended
 
 disabled:
   - phpdoc_to_comment
+  - single_quote

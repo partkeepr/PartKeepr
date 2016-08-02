@@ -6,8 +6,9 @@ class Filter implements AssociationPropertyInterface
 {
     use AssociationPropertyTrait;
 
-    const TYPE_AND = "and";
-    const TYPE_OR = "or";
+    const TYPE_AND = 'and';
+    const TYPE_OR = 'or';
+
     const OPERATOR_LESS_THAN = '<';
     const OPERATOR_GREATER_THAN = '>';
     const OPERATOR_EQUALS = '=';
@@ -30,7 +31,7 @@ class Filter implements AssociationPropertyInterface
 
     const TYPES = [
         self::TYPE_AND,
-        self::TYPE_OR
+        self::TYPE_OR,
     ];
 
     /**
@@ -47,20 +48,16 @@ class Filter implements AssociationPropertyInterface
      */
     private $value;
     /**
-     * Subfilters
+     * SubFilters.
      * @var array
      */
     private $subFilters;
-
 
 
     public function __construct($type = self::TYPE_AND)
     {
         $this->setType($type);
     }
-
-
-
 
     /**
      * @return string
@@ -72,6 +69,7 @@ class Filter implements AssociationPropertyInterface
 
     /**
      * @param string $type
+     *
      * @throws \Exception
      */
     public function setType($type)
@@ -133,15 +131,9 @@ class Filter implements AssociationPropertyInterface
         $this->subFilters = $subFilters;
     }
 
-    public function hasSubFilters () {
+    public function hasSubFilters()
+    {
         return count($this->subFilters) > 0;
     }
-
-
-    public function validate()
-    {
-
-    }
-
 
 }

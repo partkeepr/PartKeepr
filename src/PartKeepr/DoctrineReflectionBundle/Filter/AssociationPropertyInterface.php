@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
+namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
 interface AssociationPropertyInterface
 {

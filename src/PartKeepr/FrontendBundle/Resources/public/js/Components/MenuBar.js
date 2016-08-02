@@ -10,7 +10,7 @@ Ext.define('PartKeepr.MenuBar', {
         var item = menuPath.shift();
 
         if (item === undefined) {
-            var newItem = { text: target.title, iconCls: target.iconCls, target: target };
+            var newItem = {text: target.title, iconCls: target.iconCls, target: target};
 
             root.menu.push(newItem);
             return root;
@@ -18,15 +18,15 @@ Ext.define('PartKeepr.MenuBar', {
 
         var foundItem = false;
 
-        for (var i=0;i<root.menu.length;i++) {
-                if (root.menu[i].text == item.text) {
-                    Ext.applyIf(root.menu[i], item);
-                    foundItem = i;
-                }
+        for (var i = 0; i < root.menu.length; i++) {
+            if (root.menu[i].text == item.text) {
+                Ext.applyIf(root.menu[i], item);
+                foundItem = i;
+            }
         }
 
         if (foundItem === false) {
-            var newItem = { menu: []};
+            var newItem = {menu: []};
 
             Ext.applyIf(newItem, item);
 
@@ -39,8 +39,7 @@ Ext.define('PartKeepr.MenuBar', {
 
         return root;
     },
-    initComponent: function ()
-    {
+    initComponent: function () {
         var target, menus, menuItemIterator, menuPathIterator;
 
         this.ui = "mainmenu";
@@ -48,6 +47,7 @@ Ext.define('PartKeepr.MenuBar', {
         var menuItems = [
             // System Menu
             "PartKeepr.UserPreferencePanel",
+            "PartKeepr.Components.SystemPreferences.Panel",
             "PartKeepr.Actions.LogoutAction",
 
             // Edit Menu
@@ -70,15 +70,15 @@ Ext.define('PartKeepr.MenuBar', {
         ];
 
 
-        for (menuItemIterator=0;menuItemIterator < menuItems.length;menuItemIterator++) {
+        for (menuItemIterator = 0; menuItemIterator < menuItems.length; menuItemIterator++) {
             target = Ext.ClassManager.get(menuItems[menuItemIterator]);
 
             if (!target) {
-                console.log("Error: "+menuItems[menuItemIterator] + " not found!");
+                console.log("Error: " + menuItems[menuItemIterator] + " not found!");
             }
 
             if (!target.menuPath) {
-                console.log("Error: "+menuItems[menuItemIterator] + " has no menuPath defined!");
+                console.log("Error: " + menuItems[menuItemIterator] + " has no menuPath defined!");
             }
             this.createMenu(target, target.menuPath, this.menu);
         }

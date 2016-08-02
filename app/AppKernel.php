@@ -63,6 +63,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\TipOfTheDayBundle\PartKeeprTipOfTheDayBundle();
         $bundles[] = new PartKeepr\ExportBundle\PartKeeprExportBundle();
         $bundles[] = new PartKeepr\StatisticBundle\PartKeeprStatisticBundle();
+        $bundles[] = new PartKeepr\SystemPreferenceBundle\PartKeeprSystemPreferenceBundle();
 
         return array_merge($bundles, $this->getCustomBundles());
     }

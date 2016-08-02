@@ -6,7 +6,7 @@ php:
     - nightly
 
 script:
-    - phpunit -c app/ --coverage-clover build/logs/clover.xml
+    - vendor/bin/phpunit -c app/ --coverage-clover build/logs/clover.xml
 
 env:
     - SYMFONY__TESTDB=mysql

@@ -72,6 +72,26 @@ Ext.define('PartKeepr.EditorGrid', {
     editItemAsObject: false,
 
     /**
+     * @cfg {String} Specifies the system property which defines all fields to be searched
+     */
+    searchFieldSystemPreference: null,
+
+    /**
+     * @cfg {Array} Specifies the default fields to be searched
+     */
+    searchFieldSystemPreferenceDefaults: [],
+
+    /**
+     * @cfg {String} Specifies the system property which defines if the search terms should be splitted
+     */
+    splitSearchTermSystemPreference: null,
+
+    /**
+     * @cfg {String} Specifies the default for search term splitting
+     */
+    splitSearchTermSystemPreferenceDefaults: true,
+
+    /**
      * @cfg {String} The title property
      */
     titleProperty: null,
@@ -83,7 +103,7 @@ Ext.define('PartKeepr.EditorGrid', {
     /**
      * @event itemSelect
      * Fires if a record was selected within the grid.
-     * @param {Object} record The selected record
+     * @param {Object} Ext.data.Record The selected record
      */
     initComponent: function ()
     {
@@ -137,15 +157,13 @@ Ext.define('PartKeepr.EditorGrid', {
 
         var targetField = this.titleProperty;
 
-        if (this.searchField) {
-            targetField = this.searchField;
-        }
-
-        console.log(targetField);
-
         this.searchField = Ext.create("PartKeepr.form.field.SearchField", {
             store: this.store,
-            targetField: targetField
+            targetField: targetField,
+            searchFieldSystemPreference: this.searchFieldSystemPreference,
+            searchFieldSystemPreferenceDefaults: this.searchFieldSystemPreferenceDefaults,
+            splitSearchTermSystemPreference: this.splitSearchTermSystemPreference,
+            splitSearchTermSystemPreferenceDefaults: this.splitSearchTermSystemPreferenceDefaults
         });
 
         var topToolbarItems = [];
@@ -200,9 +218,6 @@ Ext.define('PartKeepr.EditorGrid', {
      * Re-calculates and re-assigns the page size for the assigned store.
      *
      * Automatically reloads the store.
-     *
-     * @param none
-     * @return nothing
      */
     reassignPageSize: function ()
     {
@@ -237,7 +252,7 @@ Ext.define('PartKeepr.EditorGrid', {
         this.bottomToolbar.setStore(store);
 
     },
-    syncChanges: function (record)
+    syncChanges: function ()
     {
         // Simply reload the store for now
         this.store.load();
@@ -245,7 +260,7 @@ Ext.define('PartKeepr.EditorGrid', {
     /**
      * Called when an item was selected. Enables/disables the delete button.
      */
-    _updateDeleteButton: function (selectionModel, record)
+    _updateDeleteButton: function ()
     {
         /* Right now, we support delete on a single record only */
         if (this.getSelectionModel().getCount() == 1) {
