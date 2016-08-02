@@ -63,8 +63,10 @@ Ext.define('PartKeepr.RememberChoiceMessageBox', {
     {
         this.callParent(arguments);
 
-        if (btn === "ok") {
-            PartKeepr.getApplication().setUserPreference(this.dontAskAgainProperty, this.dontAskAgainValue);
+        if (btn.itemId === "ok") {
+            if (this.rememberChoiceCheckbox.getValue()) {
+                PartKeepr.getApplication().setUserPreference(this.dontAskAgainProperty, this.dontAskAgainValue);
+            }
         }
 
     }
