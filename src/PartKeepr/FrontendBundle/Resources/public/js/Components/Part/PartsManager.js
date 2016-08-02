@@ -151,6 +151,16 @@ Ext.define('PartKeepr.PartManager', {
             }
         });
 
+        this.thumbnailView.on("selectionchange", function (selModel, selection) {
+            var parts = [];
+
+            for (var i = 0; i < selection.length; i++) {
+                parts.push(selection[i].get("part"));
+            }
+
+            this.grid.getSelectionModel().select(parts);
+        }, this);
+
         this.grid.store.on("load", function () {
             this.thumbnailView.getStore().removeAll();
 
@@ -164,7 +174,11 @@ Ext.define('PartKeepr.PartManager', {
                 for (j = 0; j < attachments.getCount(); j++) {
                     attachment = attachments.getAt(j);
                     if (attachment.get("isImage")) {
-                        this.thumbnailView.getStore().add(attachment)
+                        this.thumbnailView.getStore().add({
+                            "@id": attachment.get("@id"),
+                            "part": data.getAt(i)
+                        });
+
                     }
                 }
             }
@@ -181,7 +195,7 @@ Ext.define('PartKeepr.PartManager', {
                 enableOverflow: true,
                 dock: 'bottom',
                 displayInfo: false,
-                items: [{xtype: 'tbfill'},{
+                items: [{xtype: 'tbfill'}, {
                     xtype: 'tbtext',
                     itemId: "thumbnailViewStatusMessage"
                 }
