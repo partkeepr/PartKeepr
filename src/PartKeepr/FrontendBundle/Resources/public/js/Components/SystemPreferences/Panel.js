@@ -3,9 +3,13 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
     title: i18n("System Preferences"),
     layout: 'border',
 
-    initComponent: function () {
+    initComponent: function ()
+    {
         var settings = [
-            "PartKeepr.Components.SystemPreferences.Preferences.FulltextSearch"
+            "PartKeepr.Components.SystemPreferences.Preferences.FulltextSearch",
+            "PartKeepr.Components.SystemPreferences.Preferences.RequiredPartFields",
+            "PartKeepr.Components.SystemPreferences.Preferences.RequiredPartManufacturerFields",
+            "PartKeepr.Components.SystemPreferences.Preferences.RequiredPartDistributorFields"
         ];
 
         var settingItems = [], item;
@@ -22,7 +26,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
 
         for (var i = 0; i < settings; i++) {
             item = Ext.create(settings[i]);
-            settingItems.push(item)
+            settingItems.push(item);
         }
 
         this.navigation = Ext.create("PartKeepr.Components.SystemPreferences.Tree",
@@ -32,9 +36,10 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
                 width: 200
             });
 
-        this.navigation.on("itemclick", function (record, item) {
+        this.navigation.on("itemclick", function (record, item)
+        {
             if (typeof item.data.target === "function") {
-                this.openSettingsItem(item.data.target["$className"]);
+                this.openSettingsItem(item.data.target.$className);
             }
         }, this);
 
@@ -51,8 +56,9 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
 
         this.callParent();
     },
-    openSettingsItem: function (target) {
-        targetClass = Ext.ClassManager.get(target);
+    openSettingsItem: function (target)
+    {
+        var targetClass = Ext.ClassManager.get(target);
 
         var config = {
             title: targetClass.title,
@@ -60,10 +66,17 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
             iconCls: targetClass.iconCls
         };
 
-        var j = Ext.create(target, config);
+        for (var i = 0; i < this.cards.items.length; i++) {
+            if (this.cards.items.getAt(i).$className === targetClass.$className) {
+                this.cards.setActiveItem(this.cards.items.getAt(i));
+                return;
+            }
+        }
 
+        var j = Ext.create(target, config);
         this.cards.items.add(j);
         this.cards.setActiveItem(j);
+
     },
     statics: {
         iconCls: 'fugue-icon gear',

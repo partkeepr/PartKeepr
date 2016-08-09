@@ -86,6 +86,7 @@ Ext.define('PartKeepr.PartEditor', {
             {
                 xtype: 'textfield',
                 fieldLabel: i18n("Description"),
+                allowBlank: this.isOptional("description"),
                 name: 'description'
             }, {
                 layout: 'column',
@@ -138,6 +139,7 @@ Ext.define('PartKeepr.PartEditor', {
                 xtype: 'textarea',
                 fieldLabel: i18n("Comment"),
                 name: 'comment',
+                allowBlank: this.isOptional("comment"),
                 anchor: '100% ' + overallHeight
             },
             {
@@ -152,6 +154,7 @@ Ext.define('PartKeepr.PartEditor', {
                         xtype: 'textfield',
                         fieldLabel: i18n("Status"),
                         flex: 1,
+                        allowBlank: this.isOptional("status"),
                         name: 'status'
                     }, {
                         xtype: 'checkbox',
@@ -164,7 +167,8 @@ Ext.define('PartKeepr.PartEditor', {
             }, {
                 xtype: 'textfield',
                 fieldLabel: i18n("Condition"),
-                name: 'partCondition'
+                name: 'partCondition',
+                allowBlank: this.isOptional("partCondition"),
             }, {
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
@@ -174,6 +178,7 @@ Ext.define('PartKeepr.PartEditor', {
                         labelWidth: 150,
                         fieldLabel: i18n("Internal Part Number"),
                         name: 'internalPartNumber',
+                        allowBlank: this.isOptional("internalPartNumber"),
                         flex: 1
                     }, {
                         xtype: 'displayfield',
@@ -297,7 +302,13 @@ Ext.define('PartKeepr.PartEditor', {
      */
     onItemSave: function ()
     {
-        var removeRecords = [], j;
+        var removeRecords = [], j, errors = [],
+            minDistributorCount = PartKeepr.getApplication().getSystemPreference(
+                "partkeepr.part.constraints.distributorCount", 0),
+            minManufacturerCount = PartKeepr.getApplication().getSystemPreference(
+                "partkeepr.part.constraints.manufacturerCount", 0),
+            minAttachmentCount = PartKeepr.getApplication().getSystemPreference(
+                "partkeepr.part.constraints.attachmentCount", 0);
 
         /**
          * Iterate through all records and check if a valid distributor
@@ -312,6 +323,11 @@ Ext.define('PartKeepr.PartEditor', {
 
         if (removeRecords.length > 0) {
             this.record.distributors().remove(removeRecords);
+        }
+
+        if (this.record.distributors().getCount() < minDistributorCount) {
+            errors.push(
+                Ext.String.format(i18n("The number of distributors must be greater than {0}"), minDistributorCount));
         }
 
         removeRecords = [];
@@ -350,6 +366,16 @@ Ext.define('PartKeepr.PartEditor', {
             this.record.manufacturers().remove(removeRecords);
         }
 
+        if (this.record.manufacturers().getCount() < minManufacturerCount) {
+            errors.push(
+                Ext.String.format(i18n("The number of manufacturers must be greater than {0}"), minManufacturerCount));
+        }
+
+        if (this.record.attachments().getCount() < minAttachmentCount) {
+            errors.push(
+                Ext.String.format(i18n("The number of attachments must be greater than {0}"), minAttachmentCount));
+        }
+
         // Force footprint to be "null" when the checkbox is checked.
         if (this.footprintNone.getValue() === true) {
             this.record.setFootprint(null);
@@ -371,6 +397,11 @@ Ext.define('PartKeepr.PartEditor', {
 
                 this.record.stockLevels().add(stockLevel);
             }
+        }
+
+        if (errors.length > 0) {
+            Ext.Msg.alert(i18n("Error"), errors.join("<br/>"));
+            return false;
         }
     },
     onEditStart: function ()
@@ -453,5 +484,15 @@ Ext.define('PartKeepr.PartEditor', {
         }
 
         this.fireEvent("_titleChange", tmpTitle);
+    },
+    isOptional: function (field)
+    {
+        var fields = PartKeepr.getApplication().getSystemPreference("partkeepr.part.requiredFields", []);
+
+        if (Ext.Array.contains(fields, field)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 });

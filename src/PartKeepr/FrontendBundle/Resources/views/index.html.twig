@@ -51,8 +51,7 @@
         'js/packages/extjs6/packages/ux/classic/src/TreePicker.js'
         'js/packages/extjs6/packages/ux/classic/src/TabCloseMenu.js'
         'js/packages/extjs6/packages/ux/classic/src/statusbar/StatusBar.js'
-        'js/packages/extjs6/packages/ux/classic/src/IFrame.js'
-        %}
+        'js/packages/extjs6/packages/ux/classic/src/IFrame.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
@@ -73,8 +72,7 @@
 
 
     {% javascripts output='js/compiled/models.js'
-    'bundles/doctrinereflection/*'
-    %}
+    'bundles/doctrinereflection/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
@@ -246,14 +244,16 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Tree.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/PreferenceEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/FulltextSearch.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/RequiredPartFields.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/RequiredPartManufacturerFields.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/RequiredPartDistributorFields.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/FieldSelector.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Models/Message.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Card.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Header.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.CardLayout.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js'
-    %}
+    '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 </head>
