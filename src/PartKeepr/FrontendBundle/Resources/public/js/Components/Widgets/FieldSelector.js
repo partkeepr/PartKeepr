@@ -1,5 +1,6 @@
 Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
     extend: 'Ext.tree.Panel',
+    xtype: 'modelFieldSelector',
     store: {
         folderSort: true,
         sorters: [
@@ -35,7 +36,8 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
      */
     excludeFields: [],
 
-    initComponent: function () {
+    initComponent: function ()
+    {
         this.callParent(arguments);
         this.visitedModels = [];
 
