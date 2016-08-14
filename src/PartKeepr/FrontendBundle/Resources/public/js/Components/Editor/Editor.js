@@ -55,6 +55,7 @@ Ext.define('PartKeepr.Editor', {
     },
     onCancelEdit: function ()
     {
+        this.record.reject();
         this.fireEvent("editorClose", this);
     },
     newItem: function (defaults)
@@ -101,12 +102,16 @@ Ext.define('PartKeepr.Editor', {
 
         this.getForm().updateRecord(this.record);
 
-        this.fireEvent("itemSave", this.record);
+        if (this.fireEvent("itemSave", this.record)) {
+            this.record.save({
+                callback: this._onSave,
+                scope: this
+            });
+            return true;
+        } else {
+            return false;
+        }
 
-        this.record.save({
-            callback: this._onSave,
-            scope: this
-        });
     },
     _onSave: function (record, response)
     {

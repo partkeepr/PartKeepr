@@ -19,7 +19,8 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
             xtype: 'partkeepr.StorageLocationGrid',
             resizable: true,
             split: true,
-            titleProperty: "name"
+            titleProperty: "name",
+            store: this.store
         };
 
         if (this.verticalLayout) {
@@ -56,7 +57,6 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
         this.callParent(arguments);
 
         this.getTree().on("itemclick", this.onCategoryClick, this);
-        this.getGrid().setStore(this.store);
 
         this.getGrid().on("storageLocationMultiAdd", this.onMultiAddStorageLocation,
             this);
@@ -94,7 +94,7 @@ Ext.define("PartKeepr.StorageLocationNavigation", {
         this.setCategoryFilter(record);
     },
     setCategoryFilter: function (record) {
-        var filter = Ext.create("Ext.util.Filter", {
+        var filter = Ext.create("PartKeepr.util.Filter", {
             property: 'category',
             operator: 'IN',
             value: this.getChildrenIds(record)

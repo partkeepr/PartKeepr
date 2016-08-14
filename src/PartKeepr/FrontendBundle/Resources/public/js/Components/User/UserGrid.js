@@ -60,7 +60,7 @@ Ext.define('PartKeepr.UserGrid', {
             items: this.providerCombo
         });
 
-        this.filter = Ext.create("Ext.util.Filter", {
+        this.filter = Ext.create("PartKeepr.util.Filter", {
             property: "provider",
             operator: "=",
             value: ""

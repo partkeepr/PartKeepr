@@ -41,6 +41,9 @@ Ext.define('PartKeepr.PartDisplay', {
             displayName: i18n("Needs Review"),
             type: 'boolean'
         },
+        internalPartNumber: {
+            displayName: i18n("Internal Part Number")
+        },
         projectNames: {
             displayName: i18n("Used in Projects")
         },
@@ -128,7 +131,7 @@ Ext.define('PartKeepr.PartDisplay', {
 
         this.infoGrid = Ext.create("Ext.grid.property.Grid", {
             listeners: {
-                'beforeedit': function (e)
+                'beforeedit': function ()
                 {
                     return false;
                 }
@@ -169,8 +172,6 @@ Ext.define('PartKeepr.PartDisplay', {
         this.record = r;
 
         var values = {}, value;
-
-        var recordData = this.record.getData();
 
         for (var i in this.fieldConfigs) {
             value = this.record.get(i);
@@ -241,7 +242,7 @@ Ext.define('PartKeepr.PartDisplay', {
     /**
      * Callback after the part is loaded
      */
-    onPartLoaded: function (record)
+    onPartLoaded: function ()
     {
         this.setValues(this.record);
     }

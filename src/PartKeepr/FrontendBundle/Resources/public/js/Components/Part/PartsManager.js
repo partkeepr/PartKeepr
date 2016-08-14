@@ -267,7 +267,7 @@ Ext.define('PartKeepr.PartManager', {
     onCategoryClick: function (tree, record) {
         this.selectedCategory = record;
 
-        var filter = Ext.create("Ext.util.Filter", {
+        var filter = Ext.create("PartKeepr.util.Filter", {
             id: 'categoryFilter',
             property: 'category',
             operator: 'IN',
@@ -417,14 +417,16 @@ Ext.define('PartKeepr.PartManager', {
     /**
      * Creates a new, empty part editor window
      */
-    onItemAdd: function () {
+    onItemAdd: function (defaults) {
         var j = Ext.create("PartKeepr.PartEditorWindow", {
             partMode: 'create'
         });
 
         var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().findRecord("default", true);
 
-        var record = Ext.create("PartKeepr.PartBundle.Entity.Part");
+        Ext.apply(defaults, {});
+
+        var record = Ext.create("PartKeepr.PartBundle.Entity.Part", defaults);
 
         if (this.getSelectedCategory() !== null) {
             record.setCategory(this.getSelectedCategory());

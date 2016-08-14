@@ -15,7 +15,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
 
         });
 
-        this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
+        this.editing = Ext.create('Ext.grid.plugin.RowEditing', {
             clicksToEdit: 1
         });
 
@@ -60,7 +60,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                 editor: {
                     xtype: 'DistributorComboBox',
                     returnObject: true,
-                    allowBlank: true
+                    allowBlank: false
                 }
             }, {
                 header: i18n("Order Number"),
@@ -68,7 +68,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                 flex: 1,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: true
+                    allowBlank: this.isOptional("orderNumber")
                 }
             }, {
                 header: i18n("Packaging Unit"),
@@ -84,7 +84,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                 header: i18n("Price per Item"),
                 dataIndex: 'price',
                 flex: 1,
-                renderer: function (val, p, rec)
+                renderer: function (val)
                 {
                     return PartKeepr.getApplication().formatCurrency(val);
                 },
@@ -106,7 +106,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                 flex: 1,
                 editor: {
                     xtype: 'urltextfield',
-                    allowBlank: true,
+                    allowBlank: this.isOptional("sku"),
                     triggerCls: 'x-form-trigger-link',
 
                     getUrl: function ()
@@ -114,7 +114,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                         var distributor = this.ownerCt.context.record.getDistributor();
 
                         if (distributor !== null) {
-                            skuurl = distributor.get("skuurl");
+                            var skuurl = distributor.get("skuurl");
 
                             if (skuurl) {
                                 skuurl = skuurl.replace("%s", this.value);
@@ -156,5 +156,15 @@ Ext.define('PartKeepr.PartDistributorGrid', {
     onSelectChange: function (selModel, selections)
     {
         this.deleteButton.setDisabled(selections.length === 0);
+    },
+    isOptional: function (field)
+    {
+        var fields = PartKeepr.getApplication().getSystemPreference("partkeepr.partDistributor.requiredFields", []);
+
+        if (Ext.Array.contains(fields, field)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 });

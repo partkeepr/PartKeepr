@@ -6,6 +6,8 @@ Ext.define('PartKeepr.Components.SystemPreferences.PreferenceEditor', {
     cancelText: i18n("Cancel"),
     layout: 'anchor',
     change: false,
+    border: false,
+    scrollable: true,
     autoScroll: true,
     defaults: {
         anchor: '100%',
@@ -14,7 +16,8 @@ Ext.define('PartKeepr.Components.SystemPreferences.PreferenceEditor', {
     enableButtons: true,
     titleProperty: 'name',
 
-    initComponent: function () {
+    initComponent: function ()
+    {
         if (this.enableButtons) {
             this.saveButton = Ext.create("Ext.button.Button", {
                 text: this.saveText,
@@ -44,10 +47,12 @@ Ext.define('PartKeepr.Components.SystemPreferences.PreferenceEditor', {
 
         this.callParent();
     },
-    onCancelEdit: function () {
+    onCancelEdit: function ()
+    {
         this.fireEvent("editorClose", this);
     },
-    onSave: function () {
-        console.log("You need to override PreferenceEditor::onSave")
+    onSave: function ()
+    {
+        console.log("You need to override PreferenceEditor::onSave");
     }
 });

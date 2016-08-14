@@ -36,19 +36,24 @@ class Filter implements AssociationPropertyInterface
 
     /**
      * The type
+     *
      * @var string
      */
     private $type;
+
     /**
      * @var string
      */
     private $operator;
+
     /**
      * @var string
      */
     private $value;
+
     /**
      * SubFilters.
+     *
      * @var array
      */
     private $subFilters;
@@ -57,6 +62,7 @@ class Filter implements AssociationPropertyInterface
     public function __construct($type = self::TYPE_AND)
     {
         $this->setType($type);
+        $this->setSubFilters([]);
     }
 
     /**
@@ -90,6 +96,8 @@ class Filter implements AssociationPropertyInterface
 
     /**
      * @param string $operator
+     *
+     * @throws \Exception Thrown if an invalid operator was passed
      */
     public function setOperator($operator)
     {

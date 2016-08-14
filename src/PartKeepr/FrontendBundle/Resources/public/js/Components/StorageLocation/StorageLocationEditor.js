@@ -115,7 +115,7 @@ Ext.define('PartKeepr.StorageLocationEditor', {
     {
         if (!this.record.phantom) {
             this.down('#containedParts').setVisible(true);
-            var filter = Ext.create("Ext.util.Filter", {
+            var filter = Ext.create("PartKeepr.util.Filter", {
                 property: "storageLocation",
                 operator: "=",
                 value: this.record.getId()

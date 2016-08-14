@@ -15,7 +15,7 @@ Ext.define('PartKeepr.PartStockHistory', {
      */
     onActivate: function ()
     {
-        var filter = Ext.create("Ext.util.Filter", {
+        var filter = Ext.create("PartKeepr.util.Filter", {
             property: 'part',
             operator: '=',
             value: this.part
