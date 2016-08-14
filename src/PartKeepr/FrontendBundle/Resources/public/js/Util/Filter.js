@@ -1,6 +1,13 @@
 Ext.define('PartKeepr.util.Filter', {
     extend: 'Ext.util.Filter',
 
+    config: {
+        /**
+         * @cfg {String} [property=null]
+         * The property to filter on. Required unless a {@link #filterFn} is passed.
+         */
+        subfilters: [],
+    },
     /**
      * Creates new Filter.
      * @param {Object} config Config object
@@ -22,6 +29,26 @@ Ext.define('PartKeepr.util.Filter', {
         }
         //</debug>
         this.initConfig(config);
+    },
+    getFilterDescription: function () {
+        var config = this.getInitialConfig(),
+            i, subfilterData = [];
+
+        if (config.property !== null && config.value !== null && config.operator !== null) {
+            subfilterData.push(config.property + " " + config.operator + " " + config.value);
+        }
+
+        if (config.subfilters instanceof Array && config.subfilters.length > 0) {
+            for (i=0;i<config.subfilters.length;i++) {
+                subfilterData.push("(" + config.subfilters[i].getFilterDescription()+ ")");
+            }
+        }
+
+        if (config.type && config.type.toLowerCase() == "or") {
+            return subfilterData.join(" OR ");
+        } else {
+            return subfilterData.join(" AND ");
+        }
     },
 
     preventConvert: {
