@@ -7,35 +7,37 @@ Ext.define("PartKeepr.FootprintNavigation", {
      * @var {Ext.data.Store}
      */
     store: null,
-    items: [
-        {
-            xtype: 'partkeepr.FootprintTree',
-            region: 'center',
-            rootVisible: false
-        }, {
-            xtype: 'partkeepr.FootprintGrid',
-            resizable: true,
-            split: true,
-            region: 'south',
-            height: "50%",
-            titleProperty: "name",
-            viewConfig: {
-                plugins: {
-                    ddGroup: 'FootprintCategoryTree',
-                    ptype: 'gridviewdragdrop',
-                    enableDrop: false
-                }
-            },
-            enableDragDrop: true
-        }
-    ],
 
     initComponent: function ()
     {
+        this.items = [
+            {
+                xtype: 'partkeepr.FootprintTree',
+                region: 'center',
+                rootVisible: false
+            }, {
+                xtype: 'partkeepr.FootprintGrid',
+                resizable: true,
+                split: true,
+                store: this.store,
+                region: 'south',
+                height: "50%",
+                titleProperty: "name",
+                viewConfig: {
+                    plugins: {
+                        ddGroup: 'FootprintCategoryTree',
+                        ptype: 'gridviewdragdrop',
+                        enableDrop: false
+                    }
+                },
+                enableDragDrop: true,
+
+            }
+        ];
+
         this.callParent(arguments);
 
         this.down("partkeepr\\.FootprintTree").on("itemclick", this.onCategoryClick, this);
-        this.down("partkeepr\\.FootprintGrid").setStore(this.store);
         this.down("partkeepr\\.FootprintGrid").on("itemAdd", this.onAddFootprint, this);
         this.down("partkeepr\\.FootprintGrid").on("itemDelete", function (id)
             {
@@ -57,7 +59,7 @@ Ext.define("PartKeepr.FootprintNavigation", {
      */
     onCategoryClick: function (tree, record)
     {
-        var filter = Ext.create("Ext.util.Filter", {
+        var filter = Ext.create("PartKeepr.util.Filter", {
             property: 'category',
             operator: 'IN',
             value: this.getChildrenIds(record)
