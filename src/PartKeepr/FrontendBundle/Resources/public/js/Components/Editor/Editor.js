@@ -55,6 +55,7 @@ Ext.define('PartKeepr.Editor', {
     },
     onCancelEdit: function ()
     {
+        this.record.reject();
         this.fireEvent("editorClose", this);
     },
     newItem: function (defaults)
