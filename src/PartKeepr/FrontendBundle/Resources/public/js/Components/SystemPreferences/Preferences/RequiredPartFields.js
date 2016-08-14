@@ -1,6 +1,5 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.RequiredPartFields', {
     extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
-    scrollable: true,
 
     initComponent: function ()
     {

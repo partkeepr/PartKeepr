@@ -1,11 +1,6 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.RequiredPartManufacturerFields', {
     extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
-    scrollable: true,
-    layout: 'anchor',
-    border: false,
-    defaults: {
-        anchor: '100%'
-    },
+
     initComponent: function ()
     {
 
