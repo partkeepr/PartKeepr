@@ -7,7 +7,8 @@ Ext.define("PartKeepr.BarcodeScanner.Actions.AddRemoveStock", {
         configure: function (configuration)
         {
             configuration = Ext.applyIf(configuration, {
-                searchFields: []
+                searchFields: [],
+                searchMode: 'fixed'
             });
 
             var modelFieldSelector = Ext.create({
@@ -54,7 +55,32 @@ Ext.define("PartKeepr.BarcodeScanner.Actions.AddRemoveStock", {
                             border: false,
                             bodyStyle: 'padding: 5px; background:transparent;',
                         },
-                        modelFieldSelector
+                        modelFieldSelector,
+                        {
+                            xtype: 'radiogroup',
+                            layout: 'vbox',
+                            itemId: 'searchMode',
+                            items: [
+                                {
+                                    boxLabel: i18n("Search string as-is"),
+                                    name: 'searchMode',
+                                    inputValue: "fixed",
+                                    checked: configuration.searchMode == "fixed" ? true : false
+                                },
+                                {
+                                    boxLabel: i18n("Search beginning of string (string*)"),
+                                    name: 'searchMode',
+                                    inputValue: "beginning",
+                                    checked: configuration.searchMode == "beginning" ? true : false
+                                }, {
+                                    boxLabel: i18n("Search middle of string (*string*)"),
+                                    name: 'searchMode',
+                                    inputValue: "any",
+                                    checked: configuration.searchMode == "any" ? true : false
+
+                                }
+                            ]
+                        }
                     ],
                     dockedItems: bottomToolbar
                 }
@@ -69,6 +95,7 @@ Ext.define("PartKeepr.BarcodeScanner.Actions.AddRemoveStock", {
                     fields.push(selection[i].data.data);
                 }
                 configuration.searchFields = fields;
+                configuration.searchMode = this.down("#searchMode").getValue().searchMode;
                 this.close();
             }, window);
 
@@ -92,12 +119,25 @@ Ext.define("PartKeepr.BarcodeScanner.Actions.AddRemoveStock", {
         });
 
         var subFilters = [];
+        var searchValue;
+
+        switch (this.config.searchMode) {
+            case "beginning":
+                searchValue = this.data + "%";
+                break;
+            case "any":
+                searchValue = "%" + this.data + "%";
+                break;
+            default:
+                searchValue = this.data;
+                break;
+        }
 
         for (var i = 0; i < this.config.searchFields.length; i++) {
             subFilters.push(Ext.create("PartKeepr.util.Filter", {
                 property: this.config.searchFields[i],
-                operator: "=",
-                value: this.data
+                operator: "LIKE",
+                value: searchValue
             }));
         }
 
