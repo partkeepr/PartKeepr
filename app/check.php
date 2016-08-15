@@ -19,7 +19,7 @@ echo PHP_EOL.PHP_EOL;
 
 echo '> Checking Symfony requirements:'.PHP_EOL.'  ';
 
-$messages = array();
+$messages = [];
 foreach ($symfonyRequirements->getRequirements() as $req) {
     /** @var $req Requirement */
     if ($helpText = get_error_message($req, $lineSize)) {
@@ -99,7 +99,7 @@ function echo_title($title, $style = null)
 function echo_style($style, $message)
 {
     // ANSI color codes
-    $styles = array(
+    $styles = [
         'reset' => "\033[0m",
         'red' => "\033[31m",
         'green' => "\033[32m",
@@ -107,10 +107,10 @@ function echo_style($style, $message)
         'error' => "\033[37;41m",
         'success' => "\033[37;42m",
         'title' => "\033[34m",
-    );
+    ];
     $supports = has_color_support();
 
-    echo($supports ? $styles[$style] : '').$message.($supports ? $styles['reset'] : '');
+    echo ($supports ? $styles[$style] : '').$message.($supports ? $styles['reset'] : '');
 }
 
 function echo_block($style, $title, $message)
