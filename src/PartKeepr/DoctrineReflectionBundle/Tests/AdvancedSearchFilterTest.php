@@ -32,18 +32,18 @@ class AdvancedSearchFilterTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $filter = array(
-            array(
+        $filter = [
+            [
                 "property" => "storageLocation.name",
                 "operator" => "=",
-                "value" => "test"
-            )
-        );
+                "value" => "test",
+            ],
+        ];
 
 
         $client->request(
             'GET',
-            "/api/parts?filter=" . json_encode($filter),
+            "/api/parts?filter=".json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -69,18 +69,18 @@ class AdvancedSearchFilterTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $filter = array(
-            array(
+        $filter = [
+            [
                 "property" => "name",
                 "operator" => "=",
-                "value" => "FOOBAR"
-            )
-        );
+                "value" => "FOOBAR",
+            ],
+        ];
 
 
         $client->request(
             'GET',
-            "/api/parts?filter=" . json_encode($filter),
+            "/api/parts?filter=".json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -111,17 +111,17 @@ class AdvancedSearchFilterTest extends WebTestCase
          */
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $filter = array(
-            array(
+        $filter = [
+            [
                 "property" => "storageLocation",
                 "operator" => "=",
-                "value" => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first"))
-            )
-        );
+                "value" => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
+            ],
+        ];
 
         $client->request(
             'GET',
-            "/api/parts?filter=" . json_encode($filter),
+            "/api/parts?filter=".json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -143,20 +143,20 @@ class AdvancedSearchFilterTest extends WebTestCase
          */
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $filter = array(
-            array(
+        $filter = [
+            [
                 "property" => "storageLocation",
                 "operator" => "IN",
                 "value" => [
                     $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
-                    $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.second"))
-                ]
-            )
-        );
+                    $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.second")),
+                ],
+            ],
+        ];
 
         $client->request(
             'GET',
-            "/api/parts?filter=" . json_encode($filter),
+            "/api/parts?filter=".json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -173,18 +173,18 @@ class AdvancedSearchFilterTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $filter = array(
-            array(
+        $filter = [
+            [
                 "property" => "storageLocation.name",
                 "operator" => "LIKE",
-                "value" => "%test%"
-            )
-        );
+                "value" => "%test%",
+            ],
+        ];
 
 
         $client->request(
             'GET',
-            "/api/parts?filter=" . json_encode($filter),
+            "/api/parts?filter=".json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -201,17 +201,17 @@ class AdvancedSearchFilterTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $order = array(
-            array(
+        $order = [
+            [
                 "property" => "storageLocation.name",
-                "direction" => "ASC"
-            )
-        );
+                "direction" => "ASC",
+            ],
+        ];
 
 
         $client->request(
             'GET',
-            "/api/parts?order=" . json_encode($order),
+            "/api/parts?order=".json_encode($order),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -227,28 +227,28 @@ class AdvancedSearchFilterTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $filter = array(
-            array(
-                "mode" => "OR",
-                "subfilters" => array(
-                    array(
+        $filter = [
+            [
+                "type" => "OR",
+                "subfilters" => [
+                    [
                         "property" => "storageLocation.name",
                         "operator" => "=",
-                        "value" => "test"
-                    ),
-                    array(
+                        "value" => "test",
+                    ],
+                    [
                         "property" => "storageLocation.name",
                         "operator" => "=",
-                        "value" => "test2"
-                    )
-                )
-            )
-        );
+                        "value" => "test2",
+                    ],
+                ],
+            ],
+        ];
 
 
         $client->request(
             'GET',
-            "/api/parts?filter=" . json_encode($filter),
+            "/api/parts?filter=".json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']
@@ -264,28 +264,28 @@ class AdvancedSearchFilterTest extends WebTestCase
     {
         $client = static::makeClient(true);
 
-        $filter = array(
-            array(
-                "mode" => "OR",
-                "subfilters" => array(
-                    array(
+        $filter = [
+            [
+                "type" => "OR",
+                "subfilters" => [
+                    [
                         "property" => "name",
                         "operator" => "=",
-                        "value" => "FOOBAR"
-                    ),
-                    array(
+                        "value" => "FOOBAR",
+                    ],
+                    [
                         "property" => "name",
                         "operator" => "=",
-                        "value" => "FOOBAR2"
-                    )
-                )
-            )
-        );
+                        "value" => "FOOBAR2",
+                    ],
+                ],
+            ],
+        ];
 
 
         $client->request(
             'GET',
-            "/api/parts?filter=" . json_encode($filter),
+            "/api/parts?filter=".json_encode($filter),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json']

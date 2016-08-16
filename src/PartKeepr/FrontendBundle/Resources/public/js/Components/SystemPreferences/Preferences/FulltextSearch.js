@@ -1,17 +1,14 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.FulltextSearch', {
     extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
-    scrollable: true,
-    layout: 'anchor',
-    border: false,
-    defaults: {
-        anchor: '100%'
-    },
-    initComponent: function () {
+
+    initComponent: function ()
+    {
 
         this.fieldSelector = Ext.create("PartKeepr.Components.Widgets.FieldSelector", {
             height: 300,
             sourceModel: PartKeepr.PartBundle.Entity.Part,
-            initiallyChecked: PartKeepr.getApplication().getSystemPreference("partkeepr.part.search.fields", ["name", "description", "comment", "internalPartNumber"])
+            initiallyChecked: PartKeepr.getApplication().getSystemPreference("partkeepr.part.search.fields",
+                ["name", "description", "comment", "internalPartNumber"])
         });
 
         this.items = [
@@ -40,11 +37,14 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.FulltextSearch', 
             {
                 xtype: "fieldcontainer",
                 fieldLabel: i18n("Search Fields"),
-                items: [{
-                    style: "padding-top: 4px; padding-bottom: 5px;",
-                    html: i18n("Select all fields which are searched when entering a search term in the upper-right search field within the part manager"),
-                    border: false
-                }, this.fieldSelector]
+                items: [
+                    {
+                        style: "padding-top: 4px; padding-bottom: 5px;",
+                        html: i18n(
+                            "Select all fields which are searched when entering a search term in the upper-right search field within the part manager"),
+                        border: false
+                    }, this.fieldSelector
+                ]
             }
         ];
 
@@ -58,7 +58,8 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.FulltextSearch', 
             this.down("#searchModeSplit").setValue(false);
         }
     },
-    onSave: function () {
+    onSave: function ()
+    {
         var selection = this.fieldSelector.getChecked();
         var fields = [];
 

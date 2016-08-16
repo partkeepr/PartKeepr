@@ -254,7 +254,7 @@ Ext.define('PartKeepr.ProjectReportView', {
             filterIds.push(distributors.getAt(i).getDistributor().getId());
         }
 
-        var filter = Ext.create("Ext.util.Filter", {
+        var filter = Ext.create("PartKeepr.util.Filter", {
             property: "@id",
             operator: 'in',
             value: filterIds
@@ -316,32 +316,33 @@ Ext.define('PartKeepr.ProjectReportView', {
         var partCount = this.reportResult.store.count();
         var cheapestDistributor, activeDistributor;
         var lowestPrice;
-		var firstPositive;
+        var firstPositive;
         var activeRecord;
+        var currentPrice;
 
         for (var i = 0; i < partCount; i++) {
             activeRecord = this.reportResult.store.getAt(i);
-			firstPositive = true;
-			lowestPrice = 0;
-			cheapestDistributor = null;
+            firstPositive = true;
+            lowestPrice = 0;
+            cheapestDistributor = null;
 
             for (var j = 0; j < activeRecord.getPart().distributors().count(); j++) {
                 activeDistributor = activeRecord.getPart().distributors().getAt(j);
-				currentPrice = parseFloat(activeDistributor.get("price"));
-				
-				if (currentPrice != 0) 	{
-					if (firstPositive) {
-						lowestPrice = currentPrice;
-						cheapestDistributor = activeDistributor;
-						firstPositive = false;
-					}
-					else {
-						if (currentPrice < lowestPrice) {
-							lowestPrice = currentPrice;
-							cheapestDistributor = activeDistributor;
-						}
-					}
-				}
+                currentPrice = parseFloat(activeDistributor.get("price"));
+
+                if (currentPrice != 0) {
+                    if (firstPositive) {
+                        lowestPrice = currentPrice;
+                        cheapestDistributor = activeDistributor;
+                        firstPositive = false;
+                    }
+                    else {
+                        if (currentPrice < lowestPrice) {
+                            lowestPrice = currentPrice;
+                            cheapestDistributor = activeDistributor;
+                        }
+                    }
+                }
             }
 
             if (cheapestDistributor !== null) {

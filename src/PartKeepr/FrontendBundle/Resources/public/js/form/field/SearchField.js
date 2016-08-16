@@ -64,8 +64,21 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
     },
 
-    initComponent: function () {
+    initComponent: function ()
+    {
+        this.store.on("filterchange", this.onFilterChange, this);
+        this.filter = Ext.create("PartKeepr.util.Filter");
         this.callParent(arguments);
+    },
+    onFilterChange: function ()
+    {
+        if (!this.store.getFilters().contains(this.filter)) {
+            this.setValue("");
+
+            this.getTrigger("clear").hide();
+            this.hasSearch = false;
+        }
+
     },
     /**
      * Handles special keys used in this field.
@@ -73,7 +86,8 @@ Ext.define('PartKeepr.form.field.SearchField', {
      * Enter: Starts the search
      * Escape: Removes the search and clears the field contents
      */
-    keyHandler: function (field, e) {
+    keyHandler: function (field, e)
+    {
         switch (e.getKey()) {
             case e.ENTER:
                 this.startSearch();
@@ -86,7 +100,8 @@ Ext.define('PartKeepr.form.field.SearchField', {
     /**
      * Resets the search field to empty and re-triggers the store to load the matching records.
      */
-    resetSearch: function () {
+    resetSearch: function ()
+    {
         var me = this,
             store = me.store;
 
@@ -100,7 +115,9 @@ Ext.define('PartKeepr.form.field.SearchField', {
 
         if (me.hasSearch) {
 
-            store.getFilters().clear();
+            if (store.getFilters().contains(this.filter)) {
+                store.getFilters().remove(this.filter);
+            }
 
             store.currentPage = 1;
             store.load({start: 0});
@@ -112,52 +129,73 @@ Ext.define('PartKeepr.form.field.SearchField', {
     /**
      * Starts the search with the entered value.
      */
-    startSearch: function () {
+    startSearch: function ()
+    {
         var me = this,
             store = me.store,
             searchValue = me.getValue(),
             searchTerms = searchValue.split(" "),
             splitTerms = true,
+            orSubFilters = [],
             i,
             j,
             subFilters = [];
 
         if (this.splitSearchTermSystemPreference !== null) {
-            splitTerms = Boolean(PartKeepr.getApplication().getSystemPreference(this.splitSearchTermSystemPreference, this.splitSearchTermSystemPreferenceDefaults));
+            splitTerms = Boolean(PartKeepr.getApplication().getSystemPreference(this.splitSearchTermSystemPreference,
+                this.splitSearchTermSystemPreferenceDefaults));
         }
 
         if (this.searchFieldSystemPreference !== null) {
-            var fields = PartKeepr.getApplication().getSystemPreference(this.searchFieldSystemPreference, this.searchFieldSystemPreferenceDefaults)
+            var fields = PartKeepr.getApplication().getSystemPreference(this.searchFieldSystemPreference,
+                this.searchFieldSystemPreferenceDefaults);
 
-            for (i = 0; i < fields.length; i++) {
-                if (splitTerms === true) {
-                    for (j = 0; j < searchTerms.length; j++) {
-                        subFilters.push(this.createFilter(fields[i], searchTerms[j]));
+            if (splitTerms === true) {
+                for (j = 0; j < searchTerms.length; j++) {
+                    orSubFilters = [];
+                    for (i = 0; i < fields.length; i++) {
+                        orSubFilters.push(this.createFilter(fields[i], searchTerms[j]));
                     }
-                } else {
+
+                    subFilters.push(Ext.create("PartKeepr.util.Filter", {
+                        type: "OR",
+                        subfilters: orSubFilters
+                    }));
+                }
+
+                this.filter.setConfig({
+                type: "AND",
+                subfilters: subFilters
+            });
+
+            } else {
+                for (i = 0; i < fields.length; i++) {
                     subFilters.push(this.createFilter(fields[i], searchValue));
                 }
 
-            }
-
-            this.filter = Ext.create("PartKeepr.util.Filter", {
+                this.filter.setConfig({
                 type: "OR",
                 subfilters: subFilters
             });
+            }
+
+
         } else {
             if (splitTerms === true) {
                 for (j = 0; j < searchTerms.length; j++) {
-                    for (j = 0; j < searchTerms.length; j++) {
-                        subFilters.push(this.createFilter(this.targetField, searchTerms[j]));
-                    }
+                    subFilters.push(this.createFilter(this.targetField, searchTerms[j]));
                 }
 
-                this.filter = Ext.create("PartKeepr.util.Filter", {
+                this.filter.setConfig({
                     type: "OR",
                     subfilters: subFilters
                 });
             } else {
-                this.filter = this.createFilter(this.targetField, searchValue);
+                this.filter.setConfig({
+                    property: this.targetField,
+                    value: "%" + searchValue+ "%",
+                    operator: 'like'
+                });
             }
         }
 
@@ -172,15 +210,18 @@ Ext.define('PartKeepr.form.field.SearchField', {
         }
 
         this.filter.setValue(searchValue);
-        store.getFilters().clear();
-        store.setFilters(this.filter);
-        store.currentPage = 1;
-        store.load({start: 0});
+
+        if (!store.getFilters().contains(this.filter)) {
+            store.getFilters().add(this.filter);
+        }
+
+        store.getFilters().itemChanged(this.filter);
 
         me.hasSearch = true;
         this.getTrigger("clear").show();
     },
-    createFilter: function (property, term) {
+    createFilter: function (property, term)
+    {
         return Ext.create("PartKeepr.util.Filter", {
             property: property,
             value: "%" + term + "%",
@@ -192,7 +233,8 @@ Ext.define('PartKeepr.form.field.SearchField', {
      *
      * @param {Ext.data.Store} store The store to set
      */
-    setStore: function (store) {
+    setStore: function (store)
+    {
         this.store = store;
     }
 });

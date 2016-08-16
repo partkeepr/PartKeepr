@@ -1,5 +1,6 @@
 Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
     extend: 'Ext.tree.Panel',
+    xtype: 'modelFieldSelector',
     store: {
         folderSort: true,
         sorters: [
@@ -14,6 +15,10 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
     selModel: {
         mode: 'MULTI'
     },
+
+    /**
+     * @var {Array} Contains the nodes which are checked by default
+     */
     initiallyChecked: [],
 
     /**
@@ -21,8 +26,20 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
      */
     visitedModels: [],
 
-    initComponent: function () {
+    /**
+     * @var {Boolean} True to recurse into associations, false otherwise.
+     */
+    recurseSubModels: true,
+
+    /**
+     * @var {Array} An array which excludes the fields listed
+     */
+    excludeFields: [],
+
+    initComponent: function ()
+    {
         this.callParent(arguments);
+        this.visitedModels = [];
 
         var rootNode = this.getRootNode();
         rootNode.set("text", this.sourceModel.getName());
@@ -51,26 +68,30 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                     checked = true;
                 }
 
-                node.appendChild({
-                    text: fields[i].name,
-                    leaf: true,
-                    checked: checked,
-                    data: prefix + fields[i].name
-                });
-            } else {
-                for (var j = 0; j < this.visitedModels.length; j++) {
-                    if (this.visitedModels[j] === fields[i].reference.cls.getName()) {
-                        return;
-                    }
+                if (!Ext.Array.contains(this.excludeFields, prefix + fields[i].name)) {
+                    node.appendChild({
+                        text: fields[i].name,
+                        leaf: true,
+                        checked: checked,
+                        data: prefix + fields[i].name
+                    });
                 }
+            } else {
+                if (this.recurseSubModels) {
+                    for (var j = 0; j < this.visitedModels.length; j++) {
+                        if (this.visitedModels[j] === fields[i].reference.cls.getName()) {
+                            return;
+                        }
+                    }
 
-                var childNode = node.appendChild({
-                    text: fields[i].name,
-                    expanded: true,
-                    leaf: false
-                });
+                    var childNode = node.appendChild({
+                        text: fields[i].name,
+                        expanded: true,
+                        leaf: false
+                    });
 
-                this.treeMaker(childNode, fields[i].reference.cls, prefix + fields[i].name + ".");
+                    this.treeMaker(childNode, fields[i].reference.cls, prefix + fields[i].name + ".");
+                }
             }
 
         }

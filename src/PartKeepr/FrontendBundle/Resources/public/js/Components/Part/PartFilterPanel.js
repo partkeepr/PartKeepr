@@ -23,6 +23,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
     autoScroll: true,
 
     /**
+     * The applied filters
+     */
+    appliedFilters: [],
+
+    /**
      * Fixed body background color style
      */
     bodyStyle: 'background:#DBDBDB;',
@@ -53,6 +58,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
     conditionFilter: null,
     internalPartNumberFilter: null,
     commentFilter: null,
+
+    filterControls: [],
 
     /**
      * Initializes the component
@@ -132,7 +139,26 @@ Ext.define('PartKeepr.PartFilterPanel', {
             }
         ];
 
+        this.store.getFilters().on("endupdate", this._onFilterRemove, this);
         this.callParent();
+    },
+    _onFilterRemove: function ()
+    {
+        var filterPlugin;
+        if (this.suspendRemovals) {
+            return;
+        }
+
+        for (var i = 0; i < this.filterControls.length; i++) {
+            filterPlugin = this.filterControls[i].findPlugin("filter");
+
+            if (filterPlugin instanceof PartKeepr.Util.FilterPlugin) {
+                if (!this.store.getFilters().contains(filterPlugin.getFilter())) {
+                    this.filterControls[i].disableFilter();
+                }
+            }
+        }
+
     },
     /**
      * Applies the parameters from the filter panel to the proxy, then
@@ -143,13 +169,25 @@ Ext.define('PartKeepr.PartFilterPanel', {
      */
     onApply: function ()
     {
-        var filters = this.getFilters();
+        var i;
 
-        this.store.clearFilter(true);
+        this.appliedFilters = this.getFilters();
 
-        if (filters.length !== 0) {
-            this.store.addFilter(this.getFilters(), true);
+        this.suspendRemovals = true;
+        if (this.appliedFilters.disableFilters.length !== 0) {
+            for (i = 0; i < this.appliedFilters.disableFilters.length; i++) {
+                this.store.removeFilter(this.appliedFilters.disableFilters[i], true);
+            }
         }
+
+        if (this.appliedFilters.enableFilters.length !== 0) {
+            for (i = 0; i < this.appliedFilters.enableFilters.length; i++) {
+                this.store.addFilter(this.appliedFilters.enableFilters[i], true);
+            }
+        }
+
+        this.suspendRemovals = false;
+
 
         this.store.load();
     },
@@ -200,23 +238,47 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.storageLocationFilter = Ext.create("PartKeepr.StorageLocationComboBox", {
             flex: 1,
             forceSelection: true,
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'storageLocation',
+                            operator: "=",
+                            value: this.storageLocationFilter.getValue()
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.storageLocationFilter.setValue("");
+                            this.storageLocationFilterCheckbox.setValue(false);
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
             listeners: {
-                select: function ()
+                select: function (cmp)
                 {
+                    cmp.enableFilter();
                     this.storageLocationFilterCheckbox.setValue(true);
                 },
                 scope: this
             }
         });
 
+        this.filterControls.push(this.storageLocationFilter);
+
         this.storageLocationFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
             width: "20px",
             listeners: {
                 change: function (obj, value)
                 {
-
                     if (!value) {
-                        this.storageLocationFilter.setValue("");
+                        this.storageLocationFilter.disableFilter();
                     }
                 },
                 scope: this
@@ -235,6 +297,59 @@ Ext.define('PartKeepr.PartFilterPanel', {
             // Create the category scope field
             this.categoryFilter = Ext.create("Ext.form.RadioGroup", {
                 fieldLabel: i18n("Category Scope"),
+                plugins: [
+                    Ext.create("PartKeepr.Util.FilterPlugin", {
+                        getFilterFn: function ()
+                        {
+                            if (this.partManager !== null) {
+                                if (this.categoryFilter.getValue().category === "all") {
+                                    if (this.partManager.getSelectedCategory() !== null) {
+                                        if (!this.partManager.getSelectedCategory().isRoot()) {
+                                            return {
+                                                id: 'categoryFilter',
+                                                property: 'category',
+                                                operator: 'IN',
+                                                value: this.partManager.getChildrenIds(
+                                                    this.partManager.getSelectedCategory())
+                                            };
+                                        }
+                                    }
+                                } else {
+                                    var selectedCategory = this.partManager.getSelectedCategory();
+
+                                    if (selectedCategory === null) {
+                                        selectedCategory = this.partManager.tree.getRootNode().firstChild;
+                                    }
+
+                                    return {
+                                        id: 'categoryFilter',
+                                        property: 'category',
+                                        operator: '=',
+                                        value: selectedCategory.getId()
+                                    };
+                                }
+                            }
+
+                            return {};
+                        },
+                        listeners: {
+                            scope: this,
+                            disable: function ()
+                            {
+                                this.categoryFilter.setValue({category: "all"});
+
+                            }
+                        },
+                        scope: this
+                    })
+                ],
+                listeners: {
+                    change: function (cmp)
+                    {
+                        cmp.enableFilter();
+                    },
+                    scope: this
+                },
                 columns: 1,
                 items: [
                     {
@@ -250,12 +365,66 @@ Ext.define('PartKeepr.PartFilterPanel', {
                     }
                 ]
             });
+
+            this.filterControls.push(this.categoryFilter);
         }
+
 
         // Create the stock level filter field
         this.stockFilter = Ext.create("Ext.form.RadioGroup", {
             fieldLabel: i18n("Stock Mode"),
             columns: 1,
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        if (this.stockFilter.getValue().stock !== "any") {
+                            switch (this.stockFilter.getValue().stock) {
+                                case "zero":
+                                    return {
+                                        property: 'stockLevel',
+                                        operator: "=",
+                                        value: 0
+                                    };
+                                case "nonzero":
+                                    return {
+                                        property: 'stockLevel',
+                                        operator: ">",
+                                        value: 0
+                                    };
+                                case "below":
+                                    return {
+                                        property: 'lowStock',
+                                        operator: "=",
+                                        value: true
+                                    };
+                            }
+
+                            return {};
+                        }
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.categoryFilter.setValue({stock: "any"});
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue().stock === "any") {
+                        cmp.disableFilter();
+                    } else {
+                        cmp.enableFilter();
+                    }
+                },
+                scope: this
+            },
             items: [
                 {
                     boxLabel: i18n("Any Stock Level"),
@@ -278,23 +447,141 @@ Ext.define('PartKeepr.PartFilterPanel', {
             ]
         });
 
+        this.filterControls.push(this.stockFilter);
+
         this.partsWithoutPrice = Ext.create("Ext.form.field.Checkbox", {
             fieldLabel: i18n("Item Price"),
-            boxLabel: i18n("Show Parts without Price only")
+            boxLabel: i18n("Show Parts without Price only"),
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        if (this.partsWithoutPrice.getValue() === true) {
+                            return {
+                                property: 'averagePrice',
+                                operator: '=',
+                                value: 0
+                            };
+                        }
+
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.partsWithoutPrice.setValue(false);
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue()) {
+                        cmp.enableFilter();
+
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            },
         });
+
+        this.filterControls.push(this.partsWithoutPrice);
 
         this.distributorOrderNumberFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Order Number"),
-            anchor: '100%'
+            anchor: '100%',
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'distributors.orderNumber',
+                            operator: "LIKE",
+                            value: "%" + this.distributorOrderNumberFilter.getValue() + "%"
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.distributorOrderNumberFilter.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue() !== "") {
+                        cmp.enableFilter();
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            }
         });
+
+        this.filterControls.push(this.distributorOrderNumberFilter);
 
         this.manufacturerPartNumberFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Manufacturer Part Number"),
-            anchor: '100%'
+            anchor: '100%',
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'manufacturers.partNumber',
+                            operator: "LIKE",
+                            value: "%" + this.manufacturerPartNumberFilter.getValue() + "%"
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.manufacturerPartNumberFilter.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue() !== "") {
+                        cmp.enableFilter();
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            }
         });
 
+        this.filterControls.push(this.manufacturerPartNumberFilter);
+
         this.createDateField = Ext.create("Ext.form.field.Date", {
-            flex: 1
+            flex: 1,
+            listeners: {
+                change: function ()
+                {
+                    if (this.createDateFilterSelect.getValue() !== "" && this.createDateField.getValue() !== "") {
+                        this.createDateFilter.enableFilter();
+                    } else {
+                        this.createDateFilter.disableFilter();
+                    }
+
+                },
+                scope: this
+            }
         });
 
         var filter = Ext.create('Ext.data.Store', {
@@ -315,27 +602,133 @@ Ext.define('PartKeepr.PartFilterPanel', {
             value: '',
             triggerAction: 'all',
             displayField: 'name',
-            valueField: 'type'
+            valueField: 'type',
+            listeners: {
+                select: function ()
+                {
+                    if (this.createDateFilterSelect.getValue() !== "" && this.createDateField.getValue() !== "") {
+                        this.createDateFilter.enableFilter();
+                    } else {
+                        this.createDateFilter.disableFilter();
+                    }
+                },
+                scope: this
+            }
         });
 
-        this.createDateFilter = {
+        this.createDateFilter = Ext.create({
             xtype: 'fieldcontainer',
             anchor: '100%',
             fieldLabel: i18n("Create date"),
             layout: 'hbox',
             border: false,
-            items: [this.createDateFilterSelect, this.createDateField]
-        };
+            items: [this.createDateFilterSelect, this.createDateField],
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'createDate',
+                            operator: this.createDateFilterSelect.getValue(),
+                            value: this.createDateField.getValue()
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.createDateFilterSelect.setValue("");
+                            this.createDateField.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ]
+        });
+
+        this.filterControls.push(this.createDateFilter);
 
         this.partsWithoutStockRemovals = Ext.create("Ext.form.field.Checkbox", {
             fieldLabel: i18n("Stock Settings"),
-            boxLabel: i18n("Show Parts without stock removals only")
+            boxLabel: i18n("Show Parts without stock removals only"),
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'removals',
+                            operator: '=',
+                            value: false
+                        };
+
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.partsWithoutStockRemovals.setValue(false);
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue()) {
+                        cmp.enableFilter();
+
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            },
         });
+
+        this.filterControls.push(this.partsWithoutStockRemovals);
 
         this.needsReview = Ext.create("Ext.form.field.Checkbox", {
             fieldLabel: i18n("Needs Review"),
-            boxLabel: i18n("Show Parts that need to reviewed only")
+            boxLabel: i18n("Show Parts that need to reviewed only"),
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'needsReview',
+                            operator: '=',
+                            value: true
+                        };
+
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.needsReview.setValue(false);
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue()) {
+                        cmp.enableFilter();
+
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            },
         });
+
+        this.filterControls.push(this.needsReview);
 
         this.manufacturerFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
             width: "20px",
@@ -344,7 +737,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 {
 
                     if (!value) {
-                        this.manufacturerFilterCombo.setValue("");
+                        this.manufacturerFilterCombo.disableFilter();
                     }
                 },
                 scope: this
@@ -353,14 +746,39 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.manufacturerFilterCombo = Ext.create("PartKeepr.ManufacturerComboBox", {
             flex: 1,
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'manufacturers.manufacturer',
+                            operator: "=",
+                            value: this.manufacturerFilterCombo.getValue()
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.manufacturerFilterCombo.setValue("");
+                            this.manufacturerFilterCheckbox.setValue(false);
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
             listeners: {
-                select: function ()
+                select: function (cmp)
                 {
+                    cmp.enableFilter();
                     this.manufacturerFilterCheckbox.setValue(true);
                 },
                 scope: this
             }
         });
+
+        this.filterControls.push(this.manufacturerFilterCombo);
 
         this.manufacturerFilter = Ext.create("Ext.form.FieldContainer", {
             layout: 'hbox',
@@ -374,7 +792,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 change: function (obj, value)
                 {
                     if (!value) {
-                        this.distributorFilterCombo.setValue("");
+                        this.distributorFilterCombo.disableFilter();
                     }
                 },
                 scope: this
@@ -383,9 +801,32 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.distributorFilterCombo = Ext.create("PartKeepr.DistributorComboBox", {
             flex: 1,
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'distributors.distributor',
+                            operator: "=",
+                            value: this.distributorFilterCombo.getValue()
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.distributorFilterCombo.setValue("");
+                            this.distributorFilterCheckbox.setValue(false);
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
             listeners: {
-                select: function ()
+                select: function (cmp)
                 {
+                    cmp.enableFilter();
                     this.distributorFilterCheckbox.setValue(true);
                 },
                 scope: this
@@ -395,8 +836,11 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.distributorFilter = Ext.create("Ext.form.FieldContainer", {
             layout: 'hbox',
             items: [this.distributorFilterCheckbox, this.distributorFilterCombo],
-            fieldLabel: i18n("Distributor")
+            fieldLabel: i18n("Distributor"),
+
         });
+
+        this.filterControls.push(this.distributorFilterCombo);
 
         this.footprintFilterCheckbox = Ext.create("Ext.form.field.Checkbox", {
             width: "20px",
@@ -404,7 +848,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 change: function (obj, value)
                 {
                     if (!value) {
-                        this.footprintFilterCombo.setValue("");
+                        this.footprintFilterCombo.disableFilter();
                     }
                 },
                 scope: this
@@ -413,14 +857,39 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.footprintFilterCombo = Ext.create("PartKeepr.FootprintComboBox", {
             flex: 1,
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'footprint',
+                            operator: "=",
+                            value: this.footprintFilterCombo.getValue()
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.footprintFilterCombo.setValue("");
+                            this.footprintFilterCheckbox.setValue(false);
+
+                        }
+                    },
+                    scope: this
+                })
+            ],
             listeners: {
-                select: function ()
+                select: function (cmp)
                 {
+                    cmp.enableFilter();
                     this.footprintFilterCheckbox.setValue(true);
                 },
                 scope: this
             }
         });
+
+        this.filterControls.push(this.footprintFilterCombo);
 
         this.footprintFilter = Ext.create("Ext.form.FieldContainer", {
             layout: 'hbox',
@@ -432,24 +901,155 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.statusFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Status"),
-            anchor: '100%'
+            anchor: '100%',
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'status',
+                            operator: "LIKE",
+                            value: "%" + this.statusFilter.getValue() + "%"
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.statusFilter.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue() !== "") {
+                        cmp.enableFilter();
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            }
         });
+
+        this.filterControls.push(this.statusFilter);
 
         this.conditionFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Condition"),
-            anchor: '100%'
+            anchor: '100%',
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'partCondition',
+                            operator: "LIKE",
+                            value: "%" + this.conditionFilter.getValue() + "%"
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.conditionFilter.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue() !== "") {
+                        cmp.enableFilter();
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            }
         });
+
+        this.filterControls.push(this.conditionFilter);
 
         this.internalPartNumberFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Internal Part Number"),
-            anchor: '100%'
+            anchor: '100%',
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'internalPartNumber',
+                            operator: "LIKE",
+                            value: "%" + this.internalPartNumberFilter.getValue() + "%"
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.internalPartNumberFilter.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue() !== "") {
+                        cmp.enableFilter();
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            }
         });
+
+        this.filterControls.push(this.internalPartNumberFilter);
 
         this.commentFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Comment"),
-            anchor: '100%'
+            anchor: '100%',
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        return {
+                            property: 'comment',
+                            operator: "LIKE",
+                            value: "%" + this.commentFilter.getValue() + "%"
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.commentFilter.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                change: function (cmp)
+                {
+                    if (cmp.getValue() !== "") {
+                        cmp.enableFilter();
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            }
         });
 
+        this.filterControls.push(this.commentFilter);
     },
     /**
      * Applies the filter parameters to the passed extraParams object.
@@ -457,166 +1057,25 @@ Ext.define('PartKeepr.PartFilterPanel', {
      */
     getFilters: function ()
     {
-        var filters = [];
+        var enableFilters = [],
+            disableFilters = [],
+            filterPlugin;
 
-        if (this.storageLocationFilterCheckbox.getValue() === true) {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'storageLocation',
-                operator: "=",
-                value: this.storageLocationFilter.getValue()
-            }));
-        }
+        for (var i = 0; i < this.filterControls.length; i++) {
+            filterPlugin = this.filterControls[i].findPlugin("filter");
 
-        if (this.partManager !== null) {
-            if (this.categoryFilter.getValue().category === "all") {
-                if (this.partManager.getSelectedCategory() !== null) {
-                    filters.push(Ext.create("Ext.util.Filter", {
-                        id: 'categoryFilter',
-                        property: 'category',
-                        operator: 'IN',
-                        value: this.partManager.getChildrenIds(this.partManager.getSelectedCategory())
-                    }));
+            if (filterPlugin instanceof PartKeepr.Util.FilterPlugin) {
+                if (filterPlugin.isEnabled()) {
+                    enableFilters.push(this.filterControls[i].findPlugin("filter").getFilter());
+                } else {
+                    disableFilters.push(this.filterControls[i].findPlugin("filter").getFilter());
                 }
-            } else {
-                filters.push(Ext.create("Ext.util.Filter", {
-                    id: 'categoryFilter',
-                    property: 'category',
-                    operator: '=',
-                    value: this.partManager.getSelectedCategory()
-                }));
             }
         }
 
-        if (this.partsWithoutPrice.getValue() === true) {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'averagePrice',
-                operator: '=',
-                value: 0
-            }));
-        }
-
-        if (this.createDateFilterSelect.getValue() !== "") {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'createDate',
-                operator: this.createDateFilterSelect.getValue(),
-                value: this.createDateField.getValue()
-            }));
-        }
-
-        if (this.partsWithoutStockRemovals.getValue() === true) {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'removals',
-                operator: "=",
-                value: false
-            }));
-        }
-
-        if (this.needsReview.getValue() === true) {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'needsReview',
-                operator: "=",
-                value: true
-            }));
-        }
-
-
-        if (this.stockFilter.getValue().stock !== "any") {
-            switch (this.stockFilter.getValue().stock) {
-                case "zero":
-                    filters.push(Ext.create("Ext.util.Filter", {
-                        property: 'stockLevel',
-                        operator: "=",
-                        value: 0
-                    }));
-                    break;
-                case "nonzero":
-                    filters.push(Ext.create("Ext.util.Filter", {
-                        property: 'stockLevel',
-                        operator: ">",
-                        value: 0
-                    }));
-                    break;
-                case "below":
-                    filters.push(Ext.create("Ext.util.Filter", {
-                        property: 'lowStock',
-                        operator: "=",
-                        value: true
-                    }));
-                    break;
-            }
-        }
-
-        if (this.distributorOrderNumberFilter.getValue() !== "") {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'distributors.orderNumber',
-                operator: "LIKE",
-                value: "%" + this.distributorOrderNumberFilter.getValue() + "%"
-            }));
-        }
-
-        if (this.manufacturerPartNumberFilter.getValue() !== "") {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'manufacturers.partNumber',
-                operator: "LIKE",
-                value: "%" + this.manufacturerPartNumberFilter.getValue() + "%"
-            }));
-        }
-
-        if (this.distributorFilterCheckbox.getValue() === true) {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'distributors.distributor',
-                operator: "=",
-                value: this.distributorFilterCombo.getValue()
-            }));
-        }
-
-        if (this.manufacturerFilterCheckbox.getValue() === true) {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'manufacturers.manufacturer',
-                operator: "=",
-                value: this.manufacturerFilterCombo.getValue()
-            }));
-        }
-
-        if (this.footprintFilterCheckbox.getValue() === true) {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'footprint',
-                operator: "=",
-                value: this.footprintFilterCombo.getValue()
-            }));
-        }
-
-        if (this.statusFilter.getValue() !== "") {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'status',
-                operator: "LIKE",
-                value: "%" + this.statusFilter.getValue() + "%"
-            }));
-        }
-
-        if (this.conditionFilter.getValue() !== "") {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'condition',
-                operator: "LIKE",
-                value: "%" + this.conditionFilter.getValue() + "%"
-            }));
-        }
-
-        if (this.internalPartNumberFilter.getValue() !== "") {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'internalPartNumber',
-                operator: "LIKE",
-                value: "%" + this.internalPartNumberFilter.getValue() + "%"
-            }));
-        }
-
-        if (this.commentFilter.getValue() !== "") {
-            filters.push(Ext.create("Ext.util.Filter", {
-                property: 'comment',
-                operator: "LIKE",
-                value: "%" + this.commentFilter.getValue() + "%"
-            }));
-        }
-        return filters;
+        return {
+            disableFilters: disableFilters,
+            enableFilters: enableFilters
+        };
     }
 });

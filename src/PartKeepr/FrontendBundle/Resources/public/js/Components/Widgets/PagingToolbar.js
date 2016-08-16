@@ -3,7 +3,8 @@ Ext.define("PartKeepr.PagingToolbar", {
 
     grid: null,
 
-    getPagingItems: function () {
+    getPagingItems: function ()
+    {
         var items = this.callParent(arguments);
 
         items.push(Ext.create("PartKeepr.Exporter.GridExporterButton", {
@@ -12,6 +13,22 @@ Ext.define("PartKeepr.PagingToolbar", {
             iconCls: "fugue-icon application-export",
             disabled: this.store.isLoading()
         }));
+
+        items.push(Ext.create({
+            itemId: 'filter',
+            xtype: 'button',
+            iconCls: 'fugue-icon funnel',
+            tooltip: i18n("Reset Filter"),
+            hidden: true, handler: function ()
+            {
+                this.store.getFilters().removeAll();
+                this.store.currentPage = 1;
+                this.store.load({start: 0});
+
+            },
+            scope: this
+        }));
+
         return items;
     }
 });

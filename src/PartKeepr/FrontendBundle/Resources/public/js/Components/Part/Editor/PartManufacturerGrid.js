@@ -69,7 +69,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
                 flex: 0.4,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: true
+                    allowBlank: this.isOptional("partNumber")
                 }
             }
         ];
@@ -109,5 +109,15 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
     onSelectChange: function (selModel, selections)
     {
         this.deleteButton.setDisabled(selections.length === 0);
+    },
+    isOptional: function (field)
+    {
+        var fields = PartKeepr.getApplication().getSystemPreference("partkeepr.partManufacturer.requiredFields", []);
+
+        if (Ext.Array.contains(fields, field)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 });

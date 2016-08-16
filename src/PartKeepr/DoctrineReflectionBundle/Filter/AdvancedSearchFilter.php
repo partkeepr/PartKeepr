@@ -77,7 +77,6 @@ class AdvancedSearchFilter extends AbstractFilter
     public function apply(ResourceInterface $resource, QueryBuilder $queryBuilder)
     {
         $metadata = $this->getClassMetadata($resource);
-        $fieldNames = array_flip($metadata->getFieldNames());
 
         $request = $this->requestStack->getCurrentRequest();
         if (null === $request) {
@@ -93,60 +92,10 @@ class AdvancedSearchFilter extends AbstractFilter
             /**
              * @var Filter $filter
              */
-            if (isset($fieldNames[$filter->getProperty()]) && $filter->getAssociation() === null) {
-                if ($filter->hasSubFilters()) {
-                    $subFilterExpressions = [];
+            $queryBuilder->andWhere(
+                $this->getFilterExpression($queryBuilder, $filter)
+            );
 
-                    foreach ($filter->getSubFilters() as $subFilter) {
-                        /**
-                         * @var Filter $subFilter
-                         */
-                        if ($subFilter->getAssociation() !== null) {
-                            $this->addJoins($queryBuilder, $subFilter);
-                        }
-
-                        $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
-                    }
-
-                    $expressions = call_user_func_array([$queryBuilder->expr(), "orX"], $subFilterExpressions);
-                    $queryBuilder->andWhere($expressions);
-                } else {
-                    $queryBuilder->andWhere(
-                        $this->getFilterExpression($queryBuilder, $filter)
-                    );
-                }
-
-            } else {
-                if ($filter->getAssociation() !== null) {
-                    // Pull in associations
-                    $this->addJoins($queryBuilder, $filter);
-                }
-
-                $filter->setValue($this->getFilterValueFromUrl($filter->getValue()));
-
-                if ($filter->hasSubFilters()) {
-                    $subFilterExpressions = [];
-
-                    foreach ($filter->getSubFilters() as $subFilter) {
-                        /**
-                         * @var Filter $subFilter
-                         */
-                        if ($subFilter->getAssociation() !== null) {
-                            $this->addJoins($queryBuilder, $subFilter);
-                        }
-
-                        $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
-                    }
-
-                    $expressions = call_user_func_array([$queryBuilder->expr(), "orX"], $subFilterExpressions);
-                    $queryBuilder->andWhere($expressions);
-                } else {
-                    $queryBuilder->andWhere(
-                        $this->getFilterExpression($queryBuilder, $filter)
-                    );
-                }
-
-            }
         }
 
         foreach ($sorters as $sorter) {
@@ -160,6 +109,8 @@ class AdvancedSearchFilter extends AbstractFilter
 
             $this->applyOrderByExpression($queryBuilder, $sorter);
         }
+
+        //echo $queryBuilder->getDQL();
 
     }
 
@@ -225,11 +176,11 @@ class AdvancedSearchFilter extends AbstractFilter
                 $parent = 'o';
             }
 
-            $fullAssociation .= '.' . $association;
+            $fullAssociation .= '.'.$association;
 
             $alias = $this->getAlias($fullAssociation);
 
-            $queryBuilder->join($parent . '.' . $association, $alias);
+            $queryBuilder->join($parent.'.'.$association, $alias);
         }
 
         $this->joins[] = $filter->getAssociation();
@@ -247,11 +198,36 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private function getFilterExpression(QueryBuilder $queryBuilder, Filter $filter)
     {
-        if ($filter->getAssociation() !== null) {
-            $alias = $this->getAlias('o.' . $filter->getAssociation()) . '.' . $filter->getProperty();
-        } else {
-            $alias = 'o.' . $filter->getProperty();
+        if ($filter->hasSubFilters()) {
+            $subFilterExpressions = [];
+
+            foreach ($filter->getSubFilters() as $subFilter) {
+
+                /**
+                 * @var $subFilter Filter
+                 */
+                if ($subFilter->getAssociation() !== null) {
+                    $this->addJoins($queryBuilder, $subFilter);
+                }
+
+                $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
+            }
+
+
+            if ($filter->getType() == Filter::TYPE_AND) {
+                return call_user_func_array([$queryBuilder->expr(), "andX"], $subFilterExpressions);
+            } else {
+                return call_user_func_array([$queryBuilder->expr(), "orX"], $subFilterExpressions);
+            }
         }
+
+        if ($filter->getAssociation() !== null) {
+            $this->addJoins($queryBuilder, $filter);
+            $alias = $this->getAlias('o.'.$filter->getAssociation()).'.'.$filter->getProperty();
+        } else {
+            $alias = 'o.'.$filter->getProperty();
+        }
+
 
         if (strtolower($filter->getOperator()) == Filter::OPERATOR_IN) {
             if (!is_array($filter->getValue())) {
@@ -260,7 +236,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
             return $queryBuilder->expr()->in($alias, $filter->getValue());
         } else {
-            $paramName = ':param' . $this->parameterCount;
+            $paramName = ':param'.$this->parameterCount;
             $this->parameterCount++;
             $queryBuilder->setParameter($paramName, $filter->getValue());
 
@@ -287,7 +263,7 @@ class AdvancedSearchFilter extends AbstractFilter
                     return $queryBuilder->expr()->like($alias, $paramName);
                     break;
                 default:
-                    throw new \Exception('Unknown operator ' . $filter->getOperator());
+                    throw new \Exception('Unknown operator '.$filter->getOperator());
             }
         }
     }
@@ -305,9 +281,9 @@ class AdvancedSearchFilter extends AbstractFilter
     private function applyOrderByExpression(QueryBuilder $queryBuilder, Sorter $sorter)
     {
         if ($sorter->getAssociation() !== null) {
-            $alias = $this->getAlias('o.' . $sorter->getAssociation()) . '.' . $sorter->getProperty();
+            $alias = $this->getAlias('o.'.$sorter->getAssociation()).'.'.$sorter->getProperty();
         } else {
-            $alias = 'o.' . $sorter->getProperty();
+            $alias = 'o.'.$sorter->getProperty();
         }
 
         return $queryBuilder->addOrderBy($alias, $sorter->getDirection());
@@ -359,7 +335,7 @@ class AdvancedSearchFilter extends AbstractFilter
     private function getAlias($property)
     {
         if (!array_key_exists($property, $this->aliases)) {
-            $this->aliases[$property] = 't' . count($this->aliases);
+            $this->aliases[$property] = 't'.count($this->aliases);
         }
 
         return $this->aliases[$property];
@@ -372,7 +348,7 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @throws \Exception
      *
-     * @return array An array containing the property, operator and value keys
+     * @return Filter
      */
     private function extractJSONFilters($data)
     {
@@ -384,7 +360,6 @@ class AdvancedSearchFilter extends AbstractFilter
 
                 $property = array_pop($associations);
 
-
                 $filter->setAssociation(implode('.', $associations));
                 $filter->setProperty($property);
             } else {
@@ -392,12 +367,17 @@ class AdvancedSearchFilter extends AbstractFilter
                 $filter->setProperty($data->property);
             }
         } elseif (property_exists($data, "subfilters")) {
+            if (property_exists($data, 'type')) {
+                $filter->setType(strtolower($data->type));
+            }
+
             if (is_array($data->subfilters)) {
                 $subfilters = [];
                 foreach ($data->subfilters as $subfilter) {
                     $subfilters[] = $this->extractJSONFilters($subfilter);
                 }
                 $filter->setSubFilters($subfilters);
+
                 return $filter;
             } else {
                 throw new \Exception("The subfilters must be an array of objects");
@@ -413,7 +393,7 @@ class AdvancedSearchFilter extends AbstractFilter
         }
 
         if (property_exists($data, 'value')) {
-            $filter->setValue($data->value);
+            $filter->setValue($this->getFilterValueFromUrl($data->value));
         } else {
             throw new \Exception('No value specified');
         }

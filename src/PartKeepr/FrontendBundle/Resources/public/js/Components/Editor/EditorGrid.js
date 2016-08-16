@@ -190,9 +190,15 @@ Ext.define('PartKeepr.EditorGrid', {
             grid: this
         });
 
+        this.appliedFiltersToolbar = Ext.create("PartKeepr.Grid.AppliedFiltersToolbar", {
+            dock: 'bottom',
+            targetStore: this.store
+        });
+
         this.dockedItems = new Array();
 
         this.dockedItems.push(this.bottomToolbar);
+        this.dockedItems.push(this.appliedFiltersToolbar);
 
         if (this.enableTopToolbar) {
             this.dockedItems.push(this.topToolbar);
@@ -209,10 +215,24 @@ Ext.define('PartKeepr.EditorGrid', {
         this.getSelectionModel().on("select", this._onItemSelect, this);
         this.getSelectionModel().on("deselect", this._onItemDeselect, this);
         this.getView().on("itemkeydown", this._onItemKeyPress, this);
+        this.getStore().on("filterchange", this._onFilterChange, this);
 
         if (this.automaticPageSize) {
             this.on("resize", this.reassignPageSize, this);
         }
+    },
+    _onFilterChange: function ()
+    {
+        var filters = this.getStore().getFilters();
+
+        if (filters.length > 0) {
+            this.bottomToolbar.down("#filter").show();
+        } else {
+            this.bottomToolbar.down("#filter").hide();
+        }
+
+        this.appliedFiltersToolbar.updateFilters(filters);
+
     },
     /**
      * Re-calculates and re-assigns the page size for the assigned store.
@@ -269,7 +289,8 @@ Ext.define('PartKeepr.EditorGrid', {
             this.deleteButton.disable();
         }
     },
-    _onItemKeyPress: function (view, record, item, index, e) {
+    _onItemKeyPress: function (view, record, item, index, e)
+    {
         if (e.getKey() == e.ENTER || e.getKey() == e.TAB) {
             this._onItemEdit(view, record);
         }

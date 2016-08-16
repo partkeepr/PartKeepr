@@ -6,11 +6,13 @@ Ext.application({
     name: 'PartKeepr',
     loginManager: null,
 
-    init: function () {
+    init: function ()
+    {
 
 
     },
-    launch: function () {
+    launch: function ()
+    {
         Ext.setGlyphFontFamily('FontAwesome');
         Ext.get("loading").hide();
         Ext.setLocale('en_US');
@@ -46,12 +48,14 @@ Ext.application({
         this.loginManager.on("logout", this.onLogout, this);
         this.loginManager.login();
     },
-    onAppMenuClick: function (item) {
+    onAppMenuClick: function (item)
+    {
         if (typeof item.target === "function") {
             this.openAppItem(item.target["$className"]);
         }
     },
-    openAppItem: function (target) {
+    openAppItem: function (target)
+    {
         targetClass = Ext.ClassManager.get(target);
 
         var config = {
@@ -69,22 +73,26 @@ Ext.application({
             j.show();
         }
     },
-    getParameter: function (parameter) {
+    getParameter: function (parameter)
+    {
         if (window.parameters[parameter] !== undefined) {
             return window.parameters[parameter];
         }
     },
-    getLoginManager: function () {
+    getLoginManager: function ()
+    {
         return this.loginManager;
     },
-    getPartManager: function () {
+    getPartManager: function ()
+    {
         return this.partManager;
     },
     /**
      * Handles the login function. Initializes the part manager window,
      * enables the menu bar and creates the stores+loads them.
      */
-    onLogin: function () {
+    onLogin: function ()
+    {
         this.createGlobalStores();
 
         var initialUserPreferences = Ext.decode(this.getLoginManager().getUser().get("initialUserPreferences"));
@@ -115,7 +123,8 @@ Ext.application({
         this.getStatusbar().setConnected();
 
     },
-    onLogout: function () {
+    onLogout: function ()
+    {
         this.menuBar.disable();
         this.centerPanel.removeAll(true);
         this.getStatusbar().setDisconnected();
@@ -129,7 +138,8 @@ Ext.application({
      * @param none
      * @return nothing
      */
-    recreatePartManager: function () {
+    recreatePartManager: function ()
+    {
         this.centerPanel.remove(this.partManager);
         this.getPartManager().destroy();
 
@@ -139,7 +149,8 @@ Ext.application({
      * Creates the part manager. While this is usually only done after login, it can also happen when the user changes
      * the "compact" preference.
      */
-    createPartManager: function () {
+    createPartManager: function ()
+    {
         this.partManager = Ext.create("PartKeepr.PartManager", {
             title: i18n("Part Manager"),
             compactLayout: PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false),
@@ -152,7 +163,8 @@ Ext.application({
     /**
      * Sets the initial user preferences, which are applied into the userPreferenceStore after login.
      */
-    setInitialUserPreferences: function (obj) {
+    setInitialUserPreferences: function (obj)
+    {
         PartKeepr.initialUserPreferences = obj;
     },
     /**
@@ -161,10 +173,12 @@ Ext.application({
      * This method checks if the user has disabled tips, and if so, this method
      * avoids showing the window.
      */
-    displayTipOfTheDayWindow: function () {
+    displayTipOfTheDayWindow: function ()
+    {
         if (!Ext.data.StoreManager.lookup('TipOfTheDayStore') || !Ext.data.StoreManager.lookup(
                 'TipOfTheDayStore').isLoaded() || !Ext.data.StoreManager.lookup(
-                'TipOfTheDayHistoryStore') || !Ext.data.StoreManager.lookup('TipOfTheDayHistoryStore').isLoaded() || !this.getUserPreferenceStore().isLoaded()
+                'TipOfTheDayHistoryStore') || !Ext.data.StoreManager.lookup(
+                'TipOfTheDayHistoryStore').isLoaded() || !this.getUserPreferenceStore().isLoaded()
         ) {
             this.displayTipWindowTask.delay(100);
             return;
@@ -181,7 +195,8 @@ Ext.application({
     /**
      * Displays a message-of-the-day
      */
-    displayMOTD: function () {
+    displayMOTD: function ()
+    {
         Ext.MessageBox.alert(i18n("Message of the day"), window.parameters.motd);
     },
     /**
@@ -190,7 +205,8 @@ Ext.application({
      * @param none
      * @return nothing
      */
-    doSystemStatusCheck: function () {
+    doSystemStatusCheck: function ()
+    {
         var call = new PartKeepr.ServiceCall("api", "system_status");
         call.setHandler(Ext.bind(this.onSystemStatusCheck, this));
         call.doCall();
@@ -199,7 +215,8 @@ Ext.application({
      * Handler for the schema check
      * @param data The data returned from the server
      */
-    onSystemStatusCheck: function (data) {
+    onSystemStatusCheck: function (data)
+    {
         if (data.schemaStatus !== "complete") {
             alert(i18n("Your database schema is not up-to-date! Please re-run setup immediately!"));
         }
@@ -216,7 +233,8 @@ Ext.application({
      * @param none
      * @return nothing
      */
-    doUnacknowledgedNoticesCheck: function () {
+    doUnacknowledgedNoticesCheck: function ()
+    {
         this.systemNoticeStore.load({
             scope: this,
             callback: this.onUnacknowledgedNoticesCheck
@@ -226,14 +244,16 @@ Ext.application({
      * Handler for the unacknowledged system notices check
      * @param data The data returned from the server
      */
-    onUnacknowledgedNoticesCheck: function () {
+    onUnacknowledgedNoticesCheck: function ()
+    {
         if (this.systemNoticeStore.count() > 0) {
             this.statusBar.systemNoticeButton.show();
         } else {
             this.statusBar.systemNoticeButton.hide();
         }
     },
-    createGlobalStores: function () {
+    createGlobalStores: function ()
+    {
         this.footprintStore = Ext.create("Ext.data.Store",
             {
                 model: 'PartKeepr.FootprintBundle.Entity.Footprint',
@@ -289,10 +309,19 @@ Ext.application({
                 autoLoad: false
             });
 
+        this.barcodeScannerManager = Ext.create("PartKeepr.BarcodeScanner.Manager");
+
         this.systemPreferenceStore = Ext.create("PartKeepr.data.store.SystemPreferenceStore",
             {
                 model: 'PartKeepr.SystemPreferenceBundle.Entity.SystemPreference',
-                autoLoad: true
+                autoLoad: true,
+                listeners: {
+                    scope: this,
+                    "load": function ()
+                    {
+                        this.barcodeScannerManager.registerBarcodeScannerHotkey();
+                    }
+                }
             });
 
         this.tipOfTheDayStore = Ext.create("PartKeepr.data.store.TipOfTheDayStore");
@@ -300,16 +329,25 @@ Ext.application({
         this.systemNoticeStore = Ext.create("PartKeepr.data.store.SystemNoticeStore");
 
     },
-    storeLoaded: function (store) {
+    getBarcodeScannerManager: function ()
+    {
+        return this.barcodeScannerManager;
+
+    },
+    storeLoaded: function (store)
+    {
         store._loaded = true;
     },
-    setAdmin: function (admin) {
+    setAdmin: function (admin)
+    {
         this.admin = admin;
     },
-    isAdmin: function () {
+    isAdmin: function ()
+    {
         return this.admin;
     },
-    getSystemPreferenceStore: function () {
+    getSystemPreferenceStore: function ()
+    {
         return this.systemPreferenceStore;
     },
     /**
@@ -319,7 +357,8 @@ Ext.application({
      * @param defaultValue A default value to return (optional)
      * @returns the key value, or defaultValue if preference key was not found
      */
-    getSystemPreference: function (key, defaultValue) {
+    getSystemPreference: function (key, defaultValue)
+    {
         var record = this.systemPreferenceStore.findRecord("preferenceKey", key);
 
         if (record) {
@@ -341,7 +380,8 @@ Ext.application({
      * @param key The key to set
      * @param value The value to set
      */
-    setSystemPreference: function (key, value) {
+    setSystemPreference: function (key, value)
+    {
         var record = this.systemPreferenceStore.findRecord("preferenceKey", key);
         value = Ext.encode(value);
 
@@ -365,7 +405,8 @@ Ext.application({
      * @param defaultValue A default value to return (optional)
      * @returns the key value, or defaultValue if preference key was not found
      */
-    getUserPreference: function (key, defaultValue) {
+    getUserPreference: function (key, defaultValue)
+    {
         var record = this.userPreferenceStore.findRecord("preferenceKey", key);
 
         if (record) {
@@ -387,7 +428,8 @@ Ext.application({
      * @param key The key to set
      * @param value The value to set
      */
-    setUserPreference: function (key, value) {
+    setUserPreference: function (key, value)
+    {
         var record = this.userPreferenceStore.findRecord("preferenceKey", key);
         value = Ext.encode(value);
 
@@ -404,31 +446,40 @@ Ext.application({
             this.userPreferenceStore.add(j);
         }
     },
-    getUserPreferenceStore: function () {
+    getUserPreferenceStore: function ()
+    {
         return this.userPreferenceStore;
     },
-    getUnitStore: function () {
+    getUnitStore: function ()
+    {
         return this.unitStore;
     },
-    getPartUnitStore: function () {
+    getPartUnitStore: function ()
+    {
         return this.partUnitStore;
     },
-    getFootprintStore: function () {
+    getFootprintStore: function ()
+    {
         return this.footprintStore;
     },
-    getManufacturerStore: function () {
+    getManufacturerStore: function ()
+    {
         return this.manufacturerStore;
     },
-    getDistributorStore: function () {
+    getDistributorStore: function ()
+    {
         return this.distributorStore;
     },
-    getDefaultPartUnit: function () {
+    getDefaultPartUnit: function ()
+    {
         return this.partUnitStore.findRecord("default", true);
     },
-    getUserStore: function () {
+    getUserStore: function ()
+    {
         return this.userStore;
     },
-    getSiPrefixStore: function () {
+    getSiPrefixStore: function ()
+    {
         return this.siPrefixStore;
     },
     /**
@@ -439,7 +490,8 @@ Ext.application({
      *  Wikipedia Entry for the "Micro" Si Prefix: http://en.wikipedia.org/wiki/Micro-
      *
      */
-    convertMicroToMu: function (value) {
+    convertMicroToMu: function (value)
+    {
         /**
          * Since the Si-Prefix for "micro" is μ, but keyboard have "µ" on it
          * (note: both chars might look identical, depending on your font), we need
@@ -451,8 +503,8 @@ Ext.application({
     /**
      * Creates the main view of PartKeepr.
      */
-    createLayout: function () {
-
+    createLayout: function ()
+    {
         this.statusBar = Ext.create("PartKeepr.Statusbar");
 
         this.messageLog = this.createMessageLog();
@@ -465,6 +517,7 @@ Ext.application({
             plugins: Ext.create('Ext.ux.TabCloseMenu')
 
         });
+
 
         this.menuBar = Ext.create("PartKeepr.MenuBar");
 
@@ -487,10 +540,12 @@ Ext.application({
 
         });
     },
-    addItem: function (item) {
+    addItem: function (item)
+    {
         this.centerPanel.add(item);
     },
-    createMessageLog: function () {
+    createMessageLog: function ()
+    {
         return Ext.create("PartKeepr.MessageLog", {
             height: 200,
             hidden: true,
@@ -501,7 +556,8 @@ Ext.application({
             region: 'south',
             listeners: {
                 beforecollapse: Ext.bind(
-                    function (obj) {
+                    function (obj)
+                    {
                         this.hideMessageLog();
                         return false;
                     },
@@ -509,10 +565,12 @@ Ext.application({
             }
         });
     },
-    log: function (message) {
+    log: function (message)
+    {
         this.logMessage(message, "none");
     },
-    logMessage: function (message, severity) {
+    logMessage: function (message, severity)
+    {
         if (message != i18n("Ready.")) {
             var r = Ext.ModelManager.create({
                 message: message,
@@ -523,13 +581,16 @@ Ext.application({
             this.messageLog.getStore().add(r);
         }
     },
-    hideMessageLog: function () {
+    hideMessageLog: function ()
+    {
         this.messageLog.hide();
     },
-    showMessageLog: function () {
+    showMessageLog: function ()
+    {
         this.messageLog.show();
     },
-    toggleMessageLog: function () {
+    toggleMessageLog: function ()
+    {
         if (this.messageLog.isHidden()) {
             this.showMessageLog();
         } else {
@@ -537,7 +598,8 @@ Ext.application({
         }
 
     },
-    getStatusbar: function () {
+    getStatusbar: function ()
+    {
         return this.statusBar;
     },
     /**
@@ -547,7 +609,8 @@ Ext.application({
      *
      * @param {string} username The username to set
      */
-    setUsername: function (username) {
+    setUsername: function (username)
+    {
         this.username = username;
         this.getStatusbar().setCurrentUser(username);
     },
@@ -555,10 +618,12 @@ Ext.application({
      * Returns the current username
      * @returns {string}
      */
-    getUsername: function () {
+    getUsername: function ()
+    {
         return this.username;
     },
-    formatCurrency: function (value) {
+    formatCurrency: function (value)
+    {
         var format = Ext.util.Format;
         format.currencyPrecision = PartKeepr.getApplication().getUserPreference(
             "partkeepr.formatting.currency.numdecimals", 2);
@@ -578,24 +643,28 @@ Ext.application({
     }
 });
 
-PartKeepr.getSession = function () {
+PartKeepr.getSession = function ()
+{
     alert("This should not be called.");
     return "hli2ong0ktnise68p9f5nu6nk1";
 };
 
-PartKeepr.log = function (message) {
+PartKeepr.log = function (message)
+{
     PartKeepr.getApplication().log(message);
 };
 
 /**
  * <p>This static method returns the instance of the application.</p>
- * @return {Object} The application
+ * @return {PartKeepr} The application
  */
-PartKeepr.getApplication = function () {
+PartKeepr.getApplication = function ()
+{
     return PartKeepr.application;
 };
 
-PartKeepr.getBasePath = function () {
+PartKeepr.getBasePath = function ()
+{
     var href = document.getElementsByTagName('base')[0].href;
 
 
@@ -610,19 +679,23 @@ PartKeepr.getBasePath = function () {
     return href;
 };
 
-PartKeepr.getImagePath = function () {
+PartKeepr.getImagePath = function ()
+{
     return "image.php";
 };
 
-PartKeepr.setMaxUploadSize = function (size) {
+PartKeepr.setMaxUploadSize = function (size)
+{
     PartKeepr.maxUploadSize = size;
 };
 
-PartKeepr.getMaxUploadSize = function () {
+PartKeepr.getMaxUploadSize = function ()
+{
     return PartKeepr.maxUploadSize;
 };
 
-PartKeepr.bytesToSize = function (bytes) {
+PartKeepr.bytesToSize = function (bytes)
+{
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes === 0) {
         return '0 Bytes';
@@ -631,15 +704,18 @@ PartKeepr.bytesToSize = function (bytes) {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 };
 
-PartKeepr.setAvailableImageFormats = function (formats) {
+PartKeepr.setAvailableImageFormats = function (formats)
+{
     PartKeepr.imageFormats = formats;
 };
 
-PartKeepr.getAvailableImageFormats = function () {
+PartKeepr.getAvailableImageFormats = function ()
+{
     return PartKeepr.imageFormats;
 };
 
-PartKeepr.serializeRecords = function (records) {
+PartKeepr.serializeRecords = function (records)
+{
     var finalData = [];
 
     for (var i = 0; i < records.length; i++) {
