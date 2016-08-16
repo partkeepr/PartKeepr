@@ -297,7 +297,6 @@ Ext.define('PartKeepr.PartsGrid', {
             }, {
                 header: i18n("Internal ID"),
                 dataIndex: 'id',
-                //renderer: Ext.util.Format.htmlEncode,
                 renderer: this.internalIdRenderer,
                 hidden: true
             }
