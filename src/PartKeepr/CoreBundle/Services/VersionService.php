@@ -40,17 +40,43 @@ class VersionService
         $this->remoteFileLoader = $remoteFileLoader;
 
         if (PartKeeprVersion::PARTKEEPR_VERSION == '{V_GIT}') {
-            $this->setVersion('GIT development version');
+            $this->setVersion('GIT development version Commit '. $this->extractGITCommit() . " Short Commit " . $this->extractShortGITCommit());
         } else {
             $this->setVersion(PartKeeprVersion::PARTKEEPR_VERSION);
         }
     }
 
+    /**
+     * Extracts the current commit from GIT.
+     * @return string
+     */
+    public function extractGITCommit () {
+        $result = shell_exec("git rev-parse HEAD");
+        return trim($result);
+    }
+
+    /**
+     * Extracts the current short commit from GIT.
+     * @return string
+     */
+    public function extractShortGITCommit () {
+        $result = shell_exec("git rev-parse --short HEAD");
+        return trim($result);
+    }
+
+    /**
+     * Sets the version string
+     * @param $version string The version
+     */
     public function setVersion($version)
     {
         $this->version = $version;
     }
 
+    /**
+     * Returns the current version string
+     * @return string The version
+     */
     public function getVersion()
     {
         return $this->version;
@@ -68,9 +94,10 @@ class VersionService
      */
     public function doVersionCheck()
     {
-        if ($this->getVersion() === '{V_GIT}') {
+        if (PartKeeprVersion::PARTKEEPR_VERSION === '{V_GIT}') {
             return;
         }
+
         if (substr($this->getVersion(), 0, 17) === 'partkeepr-nightly') {
             return;
         }
@@ -94,6 +121,11 @@ class VersionService
         }
     }
 
+    /**
+     * Returns the latest version information from partkeepr.org
+     *
+     * @return array|bool
+     */
     public function getLatestVersion()
     {
         $data = $this->remoteFileLoader->createLoader()->load($this->versionURI);
