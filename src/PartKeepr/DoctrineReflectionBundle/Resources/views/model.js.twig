@@ -13,6 +13,7 @@ Ext.define('{{ className }}', {
             {% for association in associations.MANY_TO_ONE %}
                 { name: '{{ association.name }}',
                 reference: '{{ association.target }}'
+        {% if association.byReference %},byReference: true{% endif %}
                 }{% if not loop.last %},{% endif %}
 
             {% endfor %}

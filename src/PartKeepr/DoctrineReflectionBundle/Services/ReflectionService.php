@@ -74,10 +74,10 @@ class ReflectionService
         $associationMappings = $this->getDatabaseAssociationMappings($cm, $bTree);
 
         $renderParams = [
-            'fields'       => $fieldMappings,
+            'fields' => $fieldMappings,
             'associations' => $associationMappings,
-            'className'    => $this->convertPHPToExtJSClassName($entity),
-            'parentClass'  => $parentClass,
+            'className' => $this->convertPHPToExtJSClassName($entity),
+            'parentClass' => $parentClass,
         ];
 
         $targetService = $this->reader->getClassAnnotation(
@@ -114,6 +114,7 @@ class ReflectionService
     protected function getDatabaseAssociationMappings(ClassMetadata $cm, $bTree = false)
     {
         $associations = $cm->getAssociationMappings();
+        $byReferenceMappings = $this->getByReferenceMappings($cm);
 
         $associationMappings = [];
 
@@ -154,10 +155,16 @@ class ReflectionService
             // The self-referencing association may not be written for trees, because ExtJS can't load all nodes
             // in one go.
             if (!($bTree && $association['targetEntity'] == $cm->getName())) {
+                $byReference = false;
+
+                if (in_array($association['fieldName'], $byReferenceMappings)) {
+                    $byReference = true;
+                }
                 $associationMappings[$associationType][] = [
-                    'name'        => $association['fieldName'],
-                    'target'      => $this->convertPHPToExtJSClassName($association['targetEntity']),
-                    'getter'      => $getter,
+                    'name' => $association['fieldName'],
+                    'target' => $this->convertPHPToExtJSClassName($association['targetEntity']),
+                    'byReference' => $byReference,
+                    'getter' => $getter,
                     'getterField' => $getterField,
                 ];
             }
@@ -192,6 +199,31 @@ class ReflectionService
         }
 
         return $fieldMappings;
+    }
+
+    /**
+     * Returns all by-reference associations.
+     *
+     * @param ClassMetadata $cm
+     *
+     * @return array
+     */
+    protected function getByReferenceMappings(ClassMetadata $cm)
+    {
+        $byReferenceMappings = [];
+
+        foreach ($cm->getReflectionClass()->getProperties() as $property) {
+            $byReferenceAnnotation = $this->reader->getPropertyAnnotation(
+                $property,
+                'PartKeepr\DoctrineReflectionBundle\Annotation\ByReference'
+            );
+
+            if ($byReferenceAnnotation !== null) {
+                $byReferenceMappings[] = $property->getName();
+            }
+        }
+
+        return $byReferenceMappings;
     }
 
     /**

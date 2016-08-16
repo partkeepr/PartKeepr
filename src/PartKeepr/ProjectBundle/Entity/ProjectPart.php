@@ -4,6 +4,7 @@ namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -21,6 +22,7 @@ class ProjectPart extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="projectParts")
      * @Groups({"default"})
+     * @ByReference
      *
      * @var Part
      */
