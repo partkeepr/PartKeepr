@@ -39,11 +39,7 @@ class VersionService
         $this->translator = $translator;
         $this->remoteFileLoader = $remoteFileLoader;
 
-        if (PartKeeprVersion::PARTKEEPR_VERSION == '{V_GIT}') {
-            $this->setVersion('GIT development version Commit '. $this->extractGITCommit() . " Short Commit " . $this->extractShortGITCommit());
-        } else {
-            $this->setVersion(PartKeeprVersion::PARTKEEPR_VERSION);
-        }
+        $this->setVersion(PartKeeprVersion::PARTKEEPR_VERSION);
     }
 
     /**
@@ -87,6 +83,14 @@ class VersionService
         $this->versionURI = $versionURI;
     }
 
+    public function getCanonicalVersion () {
+        if ($this->getVersion() === '{V_GIT}') {
+            return 'GIT development version Commit '. $this->extractGITCommit() . " Short Commit " . $this->extractShortGITCommit();
+        } else {
+            return $this->getVersion();
+        }
+    }
+
     /**
      * Checks against the versions at partkeepr.org.
      *
@@ -94,7 +98,7 @@ class VersionService
      */
     public function doVersionCheck()
     {
-        if (PartKeeprVersion::PARTKEEPR_VERSION === '{V_GIT}') {
+        if ($this->getVersion() === '{V_GIT}') {
             return;
         }
 
@@ -108,6 +112,7 @@ class VersionService
             return;
         }
 
+        echo $this->getVersion();
         if (version_compare($this->getVersion(), $latestVersion['version'], '<')) {
             $this->systemNoticeService->createUniqueSystemNotice(
                 'PARTKEEPR_VERSION_'.$latestVersion['version'],

@@ -100,7 +100,7 @@ class SystemService extends ContainerAware
             'PartKeepr'
         );
 
-        $aData[] = new SystemInformationRecord('PartKeepr Version', $this->versionService->getVersion(), 'PartKeepr');
+        $aData[] = new SystemInformationRecord('PartKeepr Version', $this->versionService->getCanonicalVersion(), 'PartKeepr');
 
         return $aData;
     }
