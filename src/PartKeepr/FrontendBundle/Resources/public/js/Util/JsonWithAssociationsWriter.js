@@ -1,21 +1,19 @@
 Ext.define("PartKeepr.JsonWithAssociations", {
-	extend: 'Ext.data.writer.Json',
-	alias: 'writer.jsonwithassociations',
+    extend: 'Ext.data.writer.Json',
+    alias: 'writer.jsonwithassociations',
 
-	/**
-	 * @cfg {Array} associations Which associations to include.
-	 */
-	associations: [],
-	writeRecordId: false,
+    /**
+     * @cfg {Array} associations Which associations to include.
+     */
+    associations: [],
+    writeRecordId: false,
 
-	getRecordData: function(record) {
-		var me = this, i, key, subStore,
-		data = me.callParent(arguments);
+    getRecordData: function (record)
+    {
+        var data = this.callParent(arguments);
 
-		var storeName;
-		
-		Ext.apply(data, record.getAssociatedData());
+        Ext.apply(data, record.getAssociatedData());
 
-		return data;
-	}
+        return data;
+    }
 });
