@@ -33,9 +33,13 @@
 class Requirement
 {
     private $fulfilled;
+
     private $testMessage;
+
     private $helpText;
+
     private $helpHtml;
+
     private $optional;
 
     /**
@@ -49,11 +53,11 @@ class Requirement
      */
     public function __construct($fulfilled, $testMessage, $helpHtml, $helpText = null, $optional = false)
     {
-        $this->fulfilled = (bool) $fulfilled;
-        $this->testMessage = (string) $testMessage;
-        $this->helpHtml = (string) $helpHtml;
-        $this->helpText = null === $helpText ? strip_tags($this->helpHtml) : (string) $helpText;
-        $this->optional = (bool) $optional;
+        $this->fulfilled = (bool)$fulfilled;
+        $this->testMessage = (string)$testMessage;
+        $this->helpHtml = (string)$helpHtml;
+        $this->helpText = null === $helpText ? strip_tags($this->helpHtml) : (string)$helpText;
+        $this->optional = (bool)$optional;
     }
 
     /**
@@ -128,8 +132,15 @@ class PhpIniRequirement extends Requirement
      * @param string|null   $helpText          The help text (when null, it will be inferred from $helpHtml, i.e. stripped from HTML tags)
      * @param bool          $optional          Whether this is only an optional recommendation not a mandatory requirement
      */
-    public function __construct($cfgName, $evaluation, $approveCfgAbsence = false, $testMessage = null, $helpHtml = null, $helpText = null, $optional = false)
-    {
+    public function __construct(
+        $cfgName,
+        $evaluation,
+        $approveCfgAbsence = false,
+        $testMessage = null,
+        $helpHtml = null,
+        $helpText = null,
+        $optional = false
+    ) {
         $cfgValue = ini_get($cfgName);
 
         if (is_callable($evaluation)) {
@@ -157,7 +168,8 @@ class PhpIniRequirement extends Requirement
             $fulfilled = $evaluation == $cfgValue;
         }
 
-        parent::__construct($fulfilled || ($approveCfgAbsence && false === $cfgValue), $testMessage, $helpHtml, $helpText, $optional);
+        parent::__construct($fulfilled || ($approveCfgAbsence && false === $cfgValue), $testMessage, $helpHtml,
+            $helpText, $optional);
     }
 }
 
@@ -168,7 +180,7 @@ class PhpIniRequirement extends Requirement
  */
 class RequirementCollection implements IteratorAggregate
 {
-    private $requirements = array();
+    private $requirements = [];
 
     /**
      * Gets the current RequirementCollection as an Iterator.
@@ -229,9 +241,16 @@ class RequirementCollection implements IteratorAggregate
      * @param string        $helpHtml          The help text formatted in HTML for resolving the problem (when null and $evaluation is a boolean a default help is derived)
      * @param string|null   $helpText          The help text (when null, it will be inferred from $helpHtml, i.e. stripped from HTML tags)
      */
-    public function addPhpIniRequirement($cfgName, $evaluation, $approveCfgAbsence = false, $testMessage = null, $helpHtml = null, $helpText = null)
-    {
-        $this->add(new PhpIniRequirement($cfgName, $evaluation, $approveCfgAbsence, $testMessage, $helpHtml, $helpText, false));
+    public function addPhpIniRequirement(
+        $cfgName,
+        $evaluation,
+        $approveCfgAbsence = false,
+        $testMessage = null,
+        $helpHtml = null,
+        $helpText = null
+    ) {
+        $this->add(new PhpIniRequirement($cfgName, $evaluation, $approveCfgAbsence, $testMessage, $helpHtml, $helpText,
+            false));
     }
 
     /**
@@ -247,9 +266,16 @@ class RequirementCollection implements IteratorAggregate
      * @param string        $helpHtml          The help text formatted in HTML for resolving the problem (when null and $evaluation is a boolean a default help is derived)
      * @param string|null   $helpText          The help text (when null, it will be inferred from $helpHtml, i.e. stripped from HTML tags)
      */
-    public function addPhpIniRecommendation($cfgName, $evaluation, $approveCfgAbsence = false, $testMessage = null, $helpHtml = null, $helpText = null)
-    {
-        $this->add(new PhpIniRequirement($cfgName, $evaluation, $approveCfgAbsence, $testMessage, $helpHtml, $helpText, true));
+    public function addPhpIniRecommendation(
+        $cfgName,
+        $evaluation,
+        $approveCfgAbsence = false,
+        $testMessage = null,
+        $helpHtml = null,
+        $helpText = null
+    ) {
+        $this->add(new PhpIniRequirement($cfgName, $evaluation, $approveCfgAbsence, $testMessage, $helpHtml, $helpText,
+            true));
     }
 
     /**
@@ -279,7 +305,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getRequirements()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if (!$req->isOptional()) {
                 $array[] = $req;
@@ -296,7 +322,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getFailedRequirements()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if (!$req->isFulfilled() && !$req->isOptional()) {
                 $array[] = $req;
@@ -313,7 +339,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getRecommendations()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if ($req->isOptional()) {
                 $array[] = $req;
@@ -330,7 +356,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getFailedRecommendations()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if (!$req->isFulfilled() && $req->isOptional()) {
                 $array[] = $req;
@@ -393,7 +419,8 @@ class SymfonyRequirements extends RequirementCollection
             sprintf('You are running PHP version "<strong>%s</strong>", but Symfony needs at least PHP "<strong>%s</strong>" to run.
                 Before using Symfony, upgrade your PHP installation, preferably to the latest version.',
                 $installedPhpVersion, self::REQUIRED_PHP_VERSION),
-            sprintf('Install PHP %s or newer (installed version is %s)', self::REQUIRED_PHP_VERSION, $installedPhpVersion)
+            sprintf('Install PHP %s or newer (installed version is %s)', self::REQUIRED_PHP_VERSION,
+                $installedPhpVersion)
         );
 
         $this->addRequirement(
@@ -406,7 +433,7 @@ class SymfonyRequirements extends RequirementCollection
             is_dir(__DIR__.'/../vendor/composer'),
             'Vendor libraries must be installed',
             'Vendor libraries are missing. Install composer following instructions from <a href="http://getcomposer.org/">http://getcomposer.org/</a>. '.
-                'Then run "<strong>php composer.phar install</strong>" to install them.'
+            'Then run "<strong>php composer.phar install</strong>" to install them.'
         );
 
         $cacheDir = is_dir(__DIR__.'/../var/cache') ? __DIR__.'/../var/cache' : __DIR__.'/cache';
@@ -432,7 +459,7 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         if (version_compare($installedPhpVersion, self::REQUIRED_PHP_VERSION, '>=')) {
-            $timezones = array();
+            $timezones = [];
             foreach (DateTimeZone::listAbbreviations() as $abbreviations) {
                 foreach ($abbreviations as $abbreviation) {
                     $timezones[$abbreviation['timezone_id']] = true;
@@ -441,7 +468,8 @@ class SymfonyRequirements extends RequirementCollection
 
             $this->addRequirement(
                 isset($timezones[@date_default_timezone_get()]),
-                sprintf('Configured default timezone "%s" must be supported by your installation of PHP', @date_default_timezone_get()),
+                sprintf('Configured default timezone "%s" must be supported by your installation of PHP',
+                    @date_default_timezone_get()),
                 'Your default timezone is not supported by PHP. Check for typos in your <strong>php.ini</strong> file and have a look at the list of deprecated timezones at <a href="http://php.net/manual/en/timezones.others.php">http://php.net/manual/en/timezones.others.php</a>.'
             );
         }
@@ -528,7 +556,7 @@ class SymfonyRequirements extends RequirementCollection
             );
         }
 
-        $pcreVersion = defined('PCRE_VERSION') ? (float) PCRE_VERSION : null;
+        $pcreVersion = defined('PCRE_VERSION') ? (float)PCRE_VERSION : null;
 
         $this->addRequirement(
             null !== $pcreVersion,
@@ -590,7 +618,8 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         $this->addRecommendation(
-            (version_compare($installedPhpVersion, '5.3.18', '>=') && version_compare($installedPhpVersion, '5.4.0', '<'))
+            (version_compare($installedPhpVersion, '5.3.18', '>=') && version_compare($installedPhpVersion, '5.4.0',
+                    '<'))
             ||
             version_compare($installedPhpVersion, '5.4.8', '>='),
             'You should use PHP 5.3.18+ or PHP 5.4.8+ to always get nice error messages for fatal errors in the development environment due to PHP bug #61767/#60909',
@@ -697,8 +726,7 @@ class SymfonyRequirements extends RequirementCollection
             ||
             (extension_loaded('xcache') && ini_get('xcache.cacher'))
             ||
-            (extension_loaded('wincache') && ini_get('wincache.ocenabled'))
-        ;
+            (extension_loaded('wincache') && ini_get('wincache.ocenabled'));
 
         $this->addRecommendation(
             $accelerator,
@@ -732,7 +760,8 @@ class SymfonyRequirements extends RequirementCollection
             $drivers = PDO::getAvailableDrivers();
             $this->addRecommendation(
                 count($drivers) > 0,
-                sprintf('PDO should have some drivers installed (currently available: %s)', count($drivers) ? implode(', ', $drivers) : 'none'),
+                sprintf('PDO should have some drivers installed (currently available: %s)',
+                    count($drivers) ? implode(', ', $drivers) : 'none'),
                 'Install <strong>PDO drivers</strong> (mandatory for Doctrine).'
             );
         }
@@ -758,7 +787,7 @@ class SymfonyRequirements extends RequirementCollection
             case 'k':
                 return $size * 1024;
             default:
-                return (int) $size;
+                return (int)$size;
         }
     }
 }

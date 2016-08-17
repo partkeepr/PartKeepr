@@ -27,5 +27,4 @@ class Sorter implements AssociationPropertyInterface
     {
         $this->direction = $direction;
     }
-
 }
