@@ -53,7 +53,7 @@ class PartController extends FOSRestController
             $stock->setStockLevel(0 - intval($removal->amount));
             $stock->setUser($user);
 
-            if (!property_exists($removal, 'comment')) {
+            if (property_exists($removal, 'comment')) {
                 $stock->setComment($removal->comment);
             }
 
