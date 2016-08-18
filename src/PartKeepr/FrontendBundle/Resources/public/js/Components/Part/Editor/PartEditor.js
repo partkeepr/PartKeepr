@@ -182,12 +182,29 @@ Ext.define('PartKeepr.PartEditor', {
                         flex: 1
                     }, {
                         xtype: 'displayfield',
+                        qtip: i18n("The first number is the ID in decimal, the second number is the ID in base36"),
                         fieldLabel: i18n("Internal ID"),
+                        listeners: {
+                            render: function (c)
+                            {
+                                Ext.QuickTips.register({
+                                    target: c.getEl(),
+                                    text: c.qtip
+                                });
+                            }
+                        },
                         name: '@id',
+                        fieldStyle: {
+                            color: "blue",
+                            "text-decoration": "underline",
+                        },
                         renderer: function (value)
                         {
                             var values = value.split("/");
-                            return values[values.length - 1];
+                            var idstr = values[values.length - 1];
+                            var idint = parseInt(idstr);
+
+                            return idstr + " (#" + idint.toString(36) + ")";
                         }
                     }
                 ]
