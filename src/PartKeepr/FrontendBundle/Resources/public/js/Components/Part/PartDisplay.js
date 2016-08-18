@@ -42,7 +42,7 @@ Ext.define('PartKeepr.PartDisplay', {
             type: 'boolean'
         },
         internalPartNumber: {
-            displayName: i18n("Internal Part Number")
+            displayName: i18n("Internal Part Number"),
         },
         projectNames: {
             displayName: i18n("Used in Projects")
@@ -52,7 +52,9 @@ Ext.define('PartKeepr.PartDisplay', {
             renderer: function (value)
             {
                 var values = value.split("/");
-                return values[values.length - 1];
+                var idstr = values[values.length - 1];
+                var idint = parseInt(idstr);
+                return idstr + " (#"+idint.toString(36)+")";
             }
         }
     },

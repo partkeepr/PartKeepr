@@ -57,6 +57,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
     statusFilter: null,
     conditionFilter: null,
     internalPartNumberFilter: null,
+    internalIdFilter: null,
     commentFilter: null,
 
     filterControls: [],
@@ -84,7 +85,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 this.partsWithoutPrice,
                 this.createDateFilter,
                 this.partsWithoutStockRemovals,
-                this.needsReview
+                this.needsReview,
+                this.internalIdFilter
             ]
         };
 
@@ -225,6 +227,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.conditionFilter.setValue("");
         this.internalPartNumberFilter.setValue("");
         this.commentFilter.setValue("");
+        this.internalIdFilter.setValue("");
 
         this.onApply();
     },
@@ -1012,6 +1015,62 @@ Ext.define('PartKeepr.PartFilterPanel', {
         });
 
         this.filterControls.push(this.internalPartNumberFilter);
+
+        this.internalIdFilter = Ext.create("Ext.form.field.Text", {
+            fieldLabel: i18n("Internal ID"),
+            anchor: '100%',
+            qtip: i18n(
+                "The first number is the ID in decimal, the second number is the ID in base36. To search in base36 format you need to prefix the search string with #, example: #15y"),
+            plugins: [
+                Ext.create("PartKeepr.Util.FilterPlugin", {
+                    getFilterFn: function ()
+                    {
+                        var idstr = this.internalIdFilter.getValue();
+                        var idint;
+
+                        if (idstr.substring(0, 1) == "#") {
+                            idstr = idstr.substring(1);
+                            idint = parseInt(idstr, 36);
+                        } else {
+                            idint = parseInt(idstr, 10);
+                        }
+                        return {
+                            property: 'id',
+                            operator: "=",
+                            value: idint
+                        };
+                    },
+                    listeners: {
+                        scope: this,
+                        disable: function ()
+                        {
+                            this.internalIdFilter.setValue("");
+                        }
+                    },
+                    scope: this
+                })
+            ],
+            listeners: {
+                render: function (c)
+                {
+                    Ext.QuickTips.register({
+                        target: c.getEl(),
+                        text: c.qtip
+                    });
+                },
+                change: function (cmp)
+                {
+                    if (cmp.getValue() !== "") {
+                        cmp.enableFilter();
+                    } else {
+                        cmp.disableFilter();
+                    }
+                },
+                scope: this
+            }
+        });
+
+        this.filterControls.push(this.internalIdFilter);
 
         this.commentFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Comment"),
