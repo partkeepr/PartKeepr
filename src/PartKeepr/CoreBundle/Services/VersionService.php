@@ -112,7 +112,6 @@ class VersionService
             return;
         }
 
-        echo $this->getVersion();
         if (version_compare($this->getVersion(), $latestVersion['version'], '<')) {
             $this->systemNoticeService->createUniqueSystemNotice(
                 'PARTKEEPR_VERSION_'.$latestVersion['version'],

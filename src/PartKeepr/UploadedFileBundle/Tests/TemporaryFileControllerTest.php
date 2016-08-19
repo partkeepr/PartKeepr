@@ -113,8 +113,6 @@ class TemporaryFileControllerTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        //var_dump($response);
-
         $attribute = '@type';
 
         $this->assertObjectHasAttribute($attribute, $response);

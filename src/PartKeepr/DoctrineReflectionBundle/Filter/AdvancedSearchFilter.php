@@ -109,9 +109,6 @@ class AdvancedSearchFilter extends AbstractFilter
 
             $this->applyOrderByExpression($queryBuilder, $sorter);
         }
-
-        //echo $queryBuilder->getDQL();
-
     }
 
     /**
