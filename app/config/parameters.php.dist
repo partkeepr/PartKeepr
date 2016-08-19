@@ -222,6 +222,11 @@ $container->setParameter('partkeepr.users.limit', false);
 $container->setParameter('partkeepr.parts.limit', false);
 
 /**
+ * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number
+ */
+$container->setParameter('partkeepr.upload.limit', false);
+
+/**
  * Specifies the PartKeepr data directory
  */
 $container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_dir%/../data/');
