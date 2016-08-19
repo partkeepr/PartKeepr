@@ -64,7 +64,13 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
         var config = {
             title: targetClass.title,
             closable: targetClass.closable,
-            iconCls: targetClass.iconCls
+            iconCls: targetClass.iconCls,
+            listeners: {
+                editorClose: function (cmp) {
+                    this.closeEditor(cmp);
+                },
+                scope: this
+            }
         };
 
         for (var i = 0; i < this.cards.items.length; i++) {
@@ -78,6 +84,15 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
         this.cards.items.add(j);
         this.cards.setActiveItem(j);
 
+    },
+    closeEditor: function (cmp) {
+        this.cards.setActiveItem(this.cards.items.getAt(0));
+
+        for (var i = 0; i < this.cards.items.length; i++) {
+            if (this.cards.items.getAt(i).$className === cmp.$className) {
+                this.cards.remove(cmp);
+            }
+        }
     },
     statics: {
         iconCls: 'fugue-icon gear',
