@@ -222,6 +222,14 @@ $container->setParameter('partkeepr.users.limit', false);
 $container->setParameter('partkeepr.parts.limit', false);
 
 /**
+ * Defines if the internal part number must be unique or not. Note that empty internal part numbers aren't checked -
+ * if you require to enforce an internal part number, also set the field internalPartNumber to mandatory.
+ *
+ * Defaults to false
+ */
+$container->setParameter('partkeepr.parts.internalPartNumberUnique', false);
+
+/**
  * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number
  */
 $container->setParameter('partkeepr.upload.limit', false);

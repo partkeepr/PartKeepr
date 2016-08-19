@@ -161,6 +161,12 @@ Ext.define('PartKeepr.PartManager', {
             this.grid.getSelectionModel().select(parts);
         }, this);
 
+        this.grid.store.on("update", function (store, record) {
+            if (this.detail.record !== null && this.detail.record.getId() == record.getId()) {
+                this.detail.setValues(record);
+            }
+        }, this);
+
         this.grid.store.on("load", function () {
             this.thumbnailView.getStore().removeAll();
 

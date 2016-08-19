@@ -5,12 +5,14 @@ namespace PartKeepr\PartBundle\Action;
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Exception\RuntimeException;
+use PartKeepr\PartBundle\Entity\Part;
+use PartKeepr\PartBundle\Exceptions\InternalPartNumberNotUniqueException;
 use PartKeepr\PartBundle\Exceptions\PartLimitExceededException;
 use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class PostAction
+class PartPostAction
 {
     use ActionUtilTrait;
 
@@ -39,25 +41,35 @@ class PostAction
      *
      * @throws RuntimeException
      * @throws PartLimitExceededException
+     * @throws InternalPartNumberNotUniqueException
      *
      * @return mixed
      */
     public function __invoke(Request $request)
     {
-        /*
-         * @var $resourceType ResourceInterface
-         */
         if ($this->partService->checkPartLimit()) {
             throw new PartLimitExceededException();
         }
 
+        /**
+         * @var $resourceType ResourceInterface
+         */
         list($resourceType, $format) = $this->extractAttributes($request);
 
-        return $this->serializer->deserialize(
+        /**
+         * @var $part Part
+         */
+        $part = $this->serializer->deserialize(
             $request->getContent(),
             $resourceType->getEntityClass(),
             $format,
             $resourceType->getDenormalizationContext()
         );
+
+        if (!$this->partService->isInternalPartNumberUnique($part->getInternalPartNumber())) {
+            throw new InternalPartNumberNotUniqueException();
+        }
+
+        return $part;
     }
 }

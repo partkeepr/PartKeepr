@@ -299,6 +299,17 @@ Ext.define('PartKeepr.PartsGrid', {
                 header: i18n("Create Date"),
                 dataIndex: 'createDate',
                 hidden: true
+            }, {
+                header: i18n("Internal ID"),
+                dataIndex: '@id',
+                renderer: function (value) {
+                    var values = value.split("/");
+                            var idstr = values[values.length - 1];
+                            var idint = parseInt(idstr);
+
+                            return idstr + " (#"+idint.toString(36)+")";
+
+                }
             }
 
         ];

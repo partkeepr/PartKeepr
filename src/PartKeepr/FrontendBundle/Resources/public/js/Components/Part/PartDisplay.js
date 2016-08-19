@@ -42,7 +42,7 @@ Ext.define('PartKeepr.PartDisplay', {
             type: 'boolean'
         },
         internalPartNumber: {
-            displayName: i18n("Internal Part Number")
+            displayName: i18n("Internal Part Number"),
         },
         projectNames: {
             displayName: i18n("Used in Projects")
@@ -52,7 +52,9 @@ Ext.define('PartKeepr.PartDisplay', {
             renderer: function (value)
             {
                 var values = value.split("/");
-                return values[values.length - 1];
+                var idstr = values[values.length - 1];
+                var idint = parseInt(idstr);
+                return idstr + " (#"+idint.toString(36)+")";
             }
         }
     },
@@ -68,7 +70,7 @@ Ext.define('PartKeepr.PartDisplay', {
         this.addButton = new Ext.Button({
             text: i18n("Add Stock"),
             iconCls: 'web-icon brick_add',
-            handler: Ext.bind(this.addPartPrompt, this)
+            handler: Ext.bind(this.addPartStockPrompt, this)
         });
 
         /**
@@ -77,7 +79,7 @@ Ext.define('PartKeepr.PartDisplay', {
         this.deleteButton = new Ext.Button({
             text: i18n("Remove Stock"),
             iconCls: 'web-icon brick_delete',
-            handler: Ext.bind(this.deletePartPrompt, this)
+            handler: Ext.bind(this.removePartStockPrompt, this)
         });
 
         /**
@@ -195,15 +197,15 @@ Ext.define('PartKeepr.PartDisplay', {
     /**
      * Prompt the user for the stock level he wishes to add.
      */
-    addPartPrompt: function ()
+    addPartStockPrompt: function ()
     {
         var j = new PartKeepr.PartStockWindow({partUnitName: this.record.get("partUnitName")});
-        j.addStock(this.addPartHandler, this);
+        j.addStock(this.addStockHandler, this);
     },
     /**
      * Callback after the "add stock" dialog is complete.
      */
-    addPartHandler: function (quantity, price, comment)
+    addStockHandler: function (quantity, price, comment)
     {
         this.record.callPutAction("addStock", {
             quantity: quantity,
@@ -214,15 +216,15 @@ Ext.define('PartKeepr.PartDisplay', {
     /**
      * Prompts the user for the stock level to decrease for the item.
      */
-    deletePartPrompt: function ()
+    removePartStockPrompt: function ()
     {
         var j = new PartKeepr.PartStockWindow({partUnitName: this.record.get("partUnitName")});
-        j.removeStock(this.deletePartHandler, this);
+        j.removeStock(this.removeStockHandler, this);
     },
     /**
      * Callback after the "delete stock" dialog is complete.
      */
-    deletePartHandler: function (quantity, unused_price, comment)
+    removeStockHandler: function (quantity, unused_price, comment)
     {
         this.record.callPutAction("removeStock", {
             quantity: quantity,

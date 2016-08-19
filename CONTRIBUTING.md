@@ -8,7 +8,7 @@ Guidelines:
  * __Do not mix__ multiple bugs or feature requests into a single issue
  * __Search the issue tracker__ if the issue has already been reported
  * Ensure you are running the latest version of PartKeepr
- * Try to reproduce the problem on [demo.partkeepr.org](demo.partkeepr.org) prior reporting the issue and indicate in the issue that you have done so
+ * Try to reproduce the problem on [demo.partkeepr.org](https://demo.partkeepr.org) prior reporting the issue and indicate in the issue that you have done so
  * Report your __browser type and version__, any __JavaScript errors in the console__ and any other details like __server operating system__, __php version__, __SQL Server type and version__ etc.
 
 

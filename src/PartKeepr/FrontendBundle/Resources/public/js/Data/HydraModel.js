@@ -3,7 +3,7 @@ Ext.define("PartKeepr.data.HydraModel", {
 
     mixins: ['PartKeepr.data.CallActions'],
 
-    getData: function (options)
+    getData: function ()
     {
         var data = this.callParent(arguments);
 
@@ -13,7 +13,8 @@ Ext.define("PartKeepr.data.HydraModel", {
 
         return data;
     },
-    get: function (fieldName) {
+    get: function (fieldName)
+    {
         var ret, role, item;
 
         ret = this.callParent(arguments);
@@ -22,7 +23,7 @@ Ext.define("PartKeepr.data.HydraModel", {
             // The field is undefined, attempt to retrieve data via associations
             var parts = fieldName.split(".");
 
-            if (parts.length < 2)  {
+            if (parts.length < 2) {
                 return ret;
             }
 
@@ -38,6 +39,126 @@ Ext.define("PartKeepr.data.HydraModel", {
         }
         return ret;
     },
+    /**
+     * Gets all of the data from this Models *loaded* associations. It does this
+     * recursively. For example if we have a User which hasMany Orders, and each Order
+     * hasMany OrderItems, it will return an object like this:
+     *
+     *     {
+     *         orders: [
+     *             {
+     *                 id: 123,
+     *                 status: 'shipped',
+     *                 orderItems: [
+     *                     ...
+     *                 ]
+     *             }
+     *         ]
+     *     }
+     *
+     * @param {Object} [result] The object on to which the associations will be added. If
+     * no object is passed one is created. This object is then returned.
+     * @param {Boolean/Object} [options] An object containing options describing the data
+     * desired.
+     * @param {Boolean} [options.associated=true] Pass `true` to include associated data from
+     * other associated records.
+     * @param {Boolean} [options.changes=false] Pass `true` to only include fields that
+     * have been modified. Note that field modifications are only tracked for fields that
+     * are not declared with `persist` set to `false`. In other words, only persistent
+     * fields have changes tracked so passing `true` for this means `options.persist` is
+     * redundant.
+     * @param {Boolean} [options.critical] Pass `true` to include fields set as `critical`.
+     * This is only meaningful when `options.changes` is `true` since critical fields may
+     * not have been modified.
+     * @param {Boolean} [options.persist] Pass `true` to only return persistent fields.
+     * This is implied when `options.changes` is set to `true`.
+     * @param {Boolean} [options.serialize=false] Pass `true` to invoke the `serialize`
+     * method on the returned fields.
+     * @return {Object} The nested data set for the Model's loaded associations.
+     */
+    getAssociatedData: function (result, options)
+    {
+        var me = this,
+            associations = me.associations,
+            deep, i, item, items, itemData, length,
+            record, role, roleName, opts, clear, associated;
+
+        result = result || {};
+
+        me.$gathering = 1;
+
+        if (options) {
+            options = Ext.Object.chain(options);
+        }
+
+        for (roleName in associations) {
+            role = associations[roleName];
+
+            item = role.getAssociatedItem(me);
+            if (!item || item.$gathering) {
+                continue;
+            }
+
+            if (item.isStore) {
+                item.$gathering = 1;
+
+                items = item.getData().items; // get the records for the store
+                length = items.length;
+                itemData = [];
+
+                for (i = 0; i < length; ++i) {
+                    // NOTE - we don't check whether the record is gathering here because
+                    // we cannot remove it from the store (it would invalidate the index
+                    // values and misrepresent the content). Instead we tell getData to
+                    // only get the fields vs descend further.
+                    record = items[i];
+                    deep = !record.$gathering;
+                    record.$gathering = 1;
+                    if (options) {
+                        associated = options.associated;
+                        if (associated === undefined) {
+                            options.associated = deep;
+                            clear = true;
+                        } else {
+                            if (!deep) {
+                                options.associated = false;
+                                clear = true;
+                            }
+                        }
+                        opts = options;
+                    } else {
+                        opts = deep ? me._getAssociatedOptions : me._getNotAssociatedOptions;
+                    }
+                    itemData.push(record.getData(opts));
+                    if (clear) {
+                        options.associated = associated;
+                        clear = false;
+                    }
+                    delete record.$gathering;
+                }
+
+                delete item.$gathering;
+            } else {
+                opts = options || me._getAssociatedOptions;
+                if (options && options.associated === undefined) {
+                    opts.associated = true;
+                }
+
+                if (this.getField(roleName) !== null && this.getField(roleName).byReference) {
+                    itemData = item.getId();
+                } else {
+                    itemData = item.getData(opts);
+                }
+            }
+
+            result[roleName] = itemData;
+        }
+
+        delete me.$gathering;
+
+        return result;
+    },
+
     /**
      * Returns data from all associations
      *
@@ -82,7 +203,7 @@ Ext.define("PartKeepr.data.HydraModel", {
                     getterName = this.associations[roleName].getterName;
                     store = this[getterName]();
 
-                    for (var i=0;i<data[roleName].length;i++) {
+                    for (var i = 0; i < data[roleName].length; i++) {
                         // Delete existing IDs for duplicated data
                         if (data[roleName][i].isEntity) {
                             idProperty = data[roleName][i].idProperty;
