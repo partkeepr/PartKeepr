@@ -8,6 +8,9 @@ use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Exceptions\UserLimitReachedException;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
+use PartKeepr\PartBundle\Entity\Part;
+use PartKeepr\PartBundle\Exceptions\InternalPartNumberNotUniqueException;
+use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -26,12 +29,19 @@ class PartPutAction
      */
     private $serializer;
 
+     /**
+     * @var PartService
+     */
+    private $partService;
+
     public function __construct(
         DataProviderInterface $dataProvider,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        PartService $partService
     ) {
         $this->dataProvider = $dataProvider;
         $this->serializer = $serializer;
+        $this->partService = $partService;
     }
 
     /**
@@ -50,7 +60,7 @@ class PartPutAction
     public function __invoke(Request $request, $id)
     {
         /**
-         * @var ResourceInterface
+         * @var $resourceType ResourceInterface
          */
         list($resourceType, $format) = $this->extractAttributes($request);
 
@@ -71,13 +81,20 @@ class PartPutAction
         $context = $resourceType->getDenormalizationContext();
         $context['object_to_populate'] = $data;
 
-        $data = $this->serializer->deserialize(
+        /**
+         * @var $part Part
+         */
+        $part = $this->serializer->deserialize(
             $requestData,
             $resourceType->getEntityClass(),
             $format,
             $context
         );
 
-        return $data;
+        if (!$this->partService->isInternalPartNumberUnique($part->getInternalPartNumber(), $part)) {
+            throw new InternalPartNumberNotUniqueException();
+        }
+
+        return $part;
     }
 }
