@@ -227,7 +227,7 @@ $container->setParameter('partkeepr.parts.limit', false);
  *
  * Defaults to false
  */
-$container->setParameter('partkeepr.parts.internalPartNumberUnique', false);
+$container->setParameter('partkeepr.parts.internalpartnumberunique', false);
 
 /**
  * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number

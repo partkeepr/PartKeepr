@@ -16,7 +16,7 @@
         <service id="partkeepr.part_service" class="PartKeepr\PartBundle\Services\PartService">
             <argument type="service" id="doctrine.orm.default_entity_manager" />
             <argument type="string">%partkeepr.parts.limit%</argument>
-            <argument type="string">%partkeepr.parts.internalPartNumberUnique%</argument>
+            <argument type="string">%partkeepr.parts.internalpartnumberunique%</argument>
         </service>
     </services>
 

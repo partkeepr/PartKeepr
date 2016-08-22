@@ -62,4 +62,4 @@ security:
                         roles: 'ROLE_ADMIN'
 
 parameters:
-    partkeepr.parts.internalPartNumberUnique: true
+    partkeepr.parts.internalpartnumberunique: true
