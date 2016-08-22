@@ -83,6 +83,7 @@ class ConfigSetupService
             'cache.doctrine'                      => 'array',
             'partkeepr.parts.limit'               => false,
             'partkeepr.users.limit'               => false,
+            'internalpartnumberunique'            => false,
         ];
 
         if (function_exists('apc_fetch')) {
