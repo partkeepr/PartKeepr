@@ -57,6 +57,7 @@
                 <exclude name="web/js/packages/extjs6/sass/**"/>
                 <exclude name="web/js/packages/extjs6/templates/**"/>
                 <exclude name="web/js/packages/extjs6/welcome/**"/>
+                <include name="web/js/packages/extjs6/packages/ux/**"/>
             </fileset>
         </copy>
     </target>
