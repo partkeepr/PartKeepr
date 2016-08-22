@@ -1,5 +1,25 @@
 # Changelog
 
+## PartKeepr 1.1.0
+
+New Features:
+
+* [Thumbnail Browse Mode](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.1.0#Thumbnail_Browse_Mode): Allows the user to browse parts by their images
+* [Fulltext Search Configuration](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.1.0#Full_text_search_configuration): Allows the administrator to specify the fields to be searched when using the search field within the parts manager
+* [Required Fields configuration](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.1.0#Required_Fields_configuration): It is now possible to configure the required fields for parts, part manufacturers and part distributors as well to enforce a certain minimum amount of distributors, manufacturers and attachments. 
+* [Display of active filters for a grid](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.1.0#Display_of_active_filters_for_a_grid): Active filters for a grid are now displayed at the bottom of each grid, with the possibility to remove certain filters. This makes it more transparent if a grid is filtered and by which values. Additionally, filters can be removed manually.  
+* [Barcode Scanner Configuration](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.1.0#Barcode_Scanner_Configuration): It is now possible to configure a barcode scanner and to perform actions based on barcode scanner input.
+* Added a filter to filter by the Internal Part ID [#645](https://github.com/partkeepr/PartKeepr/pull/645)
+
+Bugfixes:
+* Project names are now properly recorded when removing parts by the project report view [#686](https://github.com/partkeepr/PartKeepr/issues/686)
+* Part stock levels are retained when removing parts using the project reports [#685](https://github.com/partkeepr/PartKeepr/issues/685)
+* Parts are now saved properly when ticking the "Needs Review" checkbox [#693](https://github.com/partkeepr/PartKeepr/issues/693)
+* "Don't ask again" Dialogs now properly remember the setting [#698](https://github.com/partkeepr/PartKeepr/issues/698)
+* German umlauts are now properly displayed in the part details view [#674](https://github.com/partkeepr/PartKeepr/issues/674)
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.1.0+is%3Aclosed)
+
 ## PartKeepr 1.0.0
 
 This is the PartKeepr 1.0.0 release. Bugfixes for this version:
