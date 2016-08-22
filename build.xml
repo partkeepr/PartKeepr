@@ -52,12 +52,18 @@
                 <exclude name="web/js/packages/extjs6/modern/**"/>
                 <exclude name="web/js/packages/extjs6/classic/**"/>
                 <exclude name="web/js/packages/extjs6/cmd/**"/>
-                <exclude name="web/js/packages/extjs6/packages/**"/>
+                <exclude name="web/js/packages/extjs6/packages/amf/**"/>
+                <exclude name="web/js/packages/extjs6/packages/charts/**"/>
+                <exclude name="web/js/packages/extjs6/packages/core/**"/>
+                <exclude name="web/js/packages/extjs6/packages/font-awesome/**"/>
+                <exclude name="web/js/packages/extjs6/packages/font-ext/**"/>
+                <exclude name="web/js/packages/extjs6/packages/font-pictos/**"/>
+                <exclude name="web/js/packages/extjs6/packages/legacy/**"/>
+                <exclude name="web/js/packages/extjs6/packages/soap/**"/>
                 <exclude name="web/js/packages/extjs6/resources/**"/>
                 <exclude name="web/js/packages/extjs6/sass/**"/>
                 <exclude name="web/js/packages/extjs6/templates/**"/>
                 <exclude name="web/js/packages/extjs6/welcome/**"/>
-                <include name="web/js/packages/extjs6/packages/ux/**"/>
             </fileset>
         </copy>
     </target>
