@@ -40,9 +40,9 @@ Ext.define("PartKeepr.CategoryEditorTree", {
                 // Workaround for EXTJS-13725 where dropping of non-tree-models cause issues
                 dropHandlers.cancelDrop();
             }
-
-            this.fireEvent("foreignModelDrop", draggedRecords, droppedOn);
         }
+
+        this.fireEvent("foreignModelDrop", draggedRecords, droppedOn);
     },
     onItemSelect: function (selected) {
         if (selected.getCount() === 0) {
