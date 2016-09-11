@@ -35,7 +35,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
         var draggedRecords = data.records;
         var droppedOn = this.getView().getRecord(node);
 
-        for (draggedRecord in draggedRecords) {
+        for (var draggedRecord in draggedRecords) {
             if (!(draggedRecord instanceof PartKeepr.data.HydraTreeModel)) {
                 // Workaround for EXTJS-13725 where dropping of non-tree-models cause issues
                 dropHandlers.cancelDrop();
