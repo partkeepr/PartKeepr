@@ -477,8 +477,8 @@ Ext.define('PartKeepr.PartManager', {
                 var r = selection[0];
 
                 this.detailPanel.setActiveTab(this.detail);
-                this.detailPanel.expand();
                 this.detail.setValues(r);
+                this.detailPanel.expand();
                 this.stockLevel.part = r.getId();
 
                 this.tree.syncButton.enable();
