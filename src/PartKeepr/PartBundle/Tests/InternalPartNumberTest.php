@@ -40,6 +40,7 @@ class InternalPartNumberTest extends WebTestCase
             "name" => "foobar",
             "storageLocation" => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
             "category" => $iriConverter->getIriFromItem($this->fixtures->getReference("partcategory.first")),
+            "partUnit" => $iriConverter->getIriFromItem($this->fixtures->getReference("partunit.default")),
             "internalPartNumber" => "foo123",
         ];
 

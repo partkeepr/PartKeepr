@@ -16,6 +16,8 @@ class PartDataLoader extends AbstractFixture
         $partUnit->setShortName('pcs');
         $partUnit->setDefault(true);
 
+        $this->addReference("partunit.default", $partUnit);
+
         $part = new Part();
         $part->setName('FOOBAR');
         $part->setPartUnit($partUnit);
