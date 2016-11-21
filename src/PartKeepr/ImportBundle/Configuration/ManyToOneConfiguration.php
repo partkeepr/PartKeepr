@@ -1,0 +1,187 @@
+<?php
+namespace PartKeepr\ImportBundle\Configuration;
+
+
+class ManyToOneConfiguration extends Configuration
+{
+    const IMPORTBEHAVIOUR_DONTSET = "dontSet";
+    const IMPORTBEHAVIOUR_ALWAYSSETTO = "alwaysSetTo";
+    const IMPORTBEHAVIOUR_MATCHDATA = "matchData";
+
+    const importBehaviours = [
+        self::IMPORTBEHAVIOUR_DONTSET,
+        self::IMPORTBEHAVIOUR_ALWAYSSETTO,
+        self::IMPORTBEHAVIOUR_MATCHDATA,
+    ];
+
+    const UPDATEBEHAVIOUR_DONTUPDATE = "dontUpdate";
+    const UPDATEBEHAVIOUR_UPDATEDATA = "updateData";
+
+    const updateBehaviours = [self::UPDATEBEHAVIOUR_DONTUPDATE, self::UPDATEBEHAVIOUR_UPDATEDATA];
+
+    const NOTFOUNDBEHAVIOUR_STOPIMPORT = "stopImport";
+    const NOTFOUNDBEHAVIOUR_SETTOENTITY = "setToEntity";
+    const NOTFOUNDBEHAVIOUR_CREATEENTITY = "createEntity";
+
+    const notFoundBehaviours = [
+        self::NOTFOUNDBEHAVIOUR_CREATEENTITY,
+        self::NOTFOUNDBEHAVIOUR_SETTOENTITY,
+        self::NOTFOUNDBEHAVIOUR_STOPIMPORT,
+    ];
+
+    protected $associationName;
+
+    /**
+     * @return mixed
+     */
+    public function getAssociationName()
+    {
+        return $this->associationName;
+    }
+
+    protected $importBehaviour;
+
+    protected $matchers = [];
+
+    protected $notFoundBehaviour;
+
+    protected $updateBehaviour;
+
+    protected $notFoundSetToEntity;
+
+    protected $setToEntity;
+
+    /**
+     * @param mixed $associationName
+     */
+    public function setAssociationName($associationName)
+    {
+        $this->associationName = $associationName;
+    }
+
+    public function parseConfiguration($importConfiguration)
+    {
+        if (!property_exists($importConfiguration, "importBehaviour")) {
+            return false;
+            throw new \Exception("The key importBehaviour does not exist!");
+        }
+
+        if (!in_array($importConfiguration->importBehaviour, self::importBehaviours)) {
+            throw new \Exception("The key importBehaviour contains an invalid value!");
+        }
+
+        $this->importBehaviour = $importConfiguration->importBehaviour;
+
+        switch ($this->importBehaviour) {
+            case self::IMPORTBEHAVIOUR_ALWAYSSETTO:
+                if (!property_exists($importConfiguration, "setToEntity")) {
+                    throw new \Exception("The key setToEntity does not exist for mode alwaysSetTo!");
+                }
+
+                // @todo Check if setToEntity contains a valid value
+                $this->setToEntity = $importConfiguration->setToEntity;
+                break;
+            case self::IMPORTBEHAVIOUR_MATCHDATA:
+                if (!property_exists($importConfiguration, "matchers")) {
+                    throw new \Exception("No matchers defined");
+                }
+
+                if (!is_array($importConfiguration->matchers)) {
+                    throw new \Exception("matchers must be an array");
+                }
+
+                foreach ($importConfiguration->matchers as $matcher) {
+                    if (!property_exists($matcher, "matchField") || !property_exists($matcher,
+                            "importField") || $matcher->importField == ""
+                    ) {
+                        throw new \Exception("matcher configuration error");
+                    }
+                }
+
+                $this->matchers = $importConfiguration->matchers;
+
+                if (!property_exists($importConfiguration, "updateBehaviour")) {
+                    throw new \Exception("The key updateBehaviour does not exist for mode copyFrom!");
+                }
+
+                if (!in_array($importConfiguration->updateBehaviour, self::updateBehaviours)) {
+                    throw new \Exception("Invalid value for updateBehaviour");
+                }
+
+                $this->updateBehaviour = $importConfiguration->updateBehaviour;
+
+                if (!property_exists($importConfiguration, "notFoundBehaviour")) {
+                    throw new \Exception("The key notFoundBehaviour does not exist for mode copyFrom!");
+                }
+
+                if (!in_array($importConfiguration->notFoundBehaviour, self::notFoundBehaviours)) {
+                    throw new \Exception("Invalid value for notFoundBehaviour");
+                }
+
+                $this->notFoundBehaviour = $importConfiguration->notFoundBehaviour;
+
+                if ($this->notFoundBehaviour == self::NOTFOUNDBEHAVIOUR_SETTOENTITY) {
+                    if (!property_exists($importConfiguration, "notFoundSetToEntity")) {
+                        throw new \Exception("The key notFoundSetToEntity does not exist for mode copyFrom!");
+                    }
+
+                    // @todo check if notFoundSetToEntity contains a valid entity
+                    $this->notFoundSetToEntity = $importConfiguration->notFoundSetToEntity;
+                }
+                break;
+            default:
+                break;
+        }
+
+        return parent::parseConfiguration($importConfiguration);
+    }
+
+    public function import($row)
+    {
+        $descriptions = [];
+        switch ($this->importBehaviour) {
+            case self::IMPORTBEHAVIOUR_ALWAYSSETTO:
+                $targetEntity = $this->iriConverter->getItemFromIri($this->setToEntity);
+
+                return [$targetEntity,
+                            sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $targetEntity->getId())];
+                break;
+            case self::IMPORTBEHAVIOUR_MATCHDATA:
+                $configuration = [];
+
+                foreach ($this->matchers as $matcher) {
+                    $foo = new \stdClass();
+                    $foo->property = $matcher->matchField;
+                    $foo->operator = "=";
+                    $foo->value = $row[$matcher->importField];
+
+                    $descriptions[] = sprintf("%s = %s", $matcher->matchField, $row[$matcher->importField]);
+                    $configuration[] = $foo;
+                }
+
+                $configuration = $this->advancedSearchFilter->extractConfiguration($configuration, []);
+
+
+                $filters = $configuration['filters'];
+                $sorters = $configuration['sorters'];
+                $qb = new \Doctrine\ORM\QueryBuilder($this->em);
+                $qb->select("o")->from($this->baseEntity, "o");
+
+                $this->advancedSearchFilter->filter($qb, $filters, $sorters);
+
+                try {
+                    $result = $qb->getQuery()->getSingleResult();
+
+                    return [$result,
+                            sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $result->getId())];
+                } catch (\Exception $e) {
+                    // @todo implement not found cases
+                    return [null, sprintf("Would stop import as the match %s for association %s was not found", implode(",",$descriptions), $this->getAssociationName())];
+                }
+                break;
+        }
+
+        return [null, ""];
+    }
+
+}

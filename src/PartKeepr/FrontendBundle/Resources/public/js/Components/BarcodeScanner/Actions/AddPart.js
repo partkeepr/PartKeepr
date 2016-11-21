@@ -99,7 +99,7 @@ Ext.define("PartKeepr.BarcodeScanner.Actions.AddPart", {
                 var fields = [];
 
                 for (var i = 0; i < selection.length; i++) {
-                    fields.push(selection[i].data.data);
+                    fields.push(selection[i].data.data.name);
                 }
                 configuration.searchFields = fields;
 

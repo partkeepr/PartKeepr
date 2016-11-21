@@ -97,7 +97,14 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 tooltip: i18n("Export"),
                 iconCls: "fugue-icon application-export",
                 disabled: this.store.isLoading()
-            })
+            }),
+            Ext.create("PartKeepr.Importer.GridImporterButton", {
+                itemId: 'import',
+                tooltip: i18n("Import"),
+                iconCls: "fugue-icon database-import",
+                disabled: this.store.isLoading()
+            }),
+
         ];
 
         this.callParent();

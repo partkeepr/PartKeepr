@@ -14,6 +14,13 @@ Ext.define("PartKeepr.PagingToolbar", {
             disabled: this.store.isLoading()
         }));
 
+        items.push(Ext.create("PartKeepr.Importer.GridImporterButton", {
+            itemId: 'import',
+            tooltip: i18n("Import"),
+            iconCls: "fugue-icon database-import",
+            disabled: this.store.isLoading()
+        }));
+
         items.push(Ext.create({
             itemId: 'filter',
             xtype: 'button',

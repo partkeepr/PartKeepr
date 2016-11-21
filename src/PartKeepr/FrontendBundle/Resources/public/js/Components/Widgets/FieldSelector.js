@@ -36,6 +36,13 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
      */
     excludeFields: [],
 
+    /**
+     * @var {Array} An array which excludes the models listed
+     */
+    excludeModels: [],
+
+    useCheckBoxes: true,
+
     initComponent: function ()
     {
         this.callParent(arguments);
@@ -53,10 +60,13 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
      * @param {Ext.data.Model} The model
      * @param {String} The prefix. Omit if first called
      */
-    treeMaker: function (node, model, prefix)
+    treeMaker: function (node, model, prefix, callback)
     {
         var fields = model.getFields();
         var checked;
+        var newNode;
+        var j, childNode;
+        var skipSubModel = false, associationAlreadyProcessed;
 
         this.visitedModels.push(model.getName());
         for (var i = 0; i < fields.length; i++) {
@@ -69,31 +79,83 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                 }
 
                 if (!Ext.Array.contains(this.excludeFields, prefix + fields[i].name)) {
-                    node.appendChild({
+                    newNode = {
                         text: fields[i].name,
                         leaf: true,
-                        checked: checked,
-                        data: prefix + fields[i].name
-                    });
+                        data: {
+                            name: prefix + fields[i].name,
+                            type: "field"
+                        },
+                    };
+
+                    if (this.useCheckBoxes) {
+                        newNode.checked = checked;
+                    }
+                    node.appendChild(newNode);
                 }
             } else {
                 if (this.recurseSubModels) {
-                    for (var j = 0; j < this.visitedModels.length; j++) {
+                    skipSubModel = false;
+                    for (j = 0; j < this.visitedModels.length; j++) {
                         if (this.visitedModels[j] === fields[i].reference.cls.getName()) {
-                            return;
+                            skipSubModel = true;
                         }
                     }
 
-                    var childNode = node.appendChild({
-                        text: fields[i].name,
-                        expanded: true,
-                        leaf: false
-                    });
+                    for (j = 0; j < this.excludeModels.length; j++) {
+                        if (this.excludeModels[j] === fields[i].reference.cls.getName()) {
+                            skipSubModel = true;
+                        }
+                    }
 
-                    this.treeMaker(childNode, fields[i].reference.cls, prefix + fields[i].name + ".");
+                    if (skipSubModel === false) {
+                        childNode = node.appendChild({
+                            text: fields[i].name,
+                            expanded: true,
+                            data: {
+                                name: prefix + fields[i].name,
+                                type: "relation"
+                            },
+                            leaf: false
+                        });
+
+                        this.treeMaker(childNode, fields[i].reference.cls, prefix + fields[i].name + ".");
+                    }
                 }
             }
 
+        }
+
+        var associations = model.associations;
+
+
+        for (i in associations) {
+            associationAlreadyProcessed = false;
+            if (typeof associations[i].legacy !== "undefined" && associations[i].isMany === true) {
+                for (j = 0; j < this.visitedModels.length; j++) {
+                    if (this.visitedModels[j] === associations[i].model) {
+                       associationAlreadyProcessed = true;
+                    }
+                }
+
+                if (!associationAlreadyProcessed) {
+                    childNode = node.appendChild({
+                        text: associations[i].name,
+                        data: {
+                            name: prefix + associations[i].name,
+                            type: "onetomany",
+                            reference: associations[i].cls
+                        },
+                        leaf: false
+                    });
+
+                    if (callback !== undefined) {
+                        childNode.set(callback(associations[i].cls, childNode));
+                    }
+
+                    this.treeMaker(childNode, associations[i].cls, prefix + associations[i].name + ".", callback);
+                }
+            }
         }
     }
 });

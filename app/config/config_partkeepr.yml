@@ -346,7 +346,7 @@ services:
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
+                    arguments: [ { groups: [ "default", "readonly" ] } ]
             -       method:    "initDenormalizationContext"
                     arguments:
                         - { groups: [ "default", "stock" ] }

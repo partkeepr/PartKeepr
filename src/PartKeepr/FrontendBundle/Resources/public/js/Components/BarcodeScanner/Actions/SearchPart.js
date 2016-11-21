@@ -92,7 +92,7 @@ Ext.define("PartKeepr.BarcodeScanner.Actions.SearchPart", {
                 var fields = [];
 
                 for (var i = 0; i < selection.length; i++) {
-                    fields.push(selection[i].data.data);
+                    fields.push(selection[i].data.data.name);
                 }
                 configuration.searchFields = fields;
                 configuration.searchMode = this.down("#searchMode").getValue().searchMode;
