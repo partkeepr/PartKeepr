@@ -1,0 +1,3 @@
+_importtest:
+    resource: "@PartKeeprImportBundle/Controller/ImportController.php"
+    type:     annotation

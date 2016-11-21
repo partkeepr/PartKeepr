@@ -7,7 +7,6 @@ use Doctrine\ORM\QueryBuilder;
 use Dunglas\ApiBundle\Api\IriConverterInterface;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Doctrine\Orm\Filter\AbstractFilter;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -76,18 +75,33 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     public function apply(ResourceInterface $resource, QueryBuilder $queryBuilder)
     {
-        $metadata = $this->getClassMetadata($resource);
-
         $request = $this->requestStack->getCurrentRequest();
         if (null === $request) {
             return;
         }
 
-        $properties = $this->extractProperties($request);
+        if ($request->query->has('filter')) {
+            $filter = json_decode($request->query->get("filter"));
+        } else {
+            $filter = null;
+        }
+
+        if ($request->query->has('order')) {
+            $order = json_decode($request->query->get("order"));
+        } else {
+            $order = null;
+        }
+
+        $properties = $this->extractConfiguration($filter, $order);
 
         $filters = $properties['filters'];
         $sorters = $properties['sorters'];
 
+        $this->filter($queryBuilder, $filters, $sorters);
+    }
+
+    public function filter(QueryBuilder $queryBuilder, $filters, $sorters)
+    {
         foreach ($filters as $filter) {
             /**
              * @var Filter $filter
@@ -289,35 +303,29 @@ class AdvancedSearchFilter extends AbstractFilter
     /**
      * {@inheritdoc}
      */
-    protected function extractProperties(Request $request)
+    public function extractConfiguration($filterData, $sorterData)
     {
         $filters = [];
 
-        if ($request->query->has('filter')) {
-            $data = json_decode($request->query->get('filter'));
-
-            if (is_array($data)) {
-                foreach ($data as $filter) {
-                    $filters[] = $this->extractJSONFilters($filter);
-                }
-            } elseif (is_object($data)) {
-                $filters[] = $this->extractJSONFilters($data);
+        if (is_array($filterData)) {
+            foreach ($filterData as $filter) {
+                $filters[] = $this->extractJSONFilters($filter);
             }
+        } elseif (is_object($filterData)) {
+            $filters[] = $this->extractJSONFilters($filterData);
         }
 
         $sorters = [];
 
-        if ($request->query->has('order')) {
-            $data = json_decode($request->query->get('order'));
 
-            if (is_array($data)) {
-                foreach ($data as $sorter) {
-                    $sorters[] = $this->extractJSONSorters($sorter);
-                }
-            } elseif (is_object($data)) {
-                $sorters[] = $this->extractJSONSorters($data);
+        if (is_array($sorterData)) {
+            foreach ($sorterData as $sorter) {
+                $sorters[] = $this->extractJSONSorters($sorter);
             }
+        } elseif (is_object($sorterData)) {
+            $sorters[] = $this->extractJSONSorters($sorterData);
         }
+
 
         return ['filters' => $filters, 'sorters' => $sorters];
     }
@@ -329,8 +337,9 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return string The table alias
      */
-    private function getAlias($property)
-    {
+    private function getAlias(
+        $property
+    ) {
         if (!array_key_exists($property, $this->aliases)) {
             $this->aliases[$property] = 't'.count($this->aliases);
         }
@@ -347,8 +356,10 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return Filter
      */
-    private function extractJSONFilters($data)
-    {
+    private
+    function extractJSONFilters(
+        $data
+    ) {
         $filter = new Filter();
 
         if (property_exists($data, 'property')) {
@@ -407,8 +418,10 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return Sorter A Sorter object
      */
-    private function extractJSONSorters($data)
-    {
+    private
+    function extractJSONSorters(
+        $data
+    ) {
         $sorter = new Sorter();
 
         if ($data->property) {

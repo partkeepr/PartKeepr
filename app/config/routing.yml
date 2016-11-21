@@ -36,6 +36,9 @@ PartKeeprPartBundle:
 _frontend:
     resource: "@PartKeeprFrontendBundle/Resources/config/routing.yml"
 
+_import:
+    resource: "@PartKeeprImportBundle/Resources/config/routing.yml"
+
 _export:
     resource: "@PartKeeprExportBundle/Resources/config/routing.yml"
 

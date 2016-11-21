@@ -16,6 +16,7 @@ use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
@@ -30,6 +31,7 @@ class Part extends BaseEntity
      * The category of the part.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartCategory")
+     * @Assert\NotNull()
      * @Groups({"default"})
      *
      * @var PartCategory
@@ -41,6 +43,7 @@ class Part extends BaseEntity
      *
      * @ORM\Column
      * @Groups({"default"})
+     * @Assert\NotBlank()
      *
      * @var string
      */
@@ -71,6 +74,7 @@ class Part extends BaseEntity
      * in "pieces", "meters" or "grams".
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit", inversedBy="parts")
+     * @Assert\NotNull()
      * @Groups({"default"})
      *
      * @var PartMeasurementUnit
@@ -81,6 +85,7 @@ class Part extends BaseEntity
      * Defines the storage location of this part.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
+     * @Assert\NotNull()
      * @Groups({"default"})
      *
      * @var StorageLocation
@@ -132,7 +137,7 @@ class Part extends BaseEntity
      *
      * @todo It would be nice if we could get rid of that.
      * @ORM\Column(type="integer")
-     * @Groups({"default"})
+     * @Groups({"readonly"})
      *
      * @var int
      */
@@ -153,7 +158,7 @@ class Part extends BaseEntity
      * The average price for the part. Note that this is a cached value.
      *
      * @ORM\Column(type="decimal",precision=13,scale=4,nullable=false)
-     * @Groups({"default"})
+     * @Groups({"readonly"})
      *
      * @var float
      */
@@ -213,7 +218,7 @@ class Part extends BaseEntity
      * The create date+time for this part.
      *
      * @ORM\Column(type="datetime",nullable=true)
-     * @Groups({"default"})
+     * @Groups({"readonly"})
      *
      * @var \DateTime
      */
@@ -238,6 +243,7 @@ class Part extends BaseEntity
 
     /**
      * @ORM\Column(type="boolean",nullable=false)
+     * @Groups({"readonly"})
      *
      * @var bool
      */
@@ -245,6 +251,7 @@ class Part extends BaseEntity
 
     /**
      * @ORM\Column(type="boolean",nullable=false)
+     * @Groups({"readonly"})
      *
      * @var bool
      */

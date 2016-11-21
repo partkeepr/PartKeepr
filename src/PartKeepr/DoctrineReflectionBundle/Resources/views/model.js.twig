@@ -5,14 +5,15 @@ Ext.define('{{ className }}', {
     idProperty: "@id",
     fields: [
         {% for field in fields %}
-        { name: '{{ field.name|raw }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}}{% if not loop.last %},{% endif %}
+        { name: '{{ field.name|raw }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}{% if not field.persist %}, persist: false{% endif %}{% if field.validators %}, validators: {{ field.validators|raw }}{% endif %}}{% if not loop.last %},{% endif %}
 
         {% endfor %}
         {% if associations.MANY_TO_ONE|length > 0 %}
             ,
             {% for association in associations.MANY_TO_ONE %}
                 { name: '{{ association.name }}',
-                reference: '{{ association.target }}'
+                reference: '{{ association.target }}',
+            allowBlank: {% if association.nullable %}true{% else %}false{% endif %}
         {% if association.byReference %},byReference: true{% endif %}
                 }{% if not loop.last %},{% endif %}
 

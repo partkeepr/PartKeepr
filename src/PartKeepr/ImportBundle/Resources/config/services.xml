@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="importer_service" class="PartKeepr\ImportBundle\Service\ImporterService">
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="doctrine_reflection_service"/>
+            <argument type="service" id="doctrine_reflection_service.search_filter"/>
+            <argument type="service" id="api.iri_converter"/>
+        </service>
+
+    </services>
+</container>
