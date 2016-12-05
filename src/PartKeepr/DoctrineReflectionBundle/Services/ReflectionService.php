@@ -156,7 +156,6 @@ class ReflectionService
 
             $propertyAnnotations = $this->reader->getPropertyAnnotations($cm->getReflectionProperty($association['fieldName']));
 
-            var_dump($propertyAnnotations);
             $nullable = true;
 
             foreach ($propertyAnnotations as $propertyAnnotation) {
