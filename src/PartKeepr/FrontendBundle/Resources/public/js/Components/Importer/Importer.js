@@ -11,7 +11,28 @@ Ext.define("PartKeepr.Importer.Importer", {
             xtype: 'button',
             itemId: "executeImport",
             text: i18n("Execute import")
-        }
+        },
+        {
+            xtype: 'tbseparator',
+        },
+        {
+            xtype: 'combo',
+            store: {
+                model: 'PartKeepr.ImportBundle.Entity.ImportPreset',
+            autoLoad: true
+            },
+            itemId: 'importerPresetCombo',
+            displayField: 'name',
+            valueField: '@id'
+        },{
+            xtype: 'button',
+            itemId: "savePreset",
+            text: i18n("Save Preset")
+        },{
+            xtype: 'button',
+            itemId: "deletePreset",
+            text: i18n("Delete Preset")
+        },
     ],
     items: [
         {
@@ -87,8 +108,14 @@ Ext.define("PartKeepr.Importer.Importer", {
             region: 'east',
             width: 300,
             split: true,
-            itemId: "debugger",
-            scollable: true
+            layout: 'fit',
+
+            items: [{
+              xtype: 'textarea',
+                itemId: "debugger",
+                scrollable: true,
+                style: 'font-family: monospace;'
+            }]
         },
         {
             xtype: 'tabpanel',
@@ -124,7 +151,40 @@ Ext.define("PartKeepr.Importer.Importer", {
 
         this.importConfiguration = {};
 
+        this.applyConfiguration();
+
+        this.importColumnsStore = Ext.create("Ext.data.Store", {
+            fields: ["headerIndex", "headerName"],
+            storeId: "importColumns"
+        });
+
+        this.down("#importerPresetCombo").getStore().addFilter({
+           property: "baseEntity",
+            operator: "=",
+            value: this.model.getName()
+        });
+
+        this.down("#importerEntityConfiguration").setModel(this.model);
+
+        this.down("#fieldTree").on("selectionchange", this.onFieldChange, this);
+        this.down("#fieldTree").on("beforeselect", this.onBeforeSelect, this);
+        this.down("#selectImportFile").on("click", this.uploadCSVFile, this);
+        this.down("#executeImport").on("click", this.executeImport, this);
+        this.down("#importerEntityConfiguration").on("configChanged", this.onConfigChange, this);
+        this.down("#importerFieldConfiguration").on("configChanged", this.onConfigChange, this);
+        this.down("#importerOneToManyConfiguration").on("configChanged", this.onConfigChange, this);
+        this.down("#importerManyToOneConfiguration").on("configChanged", this.onConfigChange, this);
+
+        this.down("#savePreset").on("click", this.onPresetSave, this);
+        this.down("#importerPresetCombo").on("select", this.onPresetSelect, this);
+
+        this.loadData("/~felicitus/PartKeepr/web/app_dev.php/api/temp_uploaded_files/668");
+    },
+    applyConfiguration: function () {
         var rootNode = this.down("#fieldTree").getRootNode();
+        
+        rootNode.removeAll();
+
         rootNode.set("text", this.model.getName());
         rootNode.set("data", {
             name: "",
@@ -139,22 +199,32 @@ Ext.define("PartKeepr.Importer.Importer", {
 
         treeMaker.make(rootNode, this.model, "", Ext.bind(this.appendFieldData, this));
         rootNode.expand();
+    },
+    onPresetSelect: function (combo, record) {
+        this.importConfiguration = Ext.decode(record.get("configuration"));
 
-        this.down("#importerEntityConfiguration").setModel(this.model);
+        // @todo check if the json string is correct
+        // @todo refresh active panels
 
-        this.importColumnsStore = Ext.create("Ext.data.Store", {
-            fields: ["headerIndex", "headerName"],
-            storeId: "importColumns"
-        });
+        this.applyConfiguration();
 
-        this.down("#fieldTree").on("selectionchange", this.onFieldChange, this);
-        this.down("#fieldTree").on("beforeselect", this.onBeforeSelect, this);
-        this.down("#selectImportFile").on("click", this.uploadCSVFile, this);
-        this.down("#executeImport").on("click", this.executeImport, this);
-        this.down("#importerEntityConfiguration").on("configChanged", this.onConfigChange, this);
-        this.down("#importerFieldConfiguration").on("configChanged", this.onConfigChange, this);
-        this.down("#importerOneToManyConfiguration").on("configChanged", this.onConfigChange, this);
-        this.down("#importerManyToOneConfiguration").on("configChanged", this.onConfigChange, this);
+    },
+    onPresetSave: function () {
+        var presetName = this.down("#importerPresetCombo").getRawValue();
+
+        if (presetName == "") {
+            Ext.Msg.alert(i18n("Preset Name Empty"), i18n("The preset name cannot be empty. Type a preset name in the box to the left."));
+            return;
+        }
+
+        var config = Ext.encode(this.importConfiguration);
+
+        var j = Ext.create("PartKeepr.ImportBundle.Entity.ImportPreset");
+        j.set("name", presetName);
+        j.set("configuration", config);
+        j.set("baseEntity", this.model.getName());
+        j.save();
+
     },
     executeImport: function ()
     {
@@ -211,11 +281,9 @@ Ext.define("PartKeepr.Importer.Importer", {
     },
     onConfigChange: function ()
     {
-        //this.importConfiguration[activeItem.getImporterField()] = activeItem.getImporterConfig();
-
         var str = JSON.stringify(this.importConfiguration, undefined, 4);
 
-        this.down("#debugger").body.dom.innerHTML = "<pre>" + str + "</pre>";
+        this.down("#debugger").setValue(str);
 
         Ext.Function.defer(this.refreshPreview, 100, this);
 
@@ -234,7 +302,10 @@ Ext.define("PartKeepr.Importer.Importer", {
             success: function (response)
             {
                 var response = Ext.decode(response.responseText);
-                this.down("#preview").body.dom.innerHTML = "<pre>" + response.logs + "</pre>";
+
+                if (this.down("#preview").body !== undefined) {
+                    this.down("#preview").body.dom.innerHTML = "<pre>" + response.logs + "</pre>";
+                }
             },
             scope: this
         });
@@ -251,8 +322,6 @@ Ext.define("PartKeepr.Importer.Importer", {
                 } else {
                     if (selected[0].data.data.type === "onetomany") {
                         this.down("#configurationCards").setActiveItem(this.down("#importerOneToManyConfiguration"));
-                        this.down("#importerOneToManyConfiguration").setModel(selected[0].data.data.reference,
-                            selected[0].parentNode.data.data.reference);
                     } else {
                         this.down("#configurationCards").setActiveItem(this.down("#importerManyToOneConfiguration"));
                         this.down("#importerManyToOneConfiguration").setModel(selected[0].data.data.reference);
@@ -263,7 +332,7 @@ Ext.define("PartKeepr.Importer.Importer", {
             this.down("#configurationCards").getLayout().getActiveItem().setImporterConfig(
                 selected[0].data.data.configuration);
 
-            if (this.down("#configurationCards").getLayout().getActiveItem().reconfigureColumns !== null) {
+            if (Ext.isFunction(this.down("#configurationCards").getLayout().getActiveItem().reconfigureColumns)) {
                 this.down("#configurationCards").getLayout().getActiveItem().reconfigureColumns(
                     this.importColumnsStore);
             }

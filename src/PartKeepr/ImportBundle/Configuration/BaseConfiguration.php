@@ -24,6 +24,10 @@ class BaseConfiguration
 
     protected $iriConverter;
 
+    static $logs = [];
+
+    static $persistEntities = [];
+
     public function __construct(ClassMetadata $classMetadata, $baseEntity, ReflectionService $reflectionService, EntityManager $em, AdvancedSearchFilter $advancedSearchFilter, IriConverter $iriConverter)
     {
         $this->classMetadata = $classMetadata;
@@ -36,5 +40,26 @@ class BaseConfiguration
 
     public function import ($row) {
 
+    }
+
+    public function persist ($entity) {
+        self::$persistEntities[] = $entity;
+    }
+
+    public function getPersistEntities () {
+        return self::$persistEntities;
+    }
+
+
+    public function log ($message) {
+        self::$logs[] = $message;
+    }
+
+    public function getLog () {
+        return self::$logs;
+    }
+
+    public function clearLog () {
+        self::$logs = [];
     }
 }
