@@ -31,14 +31,6 @@ class ManyToOneConfiguration extends Configuration
 
     protected $associationName;
 
-    /**
-     * @return mixed
-     */
-    public function getAssociationName()
-    {
-        return $this->associationName;
-    }
-
     protected $importBehaviour;
 
     protected $matchers = [];
@@ -50,14 +42,6 @@ class ManyToOneConfiguration extends Configuration
     protected $notFoundSetToEntity;
 
     protected $setToEntity;
-
-    /**
-     * @param mixed $associationName
-     */
-    public function setAssociationName($associationName)
-    {
-        $this->associationName = $associationName;
-    }
 
     public function parseConfiguration($importConfiguration)
     {
@@ -142,9 +126,8 @@ class ManyToOneConfiguration extends Configuration
         switch ($this->importBehaviour) {
             case self::IMPORTBEHAVIOUR_ALWAYSSETTO:
                 $targetEntity = $this->iriConverter->getItemFromIri($this->setToEntity);
-
-                return [$targetEntity,
-                            sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $targetEntity->getId())];
+                $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $targetEntity->getId()));
+                return $targetEntity;
                 break;
             case self::IMPORTBEHAVIOUR_MATCHDATA:
                 $configuration = [];
@@ -161,7 +144,6 @@ class ManyToOneConfiguration extends Configuration
 
                 $configuration = $this->advancedSearchFilter->extractConfiguration($configuration, []);
 
-
                 $filters = $configuration['filters'];
                 $sorters = $configuration['sorters'];
                 $qb = new \Doctrine\ORM\QueryBuilder($this->em);
@@ -172,16 +154,52 @@ class ManyToOneConfiguration extends Configuration
                 try {
                     $result = $qb->getQuery()->getSingleResult();
 
-                    return [$result,
-                            sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $result->getId())];
+                    if ($this->updateBehaviour === self::UPDATEBEHAVIOUR_UPDATEDATA) {
+                        // @todo Update the entity with the specified values
+                    }
+
+                    $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $result->getId()));
+                    return $result;
                 } catch (\Exception $e) {
-                    // @todo implement not found cases
-                    return [null, sprintf("Would stop import as the match %s for association %s was not found", implode(",",$descriptions), $this->getAssociationName())];
+
                 }
+
+                    switch ($this->notFoundBehaviour) {
+                        case self::NOTFOUNDBEHAVIOUR_STOPIMPORT:
+                            $this->log(sprintf("Would stop import as the match %s for association %s was not found", implode(",",$descriptions), $this->getAssociationName()));
+                            break;
+                        case self::NOTFOUNDBEHAVIOUR_SETTOENTITY:
+                            $targetEntity = $this->iriConverter->getItemFromIri($this->notFoundSetToEntity);
+                            $this->log(sprintf("Would set the association %s to %s, since the match %s for association %s was not found", $this->getAssociationName(), $this->notFoundSetToEntity, implode(",",$descriptions)));
+                            return $targetEntity;
+                            break;
+                        case self::NOTFOUNDBEHAVIOUR_CREATEENTITY:
+                            $this->log(sprintf("Would create a new entity of type %s", $this->baseEntity));
+                            return parent::import($row);
+                            break;
+
+                    }
+
                 break;
         }
 
-        return [null, ""];
+        return null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAssociationName()
+    {
+        return $this->associationName;
+    }
+
+    /**
+     * @param mixed $associationName
+     */
+    public function setAssociationName($associationName)
+    {
+        $this->associationName = $associationName;
     }
 
 }

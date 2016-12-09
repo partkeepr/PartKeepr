@@ -8,6 +8,7 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a project part.
@@ -22,7 +23,9 @@ class ProjectPart extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="projectParts")
      * @Groups({"default"})
-     * @ByReference
+     * @Assert\NotNull()
+     *
+     * @ByReference()
      *
      * @var Part
      */
@@ -42,6 +45,7 @@ class ProjectPart extends BaseEntity
      * Specifies the project which belongs to this project part.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project", inversedBy="parts")
+     * @Assert\NotNull()
      *
      * @var Project
      */
@@ -58,16 +62,6 @@ class ProjectPart extends BaseEntity
     private $remarks;
 
     /**
-     * Sets the part which belongs to this entry.
-     *
-     * @param Part $part
-     */
-    public function setPart(Part $part)
-    {
-        $this->part = $part;
-    }
-
-    /**
      * Returns the part which belongs to this entry.
      *
      * @return Part
@@ -78,13 +72,13 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Sets the quantity for this entry.
+     * Sets the part which belongs to this entry.
      *
-     * @param int $quantity
+     * @param Part $part
      */
-    public function setQuantity($quantity)
+    public function setPart(Part $part)
     {
-        $this->quantity = intval($quantity);
+        $this->part = $part;
     }
 
     /**
@@ -98,13 +92,13 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Sets the project assigned to this entry.
+     * Sets the quantity for this entry.
      *
-     * @param Project $project
+     * @param int $quantity
      */
-    public function setProject(Project $project = null)
+    public function setQuantity($quantity)
     {
-        $this->project = $project;
+        $this->quantity = intval($quantity);
     }
 
     /**
@@ -118,13 +112,13 @@ class ProjectPart extends BaseEntity
     }
 
     /**
-     * Sets the remarks for this entry.
+     * Sets the project assigned to this entry.
      *
-     * @param string $remarks
+     * @param Project $project
      */
-    public function setRemarks($remarks)
+    public function setProject(Project $project = null)
     {
-        $this->remarks = $remarks;
+        $this->project = $project;
     }
 
     /**
@@ -135,5 +129,15 @@ class ProjectPart extends BaseEntity
     public function getRemarks()
     {
         return $this->remarks;
+    }
+
+    /**
+     * Sets the remarks for this entry.
+     *
+     * @param string $remarks
+     */
+    public function setRemarks($remarks)
+    {
+        $this->remarks = $remarks;
     }
 }

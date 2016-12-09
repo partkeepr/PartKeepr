@@ -66,14 +66,18 @@ class ImporterService
         $entities = [];
         $logs = [];
 
+        $configuration = $this->parseConfiguration();
+
         foreach ($this->importData as $row) {
-            list($entity, $log) = $this->parseConfiguration()->import($row);
+            $entity = $configuration->import($row);
             $entities[] = $entity;
             $logs[] = implode("<br/>",
-                [ "data" => implode(",",$row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $log), '</p>']);
+                [ "data" => implode(",",$row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog() ), '</p>']);
+
+            $configuration->clearLog();
         }
 
-        return [$entities, implode("<br/>", $logs)];
+        return [$configuration->getPersistEntities(), implode("<br/>", $logs)];
     }
 
     public function parseConfiguration()

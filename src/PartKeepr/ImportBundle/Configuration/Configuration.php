@@ -1,7 +1,9 @@
 <?php
 namespace PartKeepr\ImportBundle\Configuration;
 
+use Symfony\Component\Finder\Tests\Iterator\Iterator;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\Tests\Fixtures\TraversableArrayObject;
 
 
 class Configuration extends BaseConfiguration
@@ -16,12 +18,16 @@ class Configuration extends BaseConfiguration
      */
     private $manyToOneAssociations = [];
 
+    /**
+     * @var OneToManyConfiguration[]
+     */
+    private $oneToManyAssociations = [];
+
     public function parseConfiguration($importConfiguration)
     {
         if (property_exists($importConfiguration, "fields")) {
             foreach ($importConfiguration->fields as $field => $configuration) {
                 if ($this->classMetadata->hasField($field)) {
-
                     $fieldConfiguration = new FieldConfiguration($this->classMetadata, $this->baseEntity,
                         $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
                     $fieldConfiguration->setFieldName($field);
@@ -29,7 +35,7 @@ class Configuration extends BaseConfiguration
                         $this->fields[] = $fieldConfiguration;
                     }
                 } else {
-                    throw new \Exception("Field $field not found in ".$this->baseEntity);
+                    //throw new \Exception("Field $field not found in ".$this->baseEntity);
                 }
             }
         }
@@ -47,7 +53,25 @@ class Configuration extends BaseConfiguration
                         $this->manyToOneAssociations[] = $manyToOneconfiguration;
                     }
                 } else {
-                    throw new \Exception("Association $manyToOne not found in ".$this->baseEntity);
+                    //throw new \Exception("Association $manyToOne not found in ".$this->baseEntity);
+                }
+            }
+        }
+
+        if (property_exists($importConfiguration, "onetomany")) {
+            foreach ($importConfiguration->onetomany as $oneToMany => $configuration) {
+                if ($this->classMetadata->hasAssociation($oneToMany)) {
+                    $targetClass = $this->classMetadata->getAssociationTargetClass($oneToMany);
+                    $cm = $this->em->getClassMetadata($targetClass);
+                    $oneToManyConfiguration = new OneToManyConfiguration($cm, $targetClass,
+                        $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
+                    $oneToManyConfiguration->setAssociationName($oneToMany);
+
+                    if ($oneToManyConfiguration->parseConfiguration($configuration) !== false) {
+                        $this->oneToManyAssociations[] = $oneToManyConfiguration;
+                    }
+                } else {
+                    //throw new \Exception("Association $oneToMany not found in ".$this->baseEntity);
                 }
             }
         }
@@ -56,16 +80,13 @@ class Configuration extends BaseConfiguration
     }
 
     public function import ($row) {
-        $logs = [];
-
         $obj = new $this->baseEntity;
+        $this->persist($obj);
         $accessor = PropertyAccess::createPropertyAccessor();
 
         foreach ($this->fields as $field) {
             $name = $field->getFieldName();
-            list($data, $log) = $field->import($row);
-
-            $logs[] = $log;
+            $data = $field->import($row);
 
             if ($data !== null) {
                 $accessor->setValue($obj, $name, $data);
@@ -74,13 +95,20 @@ class Configuration extends BaseConfiguration
 
         foreach ($this->manyToOneAssociations as $manyToOneAssociation) {
             $name = $manyToOneAssociation->getAssociationName();
-            list($data, $log) = $manyToOneAssociation->import($row);
-            $logs[] = $log;
+            $data = $manyToOneAssociation->import($row);
             if ($data !== null) {
                 $accessor->setValue($obj, $name, $data);
             }
         }
 
-        return [$obj, $logs];
+        foreach ($this->oneToManyAssociations as $oneToManyAssociation) {
+            $name = $oneToManyAssociation->getAssociationName();
+            $data = $oneToManyAssociation->import($row);
+            if ($data !== null) {
+                $accessor->setValue($obj, $name, array($data));
+            }
+        }
+
+        return $obj;
     }
 }

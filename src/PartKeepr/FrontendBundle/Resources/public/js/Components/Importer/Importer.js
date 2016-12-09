@@ -11,7 +11,28 @@ Ext.define("PartKeepr.Importer.Importer", {
             xtype: 'button',
             itemId: "executeImport",
             text: i18n("Execute import")
-        }
+        },
+        {
+            xtype: 'tbseparator',
+        },
+        {
+            xtype: 'combo',
+            store: {
+                model: 'PartKeepr.ImportBundle.Entity.ImportPreset',
+                autoLoad: true
+            },
+            itemId: 'importerPresetCombo',
+            displayField: 'name',
+            valueField: '@id'
+        }, {
+            xtype: 'button',
+            itemId: "savePreset",
+            text: i18n("Save Preset")
+        }, {
+            xtype: 'button',
+            itemId: "deletePreset",
+            text: i18n("Delete Preset")
+        },
     ],
     items: [
         {
@@ -87,8 +108,16 @@ Ext.define("PartKeepr.Importer.Importer", {
             region: 'east',
             width: 300,
             split: true,
-            itemId: "debugger",
-            scollable: true
+            layout: 'fit',
+
+            items: [
+                {
+                    xtype: 'textarea',
+                    itemId: "debugger",
+                    scrollable: true,
+                    style: 'font-family: monospace;'
+                }
+            ]
         },
         {
             xtype: 'tabpanel',
@@ -104,6 +133,28 @@ Ext.define("PartKeepr.Importer.Importer", {
                     title: i18n("Preview"),
                     itemId: 'preview',
                     bodyStyle: "overflow: scroll;"
+                }, {
+                    title: i18n("Errors"),
+                    itemId: 'errorsGrid',
+                    xtype: 'grid',
+                    columns: [
+                        {
+                            text: i18n("Path"),
+                            flex: 1,
+                            dataIndex: "node",
+                            renderer: function (val)
+                            {
+                                return val.getPath("text", "/");
+                            }
+                        }, {
+                            text: i18n("Error"),
+                            flex: 1,
+                            dataIndex: "error"
+                        }
+                    ],
+                    store: {
+                        fields: ["node", "error"]
+                    }
                 }
             ]
         }
@@ -124,7 +175,41 @@ Ext.define("PartKeepr.Importer.Importer", {
 
         this.importConfiguration = {};
 
+        this.applyConfiguration();
+
+        this.importColumnsStore = Ext.create("Ext.data.Store", {
+            fields: ["headerIndex", "headerName"],
+            storeId: "importColumns"
+        });
+
+        this.down("#importerPresetCombo").getStore().addFilter({
+            property: "baseEntity",
+            operator: "=",
+            value: this.model.getName()
+        });
+
+        this.down("#importerEntityConfiguration").setModel(this.model);
+
+        this.down("#fieldTree").on("selectionchange", this.onFieldChange, this);
+        this.down("#fieldTree").on("beforeselect", this.onBeforeSelect, this);
+        this.down("#selectImportFile").on("click", this.uploadCSVFile, this);
+        this.down("#executeImport").on("click", this.executeImport, this);
+        this.down("#importerEntityConfiguration").on("configChanged", this.onConfigChange, this);
+        this.down("#importerFieldConfiguration").on("configChanged", this.onConfigChange, this);
+        this.down("#importerOneToManyConfiguration").on("configChanged", this.onConfigChange, this);
+        this.down("#importerManyToOneConfiguration").on("configChanged", this.onConfigChange, this);
+
+        this.down("#savePreset").on("click", this.onPresetSave, this);
+        this.down("#importerPresetCombo").on("select", this.onPresetSelect, this);
+
+        this.loadData("/~felicitus/PartKeepr/web/app_dev.php/api/temp_uploaded_files/668");
+    },
+    applyConfiguration: function ()
+    {
         var rootNode = this.down("#fieldTree").getRootNode();
+
+        rootNode.removeAll();
+
         rootNode.set("text", this.model.getName());
         rootNode.set("data", {
             name: "",
@@ -139,22 +224,36 @@ Ext.define("PartKeepr.Importer.Importer", {
 
         treeMaker.make(rootNode, this.model, "", Ext.bind(this.appendFieldData, this));
         rootNode.expand();
+    },
+    onPresetSelect: function (combo, record)
+    {
+        this.importConfiguration = Ext.decode(record.get("configuration"));
 
-        this.down("#importerEntityConfiguration").setModel(this.model);
+        // @todo check if the json string is correct
+        // @todo refresh active panels
 
-        this.importColumnsStore = Ext.create("Ext.data.Store", {
-            fields: ["headerIndex", "headerName"],
-            storeId: "importColumns"
-        });
+        this.applyConfiguration();
+        this.refreshPreview();
 
-        this.down("#fieldTree").on("selectionchange", this.onFieldChange, this);
-        this.down("#fieldTree").on("beforeselect", this.onBeforeSelect, this);
-        this.down("#selectImportFile").on("click", this.uploadCSVFile, this);
-        this.down("#executeImport").on("click", this.executeImport, this);
-        this.down("#importerEntityConfiguration").on("configChanged", this.onConfigChange, this);
-        this.down("#importerFieldConfiguration").on("configChanged", this.onConfigChange, this);
-        this.down("#importerOneToManyConfiguration").on("configChanged", this.onConfigChange, this);
-        this.down("#importerManyToOneConfiguration").on("configChanged", this.onConfigChange, this);
+    },
+    onPresetSave: function ()
+    {
+        var presetName = this.down("#importerPresetCombo").getRawValue();
+
+        if (presetName === "") {
+            Ext.Msg.alert(i18n("Preset Name Empty"),
+                i18n("The preset name cannot be empty. Type a preset name in the box to the left."));
+            return;
+        }
+
+        var config = Ext.encode(this.importConfiguration);
+
+        var j = Ext.create("PartKeepr.ImportBundle.Entity.ImportPreset");
+        j.set("name", presetName);
+        j.set("configuration", config);
+        j.set("baseEntity", this.model.getName());
+        j.save();
+
     },
     executeImport: function ()
     {
@@ -180,7 +279,8 @@ Ext.define("PartKeepr.Importer.Importer", {
                             xtype: 'panel',
                             itemId: 'resultPanel',
                             listeners: {
-                                render: function (p) {
+                                render: function (p)
+                                {
                                     p.getEl().dom.innerHTML = "<pre><strong>Import Results</strong>\n\n" + response.logs + "</pre>";
                                 }
                             }
@@ -211,17 +311,16 @@ Ext.define("PartKeepr.Importer.Importer", {
     },
     onConfigChange: function ()
     {
-        //this.importConfiguration[activeItem.getImporterField()] = activeItem.getImporterConfig();
-
         var str = JSON.stringify(this.importConfiguration, undefined, 4);
 
-        this.down("#debugger").body.dom.innerHTML = "<pre>" + str + "</pre>";
+        this.down("#debugger").setValue(str);
 
         Ext.Function.defer(this.refreshPreview, 100, this);
 
     },
     refreshPreview: function ()
     {
+        this.validateConfig();
 
         Ext.Ajax.request({
 
@@ -234,7 +333,10 @@ Ext.define("PartKeepr.Importer.Importer", {
             success: function (response)
             {
                 var response = Ext.decode(response.responseText);
-                this.down("#preview").body.dom.innerHTML = "<pre>" + response.logs + "</pre>";
+
+                if (this.down("#preview").body !== undefined) {
+                    this.down("#preview").body.dom.innerHTML = "<pre>" + response.logs + "</pre>";
+                }
             },
             scope: this
         });
@@ -251,8 +353,6 @@ Ext.define("PartKeepr.Importer.Importer", {
                 } else {
                     if (selected[0].data.data.type === "onetomany") {
                         this.down("#configurationCards").setActiveItem(this.down("#importerOneToManyConfiguration"));
-                        this.down("#importerOneToManyConfiguration").setModel(selected[0].data.data.reference,
-                            selected[0].parentNode.data.data.reference);
                     } else {
                         this.down("#configurationCards").setActiveItem(this.down("#importerManyToOneConfiguration"));
                         this.down("#importerManyToOneConfiguration").setModel(selected[0].data.data.reference);
@@ -263,7 +363,7 @@ Ext.define("PartKeepr.Importer.Importer", {
             this.down("#configurationCards").getLayout().getActiveItem().setImporterConfig(
                 selected[0].data.data.configuration);
 
-            if (this.down("#configurationCards").getLayout().getActiveItem().reconfigureColumns !== null) {
+            if (Ext.isFunction(this.down("#configurationCards").getLayout().getActiveItem().reconfigureColumns)) {
                 this.down("#configurationCards").getLayout().getActiveItem().reconfigureColumns(
                     this.importColumnsStore);
             }
@@ -395,5 +495,79 @@ Ext.define("PartKeepr.Importer.Importer", {
         store.add(recordData);
 
         this.down("#sourceFileGrid").reconfigure(store, columns);
+    },
+    validateConfig: function ()
+    {
+        this.down("#errorsGrid").setTitle(i18n("Errors"));
+        this.down("#errorsGrid").getStore().removeAll();
+        this.validateConfigNode(this.down("#fieldTree").getRootNode());
+    },
+    validateConfigNode: function (node)
+    {
+        var configuration = node.data.data.configuration;
+        var recurse = false;
+
+        switch (node.data.data.type) {
+            case "field":
+                if (node.data.required) {
+                    if (configuration.fieldConfiguration) {
+                        switch (configuration.fieldConfiguration) {
+                            case "ignore":
+                                this.appendError(node, i18n("The field must be set to a value, but it is ignored"));
+                                break;
+                            case "copyFrom":
+                                if (configuration.copyFromField === "") {
+                                    this.appendError(node, i18n(
+                                        "The field is configured to copy a value from the source file, but no source file field was configured"));
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        this.appendError(node, i18n("The field is required, but it is not configured"));
+                    }
+                }
+                break;
+            case "manytoone":
+                if (node.data.required) {
+                    switch (configuration.importBehaviour) {
+                        case "dontSet":
+                            this.appendError(node, i18n("The entity is required, but it is not configured"));
+                            break;
+                        case "matchData":
+                            if (configuration.notFoundBehaviour === "createEntity") {
+                                recurse = true;
+                            }
+                            break;
+
+                    }
+                } else {
+                    recurse = false;
+                }
+                break;
+            case "onetomany":
+                recurse = false;
+                break;
+            default:
+                recurse = true;
+                break;
+        }
+
+        if (recurse) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                this.validateConfigNode(node.childNodes[i]);
+            }
+        }
+    },
+    appendError: function (node, error)
+    {
+        this.down("#errorsGrid").getStore().add({node: node, error: error});
+
+        var title = i18n("Errors") + " (" +
+            this.down("#errorsGrid").getStore().getCount() + ")";
+
+
+        this.down("#errorsGrid").setTitle(title);
     }
 });
