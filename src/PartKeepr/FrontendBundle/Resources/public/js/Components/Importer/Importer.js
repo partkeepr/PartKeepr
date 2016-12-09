@@ -19,16 +19,16 @@ Ext.define("PartKeepr.Importer.Importer", {
             xtype: 'combo',
             store: {
                 model: 'PartKeepr.ImportBundle.Entity.ImportPreset',
-            autoLoad: true
+                autoLoad: true
             },
             itemId: 'importerPresetCombo',
             displayField: 'name',
             valueField: '@id'
-        },{
+        }, {
             xtype: 'button',
             itemId: "savePreset",
             text: i18n("Save Preset")
-        },{
+        }, {
             xtype: 'button',
             itemId: "deletePreset",
             text: i18n("Delete Preset")
@@ -110,12 +110,14 @@ Ext.define("PartKeepr.Importer.Importer", {
             split: true,
             layout: 'fit',
 
-            items: [{
-              xtype: 'textarea',
-                itemId: "debugger",
-                scrollable: true,
-                style: 'font-family: monospace;'
-            }]
+            items: [
+                {
+                    xtype: 'textarea',
+                    itemId: "debugger",
+                    scrollable: true,
+                    style: 'font-family: monospace;'
+                }
+            ]
         },
         {
             xtype: 'tabpanel',
@@ -131,6 +133,28 @@ Ext.define("PartKeepr.Importer.Importer", {
                     title: i18n("Preview"),
                     itemId: 'preview',
                     bodyStyle: "overflow: scroll;"
+                }, {
+                    title: i18n("Errors"),
+                    itemId: 'errorsGrid',
+                    xtype: 'grid',
+                    columns: [
+                        {
+                            text: i18n("Path"),
+                            flex: 1,
+                            dataIndex: "node",
+                            renderer: function (val)
+                            {
+                                return val.getPath("text", "/");
+                            }
+                        }, {
+                            text: i18n("Error"),
+                            flex: 1,
+                            dataIndex: "error"
+                        }
+                    ],
+                    store: {
+                        fields: ["node", "error"]
+                    }
                 }
             ]
         }
@@ -159,7 +183,7 @@ Ext.define("PartKeepr.Importer.Importer", {
         });
 
         this.down("#importerPresetCombo").getStore().addFilter({
-           property: "baseEntity",
+            property: "baseEntity",
             operator: "=",
             value: this.model.getName()
         });
@@ -180,9 +204,10 @@ Ext.define("PartKeepr.Importer.Importer", {
 
         this.loadData("/~felicitus/PartKeepr/web/app_dev.php/api/temp_uploaded_files/668");
     },
-    applyConfiguration: function () {
+    applyConfiguration: function ()
+    {
         var rootNode = this.down("#fieldTree").getRootNode();
-        
+
         rootNode.removeAll();
 
         rootNode.set("text", this.model.getName());
@@ -200,20 +225,24 @@ Ext.define("PartKeepr.Importer.Importer", {
         treeMaker.make(rootNode, this.model, "", Ext.bind(this.appendFieldData, this));
         rootNode.expand();
     },
-    onPresetSelect: function (combo, record) {
+    onPresetSelect: function (combo, record)
+    {
         this.importConfiguration = Ext.decode(record.get("configuration"));
 
         // @todo check if the json string is correct
         // @todo refresh active panels
 
         this.applyConfiguration();
+        this.refreshPreview();
 
     },
-    onPresetSave: function () {
+    onPresetSave: function ()
+    {
         var presetName = this.down("#importerPresetCombo").getRawValue();
 
-        if (presetName == "") {
-            Ext.Msg.alert(i18n("Preset Name Empty"), i18n("The preset name cannot be empty. Type a preset name in the box to the left."));
+        if (presetName === "") {
+            Ext.Msg.alert(i18n("Preset Name Empty"),
+                i18n("The preset name cannot be empty. Type a preset name in the box to the left."));
             return;
         }
 
@@ -250,7 +279,8 @@ Ext.define("PartKeepr.Importer.Importer", {
                             xtype: 'panel',
                             itemId: 'resultPanel',
                             listeners: {
-                                render: function (p) {
+                                render: function (p)
+                                {
                                     p.getEl().dom.innerHTML = "<pre><strong>Import Results</strong>\n\n" + response.logs + "</pre>";
                                 }
                             }
@@ -290,6 +320,7 @@ Ext.define("PartKeepr.Importer.Importer", {
     },
     refreshPreview: function ()
     {
+        this.validateConfig();
 
         Ext.Ajax.request({
 
@@ -464,5 +495,79 @@ Ext.define("PartKeepr.Importer.Importer", {
         store.add(recordData);
 
         this.down("#sourceFileGrid").reconfigure(store, columns);
+    },
+    validateConfig: function ()
+    {
+        this.down("#errorsGrid").setTitle(i18n("Errors"));
+        this.down("#errorsGrid").getStore().removeAll();
+        this.validateConfigNode(this.down("#fieldTree").getRootNode());
+    },
+    validateConfigNode: function (node)
+    {
+        var configuration = node.data.data.configuration;
+        var recurse = false;
+
+        switch (node.data.data.type) {
+            case "field":
+                if (node.data.required) {
+                    if (configuration.fieldConfiguration) {
+                        switch (configuration.fieldConfiguration) {
+                            case "ignore":
+                                this.appendError(node, i18n("The field must be set to a value, but it is ignored"));
+                                break;
+                            case "copyFrom":
+                                if (configuration.copyFromField === "") {
+                                    this.appendError(node, i18n(
+                                        "The field is configured to copy a value from the source file, but no source file field was configured"));
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        this.appendError(node, i18n("The field is required, but it is not configured"));
+                    }
+                }
+                break;
+            case "manytoone":
+                if (node.data.required) {
+                    switch (configuration.importBehaviour) {
+                        case "dontSet":
+                            this.appendError(node, i18n("The entity is required, but it is not configured"));
+                            break;
+                        case "matchData":
+                            if (configuration.notFoundBehaviour === "createEntity") {
+                                recurse = true;
+                            }
+                            break;
+
+                    }
+                } else {
+                    recurse = false;
+                }
+                break;
+            case "onetomany":
+                recurse = false;
+                break;
+            default:
+                recurse = true;
+                break;
+        }
+
+        if (recurse) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                this.validateConfigNode(node.childNodes[i]);
+            }
+        }
+    },
+    appendError: function (node, error)
+    {
+        this.down("#errorsGrid").getStore().add({node: node, error: error});
+
+        var title = i18n("Errors") + " (" +
+            this.down("#errorsGrid").getStore().getCount() + ")";
+
+
+        this.down("#errorsGrid").setTitle(title);
     }
 });

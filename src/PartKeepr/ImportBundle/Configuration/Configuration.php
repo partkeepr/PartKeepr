@@ -53,7 +53,7 @@ class Configuration extends BaseConfiguration
                         $this->manyToOneAssociations[] = $manyToOneconfiguration;
                     }
                 } else {
-                    throw new \Exception("Association $manyToOne not found in ".$this->baseEntity);
+                    //throw new \Exception("Association $manyToOne not found in ".$this->baseEntity);
                 }
             }
         }
@@ -71,7 +71,7 @@ class Configuration extends BaseConfiguration
                         $this->oneToManyAssociations[] = $oneToManyConfiguration;
                     }
                 } else {
-                    throw new \Exception("Association $oneToMany not found in ".$this->baseEntity);
+                    //throw new \Exception("Association $oneToMany not found in ".$this->baseEntity);
                 }
             }
         }
