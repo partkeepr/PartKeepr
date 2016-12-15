@@ -47,6 +47,18 @@
     background-image: url(../images/form/reload-trigger.png);
 }
 
+.x-form-trigger-save {
+    background-image: url(../images/form/trigger-save.png);
+}
+
+.x-form-trigger-add {
+    background-image: url(../images/form/trigger-add.png);
+}
+
+.x-form-trigger-delete {
+    background-image: url(../images/form/trigger-delete.png);
+}
+
 .x-form-trigger-link {
     background-image: url(../images/form/trigger-link.png);
 }
