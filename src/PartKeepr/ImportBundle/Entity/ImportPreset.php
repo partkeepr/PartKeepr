@@ -8,7 +8,8 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="name_entity_unique", columns={"baseEntity", "name"})})
+ * @ORM\Entity()
  * @TargetService(uri="/api/import_presets")
  */
 class ImportPreset extends BaseEntity
