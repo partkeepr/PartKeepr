@@ -70,6 +70,9 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
 
         this.visitedModels.push(model.getName());
         for (var i = 0; i < fields.length; i++) {
+            if (!fields[i]["persist"]) {
+                continue;
+            }
 
             if (fields[i]["$reference"] === undefined) {
                 checked = false;
@@ -114,7 +117,9 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                             expanded: true,
                             data: {
                                 name: prefix + fields[i].name,
-                                type: "relation"
+                                type: "manytoone",
+                                reference: fields[i].reference.cls,
+                                model: fields[i].reference.cls.getName()
                             },
                             leaf: false
                         });
@@ -134,7 +139,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
             if (typeof associations[i].legacy !== "undefined" && associations[i].isMany === true) {
                 for (j = 0; j < this.visitedModels.length; j++) {
                     if (this.visitedModels[j] === associations[i].model) {
-                       associationAlreadyProcessed = true;
+                        associationAlreadyProcessed = true;
                     }
                 }
 
