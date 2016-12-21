@@ -13,7 +13,7 @@ class Filter implements AssociationPropertyInterface
     const OPERATOR_GREATER_THAN = '>';
     const OPERATOR_EQUALS = '=';
     const OPERATOR_GREATER_THAN_EQUALS = '>=';
-    const OPERATOR_LESS_THAN_EQUALS = '>=';
+    const OPERATOR_LESS_THAN_EQUALS = '<=';
     const OPERATOR_NOT_EQUALS = '!=';
     const OPERATOR_IN = 'in';
     const OPERATOR_LIKE = 'like';

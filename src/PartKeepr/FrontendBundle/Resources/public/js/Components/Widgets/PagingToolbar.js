@@ -21,6 +21,16 @@ Ext.define("PartKeepr.PagingToolbar", {
             disabled: this.store.isLoading()
         }));
 
+        items.push({
+            itemId: 'addFilter',
+            xtype: 'button',
+            tooltip: i18n("Add Filter"),
+            iconCls: "fugue-icon funnel--plus",
+            disabled: this.store.isLoading(),
+            handler: this.onAddFilterClick,
+            scope: this
+        });
+
         items.push(Ext.create({
             itemId: 'filter',
             xtype: 'button',
@@ -37,5 +47,23 @@ Ext.define("PartKeepr.PagingToolbar", {
         }));
 
         return items;
+    },
+    onAddFilterClick: function () {
+        this.addFilterWindow = Ext.create("Ext.window.Window", {
+            layout: 'fit',
+            items: {
+                xtype: "partkeepr.filterexpression",
+                sourceModel: this.getStore().getModel(),
+                listeners: {
+                    "applyfilter": this.onAddFilter,
+                    scope: this
+                }
+            }
+        });
+        this.addFilterWindow.show();
+    },
+    onAddFilter: function (filter) {
+        this.getStore().addFilter(filter);
+        this.addFilterWindow.close();
     }
 });

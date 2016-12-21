@@ -14,13 +14,13 @@ Ext.define("PartKeepr.Widgets.EntityPicker", {
 
         bottomToolbar.insert(0, [{
             xtype: 'button',
+            iconCls: "fugue-icon tick",
             text: i18n("Select entity"),
             itemId: "selectEntity",
             disabled: true,
             handler: this.onEntitySelect,
             scope: this
         }, '-']);
-
 
         this.down("#grid").addDocked(bottomToolbar);
         this.down("#grid").on("selectionchange", this.onSelectionChange, this);
