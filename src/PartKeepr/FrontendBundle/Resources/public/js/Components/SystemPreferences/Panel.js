@@ -10,7 +10,8 @@ Ext.define('PartKeepr.Components.SystemPreferences.Panel', {
             "PartKeepr.Components.SystemPreferences.Preferences.RequiredPartFields",
             "PartKeepr.Components.SystemPreferences.Preferences.RequiredPartManufacturerFields",
             "PartKeepr.Components.SystemPreferences.Preferences.RequiredPartDistributorFields",
-            "PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerConfiguration"
+            "PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerConfiguration",
+            "PartKeepr.Components.SystemPreferences.Preferences.ActionsConfiguration"
         ];
 
         var settingItems = [], item;

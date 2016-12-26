@@ -189,7 +189,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         request.setCallback(function (options, success, response)
         {
-            this.processCallActionResponse(options, success, response, ignoreException);
+            this.processCallActionResponse(options, success, response, ignoreException, action);
 
             if (Ext.isFunction(callback)) {
                 callback(options, success, response);
@@ -198,15 +198,33 @@ Ext.define("PartKeepr.data.HydraProxy", {
 
         this.sendRequest(request);
     },
-    processCallActionResponse: function (options, success, response, ignoreException)
+    processCallActionResponse: function (options, success, response, ignoreException, action)
     {
+        var i;
+
         if (success === true) {
+            var actions = PartKeepr.getApplication().getSystemPreference("partkeepr.actions", []);
+
+            for (i = 0; i < actions.length; i++) {
+                if (this.getModel().$className === actions[i].baseEntity && action == actions[i].action) {
+                    PartKeepr.BatchJobBundle.Entity.BatchJob.load(actions[i].batchJob, {
+                        scope: this,
+                        success: this.onBatchJobLoaded
+                    });
+                }
+            }
             return;
         }
 
         if (!ignoreException) {
             this.showException(response);
         }
+    },
+    onBatchJobLoaded: function (record) {
+        var j = Ext.create("PartKeepr.Components.BatchJob.BatchJobExecutionWindow", {
+            batchJob: record
+        });
+        j.show();
     },
     showException: function (response)
     {
