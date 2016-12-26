@@ -359,6 +359,9 @@ Ext.application({
      */
     getSystemPreference: function (key, defaultValue)
     {
+        if (this.systemPreferenceStore === undefined) {
+            return defaultValue;
+        }
         var record = this.systemPreferenceStore.findRecord("preferenceKey", key);
 
         if (record) {

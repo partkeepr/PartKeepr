@@ -67,6 +67,10 @@
     background-image: url(../images/form/trigger-help.gif);
 }
 
+.x-form-trigger-ellipsis {
+    background-image: url(../images/form/trigger-ellipsis.png);
+}
+
 .partkeepr-logo {
     height: 26px;
     padding-right: 30px;

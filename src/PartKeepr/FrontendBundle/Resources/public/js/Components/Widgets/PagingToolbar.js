@@ -48,21 +48,20 @@ Ext.define("PartKeepr.PagingToolbar", {
 
         return items;
     },
-    onAddFilterClick: function () {
-        this.addFilterWindow = Ext.create("Ext.window.Window", {
-            layout: 'fit',
-            items: {
-                xtype: "partkeepr.filterexpression",
-                sourceModel: this.getStore().getModel(),
-                listeners: {
-                    "applyfilter": this.onAddFilter,
-                    scope: this
-                }
+    onAddFilterClick: function ()
+    {
+        this.addFilterWindow = Ext.create("PartKeepr.Widgets.FilterExpressionWindow", {
+
+            sourceModel: this.getStore().getModel(),
+            listeners: {
+                "applyfilter": this.onAddFilter,
+                scope: this
             }
         });
         this.addFilterWindow.show();
     },
-    onAddFilter: function (filter) {
+    onAddFilter: function (filter)
+    {
         this.getStore().addFilter(filter);
         this.addFilterWindow.close();
     }

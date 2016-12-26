@@ -3,7 +3,6 @@
 namespace PartKeepr\ImageBundle\Tests;
 
 use PartKeepr\CoreBundle\Tests\WebTestCase;
-use PartKeepr\ImageBundle\Entity\TempImage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageControllerTest extends WebTestCase
@@ -62,6 +61,7 @@ class ImageControllerTest extends WebTestCase
             'GET',
             $uri
         );
+
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }

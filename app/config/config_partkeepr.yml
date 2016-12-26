@@ -118,6 +118,63 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.batchjob.item_operation.execute:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.batchjob"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/batch_jobs/{id}/execute"           # Path
+             -    "partkeepr.batchjob.execute"         # Controller
+             -    "BatchJobExecute"                 # Route name
+
+    resource.batchjob:
+        parent:    "api.resource"
+        arguments: [ 'PartKeepr\BatchJobBundle\Entity\BatchJob' ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.batchjob.item_operation.get", "@resource.batchjob.item_operation.put", "@resource.batchjob.item_operation.delete", "@resource.batchjob.item_operation.execute" ] ]
+
+
+
+
+
+    resource.batchjob_queryfield:
+        parent:    "api.resource"
+        arguments: [ 'PartKeepr\BatchJobBundle\Entity\BatchJobQueryField' ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.batchjob_updatefield:
+        parent:    "api.resource"
+        arguments: [ 'PartKeepr\BatchJobBundle\Entity\BatchJobUpdateField' ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+
     resource.footprint_image.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false

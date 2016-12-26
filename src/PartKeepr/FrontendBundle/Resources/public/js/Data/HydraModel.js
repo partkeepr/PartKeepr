@@ -40,6 +40,65 @@ Ext.define("PartKeepr.data.HydraModel", {
         return ret;
     },
     /**
+     * Returns the field type for a given field path as an object with the following properties:
+     *
+     * {
+     *  type: "field", "onetomany" or "manytoone"
+     *  reference: Only set if the type is "onetomany" or "manytoone" - holds the class name for the relation
+     * }
+     */
+    getFieldType: function (fieldName)
+    {
+        var ret = null, role, tmp, i;
+
+        for (i=0;i<this.fields.length;i++) {
+            if (this.fields[i].getName() === fieldName) {
+                if (this.fields[i].reference !== null) {
+                    ret = {
+                        type: "onetomany",
+                        reference: this.fields[i].reference
+                    };
+                } else {
+                    ret = {
+                        type: "field"
+                    };
+                }
+            }
+        }
+
+        if (this.associations[fieldName]) {
+            return {
+                type: "manytoone",
+                reference: this.associations[fieldName].type
+            };
+        }
+
+        if (ret === null) {
+            // The field is undefined, attempt to retrieve data via associations
+            var parts = fieldName.split(".");
+
+            if (parts.length < 2) {
+                return null;
+            }
+
+            for (i=0;i<this.fields.length;i++) {
+                if (this.fields[i].getName() === parts[0]) {
+                    parts.shift();
+                    tmp = Ext.create(this.fields[i].reference.type);
+                    return tmp.getFieldType(parts.join("."));
+                }
+            }
+
+            if (this.associations[parts[0]]) {
+                role = this.associations[parts[0]];
+                tmp = Ext.create(role.type);
+                parts.shift();
+                return tmp.getFieldType(parts.join("."));
+            }
+        }
+        return ret;
+    },
+    /**
      * Gets all of the data from this Models *loaded* associations. It does this
      * recursively. For example if we have a User which hasMany Orders, and each Order
      * hasMany OrderItems, it will return an object like this:

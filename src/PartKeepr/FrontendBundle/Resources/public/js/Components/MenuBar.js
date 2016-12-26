@@ -7,10 +7,10 @@ Ext.define('PartKeepr.MenuBar', {
     },
 
     createMenu: function (target, menuPath, root) {
-        var item = menuPath.shift();
+        var item = menuPath.shift(), newItem;
 
         if (item === undefined) {
-            var newItem = {text: target.title, iconCls: target.iconCls, target: target};
+            newItem = {text: target.title, iconCls: target.iconCls, target: target};
 
             root.menu.push(newItem);
             return root;
@@ -26,7 +26,7 @@ Ext.define('PartKeepr.MenuBar', {
         }
 
         if (foundItem === false) {
-            var newItem = {menu: []};
+            newItem = {menu: []};
 
             Ext.applyIf(newItem, item);
 
@@ -40,7 +40,7 @@ Ext.define('PartKeepr.MenuBar', {
         return root;
     },
     initComponent: function () {
-        var target, menus, menuItemIterator, menuPathIterator;
+        var target, menuItemIterator;
 
         this.ui = "mainmenu";
 
@@ -59,6 +59,7 @@ Ext.define('PartKeepr.MenuBar', {
             "PartKeepr.UserEditorComponent",
             "PartKeepr.PartMeasurementUnitEditorComponent",
             "PartKeepr.UnitEditorComponent",
+            "PartKeepr.BatchJobEditorComponent",
 
             // View Menu
             "PartKeepr.SummaryStatisticsPanel",
@@ -66,7 +67,7 @@ Ext.define('PartKeepr.MenuBar', {
             "PartKeepr.SystemInformationGrid",
             "PartKeepr.ProjectReportView",
             "PartKeepr.SystemNoticeEditorComponent",
-            "PartKeepr.StockHistoryGrid"
+            "PartKeepr.StockHistoryGrid",
         ];
 
 
@@ -74,11 +75,11 @@ Ext.define('PartKeepr.MenuBar', {
             target = Ext.ClassManager.get(menuItems[menuItemIterator]);
 
             if (!target) {
-                console.log("Error: " + menuItems[menuItemIterator] + " not found!");
+                Ext.raise("Error: " + menuItems[menuItemIterator] + " not found!");
             }
 
             if (!target.menuPath) {
-                console.log("Error: " + menuItems[menuItemIterator] + " has no menuPath defined!");
+                Ext.raise("Error: " + menuItems[menuItemIterator] + " has no menuPath defined!");
             }
             this.createMenu(target, target.menuPath, this.menu);
         }
