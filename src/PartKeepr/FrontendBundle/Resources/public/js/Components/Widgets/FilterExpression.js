@@ -241,69 +241,13 @@ Ext.define("PartKeepr.Widgets.FilterExpression", {
     },
     onFieldSelectClick: function ()
     {
-        var modelFieldSelector = Ext.create({
-            xtype: 'modelFieldSelector',
-            id: 'searchPartFieldSelector',
-            border: false,
-            sourceModel: this.sourceModel,
-            useCheckBoxes: false,
-            flex: 1,
-            listeners: {
-                selectionchange: function (selectionModel, selected)
-                {
-                    var addFieldButton = this.up("#filterSelectWindow").down("#addSelectedField");
-
-                    if (selected.length == 1 && selected[0].data.data.type !== "onetomany") {
-                        addFieldButton.enable();
-                    } else {
-                        addFieldButton.disable();
-                    }
-                }
-            }
+        this.modelFieldSelectorWindow = Ext.create("PartKeepr.Components.Widgets.FieldSelectorWindow", {
+            sourceModel: this.sourceModel
         });
-
-        modelFieldSelector.on("itemdblclick", function (view, record)
-        {
-            if (record.data.data && record.data.data.type !== "onetomany") {
-
-                this.down("#field").setValue(record.data.data.name);
-
-                this.updateValueFieldState(record);
-
-                this.modelFieldSelectorWindow.close();
-            }
-        }, this);
-
-        this.modelFieldSelectorWindow = Ext.create("Ext.window.Window", {
-            layout: 'fit',
-            width: 600,
-            height: 600,
-            title: i18n("Select Field"),
-            itemId: 'filterSelectWindow',
-            items: modelFieldSelector,
-            bbar: [
-                {
-                    xtype: 'button',
-                    itemId: 'addSelectedField',
-                    disabled: true,
-                    text: i18n("Add selected Field"),
-                    iconCls: 'fugue-icon flask--plus',
-                    handler: function ()
-                    {
-                        var selection = modelFieldSelector.getSelection();
-
-                        if (selection.length == 1 && selection[0].data.data.type !== "onetomany") {
-                            this.down("#field").setValue(selection[0].data.data.name);
-
-                            this.updateValueFieldState(selection[0]);
-                            this.modelFieldSelectorWindow.close();
-                        }
-                    },
-                    scope: this
-                }
-            ]
-        });
-
+        this.modelFieldSelectorWindow.on("fieldSelect", function (field) {
+            this.updateValueFieldState(field);
+            this.down("#field").setValue(field.data.data.name);
+            }, this);
         this.modelFieldSelectorWindow.show();
     },
     updateValueFieldState: function (record)
