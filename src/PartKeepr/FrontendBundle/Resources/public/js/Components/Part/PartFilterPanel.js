@@ -339,7 +339,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
                             scope: this,
                             disable: function ()
                             {
-                                this.categoryFilter.setValue({category: "all"});
+                                if (this.categoryFilter !== null) {
+                                    this.categoryFilter.setValue({category: "all"});
+                                }
 
                             }
                         },
@@ -410,7 +412,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
                         scope: this,
                         disable: function ()
                         {
-                            this.categoryFilter.setValue({stock: "any"});
+                            if (this.categoryFilter !== null) {
+                                this.categoryFilter.setValue({stock: "any"});
+                            }
 
                         }
                     },
