@@ -13,7 +13,15 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
             region: 'east',
             width: 265,
             itemId: 'fieldTree',
+            plugins: {
+                ptype: 'cellediting',
+                clicksToEdit: 1,
+                pluginId: "cellediting",
+            },
             split: true,
+            viewConfig: {
+                markDirty: false
+            },
             store: {
                 folderSort: true,
                 sorters: [
@@ -23,6 +31,33 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
                     }
                 ]
             },
+            columns: [
+                {
+                    xtype: 'treecolumn', //this is so we know which column will show the tree
+                    text: i18n("Field"),
+                    dataIndex: 'text',
+                    flex: 3,
+                }, {
+                    text: i18n("Index"),
+                    flex: 1,
+                    align: 'center',
+                    dataIndex: 'entityIndex',
+                    format: '0',
+                    editor: {
+                        xtype: 'numberfield',
+                        minValue: 0,
+                        maxValue: 99
+                    },
+                    renderer: function (val, md, record) {
+                        if (record.get("data") !== null &&
+                                record.get("data").type !== "onetomany") {
+                            return "";
+                        } else {
+                            return record.get("entityIndex");
+                        }
+                    }
+                }
+            ],
             useArrows: true
         }
     ],
@@ -50,7 +85,11 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
         this.down("#fieldTree").on("itemdblclick", this.onTreeDblClick, this);
         rootNode.set("text", this.model.getName());
 
-        this.treeMaker(rootNode, this.model, "");
+        var treeMaker = Ext.create("PartKeepr.ModelTreeMaker.ModelTreeMaker");
+        treeMaker.addIgnoreField("@id");
+        treeMaker.make(rootNode, this.model, "", Ext.bind(this.appendFieldData, this), ["entityIndex"]);
+        rootNode.expand();
+
         rootNode.expand();
 
         this.store = Ext.create("Ext.data.Store", {
@@ -75,9 +114,26 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
                 }
             ]
         });
+
+        this.down("#fieldTree").getPlugin("cellediting").on("beforeedit", this.onBeforeEdit, this);
         this.down("#grid").addDocked(this.bottomToolbar);
 
         this.down("#grid").reconfigure(this.store, this.columns);
+    },
+    onBeforeEdit: function (editor, context)
+    {
+        if (context.record.get("data") !== null &&
+            context.record.get("data").type !== "onetomany") {
+
+            return false;
+        }
+    },
+    /**
+     * @param {Ext.data.field.Field} The model
+     */
+    appendFieldData: function (field, node)
+    {
+        node.set("entityIndex", 0);
     },
     /**
      * Returns the parameters for the query string.
@@ -130,8 +186,15 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
      */
     addColumn: function (record)
     {
-        var columns;
-        if (this.hasColumn(record) || record.get("data") === undefined) {
+        var columns, fieldPath;
+
+        fieldPath = this.getFieldPath(record).join(".");
+
+        if (this.hasColumn(fieldPath) || record.get("data").name === undefined) {
+            return;
+        }
+
+        if (record.get("data").type !== "field") {
             return;
         }
 
@@ -140,8 +203,8 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
         this.syncColumns();
 
         this.columns.push({
-            dataIndex: record.get("data"),
-            text: record.get("data"),
+            dataIndex: fieldPath,
+            text: fieldPath,
             renderer: function (value, metadata, record, rowIndex, colIndex)
             {
                 return record.get(this.getColumns()[colIndex].dataIndex);
@@ -151,6 +214,22 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
 
         this.down("#grid").reconfigure(this.store, this.columns);
     },
+    getFieldPath: function (record)
+    {
+        var fieldPath = [];
+
+        if (record.parentNode !== null && !record.parentNode.isRoot()) {
+            fieldPath = this.getFieldPath(record.parentNode);
+        }
+
+        if (typeof(record.get("data")) === "object" && record.get("data").type === "onetomany") {
+            fieldPath.push(record.get("text") + "[" + record.get("entityIndex") + "]");
+        } else {
+            fieldPath.push(record.get("text"));
+        }
+
+        return fieldPath;
+    },
     /**
      * Removes a specific column to the grid. Must be a record and has the "data" property defined.
      *
@@ -158,16 +237,18 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
      */
     removeColumn: function (record)
     {
-        var i;
+        var i, fieldPath;
 
-        if (!this.hasColumn(record) || record.get("data") === undefined) {
+        fieldPath = this.getFieldPath(record).join(".");
+
+        if (!this.hasColumn(fieldPath) || record.get("data").name === undefined) {
             return;
         }
 
         this.syncColumns();
 
         for (i = 0; i < this.columns.length; i++) {
-            if (this.columns[i].dataIndex === record.get("data")) {
+            if (this.columns[i].dataIndex === fieldPath) {
                 Ext.Array.removeAt(this.columns, i);
             }
         }
@@ -205,12 +286,12 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
      * @param {Ext.data.Model} The record to process
      * @return {Boolean} true if the column exist, false otherwise
      */
-    hasColumn: function (record)
+    hasColumn: function (name)
     {
         var i, columns = this.down('#grid').getColumns();
 
         for (i = 0; i < columns.length; i++) {
-            if (columns[i].dataIndex === record.get("data")) {
+            if (columns[i].dataIndex === name) {
                 return true;
             }
         }
@@ -225,45 +306,13 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
      */
     onTreeDblClick: function (tree, record)
     {
-        if (this.hasColumn(record)) {
+        var fieldPath = this.getFieldPath(record).join(".");
+
+        if (this.hasColumn(fieldPath)) {
             this.removeColumn(record);
         } else {
             this.addColumn(record);
         }
-    },
-    /**
-     * Builds the field tree recursively. Handles infinite recursions (e.g. in trees).
-     *
-     * @param {Ext.data.NodeInterface} The current node
-     * @param {Ext.data.Model} The model
-     * @param {String} The prefix. Omit if first called
-     */
-    treeMaker: function (node, model, prefix)
-    {
-        var fields = model.getFields();
-        this.visitedModels.push(model.getName());
-        for (var i = 0; i < fields.length; i++) {
-
-            if (fields[i]["$reference"] === undefined) {
-                node.appendChild({
-                    text: fields[i].name,
-                    leaf: true,
-                    data: prefix + fields[i].name
-                });
-            } else {
-                for (var j = 0; j < this.visitedModels.length; j++) {
-                    if (this.visitedModels[j] === fields[i].reference.cls.getName()) {
-                        return;
-                    }
-                }
-
-                var childNode = node.appendChild({
-                    text: fields[i].name,
-                    leaf: false
-                });
-
-                this.treeMaker(childNode, fields[i].reference.cls, prefix + fields[i].name + ".");
-            }
-        }
     }
-});
+})
+;

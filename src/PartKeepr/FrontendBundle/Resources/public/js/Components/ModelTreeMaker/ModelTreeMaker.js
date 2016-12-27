@@ -59,14 +59,16 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
             if (fields[i]["$reference"] === undefined) {
                 // Field is a scalar field
                 if (this.ignoreFields.indexOf(fields[i].name) === -1 && !this.customFieldIgnorer(fields[i])) {
-                    newNode = node.appendChild({
+
+                    newNode = node.appendChild(Ext.create("PartKeepr.Data.ReflectionFieldTreeModel", {
                         text: fields[i].name,
                         leaf: true,
                         data: {
                             name: prefix + fields[i].name,
                             type: "field"
-                        }
-                    });
+                        },
+                        entityIndex: ""
+                    }));
 
                     if (callback) {
                         newNode.set(callback(fields[i], newNode));
@@ -83,14 +85,14 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
                 }
 
                 if (!associationAlreadyProcessed) {
-                    childNode = node.appendChild({
+                    childNode = node.appendChild(Ext.create("PartKeepr.Data.ReflectionFieldTreeModel", {
                         text: fields[i].name,
                         data: {
                             name: prefix + fields[i].name,
                             type: "manytoone"
                         },
                         leaf: false
-                    });
+                    }));
 
                     if (callback) {
                         childNode.set(callback(fields[i], childNode));
@@ -114,7 +116,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
                 }
 
                 if (!associationAlreadyProcessed) {
-                    childNode = node.appendChild({
+                    childNode = node.appendChild(Ext.create("PartKeepr.Data.ReflectionFieldTreeModel",{
                         text: associations[i].name,
                         data: {
                             name: prefix + associations[i].name,
@@ -122,7 +124,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
                             reference: associations[i].cls
                         },
                         leaf: false
-                    });
+                    }));
 
                     if (callback) {
                         childNode.set(callback(associations[i].cls, childNode));

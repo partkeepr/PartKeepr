@@ -15,7 +15,7 @@ Ext.define("PartKeepr.data.HydraModel", {
     },
     get: function (fieldName)
     {
-        var ret, role, item;
+        var ret, role, item, openingBracket, closingBracket, subEntity, index, subEntityStore;
 
         ret = this.callParent(arguments);
 
@@ -34,6 +34,22 @@ Ext.define("PartKeepr.data.HydraModel", {
                 if (item !== null) {
                     parts.shift();
                     return item.get(parts.join("."));
+                }
+            } else {
+                openingBracket = parts[0].indexOf("[");
+
+                if (openingBracket !== -1) {
+                    subEntity = parts[0].substring(0, openingBracket);
+                    closingBracket = parts[0].indexOf("]", openingBracket);
+                    index = parts[0].substring(openingBracket+1, closingBracket);
+
+                    subEntityStore = this[this.associations[subEntity].name]();
+                    item = subEntityStore.getAt(index);
+
+                    if (item !== null) {
+                        parts.shift();
+                        return item.get(parts.join("."));
+                    }
                 }
             }
         }

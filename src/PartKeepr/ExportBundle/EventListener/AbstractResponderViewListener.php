@@ -102,7 +102,12 @@ abstract class AbstractResponderViewListener
                             $finalData[$key][$mapping] = $finalData[$key][$mapping]->format(\DateTime::W3C);
                         }
                     }
+
+                    if ($finalData[$key][$mapping] === null) {
+                        $finalData[$key][$mapping] = "null";
+                    }
                 } catch (\Exception $e) {
+                    $finalData[$key][$mapping] = "null";
                 }
             }
         }
