@@ -8,7 +8,10 @@ Ext.define('Ext.form.field.ComboBox', {
         returnObject: false
     },
     getValue: function () {
-        if (this.getReturnObject() == true) {
+        if (this.getReturnObject() === true) {
+            if (this.callParent(arguments) === "" && this.allowBlank === true) {
+                return null;
+            }
             return this.getSelection();
         } else {
             return this.callParent(arguments);

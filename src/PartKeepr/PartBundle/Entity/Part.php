@@ -179,6 +179,7 @@ class Part extends BaseEntity
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartParameter",
      *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups({"default"})
      *
      * @var ArrayCollection
      */
@@ -512,7 +513,7 @@ class Part extends BaseEntity
     /**
      * Returns the parameters assigned to this part.
      *
-     * @return array An array of PartParameter objects
+     * @return ArrayCollection An array of PartParameter objects
      */
     public function getParameters()
     {
@@ -761,6 +762,30 @@ class Part extends BaseEntity
     {
         $stockEntry->setPart(null);
         $this->stockLevels->removeElement($stockEntry);
+    }
+
+    /**
+     * Adds a Part Parameter.
+     *
+     * @param PartParameter $partParameter A parameter to add
+     */
+    public function addParameter ($partParameter)
+    {
+        if ($partParameter instanceof PartParameter) {
+            $partParameter->setPart($this);
+        }
+        $this->parameters->add($partParameter);
+    }
+
+    /**
+     * Removes a Part Parameter.
+     *
+     * @param PartParameter $partParameter An parameter to remove
+     */
+    public function removeParameter ($partParameter)
+    {
+        $partParameter->setPart(null);
+        $this->parameters->removeElement($partParameter);
     }
 
     /**
