@@ -44,24 +44,31 @@ class VersionService
 
     /**
      * Extracts the current commit from GIT.
+     *
      * @return string
      */
-    public function extractGITCommit () {
+    public function extractGITCommit()
+    {
         $result = shell_exec("git rev-parse HEAD");
+
         return trim($result);
     }
 
     /**
      * Extracts the current short commit from GIT.
+     *
      * @return string
      */
-    public function extractShortGITCommit () {
+    public function extractShortGITCommit()
+    {
         $result = shell_exec("git rev-parse --short HEAD");
+
         return trim($result);
     }
 
     /**
-     * Sets the version string
+     * Sets the version string.
+     *
      * @param $version string The version
      */
     public function setVersion($version)
@@ -70,7 +77,8 @@ class VersionService
     }
 
     /**
-     * Returns the current version string
+     * Returns the current version string.
+     *
      * @return string The version
      */
     public function getVersion()
@@ -83,9 +91,10 @@ class VersionService
         $this->versionURI = $versionURI;
     }
 
-    public function getCanonicalVersion () {
+    public function getCanonicalVersion()
+    {
         if ($this->getVersion() === '{V_GIT}') {
-            return 'GIT development version Commit '. $this->extractGITCommit() . " Short Commit " . $this->extractShortGITCommit();
+            return 'GIT development version Commit '.$this->extractGITCommit()." Short Commit ".$this->extractShortGITCommit();
         } else {
             return $this->getVersion();
         }
@@ -126,7 +135,7 @@ class VersionService
     }
 
     /**
-     * Returns the latest version information from partkeepr.org
+     * Returns the latest version information from partkeepr.org.
      *
      * @return array|bool
      */

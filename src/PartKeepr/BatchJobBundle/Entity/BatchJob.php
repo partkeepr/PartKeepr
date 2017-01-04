@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\BatchJobBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +25,7 @@ class BatchJob extends BaseEntity
     private $name;
 
     /**
-     * Holds the batch job query fields
+     * Holds the batch job query fields.
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\BatchJobBundle\Entity\BatchJobQueryField",mappedBy="batchJob",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
@@ -34,7 +35,7 @@ class BatchJob extends BaseEntity
     private $batchJobQueryFields;
 
     /**
-     * Batch Job Update Fields
+     * Batch Job Update Fields.
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\BatchJobBundle\Entity\BatchJobUpdateField",mappedBy="batchJob",cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups({"default"})
@@ -44,10 +45,12 @@ class BatchJob extends BaseEntity
     private $batchJobUpdateFields;
 
     /**
-     * Holds the base entity to query against
+     * Holds the base entity to query against.
+     *
      * @ORM\Column()
      *
      * @Groups({"default"})
+     *
      * @var string
      */
     private $baseEntity;

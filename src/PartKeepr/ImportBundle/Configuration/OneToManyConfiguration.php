@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImportBundle\Configuration;
 
+namespace PartKeepr\ImportBundle\Configuration;
 
 class OneToManyConfiguration extends Configuration
 {
@@ -35,15 +35,14 @@ class OneToManyConfiguration extends Configuration
     {
         switch ($this->importBehaviour) {
             case self::IMPORTBEHAVIOUR_IGNORE:
-                return null;
+                return;
                 break;
             case self::IMPORTBEHAVIOUR_CREATENEW:
                 $this->log(sprintf("Would create a new entity of type %s for relation %s", $this->baseEntity, $this->getAssociationName()));
+
                 return parent::import($row);
                 break;
         }
-
-        return null;
     }
 
     /**
@@ -61,5 +60,4 @@ class OneToManyConfiguration extends Configuration
     {
         $this->associationName = $associationName;
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImportBundle\Service;
 
+namespace PartKeepr\ImportBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
@@ -72,7 +72,7 @@ class ImporterService
             $entity = $configuration->import($row);
             $entities[] = $entity;
             $logs[] = implode("<br/>",
-                [ "data" => implode(",",$row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog() ), '</p>']);
+                ["data" => implode(",", $row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog()), '</p>']);
 
             $configuration->clearLog();
         }

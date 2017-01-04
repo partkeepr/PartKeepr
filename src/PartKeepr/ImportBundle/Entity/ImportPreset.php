@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class ImportPreset extends BaseEntity
 {
     /**
-     * Holds the base entity
+     * Holds the base entity.
      *
      * @ORM\Column(length=255)
      * @Groups({"default"})
@@ -35,7 +35,7 @@ class ImportPreset extends BaseEntity
     private $name;
 
     /**
-     * Defines the preset configuration
+     * Defines the preset configuration.
      *
      * @ORM\Column(type="text")
      * @Groups({"default"})
