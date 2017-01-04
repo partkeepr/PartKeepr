@@ -29,7 +29,7 @@ class PartPutAction
      */
     private $serializer;
 
-     /**
+    /**
      * @var PartService
      */
     private $partService;
@@ -60,7 +60,7 @@ class PartPutAction
     public function __invoke(Request $request, $id)
     {
         /**
-         * @var $resourceType ResourceInterface
+         * @var ResourceInterface
          */
         list($resourceType, $format) = $this->extractAttributes($request);
 
@@ -82,7 +82,7 @@ class PartPutAction
         $context['object_to_populate'] = $data;
 
         /**
-         * @var $part Part
+         * @var Part
          */
         $part = $this->serializer->deserialize(
             $requestData,

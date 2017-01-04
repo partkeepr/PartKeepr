@@ -62,7 +62,6 @@ class ImageControllerTest extends WebTestCase
             $uri
         );
 
-
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 }

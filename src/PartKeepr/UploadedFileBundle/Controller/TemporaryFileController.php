@@ -39,7 +39,7 @@ class TemporaryFileController extends FileController
 
         if ($request->files->has('userfile') && $request->files->get('userfile') != null) {
             /**
-             * @var $file UploadedFile
+             * @var UploadedFile
              */
             $file = $request->files->get('userfile');
             if (!$file->isValid()) {
@@ -56,13 +56,10 @@ class TemporaryFileController extends FileController
                 throw new \Exception($error);
             }
 
-
             if ($this->container->hasParameter("partkeepr.upload.limit") &&
                 $this->container->getParameter("partkeepr.upload.limit") !== false &&
                 $file->getSize() > $this->container->getParameter("partkeepr.upload.limit")) {
-
                 throw new \Exception($this->get('translator')->trans('The uploaded file is too large.'));
-
             }
 
            /*

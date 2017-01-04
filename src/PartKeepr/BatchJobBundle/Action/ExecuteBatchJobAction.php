@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\BatchJobBundle\Action;
 
 use Doctrine\ORM\EntityManager;
@@ -8,7 +9,6 @@ use Dunglas\ApiBundle\Api\IriConverter;
 use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\BatchJobBundle\Entity\BatchJob;
-use PartKeepr\BatchJobBundle\Entity\BatchJobQueryField;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\DoctrineReflectionBundle\Filter\AdvancedSearchFilter;
 use PartKeepr\DoctrineReflectionBundle\Services\ReflectionService;
@@ -59,7 +59,7 @@ class ExecuteBatchJobAction
     }
 
     /**
-     * Executes a batch action
+     * Executes a batch action.
      *
      * @param Request $request
      * @param string  $id
@@ -73,7 +73,7 @@ class ExecuteBatchJobAction
         list($resourceType) = $this->extractAttributes($request);
 
         /**
-         * @var $batchJob BatchJob
+         * @var BatchJob
          */
         $batchJob = $this->getItem($this->dataProvider, $resourceType, $id);
 
@@ -122,7 +122,6 @@ class ExecuteBatchJobAction
                 }
             }
 
-
             $updateFieldConfigs[] = $updateFieldConfig;
         }
 
@@ -139,7 +138,6 @@ class ExecuteBatchJobAction
 
         foreach ($data as $item) {
             foreach ($updateFieldConfigs as $updateField) {
-
                 try {
                     $value = $this->iriConverter->getItemFromIri($updateField->value);
                 } catch (\Exception $e) {

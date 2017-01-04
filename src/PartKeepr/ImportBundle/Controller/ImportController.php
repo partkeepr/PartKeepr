@@ -1,8 +1,7 @@
 <?php
+
 namespace PartKeepr\ImportBundle\Controller;
 
-
-use Dunglas\ApiBundle\JsonLd\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,11 +12,11 @@ class ImportController extends Controller
 {
     protected function detectFileFormat()
     {
-
     }
 
     /**
      * @Route("/getSource/")
+     *
      * @return JsonResponse
      */
     public function getSourceAction(Request $request)
@@ -30,6 +29,7 @@ class ImportController extends Controller
     /**
      * @Route("/getPreview/")
      * @Method({"POST"})
+     *
      * @return JsonResponse
      */
     public function getPreviewAction(Request $request)
@@ -38,7 +38,6 @@ class ImportController extends Controller
 
         $configuration = json_decode($request->get("configuration"));
         $baseEntity = $request->get("baseEntity");
-
 
         $data = $this->extractCSVData($tempFileIri, false);
         $importService = $this->get("importer_service");
@@ -53,9 +52,11 @@ class ImportController extends Controller
     /**
      * @Route("/executeImport/")
      * @Method({"POST"})
+     *
      * @return JsonResponse
      */
-    public function importAction (Request $request) {
+    public function importAction(Request $request)
+    {
         $tempFileIri = $request->get("file");
 
         $configuration = json_decode($request->get("configuration"));

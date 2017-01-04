@@ -1,10 +1,8 @@
 <?php
+
 namespace PartKeepr\ImportBundle\Configuration;
 
-use Symfony\Component\Finder\Tests\Iterator\Iterator;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\Tests\Fixtures\TraversableArrayObject;
-
 
 class Configuration extends BaseConfiguration
 {
@@ -79,8 +77,9 @@ class Configuration extends BaseConfiguration
         return true;
     }
 
-    public function import ($row) {
-        $obj = new $this->baseEntity;
+    public function import($row)
+    {
+        $obj = new $this->baseEntity();
         $this->persist($obj);
         $accessor = PropertyAccess::createPropertyAccessor();
 
@@ -105,7 +104,7 @@ class Configuration extends BaseConfiguration
             $name = $oneToManyAssociation->getAssociationName();
             $data = $oneToManyAssociation->import($row);
             if ($data !== null) {
-                $accessor->setValue($obj, $name, array($data));
+                $accessor->setValue($obj, $name, [$data]);
             }
         }
 

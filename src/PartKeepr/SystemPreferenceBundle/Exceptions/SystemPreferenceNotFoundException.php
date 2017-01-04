@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SystemPreferenceBundle\Exceptions;
 
 use PartKeepr\CoreBundle\Exceptions\TranslatableException;

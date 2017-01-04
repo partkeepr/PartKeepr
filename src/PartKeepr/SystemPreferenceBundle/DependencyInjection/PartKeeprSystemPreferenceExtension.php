@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SystemPreferenceBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;

@@ -40,7 +40,6 @@ class IndexController extends Controller
             $aParameters['maxUploadSize'] = $this->getParameterWithDefault('partkeepr.upload.limit', false);
         }
 
-
         // @todo Hardcoded for now due to GD, see #445
         $aParameters['availableImageFormats'] = ['JPG', 'GIF', 'PNG'];
 

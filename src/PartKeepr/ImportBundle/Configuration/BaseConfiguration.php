@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PartKeepr\ImportBundle\Configuration;
-
 
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManager;
@@ -24,9 +22,9 @@ class BaseConfiguration
 
     protected $iriConverter;
 
-    static $logs = [];
+    public static $logs = [];
 
-    static $persistEntities = [];
+    public static $persistEntities = [];
 
     public function __construct(ClassMetadata $classMetadata, $baseEntity, ReflectionService $reflectionService, EntityManager $em, AdvancedSearchFilter $advancedSearchFilter, IriConverter $iriConverter)
     {
@@ -38,28 +36,32 @@ class BaseConfiguration
         $this->iriConverter = $iriConverter;
     }
 
-    public function import ($row) {
-
+    public function import($row)
+    {
     }
 
-    public function persist ($entity) {
+    public function persist($entity)
+    {
         self::$persistEntities[] = $entity;
     }
 
-    public function getPersistEntities () {
+    public function getPersistEntities()
+    {
         return self::$persistEntities;
     }
 
-
-    public function log ($message) {
+    public function log($message)
+    {
         self::$logs[] = $message;
     }
 
-    public function getLog () {
+    public function getLog()
+    {
         return self::$logs;
     }
 
-    public function clearLog () {
+    public function clearLog()
+    {
         self::$logs = [];
     }
 }

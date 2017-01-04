@@ -12,7 +12,8 @@ class SystemPreferenceTest extends WebTestCase
         $this->loadFixtures([]);
     }
 
-    public function testSystemPreferenceService() {
+    public function testSystemPreferenceService()
+    {
         $this->getContainer()->get("partkeepr.system_preference_service")->setSystemPreference("foo", "bar");
 
         $this->assertEquals("bar", $this->getContainer()->get("partkeepr.system_preference_service")->getSystemPreferenceValue("foo"));
@@ -33,9 +34,9 @@ class SystemPreferenceTest extends WebTestCase
         $client = static::makeClient(true);
 
         $parameters = [
-            "preferenceKey" => "foobar",
-            "@type" => "SystemPreference",
-            "preferenceValue" => "test"
+            "preferenceKey"   => "foobar",
+            "@type"           => "SystemPreference",
+            "preferenceValue" => "test",
         ];
 
         // First test: Ensure invalid auth key is returned
