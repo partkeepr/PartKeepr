@@ -67,11 +67,10 @@ class PartController extends FOSRestController
      * @Routing\Route("/api/parts/getPartParameterNames", defaults={"method" = "get","_format" = "json"})
      * @View()
      *
-     * @param Request $request
-     *
-     * @throws \Exception Thrown if parameters are formatted incorrectly
+     * @return array An array with name and description properties
      */
-    public function getParameterNamesAction(Request $request) {
+    public function getParameterNamesAction()
+    {
         $dql = "SELECT p.name, p.description FROM PartKeepr\PartBundle\Entity\PartParameter p GROUP BY p.name, p.description";
 
         $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);

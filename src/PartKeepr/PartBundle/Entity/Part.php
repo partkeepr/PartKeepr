@@ -713,7 +713,7 @@ class Part extends BaseEntity
      *
      * For a list of exceptions, see
      *
-     * @see PartKeepr\Part.Part::onPrePersist()
+     * @see Part::onPrePersist()
      *
      * @ORM\PreUpdate
      */
@@ -769,7 +769,7 @@ class Part extends BaseEntity
      *
      * @param PartParameter $partParameter A parameter to add
      */
-    public function addParameter ($partParameter)
+    public function addParameter($partParameter)
     {
         if ($partParameter instanceof PartParameter) {
             $partParameter->setPart($this);
@@ -782,7 +782,7 @@ class Part extends BaseEntity
      *
      * @param PartParameter $partParameter An parameter to remove
      */
-    public function removeParameter ($partParameter)
+    public function removeParameter($partParameter)
     {
         $partParameter->setPart(null);
         $this->parameters->removeElement($partParameter);

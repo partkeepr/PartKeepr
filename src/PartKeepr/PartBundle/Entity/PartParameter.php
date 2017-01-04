@@ -47,6 +47,7 @@ class PartParameter extends BaseEntity
      *
      * @ORM\Column(type="string")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $description;
@@ -56,6 +57,7 @@ class PartParameter extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\UnitBundle\Entity\Unit")
      * @Groups({"default"})
+     *
      * @var \PartKeepr\UnitBundle\Entity\Unit
      */
     private $unit;
@@ -68,12 +70,14 @@ class PartParameter extends BaseEntity
      *
      * @ORM\Column(type="float")
      * @Groups({"default"})
+     *
      * @var float
      */
     private $value;
 
     /**
-     * The maximum value of the parameter
+     * The maximum value of the parameter.
+     *
      * @ORM\Column(type="float",name="maximumValue")
      * @Groups({"default"})
      *
@@ -82,7 +86,8 @@ class PartParameter extends BaseEntity
     private $maxValue;
 
     /**
-     * The minimum value of the parameter
+     * The minimum value of the parameter.
+     *
      * @ORM\Column(type="float",name="minimumValue")
      * @Groups({"default"})
      *
@@ -91,7 +96,8 @@ class PartParameter extends BaseEntity
     private $minValue;
 
     /**
-     * The string value if the parameter is a string
+     * The string value if the parameter is a string.
+     *
      * @ORM\Column(type="string")
      * @Groups({"default"})
      *
@@ -100,7 +106,8 @@ class PartParameter extends BaseEntity
     private $stringValue;
 
     /**
-     * The type of the value
+     * The type of the value.
+     *
      * @ORM\Column(type="string")
      * @Groups({"default"})
      *
@@ -113,7 +120,8 @@ class PartParameter extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
      * @Groups({"default"})
-     * @var object
+     *
+     * @var SiPrefix
      */
     private $siPrefix;
 
@@ -122,6 +130,7 @@ class PartParameter extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
      * @Groups({"default"})
+     *
      * @var SiPrefix
      */
     private $minSiPrefix;
@@ -131,11 +140,13 @@ class PartParameter extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
      * @Groups({"default"})
+     *
      * @var SiPrefix
      */
     private $maxSiPrefix;
 
-    public function __construct () {
+    public function __construct()
+    {
         $this->setValueType(self::VALUE_TYPE_STRING);
     }
 
