@@ -286,11 +286,13 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
     findSiPrefixForValueAndUnit: function (value, unit) {
         var i = 0, prefixedValue, siPrefix;
 
+        siPrefix = PartKeepr.getApplication().getSiPrefixStore().findRecord("exponent", 0, 0, false, false, true);
+
         if (!(unit instanceof PartKeepr.UnitBundle.Entity.Unit)) {
-            return PartKeepr.getApplication().getSiPrefixStore().findRecord("exponent", 0, 0, false, false, true);
+            return siPrefix;
         }
 
-        siPrefix = PartKeepr.getApplication().getSiPrefixStore().findRecord("exponent", 0, 0, false, false, true);
+        unit.prefixes().sort("exponent", "desc");
 
         for (i=0;i<unit.prefixes().getCount();i++) {
             siPrefix = unit.prefixes().getAt(i);
