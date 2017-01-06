@@ -566,7 +566,7 @@ Ext.define('PartKeepr.PartManager', {
                 minMaxCombined = "";
 
             if (partParameter.get("valueType") === "string") {
-                return "";
+                return partParameter.get("stringValue");
             }
 
             if (partParameter.getUnit() instanceof PartKeepr.UnitBundle.Entity.Unit) {
