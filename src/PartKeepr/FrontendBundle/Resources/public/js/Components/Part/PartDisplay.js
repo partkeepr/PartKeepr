@@ -148,8 +148,24 @@ Ext.define('PartKeepr.PartDisplay', {
             sourceConfig: this.fieldConfigs
         });
 
+        this.partParameterGrid = Ext.create("Ext.grid.Panel", {
+            title: i18n("Part Parameters"),
+            emptyText: i18n("No Parameters"),
+            columns: [{
+                header: i18n("Parameter"),
+                dataIndex: "name",
+                flex: 1
+            }, {
+                header: i18n("Value"),
+                renderer: function (v,m,rec) {
+                    return PartKeepr.PartManager.formatParameter(rec);
+                },
+                flex: 1
+            }]
+        });
+
         this.items = [
-            this.infoGrid, {
+            this.infoGrid, this.partParameterGrid,{
                 xtype: 'panel',
                 title: i18n("Attachments"),
                 items: this.attachmentDisplay
@@ -161,6 +177,7 @@ Ext.define('PartKeepr.PartDisplay', {
     {
         this.attachmentDisplay.bindStore(null);
         this.imageDisplay.setStore(null);
+        this.partParameterGrid.setStore(null);
 
     },
     /**
@@ -185,6 +202,7 @@ Ext.define('PartKeepr.PartDisplay', {
         }
 
         this.attachmentDisplay.bindStore(this.record.attachments());
+        this.partParameterGrid.bindStore(this.record.parameters());
         this.infoGrid.setSource(values);
         this.infoGrid.setTitle(
             "<div>" + this.record.get("name") + "</div><small>" + this.record.get("description") + "</small>");
