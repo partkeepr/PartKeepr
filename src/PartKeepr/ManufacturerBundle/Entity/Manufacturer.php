@@ -252,7 +252,7 @@ class Manufacturer extends BaseEntity
      */
     public function getIcLogos()
     {
-        return $this->icLogos;
+        return $this->icLogos->getValues();
     }
 
     /**

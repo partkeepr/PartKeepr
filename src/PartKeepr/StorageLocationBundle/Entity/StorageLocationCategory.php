@@ -30,6 +30,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
      * @ORM\OneToMany(targetEntity="StorageLocationCategory", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
      * @Groups({"tree"})
+     * @var ArrayCollection
      */
     protected $children;
 
@@ -45,6 +46,11 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
      * @var string
      */
     protected $categoryPath;
+
+    public function __construct () {
+        parent::__construct();
+        $this->storageLocations = new ArrayCollection();
+    }
 
     /**
      * Sets the parent category.
@@ -75,7 +81,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
      */
     public function getStorageLocations()
     {
-        return $this->storageLocations;
+        return $this->storageLocations->getValues();
     }
 
     /**
@@ -85,7 +91,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
      */
     public function getChildren()
     {
-        return $this->children;
+        return $this->children->getValues();
     }
 
     /**

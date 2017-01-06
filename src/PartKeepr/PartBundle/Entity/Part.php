@@ -487,7 +487,7 @@ class Part extends BaseEntity
      */
     public function getDistributors()
     {
-        return $this->distributors;
+        return $this->distributors->getValues();
     }
 
     /**
@@ -497,7 +497,7 @@ class Part extends BaseEntity
      */
     public function getAttachments()
     {
-        return $this->attachments;
+        return $this->attachments->getValues();
     }
 
     /**
@@ -507,7 +507,7 @@ class Part extends BaseEntity
      */
     public function getManufacturers()
     {
-        return $this->manufacturers;
+        return $this->manufacturers->getValues();
     }
 
     /**
@@ -517,7 +517,7 @@ class Part extends BaseEntity
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return $this->parameters->getValues();
     }
 
     /**
@@ -639,7 +639,7 @@ class Part extends BaseEntity
      */
     public function getStockLevels()
     {
-        return $this->stockLevels;
+        return $this->stockLevels->getValues();
     }
 
     /**
@@ -808,7 +808,10 @@ class Part extends BaseEntity
      */
     public function removeAttachment($partAttachment)
     {
-        $partAttachment->setPart(null);
+        if ($partAttachment instanceof PartAttachment) {
+            $partAttachment->setPart(null);
+        }
+
         $this->attachments->removeElement($partAttachment);
     }
 
@@ -863,7 +866,7 @@ class Part extends BaseEntity
      */
     public function getProjectParts()
     {
-        return $this->projectParts;
+        return $this->projectParts->getValues();
     }
 
     /**

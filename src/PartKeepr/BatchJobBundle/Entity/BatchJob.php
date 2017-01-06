@@ -63,7 +63,7 @@ class BatchJob extends BaseEntity
      */
     public function getBatchJobUpdateFields()
     {
-        return $this->batchJobUpdateFields;
+        return $this->batchJobUpdateFields->getValues();
     }
 
     /**
@@ -87,7 +87,7 @@ class BatchJob extends BaseEntity
      */
     public function getBatchJobQueryFields()
     {
-        return $this->batchJobQueryFields;
+        return $this->batchJobQueryFields->getValues();
     }
 
     /**

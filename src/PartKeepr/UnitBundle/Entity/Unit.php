@@ -114,16 +114,26 @@ class Unit extends BaseEntity
      */
     public function getPrefixes()
     {
-        return $this->prefixes;
+        return $this->prefixes->getValues();
     }
 
     /**
-     * Sets the SiPrefixes.
+     * Adds a prefix
      *
      * @param $array
      */
-    public function setPrefixes($array)
+    public function addPrefix($prefix)
     {
-        $this->prefixes = $array;
+        $this->prefixes->add($prefix);
+    }
+
+    /**
+     * Adds a prefix
+     *
+     * @param $array
+     */
+    public function removePrefix($prefix)
+    {
+        $this->prefixes->removeElement($prefix);
     }
 }
