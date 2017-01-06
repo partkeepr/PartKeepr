@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\OctoPartBundle\Services;
 
+namespace PartKeepr\OctoPartBundle\Services;
 
 use Guzzle\Http\Client;
 

@@ -61,7 +61,6 @@ class DefaultController extends FOSRestController
             $responseItem["url"] = $result["item"]["octopart_url"];
             $responseItem["uid"] = $result["item"]["uid"];
             $responseData["results"][] = $responseItem;
-
         }
 
         return $responseData;
