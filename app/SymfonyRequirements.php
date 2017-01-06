@@ -54,11 +54,11 @@ class Requirement
      */
     public function __construct($fulfilled, $testMessage, $helpHtml, $helpText = null, $optional = false)
     {
-        $this->fulfilled = (bool)$fulfilled;
-        $this->testMessage = (string)$testMessage;
-        $this->helpHtml = (string)$helpHtml;
-        $this->helpText = null === $helpText ? strip_tags($this->helpHtml) : (string)$helpText;
-        $this->optional = (bool)$optional;
+        $this->fulfilled = (bool) $fulfilled;
+        $this->testMessage = (string) $testMessage;
+        $this->helpHtml = (string) $helpHtml;
+        $this->helpText = null === $helpText ? strip_tags($this->helpHtml) : (string) $helpText;
+        $this->optional = (bool) $optional;
     }
 
     /**
@@ -578,7 +578,7 @@ class SymfonyRequirements extends RequirementCollection
             );
         }
 
-        $pcreVersion = defined('PCRE_VERSION') ? (float)PCRE_VERSION : null;
+        $pcreVersion = defined('PCRE_VERSION') ? (float) PCRE_VERSION : null;
 
         $this->addRequirement(
             null !== $pcreVersion,
@@ -809,7 +809,7 @@ class SymfonyRequirements extends RequirementCollection
             case 'k':
                 return $size * 1024;
             default:
-                return (int)$size;
+                return (int) $size;
         }
     }
 }
