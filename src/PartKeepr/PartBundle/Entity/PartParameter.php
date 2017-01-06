@@ -238,6 +238,7 @@ class PartParameter extends BaseEntity
 
     /**
      * @param string $valueType
+     *
      * @throws \Exception
      */
     public function setValueType($valueType)

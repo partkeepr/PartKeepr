@@ -14,11 +14,15 @@ class DefaultController extends FOSRestController
     /**
      * @Routing\Route("/api/octopart/get/{id}", defaults={"method" = "GET","_format" = "json"})
      * @Routing\Method({"GET"})
+     *
      * @param $id string the Part UID
+     *
      * @View()
+     *
      * @return \stdClass
      */
-    public function indexAction ($id) {
+    public function indexAction($id)
+    {
         $data = $this->get("partkeepr.octopart_service")->getPartByUID($id);
 
         return $data;
@@ -27,11 +31,15 @@ class DefaultController extends FOSRestController
     /**
      * @Routing\Route("/api/octopart/query/", defaults={"method" = "GET","_format" = "json"})
      * @Routing\Method({"GET"})
+     *
      * @param Request $request
+     *
      * @View()
+     *
      * @return array
      */
-    public function getPartsByQueryAction (Request $request) {
+    public function getPartsByQueryAction(Request $request)
+    {
         $start = 0;
 
         $responseData = [];

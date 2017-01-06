@@ -62,7 +62,8 @@ class PartDistributor extends BaseEntity
     private $price;
 
     /**
-     * Specifies the currency of the part
+     * Specifies the currency of the part.
+     *
      * @ORM\Column(type="string", length=3,nullable=true)
      * @Groups({"default"})
      *

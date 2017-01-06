@@ -118,9 +118,9 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Adds a prefix
+     * Adds a prefix.
      *
-     * @param $array
+     * @param SiPrefix
      */
     public function addPrefix($prefix)
     {
@@ -128,9 +128,9 @@ class Unit extends BaseEntity
     }
 
     /**
-     * Adds a prefix
+     * Adds a prefix.
      *
-     * @param $array
+     * @param SiPrefix
      */
     public function removePrefix($prefix)
     {
