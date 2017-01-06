@@ -286,7 +286,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
     findSiPrefixForValueAndUnit: function (value, unit) {
         var i = 0, prefixedValue, siPrefix;
 
-        if (unit === null) {
+        if (!(unit instanceof PartKeepr.UnitBundle.Entity.Unit)) {
             return PartKeepr.getApplication().getSiPrefixStore().findRecord("exponent", 0, 0, false, false, true);
         }
 
