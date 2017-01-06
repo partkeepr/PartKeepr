@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PartKeepr\OctoPartBundle\Controller;
-
 
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;

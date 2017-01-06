@@ -47,7 +47,7 @@ class DefaultController extends FOSRestController
     {
         return [
             'disk_total' => $this->get('partkeepr_systemservice')->getTotalDiskSpace(),
-            'disk_used' => $this->get('partkeepr_systemservice')->getUsedDiskSpace(),
+            'disk_used'  => $this->get('partkeepr_systemservice')->getUsedDiskSpace(),
         ];
     }
 
@@ -64,8 +64,8 @@ class DefaultController extends FOSRestController
         $currencies = [];
         foreach ($currencyData as $code => $name) {
             $currencies[] = [
-                "code" => $code,
-                "name" => $name,
+                "code"   => $code,
+                "name"   => $name,
                 "symbol" => Intl::getCurrencyBundle()->getCurrencySymbol($code),
             ];
         }

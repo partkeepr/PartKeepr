@@ -48,7 +48,7 @@ class StorageLocationCategory extends AbstractCategory implements CategoryPathIn
      */
     protected $categoryPath;
 
-    public function __construct ()
+    public function __construct()
     {
         parent::__construct();
         $this->storageLocations = new ArrayCollection();
