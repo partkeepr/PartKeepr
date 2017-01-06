@@ -32,15 +32,15 @@ class InternalPartNumberTest extends WebTestCase
         $client = static::makeClient(true);
 
         /**
-         * @var $iriConverter IriConverter
+         * @var IriConverter
          */
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
         $part = [
-            "name" => "foobar",
-            "storageLocation" => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
-            "category" => $iriConverter->getIriFromItem($this->fixtures->getReference("partcategory.first")),
-            "partUnit" => $iriConverter->getIriFromItem($this->fixtures->getReference("partunit.default")),
+            "name"               => "foobar",
+            "storageLocation"    => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
+            "category"           => $iriConverter->getIriFromItem($this->fixtures->getReference("partcategory.first")),
+            "partUnit"           => $iriConverter->getIriFromItem($this->fixtures->getReference("partunit.default")),
             "internalPartNumber" => "foo123",
         ];
 

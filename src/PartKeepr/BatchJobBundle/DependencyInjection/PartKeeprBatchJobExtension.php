@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PartKeepr\BatchJobBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -10,7 +9,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class PartKeeprBatchJobExtension extends Extension
 {
-
     /**
      * {@inheritdoc}
      */

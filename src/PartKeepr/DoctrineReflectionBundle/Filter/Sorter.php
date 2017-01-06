@@ -4,7 +4,6 @@ namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
 class Sorter implements AssociationPropertyInterface
 {
-
     use AssociationPropertyTrait;
 
     /**

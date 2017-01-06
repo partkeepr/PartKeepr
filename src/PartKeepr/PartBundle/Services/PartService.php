@@ -15,7 +15,7 @@ class PartService
     private $partLimit;
 
     /**
-     * Whether to check if the internal part number is unique or not
+     * Whether to check if the internal part number is unique or not.
      *
      * @var bool
      */
@@ -50,14 +50,15 @@ class PartService
     }
 
     /**
-     * Checks if the given internal part number is unique
+     * Checks if the given internal part number is unique.
      *
      * @param string    $internalPartNumber The internal part number to checkl
      * @param Part|null $part               An optional part to exclude within the check
      *
      * @return bool
      */
-    public function isInternalPartNumberUnique ($internalPartNumber, Part $part = null) {
+    public function isInternalPartNumberUnique($internalPartNumber, Part $part = null)
+    {
         if (!$this->checkInternalPartNumberUniqueness) {
             return true;
         }

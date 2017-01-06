@@ -52,12 +52,12 @@ class PartPostAction
         }
 
         /**
-         * @var $resourceType ResourceInterface
+         * @var ResourceInterface
          */
         list($resourceType, $format) = $this->extractAttributes($request);
 
         /**
-         * @var $part Part
+         * @var Part
          */
         $part = $this->serializer->deserialize(
             $request->getContent(),

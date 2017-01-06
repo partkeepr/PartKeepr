@@ -46,7 +46,6 @@ class IndexController extends Controller
             $aParameters['isOctoPartAvailable'] = false;
         }
 
-
         // @todo Hardcoded for now due to GD, see #445
         $aParameters['availableImageFormats'] = ['JPG', 'GIF', 'PNG'];
 

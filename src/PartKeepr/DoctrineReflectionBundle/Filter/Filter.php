@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
+namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
 class Filter implements AssociationPropertyInterface
 {
@@ -35,7 +35,7 @@ class Filter implements AssociationPropertyInterface
     ];
 
     /**
-     * The type
+     * The type.
      *
      * @var string
      */
@@ -57,7 +57,6 @@ class Filter implements AssociationPropertyInterface
      * @var array
      */
     private $subFilters;
-
 
     public function __construct($type = self::TYPE_AND)
     {
@@ -143,5 +142,4 @@ class Filter implements AssociationPropertyInterface
     {
         return count($this->subFilters) > 0;
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImportBundle\Configuration;
 
+namespace PartKeepr\ImportBundle\Configuration;
 
 class FieldConfiguration extends BaseConfiguration
 {
@@ -75,14 +75,16 @@ class FieldConfiguration extends BaseConfiguration
         switch ($this->fieldConfiguration) {
             case self::FIELDCONFIGURATION_FIXEDVALUE:
                 $this->log(sprintf("Would set field %s to fixed value %s", $this->fieldName, $this->fixedValue));
+
                 return $this->fixedValue;
             break;
             case self::FIELDCONFIGURATION_COPYFROM:
                 $this->log(sprintf("Would set field %s to value %s (import column %s)", $this->fieldName, $row[$this->copyFromField], $this->copyFromField));
+
                 return $row[$this->copyFromField];
             break;
             default:
-                return null;
+                return;
         }
     }
 }
