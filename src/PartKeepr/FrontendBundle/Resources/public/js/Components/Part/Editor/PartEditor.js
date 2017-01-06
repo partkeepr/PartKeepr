@@ -227,6 +227,13 @@ Ext.define('PartKeepr.PartEditor', {
         });
 
         // Creates the attachment grid
+        this.partParameterGrid = Ext.create("PartKeepr.PartParameterGrid", {
+            title: i18n("Part Parameters"),
+            iconCls: 'fugue-icon table',
+            layout: 'fit'
+        });
+
+        // Creates the attachment grid
         this.partAttachmentGrid = Ext.create("PartKeepr.PartAttachmentGrid", {
             title: i18n("Attachments"),
             iconCls: 'web-icon attach',
@@ -302,6 +309,7 @@ Ext.define('PartKeepr.PartEditor', {
                 },
                 this.partDistributorGrid,
                 this.partManufacturerGrid,
+                this.partParameterGrid,
                 this.partAttachmentGrid
             ]
         };
@@ -350,34 +358,16 @@ Ext.define('PartKeepr.PartEditor', {
         removeRecords = [];
 
         /**
-         * Iterate through all records and check if a valid parameter
-         * ID is assigned. If not, the record is removed as it is assumed
-         * that the record is invalid and being removed.
-         */
-
-        for (j = 0; j < this.record.parameters().getCount(); j++) {
-            if (this.record.parameters().getAt(j).get("unit_id") === 0) {
-                removeRecords.push(this.record.parameters().getAt(j));
-            }
-        }
-
-        if (removeRecords.length > 0) {
-            this.record.parameters().remove(removeRecords);
-        }
-
-        removeRecords = [];
-
-        /**
          * Iterate through all records and check if a valid manufacturer
          * ID is assigned. If not, the record is removed as it is assumed
          * that the record is invalid and being removed.
          */
 
-        for (j = 0; j < this.record.manufacturers().getCount(); j++) {
+        /*for (j = 0; j < this.record.manufacturers().getCount(); j++) {
             if (this.record.manufacturers().getAt(j).getManufacturer() === null) {
                 removeRecords.push(this.record.manufacturers().getAt(j));
             }
-        }
+        }*/
 
         if (removeRecords.length > 0) {
             this.record.manufacturers().remove(removeRecords);
@@ -485,6 +475,7 @@ Ext.define('PartKeepr.PartEditor', {
         this.partDistributorGrid.bindStore(this.record.distributors());
         this.partManufacturerGrid.bindStore(this.record.manufacturers());
         this.partAttachmentGrid.bindStore(this.record.attachments());
+        this.partParameterGrid.bindStore(this.record.parameters());
     },
     setTitle: function (title)
     {

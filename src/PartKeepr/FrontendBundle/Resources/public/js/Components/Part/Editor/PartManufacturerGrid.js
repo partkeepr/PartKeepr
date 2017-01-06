@@ -2,6 +2,10 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
     extend: 'PartKeepr.BaseGrid',
     alias: 'widget.PartManufacturerGrid',
     border: false,
+    selModel: {
+        selType: 'rowmodel',
+        mode: 'MULTI'
+    },
     initComponent: function ()
     {
         this.store = Ext.create("Ext.data.Store", {
@@ -16,7 +20,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
         });
 
         this.editing = Ext.create('Ext.grid.plugin.RowEditing', {
-            clicksToEdit: 1
+            clicksToEdit: 2
         });
 
         this.plugins = [this.editing];
@@ -77,17 +81,6 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
         this.callParent();
 
         this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
-        this.on("edit", this.onEdit, this);
-    },
-    onEdit: function (editor, data)
-    {
-        var id = data.record.get("manufacturer_id");
-
-        var rec = PartKeepr.getApplication().getManufacturerStore().findRecord("id", id);
-
-        if (rec) {
-            data.record.set("manufacturer_name", rec.get("name"));
-        }
     },
     onAddClick: function ()
     {
@@ -101,10 +94,7 @@ Ext.define('PartKeepr.PartManufacturerGrid', {
     },
     onDeleteClick: function ()
     {
-        var selection = this.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
-            this.store.remove(selection);
-        }
+       this.store.remove(this.getView().getSelectionModel().getSelection());
     },
     onSelectChange: function (selModel, selections)
     {

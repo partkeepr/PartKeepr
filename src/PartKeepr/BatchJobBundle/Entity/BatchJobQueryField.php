@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\BatchJobBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -22,46 +23,51 @@ class BatchJobQueryField extends BaseEntity
     private $batchJob = null;
 
     /**
-     * The field name to query
+     * The field name to query.
      *
      * @ORM\Column(length=255)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $property;
 
     /**
-     * The operator to use
+     * The operator to use.
      *
      * @ORM\Column(length=64)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $operator;
 
     /**
-     * The value. May be an array if the operator is IN
+     * The value. May be an array if the operator is IN.
      *
      * @ORM\Column(type="text")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $value;
 
     /**
-     * The description
+     * The description.
      *
      * @ORM\Column(type="text")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $description;
 
     /**
-     * Defines if the value is dynamic (=the user gets prompted upon running the batch job which value to use)
+     * Defines if the value is dynamic (=the user gets prompted upon running the batch job which value to use).
      *
      * @Groups({"default"})
      * @ORM\Column(type="boolean")
+     *
      * @var bool
      */
     private $dynamic;

@@ -5,7 +5,7 @@ Ext.define('{{ className }}', {
     idProperty: "@id",
     fields: [
         {% for field in fields %}
-        { name: '{{ field.name|raw }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}{% if not field.persist %}, persist: false{% endif %}{% if field.validators %}, validators: {{ field.validators|raw }}{% endif %}}{% if not loop.last %},{% endif %}
+        { name: '{{ field.name|raw }}'{% if field.type%}, type: '{{ field.type }}'{% endif %}{% if field.nullable%}, allowNull: true{% endif %}{% if not field.persist %}, persist: false{% endif %}{% if field.validators %}, validators: {{ field.validators|raw }}{% endif %}}{% if not loop.last %},{% endif %}
 
         {% endfor %}
         {% if associations.MANY_TO_ONE|length > 0 %}

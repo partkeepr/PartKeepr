@@ -179,6 +179,7 @@ class Part extends BaseEntity
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartParameter",
      *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups({"default"})
      *
      * @var ArrayCollection
      */
@@ -486,7 +487,7 @@ class Part extends BaseEntity
      */
     public function getDistributors()
     {
-        return $this->distributors;
+        return $this->distributors->getValues();
     }
 
     /**
@@ -496,7 +497,7 @@ class Part extends BaseEntity
      */
     public function getAttachments()
     {
-        return $this->attachments;
+        return $this->attachments->getValues();
     }
 
     /**
@@ -506,17 +507,17 @@ class Part extends BaseEntity
      */
     public function getManufacturers()
     {
-        return $this->manufacturers;
+        return $this->manufacturers->getValues();
     }
 
     /**
      * Returns the parameters assigned to this part.
      *
-     * @return array An array of PartParameter objects
+     * @return ArrayCollection An array of PartParameter objects
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return $this->parameters->getValues();
     }
 
     /**
@@ -638,7 +639,7 @@ class Part extends BaseEntity
      */
     public function getStockLevels()
     {
-        return $this->stockLevels;
+        return $this->stockLevels->getValues();
     }
 
     /**
@@ -712,7 +713,7 @@ class Part extends BaseEntity
      *
      * For a list of exceptions, see
      *
-     * @see PartKeepr\Part.Part::onPrePersist()
+     * @see Part::onPrePersist()
      *
      * @ORM\PreUpdate
      */
@@ -764,6 +765,30 @@ class Part extends BaseEntity
     }
 
     /**
+     * Adds a Part Parameter.
+     *
+     * @param PartParameter $partParameter A parameter to add
+     */
+    public function addParameter($partParameter)
+    {
+        if ($partParameter instanceof PartParameter) {
+            $partParameter->setPart($this);
+        }
+        $this->parameters->add($partParameter);
+    }
+
+    /**
+     * Removes a Part Parameter.
+     *
+     * @param PartParameter $partParameter An parameter to remove
+     */
+    public function removeParameter($partParameter)
+    {
+        $partParameter->setPart(null);
+        $this->parameters->removeElement($partParameter);
+    }
+
+    /**
      * Adds a Part Attachment.
      *
      * @param PartAttachment $partAttachment An attachment to add
@@ -783,7 +808,10 @@ class Part extends BaseEntity
      */
     public function removeAttachment($partAttachment)
     {
-        $partAttachment->setPart(null);
+        if ($partAttachment instanceof PartAttachment) {
+            $partAttachment->setPart(null);
+        }
+
         $this->attachments->removeElement($partAttachment);
     }
 
@@ -838,7 +866,7 @@ class Part extends BaseEntity
      */
     public function getProjectParts()
     {
-        return $this->projectParts;
+        return $this->projectParts->getValues();
     }
 
     /**

@@ -147,6 +147,6 @@ class PartMeasurementUnit extends BaseEntity
      */
     public function getParts()
     {
-        return $this->parts;
+        return $this->parts->getValues();
     }
 }

@@ -104,17 +104,16 @@ class AdvancedSearchFilter extends AbstractFilter
     {
         foreach ($filters as $filter) {
             /**
-             * @var Filter $filter
+             * @var Filter
              */
             $queryBuilder->andWhere(
                 $this->getFilterExpression($queryBuilder, $filter)
             );
-
         }
 
         foreach ($sorters as $sorter) {
             /**
-             * @var Sorter $sorter
+             * @var Sorter
              */
             if ($sorter->getAssociation() !== null) {
                 // Pull in associations
@@ -215,7 +214,7 @@ class AdvancedSearchFilter extends AbstractFilter
             foreach ($filter->getSubFilters() as $subFilter) {
 
                 /**
-                 * @var $subFilter Filter
+                 * @var Filter
                  */
                 if ($subFilter->getAssociation() !== null) {
                     $this->addJoins($queryBuilder, $subFilter);
@@ -223,7 +222,6 @@ class AdvancedSearchFilter extends AbstractFilter
 
                 $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
             }
-
 
             if ($filter->getType() == Filter::TYPE_AND) {
                 return call_user_func_array([$queryBuilder->expr(), "andX"], $subFilterExpressions);
@@ -238,7 +236,6 @@ class AdvancedSearchFilter extends AbstractFilter
         } else {
             $alias = 'o.'.$filter->getProperty();
         }
-
 
         if (strtolower($filter->getOperator()) == Filter::OPERATOR_IN) {
             if (!is_array($filter->getValue())) {
@@ -317,7 +314,6 @@ class AdvancedSearchFilter extends AbstractFilter
 
         $sorters = [];
 
-
         if (is_array($sorterData)) {
             foreach ($sorterData as $sorter) {
                 $sorters[] = $this->extractJSONSorters($sorter);
@@ -325,7 +321,6 @@ class AdvancedSearchFilter extends AbstractFilter
         } elseif (is_object($sorterData)) {
             $sorters[] = $this->extractJSONSorters($sorterData);
         }
-
 
         return ['filters' => $filters, 'sorters' => $sorters];
     }
@@ -356,8 +351,7 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return Filter
      */
-    private
-    function extractJSONFilters(
+    private function extractJSONFilters(
         $data
     ) {
         $filter = new Filter();
@@ -418,8 +412,7 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return Sorter A Sorter object
      */
-    private
-    function extractJSONSorters(
+    private function extractJSONSorters(
         $data
     ) {
         $sorter = new Sorter();

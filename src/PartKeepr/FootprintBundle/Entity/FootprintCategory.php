@@ -75,7 +75,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
      */
     public function getFootprints()
     {
-        return $this->footprints;
+        return $this->footprints->getValues();
     }
 
     /**
@@ -85,7 +85,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
      */
     public function getChildren()
     {
-        return $this->children;
+        return $this->children->getValues();
     }
 
     /**

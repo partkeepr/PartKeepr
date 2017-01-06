@@ -15,7 +15,7 @@ Ext.define('PartKeepr.UnitEditor', {
 			columns: [
 			          { text: i18n("Prefix"), dataIndex: "prefix", width: 60 },
 			          { text: i18n("Symbol"), dataIndex: "symbol", width: 60 },
-			          { text: i18n("Power"), dataIndex: "exponent", flex: 1, renderer: function (value) { return "10<sup>"+value+"</sup>"; } }
+			          { text: i18n("Power"), dataIndex: "exponent", flex: 1, renderer: function (value,m,rec) { return rec.get("base")+"<sup>"+value+"</sup>"; } }
 			          ]
 		});
 

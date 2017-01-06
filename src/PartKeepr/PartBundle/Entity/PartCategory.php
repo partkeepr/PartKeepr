@@ -71,7 +71,7 @@ class PartCategory extends AbstractCategory implements CategoryPathInterface
      */
     public function getChildren()
     {
-        return $this->children;
+        return $this->children->getValues();
     }
 
     /**

@@ -243,3 +243,9 @@ $container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_di
  * Specifies if PartKeepr should check for non-running cronjobs
  */
 $container->setParameter('partkeepr.cronjob.check', true);
+
+/**
+ * Specifies which API key PartKeepr should use to talk to OctoPart. You can get an API key by registering at
+ * https://octopart.com/api/home and then registering an application.
+ */
+$container->setParameter('partkeepr.octopart.apikey', '');

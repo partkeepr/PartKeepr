@@ -50,7 +50,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
          * We need a delay, since if others are listening for "editorClose", the dialog plus the record could be destroyed
          * before any following listeners have a chance to receive the record, resulting in strange problems.
          */
-        this.editor.on("editorClose", function (context)
+        this.editor.on("editorClose", function ()
         {
             this.close();
         }, this, {delay: 200});
@@ -60,6 +60,12 @@ Ext.define('PartKeepr.PartEditorWindow', {
             this.setTitle(val);
         }, this);
         this.editor.on("itemSaved", this.onItemSaved, this);
+
+        this.octoPartButton = Ext.create("Ext.button.Button", {
+            text: i18n("OctoPart…"),
+            iconCls: 'partkeepr-icon octopart',
+            handler: Ext.bind(this.onOctoPartClick, this)
+        });
 
         this.saveButton = Ext.create("Ext.button.Button", {
             text: this.saveText,
@@ -79,7 +85,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
             dock: 'bottom',
             ui: 'footer',
             pack: 'start',
-            items: [this.saveButton, this.cancelButton]
+            items: [this.saveButton, this.cancelButton, this.octoPartButton]
         });
 
         this.dockedItems = [this.bottomToolbar];
@@ -127,6 +133,21 @@ Ext.define('PartKeepr.PartEditorWindow', {
         } else {
             this.copyPartDataCheckbox.disable();
         }
+    },
+    onOctoPartClick: function () {
+        if (PartKeepr.isOctoPartAvailable()) {
+            this.octoPartQueryWindow = Ext.create("PartKeepr.Components.OctoPart.SearchWindow");
+            this.octoPartQueryWindow.show();
+            this.octoPartQueryWindow.setPart(this.editor.record);
+            this.octoPartQueryWindow.startSearch(this.editor.nameField.getValue());
+            this.octoPartQueryWindow.on("refreshData", this.onRefreshData, this);
+        } else {
+            Ext.MessageBox.alert(i18n("OctoPart is not configured"), i18n("Your administrator needs to configure the API key for OctoPart in the parameters.php file - see parameters.php.dist for instructions"));
+        }
+    },
+    onRefreshData: function () {
+        this.editor.getForm().loadRecord(this.editor.record);
+        this.octoPartQueryWindow.destroy();
     },
     /**
      * Called when the save button was clicked
