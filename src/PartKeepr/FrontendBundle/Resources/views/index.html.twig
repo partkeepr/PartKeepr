@@ -79,7 +79,8 @@
 
     {% javascripts output='js/compiled/main2.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
-        '@PartKeeprFrontendBundle/Resources/public/js/Data/ReflectionFieldTreeModel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/store/CurrencyStore.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/ReflectionFieldTreeModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/EntityQueryPanel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/EntityPicker.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PresetComboBox.js'
@@ -219,7 +220,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PartUnitComboBox.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/StorageLocationComboBox.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/ResistorCalculator.js'
-        '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/SiUnitCombo.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/SiUnitCombo.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/ContextMenu/CharPickerMenu.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Editor/Editor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Distributor/DistributorEditor.js'
@@ -291,6 +292,9 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Header.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.CardLayout.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/SearchPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/SearchWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/DataApplicator.js'
     '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

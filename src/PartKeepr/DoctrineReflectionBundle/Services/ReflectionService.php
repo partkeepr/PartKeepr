@@ -266,9 +266,14 @@ class ReflectionService
                 $currentMapping['type'] = 'string';
             }
 
+            if (!array_key_exists("nullable", $currentMapping)) {
+                $currentMapping["nullable"] = false;
+            }
+
             $fieldMappings[] = [
                 'name' => $currentMapping['fieldName'],
                 'type' => $this->getExtJSFieldMapping($currentMapping['type']),
+                'nullable' => $currentMapping['nullable'],
                 'validators' => json_encode($asserts),
                 'persist' => $this->allowPersist($cm, $field)
             ];

@@ -20,9 +20,7 @@ class PartParameter extends BaseEntity
 
     const VALUE_TYPE_NUMERIC = 'numeric';
 
-    const VALUE_TYPE_MINMAX = 'minmax';
-
-    const VALUE_TYPES = [self::VALUE_TYPE_STRING, self::VALUE_TYPE_NUMERIC, self::VALUE_TYPE_MINMAX];
+    const VALUE_TYPES = [self::VALUE_TYPE_STRING, self::VALUE_TYPE_NUMERIC];
 
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="parameters")
@@ -68,7 +66,7 @@ class PartParameter extends BaseEntity
      * Example: If you have 10µ, the value field will contain "10", the prefix object is linked to the SiPrefix
      * representing "µ" and the rawValue field will contain 0.000001
      *
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float",nullable=true)
      * @Groups({"default"})
      *
      * @var float
@@ -78,7 +76,7 @@ class PartParameter extends BaseEntity
     /**
      * The maximum value of the parameter.
      *
-     * @ORM\Column(type="float",name="maximumValue")
+     * @ORM\Column(type="float",name="maximumValue",nullable=true)
      * @Groups({"default"})
      *
      * @var float
@@ -88,7 +86,7 @@ class PartParameter extends BaseEntity
     /**
      * The minimum value of the parameter.
      *
-     * @ORM\Column(type="float",name="minimumValue")
+     * @ORM\Column(type="float",name="minimumValue",nullable=true)
      * @Groups({"default"})
      *
      * @var float
@@ -240,6 +238,7 @@ class PartParameter extends BaseEntity
 
     /**
      * @param string $valueType
+     * @throws \Exception
      */
     public function setValueType($valueType)
     {
@@ -325,7 +324,7 @@ class PartParameter extends BaseEntity
      *
      * @param Part $part The part to set
      */
-    public function setPart(Part $part)
+    public function setPart(Part $part = null)
     {
         $this->part = $part;
     }

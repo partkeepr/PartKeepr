@@ -24,6 +24,7 @@ Ext.application({
         // Set static data of the server
         PartKeepr.setMaxUploadSize(window.parameters.maxUploadSize);
         PartKeepr.setAvailableImageFormats(window.parameters.availableImageFormats);
+        PartKeepr.setOctoPartAvailable(window.parameters.isOctoPartAvailable);
 
         var authenticationProvider = Ext.create(window.parameters.authentication_provider);
         PartKeepr.Auth.AuthenticationProvider.setAuthenticationProvider(authenticationProvider);
@@ -268,6 +269,10 @@ Ext.application({
                 autoLoad: true
             });
 
+        this.currencyStore = Ext.create("PartKeepr.Data.Store.CurrencyStore", {
+            autoLoad: true
+        });
+
         this.distributorStore = Ext.create("Ext.data.Store",
             {
                 model: 'PartKeepr.DistributorBundle.Entity.Distributor',
@@ -473,6 +478,10 @@ Ext.application({
     {
         return this.distributorStore;
     },
+    getCurrencyStore: function ()
+    {
+        return this.currencyStore;
+    },
     getDefaultPartUnit: function ()
     {
         return this.partUnitStore.findRecord("default", true);
@@ -484,6 +493,23 @@ Ext.application({
     getSiPrefixStore: function ()
     {
         return this.siPrefixStore;
+    },
+    uploadFileFromURL: function (url, description, callback, scope)
+    {
+        var uploadURL = PartKeepr.getBasePath() + "/api/temp_uploaded_files/upload";
+
+        var options = {
+            url: uploadURL,
+            method: 'POST',
+            params: {
+                description: description,
+                url: url
+            },
+            callback: callback,
+            scope: scope
+        };
+
+        Ext.Ajax.request(options);
     },
     /**
      * Converts the Character "micro" (µ, available on german keyboards via AltGr+m) to the Character "Mu" (μ).
@@ -625,12 +651,22 @@ Ext.application({
     {
         return this.username;
     },
-    formatCurrency: function (value)
+    formatCurrency: function (value, code)
     {
         var format = Ext.util.Format;
         format.currencyPrecision = PartKeepr.getApplication().getUserPreference(
             "partkeepr.formatting.currency.numdecimals", 2);
+
         format.currencySign = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
+
+        if (code !== null) {
+            var currency = this.getCurrencyStore().findRecord("code", code, 0, false, false, true);
+
+            if (currency !== null) {
+                format.currencySign = currency.get("symbol");
+            }
+        }
+
         format.currencyAtEnd = PartKeepr.getApplication().getUserPreference(
             "partkeepr.formatting.currency.currencySymbolAtEnd", true);
 
@@ -695,6 +731,16 @@ PartKeepr.setMaxUploadSize = function (size)
 PartKeepr.getMaxUploadSize = function ()
 {
     return PartKeepr.maxUploadSize;
+};
+
+PartKeepr.setOctoPartAvailable = function (octoPartAvailable)
+{
+    PartKeepr.octoPartAvailable = octoPartAvailable;
+};
+
+PartKeepr.isOctoPartAvailable = function ()
+{
+    return PartKeepr.octoPartAvailable;
 };
 
 PartKeepr.bytesToSize = function (bytes)

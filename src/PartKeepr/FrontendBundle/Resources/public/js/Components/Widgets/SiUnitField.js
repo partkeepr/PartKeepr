@@ -25,6 +25,7 @@ Ext.define("PartKeepr.SiUnitField", {
                 xtype: 'numberfield',
                 hideTrigger: true,
                 emptyText: i18n("Value"),
+                decimalPrecision: 20,
                 name: this.name,
                 flex: 1
             }, {
@@ -36,8 +37,7 @@ Ext.define("PartKeepr.SiUnitField", {
                 width: 40
             }
         ];
-        console.log(this.siUnitItemId);
-        console.log(this.siFieldName);
+
         this.callParent(arguments);
         this.down("#"+this.siUnitItemId).setStore(Ext.create("Ext.data.Store",
             {

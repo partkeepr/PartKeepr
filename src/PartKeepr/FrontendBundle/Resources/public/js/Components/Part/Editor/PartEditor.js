@@ -327,8 +327,6 @@ Ext.define('PartKeepr.PartEditor', {
      */
     onItemSave: function ()
     {
-        console.log(this.record.parameters());
-
         var removeRecords = [], j, errors = [],
             minDistributorCount = PartKeepr.getApplication().getSystemPreference(
                 "partkeepr.part.constraints.distributorCount", 0),
@@ -365,11 +363,11 @@ Ext.define('PartKeepr.PartEditor', {
          * that the record is invalid and being removed.
          */
 
-        for (j = 0; j < this.record.manufacturers().getCount(); j++) {
+        /*for (j = 0; j < this.record.manufacturers().getCount(); j++) {
             if (this.record.manufacturers().getAt(j).getManufacturer() === null) {
                 removeRecords.push(this.record.manufacturers().getAt(j));
             }
-        }
+        }*/
 
         if (removeRecords.length > 0) {
             this.record.manufacturers().remove(removeRecords);

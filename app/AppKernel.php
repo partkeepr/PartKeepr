@@ -66,6 +66,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\SystemPreferenceBundle\PartKeeprSystemPreferenceBundle();
         $bundles[] = new PartKeepr\ImportBundle\PartKeeprImportBundle();
         $bundles[] = new PartKeepr\BatchJobBundle\PartKeeprBatchJobBundle();
+        $bundles[] = new PartKeepr\OctoPartBundle\PartKeeprOctoPartBundle();
 
         return array_merge($bundles, $this->getCustomBundles());
     }
@@ -73,6 +74,8 @@ class AppKernel extends Kernel
     /**
      * Loads the configuration for an environment. Also loads a custom configuration for non-text environments from
      * app/config_config_custom.yml if it exists.
+     *
+     * @param $loader LoaderInterface
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

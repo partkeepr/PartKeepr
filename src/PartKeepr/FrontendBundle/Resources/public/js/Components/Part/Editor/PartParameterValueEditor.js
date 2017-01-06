@@ -32,12 +32,9 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
             itemId: 'valueType',
             items: [
                 {
-                    boxLabel: i18n("Single Value"),
+                    boxLabel: i18n("Numeric"),
                     inputValue: "numeric",
                     checked: true
-                }, {
-                    boxLabel: i18n("Min/Max Value"),
-                    inputValue: "minmax"
                 }, {
                     boxLabel: i18n("Text"),
                     inputValue: "string"
@@ -50,37 +47,34 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
             itemId: 'typeFields',
             items: [
                 {
-                    fieldLabel: i18n("Value"),
                     xtype: 'fieldcontainer',
                     itemId: "numeric",
-                    layout: 'hbox',
-                    items: [
-                        {
-                            xtype: 'SiUnitField',
-                            itemId: "singleValue",
-                            siUnitItemId: 'siPrefix',
-                            name: 'value',
-                            siFieldName: 'siPrefix',
-                            width: 200
-                        }
-                    ]
-                }, {
-                    xtype: 'container',
-                    itemId: 'minmax',
+                    layout: 'vbox',
                     items: [
                         {
                             fieldLabel: i18n("Min Value"),
                             name: 'minValue',
                             siFieldName: 'minSiPrefix',
                             siUnitItemId: 'minSiPrefix',
-                            xtype: 'SiUnitField'
+                            xtype: 'SiUnitField',
+                            width: 200
+                        },
+                        {
+                            xtype: 'SiUnitField',
+                            itemId: "singleValue",
+                            fieldLabel: i18n("Nominal Value"),
+                            siUnitItemId: 'siPrefix',
+                            name: 'value',
+                            siFieldName: 'siPrefix',
+                            width: 200
                         },
                         {
                             fieldLabel: i18n("Max Value"),
                             name: 'maxValue',
                             siFieldName: 'maxSiPrefix',
                             siUnitItemId: 'maxSiPrefix',
-                            xtype: 'SiUnitField'
+                            xtype: 'SiUnitField',
+                            width: 200
                         }
                     ]
                 },
@@ -148,9 +142,6 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
         switch (newValue.valueType) {
             case "string":
                 this.down("#typeFields").setActiveItem(this.down("#text"));
-                break;
-            case "minmax":
-                this.down("#typeFields").setActiveItem(this.down("#minmax"));
                 break;
             case "numeric":
                 this.down("#typeFields").setActiveItem(this.down("#numeric"));

@@ -3,6 +3,10 @@ Ext.define('PartKeepr.AttachmentGrid', {
     alias: 'widget.AttachmentGrid',
     border: false,
     model: null,
+    selModel: {
+        selType: 'rowmodel',
+        mode: 'MULTI'
+    },
     initComponent: function ()
     {
         this.store = Ext.create("Ext.data.Store", {
@@ -146,10 +150,7 @@ Ext.define('PartKeepr.AttachmentGrid', {
     },
     onDeleteClick: function ()
     {
-        var selection = this.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
-            this.store.remove(selection);
-        }
+        this.store.remove(this.getView().getSelectionModel().getSelection());
     },
     onSelectChange: function (selModel, selections)
     {
