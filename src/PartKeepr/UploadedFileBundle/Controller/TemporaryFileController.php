@@ -76,6 +76,10 @@ class TemporaryFileController extends FileController
             throw new \Exception($this->get('translator')->trans('No valid file given'));
         }
 
+        if ($request->request->has("description")) {
+            $uploadedFile->setDescription($request->request->get("description"));
+        }
+
         $this->getDoctrine()->getManager()->persist($uploadedFile);
         $this->getDoctrine()->getManager()->flush();
 
