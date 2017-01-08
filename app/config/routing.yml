@@ -3,6 +3,11 @@ part_keepr_auth:
     type:     annotation
     prefix:   /
 
+part_keepr_octopart:
+    resource: "@PartKeeprOctoPartBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 part_keepr_core:
     resource: "@PartKeeprCoreBundle/Controller/"
     type:     annotation

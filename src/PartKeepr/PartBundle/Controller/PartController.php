@@ -62,4 +62,19 @@ class PartController extends FOSRestController
 
         $this->get('doctrine.orm.entity_manager')->flush();
     }
+
+    /**
+     * @Routing\Route("/api/parts/getPartParameterNames", defaults={"method" = "get","_format" = "json"})
+     * @View()
+     *
+     * @return array An array with name and description properties
+     */
+    public function getParameterNamesAction()
+    {
+        $dql = "SELECT p.name, p.description FROM PartKeepr\PartBundle\Entity\PartParameter p GROUP BY p.name, p.description";
+
+        $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
+
+        return $query->getArrayResult();
+    }
 }

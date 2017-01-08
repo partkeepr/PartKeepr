@@ -50,7 +50,7 @@ class GetPreferencesAction
         $preferences = $this->systemPreferenceService->getPreferences();
 
         /**
-         * @var ResourceInterface $resourceType
+         * @var ResourceInterface
          */
         list($resourceType) = $this->extractAttributes($request);
 

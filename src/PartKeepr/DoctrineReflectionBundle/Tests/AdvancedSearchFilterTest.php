@@ -27,7 +27,6 @@ class AdvancedSearchFilterTest extends WebTestCase
         )->getReferenceRepository();
     }
 
-
     public function testEqualFilter()
     {
         $client = static::makeClient(true);
@@ -36,10 +35,9 @@ class AdvancedSearchFilterTest extends WebTestCase
             [
                 "property" => "storageLocation.name",
                 "operator" => "=",
-                "value" => "test",
+                "value"    => "test",
             ],
         ];
-
 
         $client->request(
             'GET',
@@ -48,7 +46,6 @@ class AdvancedSearchFilterTest extends WebTestCase
             [],
             ['CONTENT_TYPE' => 'application/json']
         );
-
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
@@ -73,10 +70,9 @@ class AdvancedSearchFilterTest extends WebTestCase
             [
                 "property" => "name",
                 "operator" => "=",
-                "value" => "FOOBAR",
+                "value"    => "FOOBAR",
             ],
         ];
-
 
         $client->request(
             'GET',
@@ -85,7 +81,6 @@ class AdvancedSearchFilterTest extends WebTestCase
             [],
             ['CONTENT_TYPE' => 'application/json']
         );
-
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
@@ -115,7 +110,7 @@ class AdvancedSearchFilterTest extends WebTestCase
             [
                 "property" => "storageLocation",
                 "operator" => "=",
-                "value" => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
+                "value"    => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
             ],
         ];
 
@@ -126,7 +121,6 @@ class AdvancedSearchFilterTest extends WebTestCase
             [],
             ['CONTENT_TYPE' => 'application/json']
         );
-
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
@@ -147,7 +141,7 @@ class AdvancedSearchFilterTest extends WebTestCase
             [
                 "property" => "storageLocation",
                 "operator" => "IN",
-                "value" => [
+                "value"    => [
                     $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
                     $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.second")),
                 ],
@@ -161,7 +155,6 @@ class AdvancedSearchFilterTest extends WebTestCase
             [],
             ['CONTENT_TYPE' => 'application/json']
         );
-
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
@@ -177,10 +170,9 @@ class AdvancedSearchFilterTest extends WebTestCase
             [
                 "property" => "storageLocation.name",
                 "operator" => "LIKE",
-                "value" => "%test%",
+                "value"    => "%test%",
             ],
         ];
-
 
         $client->request(
             'GET',
@@ -189,7 +181,6 @@ class AdvancedSearchFilterTest extends WebTestCase
             [],
             ['CONTENT_TYPE' => 'application/json']
         );
-
 
         $data = json_decode($client->getResponse()->getContent(), true);
 
@@ -203,11 +194,10 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $order = [
             [
-                "property" => "storageLocation.name",
+                "property"  => "storageLocation.name",
                 "direction" => "ASC",
             ],
         ];
-
 
         $client->request(
             'GET',
@@ -229,22 +219,21 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $filter = [
             [
-                "type" => "OR",
+                "type"       => "OR",
                 "subfilters" => [
                     [
                         "property" => "storageLocation.name",
                         "operator" => "=",
-                        "value" => "test",
+                        "value"    => "test",
                     ],
                     [
                         "property" => "storageLocation.name",
                         "operator" => "=",
-                        "value" => "test2",
+                        "value"    => "test2",
                     ],
                 ],
             ],
         ];
-
 
         $client->request(
             'GET',
@@ -266,22 +255,21 @@ class AdvancedSearchFilterTest extends WebTestCase
 
         $filter = [
             [
-                "type" => "OR",
+                "type"       => "OR",
                 "subfilters" => [
                     [
                         "property" => "name",
                         "operator" => "=",
-                        "value" => "FOOBAR",
+                        "value"    => "FOOBAR",
                     ],
                     [
                         "property" => "name",
                         "operator" => "=",
-                        "value" => "FOOBAR2",
+                        "value"    => "FOOBAR2",
                     ],
                 ],
             ],
         ];
-
 
         $client->request(
             'GET',

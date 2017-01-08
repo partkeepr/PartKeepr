@@ -7,7 +7,7 @@ Ext.define("PartKeepr.CurrencyField", {
     
     initComponent: function () {
     	this.decimalPrecision 	= PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.numdecimals", 2);
-    	this.currencySign 		= PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
+    	this.currencySign 		= "";
     	this.currencyAtEnd		= PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.currencySymbolAtEnd", true);
     	
     	if (PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.thousandsSeparator", true) === true) {

@@ -564,6 +564,17 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.part_parameter:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartParameter" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.manufacturer:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\ManufacturerBundle\\Entity\\Manufacturer" ]

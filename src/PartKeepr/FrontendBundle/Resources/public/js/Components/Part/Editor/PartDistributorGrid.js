@@ -2,6 +2,10 @@ Ext.define('PartKeepr.PartDistributorGrid', {
     extend: 'PartKeepr.BaseGrid',
     alias: 'widget.PartDistributorGrid',
     border: false,
+    selModel: {
+        selType: 'rowmodel',
+        mode: 'MULTI'
+    },
     initComponent: function ()
     {
         this.store = Ext.create("Ext.data.Store", {
@@ -16,7 +20,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
         });
 
         this.editing = Ext.create('Ext.grid.plugin.RowEditing', {
-            clicksToEdit: 1
+            clicksToEdit: 2
         });
 
         this.plugins = [this.editing];
@@ -84,13 +88,24 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                 header: i18n("Price per Item"),
                 dataIndex: 'price',
                 flex: 1,
-                renderer: function (val)
+                renderer: function (val,m,rec)
                 {
-                    return PartKeepr.getApplication().formatCurrency(val);
+                    return PartKeepr.getApplication().formatCurrency(val, rec.get("currency"));
                 },
                 editor: {
                     xtype: 'CurrencyField',
                     allowBlank: false
+                }
+            }, {
+                header: i18n("Currency"),
+                dataIndex: 'currency',
+                editor: {
+                    xtype: 'combobox',
+                    displayField: 'code',
+                    valueField: 'code',
+                    store: PartKeepr.getApplication().getCurrencyStore(),
+                    forceSelection: true,
+                    queryMode: 'local'
                 }
             }, {
                 header: i18n("Package Price"),
@@ -98,7 +113,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                 dataIndex: 'packagePrice',
                 renderer: function (val, p, rec)
                 {
-                    return PartKeepr.getApplication().formatCurrency(rec.get("price") * rec.get("packagingUnit"));
+                    return PartKeepr.getApplication().formatCurrency(rec.get("price") * rec.get("packagingUnit"), rec.get("currency"));
                 }
             }, {
                 header: i18n("SKU"),
@@ -148,10 +163,7 @@ Ext.define('PartKeepr.PartDistributorGrid', {
     },
     onDeleteClick: function ()
     {
-        var selection = this.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
-            this.store.remove(selection);
-        }
+        this.store.remove(this.getView().getSelectionModel().getSelection());
     },
     onSelectChange: function (selModel, selections)
     {

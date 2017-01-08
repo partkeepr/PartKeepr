@@ -7,6 +7,7 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\PartBundle\Exceptions\PackagingUnitOutOfRangeException;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This class represents the link between a part and a distributor.
@@ -61,6 +62,16 @@ class PartDistributor extends BaseEntity
     private $price;
 
     /**
+     * Specifies the currency of the part.
+     *
+     * @ORM\Column(type="string", length=3,nullable=true)
+     * @Groups({"default"})
+     *
+     * @Assert\Currency
+     */
+    private $currency;
+
+    /**
      * The distributor's SKU (stock keeping unit) for the part.  Used with barcodes.
      *
      * @ORM\Column(type="string",nullable=true)
@@ -76,6 +87,32 @@ class PartDistributor extends BaseEntity
     public function __construct()
     {
         $this->setPackagingUnit(1);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param mixed $currency
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+    }
+
+    /**
+     * Returns the packaging unit.
+     *
+     * @return int The packaging unit
+     */
+    public function getPackagingUnit()
+    {
+        return $this->packagingUnit;
     }
 
     /**
@@ -102,13 +139,13 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the packaging unit.
+     * Returns the part.
      *
-     * @return int The packaging unit
+     * @return Part The part
      */
-    public function getPackagingUnit()
+    public function getPart()
     {
-        return $this->packagingUnit;
+        return $this->part;
     }
 
     /**
@@ -122,13 +159,13 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the part.
+     * Returns the distributor.
      *
-     * @return Part The part
+     * @return Distributor The distributor
      */
-    public function getPart()
+    public function getDistributor()
     {
-        return $this->part;
+        return $this->distributor;
     }
 
     /**
@@ -142,13 +179,13 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the distributor.
+     * Returns the order number.
      *
-     * @return Distributor The distributor
+     * @return string The order number
      */
-    public function getDistributor()
+    public function getOrderNumber()
     {
-        return $this->distributor;
+        return $this->orderNumber;
     }
 
     /**
@@ -162,13 +199,11 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the order number.
-     *
-     * @return string The order number
+     * Returns the price.
      */
-    public function getOrderNumber()
+    public function getPrice()
     {
-        return $this->orderNumber;
+        return $this->price;
     }
 
     /**
@@ -182,11 +217,13 @@ class PartDistributor extends BaseEntity
     }
 
     /**
-     * Returns the price.
+     * Returns the SKU (stock keeping unit).
+     *
+     * @return string The SKU
      */
-    public function getPrice()
+    public function getSku()
     {
-        return $this->price;
+        return $this->sku;
     }
 
     /**
@@ -197,15 +234,5 @@ class PartDistributor extends BaseEntity
     public function setSku($sku)
     {
         $this->sku = $sku;
-    }
-
-    /**
-     * Returns the SKU (stock keeping unit).
-     *
-     * @return string The SKU
-     */
-    public function getSku()
-    {
-        return $this->sku;
     }
 }

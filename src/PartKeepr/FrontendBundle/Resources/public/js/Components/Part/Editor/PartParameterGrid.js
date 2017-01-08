@@ -1,151 +1,191 @@
 Ext.define('PartKeepr.PartParameterGrid', {
-	extend: 'PartKeepr.BaseGrid',
-	alias: 'widget.PartParameterGrid',
-	border: false,
-	initComponent: function () {
-		this.store = Ext.create("Ext.data.Store", {
-			model: 'PartKeepr.PartBundle.Entity.PartParameter',
-			proxy: {
-				type: 'memory',
-				reader: {
-					type: 'json'
-				}
-			}			
-		});
-		
-		this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-            clicksToEdit: 1,
-            listeners: {
-            	scope: this,
-            	beforeedit: this.onBeforeEdit,
-            	edit: this.onAfterEdit
+    extend: 'PartKeepr.BaseGrid',
+    alias: 'widget.PartParameterGrid',
+    border: false,
+    selModel: {
+        selType: 'rowmodel',
+        mode: 'MULTI'
+    },
+    initComponent: function ()
+    {
+        this.store = Ext.create("Ext.data.Store", {
+            model: 'PartKeepr.PartBundle.Entity.PartParameter',
+            proxy: {
+                type: 'memory',
+                reader: {
+                    type: 'json'
+                }
             }
         });
-		
-		this.plugins =  [ this.editing ];
-		
-		this.deleteButton = Ext.create("Ext.button.Button", {
-                text: i18n('Delete'),
-                disabled: true,
-                itemId: 'delete',
-                scope: this,
-                iconCls: 'fugue-icon table--minus',
-                handler: this.onDeleteClick
-            });
-		
-		this.dockedItems = [{
-            xtype: 'toolbar',
-            items: [{
-                text: i18n('Add'),
-                scope: this,
-                iconCls: 'fugue-icon table--plus',
-                handler: this.onAddClick
-            }, this.deleteButton]
-        }];
-		
-		this.columns = [
-		                {
-		                	header: i18n("Parameter"),
-		                	dataIndex: 'name',
-		                	flex: 0.2,
-		                	editor: {
-		                        xtype:'PartParameterComboBox',
-		                        allowBlank:false,
-		                        lazyRender: true,
-		                        listClass: 'x-combo-list-small',
-		                        selectOnTab: true
-		                    }
-		                },
-		                {
-		                	header: i18n("Value"),
-		                	flex: 0.2,
-		                	dataIndex: "prefixedValue",
-		                	renderer: function (val,p,rec) {
-		                		if (!Ext.isObject(val)) { return ""; }
-		                		
-								var unitStore = PartKeepr.getApplication().getUnitStore();
-								var foundRec = unitStore.findRecord("id", rec.get("unit_id"), 0, false, false, true);
-		                		
-		                		if (foundRec) {
-		                			return val.value + " "+val.symbol + foundRec.get("symbol");
-		                		} else {
-		                			return val.value + " "+val.symbol;
-		                		}
-		                		
-		                	},
-		                	editor: {
-		                		xtype: 'SiUnitField',
-		                		decimalPrecision: 20
-		                	}
-		                },
-		                {
-		                	header: i18n("Unit"),
-		                	flex: 0.2,
-		                	dataIndex: 'unit_id',
-		                	renderer: function (val,p,rec) {
-		                		var unitStore = PartKeepr.getApplication().getUnitStore();
-		                		var foundRec = unitStore.findRecord("id", val, 0, false, false, true);
-		                		
-		                		if (foundRec) {
-		                			return foundRec.get("name");
-		                		} else {
-		                			return "";
-		                		}
-		                	},
-		                	editor: {
-		                        xtype:'UnitComboBox',
-		                        allowBlank:true
-		                    }
-		                },
-		                { 	
-		                	header: i18n("Description"),
-		                	dataIndex: 'description',
-		                	flex: 0.3,
-		                	editor: {
-		                        xtype:'textfield',
-		                        allowBlank:true
-		                    }
-		                }
-		                ];
-		
-		this.callParent();
-		
-		this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
-	},
-	onAddClick: function () {
-		this.editing.cancelEdit();
-		
-		var rec = new PartKeepr.PartBundle.Entity.PartParameter({
-			
-		});
-		
-		this.store.insert(0, rec);
-		
-		this.editing.startEditByPosition({ row: 0, column: 0});
-	},
-	onDeleteClick: function () {
-		var selection = this.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
-            this.store.remove(selection);
-        }
-	},
-	onSelectChange: function(selModel, selections){
+
+        this.deleteButton = Ext.create("Ext.button.Button", {
+            text: i18n('Delete'),
+            disabled: true,
+            itemId: 'delete',
+            scope: this,
+            iconCls: 'fugue-icon table--minus',
+            handler: this.onDeleteClick
+        });
+
+        this.dockedItems = [
+            {
+                xtype: 'toolbar',
+                items: [
+                    {
+                        text: i18n('Add'),
+                        scope: this,
+                        iconCls: 'fugue-icon table--plus',
+                        handler: this.onAddClick
+                    }, this.deleteButton
+                ]
+            }
+        ];
+
+        this.columns = [
+            {
+                header: i18n("Parameter"),
+                dataIndex: 'name',
+                flex: 0.2,
+            },
+            {
+                header: i18n("Min Value"),
+                dataIndex: 'minValue',
+                flex: 0.2,
+                renderer: function (v, m, rec)
+                {
+                    var siPrefix = "", unit = "";
+
+                    if (v === null) {
+                        return "";
+                    }
+                    if (rec.get("valueType") === "string") {
+                        return "";
+                    }
+
+                    if (rec.getUnit() instanceof PartKeepr.UnitBundle.Entity.Unit) {
+                        unit = rec.getUnit().get("symbol");
+                    }
+
+                    if (rec.getMinSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
+                        siPrefix = rec.getMinSiPrefix().get("symbol");
+                    }
+
+                    return v + siPrefix + unit;
+                }
+            }, {
+                header: i18n("Nominal Value"),
+                dataIndex: 'value',
+                flex: 0.2,
+                renderer: function (v, m, rec)
+                {
+                    var siPrefix = "", unit = "";
+
+                    if (rec.get("valueType") === "string") {
+                        return rec.get("stringValue");
+                    }
+                    if (v === null) {
+                        return "";
+                    }
+
+                    if (rec.getUnit() instanceof PartKeepr.UnitBundle.Entity.Unit) {
+                        unit = rec.getUnit().get("symbol");
+                    }
+
+                    if (rec.getSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
+                        siPrefix = rec.getSiPrefix().get("symbol");
+                    }
+
+                    return v + siPrefix + unit;
+                }
+            }, {
+                header: i18n("Max Value"),
+                dataIndex: 'maxValue',
+                flex: 0.2,
+                renderer: function (v, m, rec)
+                {
+                    var siPrefix = "", unit = "";
+
+                    if (v === null) {
+                        return "";
+                    }
+                    if (rec.get("valueType") === "string") {
+                        return "";
+                    }
+
+                    if (rec.getUnit() instanceof PartKeepr.UnitBundle.Entity.Unit) {
+                        unit = rec.getUnit().get("symbol");
+                    }
+
+                    if (rec.getMaxSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
+                        siPrefix = rec.getMaxSiPrefix().get("symbol");
+                    }
+
+                    return v + siPrefix + unit;
+                }
+            },
+            {
+                header: i18n("Unit"),
+                flex: 0.2,
+                renderer: function (v, m, rec)
+                {
+                    if (rec.getUnit() instanceof PartKeepr.UnitBundle.Entity.Unit) {
+                        return rec.getUnit().get("name");
+                    } else {
+                        return "";
+                    }
+                }
+            },
+            {
+                header: i18n("Description"),
+                dataIndex: 'description',
+                flex: 0.3,
+            }
+        ];
+
+        this.callParent();
+
+        this.getSelectionModel().on('selectionchange', this.onSelectChange, this);
+        this.on("itemdblclick", this.onItemDblClick, this);
+    },
+    onItemDblClick: function (grid, record)
+    {
+        this.editRecord(record);
+    },
+    onAddClick: function ()
+    {
+        var rec = Ext.create("PartKeepr.PartBundle.Entity.PartParameter");
+
+        this.store.insert(0, rec);
+
+        this.editRecord(rec);
+    },
+    editRecord: function (rec)
+    {
+        var k = Ext.create("PartKeepr.PartParameterValueEditor");
+
+        var j = Ext.create("Ext.window.Window", {
+            items: k,
+            modal: true,
+            title: i18n("Edit Parameter"),
+            layout: 'fit',
+            width: 600,
+            height: 300
+        });
+
+        k.loadRecord(rec);
+        k.on("save", function ()
+        {
+            j.destroy();
+        });
+
+        j.show();
+    },
+    onDeleteClick: function ()
+    {
+        this.store.remove(this.getView().getSelectionModel().getSelection());
+    },
+    onSelectChange: function (selModel, selections)
+    {
         this.deleteButton.setDisabled(selections.length === 0);
-    },
-    onBeforeEdit: function (editor, e, o) {
-    	var header = this.headerCt.getHeaderAtIndex(e.colIdx);
-    	var edit = this.editing.getEditor(editor.record, header);
-    	
-    	if (e.field == "prefixedValue") {
-    		var unit = PartKeepr.getApplication().getUnitStore().getById(e.record.get("unit_id"));
-    		if (unit) {
-    			edit.field.setStore(unit.prefixes());
-    		}
-    	}
-    },
-    onAfterEdit: function (editor, e) {
-    	var f = e.record.get("prefixedValue");
-    	e.record.set("siprefix_id", f.siprefix_id);
-    	e.record.set("value", f.value);
     }
 });

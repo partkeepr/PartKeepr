@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImportBundle\Configuration;
 
+namespace PartKeepr\ImportBundle\Configuration;
 
 class ManyToOneConfiguration extends Configuration
 {
@@ -127,6 +127,7 @@ class ManyToOneConfiguration extends Configuration
             case self::IMPORTBEHAVIOUR_ALWAYSSETTO:
                 $targetEntity = $this->iriConverter->getItemFromIri($this->setToEntity);
                 $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $targetEntity->getId()));
+
                 return $targetEntity;
                 break;
             case self::IMPORTBEHAVIOUR_MATCHDATA:
@@ -159,22 +160,24 @@ class ManyToOneConfiguration extends Configuration
                     }
 
                     $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $result->getId()));
+
                     return $result;
                 } catch (\Exception $e) {
-
                 }
 
                     switch ($this->notFoundBehaviour) {
                         case self::NOTFOUNDBEHAVIOUR_STOPIMPORT:
-                            $this->log(sprintf("Would stop import as the match %s for association %s was not found", implode(",",$descriptions), $this->getAssociationName()));
+                            $this->log(sprintf("Would stop import as the match %s for association %s was not found", implode(",", $descriptions), $this->getAssociationName()));
                             break;
                         case self::NOTFOUNDBEHAVIOUR_SETTOENTITY:
                             $targetEntity = $this->iriConverter->getItemFromIri($this->notFoundSetToEntity);
-                            $this->log(sprintf("Would set the association %s to %s, since the match %s for association %s was not found", $this->getAssociationName(), $this->notFoundSetToEntity, implode(",",$descriptions)));
+                            $this->log(sprintf("Would set the association %s to %s, since the match %s for association %s was not found", $this->getAssociationName(), $this->notFoundSetToEntity, implode(",", $descriptions)));
+
                             return $targetEntity;
                             break;
                         case self::NOTFOUNDBEHAVIOUR_CREATEENTITY:
                             $this->log(sprintf("Would create a new entity of type %s", $this->baseEntity));
+
                             return parent::import($row);
                             break;
 
@@ -182,8 +185,6 @@ class ManyToOneConfiguration extends Configuration
 
                 break;
         }
-
-        return null;
     }
 
     /**
@@ -201,5 +202,4 @@ class ManyToOneConfiguration extends Configuration
     {
         $this->associationName = $associationName;
     }
-
 }

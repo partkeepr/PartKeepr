@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\BatchJobBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -6,7 +7,7 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents a batch job update field
+ * Represents a batch job update field.
  *
  * @ORM\Entity
  */
@@ -22,37 +23,41 @@ class BatchJobUpdateField extends BaseEntity
     private $batchJob = null;
 
     /**
-     * The field name to update
+     * The field name to update.
      *
      * @ORM\Column(length=255)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $property;
 
     /**
-     * The value to set
+     * The value to set.
      *
      * @ORM\Column(type="text")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $value;
 
     /**
-     * The description
+     * The description.
      *
      * @ORM\Column(type="text")
      * @Groups({"default"})
+     *
      * @var string
      */
     private $description;
 
     /**
-     * Defines if the value is dynamic (=the user gets prompted upon running the batch job which value to use)
+     * Defines if the value is dynamic (=the user gets prompted upon running the batch job which value to use).
      *
      * @Groups({"default"})
      * @ORM\Column(type="boolean")
+     *
      * @var bool
      */
     private $dynamic;
