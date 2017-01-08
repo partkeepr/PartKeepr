@@ -95,7 +95,8 @@ class Part extends BaseEntity
     /**
      * Holds the manufacturers which can manufacture this part.
      *
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"},
+     *                                                                                                                orphanRemoval=true)
      * @Groups({"default"})
      *
      * @var ArrayCollection
@@ -105,7 +106,8 @@ class Part extends BaseEntity
     /**
      * Holds the distributors from where we can buy the part.
      *
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"},
+     *                                                                                                               orphanRemoval=true)
      * @Groups({"default"})
      *
      * @var ArrayCollection
@@ -670,62 +672,6 @@ class Part extends BaseEntity
     }
 
     /**
-     * Returns all stock entries.
-     *
-     * @return ArrayCollection
-     */
-    public function getStockLevels()
-    {
-        return $this->stockLevels->getValues();
-    }
-
-    /**
-     * Returns the minimum stock level.
-     *
-     * @return int
-     */
-    public function getMinStockLevel()
-    {
-        return $this->minStockLevel;
-    }
-
-    /**
-     * Set the minimum stock level for this part.
-     *
-     * Only positive values are allowed.
-     *
-     * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
-     *
-     * @throws MinStockLevelOutOfRangeException If the passed stock level is not in range (>=0)
-     */
-    public function setMinStockLevel($minStockLevel)
-    {
-        $minStockLevel = intval($minStockLevel);
-
-        if ($minStockLevel < 0) {
-            throw new MinStockLevelOutOfRangeException();
-        }
-
-        $this->minStockLevel = $minStockLevel;
-
-        if ($this->getStockLevel() < $this->getMinStockLevel()) {
-            $this->setLowStock(true);
-        } else {
-            $this->setLowStock(false);
-        }
-    }
-
-    /**
-     * Sets the average price for this part.
-     *
-     * @param float $price The price to set
-     */
-    public function setAveragePrice($price)
-    {
-        $this->averagePrice = $price;
-    }
-
-    /**
      * Returns the acrage price.
      *
      * @return float
@@ -736,13 +682,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the storage location for this part.
+     * Sets the average price for this part.
      *
-     * @param \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
+     * @param float $price The price to set
      */
-    public function setStorageLocation(StorageLocation $storageLocation)
+    public function setAveragePrice($price)
     {
-        $this->storageLocation = $storageLocation;
+        $this->averagePrice = $price;
     }
 
     /**
@@ -757,26 +703,6 @@ class Part extends BaseEntity
     public function onPreUpdate()
     {
         $this->executeSaveListener();
-    }
-
-    /**
-     * Returns the stock level.
-     *
-     * @return int The stock level
-     */
-    public function getStockLevel()
-    {
-        return $this->stockLevel;
-    }
-
-    /**
-     * Sets the stock level.
-     *
-     * @param $stockLevel int The stock level to set
-     */
-    public function setStockLevel($stockLevel)
-    {
-        $this->stockLevel = $stockLevel;
     }
 
     /**
@@ -969,5 +895,71 @@ class Part extends BaseEntity
         } else {
             $this->setLowStock(false);
         }
+    }
+
+    /**
+     * Returns all stock entries.
+     *
+     * @return ArrayCollection
+     */
+    public function getStockLevels()
+    {
+        return $this->stockLevels->getValues();
+    }
+
+    /**
+     * Returns the minimum stock level.
+     *
+     * @return int
+     */
+    public function getMinStockLevel()
+    {
+        return $this->minStockLevel;
+    }
+
+    /**
+     * Set the minimum stock level for this part.
+     *
+     * Only positive values are allowed.
+     *
+     * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
+     *
+     * @throws MinStockLevelOutOfRangeException If the passed stock level is not in range (>=0)
+     */
+    public function setMinStockLevel($minStockLevel)
+    {
+        $minStockLevel = intval($minStockLevel);
+
+        if ($minStockLevel < 0) {
+            throw new MinStockLevelOutOfRangeException();
+        }
+
+        $this->minStockLevel = $minStockLevel;
+
+        if ($this->getStockLevel() < $this->getMinStockLevel()) {
+            $this->setLowStock(true);
+        } else {
+            $this->setLowStock(false);
+        }
+    }
+
+    /**
+     * Returns the stock level.
+     *
+     * @return int The stock level
+     */
+    public function getStockLevel()
+    {
+        return $this->stockLevel;
+    }
+
+    /**
+     * Sets the stock level.
+     *
+     * @param $stockLevel int The stock level to set
+     */
+    public function setStockLevel($stockLevel)
+    {
+        $this->stockLevel = $stockLevel;
     }
 }
