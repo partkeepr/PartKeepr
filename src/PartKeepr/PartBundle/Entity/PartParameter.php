@@ -233,6 +233,10 @@ class PartParameter extends BaseEntity
      */
     public function getValueType()
     {
+        // Fallback to numeric if legacy parameter
+        if (!in_array($this->valueType, self::VALUE_TYPES)) {
+            return self::VALUE_TYPE_NUMERIC;
+        }
         return $this->valueType;
     }
 
@@ -244,7 +248,7 @@ class PartParameter extends BaseEntity
     public function setValueType($valueType)
     {
         if (!in_array($valueType, self::VALUE_TYPES)) {
-            throw new \Exception("Invalid value type given");
+            throw new \Exception("Invalid value type given:".$valueType);
         }
 
         $this->valueType = $valueType;
