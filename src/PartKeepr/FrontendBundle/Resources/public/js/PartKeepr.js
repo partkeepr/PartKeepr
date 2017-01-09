@@ -660,7 +660,7 @@ Ext.application({
         format.currencySign = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
 
         if (code !== null) {
-            var currency = this.getCurrencyStore().findRecord("code", code, 0, false, false, true);
+            var currency = PartKeepr.getApplication().getCurrencyStore().findRecord("code", code, 0, false, false, true);
 
             if (currency !== null) {
                 format.currencySign = currency.get("symbol");
