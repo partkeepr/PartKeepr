@@ -90,6 +90,7 @@ Ext.define('PartKeepr.PartEditor', {
                 name: 'description'
             }, {
                 layout: 'column',
+                xtype: 'fieldcontainer',
                 margin: {
                     bottom: "0 5px 5px 0"
                 },
@@ -257,6 +258,7 @@ Ext.define('PartKeepr.PartEditor', {
             });
 
             basicEditorFields.push({
+                xtype: 'container',
                 layout: 'column',
                 border: false,
                 items: [
@@ -279,6 +281,7 @@ Ext.define('PartKeepr.PartEditor', {
             });
 
             basicEditorFields.push({
+                xtype: 'container',
                 layout: 'column',
                 border: false,
                 items: [
@@ -297,6 +300,7 @@ Ext.define('PartKeepr.PartEditor', {
             items: [
                 {
                     iconCls: 'web-icon brick',
+                    ui: 'default-framed',
                     xtype: 'panel',
                     autoScroll: false,
                     layout: 'anchor',
@@ -476,6 +480,13 @@ Ext.define('PartKeepr.PartEditor', {
         this.partManufacturerGrid.bindStore(this.record.manufacturers());
         this.partAttachmentGrid.bindStore(this.record.attachments());
         this.partParameterGrid.bindStore(this.record.parameters());
+    },
+    onCancelEdit: function () {
+        this.record.distributors().rejectChanges();
+        this.record.manufacturers().rejectChanges();
+        this.record.attachments().rejectChanges();
+        this.record.parameters().rejectChanges();
+        this.callParent(arguments);
     },
     setTitle: function (title)
     {

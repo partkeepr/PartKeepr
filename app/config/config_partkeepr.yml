@@ -575,6 +575,17 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.meta_part_parameter_criteria:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\PartBundle\\Entity\\MetaPartParameterCriteria" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.manufacturer:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\ManufacturerBundle\\Entity\\Manufacturer" ]

@@ -3,7 +3,7 @@ Ext.define('PartKeepr.CategoryEditorForm', {
     layout: 'anchor',
     border: false,
     frame: false,
-    bodyStyle: 'background:#DBDBDB;padding: 10px;',
+    ui: 'default-framed',
     xtype: "CategoryEditorForm",
     items: [
         {

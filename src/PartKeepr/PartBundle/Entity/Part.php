@@ -74,7 +74,6 @@ class Part extends BaseEntity
      * in "pieces", "meters" or "grams".
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit", inversedBy="parts")
-     * @Assert\NotNull()
      * @Groups({"default"})
      *
      * @var PartMeasurementUnit
@@ -85,7 +84,6 @@ class Part extends BaseEntity
      * Defines the storage location of this part.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
-     * @Assert\NotNull()
      * @Groups({"default"})
      *
      * @var StorageLocation
@@ -188,6 +186,17 @@ class Part extends BaseEntity
     private $parameters;
 
     /**
+     * The meta part parameter criterias for this part.
+     *
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\MetaPartParameterCriteria",
+     *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups({"default"})
+     *
+     * @var ArrayCollection
+     */
+    private $metaPartParameterCriterias;
+
+    /**
      * The part status for this part.
      *
      * @ORM\Column(type="string",nullable=true)
@@ -278,6 +287,7 @@ class Part extends BaseEntity
         $this->attachments = new ArrayCollection();
         $this->stockLevels = new ArrayCollection();
         $this->projectParts = new ArrayCollection();
+        $this->metaPartParameterCriterias = new ArrayCollection();
         $this->setCreateDate(new \DateTime());
         $this->setNeedsReview(false);
         $this->setMetaPart(false);
@@ -410,7 +420,7 @@ class Part extends BaseEntity
      *
      * @param PartMeasurementUnit $partUnit The part unit object to set
      */
-    public function setPartUnit(PartMeasurementUnit $partUnit)
+    public function setPartUnit(PartMeasurementUnit $partUnit = null)
     {
         $this->partUnit = $partUnit;
     }
@@ -550,6 +560,16 @@ class Part extends BaseEntity
     }
 
     /**
+     * Returns the meta part parameter criterias assigned to this part.
+     *
+     * @return ArrayCollection An array of MetaPartParameterCriteria objects
+     */
+    public function getMetaPartParameterCriterias()
+    {
+        return $this->metaPartParameterCriterias->getValues();
+    }
+
+    /**
      * Returns the create date.
      *
      * @return \DateTime The create date+time
@@ -638,7 +658,7 @@ class Part extends BaseEntity
      */
     private function checkStorageLocationConsistency()
     {
-        if ($this->getStorageLocation() === null) {
+        if ($this->getStorageLocation() === null && !$this->isMetaPart()) {
             throw new StorageLocationNotAssignedException();
         }
     }
@@ -749,6 +769,30 @@ class Part extends BaseEntity
     {
         $partParameter->setPart(null);
         $this->parameters->removeElement($partParameter);
+    }
+
+    /**
+     * Adds a Meta Part Parameter Criteria
+     *
+     * @param MetaPartParameterCriteria $metaPartParameterCriteria A meta part parameter criteria to
+     */
+    public function addMetaPartParameterCriteria($metaPartParameterCriteria)
+    {
+        if ($metaPartParameterCriteria instanceof MetaPartParameterCriteria) {
+            $metaPartParameterCriteria->setPart($this);
+        }
+        $this->metaPartParameterCriterias->add($metaPartParameterCriteria);
+    }
+
+    /**
+     * Removes a Part Parameter.
+     *
+     * @param MetaPartParameterCriteria $metaPartParameterCriteria A meta part parameter criteria to remove
+     */
+    public function removeMetaPartParameterCriteria($metaPartParameterCriteria)
+    {
+        $metaPartParameterCriteria->setPart(null);
+        $this->metaPartParameterCriterias->removeElement($metaPartParameterCriteria);
     }
 
     /**

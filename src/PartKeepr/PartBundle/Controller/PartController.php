@@ -71,10 +71,41 @@ class PartController extends FOSRestController
      */
     public function getParameterNamesAction()
     {
-        $dql = "SELECT p.name, p.description FROM PartKeepr\PartBundle\Entity\PartParameter p GROUP BY p.name, p.description";
+        $dql = "SELECT p.name, p.description, p.valueType, u.name AS unitName, u.symbol AS unitSymbol FROM PartKeepr\PartBundle\Entity\PartParameter p LEFT JOIN p.unit  u GROUP BY p.name, p.description, p.valueType, u.name";
 
         $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
 
         return $query->getArrayResult();
+    }
+
+    /**
+     * @Routing\Route("/api/parts/getPartParameterValues", defaults={"method" = "get","_format" = "json"})
+     * @View()
+     *
+     * @return array An array with name and description properties
+     */
+    public function getParameterValuesAction (Request $request) {
+        if (!$request->query->has("name")) {
+            throw new \InvalidArgumentException("The parameter 'name' must be given");
+        }
+
+        if (!$request->query->has("valueType")) {
+            throw new \InvalidArgumentException("The parameter 'valueType' must be given");
+        }
+
+        if ($request->query->get("valueType") == "string") {
+            $dql = "SELECT p.stringValue AS value FROM PartKeepr\PartBundle\Entity\PartParameter p WHERE p.name = :name AND p.valueType = :valueType GROUP BY p.stringValue";
+            $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
+            $query->setParameter("name", $request->query->get("name"));
+            $query->setParameter("valueType", $request->query->get("valueType"));
+            return $query->getArrayResult();
+        } else {
+            $dql = "SELECT p.value FROM PartKeepr\PartBundle\Entity\PartParameter p WHERE p.name = :name AND p.valueType = :valueType GROUP BY p.value";
+
+            $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
+            $query->setParameter("name", $request->query->get("name"));
+            $query->setParameter("valueType", $request->query->get("valueType"));
+            return $query->getArrayResult();
+        }
     }
 }

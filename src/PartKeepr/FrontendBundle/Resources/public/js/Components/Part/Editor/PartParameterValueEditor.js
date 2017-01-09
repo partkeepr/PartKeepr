@@ -11,6 +11,7 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
         {
             fieldLabel: i18n("Parameter Name"),
             name: 'name',
+            itemId: 'partParameter',
             xtype: 'PartParameterComboBox'
         },
         {
@@ -105,8 +106,20 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
             value: []
         });
         this.down("#valueType").on("change", this.onTypeChange, this);
+        this.down("#partParameter").on("select", this.onPartParameterSelect, this);
         this.down("#save").on("click", this.onSave, this);
         this.down("#unit").on("change", this.onUnitChange, this);
+    },
+    onPartParameterSelect: function (combo, record) {
+
+        if (record.get("unitName") !== null) {
+            var unit = this.down("#unit").getStore().findRecord("name", record.get("unitName"), 0, false, true, true);
+
+            if (unit instanceof PartKeepr.UnitBundle.Entity.Unit) {
+                this.down("#unit").select(unit);
+                this.down("#valueType").setValue({valueType: "numeric"});
+            }
+        }
     },
     onUnitChange: function (combo, newValue) {
         var prefixes,j, unitFilter = [];

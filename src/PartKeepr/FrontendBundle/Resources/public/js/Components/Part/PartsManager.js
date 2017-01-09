@@ -96,6 +96,7 @@ Ext.define('PartKeepr.PartManager', {
         this.grid.on("itemDeselect", this.onItemSelect, this);
         this.grid.on("itemAdd", this.onItemAdd, this);
         this.grid.on("itemDelete", this.onItemDelete, this);
+        this.grid.on("addMetaPart", this.onAddMetaPart, this);
         this.grid.on("duplicateItemWithBasicData", this.onDuplicateItemWithBasicData, this);
         this.grid.on("duplicateItemWithAllData", this.onDuplicateItemWithAllData, this);
         this.tree.on("syncCategory", this.onSyncCategory, this);
@@ -399,6 +400,32 @@ Ext.define('PartKeepr.PartManager', {
         j.editor.editItem(newItem);
         j.show();
     },
+    onAddMetaPart: function () {
+        var defaults;
+        var j = Ext.create("PartKeepr.Components.Part.Editor.MetaPartEditorWindow", {
+
+        });
+
+        var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().findRecord("default", true);
+
+        Ext.apply(defaults, {metaPart: true});
+
+        var record = Ext.create("PartKeepr.PartBundle.Entity.Part", {
+            metaPart: true
+        });
+
+        if (this.getSelectedCategory() !== null) {
+            record.setCategory(this.getSelectedCategory());
+        } else {
+            record.setCategory(this.tree.getRootNode().firstChild);
+        }
+
+        record.setPartUnit(defaultPartUnit);
+
+        j.editor.editItem(record);
+        j.editor.on("partSaved", this.onNewPartSaved, this);
+        j.show();
+    },
     /**
      * Creates a part duplicate from the given record and opens the editor window.
      * @param rec The record to duplicate
@@ -470,10 +497,17 @@ Ext.define('PartKeepr.PartManager', {
      */
     onEditPart: function (part)
     {
-        var j = Ext.create("PartKeepr.PartEditorWindow");
-        j.editor.on("partSaved", this.onPartSaved, this);
-        j.editor.editItem(part);
-        j.show();
+        var editorWindow;
+
+        if (part.get("metaPart") === true) {
+            editorWindow = Ext.create("PartKeepr.Components.Part.Editor.MetaPartEditorWindow");
+        } else {
+            editorWindow = Ext.create("PartKeepr.PartEditorWindow");
+        }
+
+        editorWindow.editor.on("partSaved", this.onPartSaved, this);
+        editorWindow.editor.editItem(part);
+        editorWindow.show();
     },
     onNewPartSaved: function ()
     {

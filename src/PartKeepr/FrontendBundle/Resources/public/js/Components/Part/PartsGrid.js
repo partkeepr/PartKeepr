@@ -164,6 +164,18 @@ Ext.define('PartKeepr.PartsGrid', {
             this.topToolbar.insert(2, this.addFromTemplateButton);
         }
 
+        this.createMetaPartButton = Ext.create("Ext.button.Button", {
+            iconCls: 'web-icon bricks',
+            text: i18n("Add Meta-Part"),
+            handler: function ()
+            {
+                this.fireEvent("addMetaPart");
+            },
+            scope: this
+        });
+
+        this.topToolbar.insert(1, this.createMetaPartButton);
+
 
         this.mapSearchHotkey();
     },
@@ -247,6 +259,12 @@ Ext.define('PartKeepr.PartsGrid', {
                 tooltip: i18n("Needs Review?"),
                 renderer: this.reviewRenderer
             }, {
+                text: '<span class="web-icon bricks"></span>',
+                dataIndex: "metaPart",
+                width: 30,
+                tooltip: i18n("Meta Part"),
+                renderer: this.metaPartRenderer
+            }, {
                 header: i18n("Name"),
                 dataIndex: 'name',
                 flex: 1,
@@ -302,12 +320,13 @@ Ext.define('PartKeepr.PartsGrid', {
             }, {
                 header: i18n("Internal ID"),
                 dataIndex: '@id',
-                renderer: function (value) {
+                renderer: function (value)
+                {
                     var values = value.split("/");
-                            var idstr = values[values.length - 1];
-                            var idint = parseInt(idstr);
+                    var idstr = values[values.length - 1];
+                    var idint = parseInt(idstr);
 
-                            return idstr + " (#"+idint.toString(36)+")";
+                    return idstr + " (#" + idint.toString(36) + ")";
 
                 }
             }
@@ -380,6 +399,19 @@ Ext.define('PartKeepr.PartsGrid', {
 
         if (rec.get("needsReview") === true) {
             ret += '<span class="web-icon flag_orange" title="' + i18n("Needs review") + '"></span>';
+        }
+
+        return ret;
+    },
+    /**
+     * Used as renderer for the meta part column.
+     */
+    metaPartRenderer: function (val, q, rec)
+    {
+        var ret = "";
+
+        if (rec.get("metaPart") === true) {
+            ret += '<span class="web-icon bricks" title="' + i18n("Meta Part") + '"></span>';
         }
 
         return ret;
