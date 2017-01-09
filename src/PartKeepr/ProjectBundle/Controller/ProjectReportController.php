@@ -80,11 +80,18 @@ class ProjectReportController extends FOSRestController
                         $part,
                         'jsonld'
                     );
+
+                    $storageLocationName = "";
+
+                    if ($part->getStorageLocation() !== null) {
+                        $storageLocationName = $part->getStorageLocation()->getName();
+                    }
+                    
                     // Create a full resultset
                     $aPartResults[$result['id']] = [
                         'quantity'             => $result['quantity'] * $report['quantity'],
                         'part'                 => $serializedData,
-                        'storageLocation_name' => $part->getStorageLocation()->getName(),
+                        'storageLocation_name' => $storageLocationName,
                         'available'            => $part->getStockLevel(),
                         'sum_order'            => 0,
                         'projects'             => [$result['projectname']],
