@@ -204,4 +204,37 @@ class ProjectTest extends WebTestCase
 
         $this->assertEquals(0, count($response->attachments));
     }
+
+    /**
+     * Tests that the project part does not contain a reference to the project. This is because we serialize the
+     * project reference as IRI and not as object, which causes problems when reading in the project part in the
+     * frontend and serializing it back.
+     *
+     */
+    public function testAbsentProjectReference () {
+        $client = static::makeClient(true);
+
+        $project = $this->fixtures->getReference('project');
+
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iri = $iriConverter->getIriFromItem($project);
+
+        $client->request(
+            'GET',
+            $iri,
+            [],
+            [],
+            []
+        );
+
+        $project = json_decode($client->getResponse()->getContent());
+
+        $this->assertObjectHasAttribute("parts", $project);
+        $this->assertInternalType("array", $project->parts);
+
+        foreach ($project->parts as $part) {
+            $this->assertObjectNotHasAttribute("project", $part);
+        }
+
+    }
 }
