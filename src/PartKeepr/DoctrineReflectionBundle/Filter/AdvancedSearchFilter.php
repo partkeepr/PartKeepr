@@ -7,6 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 use Dunglas\ApiBundle\Api\IriConverterInterface;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Doctrine\Orm\Filter\AbstractFilter;
+use PartKeepr\DoctrineReflectionBundle\Services\FilterService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -36,6 +37,11 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private $propertyAccessor;
 
+    /**
+     * @var FilterService
+     */
+    private $filterService;
+
     private $aliases = [];
 
     private $parameterCount = 0;
@@ -49,19 +55,21 @@ class AdvancedSearchFilter extends AbstractFilter
      * @param IriConverterInterface     $iriConverter
      * @param PropertyAccessorInterface $propertyAccessor
      * @param RequestStack              $requestStack
-     * @param null|array                $properties       Null to allow filtering on all properties with the exact strategy
-     *                                                    or a map of property name with strategy.
+     * @param null|array                $properties       Null to allow filtering on all properties with the exact
+     *                                                    strategy or a map of property name with strategy.
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
         IriConverterInterface $iriConverter,
         PropertyAccessorInterface $propertyAccessor,
         RequestStack $requestStack,
+        FilterService $filterService,
         array $properties = null
     ) {
         parent::__construct($managerRegistry, $properties);
         $this->requestStack = $requestStack;
         $this->iriConverter = $iriConverter;
+        $this->filterService = $filterService;
         $this->propertyAccessor = $propertyAccessor;
     }
 
@@ -248,31 +256,7 @@ class AdvancedSearchFilter extends AbstractFilter
             $this->parameterCount++;
             $queryBuilder->setParameter($paramName, $filter->getValue());
 
-            switch (strtolower($filter->getOperator())) {
-                case Filter::OPERATOR_EQUALS:
-                    return $queryBuilder->expr()->eq($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_GREATER_THAN:
-                    return $queryBuilder->expr()->gt($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_GREATER_THAN_EQUALS:
-                    return $queryBuilder->expr()->gte($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_LESS_THAN:
-                    return $queryBuilder->expr()->lt($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_LESS_THAN_EQUALS:
-                    return $queryBuilder->expr()->lte($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_NOT_EQUALS:
-                    return $queryBuilder->expr()->neq($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_LIKE:
-                    return $queryBuilder->expr()->like($alias, $paramName);
-                    break;
-                default:
-                    throw new \Exception('Unknown operator '.$filter->getOperator());
-            }
+            return $this->filterService->getExpressionForFilter($filter, $alias, $paramName);
         }
     }
 

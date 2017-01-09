@@ -4,6 +4,7 @@ namespace PartKeepr\PartBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\PartBundle\Entity\Part;
+use PartKeepr\PartBundle\Exceptions\NotAMetaPartException;
 
 class PartService
 {
@@ -100,5 +101,30 @@ class PartService
         }
 
         return false;
+    }
+
+    public function getMatchingMetaParts (Part $metaPart) {
+        $paramCount = 0;
+        $paramPrefix = ":param";
+
+        if (!$metaPart->isMetaPart()) {
+            throw new NotAMetaPartException();
+        }
+
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select("p")
+            ->from("PartKeeprPartBundle:Part", "p")
+            ->join("p.parameters", "pp")->where("1");
+
+        foreach ($metaPart->getMetaPartParameterCriterias() as $metaPartParameterCriteria) {
+
+            $nameExpr = $qb->expr()->eq('pp.name', $paramPrefix . $paramCount);
+            $paramCount++;
+
+
+            /*$qb->andWhere(
+
+                "pp.name");*/
+        }
     }
 }
