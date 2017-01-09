@@ -23,10 +23,16 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             },
             renderer: function (val, p, rec)
             {
-                var part = rec.getPart();
+                var part = rec.getPart(), icon;
 
                 if (part !== null) {
-                    return Ext.util.Format.htmlEncode(part.get("name"));
+                    if (part.get("metaPart")) {
+                        icon = "bricks";
+                    } else {
+                        icon = "brick";
+                    }
+                    return '<span class="web-icon ' + icon + '"></span> ' + Ext.util.Format.htmlEncode(
+                            part.get("name"));
                 }
             }
         }, {
