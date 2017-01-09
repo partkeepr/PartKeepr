@@ -71,7 +71,17 @@ Ext.define('PartKeepr.ProjectReportView', {
                     header: i18n("Part Name"),
                     renderer: function (val, p, rec)
                     {
-                        return rec.getPart().get("name");
+                        var part = rec.getPart(), icon;
+
+                        if (part !== null) {
+                            if (part.get("metaPart")) {
+                                icon = "bricks";
+                            } else {
+                                icon = "brick";
+                            }
+                            return '<span class="web-icon ' + icon + '"></span> ' + Ext.util.Format.htmlEncode(
+                                    part.get("name"));
+                        }
                     },
                     flex: 1
                 }, {
