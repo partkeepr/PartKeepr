@@ -17,6 +17,14 @@ Ext.define("PartKeepr.ProjectBundle.Entity.ProjectReport", {
         {name: 'distributor', reference: 'PartKeepr.DistributorBundle.Entity.Distributor'}
     ],
 
+    hasMany: [
+        {
+            name: 'subParts',
+            associationKey: 'subParts',
+            model: 'PartKeepr.PartBundle.Entity.Part'
+        }
+    ],
+
     proxy: {
         type: "Hydra",
         url: '/api/project_reports'

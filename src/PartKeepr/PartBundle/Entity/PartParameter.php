@@ -74,6 +74,14 @@ class PartParameter extends BaseEntity
     private $value;
 
     /**
+     * The normalized value (the product of si prefix + value)
+     *
+     * @ORM\Column(type="float",nullable=true)
+     * @var
+     */
+    private $normalizedValue;
+
+    /**
      * The maximum value of the parameter.
      *
      * @ORM\Column(type="float",name="maximumValue",nullable=true)
@@ -84,6 +92,14 @@ class PartParameter extends BaseEntity
     private $maxValue;
 
     /**
+     * The normalized maximum value (the product of si prefix + value)
+     *
+     * @ORM\Column(type="float",nullable=true)
+     * @var
+     */
+    private $normalizedMaxValue;
+
+    /**
      * The minimum value of the parameter.
      *
      * @ORM\Column(type="float",name="minimumValue",nullable=true)
@@ -92,6 +108,14 @@ class PartParameter extends BaseEntity
      * @var float
      */
     private $minValue;
+
+    /**
+     * The normalized minimum value (the product of si prefix + value)
+     *
+     * @ORM\Column(type="float",nullable=true)
+     * @var
+     */
+    private $normalizedMinValue;
 
     /**
      * The string value if the parameter is a string.
@@ -149,67 +173,51 @@ class PartParameter extends BaseEntity
     }
 
     /**
-     * @return SiPrefix
+     * @return mixed
      */
-    public function getMinSiPrefix()
+    public function getNormalizedValue()
     {
-        return $this->minSiPrefix;
+        return $this->normalizedValue;
     }
 
     /**
-     * @param SiPrefix $minSiPrefix
+     * @param mixed $normalizedValue
      */
-    public function setMinSiPrefix($minSiPrefix)
+    public function setNormalizedValue($normalizedValue)
     {
-        $this->minSiPrefix = $minSiPrefix;
+        $this->normalizedValue = $normalizedValue;
     }
 
     /**
-     * @return SiPrefix
+     * @return mixed
      */
-    public function getMaxSiPrefix()
+    public function getNormalizedMaxValue()
     {
-        return $this->maxSiPrefix;
+        return $this->normalizedMaxValue;
     }
 
     /**
-     * @param SiPrefix $maxSiPrefix
+     * @param mixed $normalizedMaxValue
      */
-    public function setMaxSiPrefix($maxSiPrefix)
+    public function setNormalizedMaxValue($normalizedMaxValue)
     {
-        $this->maxSiPrefix = $maxSiPrefix;
+        $this->normalizedMaxValue = $normalizedMaxValue;
     }
 
     /**
-     * @return float
+     * @return mixed
      */
-    public function getMaxValue()
+    public function getNormalizedMinValue()
     {
-        return $this->maxValue;
+        return $this->normalizedMinValue;
     }
 
     /**
-     * @param float $maxValue
+     * @param mixed $normalizedMinValue
      */
-    public function setMaxValue($maxValue)
+    public function setNormalizedMinValue($normalizedMinValue)
     {
-        $this->maxValue = $maxValue;
-    }
-
-    /**
-     * @return float
-     */
-    public function getMinValue()
-    {
-        return $this->minValue;
-    }
-
-    /**
-     * @param float $minValue
-     */
-    public function setMinValue($minValue)
-    {
-        $this->minValue = $minValue;
+        $this->normalizedMinValue = $normalizedMinValue;
     }
 
     /**
@@ -237,6 +245,7 @@ class PartParameter extends BaseEntity
         if (!in_array($this->valueType, self::VALUE_TYPES)) {
             return self::VALUE_TYPE_NUMERIC;
         }
+
         return $this->valueType;
     }
 
@@ -334,24 +343,25 @@ class PartParameter extends BaseEntity
         $this->part = $part;
     }
 
-    /**
-     * Returns the value.
-     *
-     * @return float The value
-     */
-    public function getValue()
+    protected function recalculateNormalizedValues()
     {
-        return $this->value;
-    }
+        if ($this->getSiPrefix() === null) {
+            $this->setNormalizedValue($this->getValue());
+        } else {
+            $this->setNormalizedValue($this->getSiPrefix()->calculateProduct($this->getValue()));
+        }
 
-    /**
-     * Sets the value.
-     *
-     * @param float $value The value to set
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
+        if ($this->getMinSiPrefix() === null) {
+            $this->setNormalizedMinValue($this->getMinValue());
+        } else {
+            $this->setNormalizedMinValue($this->getMinSiPrefix()->calculateProduct($this->getMinValue()));
+        }
+
+        if ($this->getMaxSiPrefix() === null) {
+            $this->setNormalizedMaxValue($this->getMaxValue());
+        } else {
+            $this->setNormalizedMaxValue($this->getMaxSiPrefix()->calculateProduct($this->getMaxValue()));
+        }
     }
 
     /**
@@ -372,5 +382,95 @@ class PartParameter extends BaseEntity
     public function setSiPrefix(SiPrefix $prefix = null)
     {
         $this->siPrefix = $prefix;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * Returns the value.
+     *
+     * @return float The value
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Sets the value.
+     *
+     * @param float $value The value to set
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return SiPrefix
+     */
+    public function getMinSiPrefix()
+    {
+        return $this->minSiPrefix;
+    }
+
+    /**
+     * @param SiPrefix $minSiPrefix
+     */
+    public function setMinSiPrefix($minSiPrefix)
+    {
+        $this->minSiPrefix = $minSiPrefix;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return float
+     */
+    public function getMinValue()
+    {
+        return $this->minValue;
+    }
+
+    /**
+     * @param float $minValue
+     */
+    public function setMinValue($minValue)
+    {
+       $this->minValue = $minValue;
+       $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return SiPrefix
+     */
+    public function getMaxSiPrefix()
+    {
+        return $this->maxSiPrefix;
+    }
+
+    /**
+     * @param SiPrefix $maxSiPrefix
+     */
+    public function setMaxSiPrefix($maxSiPrefix)
+    {
+        $this->maxSiPrefix = $maxSiPrefix;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return float
+     */
+    public function getMaxValue()
+    {
+        return $this->maxValue;
+    }
+
+    /**
+     * @param float $maxValue
+     */
+    public function setMaxValue($maxValue)
+    {
+        $this->maxValue = $maxValue;
+        $this->recalculateNormalizedValues();
     }
 }

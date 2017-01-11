@@ -5,6 +5,7 @@ namespace PartKeepr\ProjectBundle\Controller;
 use Dunglas\ApiBundle\Api\IriConverter;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
+use PartKeepr\PartBundle\Entity\Part;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -66,6 +67,9 @@ class ProjectReportController extends FOSRestController
 
             foreach ($query->getArrayResult() as $result) {
                 $part = $partRepository->find($result['id']);
+                /**
+                 * @var $part Part
+                 */
 
                 if (array_key_exists($result['id'], $aPartResults)) {
                     // Only update the quantity of the part
@@ -86,7 +90,20 @@ class ProjectReportController extends FOSRestController
                     if ($part->getStorageLocation() !== null) {
                         $storageLocationName = $part->getStorageLocation()->getName();
                     }
-                    
+
+                    $subParts = [];
+
+                    if ($part->isMetaPart()) {
+
+                        $matchingParts = $this->container->get("partkeepr.part_service")->getMatchingMetaParts($part);
+                        foreach ($matchingParts as $matchingPart) {
+                            $subParts[] = $this->get('serializer')->normalize(
+                                $matchingPart,
+                                'jsonld'
+                            );
+                        }
+                    }
+
                     // Create a full resultset
                     $aPartResults[$result['id']] = [
                         'quantity'             => $result['quantity'] * $report['quantity'],
@@ -95,6 +112,8 @@ class ProjectReportController extends FOSRestController
                         'available'            => $part->getStockLevel(),
                         'sum_order'            => 0,
                         'projects'             => [$result['projectname']],
+                        'subParts'             => $subParts,
+                        'metaPart'             => $part->isMetaPart(),
                         'remarks'              => [],
                     ];
 

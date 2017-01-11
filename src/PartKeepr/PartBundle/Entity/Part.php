@@ -279,6 +279,29 @@ class Part extends BaseEntity
      */
     private $metaPart;
 
+    /**
+     * An array of all matching meta parts
+     * @Groups({"default"})
+     * @var array
+     */
+    private $metaPartMatches;
+
+    /**
+     * @return array
+     */
+    public function getMetaPartMatches()
+    {
+        return $this->metaPartMatches;
+    }
+
+    /**
+     * @param array $metaPartMatches
+     */
+    public function setMetaPartMatches($metaPartMatches)
+    {
+        $this->metaPartMatches = $metaPartMatches;
+    }
+
     public function __construct()
     {
         $this->distributors = new ArrayCollection();
@@ -562,7 +585,7 @@ class Part extends BaseEntity
     /**
      * Returns the meta part parameter criterias assigned to this part.
      *
-     * @return ArrayCollection An array of MetaPartParameterCriteria objects
+     * @return MetaPartParameterCriteria[] An array of MetaPartParameterCriteria objects
      */
     public function getMetaPartParameterCriterias()
     {

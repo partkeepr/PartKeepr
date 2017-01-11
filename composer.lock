@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "15d2b8b3ed791b4888ca0687288e6ca4",
+    "content-hash": "d821dadac3d5144dcd8a009c95089e5e",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -2874,19 +2874,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/partkeepr/extjs6.git",
-                "reference": "6e6492ba3a0ba40753805cff4c2aeac069b15426"
+                "reference": "e65af313cf71633e76b310b0a9981494b2dd392b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/partkeepr/extjs6/zipball/6e6492ba3a0ba40753805cff4c2aeac069b15426",
-                "reference": "6e6492ba3a0ba40753805cff4c2aeac069b15426",
+                "url": "https://api.github.com/repos/partkeepr/extjs6/zipball/e65af313cf71633e76b310b0a9981494b2dd392b",
+                "reference": "e65af313cf71633e76b310b0a9981494b2dd392b",
                 "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0"
             },
             "type": "zend-extra",
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPLv3"
             ],
@@ -2895,7 +2894,11 @@
                 "PartKeepr",
                 "extjs6"
             ],
-            "time": "2015-07-01 20:21:32"
+            "support": {
+                "source": "https://github.com/partkeepr/extjs6/tree/master",
+                "issues": "https://github.com/partkeepr/extjs6/issues"
+            },
+            "time": "2017-01-10 21:51:17"
         },
         {
             "name": "partkeepr/remote-file-loader",

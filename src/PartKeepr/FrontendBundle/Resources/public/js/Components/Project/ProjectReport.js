@@ -1,3 +1,13 @@
+Ext.define('PartKeepr.Foo', {
+    extend: "Ext.grid.Panel",
+    xtype: 'gridfoo',
+
+    parentRecord: null,
+    setParentRecord: function (v)
+    {
+        this.parentRecord = v;
+    }
+});
 /**
  * Represents the project report view
  */
@@ -33,7 +43,8 @@ Ext.define('PartKeepr.ProjectReportView', {
                     header: i18n("Quantity"), dataIndex: 'quantity',
                     width: 50,
                     editor: {
-                        xtype: 'numberfield'
+                        xtype: 'numberfield',
+                        minValue: 0
                     }
                 }, {
                     header: i18n("Project Name"), dataIndex: 'name',
@@ -56,114 +67,200 @@ Ext.define('PartKeepr.ProjectReportView', {
             }
         });
 
-        this.reportResult = Ext.create("PartKeepr.BaseGrid", {
-            flex: 1,
-            features: [
-                {
-                    ftype: 'summary'
-                }
-            ],
+        this.subGridEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1,
+            listeners: {
+                edit: this.onAfterSubGridEdit,
+                scope: this
+            }
+        });
+
+        this.subGrid = {
+            xtype: 'gridfoo',
+            autoLoad: false,
+            bind: {
+                store: '{record.subParts}',
+                parentRecord: '{record}'
+            },
+            plugins: [this.subGridEditing],
             columns: [
                 {
-                    header: i18n("Quantity"), dataIndex: 'quantity',
-                    width: 50
-                }, {
-                    header: i18n("Part Name"),
-                    renderer: function (val, p, rec)
-                    {
-                        var part = rec.getPart(), icon;
-
-                        if (part !== null) {
-                            if (part.get("metaPart")) {
-                                icon = "bricks";
-                            } else {
-                                icon = "brick";
-                            }
-                            return '<span class="web-icon ' + icon + '"></span> ' + Ext.util.Format.htmlEncode(
-                                    part.get("name"));
-                        }
+                    text: i18n("Use"),
+                    xtype: 'checkcolumn',
+                    listeners: {
+                        checkchange: this.onCheckStateChange,
+                        scope: this
                     },
-                    flex: 1
+                    dataIndex: 'use'
+                },
+                {
+                    text: i18n("Part Name"),
+                    dataIndex: "name"
                 }, {
-                    header: i18n("Part Description"),
-                    renderer: function (val, p, rec)
+                    text: i18n("Storage Location"),
+                    renderer: function (v, m, r)
                     {
-                        return rec.getPart().get("description");
-                    },
-                    flex: 1
-                }, {
-                    header: i18n("Remarks"),
-                    dataIndex: 'remarks',
-                    flex: 1
-                }, {
-                    header: i18n("Projects"),
-                    dataIndex: 'projects',
-                    flex: 1
-                }, {
-                    header: i18n("Storage Location"), dataIndex: 'storageLocation_name',
-                    width: 100
-                }, {
-                    header: i18n("Available"), dataIndex: 'available',
-                    width: 75
-                }, {
-                    header: i18n("Distributor"),
-                    dataIndex: 'distributor',
-                    renderer: function (val, p, rec)
-                    {
-                        if (rec.getDistributor() !== null) {
-                            return rec.getDistributor().get("name");
-                        }
-                    },
-                    flex: 1,
-                    editor: {
-                        xtype: 'DistributorComboBox',
-                        returnObject: true,
-                        triggerAction: 'query',
-                        ignoreQuery: true,
-                        forceSelection: true,
-                        editable: false
+                        return r.get("storageLocation.name");
                     }
                 }, {
-                    header: i18n("Distributor Order Number"), dataIndex: 'distributor_order_number',
-                    flex: 1,
+                    text: i18n("Stock Level"),
+                    dataIndex: 'stockLevel'
+                }, {
+                    text: i18n("Stock to use"),
+                    dataIndex: 'stockToUse',
                     editor: {
-                        xtype: 'textfield'
+                        field: {
+                            xtype: 'numberfield'
+                        }
                     }
-                }, {
-                    header: i18n("Price per Item"), dataIndex: 'price',
-                    renderer: PartKeepr.getApplication().formatCurrency,
-                    width: 100
-                }, {
-                    header: i18n("Sum"),
-                    dataIndex: 'sum',
-                    renderer: PartKeepr.getApplication().formatCurrency,
-                    summaryType: 'sum',
-                    summaryRenderer: PartKeepr.getApplication().formatCurrency,
-                    width: 100
-                }, {
-                    header: i18n("Amount to Order"), dataIndex: 'missing',
-                    width: 100
-                }, {
-                    header: i18n("Sum (Order)"),
-                    dataIndex: 'sum_order',
-                    renderer: PartKeepr.getApplication().formatCurrency,
-                    summaryType: 'sum',
-                    summaryRenderer: PartKeepr.getApplication().formatCurrency,
-                    width: 100
                 }
             ],
-            store: this.projectReportStore,
-            plugins: [this.editing],
             bbar: [
-                Ext.create("PartKeepr.Exporter.GridExporterButton", {
-                    itemId: 'export',
-                    genericExporter: false,
-                    tooltip: i18n("Export"),
-                    iconCls: "fugue-icon application-export",
-                    disabled: this.store.isLoading()
-                })
+                {
+                    xtype: 'button',
+                    text: i18n("Apply Parts"),
+                    disabled: true,
+                    handler: this.onApplyMetaPartsClick,
+                    scope: this,
+                    itemId: 'applyPartsButton'
+                }
             ]
-        });
+        };
+
+        this.reportResult = Ext.create("PartKeepr.BaseGrid", {
+                flex: 1,
+                features: [
+                    {
+                        ftype: 'summary'
+                    }
+                ],
+                plugins: [
+                    {
+                        ptype: 'rowwidget',
+                        widget: this.subGrid
+
+                    }, this.editing
+                ],
+
+                columns: [
+                    {
+                        header: i18n("Quantity"), dataIndex: 'quantity',
+                        width: 50,
+                        renderer: function (v, s, rec)
+                        {
+                            var i, total;
+
+                            if (rec.get("metaPart")) {
+                                total = 0;
+                                for (i = 0; i < rec.subParts().getCount(); i++) {
+                                    if (rec.subParts().getAt(i).get("use")) {
+                                        total += rec.subParts().getAt(i).get("stockToUse");
+                                    }
+                                }
+
+                                return total + " / " + v;
+                            } else {
+                                return v;
+                            }
+                        }
+                    }, {
+                        header: i18n("Part Name"),
+                        renderer: function (val, p, rec)
+                        {
+                            var part = rec.getPart(), icon;
+
+                            if (part !== null) {
+                                if (part.get("metaPart")) {
+                                    icon = "bricks";
+                                } else {
+                                    icon = "brick";
+                                }
+                                return '<span class="web-icon ' + icon + '"></span> ' + Ext.util.Format.htmlEncode(
+                                        part.get("name"));
+                            }
+                        },
+                        flex: 1
+                    }, {
+                        header: i18n("Part Description"),
+                        renderer: function (val, p, rec)
+                        {
+                            return rec.getPart().get("description");
+                        },
+                        flex: 1
+                    }, {
+                        header: i18n("Remarks"),
+                        dataIndex: 'remarks',
+                        flex: 1
+                    }, {
+                        header: i18n("Projects"),
+                        dataIndex: 'projects',
+                        flex: 1
+                    }, {
+                        header: i18n("Storage Location"), dataIndex: 'storageLocation_name',
+                        width: 100
+                    }, {
+                        header: i18n("Available"), dataIndex: 'available',
+                        width: 75
+                    }, {
+                        header: i18n("Distributor"),
+                        dataIndex: 'distributor',
+                        renderer: function (val, p, rec)
+                        {
+                            if (rec.getDistributor() !== null) {
+                                return rec.getDistributor().get("name");
+                            }
+                        },
+                        flex: 1,
+                        editor: {
+                            xtype: 'DistributorComboBox',
+                            returnObject: true,
+                            triggerAction: 'query',
+                            ignoreQuery: true,
+                            forceSelection: true,
+                            editable: false
+                        }
+                    }, {
+                        header: i18n("Distributor Order Number"), dataIndex: 'distributor_order_number',
+                        flex: 1,
+                        editor: {
+                            xtype: 'textfield'
+                        }
+                    }, {
+                        header: i18n("Price per Item"), dataIndex: 'price',
+                        renderer: PartKeepr.getApplication().formatCurrency,
+                        width: 100
+                    }, {
+                        header: i18n("Sum"),
+                        dataIndex: 'sum',
+                        renderer: PartKeepr.getApplication().formatCurrency,
+                        summaryType: 'sum',
+                        summaryRenderer: PartKeepr.getApplication().formatCurrency,
+                        width: 100
+                    }, {
+                        header: i18n("Amount to Order"), dataIndex: 'missing',
+                        width: 100
+                    }, {
+                        header: i18n("Sum (Order)"),
+                        dataIndex: 'sum_order',
+                        renderer: PartKeepr.getApplication().formatCurrency,
+                        summaryType: 'sum',
+                        summaryRenderer: PartKeepr.getApplication().formatCurrency,
+                        width: 100
+                    }
+                ],
+                store: this.projectReportStore,
+                bbar: [
+                    Ext.create("PartKeepr.Exporter.GridExporterButton", {
+                        itemId: 'export',
+                        genericExporter: false,
+                        tooltip: i18n("Export"),
+                        iconCls: "fugue-icon application-export",
+                        disabled: this.store.isLoading()
+                    })
+                ]
+            }
+        )
+        ;
 
         this.createReportButton = Ext.create('Ext.button.Button', {
             xtype: 'button',
@@ -244,6 +341,77 @@ Ext.define('PartKeepr.ProjectReportView', {
 
 
         this.callParent();
+    },
+    onApplyMetaPartsClick: function (button) {
+        var parentRecord = button.up("grid").parentRecord;
+
+                console.log(parentRecord);
+
+        this.convertMetaPartsToParts(parentRecord);
+
+
+    },
+    convertMetaPartsToParts: function (record) {
+        var i, projectReportItem, subPart;
+
+        for (i=0;i<record.subParts().getCount();i++) {
+            subPart = record.subParts().getAt(i);
+
+            if (subPart.get("use")) {
+                projectReportItem = Ext.create("PartKeepr.ProjectBundle.Entity.ProjectReport");
+                projectReportItem.set("quantity", subPart.get("stockToUse"));
+                projectReportItem.set("storageLocation_name", subPart.getStorageLocation().get("name"));
+                projectReportItem.set("available", subPart.get("stockLevel"));
+                projectReportItem.set("missing", subPart.get("stockLevel") - subPart.get("stockToUse"));
+                projectReportItem.set("projects", record.get("projects"));
+                projectReportItem.set("remarks", record.get("remarks"));
+                projectReportItem.setPart(subPart);
+
+                this.reportResult.getStore().add(projectReportItem);
+            }
+
+        }
+
+        this.reportResult.getStore().remove(record);
+    },
+    onCheckStateChange: function (check, rowIndex, checked, record)
+    {
+        if (checked) {
+            if (record.get("stockToUse") == 0 || record.get("stockToUse") === undefined) {
+                record.set("stockToUse", record.get("stockLevel"));
+            }
+        }
+
+        this.updateSubGrid(check.up("grid"));
+        this.reportResult.getView().refresh();
+    },
+    onAfterSubGridEdit: function (editor, context)
+    {
+        if (context.value > context.record.get("stockLevel")) {
+            context.record.set("stockToUse", context.originalValue);
+        } else {
+            context.record.set("stockToUse", context.value);
+        }
+
+        this.updateSubGrid(context.grid);
+        this.reportResult.getView().refresh();
+    },
+    updateSubGrid: function (grid) {
+        var subParts = grid.parentRecord.subParts();
+        var i, total;
+
+        total = 0;
+        for (i = 0; i < subParts.getCount(); i++) {
+            if (subParts.getAt(i).get("use")) {
+                total += subParts.getAt(i).get("stockToUse");
+            }
+        }
+
+        if (total >= grid.parentRecord.get("quantity")) {
+            grid.down("#applyPartsButton").enable();
+        } else {
+            grid.down("#applyPartsButton").disable();
+        }
     },
     /**
      * Called when the distributor field is about to be edited.
@@ -409,4 +577,5 @@ Ext.define('PartKeepr.ProjectReportView', {
         closable: true,
         menuPath: [{text: i18n("View")}]
     }
-});
+})
+;

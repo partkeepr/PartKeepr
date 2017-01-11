@@ -44,6 +44,12 @@ class MetaPartParameterCriteria extends BaseEntity
     private $value;
 
     /**
+     * @ORM\Column(type="float",nullable=true)
+     * @var float
+     */
+    private $normalizedValue;
+
+    /**
      * The SiPrefix of the unit.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
@@ -81,6 +87,35 @@ class MetaPartParameterCriteria extends BaseEntity
      */
     private $unit;
 
+    public function __construct()
+    {
+        $this->setValueType(PartParameter::VALUE_TYPE_STRING);
+    }
+
+    /**
+     * @return float
+     */
+    public function getNormalizedValue()
+    {
+        return $this->normalizedValue;
+    }
+
+    /**
+     * @param float $normalizedValue
+     */
+    public function setNormalizedValue($normalizedValue)
+    {
+        $this->normalizedValue = $normalizedValue;
+    }
+
+    protected function recalculateNormalizedValue () {
+        if ($this->getSiPrefix() === null) {
+            $this->setNormalizedValue($this->getValue());
+        } else {
+            $this->setNormalizedValue($this->getSiPrefix()->calculateProduct($this->getValue()));
+        }
+    }
+
     /**
      * @return \PartKeepr\UnitBundle\Entity\Unit
      */
@@ -95,11 +130,6 @@ class MetaPartParameterCriteria extends BaseEntity
     public function setUnit($unit = null)
     {
         $this->unit = $unit;
-    }
-
-    public function __construct()
-    {
-        $this->setValueType(PartParameter::VALUE_TYPE_STRING);
     }
 
     /**
@@ -141,6 +171,7 @@ class MetaPartParameterCriteria extends BaseEntity
     public function setSiPrefix($siPrefix)
     {
         $this->siPrefix = $siPrefix;
+        $this->recalculateNormalizedValue();
     }
 
     /**
@@ -205,6 +236,7 @@ class MetaPartParameterCriteria extends BaseEntity
     public function setValue($value)
     {
         $this->value = $value;
+        $this->recalculateNormalizedValue();
     }
 
     /**

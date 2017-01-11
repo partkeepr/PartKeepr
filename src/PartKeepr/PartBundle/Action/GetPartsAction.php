@@ -6,6 +6,7 @@ use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Exception\RuntimeException;
 use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\PartBundle\Entity\Part;
+use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,10 +28,16 @@ class GetPartsAction
      */
     private $em;
 
-    public function __construct(DataProviderInterface $dataProvider, EntityManager $em)
+    /**
+     * @var PartService
+     */
+    private $partService;
+
+    public function __construct(DataProviderInterface $dataProvider, EntityManager $em, PartService $partService)
     {
         $this->dataProvider = $dataProvider;
         $this->em = $em;
+        $this->partService = $partService;
     }
 
     /**
@@ -53,7 +60,19 @@ class GetPartsAction
          */
         foreach ($items as $part) {
             if ($part->isMetaPart()) {
-                //$part->setStockLevel(-1);
+                $sum = 0;
+
+                $parts = $this->partService->getMatchingMetaParts($part);
+
+                foreach ($parts as $matchingPart) {
+                    /**
+                     * @var $matchingPart Part
+                     */
+                    $sum += $matchingPart->getStockLevel();
+                }
+
+                $part->setStockLevel($sum);
+
             }
         }
         return $items;
