@@ -71,7 +71,7 @@ class UnitSetupService
                             throw new \Exception('Unable to find SI Prefix '.$name);
                         }
 
-                        $unit->getPrefixes()->add($prefix);
+                        $unit->getPrefixes()[] = $prefix;
                     }
                 }
                 $this->entityManager->persist($unit);
