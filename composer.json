@@ -27,6 +27,10 @@
     },
     {
       "type": "vcs",
+      "url": "https://github.com/partkeepr/extjs6.git"
+    },
+    {
+      "type": "vcs",
       "url": "https://github.com/partkeepr/FR3DLdapBundle"
     },
     {

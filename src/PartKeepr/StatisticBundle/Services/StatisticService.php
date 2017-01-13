@@ -198,7 +198,7 @@ class StatisticService
                 $snapshotUnit->setStockLevel(0);
             }
 
-            $snapshot->getUnits()->add($snapshotUnit);
+            $snapshot->getUnits()[] = $snapshotUnit;
         }
 
         $this->entityManager->persist($snapshot);

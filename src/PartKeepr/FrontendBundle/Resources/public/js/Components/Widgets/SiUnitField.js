@@ -15,20 +15,24 @@ Ext.define("PartKeepr.SiUnitField", {
     extend: "Ext.form.FieldContainer",
     alias: 'widget.SiUnitField',
 
+    xtype: 'SiUnitField',
+
     layout: {
         type: 'hbox'
     },
     initComponent: function ()
     {
-        this.items = [
-            {
+        this.numberField = Ext.create({
                 xtype: 'numberfield',
                 hideTrigger: true,
                 emptyText: i18n("Value"),
                 decimalPrecision: 20,
                 name: this.name,
                 flex: 1
-            }, {
+            });
+
+        this.items = [
+            this.numberField, {
                 xtype: 'SiUnitCombo',
                 itemId: this.siUnitItemId,
                 returnObject: true,
@@ -45,5 +49,8 @@ Ext.define("PartKeepr.SiUnitField", {
                 pageSize: 99999999,
                 autoLoad: true
             }));
+    },
+    getValue: function () {
+        return this.numberField.getValue();
     }
 });

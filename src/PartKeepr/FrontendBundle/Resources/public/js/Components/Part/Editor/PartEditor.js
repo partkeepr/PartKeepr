@@ -20,7 +20,7 @@ Ext.define('PartKeepr.PartEditor', {
     initComponent: function ()
     {
         // Defines the overall height of all fields, used to calculate the anchoring for the description field
-        var overallHeight = (this.partMode == "create") ? '-300' : '-245';
+        var overallHeight = (this.partMode == "create") ? 320: 265;
 
         this.nameField = Ext.create("Ext.form.field.Text", {
             name: 'name',
@@ -90,6 +90,7 @@ Ext.define('PartKeepr.PartEditor', {
                 name: 'description'
             }, {
                 layout: 'column',
+                xtype: 'fieldcontainer',
                 margin: {
                     bottom: "0 5px 5px 0"
                 },
@@ -140,9 +141,14 @@ Ext.define('PartKeepr.PartEditor', {
                 fieldLabel: i18n("Comment"),
                 name: 'comment',
                 allowBlank: this.isOptional("comment"),
-                anchor: '100% ' + overallHeight
+                anchor: '100% ' + (-overallHeight).toString()
             },
             {
+                xtype: 'textfield',
+                fieldLabel: i18n("Production Remarks"),
+                name: 'productionRemarks',
+                allowBlank: this.isOptional("productionRemarks"),
+            },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
                 fieldLabel: i18n("Status"),
@@ -257,6 +263,7 @@ Ext.define('PartKeepr.PartEditor', {
             });
 
             basicEditorFields.push({
+                xtype: 'container',
                 layout: 'column',
                 border: false,
                 items: [
@@ -279,6 +286,7 @@ Ext.define('PartKeepr.PartEditor', {
             });
 
             basicEditorFields.push({
+                xtype: 'container',
                 layout: 'column',
                 border: false,
                 items: [
@@ -297,6 +305,7 @@ Ext.define('PartKeepr.PartEditor', {
             items: [
                 {
                     iconCls: 'web-icon brick',
+                    ui: 'default-framed',
                     xtype: 'panel',
                     autoScroll: false,
                     layout: 'anchor',
@@ -476,6 +485,13 @@ Ext.define('PartKeepr.PartEditor', {
         this.partManufacturerGrid.bindStore(this.record.manufacturers());
         this.partAttachmentGrid.bindStore(this.record.attachments());
         this.partParameterGrid.bindStore(this.record.parameters());
+    },
+    onCancelEdit: function () {
+        this.record.distributors().rejectChanges();
+        this.record.manufacturers().rejectChanges();
+        this.record.attachments().rejectChanges();
+        this.record.parameters().rejectChanges();
+        this.callParent(arguments);
     },
     setTitle: function (title)
     {

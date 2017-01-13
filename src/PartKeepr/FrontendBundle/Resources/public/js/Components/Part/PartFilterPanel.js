@@ -30,7 +30,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
     /**
      * Fixed body background color style
      */
-    bodyStyle: 'background:#DBDBDB;',
+    //bodyStyle: 'background:#DBDBDB;',
+
+    ui: 'default-framed',
 
     partManager: null,
     storageLocationFilter: null,
@@ -136,6 +138,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 xtype: 'toolbar',
                 enableOverflow: true,
                 dock: 'bottom',
+                ui: 'footer',
                 defaults: {minWidth: 100},
                 items: [this.applyButton, this.resetButton]
             }

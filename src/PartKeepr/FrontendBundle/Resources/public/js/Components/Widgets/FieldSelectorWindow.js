@@ -6,6 +6,9 @@ Ext.define("PartKeepr.Components.Widgets.FieldSelectorWindow", {
     height: 600,
     title: i18n("Select Field"),
 
+     /* Constrain the window to fit the viewport */
+    constrainHeader: true,
+
     config: {
         sourceModel: null
     },

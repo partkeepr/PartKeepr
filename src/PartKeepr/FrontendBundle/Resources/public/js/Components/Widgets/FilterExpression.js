@@ -8,10 +8,10 @@ Ext.define("PartKeepr.Widgets.FilterExpression", {
         pack: 'start'
     },
 
-    minHeight: 150,
-    minWidth: 400,
-    width: 400,
-    height: 150,
+    minHeight: 100,
+    minWidth: 380,
+    width: 380,
+    shrinkWrap: 2,
     requires: [],
 
     bbar: [{
@@ -48,14 +48,9 @@ Ext.define("PartKeepr.Widgets.FilterExpression", {
             items: [
                 {
                     itemId: "operator",
-                    xtype: 'combobox',
-                    displayField: 'operator',
-                    emptyText: i18n("Select an operator"),
-                    editable: false,
-                    forceSelection: true,
-                    valueField: 'operator',
+                    disabled: true,
+                    xtype: 'OperatorComboBox',
                     flex: 1,
-                    returnObject: true
                 }
             ]
         }, {
@@ -88,6 +83,7 @@ Ext.define("PartKeepr.Widgets.FilterExpression", {
                 {
                     itemId: 'values',
                     xtype: "grid",
+                    minHeight: 200,
                     store: {
                         fields: ['value'],
                         data: []
@@ -123,9 +119,8 @@ Ext.define("PartKeepr.Widgets.FilterExpression", {
     initComponent: function ()
     {
         this.callParent(arguments);
-        var j = Ext.create("PartKeepr.Data.store.OperatorStore");
+
         this.down("#operator").on("change", this.onOperatorChange, this);
-        this.down("#operator").setStore(j);
         this.down("#selectField").on("click", this.onFieldSelectClick, this);
         this.down("#selectEntity").on("click", this.onEntitySelectClick, this);
         this.down("#values").on("selectionchange", this.onValuesSelectionChange, this);
@@ -246,6 +241,7 @@ Ext.define("PartKeepr.Widgets.FilterExpression", {
         });
         this.modelFieldSelectorWindow.on("fieldSelect", function (field) {
             this.updateValueFieldState(field);
+            this.down("#operator").enable();
             this.down("#field").setValue(field.data.data.name);
             }, this);
         this.modelFieldSelectorWindow.show();
