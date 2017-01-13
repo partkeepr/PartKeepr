@@ -7,6 +7,7 @@ use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\ProjectBundle\Entity\Project;
 use PartKeepr\ProjectBundle\Entity\ProjectAttachment;
+use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectTest extends WebTestCase
@@ -80,11 +81,15 @@ class ProjectTest extends WebTestCase
                     'quantity' => 1,
                     'part'     => $serializedPart1,
                     'remarks'  => 'testremark',
+                    'overageType' => ProjectPart::OVERAGE_TYPE_ABSOLUTE,
+                    'overage' => 0
                 ],
                 [
                     'quantity' => 2,
                     'part'     => $serializedPart2,
                     'remarks'  => 'testremark2',
+                    'overageType' => ProjectPart::OVERAGE_TYPE_ABSOLUTE,
+                    'overage' => 0
                 ],
             ],
         ];

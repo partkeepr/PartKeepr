@@ -14,10 +14,14 @@ class ProjectFixtureLoader extends AbstractFixture
         $projectPart1 = new ProjectPart();
         $projectPart1->setPart($this->getReference('part.1'));
         $projectPart1->setQuantity(1);
+        $projectPart1->setOverageType(ProjectPart::OVERAGE_TYPE_ABSOLUTE);
+        $projectPart1->setOverage(0);
 
         $projectPart2 = new ProjectPart();
         $projectPart2->setPart($this->getReference('part.2'));
         $projectPart2->setQuantity(1);
+        $projectPart2->setOverageType(ProjectPart::OVERAGE_TYPE_ABSOLUTE);
+        $projectPart2->setOverage(0);
 
         $project = new Project();
         $project->setName('FOOBAR');
