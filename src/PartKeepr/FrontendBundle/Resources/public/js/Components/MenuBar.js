@@ -66,6 +66,7 @@ Ext.define('PartKeepr.MenuBar', {
             "PartKeepr.StatisticsChartPanel",
             "PartKeepr.SystemInformationGrid",
             "PartKeepr.ProjectReportView",
+            'PartKeepr.ProjectRunEditorComponent',
             "PartKeepr.SystemNoticeEditorComponent",
             "PartKeepr.StockHistoryGrid",
         ];

@@ -6,6 +6,8 @@ use Dunglas\ApiBundle\Api\IriConverter;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\PartBundle\Entity\Part;
+use PartKeepr\ProjectBundle\Entity\ProjectRun;
+use PartKeepr\ProjectBundle\Entity\ProjectRunPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,16 +24,39 @@ class PartController extends FOSRestController
      */
     public function massRemoveStockAction(Request $request)
     {
+        /**
+         * @var IriConverter
+         */
+        $iriConverter = $this->get('api.iri_converter');
+
         $removals = json_decode($request->get('removals'));
 
         if (!is_array($removals)) {
             throw new \Exception('removals parameter must be an array');
         }
 
+        $projects = json_decode($request->get('projects'));
+
+        if (!is_array($projects)) {
+            throw new \Exception('projects parameter must be an array');
+        }
+
         /**
-         * @var IriConverter
+         * @var $projectRuns ProjectRun[]
          */
-        $iriConverter = $this->get('api.iri_converter');
+        $projectRuns = [];
+
+        foreach ($projects as $projectInfo) {
+            $project = $iriConverter->getItemFromIri($projectInfo->project);
+
+            $projectRun = new ProjectRun();
+            $projectRun->setQuantity($projectInfo->quantity);
+            $projectRun->setRunDateTime(new \DateTime());
+            $projectRun->setProject($project);
+
+            $projectRuns[$projectInfo->project] = $projectRun;
+        }
+
 
         $user = $this->get('partkeepr.userservice')->getUser();
 
@@ -58,6 +83,20 @@ class PartController extends FOSRestController
             }
 
             $part->addStockLevel($stock);
+
+            $projectRunPart = new ProjectRunPart();
+            $projectRunPart->setPart($part);
+            $projectRunPart->setQuantity($removal->amount);
+
+            foreach ($projectRuns as $projectRun) {
+                $projectRun->addPart($projectRunPart);
+            }
+        }
+
+
+        foreach ($projectRuns as $projectRun) {
+            var_dump($projectRun);
+            $this->get('doctrine.orm.entity_manager')->persist($projectRun);
         }
 
         $this->get('doctrine.orm.entity_manager')->flush();

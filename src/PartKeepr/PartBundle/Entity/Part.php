@@ -227,6 +227,16 @@ class Part extends BaseEntity
     private $partCondition;
 
     /**
+     * Defines the production remarks for a part
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $productionRemarks;
+
+    /**
      * The create date+time for this part.
      *
      * @ORM\Column(type="datetime",nullable=true)
@@ -282,25 +292,10 @@ class Part extends BaseEntity
     /**
      * An array of all matching meta parts
      * @Groups({"default"})
+     *
      * @var array
      */
     private $metaPartMatches;
-
-    /**
-     * @return array
-     */
-    public function getMetaPartMatches()
-    {
-        return $this->metaPartMatches;
-    }
-
-    /**
-     * @param array $metaPartMatches
-     */
-    public function setMetaPartMatches($metaPartMatches)
-    {
-        $this->metaPartMatches = $metaPartMatches;
-    }
 
     public function __construct()
     {
@@ -327,19 +322,35 @@ class Part extends BaseEntity
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isMetaPart()
+    public function getProductionRemarks()
     {
-        return $this->metaPart;
+        return $this->productionRemarks;
     }
 
     /**
-     * @param bool $metaPart
+     * @param string $productionRemarks
      */
-    public function setMetaPart($metaPart)
+    public function setProductionRemarks($productionRemarks)
     {
-        $this->metaPart = $metaPart;
+        $this->productionRemarks = $productionRemarks;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetaPartMatches()
+    {
+        return $this->metaPartMatches;
+    }
+
+    /**
+     * @param array $metaPartMatches
+     */
+    public function setMetaPartMatches($metaPartMatches)
+    {
+        $this->metaPartMatches = $metaPartMatches;
     }
 
     /**
@@ -704,6 +715,22 @@ class Part extends BaseEntity
     public function setStorageLocation(StorageLocation $storageLocation = null)
     {
         $this->storageLocation = $storageLocation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMetaPart()
+    {
+        return $this->metaPart;
+    }
+
+    /**
+     * @param bool $metaPart
+     */
+    public function setMetaPart($metaPart)
+    {
+        $this->metaPart = $metaPart;
     }
 
     /**

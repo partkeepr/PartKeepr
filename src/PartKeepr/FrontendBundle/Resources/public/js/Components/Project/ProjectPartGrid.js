@@ -15,6 +15,47 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 minValue: 1
             }
         }, {
+            header: i18n("Overage Type"), dataIndex: 'overageType',
+            wdith: 50,
+            editor: {
+                xtype: 'combobox',
+                store: {
+                   fields: ["overageType", "description"],
+                    data: [{overageType: 'percent', description: i18n("Percent")},
+                        {overageType: 'absolute', description: i18n("Absolute")}]
+                },
+                displayField: 'description',
+                valueField: 'overageType',
+                queryMode: 'local',
+                editable: false,
+                forceSelection: true,
+                allowBlank: false,
+            },
+            renderer: function (v) {
+                if (v === "percent") {
+                    return i18n("Percent");
+                } else {
+                    return i18n("Absolute");
+                }
+            }
+        },{
+            header: i18n("Overage"), dataIndex: 'overage',
+            wdith: 50,
+            editor: {
+                xtype: 'numberfield',
+                allowBlank: false,
+                minValue: 1
+            },
+            renderer: function (v,m,rec) {
+                if (rec.get("overageType") === "percent") {
+                    return v + " %";
+                } else {
+                    if (rec.getPart() !== null) {
+                        return v + " " + rec.getPart().getPartUnit().get("shortName");
+                    }
+                }
+            }
+        },{
             header: i18n("Part"),
             dataIndex: 'part',
             flex: 1,

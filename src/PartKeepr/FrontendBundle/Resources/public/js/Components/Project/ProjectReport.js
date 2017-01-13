@@ -24,6 +24,8 @@ Ext.define('PartKeepr.ProjectReportView', {
 
     layout: 'border',
 
+    reportedProjects: [],
+
     initComponent: function ()
     {
         this.createStores();
@@ -97,6 +99,12 @@ Ext.define('PartKeepr.ProjectReportView', {
                     text: i18n("Part Name"),
                     dataIndex: "name"
                 }, {
+                    text: i18n("Description"),
+                    dataIndex: "description"
+                }, {
+                    text: i18n("Production Remarks"),
+                    dataIndex: "productionRemarks"
+                },{
                     text: i18n("Storage Location"),
                     renderer: function (v, m, r)
                     {
@@ -192,8 +200,12 @@ Ext.define('PartKeepr.ProjectReportView', {
                         dataIndex: 'remarks',
                         flex: 1
                     }, {
+                        header: i18n("Production Remarks"),
+                        dataIndex: 'productionRemarks',
+                        flex: 1
+                    },{
                         header: i18n("Projects"),
-                        dataIndex: 'projects',
+                        dataIndex: 'projectNames',
                         flex: 1
                     }, {
                         header: i18n("Storage Location"), dataIndex: 'storageLocation_name',
@@ -345,11 +357,7 @@ Ext.define('PartKeepr.ProjectReportView', {
     onApplyMetaPartsClick: function (button) {
         var parentRecord = button.up("grid").parentRecord;
 
-                console.log(parentRecord);
-
         this.convertMetaPartsToParts(parentRecord);
-
-
     },
     convertMetaPartsToParts: function (record) {
         var i, projectReportItem, subPart;
@@ -364,15 +372,17 @@ Ext.define('PartKeepr.ProjectReportView', {
                 projectReportItem.set("available", subPart.get("stockLevel"));
                 projectReportItem.set("missing", subPart.get("stockLevel") - subPart.get("stockToUse"));
                 projectReportItem.set("projects", record.get("projects"));
+                projectReportItem.set("projectNames", record.get("projectNames"));
                 projectReportItem.set("remarks", record.get("remarks"));
+                projectReportItem.set("productionRemarks", subPart.get("productionRemarks"));
                 projectReportItem.setPart(subPart);
 
                 this.reportResult.getStore().add(projectReportItem);
             }
-
         }
 
         this.reportResult.getStore().remove(record);
+        this.reportResult.getView().refresh();
     },
     onCheckStateChange: function (check, rowIndex, checked, record)
     {
@@ -382,7 +392,7 @@ Ext.define('PartKeepr.ProjectReportView', {
             }
         }
 
-        this.updateSubGrid(check.up("grid"));
+        Ext.defer(this.updateSubGrid, 100, this, [check.up("grid")]);
         this.reportResult.getView().refresh();
     },
     onAfterSubGridEdit: function (editor, context)
@@ -393,7 +403,7 @@ Ext.define('PartKeepr.ProjectReportView', {
             context.record.set("stockToUse", context.value);
         }
 
-        this.updateSubGrid(context.grid);
+        Ext.defer(this.updateSubGrid, 100, this, [context.grid]);
         this.reportResult.getView().refresh();
     },
     updateSubGrid: function (grid) {
@@ -460,15 +470,18 @@ Ext.define('PartKeepr.ProjectReportView', {
             for (var i = 0; i < store.count(); i++) {
                 var item = store.getAt(i);
 
+
+
                 removals.push({
                     part: item.getPart().getId(),
                     amount: item.get("quantity"),
-                    comment: item.get("projects")
+                    comment: item.get("projectNames"),
+                    projects: item.get("projects")
                 });
             }
 
             PartKeepr.PartBundle.Entity.Part.callPostCollectionAction("massRemoveStock",
-                {"removals": Ext.encode(removals)});
+                {"removals": Ext.encode(removals), "projects": Ext.encode(this.reportedProjects)});
         }
     },
     onEdit: function (editor, context)
@@ -546,6 +559,8 @@ Ext.define('PartKeepr.ProjectReportView', {
         for (var i = 0; i < selection.length; i++) {
             projects.push({project: selection[i].getId(), quantity: selection[i].get("quantity")});
         }
+
+        this.reportedProjects = projects;
 
         this.projectReportStore.load({
             params: {
