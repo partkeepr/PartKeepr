@@ -95,7 +95,6 @@ class PartController extends FOSRestController
 
 
         foreach ($projectRuns as $projectRun) {
-            var_dump($projectRun);
             $this->get('doctrine.orm.entity_manager')->persist($projectRun);
         }
 
