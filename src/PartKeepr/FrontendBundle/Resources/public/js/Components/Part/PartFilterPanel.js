@@ -1027,7 +1027,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.internalIdFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Internal ID"),
             anchor: '100%',
-            itemId: '#idField',
+            itemId: 'idField',
             qtip: i18n(
                 "The first number is the ID in decimal, the second number is the ID in base36. To search in base36 format you need to prefix the search string with #, example: #15y"),
             plugins: [
