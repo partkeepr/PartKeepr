@@ -12,6 +12,12 @@ Ext.define('PartKeepr.ExceptionWindow', {
     constrain: true,
     cls: Ext.baseCSSPrefix + 'message-box',
 
+    keyMap: {
+        scope: 'this',
+        ESC: 'onEsc',
+        ENTER: 'onEsc'
+    },
+
     initComponent: function ()
     {
         this.iconComponent = Ext.create('Ext.Component', {
@@ -215,12 +221,6 @@ Ext.define('PartKeepr.ExceptionWindow', {
 
         this.show();
         this.topContainer.layout.setActiveItem(0);
-
-        var keyMap = this.getKeyMap();
-        keyMap.on(Ext.event.Event.ENTER, function ()
-        {
-            this.hide();
-        }, this);
     },
     /**
      * Recursively converts a trace to an ExtJS tree
