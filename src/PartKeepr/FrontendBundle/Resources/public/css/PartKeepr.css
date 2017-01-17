@@ -71,19 +71,6 @@
     background-image: url(../images/form/trigger-ellipsis.png);
 }
 
-.partkeepr-logo {
-    height: 26px;
-    padding-right: 30px;
-    vertical-align: middle;
-    display:flex;
-    align-items:center;
-    font-size: 20px;
-    font-family: 'Ubuntu', sans-serif;
-    background-repeat: no-repeat;
-    background-position:  right;
-    background-image: url(../images/partkeepr-logo.png);
-}
-
 .partkeepr-part-manager-compact {
     background-position: top left;
     background-repeat: no-repeat;
