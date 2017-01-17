@@ -145,6 +145,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         ];
 
         this.store.getFilters().on("endupdate", this._onFilterRemove, this);
+        this.on("beforedestroy", this.onBeforeDestroy, this);
         this.callParent();
     },
     _onFilterRemove: function ()
@@ -1026,6 +1027,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.internalIdFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Internal ID"),
             anchor: '100%',
+            itemId: '#idField',
             qtip: i18n(
                 "The first number is the ID in decimal, the second number is the ID in base36. To search in base36 format you need to prefix the search string with #, example: #15y"),
             plugins: [
@@ -1143,5 +1145,12 @@ Ext.define('PartKeepr.PartFilterPanel', {
             disableFilters: disableFilters,
             enableFilters: enableFilters
         };
+    },
+    /**
+     * Unregisters the quick tip immediately prior destroying
+     */
+    onBeforeDestroy: function ()
+    {
+        Ext.QuickTips.unregister(this.down("#idField").getEl());
     }
 });
