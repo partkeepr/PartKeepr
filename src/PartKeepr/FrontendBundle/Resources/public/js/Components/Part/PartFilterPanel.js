@@ -145,8 +145,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
         ];
 
         this.store.getFilters().on("endupdate", this._onFilterRemove, this);
-        this.on("beforedestroy", this.onBeforeDestroy, this);
         this.callParent();
+
+        this.down("#idField").on("beforedestroy", this.onBeforeIdFieldDestroy, this.down("#idField"));
     },
     _onFilterRemove: function ()
     {
@@ -1149,8 +1150,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
     /**
      * Unregisters the quick tip immediately prior destroying
      */
-    onBeforeDestroy: function ()
+    onBeforeIdFieldDestroy: function (field)
     {
-        Ext.QuickTips.unregister(this.down("#idField").getEl());
+        Ext.QuickTips.unregister(field.getEl());
     }
 });

@@ -330,14 +330,14 @@ Ext.define('PartKeepr.PartEditor', {
         this.callParent();
 
         this.on("itemSave", this.onItemSave, this);
-        this.on("beforedestroy", this.onBeforeDestroy, this);
+        this.down("#idField").on("beforedestroy", this.onBeforeDestroy, this.down("#idField"));
 
     },
     /**
      * Unregisters the quick tip immediately prior destroying
      */
-    onBeforeDestroy: function () {
-        Ext.QuickTips.unregister(this.down("#idField").getEl());
+    onBeforeDestroy: function (field) {
+        Ext.QuickTips.unregister(field.getEl());
     },
     /**
      * Cleans up the record prior saving.
