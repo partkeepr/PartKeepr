@@ -14,7 +14,7 @@ Ext.application({
     launch: function ()
     {
         Ext.setGlyphFontFamily('FontAwesome');
-        Ext.get("loading").hide();
+        Ext.get("loader-wrapper").hide();
         Ext.setLocale('en_US');
 
         this.createLayout();
@@ -53,6 +53,10 @@ Ext.application({
     {
         if (typeof item.target === "function") {
             this.openAppItem(item.target["$className"]);
+        }
+
+        if (typeof(item.theme) === "string") {
+            this.switchTheme(item.theme);
         }
     },
     openAppItem: function (target)
@@ -102,11 +106,17 @@ Ext.application({
 
         this.getUserPreferenceStore().loadRecords(records.records);
 
+        var preferredTheme = this.getUserPreference("partkeepr.user.theme", null);
+
         this.createPartManager();
 
         this.menuBar.enable();
 
         this.doSystemStatusCheck();
+
+        if (preferredTheme !== null && preferredTheme !== window.theme) {
+            this.switchTheme(preferredTheme);
+        }
 
         this.unacknowledgedNoticesTask = Ext.TaskManager.start({
             run: this.doUnacknowledgedNoticesCheck,
@@ -551,7 +561,7 @@ Ext.application({
         this.menuBar = Ext.create("PartKeepr.MenuBar");
 
         this.menuBar.disable();
-        Ext.create('Ext.container.Viewport', {
+        this.viewPort = Ext.create('Ext.container.Viewport', {
             layout: 'fit',
             items: [
                 {
@@ -660,7 +670,8 @@ Ext.application({
         format.currencySign = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
 
         if (code !== null) {
-            var currency = PartKeepr.getApplication().getCurrencyStore().findRecord("code", code, 0, false, false, true);
+            var currency = PartKeepr.getApplication().getCurrencyStore().findRecord("code", code, 0, false, false,
+                true);
 
             if (currency !== null) {
                 format.currencySign = currency.get("symbol");
@@ -679,6 +690,31 @@ Ext.application({
         }
 
         return format.currency(value);
+    },
+    switchTheme: function (theme)
+    {
+        if (window.themes[theme]) {
+            window.theme = theme;
+            this.setUserPreference("partkeepr.user.theme", theme);
+            this.menuBar.selectTheme(theme);
+            Ext.util.CSS.swapStyleSheet("theme", window.themes[theme].themeUri);
+            Ext.util.CSS.swapStyleSheet("themeUx", window.themes[theme].themeUxUri);
+
+            Ext.get("loader-wrapper").show();
+            Ext.get("loader-message").setHtml(i18n("Applying theme…"));
+
+
+            Ext.defer(this.updateThemeLayout, 1000, this);
+        }
+    },
+    updateThemeLayout: function ()
+    {
+        Ext.get("loader-wrapper").hide();
+
+        Ext.defer(this.refreshLayout, 100, this);
+    },
+    refreshLayout: function () {
+        this.viewPort.updateLayout();
     }
 });
 
