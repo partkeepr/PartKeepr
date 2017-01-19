@@ -114,10 +114,6 @@ Ext.application({
 
         this.doSystemStatusCheck();
 
-        if (preferredTheme !== null && preferredTheme !== window.theme) {
-            this.switchTheme(preferredTheme);
-        }
-
         this.unacknowledgedNoticesTask = Ext.TaskManager.start({
             run: this.doUnacknowledgedNoticesCheck,
             scope: this,
@@ -132,6 +128,10 @@ Ext.application({
         }
 
         this.getStatusbar().setConnected();
+
+        if (preferredTheme !== null && preferredTheme !== window.theme) {
+            this.switchTheme(preferredTheme);
+        }
 
     },
     onLogout: function ()
