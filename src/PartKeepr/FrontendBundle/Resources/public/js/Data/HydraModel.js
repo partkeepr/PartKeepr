@@ -43,7 +43,7 @@ Ext.define("PartKeepr.data.HydraModel", {
                     closingBracket = parts[0].indexOf("]", openingBracket);
                     index = parts[0].substring(openingBracket+1, closingBracket);
 
-                    subEntityStore = this[this.associations[subEntity].name]();
+                    subEntityStore = this[this.associations[subEntity].role]();
                     item = subEntityStore.getAt(index);
 
                     if (item !== null) {

@@ -49,7 +49,8 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
                         maxValue: 99
                     },
                     renderer: function (val, md, record) {
-                        if (record.get("data") !== null &&
+                        if (record.get("data") instanceof Object &&
+                                typeof(record.get("data").type) !== "undefined" &&
                                 record.get("data").type !== "onetomany") {
                             return "";
                         } else {
@@ -205,10 +206,7 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
         this.columns.push({
             dataIndex: fieldPath,
             text: fieldPath,
-            renderer: function (value, metadata, record, rowIndex, colIndex)
-            {
-                return record.get(this.getColumns()[colIndex].dataIndex);
-            },
+            renderer: this.columnRenderer,
             scope: this.down('#grid')
         });
 
@@ -278,7 +276,8 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
     },
     columnRenderer: function (value, metadata, record, rowIndex, colIndex)
     {
-        return record.get(this.getColumns()[colIndex].dataIndex);
+        var index = this.getColumns()[colIndex].dataIndex;
+        return record.get(index);
     },
     /**
      * Returns if a specific column exists in the grid.Must be a record and has the "data" property defined.

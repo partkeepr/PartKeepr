@@ -108,18 +108,18 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
 
         for (i in associations) {
             associationAlreadyProcessed = false;
-            if (typeof associations[i].legacy !== "undefined" && associations[i].isMany === true) {
+            if (typeof(associations[i].storeName) !== "undefined" && associations[i].isMany === true) {
                 for (j = 0; j < this.visitedModels.length; j++) {
-                    if (this.visitedModels[j] === associations[i].model) {
+                    if (this.visitedModels[j] === associations[i].type) {
                        associationAlreadyProcessed = true;
                     }
                 }
 
                 if (!associationAlreadyProcessed) {
                     childNode = node.appendChild(Ext.create("PartKeepr.Data.ReflectionFieldTreeModel",{
-                        text: associations[i].name,
+                        text: associations[i].role,
                         data: {
-                            name: prefix + associations[i].name,
+                            name: prefix + associations[i].role,
                             type: "onetomany",
                             reference: associations[i].cls
                         },
@@ -130,7 +130,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
                         childNode.set(callback(associations[i].cls, childNode));
                     }
 
-                    this.make(childNode, associations[i].cls, prefix + associations[i].name + ".", callback);
+                    this.make(childNode, associations[i].cls, prefix + associations[i].role+ ".", callback);
                 }
             }
         }
