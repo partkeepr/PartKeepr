@@ -50,7 +50,6 @@ Ext.define('PartKeepr.ProjectRunEditor', {
                     header: i18n("Part Name"),
                     renderer: function (r, v, rec)
                     {
-                        console.log(rec);
                         if (rec.getPart() !== null) {
                             return rec.getPart().get("name");
                         }
