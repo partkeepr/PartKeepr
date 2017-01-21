@@ -2912,16 +2912,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "1.0.1",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "f60e365be28d9218b4bcdc0ab96ac7e338668f11"
+                "reference": "38fa7332e96bcc546ce6eb5cbaa1168c96839393"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f60e365be28d9218b4bcdc0ab96ac7e338668f11",
-                "reference": "f60e365be28d9218b4bcdc0ab96ac7e338668f11",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/38fa7332e96bcc546ce6eb5cbaa1168c96839393",
+                "reference": "38fa7332e96bcc546ce6eb5cbaa1168c96839393",
                 "shasum": ""
             },
             "require": {
@@ -2948,6 +2948,7 @@
                     "System": "phpseclib/"
                 },
                 "files": [
+                    "phpseclib/bootstrap.php",
                     "phpseclib/Crypt/Random.php"
                 ]
             },
@@ -3006,7 +3007,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2016-01-18 17:07:12"
+            "time": "2016-10-22 17:53:16"
         },
         {
             "name": "predis/predis",
