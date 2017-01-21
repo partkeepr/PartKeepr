@@ -1325,16 +1325,16 @@
         },
         {
             "name": "dunglas/php-property-info",
-            "version": "v0.2.1",
+            "version": "v0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dunglas/php-property-info.git",
-                "reference": "f378ad895f64885dcfcedfd198ad5aa1b19f6c97"
+                "reference": "698a5fa4f3901dba31e9163599aa9d4fdbf88f1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dunglas/php-property-info/zipball/f378ad895f64885dcfcedfd198ad5aa1b19f6c97",
-                "reference": "f378ad895f64885dcfcedfd198ad5aa1b19f6c97",
+                "url": "https://api.github.com/repos/dunglas/php-property-info/zipball/698a5fa4f3901dba31e9163599aa9d4fdbf88f1a",
+                "reference": "698a5fa4f3901dba31e9163599aa9d4fdbf88f1a",
                 "shasum": ""
             },
             "require": {
@@ -1376,7 +1376,7 @@
                 "type",
                 "validator"
             ],
-            "time": "2015-04-03 17:49:18"
+            "time": "2015-12-29 08:21:00"
         },
         {
             "name": "escapestudios/wsse-authentication-bundle",
