@@ -156,6 +156,8 @@ Ext.define("PartKeepr.Components.BatchJob.BatchJobExecutionWindow", {
     },
     onExecuteBatchJob: function ()
     {
+        this.down("#executeBatchJob").setDisabled();
+
         var i, queryFieldConfig = [], updateFieldConfig = [];
 
         for (i = 0; i < this.batchJob.batchJobQueryFields().getCount(); i++) {
@@ -175,7 +177,19 @@ Ext.define("PartKeepr.Components.BatchJob.BatchJobExecutionWindow", {
         this.batchJob.callPutAction("execute", {
             queryFields: Ext.encode(queryFieldConfig),
             updateFields: Ext.encode(updateFieldConfig)
-        });
+        }, Ext.bind(this.onBatchJobExecuted, this));
+    },
+    /**
+     * Displays a message as soon as the batch job is completed successfully.
+     */
+    onBatchJobExecuted: function (options, success)
+    {
+        if (success) {
+            Ext.MessageBox.alert(i18n("Batch Job Completed Successfully"),
+                i18n("The batch job has been executed successfully"));
+        }
+
+        this.down("#executeBatchJob").setEnabled();
     },
     validateExecuteBatchJobButton: function ()
     {
