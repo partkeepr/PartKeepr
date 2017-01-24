@@ -87,6 +87,11 @@ class ProjectPart extends BaseEntity
      */
     private $overage;
 
+    public function __construct () {
+        $this->setOverageType(self::OVERAGE_TYPE_ABSOLUTE);
+        $this->setOverage(0);
+    }
+
     /**
      * @return string
      */
