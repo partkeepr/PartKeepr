@@ -113,6 +113,12 @@ class PartService
         return false;
     }
 
+    /**
+     * Returns the matching parts for a given meta part
+     * @param Part $metaPart
+     *
+     * @return Part[]
+     */
     public function getMatchingMetaParts(Part $metaPart)
     {
         $paramCount = 0;
@@ -170,7 +176,7 @@ class PartService
         if (count($results) > 1) {
             $result = call_user_func_array("array_intersect", $results);
         } else {
-            $result = $results;
+            $result = $results[0];
         }
 
         $qb = $this->entityManager->createQueryBuilder();
