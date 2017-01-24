@@ -90,6 +90,7 @@ class MetaPartParameterCriteria extends BaseEntity
     public function __construct()
     {
         $this->setValueType(PartParameter::VALUE_TYPE_STRING);
+        $this->setStringValue("");
     }
 
     /**

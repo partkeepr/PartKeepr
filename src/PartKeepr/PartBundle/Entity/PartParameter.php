@@ -170,6 +170,8 @@ class PartParameter extends BaseEntity
     public function __construct()
     {
         $this->setValueType(self::VALUE_TYPE_STRING);
+        $this->setDescription("");
+        $this->setStringValue("");
     }
 
     /**
