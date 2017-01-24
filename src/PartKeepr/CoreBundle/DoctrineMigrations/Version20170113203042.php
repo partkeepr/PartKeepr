@@ -16,7 +16,7 @@ class Version20170113203042 extends BaseMigration
     public function up(Schema $schema)
     {
         $this->performDatabaseUpgrade();
-        $adjustValueTypesSQL = 'UPDATE ProjectPart SET overageType = "absolute" where overageType = ""';
+        $adjustValueTypesSQL = "UPDATE ProjectPart SET overageType = 'absolute' where overageType = ''";
         $this->addSql($adjustValueTypesSQL);
     }
 

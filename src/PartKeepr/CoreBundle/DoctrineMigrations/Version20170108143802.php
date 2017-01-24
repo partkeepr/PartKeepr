@@ -16,7 +16,7 @@ class Version20170108143802 extends BaseMigration
     public function up(Schema $schema)
     {
         $this->performDatabaseUpgrade();
-        $adjustValueTypesSQL = 'UPDATE PartParameter SET valueType = "numeric" where valueType = ""';
+        $adjustValueTypesSQL = "UPDATE PartParameter SET valueType = 'numeric' where valueType = ''";
         $this->addSql($adjustValueTypesSQL);
     }
 
