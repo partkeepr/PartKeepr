@@ -64,7 +64,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.FulltextSearch', 
         var fields = [];
 
         for (var i = 0; i < selection.length; i++) {
-            fields.push(selection[i].data.data);
+            fields.push(selection[i].data.data.name);
         }
 
         PartKeepr.getApplication().setSystemPreference("partkeepr.part.search.fields", fields);
