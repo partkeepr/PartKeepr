@@ -56,7 +56,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
         this.visitedModels.push(model.getName());
 
         for (i = 0; i < fields.length; i++) {
-            if (fields[i]["$reference"] === undefined) {
+            if (fields[i]["reference"] === null) {
                 // Field is a scalar field
                 if (this.ignoreFields.indexOf(fields[i].name) === -1 && !this.customFieldIgnorer(fields[i])) {
 
@@ -108,7 +108,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
 
         for (i in associations) {
             associationAlreadyProcessed = false;
-            if (typeof(associations[i].storeName) !== "undefined" && associations[i].isMany === true) {
+            if (associations[i].association.name === model.getName() && associations[i].isMany === true) {
                 for (j = 0; j < this.visitedModels.length; j++) {
                     if (this.visitedModels[j] === associations[i].type) {
                        associationAlreadyProcessed = true;
