@@ -146,5 +146,4 @@ class ProjectRun extends BaseEntity
         }
         $this->parts->removeElement($part);
     }
-
 }
