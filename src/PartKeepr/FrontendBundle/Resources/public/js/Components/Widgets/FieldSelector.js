@@ -74,7 +74,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                 continue;
             }
 
-            if (fields[i]["$reference"] === undefined) {
+            if (fields[i]["reference"] === null) {
                 checked = false;
 
                 if (Ext.Array.contains(this.initiallyChecked, prefix + fields[i].name)) {
@@ -138,7 +138,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
             associationAlreadyProcessed = false;
             if (typeof(associations[i].storeName) !== "undefined" && associations[i].isMany === true) {
                 for (j = 0; j < this.visitedModels.length; j++) {
-                    if (this.visitedModels[j] === associations[i].model) {
+                    if (this.visitedModels[j] === associations[i].type) {
                         associationAlreadyProcessed = true;
                     }
                 }
