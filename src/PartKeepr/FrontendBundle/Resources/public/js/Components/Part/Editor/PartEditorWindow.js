@@ -136,6 +136,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
     },
     onOctoPartClick: function () {
         if (PartKeepr.isOctoPartAvailable()) {
+            this.editor.getForm().updateRecord();
             this.octoPartQueryWindow = Ext.create("PartKeepr.Components.OctoPart.SearchWindow");
             this.octoPartQueryWindow.show();
             this.octoPartQueryWindow.setPart(this.editor.record);
