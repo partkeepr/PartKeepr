@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
