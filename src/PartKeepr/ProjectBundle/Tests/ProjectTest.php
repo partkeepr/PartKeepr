@@ -76,20 +76,20 @@ class ProjectTest extends WebTestCase
             'attachments' => [
                 $uploadedFile->image,
             ],
-            'parts' => [
+            'parts'       => [
                 [
-                    'quantity' => 1,
-                    'part'     => $serializedPart1,
-                    'remarks'  => 'testremark',
+                    'quantity'    => 1,
+                    'part'        => $serializedPart1,
+                    'remarks'     => 'testremark',
                     'overageType' => ProjectPart::OVERAGE_TYPE_ABSOLUTE,
-                    'overage' => 0
+                    'overage'     => 0,
                 ],
                 [
-                    'quantity' => 2,
-                    'part'     => $serializedPart2,
-                    'remarks'  => 'testremark2',
+                    'quantity'    => 2,
+                    'part'        => $serializedPart2,
+                    'remarks'     => 'testremark2',
                     'overageType' => ProjectPart::OVERAGE_TYPE_ABSOLUTE,
-                    'overage' => 0
+                    'overage'     => 0,
                 ],
             ],
         ];
@@ -216,7 +216,8 @@ class ProjectTest extends WebTestCase
      * frontend and serializing it back.
      *
      */
-    public function testAbsentProjectReference () {
+    public function testAbsentProjectReference()
+    {
         $client = static::makeClient(true);
 
         $project = $this->fixtures->getReference('project');

@@ -10,7 +10,7 @@ class FilterService
     /**
      * @var EntityManager
      */
-    var $em;
+    private $em;
 
     public function __construct(Registry $registry)
     {
@@ -18,14 +18,15 @@ class FilterService
     }
 
     /**
-     * Returns a DQL expression for the given filter and alias
+     * Returns a DQL expression for the given filter and alias.
      *
      * @param Filter $filter    The filter to build the expression for
      * @param string $alias     The field alias to search in
      * @param string $paramName The parameter name you use to bind the value to
      *
-     * @return \Doctrine\ORM\Query\Expr\Comparison
      * @throws \Exception
+     *
+     * @return \Doctrine\ORM\Query\Expr\Comparison
      */
     public function getExpressionForFilter(Filter $filter, $alias, $paramName)
     {

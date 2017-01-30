@@ -2,15 +2,14 @@
 
 namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Sets overageType to a sane default
  */
 class Version20170113203042 extends BaseMigration
 {
-/**
+    /**
      * @param Schema $schema
      */
     public function up(Schema $schema)

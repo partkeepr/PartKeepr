@@ -45,9 +45,9 @@ class GetPartsAction
      *
      * @param Request $request
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
-     *
      * @throws RuntimeException
+     *
+     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
@@ -56,7 +56,7 @@ class GetPartsAction
         $items = $this->dataProvider->getCollection($resourceType);
 
         /**
-         * @var $part Part
+         * @var Part
          */
         foreach ($items as $part) {
             if ($part->isMetaPart()) {
@@ -66,7 +66,7 @@ class GetPartsAction
 
                 foreach ($parts as $matchingPart) {
                     /**
-                     * @var $matchingPart Part
+                     * @var Part
                      */
                     $sum += $matchingPart->getStockLevel();
                 }

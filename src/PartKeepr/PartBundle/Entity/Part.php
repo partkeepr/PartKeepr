@@ -227,7 +227,7 @@ class Part extends BaseEntity
     private $partCondition;
 
     /**
-     * Defines the production remarks for a part
+     * Defines the production remarks for a part.
      *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
@@ -280,7 +280,7 @@ class Part extends BaseEntity
     private $lowStock = false;
 
     /**
-     * Defines if the part is a meta-part
+     * Defines if the part is a meta-part.
      *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
@@ -290,7 +290,7 @@ class Part extends BaseEntity
     private $metaPart;
 
     /**
-     * An array of all matching meta parts
+     * An array of all matching meta parts.
      * @Groups({"default"})
      *
      * @var array
@@ -822,7 +822,7 @@ class Part extends BaseEntity
     }
 
     /**
-     * Adds a Meta Part Parameter Criteria
+     * Adds a Meta Part Parameter Criteria.
      *
      * @param MetaPartParameterCriteria $metaPartParameterCriteria A meta part parameter criteria to
      */

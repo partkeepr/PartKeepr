@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\PartBundle\Entity;
 
+namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;

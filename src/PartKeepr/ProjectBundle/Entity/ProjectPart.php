@@ -68,7 +68,7 @@ class ProjectPart extends BaseEntity
     private $remarks;
 
     /**
-     * The overage type
+     * The overage type.
      *
      * @ORM\Column(type="string")
      * @Groups({"default"})
@@ -78,16 +78,17 @@ class ProjectPart extends BaseEntity
     private $overageType;
 
     /**
-     * Specifies the overage, which can either be percent or an absolute value depending on overageType
+     * Specifies the overage, which can either be percent or an absolute value depending on overageType.
      *
      * @ORM\Column(type="integer")
      * @Groups({"default"})
      *
-     * @var integer
+     * @var int
      */
     private $overage;
 
-    public function __construct () {
+    public function __construct ()
+    {
         $this->setOverageType(self::OVERAGE_TYPE_ABSOLUTE);
         $this->setOverage(0);
     }

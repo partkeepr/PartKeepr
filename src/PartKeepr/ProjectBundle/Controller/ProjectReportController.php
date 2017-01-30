@@ -71,7 +71,7 @@ class ProjectReportController extends FOSRestController
             foreach ($query->getArrayResult() as $result) {
                 $part = $partRepository->find($result['id']);
                 /**
-                 * @var $part Part
+                 * @var Part $part
                  */
 
                 if ($result["overageType"] === ProjectPart::OVERAGE_TYPE_PERCENT) {
@@ -86,7 +86,6 @@ class ProjectReportController extends FOSRestController
                     $aPartResults[$result['id']]['quantity'] += ($result['quantity'] * $report['quantity']) + $overage;
                     $aPartResults[$result['id']]['projectNames'][] = $result['projectname'];
                     $aPartResults[$result['id']]['projects'][] = $projectIRI;
-
 
                     if ($result['remarks'] != '') {
                         $aPartResults[$result['id']]['remarks'][] = $result['projectname'].': '.$result['remarks'];
@@ -106,7 +105,6 @@ class ProjectReportController extends FOSRestController
                     $subParts = [];
 
                     if ($part->isMetaPart()) {
-
                         $matchingParts = $this->container->get("partkeepr.part_service")->getMatchingMetaParts($part);
                         foreach ($matchingParts as $matchingPart) {
                             $subParts[] = $this->get('serializer')->normalize(
@@ -115,7 +113,6 @@ class ProjectReportController extends FOSRestController
                             );
                         }
                     }
-
 
                     // Create a full resultset
                     $aPartResults[$result['id']] = [

@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class ProjectRun extends BaseEntity
 {
     /**
-     * Stores the date and time of a project run
+     * Stores the date and time of a project run.
      *
      * @ORM\Column(type="datetime")
      * @Groups({"default"})
@@ -26,7 +26,7 @@ class ProjectRun extends BaseEntity
     private $runDateTime;
 
     /**
-     * Stores the project used in a production run
+     * Stores the project used in a production run.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project")
      * @Groups({"default"})
@@ -36,12 +36,12 @@ class ProjectRun extends BaseEntity
     private $project;
 
     /**
-     * Stores the quantity this project has been build
+     * Stores the quantity this project has been build.
      *
      * @ORM\Column(type="integer")
      * @Groups({"default"})
      *
-     * @var integer
+     * @var int
      */
     private $quantity;
 
@@ -59,7 +59,8 @@ class ProjectRun extends BaseEntity
      */
     private $parts;
 
-    public function __construct () {
+    public function __construct ()
+    {
         $this->parts = new ArrayCollection();
     }
 
@@ -120,7 +121,7 @@ class ProjectRun extends BaseEntity
     }
 
     /**
-     * Adds a project run part
+     * Adds a project run part.
      *
      * @param ProjectRunPart
      */
@@ -133,7 +134,7 @@ class ProjectRun extends BaseEntity
     }
 
     /**
-     * Removes a project run part
+     * Removes a project run part.
      *
      * @param ProjectRunPart
      */

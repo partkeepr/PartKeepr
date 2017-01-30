@@ -42,7 +42,7 @@ class PartController extends FOSRestController
         }
 
         /**
-         * @var $projectRuns ProjectRun[]
+         * @var ProjectRun[] $projectRuns
          */
         $projectRuns = [];
 

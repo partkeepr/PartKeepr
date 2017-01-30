@@ -27,7 +27,7 @@ class PartDataLoader extends AbstractFixture
         $part->setName('FOOBAR');
         $part->setPartUnit($partUnit);
         /**
-         * @var $category PartCategory
+         * @var PartCategory $category
          */
         $category = $this->getReference('partcategory.first');
         $storageLocation = $this->getReference('storagelocation.first');

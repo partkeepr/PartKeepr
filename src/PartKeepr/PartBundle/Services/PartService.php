@@ -114,7 +114,8 @@ class PartService
     }
 
     /**
-     * Returns the matching parts for a given meta part
+     * Returns the matching parts for a given meta part.
+     *
      * @param Part $metaPart
      *
      * @return Part[]
@@ -128,7 +129,6 @@ class PartService
         if (!$metaPart->isMetaPart()) {
             throw new NotAMetaPartException();
         }
-
 
         foreach ($metaPart->getMetaPartParameterCriterias() as $metaPartParameterCriteria) {
             $qb = $this->entityManager->createQueryBuilder();

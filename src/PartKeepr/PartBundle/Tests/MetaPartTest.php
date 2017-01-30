@@ -27,9 +27,10 @@ class MetaPartTest extends WebTestCase
         )->getReferenceRepository();
     }
 
-    public function testMetaPartMatching () {
+    public function testMetaPartMatching ()
+    {
         /**
-         * @var $metaPart1 Part
+         * @var Part $metaPart1
          */
         $metaPart1 = $this->fixtures->getReference("metapart.1");
         $metaSourcePart1 = $this->fixtures->getReference("metapart.source.1");
@@ -43,7 +44,7 @@ class MetaPartTest extends WebTestCase
         $this->assertNotContains($metaSourcePart3, $matches);
 
         /**
-         * @var $metaPart2 Part
+         * @var Part $metaPart2
          */
         $metaPart2 = $this->fixtures->getReference("metapart.2");
 

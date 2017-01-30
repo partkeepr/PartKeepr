@@ -2,7 +2,6 @@
 
 namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**

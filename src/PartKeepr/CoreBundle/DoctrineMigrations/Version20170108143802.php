@@ -2,15 +2,14 @@
 
 namespace PartKeepr\CoreBundle\DoctrineMigrations;
 
-use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Updates the value type to "numeric" where no value type is set
+ * Updates the value type to "numeric" where no value type is set.
  */
 class Version20170108143802 extends BaseMigration
 {
-/**
+    /**
      * @param Schema $schema
      */
     public function up(Schema $schema)

@@ -1,9 +1,9 @@
 <?php
 namespace PartKeepr\ProjectBundle\Entity;
 
-use PartKeepr\PartBundle\Entity\Part;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -15,7 +15,7 @@ class ProjectRunPart extends BaseEntity
 {
 
     /**
-     * Stores the project run
+     * Stores the project run.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\ProjectRun")
      * @Groups({"default"})
@@ -25,7 +25,7 @@ class ProjectRunPart extends BaseEntity
     private $projectRun;
 
     /**
-     * Stores the part used in a production run
+     * Stores the part used in a production run.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part")
      * @Groups({"default"})
@@ -35,12 +35,12 @@ class ProjectRunPart extends BaseEntity
     private $part;
 
     /**
-     * Stores the quantity of a production run
+     * Stores the quantity of a production run.
      *
      * @ORM\Column(type="integer")
      * @Groups({"default"})
      *
-     * @var integer
+     * @var int
      */
     private $quantity;
 
