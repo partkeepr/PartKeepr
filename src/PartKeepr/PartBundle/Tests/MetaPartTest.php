@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\PartBundle\Tests;
 
+namespace PartKeepr\PartBundle\Tests;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use PartKeepr\CoreBundle\Tests\WebTestCase;
@@ -27,7 +27,7 @@ class MetaPartTest extends WebTestCase
         )->getReferenceRepository();
     }
 
-    public function testMetaPartMatching ()
+    public function testMetaPartMatching()
     {
         /**
          * @var Part $metaPart1
@@ -53,8 +53,5 @@ class MetaPartTest extends WebTestCase
         $this->assertNotContains($metaSourcePart1, $matches2);
         $this->assertContains($metaSourcePart2, $matches2);
         $this->assertNotContains($metaSourcePart3, $matches2);
-
     }
-
-
 }

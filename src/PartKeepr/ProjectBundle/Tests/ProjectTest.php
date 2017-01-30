@@ -240,6 +240,5 @@ class ProjectTest extends WebTestCase
         foreach ($project->parts as $part) {
             $this->assertObjectNotHasAttribute("project", $part);
         }
-
     }
 }

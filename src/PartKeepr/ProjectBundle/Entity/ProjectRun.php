@@ -47,6 +47,7 @@ class ProjectRun extends BaseEntity
 
     /**
      * Stores the parts.
+     *
      * @ORM\OneToMany(
      *     targetEntity="PartKeepr\ProjectBundle\Entity\ProjectRunPart",
      *     mappedBy="projectRun",

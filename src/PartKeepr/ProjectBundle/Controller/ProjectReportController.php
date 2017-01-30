@@ -55,7 +55,9 @@ class ProjectReportController extends FOSRestController
             $projects[] = ['project' => $project, 'quantity' => $projectParameter->quantity];
         }
 
-        $partRepository = $this->get('doctrine.orm.entity_manager')->getRepository('PartKeepr\\PartBundle\\Entity\\Part');
+        $partRepository = $this->get('doctrine.orm.entity_manager')->getRepository(
+            'PartKeepr\\PartBundle\\Entity\\Part'
+        );
         $aPartResults = [];
 
         foreach ($projects as $report) {
@@ -73,7 +75,6 @@ class ProjectReportController extends FOSRestController
                 /**
                  * @var Part $part
                  */
-
                 if ($result["overageType"] === ProjectPart::OVERAGE_TYPE_PERCENT) {
                     $overage = $result['quantity'] * $report['quantity'] * ($result["overage"] / 100);
                 } else {
