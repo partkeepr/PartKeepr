@@ -58,6 +58,9 @@ class DefaultController extends FOSRestController
             $responseItem["mpn"] = $result["item"]["mpn"];
             $responseItem["title"] = $result["snippet"];
             $responseItem["manufacturer"] = $result["item"]["manufacturer"]["name"];
+            $responseItem["numOffers"] = count($result["item"]["offers"]);
+            $responseItem["numSpecs"] = count($result["item"]["specs"]);
+            $responseItem["numDatasheets"] = count($result["item"]["datasheets"]);
             $responseItem["url"] = $result["item"]["octopart_url"];
             $responseItem["uid"] = $result["item"]["uid"];
             $responseData["results"][] = $responseItem;

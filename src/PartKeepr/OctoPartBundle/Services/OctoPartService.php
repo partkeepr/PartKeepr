@@ -45,7 +45,7 @@ class OctoPartService
         $request->getQuery()->add("apikey", $this->apiKey);
         $request->getQuery()->add("q", $query);
         $request->getQuery()->add("start", ($start - 1) * 20);
-        $request->getQuery()->add("include", ["short_description"]);
+        $request->getQuery()->add("include", ["short_description", "specs", "datasheets"]);
         $request->getQuery()->add("limit", 20);
 
         $request->send();

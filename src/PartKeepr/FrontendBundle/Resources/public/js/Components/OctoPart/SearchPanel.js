@@ -12,7 +12,10 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
             fields: [
                 {name: 'title', type: 'string'},
                 {name: 'url', type: 'string'},
-                {name: 'mpn', type: 'string'}
+                {name: 'mpn', type: 'string'},
+                {name: 'numOffers', type: 'int'},
+                {name: 'numDatasheets', type: 'int'},
+                {name: 'numSpecs', type: 'int'},
             ],
             proxy: {
                 type: 'ajax',
@@ -46,6 +49,18 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
                     dataIndex: 'mpn',
                     flex: 1
                 }, {
+                    text: i18n("Offers"),
+                    dataIndex: 'numOffers',
+                    flex: 1
+                },{
+                    text: i18n("Datasheets"),
+                    dataIndex: 'numDatasheets',
+                    flex: 1
+                },{
+                    text: i18n("Parameters"),
+                    dataIndex: 'numSpecs',
+                    flex: 1
+                },{
                     text: i18n("Details…"),
                     dataIndex: 'url',
                     renderer: function (v)
