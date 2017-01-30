@@ -81,49 +81,69 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
             if (distributor === null) {
                 this.displayWaitWindow(i18n("Creating Distributor…"), this.data.offers[i].seller.name);
-                    distributor = Ext.create("PartKeepr.DistributorBundle.Entity.Distributor");
-                    distributor.set("name", this.data.offers[i].seller.name);
-                    distributor.set("website", this.data.offers[i].seller.homepage_url);
-                    distributor.save({
-                        success: function ()
-                        {
-                            PartKeepr.getApplication().getDistributorStore().load({
-                                callback: this.applyData,
-                                scope: this
-                            });
-                        },
-                        scope: this
+                distributor = Ext.create("PartKeepr.DistributorBundle.Entity.Distributor");
+                distributor.set("name", this.data.offers[i].seller.name);
+                distributor.set("website", this.data.offers[i].seller.homepage_url);
+                distributor.save({
+                    success: function ()
+                    {
+                        PartKeepr.getApplication().getDistributorStore().load({
+                            callback: this.applyData,
+                            scope: this
+                        });
+                    },
+                    scope: this
 
-                    });
-                    return false;
+                });
+                return false;
             }
         }
 
         if (this.data.datasheets.length > 0) {
             file = this.data.datasheets.shift();
             this.displayWaitWindow(i18n("Uploading datasheet…"), file.url);
-            PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Datasheet"), this.onFileUploaded, this);
+
+            if (!this.checkIfAttachmentFilenameExists(file.url)) {
+                PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Datasheet"), this.onFileUploaded, this);
+            } else {
+                this.applyData();
+            }
+
             return false;
         }
 
         if (this.data.cad_models.length > 0) {
             file = this.data.cad_models.shift();
             this.displayWaitWindow(i18n("Uploading CAD Model…"), file.url);
-            PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("CAD Model"), this.onFileUploaded, this);
+            if (!this.checkIfAttachmentFilenameExists(file.url)) {
+                PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("CAD Model"), this.onFileUploaded, this);
+            } else {
+                this.applyData();
+            }
             return false;
         }
 
         if (this.data.compliance_documents.length > 0) {
             file = this.data.compliance_documents.shift();
             this.displayWaitWindow(i18n("Uploading Compliance Document…"), file.url);
-            PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Compliance Document"), this.onFileUploaded, this);
+            if (!this.checkIfAttachmentFilenameExists(file.url)) {
+                PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Compliance Document"), this.onFileUploaded,
+                    this);
+            } else {
+                this.applyData();
+            }
             return false;
         }
 
         if (this.data.reference_designs.length > 0) {
             file = this.data.reference_designs.shift();
             this.displayWaitWindow(i18n("Uploading Reference Designs…"), file.url);
-            PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Reference Design"), this.onFileUploaded, this);
+            if (!this.checkIfAttachmentFilenameExists(file.url)) {
+                PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Reference Design"), this.onFileUploaded,
+                    this);
+            } else {
+                this.applyData();
+            }
             return false;
         }
 
@@ -149,7 +169,11 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
             if (image !== null) {
                 this.displayWaitWindow(i18n("Uploading Image…"), image.url);
-                PartKeepr.getApplication().uploadFileFromURL(image.url, i18n("Image"), this.onFileUploaded, this);
+                if (!this.checkIfAttachmentFilenameExists(image.url)) {
+                    PartKeepr.getApplication().uploadFileFromURL(image.url, i18n("Image"), this.onFileUploaded, this);
+                } else {
+                    this.applyData();
+                }
             }
 
             return false;
@@ -158,8 +182,24 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         return true;
     },
-    onFileUploaded: function (options, success, response) {
+    checkIfAttachmentFilenameExists: function (uri)
+    {
+        var k, found, filename = uri.split(/[\\/]/).pop();
 
+        found = false;
+
+        console.log(filename);
+
+        for (k = 0; k < this.part.attachments().count(); k++) {
+            if (this.part.attachments().getAt(k).get("originalFilename") == filename) {
+                found = true;
+            }
+        }
+
+        return found;
+    },
+    onFileUploaded: function (options, success, response)
+    {
         if (success) {
             var result = Ext.decode(response.responseText);
 
@@ -173,7 +213,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
     displayWaitWindow: function (text, value)
     {
         this.waitMessage = Ext.MessageBox.show({
-            msg: text + "<br/>"+ value,
+            msg: text + "<br/>" + value,
             progressText: value,
             width: 300,
             wait: {
@@ -183,7 +223,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
     },
     applyData: function ()
     {
-        var spec, i, unit, value, siPrefix, distributor, j, partDistributor, currency;
+        var spec, i, unit, value, siPrefix, distributor, j, partDistributor, currency, k, found;
 
         if (this.waitMessage instanceof Ext.window.MessageBox) {
             this.waitMessage.hide();
@@ -208,9 +248,22 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         partManufacturer.setManufacturer(manufacturer);
         partManufacturer.set("partNumber", this.data.mpn);
 
-        this.part.manufacturers().add(partManufacturer);
+        found = null;
 
-        for (i=0;i<this.data.offers.length;i++) {
+        for (k = 0; k < this.part.manufacturers().count(); k++) {
+            if (this.part.manufacturers().getAt(k).isPartiallyEqualTo(partManufacturer,
+                    ["manufacturer.name"])) {
+                found = this.part.manufacturers().getAt(k);
+            }
+        }
+
+        if (found !== null) {
+            found.set("partNumber", this.data.mpn);
+        } else {
+            this.part.manufacturers().add(partManufacturer);
+        }
+
+        for (i = 0; i < this.data.offers.length; i++) {
             distributor = PartKeepr.getApplication().getDistributorStore().findRecord("name",
                 this.data.offers[i].seller.name, 0, false, true, true);
             if (distributor === null) {
@@ -219,17 +272,34 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
             }
 
             for (currency in this.data.offers[i].prices) {
-                for (j=0;j<this.data.offers[i].prices[currency].length;j++) {
+                for (j = 0; j < this.data.offers[i].prices[currency].length; j++) {
                     partDistributor = Ext.create("PartKeepr.PartBundle.Entity.PartDistributor");
                     partDistributor.setDistributor(distributor);
                     partDistributor.set("sku", this.data.offers[i].sku);
                     partDistributor.set("packagingUnit", this.data.offers[i].prices[currency][j][0]);
                     partDistributor.set("currency", currency);
                     partDistributor.set("price", this.data.offers[i].prices[currency][j][1]);
-                    this.part.distributors().add(partDistributor);
+
+                    found = null;
+
+                    for (k = 0; k < this.part.distributors().count(); k++) {
+                        if (partDistributor.isPartiallyEqualTo(
+                                this.part.distributors().getAt(k),
+                                ["sku", "packagingUnit", "currency", "distributor.name"]
+                            )) {
+                            found = this.part.distributors().getAt(k);
+                        }
+                    }
+
+                    if (found !== null) {
+                        found.set("price", this.data.offers[i].prices[currency][j][1]);
+                    } else {
+                        this.part.distributors().add(partDistributor);
+                    }
                 }
             }
         }
+
         for (i in this.data.specs) {
             spec = Ext.create("PartKeepr.PartBundle.Entity.PartParameter");
             spec.set("name", this.data.specs[i].metadata.name);
@@ -274,16 +344,30 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
                     break;
             }
 
-            this.part.parameters().add(spec);
+            found = null;
 
+            for (k = 0; k < this.part.parameters().count(); k++) {
+                if (spec.isPartiallyEqualTo(
+                        this.part.parameters().getAt(k),
+                        ["name"]
+                    )) {
+                    found = this.part.parameters().getAt(k);
+                }
+            }
+
+            if (found === null) {
+                this.part.parameters().add(spec);
+            }
         }
 
         this.fireEvent("refreshData");
     },
-    applySiPrefix: function (value, siPrefix) {
+    applySiPrefix: function (value, siPrefix)
+    {
         return Ext.util.Format.round(value / Math.pow(siPrefix.get("base"), siPrefix.get("exponent")), 3);
     },
-    findSiPrefixForValueAndUnit: function (value, unit) {
+    findSiPrefixForValueAndUnit: function (value, unit)
+    {
         var i = 0, prefixedValue, siPrefix;
 
         siPrefix = PartKeepr.getApplication().getSiPrefixStore().findRecord("exponent", 0, 0, false, false, true);
@@ -294,7 +378,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         unit.prefixes().sort("exponent", "desc");
 
-        for (i=0;i<unit.prefixes().getCount();i++) {
+        for (i = 0; i < unit.prefixes().getCount(); i++) {
             siPrefix = unit.prefixes().getAt(i);
             prefixedValue = Math.abs(this.applySiPrefix(value, siPrefix));
 
