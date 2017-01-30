@@ -207,8 +207,9 @@ class ReflectionService
 
             if ($virtualFieldAnnotation !== null) {
                 $fieldMappings[] = [
-                    'name' => $property->getName(),
-                    'type' => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
+                    'persist' => true,
+                    'name'    => $property->getName(),
+                    'type'    => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
                 ];
             }
         }
@@ -357,9 +358,9 @@ class ReflectionService
     public function allowPersist(ClassMetadata $cm, $field)
     {
         $groupsAnnotation = $this->reader->getPropertyAnnotation(
-                $cm->getReflectionProperty($field),
-                'Symfony\Component\Serializer\Annotation\Groups'
-            );
+            $cm->getReflectionProperty($field),
+            'Symfony\Component\Serializer\Annotation\Groups'
+        );
 
         if ($groupsAnnotation !== null) {
             if (in_array("readonly", $groupsAnnotation->getGroups())) {
