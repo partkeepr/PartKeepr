@@ -57,7 +57,6 @@ class PartController extends FOSRestController
             $projectRuns[$projectInfo->project] = $projectRun;
         }
 
-
         $user = $this->get('partkeepr.userservice')->getUser();
 
         foreach ($removals as $removal) {
@@ -93,7 +92,6 @@ class PartController extends FOSRestController
             }
         }
 
-
         foreach ($projectRuns as $projectRun) {
             $this->get('doctrine.orm.entity_manager')->persist($projectRun);
         }
@@ -122,7 +120,8 @@ class PartController extends FOSRestController
      *
      * @return array An array with name and description properties
      */
-    public function getParameterValuesAction (Request $request) {
+    public function getParameterValuesAction(Request $request)
+    {
         if (!$request->query->has("name")) {
             throw new \InvalidArgumentException("The parameter 'name' must be given");
         }
@@ -136,6 +135,7 @@ class PartController extends FOSRestController
             $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
             $query->setParameter("name", $request->query->get("name"));
             $query->setParameter("valueType", $request->query->get("valueType"));
+
             return $query->getArrayResult();
         } else {
             $dql = "SELECT p.value FROM PartKeepr\PartBundle\Entity\PartParameter p WHERE p.name = :name AND p.valueType = :valueType GROUP BY p.value";
@@ -143,6 +143,7 @@ class PartController extends FOSRestController
             $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
             $query->setParameter("name", $request->query->get("name"));
             $query->setParameter("valueType", $request->query->get("valueType"));
+
             return $query->getArrayResult();
         }
     }

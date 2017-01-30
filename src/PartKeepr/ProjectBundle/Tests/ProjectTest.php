@@ -214,7 +214,6 @@ class ProjectTest extends WebTestCase
      * Tests that the project part does not contain a reference to the project. This is because we serialize the
      * project reference as IRI and not as object, which causes problems when reading in the project part in the
      * frontend and serializing it back.
-     *
      */
     public function testAbsentProjectReference()
     {

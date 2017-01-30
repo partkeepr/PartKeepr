@@ -46,7 +46,7 @@ class ProjectRun extends BaseEntity
     private $quantity;
 
     /**
-     * Stores the parts
+     * Stores the parts.
      * @ORM\OneToMany(
      *     targetEntity="PartKeepr\ProjectBundle\Entity\ProjectRunPart",
      *     mappedBy="projectRun",
@@ -59,7 +59,7 @@ class ProjectRun extends BaseEntity
      */
     private $parts;
 
-    public function __construct ()
+    public function __construct()
     {
         $this->parts = new ArrayCollection();
     }
@@ -138,7 +138,7 @@ class ProjectRun extends BaseEntity
      *
      * @param ProjectRunPart
      */
-    public function removePart ($part)
+    public function removePart($part)
     {
         if ($part instanceof ProjectRunPart) {
             $part->setProjectRun(null);

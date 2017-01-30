@@ -45,6 +45,7 @@ class MetaPartParameterCriteria extends BaseEntity
 
     /**
      * @ORM\Column(type="float",nullable=true)
+     *
      * @var float
      */
     private $normalizedValue;
@@ -109,7 +110,8 @@ class MetaPartParameterCriteria extends BaseEntity
         $this->normalizedValue = $normalizedValue;
     }
 
-    protected function recalculateNormalizedValue () {
+    protected function recalculateNormalizedValue()
+    {
         if ($this->getSiPrefix() === null) {
             $this->setNormalizedValue($this->getValue());
         } else {

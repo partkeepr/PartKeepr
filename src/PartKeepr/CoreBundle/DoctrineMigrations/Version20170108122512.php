@@ -9,7 +9,7 @@ use Doctrine\DBAL\Schema\Schema;
  */
 class Version20170108122512 extends BaseMigration
 {
-/**
+    /**
      * @param Schema $schema
      */
     public function up(Schema $schema)
@@ -25,6 +25,5 @@ class Version20170108122512 extends BaseMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

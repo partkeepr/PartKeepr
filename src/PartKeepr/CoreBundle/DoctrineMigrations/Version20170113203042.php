@@ -5,7 +5,7 @@ namespace PartKeepr\CoreBundle\DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Sets overageType to a sane default
+ * Sets overageType to a sane default.
  */
 class Version20170113203042 extends BaseMigration
 {
@@ -25,6 +25,5 @@ class Version20170113203042 extends BaseMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }

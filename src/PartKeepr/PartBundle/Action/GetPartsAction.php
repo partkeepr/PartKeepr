@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\PartBundle\Action;
 
 use Doctrine\ORM\EntityManager;
@@ -72,9 +73,9 @@ class GetPartsAction
                 }
 
                 $part->setStockLevel($sum);
-
             }
         }
+
         return $items;
     }
 }

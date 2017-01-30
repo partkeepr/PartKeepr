@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\DoctrineReflectionBundle\Services;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;

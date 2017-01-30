@@ -52,7 +52,6 @@ class PartDataLoader extends AbstractFixture
         $this->addReference('part.1', $part);
         $this->addReference('part.2', $part2);
 
-
         $ohms = new Unit();
         $ohms->setName("Ohm");
         $ohms->setSymbol("O");

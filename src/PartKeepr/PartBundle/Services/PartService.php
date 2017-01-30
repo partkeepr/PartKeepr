@@ -185,6 +185,7 @@ class PartService
                 $qb->expr()->in("p.id", ":result"));
 
         $qb->setParameter(":result", $result);
+
         return $qb->getQuery()->getResult();
     }
 }

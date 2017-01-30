@@ -285,12 +285,13 @@ class Part extends BaseEntity
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
      *
-     * @var boolean
+     * @var bool
      */
     private $metaPart;
 
     /**
      * An array of all matching meta parts.
+     *
      * @Groups({"default"})
      *
      * @var array

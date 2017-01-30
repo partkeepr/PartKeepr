@@ -3,3 +3,4 @@ preset: recommended
 disabled:
   - phpdoc_to_comment
   - single_quote
+  - phpdoc_var_to_type

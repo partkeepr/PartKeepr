@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class ProjectRunPart extends BaseEntity
 {
-
     /**
      * Stores the project run.
      *

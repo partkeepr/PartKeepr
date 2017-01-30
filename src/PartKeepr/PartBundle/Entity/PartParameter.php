@@ -77,6 +77,7 @@ class PartParameter extends BaseEntity
      * The normalized value (the product of si prefix + value).
      *
      * @ORM\Column(type="float",nullable=true)
+     *
      * @var
      */
     private $normalizedValue;
@@ -95,6 +96,7 @@ class PartParameter extends BaseEntity
      * The normalized maximum value (the product of si prefix + value).
      *
      * @ORM\Column(type="float",nullable=true)
+     *
      * @var
      */
     private $normalizedMaxValue;
@@ -439,8 +441,8 @@ class PartParameter extends BaseEntity
      */
     public function setMinValue($minValue)
     {
-       $this->minValue = $minValue;
-       $this->recalculateNormalizedValues();
+        $this->minValue = $minValue;
+        $this->recalculateNormalizedValues();
     }
 
     /**
