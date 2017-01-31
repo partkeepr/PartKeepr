@@ -31,7 +31,7 @@ class StatisticService
         $dql = "SELECT COUNT(p.id) FROM PartKeepr\PartBundle\Entity\Part p";
 
         if ($withoutPrice === true) {
-            $dql .= ' WHERE p.averagePrice IS NOT NULL';
+            $dql .= ' WHERE p.averagePrice > 0';
         }
 
         return $this->entityManager->createQuery($dql)->getSingleScalarResult();
