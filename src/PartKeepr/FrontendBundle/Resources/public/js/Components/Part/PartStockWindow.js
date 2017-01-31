@@ -8,7 +8,6 @@ Ext.define('PartKeepr.PartStockWindow', {
     // Configurations
     constrainHeader: true,
     width: 305,
-    height: 180,
 
     resizable: false,
 
@@ -30,6 +29,13 @@ Ext.define('PartKeepr.PartStockWindow', {
      */
     initComponent: function ()
     {
+
+        this.infoGrid = Ext.create("PartKeepr.Components.Part.PartInfoGrid", {
+            mode: 'short',
+            padding: {
+                bottom: "5px"
+            }
+        });
 
         this.quantityField = Ext.create("Ext.form.field.Number", {
             value: 0, // The initial value is 0, to indicate that this is a number field
@@ -93,6 +99,7 @@ Ext.define('PartKeepr.PartStockWindow', {
             border: false,
             bodyStyle: 'background-color: transparent',
             items: [
+                this.infoGrid,
                 {
                     xtype: 'fieldcontainer',
                     fieldLabel: i18n("Quantity"),
@@ -193,7 +200,6 @@ Ext.define('PartKeepr.PartStockWindow', {
         this.setTitle(this.removePartText);
         this.priceField.hide();
         this.priceCheckbox.hide();
-        this.setHeight(132);
         this.okButton.setIconCls("web-icon brick_delete");
         this.show();
     }

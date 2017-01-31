@@ -8,57 +8,6 @@ Ext.define('PartKeepr.PartDisplay', {
 
     overflowY: 'auto',
 
-    fieldConfigs: {
-        "category.name": {
-            displayName: i18n("Category Name")
-        },
-        stockLevel: {
-            displayName: i18n("Stock Level")
-        },
-        minStockLevel: {
-            displayName: i18n("Minimum Stock Level")
-        },
-        "footprint.name": {
-            displayName: i18n("Footprint")
-        },
-        "storageLocation.name": {
-            displayName: i18n("Storage Location")
-        },
-        comment: {
-            displayName: i18n("Comment")
-        },
-        createDate: {
-            displayName: i18n("Create Date"),
-            type: 'date',
-        },
-        status: {
-            displayName: i18n("Status")
-        },
-        partCondition: {
-            displayName: i18n("Condition")
-        },
-        needsReview: {
-            displayName: i18n("Needs Review"),
-            type: 'boolean'
-        },
-        internalPartNumber: {
-            displayName: i18n("Internal Part Number"),
-        },
-        projectNames: {
-            displayName: i18n("Used in Projects")
-        },
-        "@id": {
-            displayName: i18n("Internal ID"),
-            renderer: function (value)
-            {
-                var values = value.split("/");
-                var idstr = values[values.length - 1];
-                var idint = parseInt(idstr);
-                return idstr + " (#"+idint.toString(36)+")";
-            }
-        }
-    },
-
     /**
      * Initializes the component and adds a template as well as the add/remove stock and edit part buttons.
      */
@@ -131,41 +80,34 @@ Ext.define('PartKeepr.PartDisplay', {
             title: i18n("Images"),
         });
 
-        this.infoGrid = Ext.create("Ext.grid.property.Grid", {
-            listeners: {
-                'beforeedit': function ()
-                {
-                    return false;
-                }
-            },
-            hideHeaders: true,
-            nameColumnWidth: 150,
+        this.infoGrid = Ext.create("PartKeepr.Components.Part.PartInfoGrid", {
             title: {
                 height: 'auto',
                 cls: 'x-title-wrappable-text'
-            },
-            cls: 'x-wrappable-grid',
-            sourceConfig: this.fieldConfigs
+            }
         });
 
         this.partParameterGrid = Ext.create("Ext.grid.Panel", {
             title: i18n("Part Parameters"),
             emptyText: i18n("No Parameters"),
-            columns: [{
-                header: i18n("Parameter"),
-                dataIndex: "name",
-                flex: 1
-            }, {
-                header: i18n("Value"),
-                renderer: function (v,m,rec) {
-                    return PartKeepr.PartManager.formatParameter(rec);
-                },
-                flex: 1
-            }]
+            columns: [
+                {
+                    header: i18n("Parameter"),
+                    dataIndex: "name",
+                    flex: 1
+                }, {
+                    header: i18n("Value"),
+                    renderer: function (v, m, rec)
+                    {
+                        return PartKeepr.PartManager.formatParameter(rec);
+                    },
+                    flex: 1
+                }
+            ]
         });
 
         this.items = [
-            this.infoGrid, this.partParameterGrid,{
+            this.infoGrid, this.partParameterGrid, {
                 xtype: 'panel',
                 title: i18n("Attachments"),
                 items: this.attachmentDisplay
@@ -190,20 +132,9 @@ Ext.define('PartKeepr.PartDisplay', {
     {
         this.record = r;
 
-        var values = {}, value;
-
-        for (var i in this.fieldConfigs) {
-            value = this.record.get(i);
-            if (value !== undefined) {
-                values[i] = value;
-            } else {
-                values[i] = i18n("none");
-            }
-        }
-
         this.attachmentDisplay.bindStore(this.record.attachments());
         this.partParameterGrid.bindStore(this.record.parameters());
-        this.infoGrid.setSource(values);
+        this.infoGrid.applyFromPart(this.record);
         this.infoGrid.setTitle(
             "<div>" + this.record.get("name") + "</div><small>" + this.record.get("description") + "</small>");
         this.imageDisplay.setStore(this.record.attachments());
