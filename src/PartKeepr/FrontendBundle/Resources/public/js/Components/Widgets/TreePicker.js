@@ -7,6 +7,7 @@ Ext.define("PartKeepr.Widgets.TreePicker", {
     createPicker: function() {
         var me = this,
             picker = new Ext.tree.Panel({
+                baseCls: Ext.baseCSSPrefix + 'boundlist',
                 shrinkWrapDock: 2,
                 store: me.store,
                 floating: true,
@@ -20,12 +21,6 @@ Ext.define("PartKeepr.Widgets.TreePicker", {
                 listeners: {
                     scope: me,
                     itemclick: me.onItemClick
-                },
-                viewConfig: {
-                    listeners: {
-                        scope: me,
-                        render: me.onViewRender
-                    }
                 }
             }),
             view = picker.getView();
