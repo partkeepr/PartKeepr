@@ -188,8 +188,6 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         found = false;
 
-        console.log(filename);
-
         for (k = 0; k < this.part.attachments().count(); k++) {
             if (this.part.attachments().getAt(k).get("originalFilename") == filename) {
                 found = true;

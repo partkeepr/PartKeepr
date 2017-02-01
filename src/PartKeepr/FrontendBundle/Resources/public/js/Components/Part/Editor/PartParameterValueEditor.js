@@ -34,8 +34,7 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
             items: [
                 {
                     boxLabel: i18n("Numeric"),
-                    inputValue: "numeric",
-                    checked: true
+                    inputValue: "numeric"
                 }, {
                     boxLabel: i18n("Text"),
                     inputValue: "string"

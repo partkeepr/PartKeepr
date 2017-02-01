@@ -153,7 +153,9 @@ Ext.define('PartKeepr.PartParameterGrid', {
     },
     onAddClick: function ()
     {
-        var rec = Ext.create("PartKeepr.PartBundle.Entity.PartParameter");
+        var rec = Ext.create("PartKeepr.PartBundle.Entity.PartParameter", {
+            valueType: "numeric"
+        });
 
         this.store.insert(0, rec);
 
