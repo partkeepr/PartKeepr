@@ -65,9 +65,9 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
             xtype: 'widgetcolumn',
             dataIndex: 'success',
             widget: {
-                hidden: true,
+                hidden: false,
                 xtype: 'button',
-                defaultBindProperty: "hidden",
+                defaultBindProperty: "disabled",
                 text: "Show Errors",
                 handler: function (widgetColumn)
                 {
@@ -80,9 +80,9 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
             xtype: 'widgetcolumn',
             dataIndex: 'noWarning',
             widget: {
-                hidden: true,
+                hidden: false,
                 xtype: 'button',
-                defaultBindProperty: "hidden",
+                defaultBindProperty: "disabled",
                 text: "Show Warnings",
                 handler: function (widgetColumn)
                 {
