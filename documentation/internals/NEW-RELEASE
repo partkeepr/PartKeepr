@@ -32,7 +32,7 @@ The following steps describe how a new PartKeepr release is being built:
 
 * Update the downloads page
 
-* Update the version table
+* Create a new version on GitHub
 
 * Push out notifications on twitter
 
