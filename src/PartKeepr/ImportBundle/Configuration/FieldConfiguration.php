@@ -70,6 +70,12 @@ class FieldConfiguration extends BaseConfiguration
         return true;
     }
 
+    /**
+     * Imports a given row
+     *
+     * @param $row array The row to import
+     * @return string|null
+     */
     public function import($row)
     {
         switch ($this->fieldConfiguration) {
@@ -88,7 +94,7 @@ class FieldConfiguration extends BaseConfiguration
                 return $row[$this->copyFromField];
             break;
             default:
-                return;
+                return null;
         }
     }
 }
