@@ -88,6 +88,7 @@ class FieldConfiguration extends BaseConfiguration
             case self::FIELDCONFIGURATION_COPYFROM:
                 if (!array_key_exists($this->copyFromField, $row)) {
                     $this->log(sprintf("Error: Column %s for %s does not exist", $this->copyFromField, $this->fieldName));
+                    
                     return null;
                 }
                 $this->log(sprintf("Would set field %s to value %s (import column %s)", $this->fieldName, $row[$this->copyFromField], $this->copyFromField));
