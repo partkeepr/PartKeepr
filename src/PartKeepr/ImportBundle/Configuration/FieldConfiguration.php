@@ -71,9 +71,10 @@ class FieldConfiguration extends BaseConfiguration
     }
 
     /**
-     * Imports a given row
+     * Imports a given row.
      *
      * @param $row array The row to import
+     *
      * @return string|null
      */
     public function import($row)
