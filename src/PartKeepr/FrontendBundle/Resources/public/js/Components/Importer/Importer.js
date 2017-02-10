@@ -447,6 +447,7 @@ Ext.define("PartKeepr.Importer.Importer", {
         store.add(recordData);
 
         this.down("#sourceFileGrid").reconfigure(store, columns);
+        this.validateConfig();
     },
     validateConfig: function ()
     {
@@ -461,6 +462,14 @@ Ext.define("PartKeepr.Importer.Importer", {
 
         switch (node.data.data.type) {
             case "field":
+                if (configuration.fieldConfiguration && configuration.fieldConfiguration === "copyFrom") {
+                    if (this.down("#sourceFileGrid").getColumns().length - 1 < configuration.copyFromField) {
+                        this.appendError(node, i18n(
+                            "The selected CSV file does not contain enough columns to fulfill the configuration"
+                        ));
+                    }
+                }
+
                 if (node.data.required) {
                     if (configuration.fieldConfiguration) {
                         switch (configuration.fieldConfiguration) {
