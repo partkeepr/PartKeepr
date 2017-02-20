@@ -2398,16 +2398,16 @@
         },
         {
             "name": "moontoast/math",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/moontoast-math.git",
-                "reference": "0bd44819fd04a8f09256887057bcdc6dce865457"
+                "reference": "c2792a25df5cad4ff3d760dd37078fc5b6fccc79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/moontoast-math/zipball/0bd44819fd04a8f09256887057bcdc6dce865457",
-                "reference": "0bd44819fd04a8f09256887057bcdc6dce865457",
+                "url": "https://api.github.com/repos/ramsey/moontoast-math/zipball/c2792a25df5cad4ff3d760dd37078fc5b6fccc79",
+                "reference": "c2792a25df5cad4ff3d760dd37078fc5b6fccc79",
                 "shasum": ""
             },
             "require": {
@@ -2443,7 +2443,7 @@
                 "bcmath",
                 "math"
             ],
-            "time": "2016-11-17 18:12:29"
+            "time": "2017-02-16 16:54:46"
         },
         {
             "name": "nelmio/api-doc-bundle",
