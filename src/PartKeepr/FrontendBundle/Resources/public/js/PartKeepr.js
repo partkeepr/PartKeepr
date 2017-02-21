@@ -152,7 +152,7 @@ Ext.application({
     createPartManager: function ()
     {
         this.partManager = Ext.create("PartKeepr.PartManager", {
-            title: i18n("Part Manager"),
+            title: Translator.trans('Part Manager'),
             compactLayout: PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false),
             iconCls: 'web-icon brick',
             closable: false
