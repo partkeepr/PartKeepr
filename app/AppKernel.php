@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
             new \FR3D\LdapBundle\FR3DLdapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
         ];
 
         // Developer bundles

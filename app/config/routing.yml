@@ -49,3 +49,6 @@ api:
     resource: "."
     type:     "api"
     prefix:   "/api" # Optional
+
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"

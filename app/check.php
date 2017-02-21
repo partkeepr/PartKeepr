@@ -12,16 +12,15 @@ echo '> PHP is using the following php.ini file:'.PHP_EOL;
 if ($iniPath) {
     echo_style('green', '  '.$iniPath);
 } else {
-    echo_style('warning', '  WARNING: No configuration file (php.ini) used by PHP!');
+    echo_style('yellow', '  WARNING: No configuration file (php.ini) used by PHP!');
 }
 
 echo PHP_EOL.PHP_EOL;
 
 echo '> Checking Symfony requirements:'.PHP_EOL.'  ';
 
-$messages = [];
+$messages = array();
 foreach ($symfonyRequirements->getRequirements() as $req) {
-    /** @var $req Requirement */
     if ($helpText = get_error_message($req, $lineSize)) {
         echo_style('red', 'E');
         $messages['error'][] = $helpText;
@@ -99,7 +98,7 @@ function echo_title($title, $style = null)
 function echo_style($style, $message)
 {
     // ANSI color codes
-    $styles = [
+    $styles = array(
         'reset' => "\033[0m",
         'red' => "\033[31m",
         'green' => "\033[32m",
@@ -107,10 +106,10 @@ function echo_style($style, $message)
         'error' => "\033[37;41m",
         'success' => "\033[37;42m",
         'title' => "\033[34m",
-    ];
+    );
     $supports = has_color_support();
 
-    echo ($supports ? $styles[$style] : '').$message.($supports ? $styles['reset'] : '');
+    echo($supports ? $styles[$style] : '').$message.($supports ? $styles['reset'] : '');
 }
 
 function echo_block($style, $title, $message)
