@@ -84,6 +84,7 @@ class PartController extends FOSRestController
             $part->addStockLevel($stock);
 
             $projectRunPart = new ProjectRunPart();
+            $projectRunPart->setLotNumber($removal->lotNumber);
             $projectRunPart->setPart($part);
             $projectRunPart->setQuantity($removal->amount);
 

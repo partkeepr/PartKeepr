@@ -476,9 +476,11 @@ Ext.define('PartKeepr.ProjectReportView', {
                     part: item.getPart().getId(),
                     amount: item.get("quantity"),
                     comment: item.get("projectNames"),
+                    lotNumber: item.get("lotNumber"),
                     projects: item.get("projects")
                 });
             }
+            console.log(removals);
 
             PartKeepr.PartBundle.Entity.Part.callPostCollectionAction("massRemoveStock",
                 {"removals": Ext.encode(removals), "projects": Ext.encode(this.reportedProjects)});

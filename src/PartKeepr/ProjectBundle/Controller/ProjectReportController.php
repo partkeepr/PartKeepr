@@ -61,7 +61,7 @@ class ProjectReportController extends FOSRestController
         $aPartResults = [];
 
         foreach ($projects as $report) {
-            $dql = 'SELECT pp.quantity, pro.name AS projectname, pp.overage, pp.overageType, pp.remarks, p.id FROM ';
+            $dql = 'SELECT pp.quantity, pro.name AS projectname, pp.overage, pp.overageType, pp.remarks, pp.lotNumber, p.id FROM ';
             $dql .= 'PartKeepr\\ProjectBundle\\Entity\\ProjectPart pp JOIN pp.part p ';
             $dql .= 'JOIN pp.project pro WHERE pp.project = :project';
 
@@ -127,6 +127,7 @@ class ProjectReportController extends FOSRestController
                         'subParts'             => $subParts,
                         'metaPart'             => $part->isMetaPart(),
                         'productionRemarks'    => $part->getProductionRemarks(),
+                        'lotNumber'            => $result['lotNumber'],
                         'remarks'              => [],
                     ];
 

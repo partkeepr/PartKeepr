@@ -45,6 +45,32 @@ class ProjectRunPart extends BaseEntity
     private $quantity;
 
     /**
+     * Specifies the lot number.
+     *
+     * @ORM\Column(type="text")
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $lotNumber;
+
+    /**
+     * @return string
+     */
+    public function getLotNumber()
+    {
+        return $this->lotNumber;
+    }
+
+    /**
+     * @param string $lotNumber
+     */
+    public function setLotNumber($lotNumber)
+    {
+        $this->lotNumber = $lotNumber;
+    }
+
+    /**
      * @return ProjectRun
      */
     public function getProjectRun()
