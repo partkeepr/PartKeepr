@@ -87,10 +87,36 @@ class ProjectPart extends BaseEntity
      */
     private $overage;
 
+    /**
+     * Specifies the lot number.
+     *
+     * @ORM\Column(type="text")
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $lotNumber;
+
     public function __construct()
     {
         $this->setOverageType(self::OVERAGE_TYPE_ABSOLUTE);
         $this->setOverage(0);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLotNumber()
+    {
+        return $this->lotNumber;
+    }
+
+    /**
+     * @param string $lotNumber
+     */
+    public function setLotNumber($lotNumber)
+    {
+        $this->lotNumber = $lotNumber;
     }
 
     /**

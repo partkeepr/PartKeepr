@@ -82,6 +82,12 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             editor: {
                 xtype: 'textfield'
             }
+        }, {
+            header: i18n("Lot Number"), dataIndex: 'lotNumber',
+            flex: 1,
+            editor: {
+                xtype: 'textfield'
+            }
         }
     ],
 

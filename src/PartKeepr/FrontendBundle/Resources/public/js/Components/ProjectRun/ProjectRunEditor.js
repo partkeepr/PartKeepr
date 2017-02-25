@@ -58,7 +58,11 @@ Ext.define('PartKeepr.ProjectRunEditor', {
                 }, {
                     header: i18n("Qty"),
                     dataIndex: 'quantity'
+                }, {
+                    header: i18n("Lot Number"),
+                    dataIndex: 'lotNumber'
                 }
+
             ],
             store: this.store,
         });
