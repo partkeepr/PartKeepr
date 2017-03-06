@@ -101,6 +101,7 @@ class ProjectPart extends BaseEntity
     {
         $this->setOverageType(self::OVERAGE_TYPE_ABSOLUTE);
         $this->setOverage(0);
+        $this->setLotNumber("");
     }
 
     /**
