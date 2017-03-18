@@ -44,7 +44,7 @@ Ext.define("PartKeepr.Importer.Importer", {
                     disabledCls: '',
                     header: i18n("Required"),
                     dataIndex: 'required',
-                    width: 70,
+                    width: 70
                 }
             ],
             store: {
