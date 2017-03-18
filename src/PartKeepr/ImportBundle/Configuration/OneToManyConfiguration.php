@@ -31,11 +31,11 @@ class OneToManyConfiguration extends Configuration
         return parent::parseConfiguration($importConfiguration);
     }
 
-    public function import($row)
+    public function import($row, $obj = null)
     {
         switch ($this->importBehaviour) {
             case self::IMPORTBEHAVIOUR_IGNORE:
-                return;
+                return null;
                 break;
             case self::IMPORTBEHAVIOUR_CREATENEW:
                 $this->log(sprintf("Would create a new entity of type %s for relation %s", $this->baseEntity, $this->getAssociationName()));
@@ -43,6 +43,8 @@ class OneToManyConfiguration extends Configuration
                 return parent::import($row);
                 break;
         }
+
+        return null;
     }
 
     /**

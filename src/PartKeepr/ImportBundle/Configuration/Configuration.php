@@ -77,10 +77,13 @@ class Configuration extends BaseConfiguration
         return true;
     }
 
-    public function import($row)
+    public function import($row, $obj = null)
     {
-        $obj = new $this->baseEntity();
-        $this->persist($obj);
+        if ($obj === null) {
+            $obj = new $this->baseEntity();
+            $this->persist($obj);
+        }
+
         $accessor = PropertyAccess::createPropertyAccessor();
 
         foreach ($this->fields as $field) {
