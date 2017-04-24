@@ -68,7 +68,10 @@ class ImporterService
 
         $configuration = $this->parseConfiguration();
 
+        $this->em->beginTransaction();
+
         foreach ($this->importData as $row) {
+            $this->em->beginTransaction();
             $entity = $configuration->import($row);
 
             if ($entity !== null) {
@@ -78,7 +81,16 @@ class ImporterService
                 ["data" => implode(",", $row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog()), '</p>']);
 
             $configuration->clearLog();
+
+            foreach ($configuration->getPersistEntities() as $entity) {
+                $this->em->persist($entity);
+            }
+
+            $this->em->flush();
+            $this->em->commit();
         }
+
+        $this->em->commit();
 
         return [$configuration->getPersistEntities(), implode("<br/>", $logs)];
     }

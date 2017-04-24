@@ -69,12 +69,6 @@ class ImportController extends Controller
         $importService->setImportData($data);
         list($entities, $logs) = $importService->import();
 
-        foreach ($entities as $entity) {
-            $this->get("doctrine")->getManager()->persist($entity);
-        }
-
-        $this->get("doctrine")->getManager()->flush();
-
         return new JsonResponse(["logs" => $logs]);
     }
 
