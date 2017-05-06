@@ -108,7 +108,7 @@ class PartController extends FOSRestController
      */
     public function getParameterNamesAction()
     {
-        $dql = "SELECT p.name, p.description, p.valueType, u.name AS unitName, u.symbol AS unitSymbol FROM PartKeepr\PartBundle\Entity\PartParameter p LEFT JOIN p.unit  u GROUP BY p.name, p.description, p.valueType, u.name";
+        $dql = "SELECT p.name, p.description, p.valueType, u.name AS unitName, u.symbol AS unitSymbol FROM PartKeepr\PartBundle\Entity\PartParameter p LEFT JOIN p.unit  u GROUP BY p.name, p.description, p.valueType, u.name, u.symbol";
 
         $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
 
