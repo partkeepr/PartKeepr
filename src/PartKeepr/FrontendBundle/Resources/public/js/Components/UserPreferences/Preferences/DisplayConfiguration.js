@@ -1,17 +1,15 @@
-Ext.define('PartKeepr.DisplayPreferencesPanel', {
-    extend: 'Ext.form.FormPanel',
-    title: i18n("Display"),
-    bodyStyle: 'background:#DBDBDB;padding: 10px;',
+Ext.define('PartKeepr.Components.UserPreferences.Preferences.DisplayConfiguration', {
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
+
     initComponent: function ()
     {
         this.showDescriptionsCheckbox = Ext.create("Ext.form.field.Checkbox", {
             labelWidth: 120,
             hideEmptyLabel: false,
-            boxLabel: i18n("Show category descriptions"),
-            handler: Ext.bind(this.showDescriptionsHandler, this)
+            boxLabel: i18n("Show category descriptions (requires reload)")
         });
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") == false) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions") === false) {
             this.showDescriptionsCheckbox.setValue(false);
         } else {
             this.showDescriptionsCheckbox.setValue(true);
@@ -31,30 +29,18 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
             inputValue: 'standard'
         });
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false) == true) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false) === true) {
             this.compactLayout.setValue(true);
         } else {
             this.standardLayout.setValue(true);
         }
+
         this.compactLayoutChooser = Ext.create("Ext.form.RadioGroup", {
             fieldLabel: i18n("Part Manager Layout"),
             labelWidth: 120,
             columns: 2,
             width: 400,
             vertical: true,
-            listeners: {
-                change: function (field, newValue)
-                {
-                    if (newValue.rb == "standard") {
-                        value = false;
-                    } else {
-                        value = true;
-                    }
-
-                    PartKeepr.getApplication().setUserPreference("partkeepr.partmanager.compactlayout", value);
-                    PartKeepr.getApplication().recreatePartManager();
-                }
-            },
             items: [
                 this.compactLayout,
                 this.standardLayout
@@ -65,12 +51,30 @@ Ext.define('PartKeepr.DisplayPreferencesPanel', {
 
         this.callParent();
     },
-    /**
-     * Handler when the "show descriptions" checkbox is clicked.
-     */
-    showDescriptionsHandler: function (checkbox, checked)
+    onSave: function ()
     {
-        PartKeepr.getApplication().setUserPreference("partkeepr.categorytree.showdescriptions", checked);
+        PartKeepr.getApplication().setUserPreference("partkeepr.categorytree.showdescriptions",
+            this.showDescriptionsCheckbox.getValue());
+
+        var layout = this.compactLayoutChooser.getValue();
+        
+        var compactLayout = false;
+        
+        if (layout.rb === "compact") {
+            compactLayout = true;
+        }
+        
+        var oldCompactLayout = PartKeepr.getApplication().getUserPreference("partkeepr.partmanager.compactlayout", false);
+        PartKeepr.getApplication().setUserPreference("partkeepr.partmanager.compactlayout", compactLayout);
+        
+        if (oldCompactLayout !== compactLayout) {
+            PartKeepr.getApplication().recreatePartManager();
+        }
+
+    },
+    statics: {
+        iconCls: 'fugue-icon monitor',
+        title: i18n('Display'),
+        menuPath: [{iconCls: 'fugue-icon ui-scroll-pane-image', text: i18n("User Interface")}]
     }
 });
-

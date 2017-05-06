@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerConfiguration', {
-    extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
 
     initComponent: function ()
     {
@@ -7,7 +7,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerCon
             {
                 xtype: 'checkbox',
                 boxLabel: "Ctrl",
-                itemId: 'barcodeScannerModifierCtrl',
+                itemId: 'barcodeScannerModifierCtrl'
             },
             {
                 xtype: 'checkbox',
@@ -57,7 +57,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerCon
         });
 
         this.editing = Ext.create('Ext.grid.plugin.RowEditing', {
-            clicksToEdit: 1,
+            clicksToEdit: 1
 
         });
 
@@ -86,7 +86,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerCon
                         }
                     },
                     editor: {
-                        xtype: 'barcodescannerActions',
+                        xtype: 'barcodescannerActions'
                     }
                 }, {
                     text: i18n("Description"),
@@ -125,7 +125,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerCon
                         }
                     ]
                 }
-            ],
+            ]
         });
 
         this.barcodeScannerActionsGrid.getSelectionModel().on("select", this._onItemSelect, this);
@@ -250,7 +250,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerCon
     _updateDeleteButton: function ()
     {
         /* Right now, we support delete on a single record only */
-        if (this.barcodeScannerActionsGrid.getSelectionModel().getCount() == 1) {
+        if (this.barcodeScannerActionsGrid.getSelectionModel().getCount() === 1) {
             this.deleteButton.enable();
         } else {
             this.deleteButton.disable();

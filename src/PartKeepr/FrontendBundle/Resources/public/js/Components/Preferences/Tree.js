@@ -1,4 +1,4 @@
-Ext.define('PartKeepr.Components.SystemPreferences.Tree', {
+Ext.define('PartKeepr.Components.Preferences.Tree', {
     extend: 'Ext.tree.Panel',
     width: 400,
     rootVisible: false,
@@ -45,7 +45,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Tree', {
         var foundItem = false;
 
         for (var i = 0; i < root.children.length; i++) {
-            if (root.children[i].text == item.text) {
+            if (root.children[i].text === item.text) {
                 Ext.applyIf(root.children[i], item);
                 foundItem = i;
             }
