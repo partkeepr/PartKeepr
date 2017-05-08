@@ -9,7 +9,8 @@ Ext.define('PartKeepr.Components.UserPreferences.Panel', {
             "PartKeepr.Components.UserPreferences.Preferences.FormattingConfiguration",
             "PartKeepr.Components.UserPreferences.Preferences.DisplayConfiguration",
             "PartKeepr.Components.UserPreferences.Preferences.StockConfiguration",
-            "PartKeepr.Components.UserPreferences.Preferences.PasswordConfiguration"
+            "PartKeepr.Components.UserPreferences.Preferences.PasswordConfiguration",
+            "PartKeepr.Components.UserPreferences.Preferences.OctoPartConfiguration"
         ];
     },
     statics: {
