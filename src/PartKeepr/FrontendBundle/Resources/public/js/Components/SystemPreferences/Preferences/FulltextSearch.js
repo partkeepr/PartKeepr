@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.FulltextSearch', {
-    extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
 
     initComponent: function ()
     {

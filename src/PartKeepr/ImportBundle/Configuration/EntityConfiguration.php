@@ -1,8 +1,6 @@
 <?php
 
-
 namespace PartKeepr\ImportBundle\Configuration;
-
 
 use Doctrine\ORM\QueryBuilder;
 
@@ -26,7 +24,6 @@ class EntityConfiguration extends Configuration
     protected $updateBehaviour;
 
     protected $matchers = [];
-
 
     public function parseConfiguration($importConfiguration)
     {

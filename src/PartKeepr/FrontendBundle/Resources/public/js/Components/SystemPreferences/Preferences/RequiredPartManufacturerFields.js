@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.RequiredPartManufacturerFields', {
-    extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
 
     initComponent: function ()
     {
@@ -23,7 +23,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.RequiredPartManuf
                     {
                         border: false,
                         html: "The field <strong>Manufacturer</strong> is always required.",
-                        style: "padding-top: 4px; padding-bottom: 5px;",
+                        style: "padding-top: 4px; padding-bottom: 5px;"
                     },
                     this.fieldSelector
                 ]

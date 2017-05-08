@@ -1,11 +1,10 @@
-Ext.define('PartKeepr.UserPasswordChangePanel', {
-    extend: 'Ext.form.FormPanel',
-    title: i18n("Change Password"),
-    bodyStyle: 'background:#DBDBDB;padding: 10px;',
+Ext.define('PartKeepr.Components.UserPreferences.Preferences.PasswordConfiguration', {
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
+
     layout: 'card',
+
     initComponent: function ()
     {
-
         this.oldPassword = Ext.create("Ext.form.field.Text", {
             inputType: "password",
             name: 'password',
@@ -36,27 +35,13 @@ Ext.define('PartKeepr.UserPasswordChangePanel', {
         this.items = [
             {
                 border: false,
-                bodyStyle: 'background:#DBDBDB;padding: 10px;',
                 items: [
                     this.oldPassword,
                     this.newPassword,
-                    this.newPasswordConfirm,
-                    {
-                    xtype: 'fieldcontainer',
-                    hideEmptyLabel: false,
-                    width: 300,
-                    labelWidth: 150,
-                    items: {
-                        xtype: 'button',
-                        handler: this.onChangePassword,
-                        scope: this,
-                        width: 145,
-                        iconCls: 'web-icon accept',
-                        text: i18n("Change Password")
-                    }}]
-            },{
+                    this.newPasswordConfirm
+                ]
+            }, {
                 border: false,
-                bodyStyle: 'background:#DBDBDB;padding: 10px;',
                 html: i18n("You are authenticated via an external user provider, password changing is not available.")
             }
         ];
@@ -67,7 +52,7 @@ Ext.define('PartKeepr.UserPasswordChangePanel', {
             this.layout.setActiveItem(1);
         }
     },
-    onChangePassword: function ()
+    onSave: function ()
     {
         if (this.getForm().isValid()) {
 
@@ -76,25 +61,32 @@ Ext.define('PartKeepr.UserPasswordChangePanel', {
             user.callPutAction("changePassword", {
                 "oldpassword": this.oldPassword.getValue(),
                 "newpassword": this.newPassword.getValue()
-            },  Ext.bind(this.onAfterPasswordChange, this));
+            }, Ext.bind(this.onAfterPasswordChange, this));
         }
     },
-    onAfterPasswordChange: function (opts, success, response)
+    onAfterPasswordChange: function (opts, success)
     {
         if (success) {
-            Ext.MessageBox.alert(i18n("Password successfully changed"), i18n("You need to re-login with the new password. Click OK to re-login."), this.relogin, this);
+            Ext.MessageBox.alert(i18n("Password successfully changed"),
+                i18n("You need to re-login with the new password. Click OK to re-login."), this.relogin, this);
         }
     },
-    relogin: function () {
+    relogin: function ()
+    {
         PartKeepr.getApplication().getLoginManager().logout();
         PartKeepr.getApplication().getLoginManager().login();
     },
     validatePassword: function ()
     {
-        if (this.newPassword.getValue() != this.newPasswordConfirm.getValue()) {
+        if (this.newPassword.getValue() !== this.newPasswordConfirm.getValue()) {
             return i18n("Passwords don't match");
         }
 
         return true;
+    },
+    statics: {
+        iconCls: 'fugue-icon ui-text-field-password-green',
+        title: i18n('Password'),
+        menuPath: []
     }
 });

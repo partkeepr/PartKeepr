@@ -1,27 +1,11 @@
-/**
- * Contains the formatting preferences for various places throughout the system
- */
-Ext.define('PartKeepr.FormattingPreferencesPanel', {
-    extend: 'Ext.form.Panel',
-    title: i18n("Formatting"),
-    bodyStyle: 'background:#DBDBDB;padding: 10px;',
-
-    buttonAlign: 'left',
+Ext.define('PartKeepr.Components.UserPreferences.Preferences.FormattingConfiguration', {
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
 
     initComponent: function ()
     {
-
         this.createWidgets();
         this.loadDefaults();
 
-
-        this.buttons = [
-        {
-            text: i18n("Save"),
-            handler: "saveSettings",
-            scope: this
-        }
-    ];
         this.items = [
             this.priceNumDecimalsField,
             this.useThousandSeparatorCheckbox,
@@ -29,28 +13,11 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
             this.currencyAtEndCheckbox
         ];
 
+
         this.callParent();
-    },
-    saveSettings: function ()
-    {
-        PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.numdecimals",
-            this.priceNumDecimalsField.getValue());
-
-        PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.thousandsSeparator",
-            this.useThousandSeparatorCheckbox.getValue());
-
-        PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.symbol",
-            this.currencySymbolField.getValue());
-
-        PartKeepr.getApplication().setUserPreference(
-            "partkeepr.formatting.currency.currencySymbolAtEnd", this.currencyAtEndCheckbox.getValue());
-
     },
     /**
      * Loads the defaults for the user preferences
-     *
-     * @param none
-     * @return nothing
      */
     loadDefaults: function ()
     {
@@ -69,12 +36,9 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
         var currencySymbol = PartKeepr.getApplication().getUserPreference("partkeepr.formatting.currency.symbol", "€");
         this.currencySymbolField.setValue(currencySymbol);
     },
+
     /**
      * Creates the widgets used in this form.
-     *
-     * @param none
-     * @return nothing
-     *
      */
     createWidgets: function ()
     {
@@ -105,5 +69,25 @@ Ext.define('PartKeepr.FormattingPreferencesPanel', {
             labelWidth: 120,
             hideEmptyLabel: false
         });
+    },
+    
+    onSave: function ()
+    {
+        PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.numdecimals",
+            this.priceNumDecimalsField.getValue());
+
+        PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.thousandsSeparator",
+            this.useThousandSeparatorCheckbox.getValue());
+
+        PartKeepr.getApplication().setUserPreference("partkeepr.formatting.currency.symbol",
+            this.currencySymbolField.getValue());
+
+        PartKeepr.getApplication().setUserPreference(
+            "partkeepr.formatting.currency.currencySymbolAtEnd", this.currencyAtEndCheckbox.getValue());
+    },
+    statics: {
+        iconCls: 'fugue-icon ui-text-field-format',
+        title: i18n('Formatting'),
+        menuPath: [{iconCls: 'fugue-icon ui-scroll-pane-image', text: i18n("User Interface")}]
     }
 });
