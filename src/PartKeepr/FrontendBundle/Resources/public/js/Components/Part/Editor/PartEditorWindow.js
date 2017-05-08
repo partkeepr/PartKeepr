@@ -13,7 +13,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
     layout: 'fit',
 
     /* Width and height settings */
-    width: 600,
+    width: 750,
     minWidth: 600,
     minHeight: 435,
     height: 435,

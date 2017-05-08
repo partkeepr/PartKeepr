@@ -15,7 +15,7 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
                 {name: 'mpn', type: 'string'},
                 {name: 'numOffers', type: 'int'},
                 {name: 'numDatasheets', type: 'int'},
-                {name: 'numSpecs', type: 'int'},
+                {name: 'numSpecs', type: 'int'}
             ],
             proxy: {
                 type: 'ajax',
@@ -52,15 +52,15 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
                     text: i18n("Offers"),
                     dataIndex: 'numOffers',
                     flex: 1
-                },{
+                }, {
                     text: i18n("Datasheets"),
                     dataIndex: 'numDatasheets',
                     flex: 1
-                },{
+                }, {
                     text: i18n("Parameters"),
                     dataIndex: 'numSpecs',
                     flex: 1
-                },{
+                }, {
                     text: i18n("Details…"),
                     dataIndex: 'url',
                     renderer: function (v)
@@ -82,6 +82,47 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
             scope: this
         });
 
+        this.grid.addDocked(Ext.create("Ext.toolbar.Toolbar", {
+            dock: 'bottom',
+            enableOverflow: true,
+            items: [{
+                xtype: 'checkbox',
+                itemId: "importDistributors",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importDistributors", true),
+                boxLabel: i18n("Distributors")
+            }, {
+                xtype: 'checkbox',
+                itemId: "importParameters",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importParameters", true),
+                boxLabel: i18n("Parameters")
+            },  {
+                xtype: 'checkbox',
+                itemId: "importDatasheets",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importDatasheets", true),
+                boxLabel: i18n("Datasheets")
+            },  {
+                xtype: 'checkbox',
+                itemId: "importCADModels",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importCADModels", true),
+                boxLabel: i18n("CAD Models")
+            },  {
+                xtype: 'checkbox',
+                itemId: "importComplianceDocuments",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importComplianceDocuments", true),
+                boxLabel: i18n("Compliance Documents")
+            },  {
+                xtype: 'checkbox',
+                itemId: "importReferenceDesigns",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importReferenceDesigns", true),
+                boxLabel: i18n("Reference Designs")
+            }, {
+                xtype: 'checkbox',
+                itemId: "importImages",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importImages", true),
+                boxLabel: i18n("Images")
+            }]
+        }));
+
         this.grid.addDocked(Ext.create("Ext.toolbar.Paging", {
             store: this.store,
             enableOverflow: true,
@@ -91,6 +132,8 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
             items: this.addButton
         }));
 
+
+
         this.searchBar = Ext.create("Ext.form.field.Text", {
             region: 'north',
             height: 30,
@@ -98,7 +141,8 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
             listeners: {
                 specialkey: function (field, e)
                 {
-                    if (e.getKey() == e.ENTER) {
+                    if (e.getKey() === e.ENTER)
+                    {
                         this.startSearch(field.getValue());
                     }
 
@@ -137,8 +181,19 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
     applyData: function (record)
     {
         var j = Ext.create("PartKeepr.Components.OctoPart.DataApplicator");
+
         j.setPart(this.part);
+
+        j.setImport("distributors", this.down("#importDistributors").getValue());
+        j.setImport("parameters", this.down("#importParameters").getValue());
+        j.setImport("datasheets", this.down("#importDatasheets").getValue());
+        j.setImport("cadModels", this.down("#importCADModels").getValue());
+        j.setImport("complianceDocuments", this.down("#importComplianceDocuments").getValue());
+        j.setImport("referenceDesigns", this.down("#importReferenceDesigns").getValue());
+        j.setImport("images", this.down("#importImages").getValue());
+
         j.loadData(record.get("uid"));
+
         j.on("refreshData", function ()
         {
             this.fireEvent("refreshData");
