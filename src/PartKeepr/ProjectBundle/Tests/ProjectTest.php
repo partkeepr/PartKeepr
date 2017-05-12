@@ -7,6 +7,7 @@ use PartKeepr\CoreBundle\Tests\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\ProjectBundle\Entity\Project;
 use PartKeepr\ProjectBundle\Entity\ProjectAttachment;
+use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectTest extends WebTestCase
@@ -75,16 +76,20 @@ class ProjectTest extends WebTestCase
             'attachments' => [
                 $uploadedFile->image,
             ],
-            'parts' => [
+            'parts'       => [
                 [
-                    'quantity' => 1,
-                    'part'     => $serializedPart1,
-                    'remarks'  => 'testremark',
+                    'quantity'    => 1,
+                    'part'        => $serializedPart1,
+                    'remarks'     => 'testremark',
+                    'overageType' => ProjectPart::OVERAGE_TYPE_ABSOLUTE,
+                    'overage'     => 0,
                 ],
                 [
-                    'quantity' => 2,
-                    'part'     => $serializedPart2,
-                    'remarks'  => 'testremark2',
+                    'quantity'    => 2,
+                    'part'        => $serializedPart2,
+                    'remarks'     => 'testremark2',
+                    'overageType' => ProjectPart::OVERAGE_TYPE_ABSOLUTE,
+                    'overage'     => 0,
                 ],
             ],
         ];
@@ -203,5 +208,37 @@ class ProjectTest extends WebTestCase
             'When removing an entry from the ArrayCollection, the array must be resorted!');
 
         $this->assertEquals(0, count($response->attachments));
+    }
+
+    /**
+     * Tests that the project part does not contain a reference to the project. This is because we serialize the
+     * project reference as IRI and not as object, which causes problems when reading in the project part in the
+     * frontend and serializing it back.
+     */
+    public function testAbsentProjectReference()
+    {
+        $client = static::makeClient(true);
+
+        $project = $this->fixtures->getReference('project');
+
+        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iri = $iriConverter->getIriFromItem($project);
+
+        $client->request(
+            'GET',
+            $iri,
+            [],
+            [],
+            []
+        );
+
+        $project = json_decode($client->getResponse()->getContent());
+
+        $this->assertObjectHasAttribute("parts", $project);
+        $this->assertInternalType("array", $project->parts);
+
+        foreach ($project->parts as $part) {
+            $this->assertObjectNotHasAttribute("project", $part);
+        }
     }
 }

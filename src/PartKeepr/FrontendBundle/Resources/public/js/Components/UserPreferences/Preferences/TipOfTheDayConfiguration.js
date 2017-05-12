@@ -1,15 +1,13 @@
-Ext.define('PartKeepr.TipOfTheDayPreferencesPanel', {
-    extend: 'Ext.form.FormPanel',
-    title: i18n("Tip of the Day"),
-    bodyStyle: 'background:#DBDBDB;padding: 10px;',
+Ext.define('PartKeepr.Components.UserPreferences.Preferences.TipOfTheDayConfiguration', {
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
+
     initComponent: function ()
     {
         this.displayTipsOnLoginCheckbox = Ext.create("Ext.form.field.Checkbox", {
-            boxLabel: i18n("Display tips on login"),
-            handler: Ext.bind(this.showTipsHandler, this)
+            boxLabel: i18n("Display tips on login")
         });
 
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") == false) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.tipoftheday.showtips") === false) {
             this.displayTipsOnLoginCheckbox.setValue(false);
         } else {
             this.displayTipsOnLoginCheckbox.setValue(true);
@@ -30,13 +28,6 @@ Ext.define('PartKeepr.TipOfTheDayPreferencesPanel', {
         this.callParent();
     },
     /**
-     * Handler when the "show tips" checkbox was clicked.
-     */
-    showTipsHandler: function (checkbox, checked)
-    {
-        PartKeepr.getApplication().setUserPreference("partkeepr.tipoftheday.showtips", checked);
-    },
-    /**
      * Marks all tips as unread
      */
     onMarkAllTipsUnreadClick: function ()
@@ -47,5 +38,15 @@ Ext.define('PartKeepr.TipOfTheDayPreferencesPanel', {
                 Ext.Msg.alert(msg, msg);
             }
         );
+    },
+    onSave: function ()
+    {
+        PartKeepr.getApplication().setUserPreference("partkeepr.tipoftheday.showtips",
+            this.displayTipsOnLoginCheckbox.getValue());
+    },
+    statics: {
+        iconCls: 'fugue-icon light-bulb',
+        title: i18n('Tip of the Day'),
+        menuPath: [{iconCls: 'fugue-icon ui-scroll-pane-image', text: i18n("User Interface")}]
     }
 });

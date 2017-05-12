@@ -7,6 +7,7 @@ use Doctrine\ORM\QueryBuilder;
 use Dunglas\ApiBundle\Api\IriConverterInterface;
 use Dunglas\ApiBundle\Api\ResourceInterface;
 use Dunglas\ApiBundle\Doctrine\Orm\Filter\AbstractFilter;
+use PartKeepr\DoctrineReflectionBundle\Services\FilterService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -36,6 +37,11 @@ class AdvancedSearchFilter extends AbstractFilter
      */
     private $propertyAccessor;
 
+    /**
+     * @var FilterService
+     */
+    private $filterService;
+
     private $aliases = [];
 
     private $parameterCount = 0;
@@ -49,19 +55,21 @@ class AdvancedSearchFilter extends AbstractFilter
      * @param IriConverterInterface     $iriConverter
      * @param PropertyAccessorInterface $propertyAccessor
      * @param RequestStack              $requestStack
-     * @param null|array                $properties       Null to allow filtering on all properties with the exact strategy
-     *                                                    or a map of property name with strategy.
+     * @param null|array                $properties       Null to allow filtering on all properties with the exact
+     *                                                    strategy or a map of property name with strategy.
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
         IriConverterInterface $iriConverter,
         PropertyAccessorInterface $propertyAccessor,
         RequestStack $requestStack,
+        FilterService $filterService,
         array $properties = null
     ) {
         parent::__construct($managerRegistry, $properties);
         $this->requestStack = $requestStack;
         $this->iriConverter = $iriConverter;
+        $this->filterService = $filterService;
         $this->propertyAccessor = $propertyAccessor;
     }
 
@@ -104,17 +112,16 @@ class AdvancedSearchFilter extends AbstractFilter
     {
         foreach ($filters as $filter) {
             /**
-             * @var Filter $filter
+             * @var Filter
              */
             $queryBuilder->andWhere(
                 $this->getFilterExpression($queryBuilder, $filter)
             );
-
         }
 
         foreach ($sorters as $sorter) {
             /**
-             * @var Sorter $sorter
+             * @var Sorter
              */
             if ($sorter->getAssociation() !== null) {
                 // Pull in associations
@@ -215,7 +222,7 @@ class AdvancedSearchFilter extends AbstractFilter
             foreach ($filter->getSubFilters() as $subFilter) {
 
                 /**
-                 * @var $subFilter Filter
+                 * @var Filter
                  */
                 if ($subFilter->getAssociation() !== null) {
                     $this->addJoins($queryBuilder, $subFilter);
@@ -223,7 +230,6 @@ class AdvancedSearchFilter extends AbstractFilter
 
                 $subFilterExpressions[] = $this->getFilterExpression($queryBuilder, $subFilter);
             }
-
 
             if ($filter->getType() == Filter::TYPE_AND) {
                 return call_user_func_array([$queryBuilder->expr(), "andX"], $subFilterExpressions);
@@ -239,7 +245,6 @@ class AdvancedSearchFilter extends AbstractFilter
             $alias = 'o.'.$filter->getProperty();
         }
 
-
         if (strtolower($filter->getOperator()) == Filter::OPERATOR_IN) {
             if (!is_array($filter->getValue())) {
                 throw new \Exception('Value needs to be an array for the IN operator');
@@ -251,31 +256,7 @@ class AdvancedSearchFilter extends AbstractFilter
             $this->parameterCount++;
             $queryBuilder->setParameter($paramName, $filter->getValue());
 
-            switch (strtolower($filter->getOperator())) {
-                case Filter::OPERATOR_EQUALS:
-                    return $queryBuilder->expr()->eq($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_GREATER_THAN:
-                    return $queryBuilder->expr()->gt($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_GREATER_THAN_EQUALS:
-                    return $queryBuilder->expr()->gte($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_LESS_THAN:
-                    return $queryBuilder->expr()->lt($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_LESS_THAN_EQUALS:
-                    return $queryBuilder->expr()->lte($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_NOT_EQUALS:
-                    return $queryBuilder->expr()->neq($alias, $paramName);
-                    break;
-                case Filter::OPERATOR_LIKE:
-                    return $queryBuilder->expr()->like($alias, $paramName);
-                    break;
-                default:
-                    throw new \Exception('Unknown operator '.$filter->getOperator());
-            }
+            return $this->filterService->getExpressionForFilter($filter, $alias, $paramName);
         }
     }
 
@@ -317,7 +298,6 @@ class AdvancedSearchFilter extends AbstractFilter
 
         $sorters = [];
 
-
         if (is_array($sorterData)) {
             foreach ($sorterData as $sorter) {
                 $sorters[] = $this->extractJSONSorters($sorter);
@@ -325,7 +305,6 @@ class AdvancedSearchFilter extends AbstractFilter
         } elseif (is_object($sorterData)) {
             $sorters[] = $this->extractJSONSorters($sorterData);
         }
-
 
         return ['filters' => $filters, 'sorters' => $sorters];
     }
@@ -356,8 +335,7 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return Filter
      */
-    private
-    function extractJSONFilters(
+    private function extractJSONFilters(
         $data
     ) {
         $filter = new Filter();
@@ -418,8 +396,7 @@ class AdvancedSearchFilter extends AbstractFilter
      *
      * @return Sorter A Sorter object
      */
-    private
-    function extractJSONSorters(
+    private function extractJSONSorters(
         $data
     ) {
         $sorter = new Sorter();

@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\SystemPreferenceBundle\Service;
 
+namespace PartKeepr\SystemPreferenceBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
@@ -51,9 +51,9 @@ class SystemPreferenceService
     }
 
     /**
-     * Returns a specific preference value
+     * Returns a specific preference value.
      *
-     * @param string $key  The preference key to retrieve
+     * @param string $key The preference key to retrieve
      *
      * @throws \PartKeepr\AuthBundle\Exceptions\UserPreferenceNotFoundException Thrown if the preference key was not found
      *
@@ -67,9 +67,9 @@ class SystemPreferenceService
     }
 
     /**
-     * Returns a specific preference object
+     * Returns a specific preference object.
      *
-     * @param string                            $key  The preference key to retrieve
+     * @param string $key The preference key to retrieve
      *
      * @throws SystemPreferenceNotFoundException Thrown if the preference key was not found
      *
@@ -92,7 +92,7 @@ class SystemPreferenceService
     }
 
     /**
-     * Returns all system preferences
+     * Returns all system preferences.
      *
      * @return SystemPreference[] An array of SystemPreference objects
      */
@@ -101,13 +101,14 @@ class SystemPreferenceService
         $dql = "SELECT sp FROM PartKeepr\SystemPreferenceBundle\Entity\SystemPreference sp";
 
         $query = $this->entityManager->createQuery($dql);
+
         return $query->getResult();
     }
 
     /**
-     * Removes a specific system preference
+     * Removes a specific system preference.
      *
-     * @param string                            $key  The key to delete
+     * @param string $key The key to delete
      */
     public function deletePreference($key)
     {
@@ -118,5 +119,4 @@ class SystemPreferenceService
 
         $query->execute();
     }
-
 }

@@ -3,8 +3,10 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
 use PartKeepr\UnitBundle\Entity\Unit;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * This object represents a parameter. Each parameter can have an unit (defined by the class "Unit") associated with
@@ -12,15 +14,13 @@ use PartKeepr\UnitBundle\Entity\Unit;
  *
  * @ORM\Entity @ORM\HasLifecycleCallbacks
  */
-class PartParameter
+class PartParameter extends BaseEntity
 {
-    /**
-     * @ORM\Id @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    private $id;
+    const VALUE_TYPE_STRING = 'string';
+
+    const VALUE_TYPE_NUMERIC = 'numeric';
+
+    const VALUE_TYPES = [self::VALUE_TYPE_STRING, self::VALUE_TYPE_NUMERIC];
 
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="parameters")
@@ -34,6 +34,7 @@ class PartParameter
      * The name of the parameter (e.g. Resistance, Voltage).
      *
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      *
      * @var string
      */
@@ -43,6 +44,7 @@ class PartParameter
      * A description for this parameter.
      *
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      *
      * @var string
      */
@@ -52,6 +54,7 @@ class PartParameter
      * The unit for this type. May be null.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\UnitBundle\Entity\Unit")
+     * @Groups({"default"})
      *
      * @var \PartKeepr\UnitBundle\Entity\Unit
      */
@@ -63,38 +66,206 @@ class PartParameter
      * Example: If you have 10µ, the value field will contain "10", the prefix object is linked to the SiPrefix
      * representing "µ" and the rawValue field will contain 0.000001
      *
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float",nullable=true)
+     * @Groups({"default"})
      *
      * @var float
      */
     private $value;
 
     /**
+     * The normalized value (the product of si prefix + value).
+     *
+     * @ORM\Column(type="float",nullable=true)
+     *
+     * @var
+     */
+    private $normalizedValue;
+
+    /**
+     * The maximum value of the parameter.
+     *
+     * @ORM\Column(type="float",name="maximumValue",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var float
+     */
+    private $maxValue;
+
+    /**
+     * The normalized maximum value (the product of si prefix + value).
+     *
+     * @ORM\Column(type="float",nullable=true)
+     *
+     * @var
+     */
+    private $normalizedMaxValue;
+
+    /**
+     * The minimum value of the parameter.
+     *
+     * @ORM\Column(type="float",name="minimumValue",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var float
+     */
+    private $minValue;
+
+    /**
+     * The normalized minimum value (the product of si prefix + value).
+     *
+     * @ORM\Column(type="float",nullable=true)
+     *
+     * @var int
+     */
+    private $normalizedMinValue;
+
+    /**
+     * The string value if the parameter is a string.
+     *
+     * @ORM\Column(type="string")
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $stringValue;
+
+    /**
+     * The type of the value.
+     *
+     * @ORM\Column(type="string")
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $valueType;
+
+    /**
      * The SiPrefix of the unit.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
+     * @Groups({"default"})
      *
-     * @var object
+     * @var SiPrefix
      */
     private $siPrefix;
 
     /**
-     * The raw value of the unit.
+     * The SiPrefix of the min value.
      *
-     * @ORM\Column(type="float")
+     * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
+     * @Groups({"default"})
      *
-     * @var float
+     * @var SiPrefix
      */
-    private $rawValue;
+    private $minSiPrefix;
 
     /**
-     * Sets the name for this parameter.
+     * The SiPrefix of the min value.
      *
-     * @param string $name The name
+     * @ORM\ManyToOne(targetEntity="PartKeepr\SiPrefixBundle\Entity\SiPrefix")
+     * @Groups({"default"})
+     *
+     * @var SiPrefix
      */
-    public function setName($name)
+    private $maxSiPrefix;
+
+    public function __construct()
     {
-        $this->name = $name;
+        $this->setValueType(self::VALUE_TYPE_STRING);
+        $this->setDescription("");
+        $this->setStringValue("");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNormalizedValue()
+    {
+        return $this->normalizedValue;
+    }
+
+    /**
+     * @param mixed $normalizedValue
+     */
+    public function setNormalizedValue($normalizedValue)
+    {
+        $this->normalizedValue = $normalizedValue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNormalizedMaxValue()
+    {
+        return $this->normalizedMaxValue;
+    }
+
+    /**
+     * @param mixed $normalizedMaxValue
+     */
+    public function setNormalizedMaxValue($normalizedMaxValue)
+    {
+        $this->normalizedMaxValue = $normalizedMaxValue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNormalizedMinValue()
+    {
+        return $this->normalizedMinValue;
+    }
+
+    /**
+     * @param mixed $normalizedMinValue
+     */
+    public function setNormalizedMinValue($normalizedMinValue)
+    {
+        $this->normalizedMinValue = $normalizedMinValue;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringValue()
+    {
+        return $this->stringValue;
+    }
+
+    /**
+     * @param string $stringValue
+     */
+    public function setStringValue($stringValue)
+    {
+        $this->stringValue = $stringValue;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValueType()
+    {
+        // Fallback to numeric if legacy parameter
+        if (!in_array($this->valueType, self::VALUE_TYPES)) {
+            return self::VALUE_TYPE_NUMERIC;
+        }
+
+        return $this->valueType;
+    }
+
+    /**
+     * @param string $valueType
+     *
+     * @throws \Exception
+     */
+    public function setValueType($valueType)
+    {
+        if (!in_array($valueType, self::VALUE_TYPES)) {
+            throw new \Exception("Invalid value type given:".$valueType);
+        }
+
+        $this->valueType = $valueType;
     }
 
     /**
@@ -108,13 +279,13 @@ class PartParameter
     }
 
     /**
-     * Sets the description for this parameter.
+     * Sets the name for this parameter.
      *
-     * @param string $description The description
+     * @param string $name The name
      */
-    public function setDescription($description)
+    public function setName($name)
     {
-        $this->description = $description;
+        $this->name = $name;
     }
 
     /**
@@ -128,13 +299,13 @@ class PartParameter
     }
 
     /**
-     * Sets the unit.
+     * Sets the description for this parameter.
      *
-     * @param \PartKeepr\UnitBundle\Entity\Unit $unit The unit to set
+     * @param string $description The description
      */
-    public function setUnit(Unit $unit = null)
+    public function setDescription($description)
     {
-        $this->unit = $unit;
+        $this->description = $description;
     }
 
     /**
@@ -148,13 +319,13 @@ class PartParameter
     }
 
     /**
-     * Sets the part.
+     * Sets the unit.
      *
-     * @param Part $part The part to set
+     * @param \PartKeepr\UnitBundle\Entity\Unit $unit The unit to set
      */
-    public function setPart(Part $part)
+    public function setUnit(Unit $unit = null)
     {
-        $this->part = $part;
+        $this->unit = $unit;
     }
 
     /**
@@ -168,37 +339,34 @@ class PartParameter
     }
 
     /**
-     * Sets the value.
+     * Sets the part.
      *
-     * @param float $value The value to set
+     * @param Part $part The part to set
      */
-    public function setValue($value)
+    public function setPart(Part $part = null)
     {
-        $this->value = $value;
-
-        $this->recalculateRawValue();
+        $this->part = $part;
     }
 
-    /**
-     * Returns the value.
-     *
-     * @return float The value
-     */
-    public function getValue()
+    protected function recalculateNormalizedValues()
     {
-        return $this->value;
-    }
+        if ($this->getSiPrefix() === null) {
+            $this->setNormalizedValue($this->getValue());
+        } else {
+            $this->setNormalizedValue($this->getSiPrefix()->calculateProduct($this->getValue()));
+        }
 
-    /**
-     * Sets the si prefix for this parameter.
-     *
-     * @param \PartKeepr\SiPrefixBundle\Entity\SiPrefix $prefix The prefix to set, or null
-     */
-    public function setSiPrefix(SiPrefix $prefix = null)
-    {
-        $this->siPrefix = $prefix;
+        if ($this->getMinSiPrefix() === null) {
+            $this->setNormalizedMinValue($this->getMinValue());
+        } else {
+            $this->setNormalizedMinValue($this->getMinSiPrefix()->calculateProduct($this->getMinValue()));
+        }
 
-        $this->recalculateRawValue();
+        if ($this->getMaxSiPrefix() === null) {
+            $this->setNormalizedMaxValue($this->getMaxValue());
+        } else {
+            $this->setNormalizedMaxValue($this->getMaxSiPrefix()->calculateProduct($this->getMaxValue()));
+        }
     }
 
     /**
@@ -212,25 +380,102 @@ class PartParameter
     }
 
     /**
-     * Returns the ID for this object.
+     * Sets the si prefix for this parameter.
      *
-     * @param none
-     *
-     * @return int The ID for this object
+     * @param \PartKeepr\SiPrefixBundle\Entity\SiPrefix $prefix The prefix to set, or null
      */
-    public function getId()
+    public function setSiPrefix(SiPrefix $prefix = null)
     {
-        return $this->id;
+        $this->siPrefix = $prefix;
+        $this->recalculateNormalizedValues();
     }
 
-    private function recalculateRawValue()
+    /**
+     * Returns the value.
+     *
+     * @return float The value
+     */
+    public function getValue()
     {
-        if (is_object($this->getSiPrefix())) {
-            $power = $this->getSiPrefix()->getExponent();
-        } else {
-            $power = 0;
-        }
+        return $this->value;
+    }
 
-        $this->rawValue = $this->getValue() * pow(10, $power);
+    /**
+     * Sets the value.
+     *
+     * @param float $value The value to set
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return SiPrefix
+     */
+    public function getMinSiPrefix()
+    {
+        return $this->minSiPrefix;
+    }
+
+    /**
+     * @param SiPrefix $minSiPrefix
+     */
+    public function setMinSiPrefix($minSiPrefix)
+    {
+        $this->minSiPrefix = $minSiPrefix;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return float
+     */
+    public function getMinValue()
+    {
+        return $this->minValue;
+    }
+
+    /**
+     * @param float $minValue
+     */
+    public function setMinValue($minValue)
+    {
+        $this->minValue = $minValue;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return SiPrefix
+     */
+    public function getMaxSiPrefix()
+    {
+        return $this->maxSiPrefix;
+    }
+
+    /**
+     * @param SiPrefix $maxSiPrefix
+     */
+    public function setMaxSiPrefix($maxSiPrefix)
+    {
+        $this->maxSiPrefix = $maxSiPrefix;
+        $this->recalculateNormalizedValues();
+    }
+
+    /**
+     * @return float
+     */
+    public function getMaxValue()
+    {
+        return $this->maxValue;
+    }
+
+    /**
+     * @param float $maxValue
+     */
+    public function setMaxValue($maxValue)
+    {
+        $this->maxValue = $maxValue;
+        $this->recalculateNormalizedValues();
     }
 }

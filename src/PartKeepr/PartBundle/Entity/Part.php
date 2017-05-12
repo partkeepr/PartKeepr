@@ -74,7 +74,6 @@ class Part extends BaseEntity
      * in "pieces", "meters" or "grams".
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\PartMeasurementUnit", inversedBy="parts")
-     * @Assert\NotNull()
      * @Groups({"default"})
      *
      * @var PartMeasurementUnit
@@ -85,7 +84,6 @@ class Part extends BaseEntity
      * Defines the storage location of this part.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\StorageLocationBundle\Entity\StorageLocation")
-     * @Assert\NotNull()
      * @Groups({"default"})
      *
      * @var StorageLocation
@@ -95,7 +93,8 @@ class Part extends BaseEntity
     /**
      * Holds the manufacturers which can manufacture this part.
      *
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartManufacturer",mappedBy="part",cascade={"persist", "remove"},
+     *                                                                                                                orphanRemoval=true)
      * @Groups({"default"})
      *
      * @var ArrayCollection
@@ -105,7 +104,8 @@ class Part extends BaseEntity
     /**
      * Holds the distributors from where we can buy the part.
      *
-     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartDistributor",mappedBy="part",cascade={"persist", "remove"},
+     *                                                                                                               orphanRemoval=true)
      * @Groups({"default"})
      *
      * @var ArrayCollection
@@ -179,10 +179,22 @@ class Part extends BaseEntity
      *
      * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\PartParameter",
      *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups({"default"})
      *
      * @var ArrayCollection
      */
     private $parameters;
+
+    /**
+     * The meta part parameter criterias for this part.
+     *
+     * @ORM\OneToMany(targetEntity="PartKeepr\PartBundle\Entity\MetaPartParameterCriteria",
+     *                mappedBy="part",cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups({"default"})
+     *
+     * @var ArrayCollection
+     */
+    private $metaPartParameterCriterias;
 
     /**
      * The part status for this part.
@@ -213,6 +225,16 @@ class Part extends BaseEntity
      * @var string
      */
     private $partCondition;
+
+    /**
+     * Defines the production remarks for a part.
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $productionRemarks;
 
     /**
      * The create date+time for this part.
@@ -257,6 +279,25 @@ class Part extends BaseEntity
      */
     private $lowStock = false;
 
+    /**
+     * Defines if the part is a meta-part.
+     *
+     * @ORM\Column(type="boolean")
+     * @Groups({"default"})
+     *
+     * @var bool
+     */
+    private $metaPart;
+
+    /**
+     * An array of all matching meta parts.
+     *
+     * @Groups({"default"})
+     *
+     * @var array
+     */
+    private $metaPartMatches;
+
     public function __construct()
     {
         $this->distributors = new ArrayCollection();
@@ -265,8 +306,10 @@ class Part extends BaseEntity
         $this->attachments = new ArrayCollection();
         $this->stockLevels = new ArrayCollection();
         $this->projectParts = new ArrayCollection();
+        $this->metaPartParameterCriterias = new ArrayCollection();
         $this->setCreateDate(new \DateTime());
         $this->setNeedsReview(false);
+        $this->setMetaPart(false);
     }
 
     /**
@@ -277,6 +320,38 @@ class Part extends BaseEntity
     private function setCreateDate(\DateTime $dateTime)
     {
         $this->createDate = $dateTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProductionRemarks()
+    {
+        return $this->productionRemarks;
+    }
+
+    /**
+     * @param string $productionRemarks
+     */
+    public function setProductionRemarks($productionRemarks)
+    {
+        $this->productionRemarks = $productionRemarks;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetaPartMatches()
+    {
+        return $this->metaPartMatches;
+    }
+
+    /**
+     * @param array $metaPartMatches
+     */
+    public function setMetaPartMatches($metaPartMatches)
+    {
+        $this->metaPartMatches = $metaPartMatches;
     }
 
     /**
@@ -380,7 +455,7 @@ class Part extends BaseEntity
      *
      * @param PartMeasurementUnit $partUnit The part unit object to set
      */
-    public function setPartUnit(PartMeasurementUnit $partUnit)
+    public function setPartUnit(PartMeasurementUnit $partUnit = null)
     {
         $this->partUnit = $partUnit;
     }
@@ -486,7 +561,7 @@ class Part extends BaseEntity
      */
     public function getDistributors()
     {
-        return $this->distributors;
+        return $this->distributors->getValues();
     }
 
     /**
@@ -496,7 +571,7 @@ class Part extends BaseEntity
      */
     public function getAttachments()
     {
-        return $this->attachments;
+        return $this->attachments->getValues();
     }
 
     /**
@@ -506,17 +581,27 @@ class Part extends BaseEntity
      */
     public function getManufacturers()
     {
-        return $this->manufacturers;
+        return $this->manufacturers->getValues();
     }
 
     /**
      * Returns the parameters assigned to this part.
      *
-     * @return array An array of PartParameter objects
+     * @return ArrayCollection An array of PartParameter objects
      */
     public function getParameters()
     {
-        return $this->parameters;
+        return $this->parameters->getValues();
+    }
+
+    /**
+     * Returns the meta part parameter criterias assigned to this part.
+     *
+     * @return MetaPartParameterCriteria[] An array of MetaPartParameterCriteria objects
+     */
+    public function getMetaPartParameterCriterias()
+    {
+        return $this->metaPartParameterCriterias->getValues();
     }
 
     /**
@@ -608,7 +693,7 @@ class Part extends BaseEntity
      */
     private function checkStorageLocationConsistency()
     {
-        if ($this->getStorageLocation() === null) {
+        if ($this->getStorageLocation() === null && !$this->isMetaPart()) {
             throw new StorageLocationNotAssignedException();
         }
     }
@@ -624,67 +709,37 @@ class Part extends BaseEntity
     }
 
     /**
+     * Sets the storage location for this part.
+     *
+     * @param \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
+     */
+    public function setStorageLocation(StorageLocation $storageLocation = null)
+    {
+        $this->storageLocation = $storageLocation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMetaPart()
+    {
+        return $this->metaPart;
+    }
+
+    /**
+     * @param bool $metaPart
+     */
+    public function setMetaPart($metaPart)
+    {
+        $this->metaPart = $metaPart;
+    }
+
+    /**
      * @param mixed $removals
      */
     public function setRemovals($removals = false)
     {
         $this->removals = $removals;
-    }
-
-    /**
-     * Returns all stock entries.
-     *
-     * @return ArrayCollection
-     */
-    public function getStockLevels()
-    {
-        return $this->stockLevels;
-    }
-
-    /**
-     * Returns the minimum stock level.
-     *
-     * @return int
-     */
-    public function getMinStockLevel()
-    {
-        return $this->minStockLevel;
-    }
-
-    /**
-     * Set the minimum stock level for this part.
-     *
-     * Only positive values are allowed.
-     *
-     * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
-     *
-     * @throws MinStockLevelOutOfRangeException If the passed stock level is not in range (>=0)
-     */
-    public function setMinStockLevel($minStockLevel)
-    {
-        $minStockLevel = intval($minStockLevel);
-
-        if ($minStockLevel < 0) {
-            throw new MinStockLevelOutOfRangeException();
-        }
-
-        $this->minStockLevel = $minStockLevel;
-
-        if ($this->getStockLevel() < $this->getMinStockLevel()) {
-            $this->setLowStock(true);
-        } else {
-            $this->setLowStock(false);
-        }
-    }
-
-    /**
-     * Sets the average price for this part.
-     *
-     * @param float $price The price to set
-     */
-    public function setAveragePrice($price)
-    {
-        $this->averagePrice = $price;
     }
 
     /**
@@ -698,13 +753,13 @@ class Part extends BaseEntity
     }
 
     /**
-     * Sets the storage location for this part.
+     * Sets the average price for this part.
      *
-     * @param \PartKeepr\StorageLocationBundle\Entity\StorageLocation $storageLocation The storage location
+     * @param float $price The price to set
      */
-    public function setStorageLocation(StorageLocation $storageLocation)
+    public function setAveragePrice($price)
     {
-        $this->storageLocation = $storageLocation;
+        $this->averagePrice = $price;
     }
 
     /**
@@ -712,33 +767,13 @@ class Part extends BaseEntity
      *
      * For a list of exceptions, see
      *
-     * @see PartKeepr\Part.Part::onPrePersist()
+     * @see Part::onPrePersist()
      *
      * @ORM\PreUpdate
      */
     public function onPreUpdate()
     {
         $this->executeSaveListener();
-    }
-
-    /**
-     * Returns the stock level.
-     *
-     * @return int The stock level
-     */
-    public function getStockLevel()
-    {
-        return $this->stockLevel;
-    }
-
-    /**
-     * Sets the stock level.
-     *
-     * @param $stockLevel int The stock level to set
-     */
-    public function setStockLevel($stockLevel)
-    {
-        $this->stockLevel = $stockLevel;
     }
 
     /**
@@ -764,6 +799,54 @@ class Part extends BaseEntity
     }
 
     /**
+     * Adds a Part Parameter.
+     *
+     * @param PartParameter $partParameter A parameter to add
+     */
+    public function addParameter($partParameter)
+    {
+        if ($partParameter instanceof PartParameter) {
+            $partParameter->setPart($this);
+        }
+        $this->parameters->add($partParameter);
+    }
+
+    /**
+     * Removes a Part Parameter.
+     *
+     * @param PartParameter $partParameter An parameter to remove
+     */
+    public function removeParameter($partParameter)
+    {
+        $partParameter->setPart(null);
+        $this->parameters->removeElement($partParameter);
+    }
+
+    /**
+     * Adds a Meta Part Parameter Criteria.
+     *
+     * @param MetaPartParameterCriteria $metaPartParameterCriteria A meta part parameter criteria to
+     */
+    public function addMetaPartParameterCriteria($metaPartParameterCriteria)
+    {
+        if ($metaPartParameterCriteria instanceof MetaPartParameterCriteria) {
+            $metaPartParameterCriteria->setPart($this);
+        }
+        $this->metaPartParameterCriterias->add($metaPartParameterCriteria);
+    }
+
+    /**
+     * Removes a Part Parameter.
+     *
+     * @param MetaPartParameterCriteria $metaPartParameterCriteria A meta part parameter criteria to remove
+     */
+    public function removeMetaPartParameterCriteria($metaPartParameterCriteria)
+    {
+        $metaPartParameterCriteria->setPart(null);
+        $this->metaPartParameterCriterias->removeElement($metaPartParameterCriteria);
+    }
+
+    /**
      * Adds a Part Attachment.
      *
      * @param PartAttachment $partAttachment An attachment to add
@@ -783,7 +866,10 @@ class Part extends BaseEntity
      */
     public function removeAttachment($partAttachment)
     {
-        $partAttachment->setPart(null);
+        if ($partAttachment instanceof PartAttachment) {
+            $partAttachment->setPart(null);
+        }
+
         $this->attachments->removeElement($partAttachment);
     }
 
@@ -838,7 +924,7 @@ class Part extends BaseEntity
      */
     public function getProjectParts()
     {
-        return $this->projectParts;
+        return $this->projectParts->getValues();
     }
 
     /**
@@ -904,5 +990,71 @@ class Part extends BaseEntity
         } else {
             $this->setLowStock(false);
         }
+    }
+
+    /**
+     * Returns all stock entries.
+     *
+     * @return ArrayCollection
+     */
+    public function getStockLevels()
+    {
+        return $this->stockLevels->getValues();
+    }
+
+    /**
+     * Returns the minimum stock level.
+     *
+     * @return int
+     */
+    public function getMinStockLevel()
+    {
+        return $this->minStockLevel;
+    }
+
+    /**
+     * Set the minimum stock level for this part.
+     *
+     * Only positive values are allowed.
+     *
+     * @param int $minStockLevel A minimum stock level, only values >= 0 are allowed.
+     *
+     * @throws MinStockLevelOutOfRangeException If the passed stock level is not in range (>=0)
+     */
+    public function setMinStockLevel($minStockLevel)
+    {
+        $minStockLevel = intval($minStockLevel);
+
+        if ($minStockLevel < 0) {
+            throw new MinStockLevelOutOfRangeException();
+        }
+
+        $this->minStockLevel = $minStockLevel;
+
+        if ($this->getStockLevel() < $this->getMinStockLevel()) {
+            $this->setLowStock(true);
+        } else {
+            $this->setLowStock(false);
+        }
+    }
+
+    /**
+     * Returns the stock level.
+     *
+     * @return int The stock level
+     */
+    public function getStockLevel()
+    {
+        return $this->stockLevel;
+    }
+
+    /**
+     * Sets the stock level.
+     *
+     * @param $stockLevel int The stock level to set
+     */
+    public function setStockLevel($stockLevel)
+    {
+        $this->stockLevel = $stockLevel;
     }
 }

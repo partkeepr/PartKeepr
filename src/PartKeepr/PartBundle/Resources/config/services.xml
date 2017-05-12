@@ -5,16 +5,18 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="partkeepr.part_measurement_unit_service" class="PartKeepr\PartBundle\Services\PartMeasurementUnitService">
+        <service id="partkeepr.part_measurement_unit_service"
+                 class="PartKeepr\PartBundle\Services\PartMeasurementUnitService">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
         </service>
         <service id="partkeepr.part.category_service" class="PartKeepr\CategoryBundle\Services\CategoryService">
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument>PartKeepr\PartBundle\Entity\PartCategory</argument>
         </service>
 
         <service id="partkeepr.part_service" class="PartKeepr\PartBundle\Services\PartService">
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="doctrine_filter_service"/>
             <argument type="string">%partkeepr.parts.limit%</argument>
             <argument type="string">%partkeepr.parts.internalpartnumberunique%</argument>
         </service>

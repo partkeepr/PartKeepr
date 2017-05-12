@@ -8,13 +8,18 @@
 
     <base href="{{ app.request.getBaseURL() }}"/>
 
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700italic"
-          rel="stylesheet" type="text/css">
+    {% set themes = {"classic": "Classic", "crisp":"Crisp", "crisp-touch": "Crisp Touch", "gray":"Gray", "neptune": "Neptune", "neptune-touch": "Neptune Touch", "triton": "Triton", "aria": "Aria"} %}
+    {% set defaultTheme = "classic" %}
+
+    {% set themeUri %}js/packages/extjs6/build/classic/theme-{{ defaultTheme }}/resources/theme-{{ defaultTheme }}-all.css{% endset %}
+    {% set themeUxUri %}js/packages/extjs6/build/packages/ux/classic/{{ defaultTheme }}/resources/ux-all.css{% endset %}
+
+    <link id="theme" rel="stylesheet" href="{{ asset(themeUri) }}"/>
+    <link id="themeUx" rel="stylesheet" href="{{ asset(themeUxUri) }}"/>
 
     <!-- Include the ExtJS CSS Theme -->
     {% stylesheets
     filter='cssrewrite'
-    'js/packages/extjs6/build/classic/theme-classic/resources/theme-classic-all.css'
     'js/packages/extjs6/build/packages/ux/classic/classic/resources/ux-all.css'
     'js/packages/extjs6/build/packages/charts/classic/neptune/resources/charts-all.css'
     'atelierspierrot/famfamfam-silk-sprite/silk-icons-sprite.css'
@@ -63,6 +68,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraTreeModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Data/store/ModelStore.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.form.field.Checkbox.EXTJS-21886.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.field.Date-ISO8601.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 
@@ -79,7 +85,8 @@
 
     {% javascripts output='js/compiled/main2.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
-        '@PartKeeprFrontendBundle/Resources/public/js/Data/ReflectionFieldTreeModel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/store/CurrencyStore.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Data/ReflectionFieldTreeModel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/EntityQueryPanel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/EntityPicker.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PresetComboBox.js'
@@ -103,6 +110,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Util/Filter.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/LoginManager.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.grid.feature.Summary-selectorFix.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PreferencePlugin.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/AuthenticationProvider.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/HTTPBasicAuthenticationProvider.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/WSSEAuthenticationProvider.js'
@@ -154,16 +162,21 @@
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.tree.View-missingMethods.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.form.Basic-AssociationSupport.js'
     '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.ux.TreePicker-setValueWithObject.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/OperatorComboBox.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Actions/BaseAction.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Actions/LogoutAction.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Statusbar.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/LoginDialog.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartImageDisplay.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartInfoGrid.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartsManager.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartEditorWindow.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartDisplay.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartStockWindow.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/PartFilterPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/MetaPartEditorWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PartParameterSearch.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PartParameterSearchWindow.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/MenuBar.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Grid/BaseGrid.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartParameterGrid.js'
@@ -194,12 +207,6 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/TimeDisplay.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Menu.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/UrlTextField.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/DisplayPreferencesPanel.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/UserPasswordChangePanel.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/StockPreferences.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/FormattingPreferences.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/Preferences/TipOfTheDayPreferences.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/User/UserPreferences.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/RemotePartComboBox.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/FadingButton.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/SystemNoticeButton.js'
@@ -219,17 +226,20 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/PartUnitComboBox.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/StorageLocationComboBox.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/ResistorCalculator.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/SiUnitCombo.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/ContextMenu/CharPickerMenu.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Editor/Editor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Distributor/DistributorEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Manufacturer/ManufacturerEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/PartParameterValueEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/PartMeasurementUnit/PartMeasurementUnitEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Unit/UnitEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Footprint/FootprintEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/User/UserEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemNotice/SystemNoticeEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/StorageLocation/StorageLocationEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Part/Editor/MetaPartEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Project/ProjectEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Editor/EditorComponent.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Distributor/DistributorEditorComponent.js'
@@ -267,15 +277,26 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/CategoryEditor/CategoryEditorForm.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Picker/CharPicker.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/Widgets/StorageLocationPicker.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Preferences/Panel.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Panel.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Tree.js'
-    '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/PreferenceEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/UserPreferences/Panel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Preferences/Tree.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/Preferences/PreferenceEditor.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/FulltextSearch.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/RequiredPartFields.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/RequiredPartManufacturerFields.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/RequiredPartDistributorFields.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/BarcodeScannerConfiguration.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/SystemPreferences/Preferences/ActionsConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/UserPreferences/Preferences/TipOfTheDayConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/UserPreferences/Preferences/FormattingConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/UserPreferences/Preferences/DisplayConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/UserPreferences/Preferences/StockConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/UserPreferences/Preferences/PasswordConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/UserPreferences/Preferences/OctoPartConfiguration.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/ProjectRun/ProjectRunEditor.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/ProjectRun/ProjectRunGrid.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/ProjectRun/ProjectRunEditorComponent.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/BarcodeScanner/Manager.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/BarcodeScanner/Action.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/BarcodeScanner/ActionsComboBox.js'
@@ -289,12 +310,33 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.Header.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Ext.ux.Wizard.CardLayout.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/SearchPanel.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/SearchWindow.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/DataApplicator.js'
     '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 </head>
 <body>
-<div id="loading"><span class="logo"></span></div>
+<div id="loader-wrapper">
+    <div id="loader-logo"></div>
+    <div id="loader"></div>
+    <div id="loader-message"></div>
+</div>
+    <script type="text/javascript">
+        window.themes = {};
+        window.theme = "{{ defaultTheme }}";
+    {% for themeId, themeName in themes %}
+        {% set themeUri %}js/packages/extjs6/build/classic/theme-{{ themeId }}/resources/theme-{{ themeId }}-all.css{% endset %}
+        {% set themeUxUri %}js/packages/extjs6/build/packages/ux/classic/{{ themeId }}/resources/ux-all.css{% endset %}
+
+            window.themes["{{ themeId }}"] = {
+                themeUri: '{{ asset(themeUri)  }}',
+                themeUxUri: '{{ asset(themeUxUri) }}',
+                themeName: '{{ themeName }}'
+            };
+    {% endfor %}
+    </script>
 <script type="text/javascript">
     window.parameters = {{ parameters|json_encode|raw }};
 </script>

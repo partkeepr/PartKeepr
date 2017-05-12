@@ -30,7 +30,9 @@ Ext.define('PartKeepr.PartFilterPanel', {
     /**
      * Fixed body background color style
      */
-    bodyStyle: 'background:#DBDBDB;',
+    //bodyStyle: 'background:#DBDBDB;',
+
+    ui: 'default-framed',
 
     partManager: null,
     storageLocationFilter: null,
@@ -136,6 +138,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
                 xtype: 'toolbar',
                 enableOverflow: true,
                 dock: 'bottom',
+                ui: 'footer',
                 defaults: {minWidth: 100},
                 items: [this.applyButton, this.resetButton]
             }
@@ -143,6 +146,8 @@ Ext.define('PartKeepr.PartFilterPanel', {
 
         this.store.getFilters().on("endupdate", this._onFilterRemove, this);
         this.callParent();
+
+        this.down("#idField").on("beforedestroy", this.onBeforeIdFieldDestroy, this.down("#idField"));
     },
     _onFilterRemove: function ()
     {
@@ -1023,6 +1028,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
         this.internalIdFilter = Ext.create("Ext.form.field.Text", {
             fieldLabel: i18n("Internal ID"),
             anchor: '100%',
+            itemId: 'idField',
             qtip: i18n(
                 "The first number is the ID in decimal, the second number is the ID in base36. To search in base36 format you need to prefix the search string with #, example: #15y"),
             plugins: [
@@ -1140,5 +1146,12 @@ Ext.define('PartKeepr.PartFilterPanel', {
             disableFilters: disableFilters,
             enableFilters: enableFilters
         };
+    },
+    /**
+     * Unregisters the quick tip immediately prior destroying
+     */
+    onBeforeIdFieldDestroy: function (field)
+    {
+        Ext.QuickTips.unregister(field.getEl());
     }
 });

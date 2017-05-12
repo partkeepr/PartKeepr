@@ -18,6 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ProjectPart extends BaseEntity
 {
+    const OVERAGE_TYPE_ABSOLUTE = "absolute";
+
+    const OVERAGE_TYPE_PERCENT = "percent";
+
+    const OVERAGE_TYPES = [self::OVERAGE_TYPE_ABSOLUTE, self::OVERAGE_TYPE_PERCENT];
+
     /**
      * The part this project part refers to.
      *
@@ -45,7 +51,6 @@ class ProjectPart extends BaseEntity
      * Specifies the project which belongs to this project part.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project", inversedBy="parts")
-     * @Groups({"default"})
      * @Assert\NotNull()
      *
      * @var Project
@@ -61,6 +66,99 @@ class ProjectPart extends BaseEntity
      * @var string
      */
     private $remarks;
+
+    /**
+     * The overage type.
+     *
+     * @ORM\Column(type="string")
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $overageType;
+
+    /**
+     * Specifies the overage, which can either be percent or an absolute value depending on overageType.
+     *
+     * @ORM\Column(type="integer")
+     * @Groups({"default"})
+     *
+     * @var int
+     */
+    private $overage;
+
+    /**
+     * Specifies the lot number.
+     *
+     * @ORM\Column(type="text")
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $lotNumber;
+
+    public function __construct()
+    {
+        $this->setOverageType(self::OVERAGE_TYPE_ABSOLUTE);
+        $this->setOverage(0);
+        $this->setLotNumber("");
+    }
+
+    /**
+     * @return string
+     */
+    public function getLotNumber()
+    {
+        return $this->lotNumber;
+    }
+
+    /**
+     * @param string $lotNumber
+     */
+    public function setLotNumber($lotNumber)
+    {
+        $this->lotNumber = $lotNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOverageType()
+    {
+        if (!in_array($this->overageType, self::OVERAGE_TYPES)) {
+            return self::OVERAGE_TYPE_ABSOLUTE;
+        }
+
+        return $this->overageType;
+    }
+
+    /**
+     * @param string $overageType
+     */
+    public function setOverageType($overageType)
+    {
+        if (!in_array($overageType, self::OVERAGE_TYPES)) {
+            $overageType = self::OVERAGE_TYPE_ABSOLUTE;
+        }
+
+        $this->overageType = $overageType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOverage()
+    {
+        return $this->overage;
+    }
+
+    /**
+     * @param int $overage
+     */
+    public function setOverage($overage)
+    {
+        $this->overage = $overage;
+    }
 
     /**
      * Returns the part which belongs to this entry.

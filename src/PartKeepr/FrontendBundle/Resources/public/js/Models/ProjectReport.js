@@ -11,10 +11,20 @@ Ext.define("PartKeepr.ProjectBundle.Entity.ProjectReport", {
         {name: 'distributor_order_number', type: 'string'},
         {name: 'sum_order', type: 'float'},
         {name: 'sum', type: 'float'},
+        {name: 'projectNames', type: 'string'},
         {name: 'projects', type: 'string'},
         {name: 'remarks', type: 'string'},
+        {name: 'productionRemarks', type: 'string'},
         {name: 'part', reference: 'PartKeepr.PartBundle.Entity.Part'},
         {name: 'distributor', reference: 'PartKeepr.DistributorBundle.Entity.Distributor'}
+    ],
+
+    hasMany: [
+        {
+            name: 'subParts',
+            associationKey: 'subParts',
+            model: 'PartKeepr.PartBundle.Entity.Part'
+        }
     ],
 
     proxy: {

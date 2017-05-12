@@ -5,6 +5,13 @@ Ext.define("PartKeepr.Widgets.FilterExpressionWindow", {
     title: i18n("Add Filter Expression"),
     sourceModel: null,
 
+    minHeight: 150,
+    minWidth: 400,
+
+
+     /* Constrain the window to fit the viewport */
+    constrainHeader: true,
+
     initComponent: function ()
     {
         this.items = {

@@ -164,6 +164,18 @@ Ext.define('PartKeepr.PartsGrid', {
             this.topToolbar.insert(2, this.addFromTemplateButton);
         }
 
+        this.createMetaPartButton = Ext.create("Ext.button.Button", {
+            iconCls: 'web-icon bricks',
+            text: i18n("Add Meta-Part"),
+            handler: function ()
+            {
+                this.fireEvent("addMetaPart");
+            },
+            scope: this
+        });
+
+        this.topToolbar.insert(1, this.createMetaPartButton);
+
 
         this.mapSearchHotkey();
     },
@@ -182,7 +194,7 @@ Ext.define('PartKeepr.PartsGrid', {
             fn: function ()
             {
                 var searchBox = this.searchField;
-                if (Ext.get(document).activeElement != searchBox) {
+                if (Ext.get(document).activeElement !== searchBox) {
                     searchBox.focus('', 10);
                 }
                 searchBox.setValue('');
@@ -197,7 +209,7 @@ Ext.define('PartKeepr.PartsGrid', {
     _updateAddTemplateButton: function ()
     {
         /* Right now, we support delete on a single record only */
-        if (this.getSelectionModel().getCount() == 1) {
+        if (this.getSelectionModel().getCount() === 1) {
             this.addFromTemplateButton.enable();
         } else {
             this.addFromTemplateButton.disable();
@@ -246,6 +258,12 @@ Ext.define('PartKeepr.PartsGrid', {
                 width: 30,
                 tooltip: i18n("Needs Review?"),
                 renderer: this.reviewRenderer
+            }, {
+                text: '<span class="web-icon bricks"></span>',
+                dataIndex: "metaPart",
+                width: 30,
+                tooltip: i18n("Meta Part"),
+                renderer: this.metaPartRenderer
             }, {
                 header: i18n("Name"),
                 dataIndex: 'name',
@@ -302,12 +320,13 @@ Ext.define('PartKeepr.PartsGrid', {
             }, {
                 header: i18n("Internal ID"),
                 dataIndex: '@id',
-                renderer: function (value) {
+                renderer: function (value)
+                {
                     var values = value.split("/");
-                            var idstr = values[values.length - 1];
-                            var idint = parseInt(idstr);
+                    var idstr = values[values.length - 1];
+                    var idint = parseInt(idstr);
 
-                            return idstr + " (#"+idint.toString(36)+")";
+                    return idstr + " (#" + idint.toString(36) + ")";
 
                 }
             }
@@ -385,6 +404,19 @@ Ext.define('PartKeepr.PartsGrid', {
         return ret;
     },
     /**
+     * Used as renderer for the meta part column.
+     */
+    metaPartRenderer: function (val, q, rec)
+    {
+        var ret = "";
+
+        if (rec.get("metaPart") === true) {
+            ret += '<span class="web-icon bricks" title="' + i18n("Meta Part") + '"></span>';
+        }
+
+        return ret;
+    },
+    /**
      * Sets the category. Triggers a store reload with a category filter.
      */
     setCategory: function (category)
@@ -426,7 +458,7 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     handleStockFieldEdit: function (e)
     {
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm") === false) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm", true) === false) {
             this.handleStockChange(e);
         } else {
             this.confirmStockChange(e);
@@ -514,7 +546,7 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     afterConfirmStockChange: function (buttonId, text, opts)
     {
-        if (buttonId == "cancel") {
+        if (buttonId === "cancel") {
             opts.originalOnEdit.record.set("stockLevel", opts.originalOnEdit.originalValue);
             return;
         }

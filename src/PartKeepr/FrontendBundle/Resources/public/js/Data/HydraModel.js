@@ -13,6 +13,18 @@ Ext.define("PartKeepr.data.HydraModel", {
 
         return data;
     },
+    isPartiallyEqualTo: function (model, fields)
+    {
+        var i;
+
+        for (i = 0; i < fields.length; i++) {
+            if (this.get(fields[i]) != model.get(fields[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    },
     get: function (fieldName)
     {
         var ret, role, item, openingBracket, closingBracket, subEntity, index, subEntityStore;
@@ -43,7 +55,7 @@ Ext.define("PartKeepr.data.HydraModel", {
                     closingBracket = parts[0].indexOf("]", openingBracket);
                     index = parts[0].substring(openingBracket+1, closingBracket);
 
-                    subEntityStore = this[this.associations[subEntity].name]();
+                    subEntityStore = this[this.associations[subEntity].role]();
                     item = subEntityStore.getAt(index);
 
                     if (item !== null) {

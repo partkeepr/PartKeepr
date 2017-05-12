@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImportBundle\Configuration;
 
+namespace PartKeepr\ImportBundle\Configuration;
 
 class FieldConfiguration extends BaseConfiguration
 {
@@ -70,15 +70,29 @@ class FieldConfiguration extends BaseConfiguration
         return true;
     }
 
+    /**
+     * Imports a given row.
+     *
+     * @param $row array The row to import
+     *
+     * @return string|null
+     */
     public function import($row)
     {
         switch ($this->fieldConfiguration) {
             case self::FIELDCONFIGURATION_FIXEDVALUE:
                 $this->log(sprintf("Would set field %s to fixed value %s", $this->fieldName, $this->fixedValue));
+
                 return $this->fixedValue;
             break;
             case self::FIELDCONFIGURATION_COPYFROM:
+                if (!array_key_exists($this->copyFromField, $row)) {
+                    $this->log(sprintf("Error: Column %s for %s does not exist", $this->copyFromField, $this->fieldName));
+
+                    return null;
+                }
                 $this->log(sprintf("Would set field %s to value %s (import column %s)", $this->fieldName, $row[$this->copyFromField], $this->copyFromField));
+
                 return $row[$this->copyFromField];
             break;
             default:

@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.RequiredPartFields', {
-    extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
 
     initComponent: function ()
     {
@@ -30,7 +30,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.RequiredPartField
                     {
                         border: false,
                         html: "The fields <strong>Name</strong>, <strong>Category</strong> and <strong>Storage Location</strong> are always required.",
-                        style: "padding-top: 4px; padding-bottom: 5px;",
+                        style: "padding-top: 4px; padding-bottom: 5px;"
                     },
                     this.fieldSelector
                 ]
@@ -78,7 +78,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.RequiredPartField
         var fields = [];
 
         for (var i = 0; i < selection.length; i++) {
-            fields.push(selection[i].data.data);
+            fields.push(selection[i].data.data.name);
         }
 
         PartKeepr.getApplication().setSystemPreference("partkeepr.part.requiredFields", fields);

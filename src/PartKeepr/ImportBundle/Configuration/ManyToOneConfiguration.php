@@ -1,6 +1,8 @@
 <?php
+
 namespace PartKeepr\ImportBundle\Configuration;
 
+use Doctrine\ORM\QueryBuilder;
 
 class ManyToOneConfiguration extends Configuration
 {
@@ -76,7 +78,7 @@ class ManyToOneConfiguration extends Configuration
 
                 foreach ($importConfiguration->matchers as $matcher) {
                     if (!property_exists($matcher, "matchField") || !property_exists($matcher,
-                            "importField") || $matcher->importField == ""
+                            "importField") || $matcher->importField === ""
                     ) {
                         throw new \Exception("matcher configuration error");
                     }
@@ -120,13 +122,14 @@ class ManyToOneConfiguration extends Configuration
         return parent::parseConfiguration($importConfiguration);
     }
 
-    public function import($row)
+    public function import($row, $obj = null)
     {
         $descriptions = [];
         switch ($this->importBehaviour) {
             case self::IMPORTBEHAVIOUR_ALWAYSSETTO:
                 $targetEntity = $this->iriConverter->getItemFromIri($this->setToEntity);
                 $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $targetEntity->getId()));
+
                 return $targetEntity;
                 break;
             case self::IMPORTBEHAVIOUR_MATCHDATA:
@@ -146,7 +149,7 @@ class ManyToOneConfiguration extends Configuration
 
                 $filters = $configuration['filters'];
                 $sorters = $configuration['sorters'];
-                $qb = new \Doctrine\ORM\QueryBuilder($this->em);
+                $qb = new QueryBuilder($this->em);
                 $qb->select("o")->from($this->baseEntity, "o");
 
                 $this->advancedSearchFilter->filter($qb, $filters, $sorters);
@@ -159,22 +162,24 @@ class ManyToOneConfiguration extends Configuration
                     }
 
                     $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $result->getId()));
+
                     return $result;
                 } catch (\Exception $e) {
-
                 }
 
                     switch ($this->notFoundBehaviour) {
                         case self::NOTFOUNDBEHAVIOUR_STOPIMPORT:
-                            $this->log(sprintf("Would stop import as the match %s for association %s was not found", implode(",",$descriptions), $this->getAssociationName()));
+                            $this->log(sprintf("Would stop import as the match %s for association %s was not found", implode(",", $descriptions), $this->getAssociationName()));
                             break;
                         case self::NOTFOUNDBEHAVIOUR_SETTOENTITY:
                             $targetEntity = $this->iriConverter->getItemFromIri($this->notFoundSetToEntity);
-                            $this->log(sprintf("Would set the association %s to %s, since the match %s for association %s was not found", $this->getAssociationName(), $this->notFoundSetToEntity, implode(",",$descriptions)));
+                            $this->log(sprintf("Would set the association %s to %s, since the match %s for association %s was not found", $this->getAssociationName(), $this->notFoundSetToEntity, implode(",", $descriptions)));
+
                             return $targetEntity;
                             break;
                         case self::NOTFOUNDBEHAVIOUR_CREATEENTITY:
                             $this->log(sprintf("Would create a new entity of type %s", $this->baseEntity));
+
                             return parent::import($row);
                             break;
 
@@ -201,5 +206,4 @@ class ManyToOneConfiguration extends Configuration
     {
         $this->associationName = $associationName;
     }
-
 }

@@ -1,5 +1,29 @@
 # Changelog
 
+
+## PartKeepr 1.2.0
+
+New Features:
+
+* [Advanced Part Parameters](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Advanced_Part_Parameters): Allows the user to define part parameters
+* [Generic Filtering](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Generic_Filtering): Allows the definition of custom filters
+* [OctoPart Integration](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#OctoPart_Integration): Retrieve part data from OctoPart
+* [Importer](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Importer): Import any data into PartKeepr
+* [Meta Parts](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Meta_Parts): Define Parts based on values from other parts
+* [Theme Support](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Experimental_Theme_Support): Experimental themes
+* [Batch Jobs](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Batch_Jobs): Update data based on actions
+* [Project Runs](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Project_Runs): Stores parts used for each project run
+* [Project Overages](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.2.0#Project_Overages): Remove a fixed or percentual amount for project runs (e.g. wasted parts)
+
+Bugfixes and other features:
+* It's now possible to define if the internal part number must be unique [#486](https://github.com/partkeepr/PartKeepr/issues/486)
+* m:n Data can now be exported, for example, distributors for a part [#435](https://github.com/partkeepr/PartKeepr/issues/435)
+* Item prices are considered as not being set, allows proper statistics for "Parts without price" [#500](https://github.com/partkeepr/PartKeepr/issues/500)
+* Part details are shown in the Add/Remove Stock dialog when using a barcode scanner [#727](https://github.com/partkeepr/PartKeepr/issues/727)
+* Setting passwords for legacy users work again [#750](https://github.com/partkeepr/PartKeepr/issues/750)
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.2.0+is%3Aclosed)
+
 ## PartKeepr 1.1.0
 
 New Features:

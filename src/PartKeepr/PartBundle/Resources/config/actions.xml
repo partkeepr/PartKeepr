@@ -34,5 +34,11 @@
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="partkeepr.part_measurement_unit_service"/>
         </service>
+        <service id="partkeepr.parts.collection_get"
+                 class="PartKeepr\PartBundle\Action\GetPartsAction">
+            <argument type="service" id="api.data_provider"/>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <argument type="service" id="partkeepr.part_service"/>
+        </service>
     </services>
 </container>

@@ -7,15 +7,14 @@ Ext.define('PartKeepr.Components.Part.AddRemoveStockWindow', {
 
     // Configurations
     constrainHeader: true,
-    width: 305,
-    height: 180,
-
+    width: 600,
+    overflowY: 'auto',
     resizable: false,
 
     // We set the title later
     title: i18n("Add/Remove Stock"),
 
-    layout: 'anchor',
+    layout: 'fit',
     bodyStyle: {
         padding: "5px"
     },
@@ -64,10 +63,20 @@ Ext.define('PartKeepr.Components.Part.AddRemoveStockWindow', {
             }
         });
 
+        this.infoGrid = Ext.create("PartKeepr.Components.Part.PartInfoGrid", {
+            mode: 'short',
+            padding: {
+                bottom: "5px"
+            }
+        });
+
+        this.infoGrid.applyFromPart(this.record);
+
         this.form = Ext.create("Ext.form.Panel", {
             border: false,
             bodyStyle: 'background-color: transparent',
             items: [
+                this.infoGrid,
                 {
                     xtype: 'fieldcontainer',
                     fieldLabel: i18n("Quantity"),

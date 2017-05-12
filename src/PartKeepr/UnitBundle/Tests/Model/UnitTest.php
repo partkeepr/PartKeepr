@@ -29,7 +29,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
         $unit = $this->getUnit();
         $newSiPrefix = new SiPrefix();
 
-        $unit->setPrefixes([$newSiPrefix]);
+        $unit->addPrefix($newSiPrefix);
         $this->assertEquals([$newSiPrefix], $unit->getPrefixes());
     }
 

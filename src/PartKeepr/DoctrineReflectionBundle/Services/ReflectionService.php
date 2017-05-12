@@ -76,10 +76,10 @@ class ReflectionService
         $associationMappings = $this->getDatabaseAssociationMappings($cm, $bTree);
 
         $renderParams = [
-            'fields' => $fieldMappings,
+            'fields'       => $fieldMappings,
             'associations' => $associationMappings,
-            'className' => $this->convertPHPToExtJSClassName($entity),
-            'parentClass' => $parentClass,
+            'className'    => $this->convertPHPToExtJSClassName($entity),
+            'parentClass'  => $parentClass,
         ];
 
         $targetService = $this->reader->getClassAnnotation(
@@ -161,7 +161,7 @@ class ReflectionService
             foreach ($propertyAnnotations as $propertyAnnotation) {
                 $filter = "Symfony\\Component\\Validator\\Constraints\\NotNull";
 
-                if (substr(get_class($propertyAnnotation),0, strlen($filter)) === $filter) {
+                if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter) {
                     $nullable = false;
                 }
             }
@@ -175,11 +175,11 @@ class ReflectionService
                     $byReference = true;
                 }
                 $associationMappings[$associationType][] = [
-                    'name' => $association['fieldName'],
-                    'nullable' => $nullable,
-                    'target' => $this->convertPHPToExtJSClassName($association['targetEntity']),
+                    'name'        => $association['fieldName'],
+                    'nullable'    => $nullable,
+                    'target'      => $this->convertPHPToExtJSClassName($association['targetEntity']),
                     'byReference' => $byReference,
-                    'getter' => $getter,
+                    'getter'      => $getter,
                     'getterField' => $getterField,
                 ];
             }
@@ -207,8 +207,9 @@ class ReflectionService
 
             if ($virtualFieldAnnotation !== null) {
                 $fieldMappings[] = [
-                    'name' => $property->getName(),
-                    'type' => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
+                    'persist' => true,
+                    'name'    => $property->getName(),
+                    'type'    => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
                 ];
             }
         }
@@ -255,7 +256,6 @@ class ReflectionService
         $fieldMappings = [];
         $fields = $cm->getFieldNames();
 
-
         foreach ($fields as $field) {
             $currentMapping = $cm->getFieldMapping($field);
 
@@ -266,11 +266,16 @@ class ReflectionService
                 $currentMapping['type'] = 'string';
             }
 
+            if (!array_key_exists("nullable", $currentMapping)) {
+                $currentMapping["nullable"] = false;
+            }
+
             $fieldMappings[] = [
-                'name' => $currentMapping['fieldName'],
-                'type' => $this->getExtJSFieldMapping($currentMapping['type']),
+                'name'       => $currentMapping['fieldName'],
+                'type'       => $this->getExtJSFieldMapping($currentMapping['type']),
+                'nullable'   => $currentMapping['nullable'],
                 'validators' => json_encode($asserts),
-                'persist' => $this->allowPersist($cm, $field)
+                'persist'    => $this->allowPersist($cm, $field),
             ];
         }
 
@@ -316,51 +321,53 @@ class ReflectionService
         return 'undefined';
     }
 
-    public function getExtJSAssertMapping (Constraint $assert) {
+    public function getExtJSAssertMapping(Constraint $assert)
+    {
         switch (get_class($assert)) {
             case "Symfony\\Component\\Validator\\Constraints\\NotBlank":
                 /**
-                 * @var $assert NotBlank
+                 * @var NotBlank
                  */
-                return [ "type" => "presence", "message" => $assert->message];
+                return ["type" => "presence", "message" => $assert->message];
                 break;
             default:
                 return false;
         }
     }
 
-    public function getExtJSAssertMappings (ClassMetadata $cm, $field) {
+    public function getExtJSAssertMappings(ClassMetadata $cm, $field)
+    {
         $asserts = [];
         $propertyAnnotations = $this->reader->getPropertyAnnotations($cm->getReflectionProperty($field));
 
-            foreach ($propertyAnnotations as $propertyAnnotation) {
-                $filter = "Symfony\\Component\\Validator\\Constraints\\";
+        foreach ($propertyAnnotations as $propertyAnnotation) {
+            $filter = "Symfony\\Component\\Validator\\Constraints\\";
 
-                if (substr(get_class($propertyAnnotation),0, strlen($filter)) === $filter) {
-                    $assertMapping = $this->getExtJSAssertMapping($propertyAnnotation);
+            if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter) {
+                $assertMapping = $this->getExtJSAssertMapping($propertyAnnotation);
 
-                    if ($assertMapping !== false) {
-                        $asserts[] = $assertMapping;
-                    }
+                if ($assertMapping !== false) {
+                    $asserts[] = $assertMapping;
                 }
             }
+        }
 
-            return $asserts;
+        return $asserts;
     }
 
-    public function allowPersist (ClassMetadata $cm, $field) {
+    public function allowPersist(ClassMetadata $cm, $field)
+    {
+        $groupsAnnotation = $this->reader->getPropertyAnnotation(
+            $cm->getReflectionProperty($field),
+            'Symfony\Component\Serializer\Annotation\Groups'
+        );
 
-            $groupsAnnotation = $this->reader->getPropertyAnnotation(
-                $cm->getReflectionProperty($field),
-                'Symfony\Component\Serializer\Annotation\Groups'
-            );
-
-            if ($groupsAnnotation !== null) {
-                if (in_array("readonly", $groupsAnnotation->getGroups())) {
-                    return false;
-                }
-
+        if ($groupsAnnotation !== null) {
+            if (in_array("readonly", $groupsAnnotation->getGroups())) {
+                return false;
+            }
         }
+
         return true;
     }
 

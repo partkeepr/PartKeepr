@@ -20,7 +20,7 @@ Ext.define('PartKeepr.PartEditor', {
     initComponent: function ()
     {
         // Defines the overall height of all fields, used to calculate the anchoring for the description field
-        var overallHeight = (this.partMode == "create") ? '-300' : '-245';
+        var overallHeight = (this.partMode == "create") ? 320: 265;
 
         this.nameField = Ext.create("Ext.form.field.Text", {
             name: 'name',
@@ -90,6 +90,7 @@ Ext.define('PartKeepr.PartEditor', {
                 name: 'description'
             }, {
                 layout: 'column',
+                xtype: 'fieldcontainer',
                 margin: {
                     bottom: "0 5px 5px 0"
                 },
@@ -140,9 +141,14 @@ Ext.define('PartKeepr.PartEditor', {
                 fieldLabel: i18n("Comment"),
                 name: 'comment',
                 allowBlank: this.isOptional("comment"),
-                anchor: '100% ' + overallHeight
+                anchor: '100% ' + (-overallHeight).toString()
             },
             {
+                xtype: 'textfield',
+                fieldLabel: i18n("Production Remarks"),
+                name: 'productionRemarks',
+                allowBlank: this.isOptional("productionRemarks"),
+            },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
                 fieldLabel: i18n("Status"),
@@ -193,6 +199,7 @@ Ext.define('PartKeepr.PartEditor', {
                                 });
                             }
                         },
+                        itemId: 'idField',
                         name: '@id',
                         fieldStyle: {
                             color: "blue",
@@ -227,6 +234,13 @@ Ext.define('PartKeepr.PartEditor', {
         });
 
         // Creates the attachment grid
+        this.partParameterGrid = Ext.create("PartKeepr.PartParameterGrid", {
+            title: i18n("Part Parameters"),
+            iconCls: 'fugue-icon table',
+            layout: 'fit'
+        });
+
+        // Creates the attachment grid
         this.partAttachmentGrid = Ext.create("PartKeepr.PartAttachmentGrid", {
             title: i18n("Attachments"),
             iconCls: 'web-icon attach',
@@ -250,6 +264,7 @@ Ext.define('PartKeepr.PartEditor', {
             });
 
             basicEditorFields.push({
+                xtype: 'container',
                 layout: 'column',
                 border: false,
                 items: [
@@ -272,6 +287,7 @@ Ext.define('PartKeepr.PartEditor', {
             });
 
             basicEditorFields.push({
+                xtype: 'container',
                 layout: 'column',
                 border: false,
                 items: [
@@ -290,6 +306,7 @@ Ext.define('PartKeepr.PartEditor', {
             items: [
                 {
                     iconCls: 'web-icon brick',
+                    ui: 'default-framed',
                     xtype: 'panel',
                     autoScroll: false,
                     layout: 'anchor',
@@ -302,6 +319,7 @@ Ext.define('PartKeepr.PartEditor', {
                 },
                 this.partDistributorGrid,
                 this.partManufacturerGrid,
+                this.partParameterGrid,
                 this.partAttachmentGrid
             ]
         };
@@ -312,7 +330,14 @@ Ext.define('PartKeepr.PartEditor', {
         this.callParent();
 
         this.on("itemSave", this.onItemSave, this);
+        this.down("#idField").on("beforedestroy", this.onBeforeDestroy, this.down("#idField"));
 
+    },
+    /**
+     * Unregisters the quick tip immediately prior destroying
+     */
+    onBeforeDestroy: function (field) {
+        Ext.QuickTips.unregister(field.getEl());
     },
     /**
      * Cleans up the record prior saving.
@@ -350,34 +375,16 @@ Ext.define('PartKeepr.PartEditor', {
         removeRecords = [];
 
         /**
-         * Iterate through all records and check if a valid parameter
-         * ID is assigned. If not, the record is removed as it is assumed
-         * that the record is invalid and being removed.
-         */
-
-        for (j = 0; j < this.record.parameters().getCount(); j++) {
-            if (this.record.parameters().getAt(j).get("unit_id") === 0) {
-                removeRecords.push(this.record.parameters().getAt(j));
-            }
-        }
-
-        if (removeRecords.length > 0) {
-            this.record.parameters().remove(removeRecords);
-        }
-
-        removeRecords = [];
-
-        /**
          * Iterate through all records and check if a valid manufacturer
          * ID is assigned. If not, the record is removed as it is assumed
          * that the record is invalid and being removed.
          */
 
-        for (j = 0; j < this.record.manufacturers().getCount(); j++) {
+        /*for (j = 0; j < this.record.manufacturers().getCount(); j++) {
             if (this.record.manufacturers().getAt(j).getManufacturer() === null) {
                 removeRecords.push(this.record.manufacturers().getAt(j));
             }
-        }
+        }*/
 
         if (removeRecords.length > 0) {
             this.record.manufacturers().remove(removeRecords);
@@ -485,6 +492,14 @@ Ext.define('PartKeepr.PartEditor', {
         this.partDistributorGrid.bindStore(this.record.distributors());
         this.partManufacturerGrid.bindStore(this.record.manufacturers());
         this.partAttachmentGrid.bindStore(this.record.attachments());
+        this.partParameterGrid.bindStore(this.record.parameters());
+    },
+    onCancelEdit: function () {
+        this.record.distributors().rejectChanges();
+        this.record.manufacturers().rejectChanges();
+        this.record.attachments().rejectChanges();
+        this.record.parameters().rejectChanges();
+        this.callParent(arguments);
     },
     setTitle: function (title)
     {

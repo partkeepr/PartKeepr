@@ -1,4 +1,5 @@
 <?php
+
 namespace PartKeepr\SystemPreferenceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

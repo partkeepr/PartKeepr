@@ -347,6 +347,17 @@ services:
             -   "partkeepr.part.post"
             -   "PartPost"
 
+    resource.part.collection_operation.custom_get:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+            arguments:
+              - "@resource.part"
+              - [ "GET" ]
+              - "/parts"
+              - "partkeepr.parts.collection_get"
+              - "PartsGet"
+
     resource.part.item_operation.get:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
@@ -412,7 +423,7 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.part.item_operation.get", "@resource.part.item_operation.custom_put", "@resource.part.item_operation.delete", "@resource.part.item_operation.add_stock", "@resource.part.item_operation.remove_stock", "@resource.part.item_operation.set_stock" ] ]
             -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.part.collection_operation.get", "@resource.part.collection_operation.custom_post" ] ]
+                    arguments: [ [ "@resource.part.collection_operation.custom_get", "@resource.part.collection_operation.custom_post" ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
@@ -556,6 +567,28 @@ services:
     resource.part_manufacturer:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\PartBundle\\Entity\\PartManufacturer" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.part_parameter:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartParameter" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.meta_part_parameter_criteria:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\PartBundle\\Entity\\MetaPartParameterCriteria" ]
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initNormalizationContext"
@@ -1268,6 +1301,32 @@ services:
         calls:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.project_attachment.item_operation.get", "@resource.project_attachment.item_operation.custom_get", "@resource.project_attachment.item_operation.custom_get_mime", "@resource.project_attachment.item_operation.custom_get_image"  ] ]
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.project_run:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectRun" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.project_run_part:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectRunPart" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"

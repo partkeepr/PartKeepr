@@ -74,7 +74,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                 continue;
             }
 
-            if (fields[i]["$reference"] === undefined) {
+            if (fields[i]["reference"] === null) {
                 checked = false;
 
                 if (Ext.Array.contains(this.initiallyChecked, prefix + fields[i].name)) {
@@ -136,18 +136,18 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
 
         for (i in associations) {
             associationAlreadyProcessed = false;
-            if (typeof associations[i].legacy !== "undefined" && associations[i].isMany === true) {
+            if (typeof(associations[i].storeName) !== "undefined" && associations[i].isMany === true) {
                 for (j = 0; j < this.visitedModels.length; j++) {
-                    if (this.visitedModels[j] === associations[i].model) {
+                    if (this.visitedModels[j] === associations[i].type) {
                         associationAlreadyProcessed = true;
                     }
                 }
 
                 if (!associationAlreadyProcessed) {
                     childNode = node.appendChild({
-                        text: associations[i].name,
+                        text: associations[i].role,
                         data: {
-                            name: prefix + associations[i].name,
+                            name: prefix + associations[i].role,
                             type: "onetomany",
                             reference: associations[i].cls
                         },
@@ -158,7 +158,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                         childNode.set(callback(associations[i].cls, childNode));
                     }
 
-                    this.treeMaker(childNode, associations[i].cls, prefix + associations[i].name + ".", callback);
+                    this.treeMaker(childNode, associations[i].cls, prefix + associations[i].role + ".", callback);
                 }
             }
         }

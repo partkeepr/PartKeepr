@@ -193,7 +193,7 @@ Ext.define("PartKeepr.Importer.ImportFieldMatcherGrid", {
                     },
                     scope: this
                 }
-            ],
+            ]
         }).show();
     }
 });

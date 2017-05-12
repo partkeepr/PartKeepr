@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ImportBundle\Service;
 
+namespace PartKeepr\ImportBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
@@ -8,7 +8,7 @@ use Doctrine\ORM\UnitOfWork;
 use Dunglas\ApiBundle\Api\IriConverter;
 use PartKeepr\DoctrineReflectionBundle\Filter\AdvancedSearchFilter;
 use PartKeepr\DoctrineReflectionBundle\Services\ReflectionService;
-use PartKeepr\ImportBundle\Configuration\Configuration;
+use PartKeepr\ImportBundle\Configuration\EntityConfiguration;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class ImporterService
@@ -68,14 +68,29 @@ class ImporterService
 
         $configuration = $this->parseConfiguration();
 
+        $this->em->beginTransaction();
+
         foreach ($this->importData as $row) {
+            $this->em->beginTransaction();
             $entity = $configuration->import($row);
-            $entities[] = $entity;
+
+            if ($entity !== null) {
+                $entities[] = $entity;
+            }
             $logs[] = implode("<br/>",
-                [ "data" => implode(",",$row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog() ), '</p>']);
+                ["data" => implode(",", $row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog()), '</p>']);
 
             $configuration->clearLog();
+
+            foreach ($configuration->getPersistEntities() as $entity) {
+                $this->em->persist($entity);
+            }
+
+            $this->em->flush();
+            $this->em->commit();
         }
+
+        $this->em->commit();
 
         return [$configuration->getPersistEntities(), implode("<br/>", $logs)];
     }
@@ -84,7 +99,7 @@ class ImporterService
     {
         $cm = $this->em->getClassMetadata($this->baseEntity);
 
-        $configuration = new Configuration($cm, $this->baseEntity, $this->reflectionService, $this->em,
+        $configuration = new EntityConfiguration($cm, $this->baseEntity, $this->reflectionService, $this->em,
             $this->advancedSearchFilter, $this->iriConverter);
         $configuration->parseConfiguration($this->importConfiguration);
 

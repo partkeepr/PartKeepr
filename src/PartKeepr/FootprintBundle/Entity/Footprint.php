@@ -199,7 +199,7 @@ class Footprint extends BaseEntity
      */
     public function getAttachments()
     {
-        return $this->attachments;
+        return $this->attachments->getValues();
     }
 
     /**
@@ -226,9 +226,11 @@ class Footprint extends BaseEntity
      *
      * @return void
      */
-    public function removeAttachment(FootprintAttachment $attachment)
+    public function removeAttachment($attachment)
     {
-        $attachment->setFootprint(null);
+        if ($attachment instanceof FootprintAttachment) {
+            $attachment->setFootprint(null);
+        }
         $this->attachments->removeElement($attachment);
     }
 }

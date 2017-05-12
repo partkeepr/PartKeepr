@@ -6,7 +6,8 @@ Ext.define('PartKeepr.MenuBar', {
         menu: []
     },
 
-    createMenu: function (target, menuPath, root) {
+    createMenu: function (target, menuPath, root)
+    {
         var item = menuPath.shift(), newItem;
 
         if (item === undefined) {
@@ -19,7 +20,7 @@ Ext.define('PartKeepr.MenuBar', {
         var foundItem = false;
 
         for (var i = 0; i < root.menu.length; i++) {
-            if (root.menu[i].text == item.text) {
+            if (root.menu[i].text === item.text) {
                 Ext.applyIf(root.menu[i], item);
                 foundItem = i;
             }
@@ -39,14 +40,15 @@ Ext.define('PartKeepr.MenuBar', {
 
         return root;
     },
-    initComponent: function () {
+    initComponent: function ()
+    {
         var target, menuItemIterator;
 
         this.ui = "mainmenu";
 
         var menuItems = [
             // System Menu
-            "PartKeepr.UserPreferencePanel",
+            "PartKeepr.Components.UserPreferences.Panel",
             "PartKeepr.Components.SystemPreferences.Panel",
             "PartKeepr.Actions.LogoutAction",
 
@@ -66,8 +68,9 @@ Ext.define('PartKeepr.MenuBar', {
             "PartKeepr.StatisticsChartPanel",
             "PartKeepr.SystemInformationGrid",
             "PartKeepr.ProjectReportView",
+            'PartKeepr.ProjectRunEditorComponent',
             "PartKeepr.SystemNoticeEditorComponent",
-            "PartKeepr.StockHistoryGrid",
+            "PartKeepr.StockHistoryGrid"
         ];
 
 
@@ -84,8 +87,44 @@ Ext.define('PartKeepr.MenuBar', {
             this.createMenu(target, target.menuPath, this.menu);
         }
 
+        this.themesMenu = [];
+        var checked;
+
+        this.themesMenu.push({
+            text: "Warning: Theme support is a beta-feature!",
+            disabled: true
+        });
+
+        for (var i in window.themes) {
+            checked = window.theme === i;
+            this.themesMenu.push({
+                text: window.themes[i].themeName,
+                theme: i,
+                group: 'theme',
+                checked: checked
+            });
+        }
+        this.menu.menu.push({text: i18n("Theme"), type: 'themes', menu: this.themesMenu});
+
+
         this.items = this.menu.menu;
 
         this.callParent();
+    },
+    selectTheme: function (theme) {
+        var i,j,menuItem;
+
+        for (i=0;i<this.items.getCount();i++) {
+            if (this.items.getAt(i).type === "themes") {
+                for (j=0;j<this.items.getAt(i).menu.items.getCount();j++) {
+                    menuItem = this.items.getAt(i).menu.items.getAt(j);
+
+                    if (menuItem.theme === theme) {
+                        menuItem.setChecked(true);
+                    }
+                }
+
+            }
+        }
     }
 });

@@ -169,7 +169,11 @@ Ext.define("PartKeepr.BarcodeScanner.Actions.AddRemoveStock", {
                 listeners: {
                     show: function ()
                     {
-                        this.down("#grid").focus();
+                        Ext.defer(function ()
+                        {
+                            this.down("#grid").getView().focusRow(0);
+                        }, 50, this);
+
                         this.down("#grid").getSelectionModel().selectRange(0, 0);
 
                     }
