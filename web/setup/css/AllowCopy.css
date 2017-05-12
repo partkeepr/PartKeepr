@@ -1,0 +1,4 @@
+.x-unselectable {
+    -moz-user-select: text;
+    cursor: auto;
+}
