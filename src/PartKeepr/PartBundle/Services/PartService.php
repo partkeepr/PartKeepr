@@ -176,16 +176,25 @@ class PartService
         if (count($results) > 1) {
             $result = call_user_func_array("array_intersect", $results);
         } else {
-            $result = $results[0];
+            if (count($results) === 1) {
+                $result = $results[0];
+            } else {
+                $result = [];
+            }
         }
 
-        $qb = $this->entityManager->createQueryBuilder();
-        $qb->select("p")->from("PartKeeprPartBundle:Part", "p")
-            ->where(
-                $qb->expr()->in("p.id", ":result"));
+        if (count($result) > 0) {
+            $qb = $this->entityManager->createQueryBuilder();
+            $qb->select("p")->from("PartKeeprPartBundle:Part", "p")
+                ->where(
+                    $qb->expr()->in("p.id", ":result")
+                );
 
-        $qb->setParameter(":result", $result);
+            $qb->setParameter(":result", $result);
 
-        return $qb->getQuery()->getResult();
+            return $qb->getQuery()->getResult();
+        } else {
+            return [];
+        }
     }
 }
