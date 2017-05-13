@@ -33,6 +33,11 @@ Ext.define("PartKeepr.data.HydraModel", {
 
         if (ret === undefined) {
             // The field is undefined, attempt to retrieve data via associations
+
+            if (typeof(fieldName) !== "string") {
+                return undefined;
+            }
+
             var parts = fieldName.split(".");
 
             if (parts.length < 2) {
