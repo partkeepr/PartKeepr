@@ -20,7 +20,7 @@ Ext.define('PartKeepr.MenuBar', {
         var foundItem = false;
 
         for (var i = 0; i < root.menu.length; i++) {
-            if (root.menu[i].text == item.text) {
+            if (root.menu[i].text === item.text) {
                 Ext.applyIf(root.menu[i], item);
                 foundItem = i;
             }
@@ -48,7 +48,7 @@ Ext.define('PartKeepr.MenuBar', {
 
         var menuItems = [
             // System Menu
-            "PartKeepr.UserPreferencePanel",
+            "PartKeepr.Components.UserPreferences.Panel",
             "PartKeepr.Components.SystemPreferences.Panel",
             "PartKeepr.Actions.LogoutAction",
 
@@ -70,7 +70,7 @@ Ext.define('PartKeepr.MenuBar', {
             "PartKeepr.ProjectReportView",
             'PartKeepr.ProjectRunEditorComponent',
             "PartKeepr.SystemNoticeEditorComponent",
-            "PartKeepr.StockHistoryGrid",
+            "PartKeepr.StockHistoryGrid"
         ];
 
 
@@ -96,11 +96,7 @@ Ext.define('PartKeepr.MenuBar', {
         });
 
         for (var i in window.themes) {
-            if (window.theme == i) {
-                checked = true;
-            } else {
-                checked = false;
-            }
+            checked = window.theme === i;
             this.themesMenu.push({
                 text: window.themes[i].themeName,
                 theme: i,
@@ -119,7 +115,7 @@ Ext.define('PartKeepr.MenuBar', {
         var i,j,menuItem;
 
         for (i=0;i<this.items.getCount();i++) {
-            if (this.items.getAt(i).type == "themes") {
+            if (this.items.getAt(i).type === "themes") {
                 for (j=0;j<this.items.getAt(i).menu.items.getCount();j++) {
                     menuItem = this.items.getAt(i).menu.items.getAt(j);
 

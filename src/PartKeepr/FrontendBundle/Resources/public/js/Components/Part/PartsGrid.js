@@ -194,7 +194,7 @@ Ext.define('PartKeepr.PartsGrid', {
             fn: function ()
             {
                 var searchBox = this.searchField;
-                if (Ext.get(document).activeElement != searchBox) {
+                if (Ext.get(document).activeElement !== searchBox) {
                     searchBox.focus('', 10);
                 }
                 searchBox.setValue('');
@@ -209,7 +209,7 @@ Ext.define('PartKeepr.PartsGrid', {
     _updateAddTemplateButton: function ()
     {
         /* Right now, we support delete on a single record only */
-        if (this.getSelectionModel().getCount() == 1) {
+        if (this.getSelectionModel().getCount() === 1) {
             this.addFromTemplateButton.enable();
         } else {
             this.addFromTemplateButton.disable();
@@ -458,7 +458,7 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     handleStockFieldEdit: function (e)
     {
-        if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm") === false) {
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.inline-stock-change.confirm", true) === false) {
             this.handleStockChange(e);
         } else {
             this.confirmStockChange(e);
@@ -546,7 +546,7 @@ Ext.define('PartKeepr.PartsGrid', {
      */
     afterConfirmStockChange: function (buttonId, text, opts)
     {
-        if (buttonId == "cancel") {
+        if (buttonId === "cancel") {
             opts.originalOnEdit.record.set("stockLevel", opts.originalOnEdit.originalValue);
             return;
         }

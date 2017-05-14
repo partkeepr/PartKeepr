@@ -1,4 +1,4 @@
-Ext.define('PartKeepr.Components.SystemPreferences.PreferenceEditor', {
+Ext.define('PartKeepr.Components.Preferences.PreferenceEditor', {
     extend: 'Ext.form.Panel',
     trackResetOnLoad: true,
     bodyPadding: 10,

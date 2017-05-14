@@ -1,5 +1,5 @@
 Ext.define('PartKeepr.Components.SystemPreferences.Preferences.ActionsConfiguration', {
-    extend: 'PartKeepr.Components.SystemPreferences.PreferenceEditor',
+    extend: 'PartKeepr.Components.Preferences.PreferenceEditor',
 
     initComponent: function ()
     {
@@ -50,7 +50,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.ActionsConfigurat
                                     queryMode: 'local',
                                     editable: false,
                                     forceSelection: true,
-                                    valueField: 'model',
+                                    valueField: 'model'
                                 }
                             }, {
                                 header: i18n("Action"),
@@ -69,7 +69,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.ActionsConfigurat
                                     displayField: 'name',
                                     editable: false,
                                     forceSelection: true,
-                                    valueField: '@id',
+                                    valueField: '@id'
                                 },
                                 renderer: this.renderBatchJob,
                                 scope: this
@@ -91,7 +91,7 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.ActionsConfigurat
                         ]
                     }
                 ]
-            },
+            }
         ];
 
         this.callParent(arguments);

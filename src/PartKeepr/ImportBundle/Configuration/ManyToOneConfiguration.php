@@ -2,6 +2,8 @@
 
 namespace PartKeepr\ImportBundle\Configuration;
 
+use Doctrine\ORM\QueryBuilder;
+
 class ManyToOneConfiguration extends Configuration
 {
     const IMPORTBEHAVIOUR_DONTSET = "dontSet";
@@ -120,7 +122,7 @@ class ManyToOneConfiguration extends Configuration
         return parent::parseConfiguration($importConfiguration);
     }
 
-    public function import($row)
+    public function import($row, $obj = null)
     {
         $descriptions = [];
         switch ($this->importBehaviour) {
@@ -147,7 +149,7 @@ class ManyToOneConfiguration extends Configuration
 
                 $filters = $configuration['filters'];
                 $sorters = $configuration['sorters'];
-                $qb = new \Doctrine\ORM\QueryBuilder($this->em);
+                $qb = new QueryBuilder($this->em);
                 $qb->select("o")->from($this->baseEntity, "o");
 
                 $this->advancedSearchFilter->filter($qb, $filters, $sorters);
@@ -185,6 +187,8 @@ class ManyToOneConfiguration extends Configuration
 
                 break;
         }
+
+        return null;
     }
 
     /**

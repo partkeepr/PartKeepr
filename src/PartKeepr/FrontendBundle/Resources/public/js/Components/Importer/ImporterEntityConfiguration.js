@@ -5,6 +5,7 @@ Ext.define("PartKeepr.Importer.ImporterEntityConfiguration", {
         align: 'stretch'
     },
     scrollable: 'y',
+    defaultListenerScope: true,
     importerField: null,
     xtype: 'importerEntityConfiguration',
 
@@ -29,6 +30,9 @@ Ext.define("PartKeepr.Importer.ImporterEntityConfiguration", {
             disabled: true,
             xtype: 'importFieldMatcherGrid',
             itemId: 'importFieldMatcherGrid',
+            listeners: {
+                change: "onImportBehaviourChange"
+            },
             height: 100
         },
         {

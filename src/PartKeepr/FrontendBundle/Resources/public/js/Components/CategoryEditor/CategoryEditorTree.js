@@ -11,16 +11,26 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     categoryModel: null,
     categoryService: null,
     categoryEditActions: true,
-    columns: [
-        {
+
+    initComponent: function ()
+    {
+        this.columns = [{
             xtype: 'treecolumn',
             header: 'Name',
             dataIndex: 'name',
             flex: 1
+        }];
+
+        if (PartKeepr.getApplication().getUserPreference("partkeepr.categorytree.showdescriptions", false) === true) {
+            this.columns.push(
+                {
+                    xtype: 'gridcolumn',
+                    header: 'Description',
+                    dataIndex: 'description',
+                    flex: 0.5
+                });
+
         }
-    ],
-    initComponent: function ()
-    {
         this.createToolbar();
 
 
@@ -75,9 +85,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     {
         var draggedRecord = data.records[0];
 
-        if (!(draggedRecord instanceof PartKeepr.data.HydraTreeModel)) {
-            return;
-        } else {
+        if (draggedRecord instanceof PartKeepr.data.HydraTreeModel) {
             var targetRecord;
 
             if (dropPosition === "after" || dropPosition === "before") {
@@ -211,7 +219,7 @@ Ext.define("PartKeepr.CategoryEditorTree", {
     },
     onCategoryDelete: function (btn)
     {
-        if (btn == "yes") {
+        if (btn === "yes") {
             this.getSelection()[0].erase();
         }
     }
