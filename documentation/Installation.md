@@ -15,7 +15,7 @@ Follow [these](https://wiki.partkeepr.org/wiki/KB00005:Web_Server_Configuration)
 Installation From Zip File
 --------------------------
 
-Simply point your browser to `web/setup/index.html` and the installer will start.
+Simply point your browser to `web/setup/index.html` and the installer will start. If you have your web root to the `web` directory, point your browser to `setup/index.html`.
 
 Installation From Git
 ---------------------
@@ -24,4 +24,4 @@ Installation From Git
 * Copy `app/config/parameters.php.dist` to `app/config/parameters.php`
 * Install [composer](https://getcomposer.org/download/) globally
 * Run `composer install`
-* Point your browser to `web/setup/index.html`
+* Point your browser to `setup/index.html`. If you have your web root to the `web` directory, point your browser to `setup/index.html`.
