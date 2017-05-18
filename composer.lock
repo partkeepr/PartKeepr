@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d821dadac3d5144dcd8a009c95089e5e",
+    "hash": "c3e5ce6a6e787f70af9507707a4d4bda",
+    "content-hash": "24fc9d79360211eb7a32ff2535a8a273",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -51,7 +52,7 @@
                 "icons",
                 "sprite"
             ],
-            "time": "2013-10-12T21:09:52+00:00"
+            "time": "2013-10-12 21:09:52"
         },
         {
             "name": "behat/transliterator",
@@ -91,7 +92,7 @@
                 "slug",
                 "transliterator"
             ],
-            "time": "2015-09-28T16:26:35+00:00"
+            "time": "2015-09-28 16:26:35"
         },
         {
             "name": "brainbits/fugue-icons-bundle",
@@ -134,7 +135,7 @@
                 "fugue",
                 "icons"
             ],
-            "time": "2013-05-15T12:31:26+00:00"
+            "time": "2013-05-15 12:31:26"
         },
         {
             "name": "composer/installers",
@@ -309,7 +310,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2015-08-31T12:32:49+00:00"
+            "time": "2015-08-31 12:32:49"
         },
         {
             "name": "doctrine/cache",
@@ -379,7 +380,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-08-31T12:36:41+00:00"
+            "time": "2015-08-31 12:36:41"
         },
         {
             "name": "doctrine/collections",
@@ -445,7 +446,7 @@
                 "collections",
                 "iterator"
             ],
-            "time": "2015-04-14T22:21:58+00:00"
+            "time": "2015-04-14 22:21:58"
         },
         {
             "name": "doctrine/common",
@@ -518,7 +519,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2015-08-31T13:00:22+00:00"
+            "time": "2015-08-31 13:00:22"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -575,7 +576,7 @@
             "keywords": [
                 "database"
             ],
-            "time": "2015-03-30T12:14:13+00:00"
+            "time": "2015-03-30 12:14:13"
         },
         {
             "name": "doctrine/dbal",
@@ -646,7 +647,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2015-09-16T16:29:33+00:00"
+            "time": "2015-09-16 16:29:33"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -725,7 +726,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2016-01-10T17:21:44+00:00"
+            "time": "2016-01-10 17:21:44"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -809,7 +810,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2014-11-28T09:43:36+00:00"
+            "time": "2014-11-28 09:43:36"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -866,7 +867,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2015-08-04T22:43:14+00:00"
+            "time": "2015-08-04 22:43:14"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -991,7 +992,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2014-12-20T21:24:13+00:00"
+            "time": "2014-12-20 21:24:13"
         },
         {
             "name": "doctrine/instantiator",
@@ -1045,7 +1046,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2015-06-14T21:17:01+00:00"
+            "time": "2015-06-14 21:17:01"
         },
         {
             "name": "doctrine/lexer",
@@ -1099,7 +1100,7 @@
                 "lexer",
                 "parser"
             ],
-            "time": "2014-09-09T13:34:57+00:00"
+            "time": "2014-09-09 13:34:57"
         },
         {
             "name": "doctrine/migrations",
@@ -1244,7 +1245,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2016-01-05T21:34:58+00:00"
+            "time": "2016-01-05 21:34:58"
         },
         {
             "name": "dunglas/api-bundle",
@@ -1627,7 +1628,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2015-12-29T16:02:50+00:00"
+            "time": "2015-12-29 16:02:50"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1835,7 +1836,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-10-08T15:01:37+00:00"
+            "time": "2016-10-08 15:01:37"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1886,7 +1887,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-12-20T10:07:11+00:00"
+            "time": "2016-12-20 10:07:11"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1944,7 +1945,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2016-06-24T23:00:38+00:00"
+            "time": "2016-06-24 23:00:38"
         },
         {
             "name": "imagine/imagine",
@@ -2001,7 +2002,7 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2015-09-19T16:54:05+00:00"
+            "time": "2015-09-19 16:54:05"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2052,7 +2053,7 @@
             "keywords": [
                 "parameters management"
             ],
-            "time": "2015-11-10T17:04:01+00:00"
+            "time": "2015-11-10 17:04:01"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -2094,7 +2095,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2014-11-20T16:49:30+00:00"
+            "time": "2014-11-20 16:49:30"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -2144,7 +2145,7 @@
                 "highlight",
                 "sql"
             ],
-            "time": "2014-01-12T16:20:24+00:00"
+            "time": "2014-01-12 16:20:24"
         },
         {
             "name": "jms/translation-bundle",
@@ -2358,7 +2359,7 @@
                 "filesystem",
                 "media"
             ],
-            "time": "2015-09-18T12:09:25+00:00"
+            "time": "2015-09-18 12:09:25"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -2781,7 +2782,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2013-08-25T17:11:40+00:00"
+            "time": "2013-08-25 17:11:40"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -2844,7 +2845,7 @@
                 "proxy pattern",
                 "service proxies"
             ],
-            "time": "2015-08-09T04:28:19+00:00"
+            "time": "2015-08-09 04:28:19"
         },
         {
             "name": "paragonie/random_compat",
@@ -3032,7 +3033,7 @@
                 "reflection",
                 "static analysis"
             ],
-            "time": "2014-11-14T11:43:04+00:00"
+            "time": "2014-11-14 11:43:04"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -3081,24 +3082,24 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2015-02-03T12:10:50+00:00"
+            "time": "2015-02-03 12:10:50"
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "1.0.5",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "38fa7332e96bcc546ce6eb5cbaa1168c96839393"
+                "reference": "f8dd0e18d2328c447dd4190fecd11ef52680d968"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/38fa7332e96bcc546ce6eb5cbaa1168c96839393",
-                "reference": "38fa7332e96bcc546ce6eb5cbaa1168c96839393",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f8dd0e18d2328c447dd4190fecd11ef52680d968",
+                "reference": "f8dd0e18d2328c447dd4190fecd11ef52680d968",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.0.0"
+                "php": ">=5.3.3"
             },
             "require-dev": {
                 "phing/phing": "~2.7",
@@ -3108,27 +3109,20 @@
             },
             "suggest": {
                 "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
-                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
-                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 5.0.0."
+                "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
+                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
+                "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Crypt": "phpseclib/",
-                    "File": "phpseclib/",
-                    "Math": "phpseclib/",
-                    "Net": "phpseclib/",
-                    "System": "phpseclib/"
-                },
                 "files": [
-                    "phpseclib/bootstrap.php",
-                    "phpseclib/Crypt/Random.php"
-                ]
+                    "phpseclib/bootstrap.php"
+                ],
+                "psr-4": {
+                    "phpseclib\\": "phpseclib/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "phpseclib/"
-            ],
             "license": [
                 "MIT"
             ],
@@ -3180,7 +3174,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2016-10-22 17:53:16"
+            "time": "2017-05-08 05:58:35"
         },
         {
             "name": "predis/predis",
@@ -3280,7 +3274,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06T14:39:51+00:00"
+            "time": "2016-08-06 14:39:51"
         },
         {
             "name": "psr/log",
@@ -3318,7 +3312,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21T11:40:51+00:00"
+            "time": "2012-12-21 11:40:51"
         },
         {
             "name": "ramsey/uuid",
@@ -3440,7 +3434,7 @@
                     "email": "ap@reputationvip.com"
                 }
             ],
-            "time": "2015-03-09T10:29:42+00:00"
+            "time": "2015-03-09 10:29:42"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -3674,7 +3668,7 @@
                 "redis",
                 "symfony"
             ],
-            "time": "2016-01-21T18:29:37+00:00"
+            "time": "2016-01-21 18:29:37"
         },
         {
             "name": "sonata-project/exporter",
@@ -3928,7 +3922,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2015-11-17T09:45:47+00:00"
+            "time": "2015-11-17 09:45:47"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -3987,7 +3981,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2015-11-17T10:02:29+00:00"
+            "time": "2015-11-17 10:02:29"
         },
         {
             "name": "symfony/polyfill-apcu",
@@ -4095,7 +4089,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04T20:28:58+00:00"
+            "time": "2015-11-04 20:28:58"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -4151,7 +4145,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04T20:28:58+00:00"
+            "time": "2015-11-04 20:28:58"
         },
         {
             "name": "symfony/polyfill-php54",
@@ -4209,7 +4203,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04T20:28:58+00:00"
+            "time": "2015-11-04 20:28:58"
         },
         {
             "name": "symfony/polyfill-php55",
@@ -4265,7 +4259,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04T20:28:58+00:00"
+            "time": "2015-11-04 20:28:58"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -4321,7 +4315,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04T20:28:58+00:00"
+            "time": "2015-11-04 20:28:58"
         },
         {
             "name": "symfony/polyfill-php70",
@@ -4380,7 +4374,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04T20:28:58+00:00"
+            "time": "2015-11-04 20:28:58"
         },
         {
             "name": "symfony/polyfill-util",
@@ -4432,7 +4426,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2015-11-04T20:28:58+00:00"
+            "time": "2015-11-04 20:28:58"
         },
         {
             "name": "symfony/security-acl",
@@ -4493,7 +4487,7 @@
             ],
             "description": "Symfony Security Component - ACL (Access Control List)",
             "homepage": "https://symfony.com",
-            "time": "2015-12-28T09:39:09+00:00"
+            "time": "2015-12-28 09:39:09"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -4840,7 +4834,7 @@
                 }
             ],
             "description": "JSONP callback validator.",
-            "time": "2014-01-20T22:35:06+00:00"
+            "time": "2014-01-20 22:35:06"
         },
         {
             "name": "willdurand/negotiation",
@@ -4889,7 +4883,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2015-10-01T07:42:40+00:00"
+            "time": "2015-10-01 07:42:40"
         },
         {
             "name": "zendframework/zend-code",
@@ -4942,7 +4936,7 @@
                 "code",
                 "zf2"
             ],
-            "time": "2015-07-21T22:40:59+00:00"
+            "time": "2015-07-21 22:40:59"
         },
         {
             "name": "zendframework/zend-eventmanager",
@@ -4987,7 +4981,7 @@
                 "eventmanager",
                 "zf2"
             ],
-            "time": "2015-07-16T19:00:49+00:00"
+            "time": "2015-07-16 19:00:49"
         },
         {
             "name": "zendframework/zend-hydrator",
@@ -5043,7 +5037,7 @@
                 "hydrator",
                 "zf2"
             ],
-            "time": "2015-09-17T14:06:43+00:00"
+            "time": "2015-09-17 14:06:43"
         },
         {
             "name": "zendframework/zend-ldap",
@@ -5095,7 +5089,7 @@
                 "ldap",
                 "zf2"
             ],
-            "time": "2015-06-03T15:32:02+00:00"
+            "time": "2015-06-03 15:32:02"
         },
         {
             "name": "zendframework/zend-stdlib",
@@ -5153,7 +5147,7 @@
                 "stdlib",
                 "zf2"
             ],
-            "time": "2015-09-25T04:06:33+00:00"
+            "time": "2015-09-25 04:06:33"
         }
     ],
     "packages-dev": [
@@ -5282,7 +5276,7 @@
                 "export",
                 "import"
             ],
-            "time": "2015-04-21T14:06:20+00:00"
+            "time": "2015-04-21 14:06:20"
         },
         {
             "name": "guzzle/guzzle",
@@ -5712,7 +5706,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2015-06-21T13:50:34+00:00"
+            "time": "2015-06-21 13:50:34"
         },
         {
             "name": "phpunit/php-timer",
@@ -5879,7 +5873,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-04T13:12:44+00:00"
+            "time": "2016-02-04 13:12:44"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -6003,7 +5997,7 @@
                 "github",
                 "test"
             ],
-            "time": "2013-05-04T08:07:33+00:00"
+            "time": "2013-05-04 08:07:33"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -6048,7 +6042,7 @@
             ],
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
-            "time": "2016-02-13T06:45:14+00:00"
+            "time": "2016-02-13 06:45:14"
         },
         {
             "name": "sebastian/comparator",
@@ -6427,7 +6421,7 @@
             ],
             "description": "Provides a list of PHP built-in functions that operate on resources",
             "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
-            "time": "2015-07-28T20:34:47+00:00"
+            "time": "2015-07-28 20:34:47"
         },
         {
             "name": "sebastian/version",
@@ -6518,7 +6512,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2015-03-17T06:36:52+00:00"
+            "time": "2015-03-17 06:36:52"
         }
     ],
     "aliases": [],
