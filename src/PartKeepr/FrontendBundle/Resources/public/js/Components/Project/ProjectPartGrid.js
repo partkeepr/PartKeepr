@@ -29,7 +29,7 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 queryMode: 'local',
                 editable: false,
                 forceSelection: true,
-                allowBlank: false,
+                allowBlank: false
             },
             renderer: function (v) {
                 if (v === "percent") {
@@ -98,8 +98,7 @@ Ext.define('PartKeepr.ProjectPartGrid', {
     {
 
         this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
-            clicksToEdit: 1,
-
+            clicksToEdit: 1
         });
 
         this.plugins = [this.editing];
@@ -156,7 +155,7 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 tooltip: i18n("Import"),
                 iconCls: "fugue-icon database-import",
                 disabled: this.store.isLoading()
-            }),
+            })
 
         ];
 

@@ -11,12 +11,14 @@ Ext.define("PartKeepr.PagingToolbar", {
             itemId: 'export',
             tooltip: i18n("Export"),
             iconCls: "fugue-icon application-export",
+            overflowText: i18n("Export"),
             disabled: this.store.isLoading()
         }));
 
         items.push(Ext.create("PartKeepr.Importer.GridImporterButton", {
             itemId: 'import',
             tooltip: i18n("Import"),
+            overflowText: i18n("Import"),
             iconCls: "fugue-icon database-import",
             disabled: this.store.isLoading()
         }));
@@ -25,11 +27,16 @@ Ext.define("PartKeepr.PagingToolbar", {
             itemId: 'addFilter',
             xtype: 'button',
             tooltip: i18n("Add Filter"),
+            overflowText: i18n("Add Filter"),
             iconCls: "fugue-icon funnel--plus",
             disabled: this.store.isLoading(),
             handler: this.onAddFilterClick,
             scope: this
         });
+
+        items.push(Ext.create("PartKeepr.Components.Grid.GridPresetButton", {
+            grid: this.grid
+        }));
 
         items.push(Ext.create({
             itemId: 'filter',

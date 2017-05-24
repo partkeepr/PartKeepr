@@ -51,9 +51,11 @@ Ext.define('PartKeepr.PartManager', {
             ddGroup: 'CategoryTree'
         };
 
-        if (this.compactLayout) {
+        if (this.compactLayout)
+        {
             treeConfig.region = 'center';
-        } else {
+        } else
+        {
             treeConfig.floatable = false;
             treeConfig.split = true;
             treeConfig.width = 300; // @todo Make this configurable
@@ -72,10 +74,15 @@ Ext.define('PartKeepr.PartManager', {
         this.detail.on("editPart", this.onEditPart, this);
 
         var gridConfig = {
-            title: i18n("Parts List"), region: 'center', layout: 'fit', store: this.getStore()
+            title: i18n("Parts List"),
+            region: 'center',
+            layout: 'fit',
+            store: this.getStore(),
+            itemId: "partsGrid"
         };
 
-        if (this.dragAndDrop) {
+        if (this.dragAndDrop)
+        {
             gridConfig.viewConfig = {
                 plugins: {
                     ddGroup: 'PartTree',
@@ -116,10 +123,12 @@ Ext.define('PartKeepr.PartManager', {
             items: [this.detail, this.stockLevel]
         };
 
-        if (this.compactLayout) {
+        if (this.compactLayout)
+        {
             detailPanelConfig.height = 300;
             detailPanelConfig.region = 'south';
-        } else {
+        } else
+        {
             detailPanelConfig.width = 300;
         }
 
@@ -157,7 +166,8 @@ Ext.define('PartKeepr.PartManager', {
         {
             var parts = [];
 
-            for (var i = 0; i < selection.length; i++) {
+            for (var i = 0; i < selection.length; i++)
+            {
                 parts.push(selection[i].get("part"));
             }
 
@@ -166,7 +176,8 @@ Ext.define('PartKeepr.PartManager', {
 
         this.grid.store.on("update", function (store, record)
         {
-            if (this.detail.record !== null && this.detail.record.getId() == record.getId()) {
+            if (this.detail.record !== null && this.detail.record.getId() == record.getId())
+            {
                 this.detail.setValues(record);
             }
         }, this);
@@ -179,12 +190,15 @@ Ext.define('PartKeepr.PartManager', {
                 i, j,
                 attachments, attachment;
 
-            for (i = 0; i < data.getCount(); i++) {
+            for (i = 0; i < data.getCount(); i++)
+            {
                 attachments = data.getAt(i).attachments().getData();
 
-                for (j = 0; j < attachments.getCount(); j++) {
+                for (j = 0; j < attachments.getCount(); j++)
+                {
                     attachment = attachments.getAt(j);
-                    if (attachment.get("isImage")) {
+                    if (attachment.get("isImage"))
+                    {
                         this.thumbnailView.getStore().add({
                             "@id": attachment.get("@id"),
                             "part": data.getAt(i)
@@ -234,7 +248,8 @@ Ext.define('PartKeepr.PartManager', {
             this.thumbnailViewToolbar.onLoad();
         }, this);
 
-        if (this.compactLayout) {
+        if (this.compactLayout)
+        {
             // Create two border layouts: One for the center panel and one for the left panel. Each border layout
             // has two columns each, containing Categories+Part Details and Part List+Part Filter Panel.
             this.items = [
@@ -257,7 +272,8 @@ Ext.define('PartKeepr.PartManager', {
                     items: [this.tabPanel, this.filterPanel]
                 }
             ];
-        } else {
+        } else
+        {
             // The regular 3-column layout. The tree, then the part list+part filter, then the part details.
             this.items = [
                 this.tree, {
@@ -288,12 +304,14 @@ Ext.define('PartKeepr.PartManager', {
             value: this.getChildrenIds(record)
         });
 
-        if (record.parentNode.isRoot()) {
+        if (record.parentNode.isRoot())
+        {
             // Workaround for big installations: Passing all child categories for the root node
             // to the filter exceeds the HTTP URI length. See
             // https://github.com/partkeepr/PartKeepr/issues/473
             this.store.removeFilter(filter);
-        } else {
+        } else
+        {
             this.store.addFilter(filter);
         }
     },
@@ -311,8 +329,10 @@ Ext.define('PartKeepr.PartManager', {
     {
         var childNodes = [node];
 
-        if (node.hasChildNodes()) {
-            for (var i = 0; i < node.childNodes.length; i++) {
+        if (node.hasChildNodes())
+        {
+            for (var i = 0; i < node.childNodes.length; i++)
+            {
                 childNodes = childNodes.concat(this.getChildrenIds(node.childNodes[i]));
             }
         }
@@ -328,7 +348,8 @@ Ext.define('PartKeepr.PartManager', {
     {
         var r = this.grid.getSelectionModel().getSelection();
 
-        if (r.length != 1) {
+        if (r.length != 1)
+        {
             return;
         }
 
@@ -337,7 +358,8 @@ Ext.define('PartKeepr.PartManager', {
 
         var node = rootNode.findChild("@id", cat, true);
 
-        if (node) {
+        if (node)
+        {
             this.tree.getView().ensureVisible(node);
             this.tree.getView().focusNode(node);
         }
@@ -400,11 +422,10 @@ Ext.define('PartKeepr.PartManager', {
         j.editor.editItem(newItem);
         j.show();
     },
-    onAddMetaPart: function () {
-        var defaults;
-        var j = Ext.create("PartKeepr.Components.Part.Editor.MetaPartEditorWindow", {
-
-        });
+    onAddMetaPart: function ()
+    {
+        var defaults = {};
+        var j = Ext.create("PartKeepr.Components.Part.Editor.MetaPartEditorWindow", {});
 
         var defaultPartUnit = PartKeepr.getApplication().getPartUnitStore().findRecord("default", true);
 
@@ -414,9 +435,11 @@ Ext.define('PartKeepr.PartManager', {
             metaPart: true
         });
 
-        if (this.getSelectedCategory() !== null) {
+        if (this.getSelectedCategory() !== null)
+        {
             record.setCategory(this.getSelectedCategory());
-        } else {
+        } else
+        {
             record.setCategory(this.tree.getRootNode().firstChild);
         }
 
@@ -457,7 +480,8 @@ Ext.define('PartKeepr.PartManager', {
     {
         var r = this.grid.getSelectionModel().getLastSelected();
 
-        if (btn == "yes") {
+        if (btn == "yes")
+        {
             this.detailPanel.collapse();
             this.detail.clear();
             r.erase();
@@ -478,9 +502,11 @@ Ext.define('PartKeepr.PartManager', {
 
         var record = Ext.create("PartKeepr.PartBundle.Entity.Part", defaults);
 
-        if (this.getSelectedCategory() !== null) {
+        if (this.getSelectedCategory() !== null)
+        {
             record.setCategory(this.getSelectedCategory());
-        } else {
+        } else
+        {
             record.setCategory(this.tree.getRootNode().firstChild);
         }
 
@@ -499,9 +525,11 @@ Ext.define('PartKeepr.PartManager', {
     {
         var editorWindow;
 
-        if (part.get("metaPart") === true) {
+        if (part.get("metaPart") === true)
+        {
             editorWindow = Ext.create("PartKeepr.Components.Part.Editor.MetaPartEditorWindow");
-        } else {
+        } else
+        {
             editorWindow = Ext.create("PartKeepr.PartEditorWindow");
         }
 
@@ -522,11 +550,14 @@ Ext.define('PartKeepr.PartManager', {
      */
     onItemSelect: function ()
     {
-        if (this.grid.getSelection().length > 1) {
+        if (this.grid.getSelection().length > 1)
+        {
             this.detailPanel.collapse();
             this.tree.syncButton.disable();
-        } else {
-            if (this.grid.getSelection().length == 1) {
+        } else
+        {
+            if (this.grid.getSelection().length == 1)
+            {
                 var selection = this.grid.getSelection();
 
                 var r = selection[0];
@@ -537,7 +568,8 @@ Ext.define('PartKeepr.PartManager', {
                 this.stockLevel.part = r.getId();
 
                 this.tree.syncButton.enable();
-            } else {
+            } else
+            {
                 this.tree.syncButton.disable();
             }
         }
@@ -576,10 +608,12 @@ Ext.define('PartKeepr.PartManager', {
         this.store.on('write', function (store, operation)
         {
             var success = operation.wasSuccessful();
-            if (success) {
+            if (success)
+            {
                 Ext.each(operation.records, function (record)
                 {
-                    if (record.dirty) {
+                    if (record.dirty)
+                    {
                         record.commit();
                     }
                 });
@@ -599,57 +633,73 @@ Ext.define('PartKeepr.PartManager', {
             var minSiPrefix = "", siPrefix = "", maxSiPrefix = "", unit = "", minValue = "", maxValue = "", value = "",
                 minMaxCombined = "";
 
-            if (partParameter.get("valueType") === "string") {
+            if (partParameter.get("valueType") === "string")
+            {
                 return partParameter.get("stringValue");
             }
 
-            if (partParameter.getUnit() instanceof PartKeepr.UnitBundle.Entity.Unit) {
+            if (partParameter.getUnit() instanceof PartKeepr.UnitBundle.Entity.Unit)
+            {
                 unit = partParameter.getUnit().get("symbol");
             }
 
-            if (partParameter.getMinSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
+            if (partParameter.getMinSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix)
+            {
                 minSiPrefix = partParameter.getMinSiPrefix().get("symbol");
             }
 
-            if (partParameter.getSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
+            if (partParameter.getSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix)
+            {
                 siPrefix = partParameter.getSiPrefix().get("symbol");
             }
 
-            if (partParameter.getMaxSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
+            if (partParameter.getMaxSiPrefix() instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix)
+            {
                 maxSiPrefix = partParameter.getMaxSiPrefix().get("symbol");
             }
 
-            if (partParameter.get("value") !== null && partParameter.get("value") !== "") {
+            if (partParameter.get("value") !== null && partParameter.get("value") !== "")
+            {
                 value = partParameter.get("value");
             }
 
-            if (partParameter.get("minValue") !== null && partParameter.get("minValue") !== "") {
+            if (partParameter.get("minValue") !== null && partParameter.get("minValue") !== "")
+            {
                 minValue = partParameter.get("minValue");
             }
 
-            if (partParameter.get("maxValue") !== null && partParameter.get("maxValue") !== "") {
+            if (partParameter.get("maxValue") !== null && partParameter.get("maxValue") !== "")
+            {
                 maxValue = partParameter.get("maxValue");
             }
 
-            if (minValue !== "" && maxValue !== "") {
+            if (minValue !== "" && maxValue !== "")
+            {
                 minMaxCombined = minValue + minSiPrefix + "…" + maxValue + maxSiPrefix + unit;
-            } else {
-                if (minValue !== "") {
+            } else
+            {
+                if (minValue !== "")
+                {
                     minMaxCombined = i18n("Min.") + minValue + minSiPrefix + unit;
                 }
 
-                if (maxValue !== "") {
+                if (maxValue !== "")
+                {
                     minMaxCombined = i18n("Max.") + maxValue + maxSiPrefix + unit;
                 }
             }
 
-            if (value !== "") {
-                if (minMaxCombined !== "") {
+            if (value !== "")
+            {
+                if (minMaxCombined !== "")
+                {
                     return value + siPrefix + unit + " (" + minMaxCombined + ")";
-                } else {
+                } else
+                {
                     return value + siPrefix + unit;
                 }
-            } else {
+            } else
+            {
                 return minMaxCombined;
             }
         }

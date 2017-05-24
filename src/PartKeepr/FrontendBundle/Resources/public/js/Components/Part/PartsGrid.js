@@ -176,7 +176,6 @@ Ext.define('PartKeepr.PartsGrid', {
 
         this.topToolbar.insert(1, this.createMetaPartButton);
 
-
         this.mapSearchHotkey();
     },
     /**
@@ -251,67 +250,76 @@ Ext.define('PartKeepr.PartsGrid', {
                 dataIndex: "",
                 width: 30,
                 tooltip: i18n("Has attachments?"),
-                renderer: this.iconRenderer
+                renderers: [{
+                    rtype: 'partAttachment'
+                }]
             }, {
                 text: '<span class="web-icon flag_orange"></span>',
                 dataIndex: "needsReview",
                 width: 30,
                 tooltip: i18n("Needs Review?"),
-                renderer: this.reviewRenderer
+                renderers: [{
+                    rtype: 'icon',
+                    rendererConfig: {
+                        iconCls: 'web-icon flag_orange'
+                    }
+                }]
             }, {
                 text: '<span class="web-icon bricks"></span>',
                 dataIndex: "metaPart",
                 width: 30,
                 tooltip: i18n("Meta Part"),
-                renderer: this.metaPartRenderer
+                renderers: [{
+                    rtype: 'icon',
+                    rendererConfig: {
+                        iconCls: 'web-icon bricks'
+                    }
+                }]
             }, {
                 header: i18n("Name"),
                 dataIndex: 'name',
                 flex: 1,
-                minWidth: 150,
-                renderer: Ext.util.Format.htmlEncode
+                minWidth: 150
             }, {
                 header: i18n("Description"),
                 dataIndex: 'description',
                 flex: 2,
-                minWidth: 150,
-                renderer: Ext.util.Format.htmlEncode
+                minWidth: 150
             }, {
                 header: i18n("Storage Location"),
-                dataIndex: 'storageLocation.name',
-                renderer: this.storageLocationRenderer
+                dataIndex: 'storageLocation.name'
             }, {
                 header: i18n("Status"),
-                dataIndex: "status",
-                renderer: Ext.util.Format.htmlEncode
-            }, {
+                dataIndex: "status"},
+            {
                 header: i18n("Condition"),
-                dataIndex: "partCondition",
-                renderer: Ext.util.Format.htmlEncode
+                dataIndex: "partCondition"
             }, {
                 header: i18n("Stock"),
                 dataIndex: 'stockLevel',
                 editor: {
                     xtype: 'textfield',
                     allowBlank: false
-                },
-                renderer: this.stockLevelRenderer
+                }
             }, {
                 header: i18n("Min. Stock"),
                 dataIndex: 'minStockLevel',
-                renderer: this.stockLevelRenderer
+                renderers: [{
+                    rtype: "stockLevel"
+                }]
             }, {
                 header: i18n("Avg. Price"),
                 dataIndex: 'averagePrice',
                 align: 'right',
-                renderer: this.averagePriceRenderer
+                renderers: [{
+                    rtype: "currency"
+                }]
             }, {
                 header: i18n("Footprint"),
-                dataIndex: 'footprint.name',
-                renderer: this.footprintRenderer
+                dataIndex: 'footprint.name'
             }, {
                 header: i18n("Category"),
-                renderer: this.categoryPathRenderer,
+                dataIndex: "category.categoryPath",
                 hidden: true
             }, {
                 header: i18n("Create Date"),
@@ -320,101 +328,12 @@ Ext.define('PartKeepr.PartsGrid', {
             }, {
                 header: i18n("Internal ID"),
                 dataIndex: '@id',
-                renderer: function (value)
-                {
-                    var values = value.split("/");
-                    var idstr = values[values.length - 1];
-                    var idint = parseInt(idstr);
-
-                    return idstr + " (#" + idint.toString(36) + ")";
-
-                }
+                 renderers: [{
+                    rtype: "internalID"
+                }]
             }
 
         ];
-    },
-    averagePriceRenderer: function (val)
-    {
-        return PartKeepr.getApplication().formatCurrency(val);
-    },
-    /**
-     * Renders the storage location
-     */
-    storageLocationRenderer: function (val, q, rec)
-    {
-        if (rec.getStorageLocation() !== null) {
-            return rec.getStorageLocation().get("name");
-        }
-    },
-    /**
-     * Renders the storage location
-     */
-    categoryPathRenderer: function (val, q, rec)
-    {
-        if (rec.getCategory() !== null) {
-            return rec.getCategory().get("categoryPath");
-        }
-    },
-    /**
-     * Renders the storage location
-     */
-    footprintRenderer: function (val, q, rec)
-    {
-        if (rec.getFootprint()) {
-            return rec.getFootprint().get("name");
-        }
-    },
-    /**
-     * Used as renderer for the stock level columns.
-     *
-     * If a part contains a non-default unit, we display it.
-     * Otherwise we hide it.
-     */
-    stockLevelRenderer: function (val, q, rec)
-    {
-        if (rec.getPartUnit()) {
-            return val + " " + rec.getPartUnit().get("shortName");
-        } else {
-            return val;
-        }
-    },
-    /**
-     * Used as renderer for the icon column.
-     */
-    iconRenderer: function (val, q, rec)
-    {
-        var ret = "";
-        if (rec.attachments().getCount() > 0) {
-            ret += '<span class="web-icon fugue-icon paper-clip" title="' + i18n("Has attachments") + '"/>';
-        }
-
-        return ret;
-    },
-    /**
-     * Used as renderer for the review column.
-     */
-    reviewRenderer: function (val, q, rec)
-    {
-        var ret = "";
-
-        if (rec.get("needsReview") === true) {
-            ret += '<span class="web-icon flag_orange" title="' + i18n("Needs review") + '"></span>';
-        }
-
-        return ret;
-    },
-    /**
-     * Used as renderer for the meta part column.
-     */
-    metaPartRenderer: function (val, q, rec)
-    {
-        var ret = "";
-
-        if (rec.get("metaPart") === true) {
-            ret += '<span class="web-icon bricks" title="' + i18n("Meta Part") + '"></span>';
-        }
-
-        return ret;
     },
     /**
      * Sets the category. Triggers a store reload with a category filter.

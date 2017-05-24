@@ -336,6 +336,19 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.grid_preset:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\FrontendBundle\Entity\GridPreset" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.part.collection_operation.custom_post:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false
