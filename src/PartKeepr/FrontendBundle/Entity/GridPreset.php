@@ -8,7 +8,7 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Stores the grid presets
+ * Stores the grid presets.
  *
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="name_entity_unique", columns={"grid", "name"})})
  * @ORM\Entity()
