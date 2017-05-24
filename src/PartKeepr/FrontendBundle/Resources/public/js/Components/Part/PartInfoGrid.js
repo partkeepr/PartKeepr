@@ -24,7 +24,7 @@ Ext.define("PartKeepr.Components.Part.PartInfoGrid", {
         },
         createDate: {
             displayName: i18n("Create Date"),
-            type: 'date',
+            type: 'date'
         },
         status: {
             displayName: i18n("Status")
@@ -37,7 +37,7 @@ Ext.define("PartKeepr.Components.Part.PartInfoGrid", {
             type: 'boolean'
         },
         internalPartNumber: {
-            displayName: i18n("Internal Part Number"),
+            displayName: i18n("Internal Part Number")
         },
         projectNames: {
             displayName: i18n("Used in Projects")
@@ -77,8 +77,8 @@ Ext.define("PartKeepr.Components.Part.PartInfoGrid", {
             displayName: i18n("Comment")
         },
         internalPartNumber: {
-            displayName: i18n("Internal Part Number"),
-        },
+            displayName: i18n("Internal Part Number")
+        }
     },
 
     listeners: {
