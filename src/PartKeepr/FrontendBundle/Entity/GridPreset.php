@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Stores the grid presets.
  *
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="name_entity_unique", columns={"grid", "name"})})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="name_grid_unique", columns={"grid", "name"})})
  * @ORM\Entity()
  * @TargetService(uri="/api/grid_presets")
  */
