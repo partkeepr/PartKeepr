@@ -56,7 +56,7 @@ Ext.define("PartKeepr.PresetCombobox", {
         save: {
             cls: "x-form-trigger-save",
             weight: 1,
-            tooltip: i18n("Expand All"),
+            tooltip: i18n("Save Preset"),
             handler: 'onSavePreset',
             scope: 'this'
         },
@@ -64,6 +64,7 @@ Ext.define("PartKeepr.PresetCombobox", {
             cls: "x-form-trigger-add",
             weight: 2,
             handler: 'onAddPreset',
+            tooltip: i18n("Create blank preset"),
             scope: 'this'
         },
         delete: {
@@ -71,6 +72,7 @@ Ext.define("PartKeepr.PresetCombobox", {
             weight: 3,
             handler: 'onDeletePreset',
             scope: 'this',
+            tooltip: i18n("Delete selected preset"),
             hidden: true
         }
     },
@@ -162,7 +164,7 @@ Ext.define("PartKeepr.PresetCombobox", {
         if (presetRecord === null) {
             presetRecord = Ext.create(this.model);
         } else {
-            if (presetName != presetRecord.get(this.nameField)) {
+            if (presetName !== presetRecord.get(this.nameField)) {
                 presetRecord = Ext.create(this.model);
             }
         }
@@ -262,6 +264,4 @@ Ext.define("PartKeepr.PresetCombobox", {
             this.triggers.delete.hide();
         }
     }
-
-
 });
