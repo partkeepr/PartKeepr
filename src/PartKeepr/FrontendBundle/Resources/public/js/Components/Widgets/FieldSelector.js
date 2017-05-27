@@ -88,7 +88,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                         data: {
                             name: prefix + fields[i].name,
                             type: "field"
-                        },
+                        }
                     };
 
                     if (this.useCheckBoxes) {
@@ -146,6 +146,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                 if (!associationAlreadyProcessed) {
                     childNode = node.appendChild({
                         text: associations[i].role,
+                        expanded: true,
                         data: {
                             name: prefix + associations[i].role,
                             type: "onetomany",

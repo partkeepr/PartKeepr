@@ -108,7 +108,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
 
         for (i in associations) {
             associationAlreadyProcessed = false;
-            if (associations[i].association.name === model.getName() && associations[i].isMany === true) {
+            if (typeof(associations[i].storeName) !== "undefined" && associations[i].isMany === true) {
                 for (j = 0; j < this.visitedModels.length; j++) {
                     if (this.visitedModels[j] === associations[i].type) {
                        associationAlreadyProcessed = true;
