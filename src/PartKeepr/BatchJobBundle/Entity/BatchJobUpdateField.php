@@ -2,6 +2,7 @@
 
 namespace PartKeepr\BatchJobBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Represents a batch job update field.
  *
  * @ORM\Entity
+ * @ApiResource(attributes={"filters"={"doctrine_reflection_service.search_filter"}})
  */
 class BatchJobUpdateField extends BaseEntity
 {

@@ -11,7 +11,5 @@ class PartKeeprExportBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new CsvFormatPass());
-        $container->addCompilerPass(new XmlExcelFormatPass());
     }
 }

@@ -17,8 +17,6 @@ use Symfony\Component\Serializer\Serializer;
  */
 class SetPreferenceAction
 {
-    use ActionUtilTrait;
-
     /**
      * @var UserService
      */
@@ -50,9 +48,6 @@ class SetPreferenceAction
      * @param Request $request
      *
      * @throws \Exception                                 If the format is invalid
-     * @throws RuntimeException|RootNodeNotFoundException
-     *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
@@ -67,16 +62,13 @@ class SetPreferenceAction
             throw new \Exception('Invalid format');
         }
 
-        list($resourceType) = $this->extractAttributes($request);
-
         /*
          * @var ResourceInterface $resourceType
          */
 
         $serializedData = $this->serializer->normalize(
             $preference,
-            'json',
-            $resourceType->getNormalizationContext()
+            'json'
         );
 
         return new JsonResponse($serializedData);

@@ -63,7 +63,7 @@ class UserTest extends WebTestCase
 
         $client = static::makeClient(true);
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriConverter->getIriFromItem($user);
 
         $client->request('GET', $iri);
@@ -100,7 +100,7 @@ class UserTest extends WebTestCase
             ]
         );
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriConverter->getIriFromItem($user).'/changePassword';
 
         $parameters = [
@@ -151,7 +151,7 @@ class UserTest extends WebTestCase
 
         $client = static::makeClient(true);
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriConverter->getIriFromItem($user);
 
         $data = [
@@ -220,7 +220,7 @@ class UserTest extends WebTestCase
 
         $userPreferenceService->setPreference($user, 'foo', 'bar');
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriConverter->getIriFromItem($user);
 
         $client->request('DELETE', $iri);

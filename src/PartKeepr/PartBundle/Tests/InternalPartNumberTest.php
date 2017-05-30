@@ -34,7 +34,7 @@ class InternalPartNumberTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $part = [
             "name"               => "foobar",

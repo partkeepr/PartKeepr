@@ -33,7 +33,7 @@ class ProjectReportController extends FOSRestController
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->get('api.iri_converter');
+        $iriConverter = $this->get('api_platform.iri_converter');
 
         $projects = [];
 

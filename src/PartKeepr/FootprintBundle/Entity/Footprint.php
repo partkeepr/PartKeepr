@@ -2,6 +2,7 @@
 
 namespace PartKeepr\FootprintBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -13,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity
  * @TargetService(uri="/api/footprints")
+ * @ApiResource(attributes={"filters"={"doctrine_reflection_service.search_filter"}})
  */
 class Footprint extends BaseEntity
 {

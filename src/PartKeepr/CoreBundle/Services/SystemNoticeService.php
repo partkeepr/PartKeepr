@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use PartKeepr\CoreBundle\Entity\SystemNotice;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
-class SystemNoticeService extends ContainerAware
+class SystemNoticeService
 {
     /**
      * @var EntityManager
@@ -16,6 +16,11 @@ class SystemNoticeService extends ContainerAware
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+    }
+
+    public function acknowledge (SystemNotice $systemNotice) {
+        $systemNotice->setAcknowledged(true);
+        $this->entityManager->flush();
     }
 
     public function createUniqueSystemNotice($type, $title, $description)

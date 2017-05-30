@@ -52,5 +52,5 @@ _setup:
 
 api:
     resource: "."
-    type:     "api"
+    type:     "api_platform"
     prefix:   "/api" # Optional

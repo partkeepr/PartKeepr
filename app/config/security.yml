@@ -42,13 +42,13 @@ security:
                 provider: chain_provider
             remote_user:
                 provider: chain_provider
-            wsse:
-                realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
-                profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
-                encoder: #digest algorithm
-                    algorithm: sha512
-                    encodeHashAsBase64:    true
-                    iterations: 1
+            #wsse:
+            #    realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
+            #    profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
+            #    encoder: #digest algorithm
+            #        algorithm: sha512
+            #        encodeHashAsBase64:    true
+            #        iterations: 1
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

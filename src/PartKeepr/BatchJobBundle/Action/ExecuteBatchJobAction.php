@@ -2,35 +2,27 @@
 
 namespace PartKeepr\BatchJobBundle\Action;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\IriConverter;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
 use PartKeepr\BatchJobBundle\Entity\BatchJob;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\DoctrineReflectionBundle\Filter\AdvancedSearchFilter;
 use PartKeepr\DoctrineReflectionBundle\Services\ReflectionService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ExecuteBatchJobAction
 {
-    use ActionUtilTrait;
-
-    /**
-     * @var DataProviderInterface
-     */
-    private $dataProvider;
-
     /**
      * @var EntityManager
      */
     private $em;
 
     /**
-     * @var IriConverter
+     * @var IriConverterInterface
      */
     private $iriConverter;
 
@@ -45,8 +37,8 @@ class ExecuteBatchJobAction
     private $reflectionService;
 
     public function __construct(
-        DataProviderInterface $dataProvider,
-        IriConverter $iriConverter,
+        ItemDataProviderInterface $dataProvider,
+        IriConverterInterface $iriConverter,
         EntityManager $em,
         AdvancedSearchFilter $advancedSearchFilter,
         ReflectionService $reflectionService
@@ -61,21 +53,20 @@ class ExecuteBatchJobAction
     /**
      * Executes a batch action.
      *
+     * @param BatchJob $data
      * @param Request $request
-     * @param string  $id
      *
-     * @throws RuntimeException|RootNodeNotFoundException
-     *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @throws RootNodeNotFoundException
+     * @Route(
+     *     name="batch_job_execute",
+     *     path="/batch_jobs/{id}/execute",
+     *     defaults={"_api_resource_class"=BatchJob::class, "_api_item_operation_name"="execute"}
+     * )
+     * @return array
      */
-    public function __invoke(Request $request, $id)
+    public function __invoke($data, Request $request)
     {
-        list($resourceType) = $this->extractAttributes($request);
-
-        /**
-         * @var BatchJob
-         */
-        $batchJob = $this->getItem($this->dataProvider, $resourceType, $id);
+        $batchJob = $data;
 
         $queryFields = [];
         $updateFields = [];

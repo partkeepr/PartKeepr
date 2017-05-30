@@ -2,10 +2,8 @@
 
 namespace PartKeepr\CategoryBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\IriConverter;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Bridge\Symfony\Routing\IriConverter;
+use PartKeepr\CategoryBundle\Entity\AbstractCategory;
 use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
 use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
@@ -18,13 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MoveAction
 {
-    use ActionUtilTrait;
-
-    /**
-     * @var DataProviderInterface
-     */
-    private $dataProvider;
-
     /**
      * @var ManagerRegistry
      */
@@ -36,11 +27,9 @@ class MoveAction
     private $iriConverter;
 
     public function __construct(
-        DataProviderInterface $dataProvider,
         IriConverter $iriConverter,
         ManagerRegistry $registry
     ) {
-        $this->dataProvider = $dataProvider;
         $this->iriConverter = $iriConverter;
         $this->registry = $registry;
     }
@@ -50,29 +39,25 @@ class MoveAction
      *
      * @param Request $request
      *
-     * @throws RuntimeException|RootNodeNotFoundException|RootMayNotBeMovedException|MissingParentCategoryException
-     *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @throws RootNodeNotFoundException|RootMayNotBeMovedException|MissingParentCategoryException
      */
-    public function __invoke(Request $request, $id)
+    public function __invoke(Request $request, $data)
     {
-        list($resourceType) = $this->extractAttributes($request);
-
-        $entity = $this->getItem($this->dataProvider, $resourceType, $id);
-
+        /**
+         * @var $data AbstractCategory
+         */
         $parentId = $request->request->get('parent');
-
         $parentEntity = $this->iriConverter->getItemFromIri($parentId);
 
         if ($parentEntity === null) {
             throw new MissingParentCategoryException($parentId);
         }
 
-        if ($entity->getLevel() === 0) {
+        if ($data->getLevel() === 0) {
             throw new RootMayNotBeMovedException();
         }
 
-        $entity->setParent($parentEntity);
+        $data->setParent($parentEntity);
 
         $this->registry->getManager()->flush();
 

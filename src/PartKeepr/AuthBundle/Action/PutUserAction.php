@@ -16,13 +16,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PutUserAction
 {
-    use ActionUtilTrait;
-
-    /**
-     * @var DataProviderInterface
-     */
-    private $dataProvider;
-
     /**
      * @var SerializerInterface
      */
@@ -34,11 +27,9 @@ class PutUserAction
     private $userService;
 
     public function __construct(
-        DataProviderInterface $dataProvider,
         SerializerInterface $serializer,
         UserService $userService
     ) {
-        $this->dataProvider = $dataProvider;
         $this->serializer = $serializer;
         $this->userService = $userService;
     }
@@ -56,31 +47,14 @@ class PutUserAction
      *
      * @return mixed
      */
-    public function __invoke(Request $request, $id)
+    public function __invoke(Request $request, $data)
     {
         /**
-         * @var ResourceInterface
+         * @var $data User
          */
-        list($resourceType, $format) = $this->extractAttributes($request);
-
-        /**
-         * @var User
-         */
-        $data = $this->getItem($this->dataProvider, $resourceType, $id);
-
-        $context = $resourceType->getDenormalizationContext();
-        $context['object_to_populate'] = $data;
-
         if ($data->isProtected()) {
             throw new UserProtectedException();
         }
-
-        $data = $this->serializer->deserialize(
-            $request->getContent(),
-            $resourceType->getEntityClass(),
-            $format,
-            $context
-        );
 
         if ($data->isActive()) {
             if ($this->userService->checkUserLimit()) {

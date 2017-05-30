@@ -1,4 +1,7 @@
 fos_user:
     db_driver: orm
     firewall_name: main
+    from_email:
+      address:        noreply@example.com
+      sender_name:    PartKeepr
     user_class: PartKeepr\AuthBundle\Entity\FOSUser

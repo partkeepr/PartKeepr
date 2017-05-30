@@ -17,8 +17,6 @@ use Symfony\Component\Serializer\Serializer;
  */
 class GetPreferencesAction
 {
-    use ActionUtilTrait;
-
     /**
      * @var UserService
      */
@@ -48,10 +46,6 @@ class GetPreferencesAction
      * Retrieves a collection of resources.
      *
      * @param Request $request
-     *
-     * @throws RuntimeException|RootNodeNotFoundException
-     *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
     public function __invoke(Request $request)
     {
@@ -59,15 +53,12 @@ class GetPreferencesAction
 
         $preferences = $this->userPreferenceService->getPreferences($user);
 
-        list($resourceType) = $this->extractAttributes($request);
-
         /*
          * @var ResourceInterface $resourceType
          */
         $serializedData = $this->serializer->normalize(
             $preferences,
-            'json',
-            $resourceType->getNormalizationContext()
+            'json'
         );
 
         return new JsonResponse($serializedData);

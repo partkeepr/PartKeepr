@@ -56,7 +56,7 @@ class StockHistoryLostTest extends WebTestCase
 
         $this->getContainer()->get('doctrine.orm.default_entity_manager')->flush();
 
-        $iriCoverter = $this->getContainer()->get('api.iri_converter');
+        $iriCoverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriCoverter->getIriFromItem($part1);
 
         $client->request('GET', $iri);
