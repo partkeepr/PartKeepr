@@ -22,7 +22,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
     initComponent: function ()
     {
         this.createHintTemplate = Ext.create("Ext.Template", [
-            "<code>CREATE USER {user} WITH UNENCRYPTED PASSWORD '{password}'; CREATE DATABASE {dbname} OWNER {user};<br/><br/></code>"
+            "<code>CREATE USER {user} WITH UNENCRYPTED PASSWORD '{password}'; CREATE DATABASE {dbname}; GRANT ALL PRIVILEGES ON DATABASE {dbname} TO {user};<br/><br/></code>"
         ]);
 
         this.masterTemplate = Ext.create("Ext.Template",
