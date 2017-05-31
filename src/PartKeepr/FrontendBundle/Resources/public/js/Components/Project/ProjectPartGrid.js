@@ -40,11 +40,11 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             }
         },{
             header: i18n("Overage"), dataIndex: 'overage',
-            wdith: 50,
+            width: 50,
             editor: {
                 xtype: 'numberfield',
                 allowBlank: false,
-                minValue: 1
+                minValue: 0
             },
             renderer: function (v,m,rec) {
                 if (rec.get("overageType") === "percent") {
