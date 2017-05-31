@@ -30,14 +30,16 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
 
         this.hostname = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Hostname',
-            labelWidth: this.defaults.labelWidth
+            labelWidth: this.defaults.labelWidth,
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_host
         });
 
         this.hostname.on("change", this.onUpdateParameters, this);
 
         this.username = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Username',
-            labelWidth: this.defaults.labelWidth
+            labelWidth: this.defaults.labelWidth,
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_user
         });
 
         this.username.on("change", this.onUpdateParameters, this);
@@ -45,14 +47,16 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
         this.password = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Password',
             inputType: "password",
-            labelWidth: this.defaults.labelWidth
+            labelWidth: this.defaults.labelWidth,
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_password
         });
 
         this.password.on("change", this.onUpdateParameters, this);
 
         this.databaseName = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Name',
-            labelWidth: this.defaults.labelWidth
+            labelWidth: this.defaults.labelWidth,
+            value: PartKeeprSetup.getApplication().getSetupConfig().values.database_name
         });
 
         this.databaseName.on("change", this.onUpdateParameters, this);
@@ -149,7 +153,22 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
 
         this.callParent();
 
+        this.on("activate", this.onActivate, this);
         this.on("activate", this.onUpdateParameters, this);
+    },
+    onActivate: function () {
+        this.initial = true;
+        this.hostname.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_host);
+        this.username.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_user);
+        this.password.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_password);
+        this.databaseName.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_name);
+
+        if (PartKeeprSetup.getApplication().getSetupConfig().values.database_port) {
+            this.port.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_port);
+            this.portDefault.setValue(false);
+            this.port.setDisabled(false);
+        }
+        this.initial = false;
     },
     /**
      * This method gets fired as soon as something in the form was changed.
@@ -159,6 +178,8 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
      */
     onUpdateParameters: function ()
     {
+        if (this.initial) { return; }
+        
         if (this.showHintCheckbox.checked) {
             var host;
 
