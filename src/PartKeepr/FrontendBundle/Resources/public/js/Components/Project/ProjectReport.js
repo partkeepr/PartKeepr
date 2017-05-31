@@ -162,14 +162,7 @@ Ext.define('PartKeepr.ProjectReportView', {
                         iconCls: "fugue-icon application-export",
                         disabled: this.store.isLoading()
                     }),
-                    gridPresetButton,
-                    {
-                        xtype: 'button',
-                        listeners: {
-                            click: this.foo,
-                            scope: this
-                        }
-                    }
+                    gridPresetButton
                 ]
             }
         );
@@ -267,7 +260,8 @@ Ext.define('PartKeepr.ProjectReportView', {
     },
     convertMetaPartsToParts: function (record)
     {
-        console.log("convertMetaPartsToParts");
+        var missing;
+
         var i, projectReportItem, subPart;
 
         for (i = 0; i < record.subParts().getCount(); i++)
@@ -276,11 +270,19 @@ Ext.define('PartKeepr.ProjectReportView', {
 
             if (subPart.get("use"))
             {
+                missing = subPart.get("stockLevel") - subPart.get("stockToUse");
+
+                if (missing >= 0) {
+                    missing = 0;
+                } else {
+                    missing = Math.abs(missing);
+                }
+
                 projectReportItem = Ext.create("PartKeepr.ProjectBundle.Entity.ProjectReport");
                 projectReportItem.set("quantity", subPart.get("stockToUse"));
                 projectReportItem.set("storageLocation_name", subPart.getStorageLocation().get("name"));
                 projectReportItem.set("available", subPart.get("stockLevel"));
-                projectReportItem.set("missing", subPart.get("stockLevel") - subPart.get("stockToUse"));
+                projectReportItem.set("missing", missing);
                 projectReportItem.set("projects", record.get("projects"));
                 projectReportItem.set("projectNames", record.get("projectNames"));
                 projectReportItem.set("remarks", record.get("remarks"));
@@ -292,17 +294,26 @@ Ext.define('PartKeepr.ProjectReportView', {
         }
 
         this.reportResult.getStore().remove(record);
-        //this.reportResult.getView().refresh();
     },
     onCheckStateChange: function (check, rowIndex, checked, record)
     {
-        console.log("onCheckStateChange");
+        var grid = check.up("grid");
 
         if (checked)
         {
-            if (record.get("stockToUse") == 0 || record.get("stockToUse") === undefined)
+            if (record.get("stockToUse") === 0 || record.get("stockToUse") === undefined)
             {
-                record.set("stockToUse", record.get("stockLevel"));
+                var total = this.getAppliedPartCount(grid);
+                var missing = grid.parentRecord.get("quantity") - total;
+
+                if (missing <= record.get("stockLevel")) {
+                    record.set("stockToUse", missing);
+                } else {
+                    record.set("stockToUse", record.get("stockLevel"));
+                }
+
+
+
             }
         }
 
@@ -310,19 +321,24 @@ Ext.define('PartKeepr.ProjectReportView', {
     },
     onAfterSubGridEdit: function (editor, context)
     {
-        console.log("onAfterSubGridEdit");
-        if (context.value > context.record.get("stockLevel"))
-        {
-            context.record.set("stockToUse", context.originalValue);
-        } else
-        {
-            context.record.set("stockToUse", context.value);
-        }
+        context.record.set("stockToUse", context.value);
 
         Ext.defer(this.updateSubGrid, 100, this, [context.grid]);
     },
     updateSubGrid: function (grid)
     {
+        var total = this.getAppliedPartCount(grid);
+
+        if (total === grid.parentRecord.get("quantity"))
+        {
+            grid.down("#applyPartsButton").enable();
+        } else
+        {
+            grid.down("#applyPartsButton").disable();
+        }
+    },
+    getAppliedPartCount: function (grid) {
+
         var subParts = grid.parentRecord.subParts();
         var i, total;
 
@@ -331,17 +347,12 @@ Ext.define('PartKeepr.ProjectReportView', {
         {
             if (subParts.getAt(i).get("use"))
             {
-                total += subParts.getAt(i).get("stockToUse");
+                if (!isNaN(subParts.getAt(i).get("stockToUse"))) {
+                    total += subParts.getAt(i).get("stockToUse");
+                }
             }
         }
-
-        if (total >= grid.parentRecord.get("quantity"))
-        {
-            grid.down("#applyPartsButton").enable();
-        } else
-        {
-            grid.down("#applyPartsButton").disable();
-        }
+        return total;
     },
     /**
      * Called when the distributor field is about to be edited.
@@ -385,7 +396,7 @@ Ext.define('PartKeepr.ProjectReportView', {
     },
     removeStocks: function (btn)
     {
-        if (btn == "yes")
+        if (btn === "yes")
         {
 
             var store = this.reportResult.getStore();
@@ -413,13 +424,13 @@ Ext.define('PartKeepr.ProjectReportView', {
     onEdit: function (editor, context)
     {
         console.log("onEdit");
-        if (context.field == "distributor" && context.record.getDistributor() !== null)
+        if (context.field === "distributor" && context.record.getDistributor() !== null)
         {
             var partDistributors = context.record.getPart().distributors();
 
             for (var i = 0; i < partDistributors.count(); i++)
             {
-                if (partDistributors.getAt(i).getDistributor().getId() == context.record.getDistributor().getId())
+                if (partDistributors.getAt(i).getDistributor().getId() === context.record.getDistributor().getId())
                 {
                     context.record.set("price", partDistributors.getAt(i).get("price"));
                     context.record.set("distributor_order_number", partDistributors.getAt(i).get("orderNumber"));
@@ -428,8 +439,6 @@ Ext.define('PartKeepr.ProjectReportView', {
                 }
             }
         }
-
-        //this.reportResult.getView().refresh(true);
 
     },
     onAutoFillClick: function ()
@@ -453,7 +462,7 @@ Ext.define('PartKeepr.ProjectReportView', {
                 activeDistributor = activeRecord.getPart().distributors().getAt(j);
                 currentPrice = parseFloat(activeDistributor.get("price"));
 
-                if (currentPrice != 0)
+                if (currentPrice !== 0)
                 {
                     if (firstPositive)
                     {
@@ -481,8 +490,6 @@ Ext.define('PartKeepr.ProjectReportView', {
                 activeRecord.set("sum", activeRecord.get("quantity") * activeRecord.get("price"));
             }
         }
-
-        this.reportResult.getView().refresh(true);
     },
     /**
      *
