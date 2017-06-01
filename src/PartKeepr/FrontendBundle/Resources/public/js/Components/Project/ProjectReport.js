@@ -249,15 +249,18 @@ Ext.define('PartKeepr.ProjectReportView', {
 
         gridPresetButton.setGrid(this.reportResult);
     },
-    foo: function () {
-        this.reportResult.getView().refresh();
-    },
     onApplyMetaPartsClick: function (button)
     {
         var parentRecord = button.up("grid").parentRecord;
 
         this.convertMetaPartsToParts(parentRecord);
     },
+    /**
+     * Converts meta parts to parts. Iterates over the sub parts and figures out which actual parts to create, then
+     * removes the original meta part.
+     *
+     * @param record
+     */
     convertMetaPartsToParts: function (record)
     {
         var missing;
@@ -287,6 +290,7 @@ Ext.define('PartKeepr.ProjectReportView', {
                 projectReportItem.set("projectNames", record.get("projectNames"));
                 projectReportItem.set("remarks", record.get("remarks"));
                 projectReportItem.set("productionRemarks", subPart.get("productionRemarks"));
+                projectReportItem.set("lotNumber", record.get("lotNumber"));
                 projectReportItem.setPart(subPart);
 
                 this.reportResult.getStore().add(projectReportItem);
@@ -311,9 +315,6 @@ Ext.define('PartKeepr.ProjectReportView', {
                 } else {
                     record.set("stockToUse", record.get("stockLevel"));
                 }
-
-
-
             }
         }
 

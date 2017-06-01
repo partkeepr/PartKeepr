@@ -6,6 +6,7 @@ use Dunglas\ApiBundle\Api\IriConverter;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\PartBundle\Entity\Part;
+use PartKeepr\ProjectBundle\Entity\Project;
 use PartKeepr\ProjectBundle\Entity\ProjectRun;
 use PartKeepr\ProjectBundle\Entity\ProjectRunPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
@@ -47,6 +48,9 @@ class PartController extends FOSRestController
         $projectRuns = [];
 
         foreach ($projects as $projectInfo) {
+            /**
+             * @var Project $project
+             */
             $project = $iriConverter->getItemFromIri($projectInfo->project);
 
             $projectRun = new ProjectRun();
@@ -60,6 +64,7 @@ class PartController extends FOSRestController
         $user = $this->get('partkeepr.userservice')->getUser();
 
         foreach ($removals as $removal) {
+
             if (!property_exists($removal, 'part')) {
                 throw new \Exception('Each removal must have the part property defined');
             }
@@ -68,8 +73,12 @@ class PartController extends FOSRestController
                 throw new \Exception('Each removal must have the amount property defined');
             }
 
+            if (!property_exists($removal, 'lotNumber')) {
+                throw new \Exception('Each removal must have the lotNumber property defined');
+            }
+
             /**
-             * @var Part
+             * @var Part $part
              */
             $part = $iriConverter->getItemFromIri($removal->part);
 
@@ -118,6 +127,8 @@ class PartController extends FOSRestController
     /**
      * @Routing\Route("/api/parts/getPartParameterValues", defaults={"method" = "get","_format" = "json"})
      * @View()
+     *
+     * @param $request Request The Request to process
      *
      * @return array An array with name and description properties
      */
