@@ -127,6 +127,7 @@ class SystemService extends ContainerAware
             'inactiveCronjobCount' => count($inactiveCronjobs),
             'inactiveCronjobs'     => $inactiveCronjobs,
             'schemaStatus'         => $this->getSchemaStatus(),
+            'schemaQueries'        => $this->getSchemaQueries()
         ];
     }
 
@@ -139,17 +140,25 @@ class SystemService extends ContainerAware
      */
     protected function getSchemaStatus()
     {
-        $metadatas = $this->entityManager->getMetadataFactory()->getAllMetadata();
-
-        $schemaTool = new SchemaTool($this->entityManager);
-
-        $queries = $schemaTool->getUpdateSchemaSql($metadatas, true);
+        $queries = $this->getSchemaQueries();
 
         if (count($queries) > 0) {
             return 'incomplete';
         } else {
             return 'complete';
         }
+    }
+
+    /**
+     * Returns all queries to be executed for a proper database update
+     * @return array
+     */
+    protected function getSchemaQueries () {
+        $metadatas = $this->entityManager->getMetadataFactory()->getAllMetadata();
+
+        $schemaTool = new SchemaTool($this->entityManager);
+
+        return $schemaTool->getUpdateSchemaSql($metadatas, true);
     }
 
     /**
