@@ -138,8 +138,25 @@ Ext.define('PartKeepr.PartDistributorGrid', {
                         }
 
                         return false;
-                    },
+                    }
                 }
+            }, {
+                header: i18n("Pricing"),
+                dataIndex: 'distributor.enabledForReports',
+                width: 80,
+                renderers: [{
+                    rtype: 'icon',
+                    rendererConfig: {
+                        iconCls: 'web-icon fugue-icon money-bag-dollar',
+                        title: i18n("Distributor is used for price calculations")
+                    }
+                }]
+            }, {
+                header: i18n("Ignore"),
+                dataIndex: 'ignoreForReports',
+                tooltip: i18n("Ignore this entry for price calculations"),
+                width: 80,
+                xtype: 'checkcolumn'
             }
         ];
 
@@ -173,10 +190,6 @@ Ext.define('PartKeepr.PartDistributorGrid', {
     {
         var fields = PartKeepr.getApplication().getSystemPreference("partkeepr.partDistributor.requiredFields", []);
 
-        if (Ext.Array.contains(fields, field)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !Ext.Array.contains(fields, field);
     }
 });

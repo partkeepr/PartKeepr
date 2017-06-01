@@ -96,13 +96,28 @@ class Distributor extends BaseEntity
     private $skuurl;
 
     /**
-     * Sets the name for the distributor.
+     * Defines if the distributor is used for pricing calculations
      *
-     * @param string $name The distributor's name
+     * @ORM\Column(type="boolean")
+     * @Groups({"default"})
+     * @var bool
      */
-    public function setName($name)
+    private $enabledForReports = true;
+
+    /**
+     * @return bool
+     */
+    public function isEnabledForReports()
     {
-        $this->name = $name;
+        return $this->enabledForReports;
+    }
+
+    /**
+     * @param bool $enabledForReports
+     */
+    public function setEnabledForReports($enabledForReports)
+    {
+        $this->enabledForReports = $enabledForReports;
     }
 
     /**
@@ -116,13 +131,13 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the address of this distributor.
+     * Sets the name for the distributor.
      *
-     * @param string $address The address of the distributor
+     * @param string $name The distributor's name
      */
-    public function setAddress($address)
+    public function setName($name)
     {
-        $this->address = $address;
+        $this->name = $name;
     }
 
     /**
@@ -136,13 +151,13 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the phone number for this distributor.
+     * Sets the address of this distributor.
      *
-     * @param string $phone The phone number of this distributor
+     * @param string $address The address of the distributor
      */
-    public function setPhone($phone)
+    public function setAddress($address)
     {
-        $this->phone = $phone;
+        $this->address = $address;
     }
 
     /**
@@ -156,13 +171,13 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the fax number for this distributor.
+     * Sets the phone number for this distributor.
      *
-     * @param string $fax The fax number
+     * @param string $phone The phone number of this distributor
      */
-    public function setFax($fax)
+    public function setPhone($phone)
     {
-        $this->fax = $fax;
+        $this->phone = $phone;
     }
 
     /**
@@ -176,13 +191,13 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the comment for this distributor.
+     * Sets the fax number for this distributor.
      *
-     * @param string $comment The comment for this distributor
+     * @param string $fax The fax number
      */
-    public function setComment($comment)
+    public function setFax($fax)
     {
-        $this->comment = $comment;
+        $this->fax = $fax;
     }
 
     /**
@@ -196,13 +211,13 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the email for this distributor.
+     * Sets the comment for this distributor.
      *
-     * @param string $email The email for this distributor
+     * @param string $comment The comment for this distributor
      */
-    public function setEmail($email)
+    public function setComment($comment)
     {
-        $this->email = $email;
+        $this->comment = $comment;
     }
 
     /**
@@ -216,13 +231,13 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the URL for this distributor.
+     * Sets the email for this distributor.
      *
-     * @param string $url The URL for this distributor
+     * @param string $email The email for this distributor
      */
-    public function setUrl($url)
+    public function setEmail($email)
     {
-        $this->url = $url;
+        $this->email = $email;
     }
 
     /**
@@ -236,13 +251,13 @@ class Distributor extends BaseEntity
     }
 
     /**
-     * Sets the SKU lookup URL for this distributor.
+     * Sets the URL for this distributor.
      *
-     * @param string $skuurl The SKU lookup URL for this distributor
+     * @param string $url The URL for this distributor
      */
-    public function setSkuurl($skuurl)
+    public function setUrl($url)
     {
-        $this->skuurl = $skuurl;
+        $this->url = $url;
     }
 
     /**
@@ -253,5 +268,15 @@ class Distributor extends BaseEntity
     public function getSkuurl()
     {
         return $this->skuurl;
+    }
+
+    /**
+     * Sets the SKU lookup URL for this distributor.
+     *
+     * @param string $skuurl The SKU lookup URL for this distributor
+     */
+    public function setSkuurl($skuurl)
+    {
+        $this->skuurl = $skuurl;
     }
 }

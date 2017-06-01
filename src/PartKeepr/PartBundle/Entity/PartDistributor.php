@@ -82,11 +82,36 @@ class PartDistributor extends BaseEntity
     private $sku;
 
     /**
-     * Cretes a new part->distributor link. Initializes the packaging unit with a quantity of "1".
+     * Defines if the distributor is ignored for pricing calculations
+     *
+     * @ORM\Column(type="boolean")
+     * @Groups({"default"})
+     * @var bool
+     */
+    private $ignoreForReports;
+
+    /**
+     * Creates a new part->distributor link. Initializes the packaging unit with a quantity of "1".
      */
     public function __construct()
     {
         $this->setPackagingUnit(1);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIgnoreForReports()
+    {
+        return $this->ignoreForReports;
+    }
+
+    /**
+     * @param bool $ignoreForReports
+     */
+    public function setIgnoreForReports($ignoreForReports)
+    {
+        $this->ignoreForReports = $ignoreForReports;
     }
 
     /**

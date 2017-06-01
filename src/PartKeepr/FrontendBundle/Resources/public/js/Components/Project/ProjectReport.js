@@ -52,11 +52,8 @@ Ext.define('PartKeepr.ProjectReportView', {
         var gridPresetButton = Ext.create("PartKeepr.Components.Grid.GridPresetButton");
 
         this.autoFillButton = Ext.create('Ext.button.Button', {
-            text: i18n("Autofill"),
-            width: 120,
-            margins: {
-                right: 20
-            },
+            text: i18n("Autofill Distributors"),
+            iconCls: 'fugue-icon notification-counter-02',
             listeners: {
                 click: this.onAutoFillClick,
                 scope: this
@@ -65,7 +62,7 @@ Ext.define('PartKeepr.ProjectReportView', {
 
         this.removeStockButton = Ext.create('Ext.button.Button', {
             text: i18n("Remove parts from stock"),
-            width: 160,
+            iconCls: 'fugue-icon notification-counter-03',
             listeners: {
                 click: this.onStockRemovalClick,
                 scope: this
@@ -138,6 +135,14 @@ Ext.define('PartKeepr.ProjectReportView', {
         var filterIds = [];
         for (var i = 0; i < distributors.count(); i++)
         {
+            if (distributors.getAt(i).getDistributor().get("enabledForReports") === false) {
+                continue;
+            }
+
+            if (distributors.getAt(i).get("ignoreForReports")) {
+                continue;
+            }
+
             filterIds.push(distributors.getAt(i).getDistributor().getId());
         }
 
@@ -247,7 +252,7 @@ Ext.define('PartKeepr.ProjectReportView', {
     },
     processCheapestDistributorForProjectPart: function (projectPart)
     {
-        cheapestDistributor = this.getCheapestDistributor(projectPart.getPart());
+        var cheapestDistributor = this.getCheapestDistributor(projectPart.getPart());
 
         if (cheapestDistributor !== null)
         {
@@ -272,6 +277,15 @@ Ext.define('PartKeepr.ProjectReportView', {
         for (var j = 0; j < part.distributors().count(); j++)
         {
             activeDistributor = part.distributors().getAt(j);
+
+            if (activeDistributor.getDistributor().get("enabledForReports") === false) {
+                continue;
+            }
+
+            if (activeDistributor.get("ignoreForReports") === true) {
+                continue;
+            }
+
             currentPrice = parseFloat(activeDistributor.get("price"));
 
             if (currentPrice !== 0)

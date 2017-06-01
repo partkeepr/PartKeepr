@@ -7,6 +7,11 @@ Ext.define('PartKeepr.DistributorEditor', {
             name: 'name',
             fieldLabel: i18n("Distributor")
         }, {
+            xtype: 'checkbox',
+            name: 'enabledForReports',
+            boxLabel: i18n("Use this distributor for price calculations in project reports"),
+            hideEmptyLabel: false
+        },{
             xtype: 'textarea',
             name: 'address',
             fieldLabel: i18n("Address")
@@ -27,7 +32,7 @@ Ext.define('PartKeepr.DistributorEditor', {
                             "Enter the URL of the distributor's SKU URL. Use %s as a placeholder for the SKU. Example: http://de.farnell.com/product/dp/%s"));
                     }
                 }
-            },
+            }
         }, {
             xtype: 'textfield',
             name: 'email',
