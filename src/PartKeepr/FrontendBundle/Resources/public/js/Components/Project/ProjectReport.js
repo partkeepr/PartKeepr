@@ -29,7 +29,7 @@ Ext.define('PartKeepr.ProjectReportView', {
             title: i18n("Choose Projects to create a report for"),
             split: true,
             minWidth: 300,
-            width: 300
+            width: 500
         });
 
         this.editing = Ext.create('Ext.grid.plugin.CellEditing', {

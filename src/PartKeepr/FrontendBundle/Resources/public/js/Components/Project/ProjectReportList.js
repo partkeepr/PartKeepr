@@ -15,7 +15,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportList", {
             flex: 1
         }, {
             header: i18n("Description"), dataIndex: 'description',
-            flex: 2
+            flex: 1
         }
     ],
 
