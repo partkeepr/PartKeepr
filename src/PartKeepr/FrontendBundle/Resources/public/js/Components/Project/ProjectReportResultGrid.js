@@ -1,6 +1,11 @@
 Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
     extend: "PartKeepr.BaseGrid",
 
+    features: [
+        {
+            ftype: 'summary'
+        }
+    ],
 
     initComponent: function ()
     {
@@ -41,7 +46,13 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 width: 75
             }, {
                 header: i18n("Distributor"),
-                dataIndex: 'distributor.name',
+                dataIndex: 'distributor',
+                renderers: [{
+                    rtype: 'objectField',
+                    rendererConfig: {
+                        displayField: 'distributor.name'
+                    }
+                }],
                 flex: 1,
                 editor: {
                     xtype: 'DistributorComboBox',

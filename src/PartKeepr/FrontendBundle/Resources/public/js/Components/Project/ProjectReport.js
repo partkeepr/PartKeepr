@@ -1,13 +1,3 @@
-Ext.define('PartKeepr.Foo', {
-    extend: "Ext.grid.Panel",
-    xtype: 'gridfoo',
-
-    parentRecord: null,
-    setParentRecord: function (v)
-    {
-        this.parentRecord = v;
-    }
-});
 /**
  * Represents the project report view
  */
@@ -18,46 +8,28 @@ Ext.define('PartKeepr.ProjectReportView', {
     bodyStyle: 'background:#DBDBDB;padding: 5px',
     border: false,
 
-    defaults: {
-        bodyStyle: 'padding:10px'
-    },
-
     layout: 'border',
 
     reportedProjects: [],
+
+    viewModel: {
+        data: {
+            store: null,
+            parentRecord: null
+        }
+    },
 
     initComponent: function ()
     {
         this.createStores();
 
-        this.upperGridEditing = Ext.create('Ext.grid.plugin.CellEditing', {
-            clicksToEdit: 1
-        });
-
-        this.reportList = Ext.create("PartKeepr.BaseGrid", {
-            selModel: {
-                mode: 'MULTI'
-            },
-            selType: 'checkboxmodel',
-            flex: 1,
-            columns: [
-                {
-                    header: i18n("Quantity"), dataIndex: 'quantity',
-                    width: 50,
-                    editor: {
-                        xtype: 'numberfield',
-                        minValue: 0
-                    }
-                }, {
-                    header: i18n("Project Name"), dataIndex: 'name',
-                    flex: 1
-                }, {
-                    header: i18n("Description"), dataIndex: 'description',
-                    flex: 1
-                }
-            ],
-            store: this.store,
-            plugins: [this.upperGridEditing]
+        this.reportList = Ext.create("PartKeepr.Components.Project.ProjectReportList", {
+            region: 'west',
+            collapsible: true,
+            title: i18n("Choose Projects to create a report for"),
+            split: true,
+            minWidth: 300,
+            width: 300
         });
 
         this.editing = Ext.create('Ext.grid.plugin.CellEditing', {
@@ -69,116 +41,15 @@ Ext.define('PartKeepr.ProjectReportView', {
             }
         });
 
-        this.subGridEditing = Ext.create('Ext.grid.plugin.CellEditing', {
-            clicksToEdit: 1,
-            listeners: {
-                edit: this.onAfterSubGridEdit,
-                scope: this
-            }
-        });
-
         this.subGrid = {
             xtype: 'gridfoo',
-            autoLoad: false,
             bind: {
                 store: '{record.subParts}',
                 parentRecord: '{record}'
-            },
-            plugins: [this.subGridEditing],
-            columns: [
-                {
-                    text: i18n("Use"),
-                    xtype: 'checkcolumn',
-                    listeners: {
-                        checkchange: this.onCheckStateChange,
-                        scope: this
-                    },
-                    dataIndex: 'use'
-                },
-                {
-                    text: i18n("Part Name"),
-                    dataIndex: "name"
-                }, {
-                    text: i18n("Description"),
-                    dataIndex: "description"
-                }, {
-                    text: i18n("Production Remarks"),
-                    dataIndex: "productionRemarks"
-                }, {
-                    text: i18n("Storage Location"),
-                    renderer: function (v, m, r)
-                    {
-                        return r.get("storageLocation.name");
-                    }
-                }, {
-                    text: i18n("Stock Level"),
-                    dataIndex: 'stockLevel'
-                }, {
-                    text: i18n("Stock to use"),
-                    dataIndex: 'stockToUse',
-                    editor: {
-                        field: {
-                            xtype: 'numberfield'
-                        }
-                    }
-                }
-            ],
-            bbar: [
-                {
-                    xtype: 'button',
-                    text: i18n("Apply Parts"),
-                    disabled: true,
-                    handler: this.onApplyMetaPartsClick,
-                    scope: this,
-                    itemId: 'applyPartsButton'
-                }
-            ]
+            }
         };
 
         var gridPresetButton = Ext.create("PartKeepr.Components.Grid.GridPresetButton");
-
-        this.reportResult = Ext.create("PartKeepr.Components.Project.ProjectReportResultGrid", {
-                flex: 1,
-                features: [
-                    {
-                        ftype: 'summary'
-                    }
-                ],
-                plugins: [
-                    {
-                        ptype: 'rowwidget',
-                        widget: this.subGrid
-
-                    }, this.editing
-                ],
-
-
-                store: this.projectReportStore,
-                bbar: [
-                    Ext.create("PartKeepr.Exporter.GridExporterButton", {
-                        itemId: 'export',
-                        genericExporter: false,
-                        tooltip: i18n("Export"),
-                        iconCls: "fugue-icon application-export",
-                        disabled: this.store.isLoading()
-                    }),
-                    gridPresetButton
-                ]
-            }
-        );
-
-        this.createReportButton = Ext.create('Ext.button.Button', {
-            xtype: 'button',
-            text: i18n("Create Report"),
-            width: 120,
-            margins: {
-                right: 10
-            },
-            listeners: {
-                click: this.onCreateReportClick,
-                scope: this
-            }
-        });
 
         this.autoFillButton = Ext.create('Ext.button.Button', {
             text: i18n("Autofill"),
@@ -202,43 +73,39 @@ Ext.define('PartKeepr.ProjectReportView', {
 
         });
 
-        this.items = [
-            {
-                title: i18n("Choose Projects to create a report for"),
-                split: true,
-                minHeight: 300,
-                height: 300,
-                bodyStyle: 'background:#DBDBDB;padding: 10px;',
-                layout: {
-                    type: 'vbox',
-                    align: 'stretch',
-                    pack: 'start'
-                },
-                region: 'north',
-                items: [
-                    this.reportList,
+        this.reportResult = Ext.create("PartKeepr.Components.Project.ProjectReportResultGrid", {
+                flex: 1,
+
+                plugins: [
                     {
-                        layout: {
-                            type: 'hbox',
-                            pack: 'start'
-                        },
-                        margins: {
-                            top: 10
-                        },
-                        border: false,
-                        bodyStyle: 'background:#DBDBDB',
-                        items: [
-                            this.createReportButton,
-                            this.autoFillButton,
-                            {xtype: 'tbspacer'},
-                            this.removeStockButton
-                        ]
-                    }
+                        ptype: 'rowwidget',
+                        widget: this.subGrid
+
+                    }, this.editing
+                ],
+
+                store: this.projectReportStore,
+                bbar: [
+                    this.autoFillButton,
+                    this.removeStockButton,
+                    {xtype: 'tbspacer'},
+                    Ext.create("PartKeepr.Exporter.GridExporterButton", {
+                        itemId: 'export',
+                        genericExporter: false,
+                        tooltip: i18n("Export"),
+                        iconCls: "fugue-icon application-export",
+                        disabled: this.reportList.getStore().isLoading()
+                    }),
+                    gridPresetButton
                 ]
-            }, {
+            }
+        );
+
+
+        this.items = [
+            this.reportList, {
                 region: 'center',
                 layout: 'fit',
-                bodyStyle: 'background:#DBDBDB;padding: 10px;',
                 title: i18n("Project Report"),
                 items: this.reportResult
             }
@@ -247,114 +114,11 @@ Ext.define('PartKeepr.ProjectReportView', {
 
         this.callParent();
 
+        this.down("#createReportButton").on("click", this.onCreateReportClick, this);
+
         gridPresetButton.setGrid(this.reportResult);
     },
-    onApplyMetaPartsClick: function (button)
-    {
-        var parentRecord = button.up("grid").parentRecord;
 
-        this.convertMetaPartsToParts(parentRecord);
-    },
-    /**
-     * Converts meta parts to parts. Iterates over the sub parts and figures out which actual parts to create, then
-     * removes the original meta part.
-     *
-     * @param record
-     */
-    convertMetaPartsToParts: function (record)
-    {
-        var missing;
-
-        var i, projectReportItem, subPart;
-
-        for (i = 0; i < record.subParts().getCount(); i++)
-        {
-            subPart = record.subParts().getAt(i);
-
-            if (subPart.get("use"))
-            {
-                missing = subPart.get("stockLevel") - subPart.get("stockToUse");
-
-                if (missing >= 0) {
-                    missing = 0;
-                } else {
-                    missing = Math.abs(missing);
-                }
-
-                projectReportItem = Ext.create("PartKeepr.ProjectBundle.Entity.ProjectReport");
-                projectReportItem.set("quantity", subPart.get("stockToUse"));
-                projectReportItem.set("storageLocation_name", subPart.getStorageLocation().get("name"));
-                projectReportItem.set("available", subPart.get("stockLevel"));
-                projectReportItem.set("missing", missing);
-                projectReportItem.set("projects", record.get("projects"));
-                projectReportItem.set("projectNames", record.get("projectNames"));
-                projectReportItem.set("remarks", record.get("remarks"));
-                projectReportItem.set("productionRemarks", subPart.get("productionRemarks"));
-                projectReportItem.set("lotNumber", record.get("lotNumber"));
-                projectReportItem.setPart(subPart);
-
-                this.reportResult.getStore().add(projectReportItem);
-            }
-        }
-
-        this.reportResult.getStore().remove(record);
-    },
-    onCheckStateChange: function (check, rowIndex, checked, record)
-    {
-        var grid = check.up("grid");
-
-        if (checked)
-        {
-            if (record.get("stockToUse") === 0 || record.get("stockToUse") === undefined)
-            {
-                var total = this.getAppliedPartCount(grid);
-                var missing = grid.parentRecord.get("quantity") - total;
-
-                if (missing <= record.get("stockLevel")) {
-                    record.set("stockToUse", missing);
-                } else {
-                    record.set("stockToUse", record.get("stockLevel"));
-                }
-            }
-        }
-
-        Ext.defer(this.updateSubGrid, 100, this, [check.up("grid")]);
-    },
-    onAfterSubGridEdit: function (editor, context)
-    {
-        context.record.set("stockToUse", context.value);
-
-        Ext.defer(this.updateSubGrid, 100, this, [context.grid]);
-    },
-    updateSubGrid: function (grid)
-    {
-        var total = this.getAppliedPartCount(grid);
-
-        if (total === grid.parentRecord.get("quantity"))
-        {
-            grid.down("#applyPartsButton").enable();
-        } else
-        {
-            grid.down("#applyPartsButton").disable();
-        }
-    },
-    getAppliedPartCount: function (grid) {
-
-        var subParts = grid.parentRecord.subParts();
-        var i, total;
-
-        total = 0;
-        for (i = 0; i < subParts.getCount(); i++)
-        {
-            if (subParts.getAt(i).get("use"))
-            {
-                if (!isNaN(subParts.getAt(i).get("stockToUse"))) {
-                    total += subParts.getAt(i).get("stockToUse");
-                }
-            }
-        }
-        return total;
-    },
     /**
      * Called when the distributor field is about to be edited.
      *
@@ -416,7 +180,6 @@ Ext.define('PartKeepr.ProjectReportView', {
                     projects: item.get("projects")
                 });
             }
-            console.log(removals);
 
             PartKeepr.PartBundle.Entity.Part.callPostCollectionAction("massRemoveStock",
                 {"removals": Ext.encode(removals), "projects": Ext.encode(this.reportedProjects)});
@@ -424,7 +187,6 @@ Ext.define('PartKeepr.ProjectReportView', {
     },
     onEdit: function (editor, context)
     {
-        console.log("onEdit");
         if (context.field === "distributor" && context.record.getDistributor() !== null)
         {
             var partDistributors = context.record.getPart().distributors();
@@ -445,72 +207,116 @@ Ext.define('PartKeepr.ProjectReportView', {
     onAutoFillClick: function ()
     {
         var partCount = this.reportResult.store.count();
-        var cheapestDistributor, activeDistributor;
-        var lowestPrice;
-        var firstPositive;
         var activeRecord;
-        var currentPrice;
+
+        this.projectPartStack = [];
+
 
         for (var i = 0; i < partCount; i++)
         {
+
             activeRecord = this.reportResult.store.getAt(i);
-            firstPositive = true;
-            lowestPrice = 0;
-            cheapestDistributor = null;
 
-            for (var j = 0; j < activeRecord.getPart().distributors().count(); j++)
+            this.projectPartStack.push(activeRecord);
+        }
+
+        this.processCheapestDistributorStack(this.projectPartStack.length);
+
+        if (this.waitMessage instanceof Ext.window.MessageBox)
+        {
+            this.waitMessage.hide();
+        }
+    },
+    processCheapestDistributorStack: function (totalCount)
+    {
+        if (this.projectPartStack.length === 0)
+        {
+            if (this.waitMessage instanceof Ext.window.MessageBox)
             {
-                activeDistributor = activeRecord.getPart().distributors().getAt(j);
-                currentPrice = parseFloat(activeDistributor.get("price"));
+                this.waitMessage.hide();
+            }
+            return;
+        }
+        this.displayWaitWindow(
+            i18n("Processing distributors…"),
+            (totalCount - this.projectPartStack.length) + " / " + totalCount,
+            1 / totalCount * (totalCount - this.projectPartStack.length));
+        this.processCheapestDistributorForProjectPart(this.projectPartStack.shift());
 
-                if (currentPrice !== 0)
+        Ext.defer(this.processCheapestDistributorStack, 1, this, [totalCount]);
+    },
+    processCheapestDistributorForProjectPart: function (projectPart)
+    {
+        cheapestDistributor = this.getCheapestDistributor(projectPart.getPart());
+
+        if (cheapestDistributor !== null)
+        {
+            projectPart.setDistributor(cheapestDistributor.getDistributor());
+            projectPart.set("distributor_order_number", cheapestDistributor.get("orderNumber"));
+            projectPart.set("price", cheapestDistributor.get("price"));
+            projectPart.set("sum_order", projectPart.get("missing") * projectPart.get("price"));
+            projectPart.set("sum", projectPart.get("quantity") * projectPart.get("price"));
+        }
+    },
+    getCheapestDistributor: function (part)
+    {
+        var cheapestDistributor = null;
+        var currentPrice;
+        var activeDistributor;
+        var lowestPrice;
+        var firstPositive;
+
+        firstPositive = true;
+        lowestPrice = 0;
+
+        for (var j = 0; j < part.distributors().count(); j++)
+        {
+            activeDistributor = part.distributors().getAt(j);
+            currentPrice = parseFloat(activeDistributor.get("price"));
+
+            if (currentPrice !== 0)
+            {
+                if (firstPositive)
                 {
-                    if (firstPositive)
+                    lowestPrice = currentPrice;
+                    cheapestDistributor = activeDistributor;
+                    firstPositive = false;
+                }
+                else
+                {
+                    if (currentPrice < lowestPrice)
                     {
                         lowestPrice = currentPrice;
                         cheapestDistributor = activeDistributor;
-                        firstPositive = false;
-                    }
-                    else
-                    {
-                        if (currentPrice < lowestPrice)
-                        {
-                            lowestPrice = currentPrice;
-                            cheapestDistributor = activeDistributor;
-                        }
                     }
                 }
             }
-
-            if (cheapestDistributor !== null)
-            {
-                activeRecord.setDistributor(cheapestDistributor.getDistributor());
-                activeRecord.set("distributor_order_number", cheapestDistributor.get("orderNumber"));
-                activeRecord.set("price", cheapestDistributor.get("price"));
-                activeRecord.set("sum_order", activeRecord.get("missing") * activeRecord.get("price"));
-                activeRecord.set("sum", activeRecord.get("quantity") * activeRecord.get("price"));
-            }
         }
+
+        return cheapestDistributor;
+    },
+    displayWaitWindow: function (text, description, value)
+    {
+        this.waitMessage = Ext.MessageBox.show({
+            msg: text,
+            progressText: description,
+            progress: true,
+            width: 300
+        });
+
+        this.waitMessage.updateProgress(value);
+
     },
     /**
      *
      */
     onCreateReportClick: function ()
     {
-        var selection = this.reportList.getSelectionModel().getSelection();
-
-        var projects = [];
-
-        for (var i = 0; i < selection.length; i++)
-        {
-            projects.push({project: selection[i].getId(), quantity: selection[i].get("quantity")});
-        }
-
-        this.reportedProjects = projects;
+        this.reportedProjects = this.reportList.getProjectsToReport();
 
         this.projectReportStore.load({
             params: {
-                projects: Ext.encode(projects)
+                projects: Ext.encode(this.reportedProjects)
             }
         });
     },
@@ -519,14 +325,6 @@ Ext.define('PartKeepr.ProjectReportView', {
      */
     createStores: function ()
     {
-        var config = {
-            autoLoad: true,
-            model: "PartKeepr.ProjectBundle.Entity.ProjectReportList",
-            pageSize: 999999999
-        };
-
-        this.store = Ext.create('Ext.data.Store', config);
-
         this.projectReportStore = Ext.create('Ext.data.Store', {
             model: "PartKeepr.ProjectBundle.Entity.ProjectReport",
             pageSize: -1
