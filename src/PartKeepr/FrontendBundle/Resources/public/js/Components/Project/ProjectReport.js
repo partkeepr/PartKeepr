@@ -1,3 +1,4 @@
+
 /**
  * Represents the project report view
  */
@@ -70,15 +71,15 @@ Ext.define('PartKeepr.ProjectReportView', {
 
         });
 
+        this.rowExpander = new PartKeepr.Components.ProjectReport.MetaPartRowExpander({
+           widget: this.subGrid
+        });
+
         this.reportResult = Ext.create("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 flex: 1,
 
                 plugins: [
-                    {
-                        ptype: 'rowwidget',
-                        widget: this.subGrid
-
-                    }, this.editing
+                    this.rowExpander, this.editing
                 ],
 
                 store: this.projectReportStore,
@@ -313,6 +314,7 @@ Ext.define('PartKeepr.ProjectReportView', {
     {
         this.waitMessage = Ext.MessageBox.show({
             msg: text,
+            title: i18n("Applying distributors…"),
             progressText: description,
             progress: true,
             width: 300
