@@ -229,6 +229,13 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
      */
     onStockRemovalClick: function ()
     {
+        if (this.hasMetaParts())
+        {
+            Ext.Msg.alert(i18n("Unassigned Meta-Parts"),
+                i18n("You have unassigned meta-parts. In order to remove parts from stock, you need to assign the meta-parts first."));
+            return;
+        }
+
         Ext.Msg.confirm(i18n("Remove parts from stock"),
             i18n("Do you really want to remove the parts in the project report from the stock?"),
             this.removeStocks, this);
@@ -305,7 +312,21 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             }
 
             PartKeepr.PartBundle.Entity.Part.callPostCollectionAction("massRemoveStock",
-                {"removals": Ext.encode(removals), "projects": Ext.encode(this.reportedProjects)});
+                {
+                    "removals": Ext.encode(removals),
+                    "projects": Ext.encode(this.getProjectsToReport())
+                },
+                function (options, success, response)
+                {
+                    if (success)
+                    {
+                        Ext.Msg.alert(
+                            i18n("Stock Removal Complete"),
+                            i18n("Removed stock and created a new project run.")
+                        );
+                    }
+                }
+            );
         }
     },
     onEdit: function (editor, context)
@@ -429,6 +450,20 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
 
         return cheapestDistributor;
     },
+    hasMetaParts: function ()
+    {
+        var i, record;
+        for (i = 0; i < this.getStore().getCount(); i++)
+        {
+            record = this.getStore().getAt(i);
+            if (record.get("metaPart"))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    },
     displayWaitWindow: function (text, description, value)
     {
         this.waitMessage = Ext.MessageBox.show({
@@ -440,6 +475,13 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
         });
 
         this.waitMessage.updateProgress(value);
-
+    },
+    setProjectsToReport: function (projects)
+    {
+        this.reportedProjects = projects;
+    },
+    getProjectsToReport: function ()
+    {
+        return this.reportedProjects;
     }
 });

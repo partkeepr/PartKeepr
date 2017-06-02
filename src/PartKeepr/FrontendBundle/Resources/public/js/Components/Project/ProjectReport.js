@@ -56,11 +56,11 @@ Ext.define('PartKeepr.ProjectReportView', {
      */
     onCreateReportClick: function ()
     {
-        this.reportedProjects = this.reportList.getProjectsToReport();
+        this.reportResult.setProjectsToReport(this.reportList.getProjectsToReport());
 
         this.projectReportStore.load({
             params: {
-                projects: Ext.encode(this.reportedProjects)
+                projects: Ext.encode(this.reportList.getProjectsToReport())
             }
         });
     },
