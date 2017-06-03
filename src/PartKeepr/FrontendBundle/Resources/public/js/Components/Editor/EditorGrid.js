@@ -208,8 +208,6 @@ Ext.define('PartKeepr.EditorGrid', {
             this.plugins = [];
         }
 
-        this.plugins.push('gridmenu');
-
         this.callParent();
 
         this.getSelectionModel().on("select", this._onItemSelect, this);
