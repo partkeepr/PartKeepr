@@ -61,7 +61,8 @@ class ProjectReportController extends FOSRestController
         $aPartResults = [];
 
         foreach ($projects as $report) {
-            $dql = 'SELECT pp.quantity, pro.name AS projectname, pp.overage, pp.overageType, pp.remarks, pp.lotNumber, p.id FROM ';
+            $dql = 'SELECT pp.quantity, pro.name AS projectname, pp.overage, pp.overageType, pp.remarks, pp.lotNumber, ';
+            $dql .= 'p.id FROM ';
             $dql .= 'PartKeepr\\ProjectBundle\\Entity\\ProjectPart pp JOIN pp.part p ';
             $dql .= 'JOIN pp.project pro WHERE pp.project = :project';
 
@@ -71,7 +72,9 @@ class ProjectReportController extends FOSRestController
             $projectIRI = $iriConverter->getIriFromItem($report['project']);
 
             foreach ($query->getArrayResult() as $result) {
-                $part = $partRepository->find($result['id']);
+                $partId = $result['id'];
+
+                $part = $partRepository->find($partId);
                 /**
                  * @var Part $part
                  */
@@ -81,16 +84,12 @@ class ProjectReportController extends FOSRestController
                     $overage = $result["overage"];
                 }
 
-                if (array_key_exists($result['id'], $aPartResults)) {
+                if (array_key_exists($partId, $aPartResults)) {
                     // Only update the quantity of the part
 
-                    $aPartResults[$result['id']]['quantity'] += ($result['quantity'] * $report['quantity']) + $overage;
-                    $aPartResults[$result['id']]['projectNames'][] = $result['projectname'];
-                    $aPartResults[$result['id']]['projects'][] = $projectIRI;
-
-                    if ($result['remarks'] != '') {
-                        $aPartResults[$result['id']]['remarks'][] = $result['projectname'].': '.$result['remarks'];
-                    }
+                    $aPartResults[$partId]['quantity'] += ($result['quantity'] * $report['quantity']) + $overage;
+                    $aPartResults[$partId]['projectNames'][] = $result['projectname'];
+                    $aPartResults[$partId]['projects'][] = $projectIRI;
                 } else {
                     $serializedData = $this->get('serializer')->normalize(
                         $part,
@@ -131,9 +130,17 @@ class ProjectReportController extends FOSRestController
                         'remarks'              => [],
                     ];
 
-                    if ($result['remarks'] != '') {
-                        $aPartResults[$result['id']]['remarks'] = [$result['projectname'].': '.$result['remarks']];
-                    }
+
+                }
+
+                $aPartResults[$partId]['projectQuantities'][] = [
+                    "project" => $projectIRI,
+                    "projectName" => $result['projectname'],
+                    "quantity" => ($result['quantity'] * $report['quantity']) + $overage
+                ];
+
+                if ($result['remarks'] != '') {
+                    $aPartResults[$result['id']]['remarks'] = [$result['projectname'].': '.$result['remarks']];
                 }
             }
         }

@@ -5,7 +5,7 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
 
     renderer: function (v, q, rec)
     {
-        var i, total;
+        var i, total, titleParts = [], title, projectQuantities;
 
         if (rec.get("metaPart"))
         {
@@ -21,7 +21,15 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
             return total + " / " + v;
         } else
         {
-            return v;
+            projectQuantities = rec.get("projectQuantities");
+
+            for (i=0;i<projectQuantities.length;i++) {
+
+                titleParts.push(projectQuantities[i].projectName + ": "+ projectQuantities[i].quantity);
+            }
+
+            title = titleParts.join("&#013;&#010;");
+            return '<span class="web-icon fugue-icon information-small-white" title="' + title + '"></span> '+v;
         }
     },
 

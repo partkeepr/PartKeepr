@@ -7,6 +7,10 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
         }
     ],
 
+    viewConfig: {
+        markDirty: false
+    },
+
     initComponent: function ()
     {
 
