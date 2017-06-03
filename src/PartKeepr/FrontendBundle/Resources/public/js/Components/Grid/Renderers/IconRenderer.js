@@ -16,7 +16,7 @@ Ext.define("PartKeepr.Components.Grid.Renderers.IconRenderer", {
     {
         var invert = renderObj.getRendererConfigItem(renderObj, "invert", false),
             title = renderObj.getRendererConfigItem(renderObj, "title", ""),
-            iconCls = renderObj.getRendererConfigItem(renderObj, "iconCls", "web-icon ,fugue-icon fruit");
+            iconCls = renderObj.getRendererConfigItem(renderObj, "iconCls", "web-icon fugue-icon fruit");
 
         if (value ||invert)
         {
