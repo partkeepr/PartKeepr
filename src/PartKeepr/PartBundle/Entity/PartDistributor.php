@@ -88,7 +88,7 @@ class PartDistributor extends BaseEntity
      * @Groups({"default"})
      * @var bool
      */
-    private $ignoreForReports;
+    private $ignoreForReports = 0;
 
     /**
      * Creates a new part->distributor link. Initializes the packaging unit with a quantity of "1".
