@@ -23,13 +23,19 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
         {
             projectQuantities = rec.get("projectQuantities");
 
-            for (i=0;i<projectQuantities.length;i++) {
+            if (projectQuantities instanceof Array)
+            {
+                for (i = 0; i < projectQuantities.length; i++)
+                {
 
-                titleParts.push(projectQuantities[i].projectName + ": "+ projectQuantities[i].quantity);
+                    titleParts.push(projectQuantities[i].projectName + ": " + projectQuantities[i].quantity);
+                }
+
+                title = titleParts.join("&#013;&#010;");
+                return '<span class="web-icon fugue-icon information-small-white" title="' + title + '"></span> ' + v;
+            } else {
+                return v;
             }
-
-            title = titleParts.join("&#013;&#010;");
-            return '<span class="web-icon fugue-icon information-small-white" title="' + title + '"></span> '+v;
         }
     },
 
