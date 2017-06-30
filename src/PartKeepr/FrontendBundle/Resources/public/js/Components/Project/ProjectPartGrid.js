@@ -13,6 +13,13 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 xtype: 'numberfield',
                 allowBlank: false,
                 minValue: 1
+            },
+            renderer: function (v, m, rec)
+            {
+                if (rec.getPart() !== null)
+                {
+                    return v + " " + rec.getPart().getPartUnit().get("shortName");
+                }
             }
         }, {
             header: i18n("Overage Type"), dataIndex: 'overageType',
@@ -20,7 +27,7 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             editor: {
                 xtype: 'combobox',
                 store: {
-                   fields: ["overageType", "description"],
+                    fields: ["overageType", "description"],
                     data: [{overageType: 'percent', description: i18n("Percent")},
                         {overageType: 'absolute', description: i18n("Absolute")}]
                 },
@@ -31,14 +38,17 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 forceSelection: true,
                 allowBlank: false
             },
-            renderer: function (v) {
-                if (v === "percent") {
+            renderer: function (v)
+            {
+                if (v === "percent")
+                {
                     return i18n("Percent");
-                } else {
+                } else
+                {
                     return i18n("Absolute");
                 }
             }
-        },{
+        }, {
             header: i18n("Overage"), dataIndex: 'overage',
             width: 50,
             editor: {
@@ -46,16 +56,20 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 allowBlank: false,
                 minValue: 0
             },
-            renderer: function (v,m,rec) {
-                if (rec.get("overageType") === "percent") {
+            renderer: function (v, m, rec)
+            {
+                if (rec.get("overageType") === "percent")
+                {
                     return v + " %";
-                } else {
-                    if (rec.getPart() !== null) {
+                } else
+                {
+                    if (rec.getPart() !== null)
+                    {
                         return v + " " + rec.getPart().getPartUnit().get("shortName");
                     }
                 }
             }
-        },{
+        }, {
             header: i18n("Part"),
             dataIndex: 'part',
             flex: 1,
@@ -66,10 +80,13 @@ Ext.define('PartKeepr.ProjectPartGrid', {
             {
                 var part = rec.getPart(), icon;
 
-                if (part !== null) {
-                    if (part.get("metaPart")) {
+                if (part !== null)
+                {
+                    if (part.get("metaPart"))
+                    {
                         icon = "bricks";
-                    } else {
+                    } else
+                    {
                         icon = "brick";
                     }
                     return '<span class="web-icon ' + icon + '"></span> ' + Ext.util.Format.htmlEncode(
@@ -187,7 +204,8 @@ Ext.define('PartKeepr.ProjectPartGrid', {
         win.editor.on("editorClose", function (context)
         {
             // End this if the record is a phatom and thus hasn't been saved yet
-            if (context.record.phantom) {
+            if (context.record.phantom)
+            {
                 return;
             }
 
@@ -211,7 +229,8 @@ Ext.define('PartKeepr.ProjectPartGrid', {
     onDeleteClick: function ()
     {
         var selection = this.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
+        if (selection)
+        {
             this.store.remove(selection);
         }
     },
@@ -221,7 +240,8 @@ Ext.define('PartKeepr.ProjectPartGrid', {
     onViewClick: function ()
     {
         var selection = this.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
+        if (selection)
+        {
             Ext.getCmp("partkeepr-partmanager").onEditPart(selection.getPart());
         }
     },
