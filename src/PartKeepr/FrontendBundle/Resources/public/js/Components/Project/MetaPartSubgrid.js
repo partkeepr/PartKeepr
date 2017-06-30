@@ -105,17 +105,11 @@ Ext.define('PartKeepr.Components.Project.MetaPartSubgrid', {
                     missing = Math.abs(missing);
                 }
 
-                projectReportItem = Ext.create("PartKeepr.ProjectBundle.Entity.ProjectReport");
-                projectReportItem.set("quantity", subPart.get("stockToUse"));
-                projectReportItem.set("storageLocation_name", subPart.getStorageLocation().get("name"));
-                projectReportItem.set("available", subPart.get("stockLevel"));
-                projectReportItem.set("missing", missing);
-                projectReportItem.set("projects", record.get("projects"));
-                projectReportItem.set("projectNames", record.get("projectNames"));
-                projectReportItem.set("remarks", record.get("remarks"));
-                projectReportItem.set("productionRemarks", subPart.get("productionRemarks"));
-                projectReportItem.set("lotNumber", record.get("lotNumber"));
+                projectReportItem = Ext.create("PartKeepr.ProjectBundle.Entity.ReportPart");
                 projectReportItem.setPart(subPart);
+                projectReportItem.set("quantity", subPart.get("stockToUse"));
+                projectReportItem.setReport(this.up("#projectReportResult").projectReport);
+
 
                 record.store.add(projectReportItem);
             }
@@ -123,6 +117,15 @@ Ext.define('PartKeepr.Components.Project.MetaPartSubgrid', {
 
         record.store.remove(record);
     },
+
+    /**
+     * Handles the change of the meta parts subgrid checkbox.
+     *
+     * @param check
+     * @param rowIndex
+     * @param checked
+     * @param record
+     */
     onCheckStateChange: function (check, rowIndex, checked, record)
     {
         var grid = check.up("grid");

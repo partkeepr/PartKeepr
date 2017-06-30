@@ -97,6 +97,29 @@ class ProjectPart extends BaseEntity
      */
     private $lotNumber;
 
+    /**
+     * The total quantity including overage
+     * @Groups({"default"})
+     * @var int
+     */
+    private $totalQuantity;
+
+    /**
+     * Retrieves the total quantity for a project part, including overage.
+     * @return int
+     */
+    public function getTotalQuantity()
+    {
+        switch ($this->getOverageType()) {
+            case self::OVERAGE_TYPE_PERCENT:
+                return (int)$this->getQuantity() * (1 + $this->getOverage() / 100);
+            case self::OVERAGE_TYPE_ABSOLUTE:
+                return $this->getQuantity() + $this->getOverage();
+            default:
+                return $this->getQuantity();
+        }
+    }
+
     public function __construct()
     {
         $this->setOverageType(self::OVERAGE_TYPE_ABSOLUTE);

@@ -3,34 +3,43 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
 
     alias: 'columnRenderer.projectReportQuantity',
 
-    renderer: function (v, q, rec)
+    renderer: function (value, metaData, record, rowIndex, colIndex, store, view, renderObj)
     {
-        var i, total, titleParts = [], title, projectQuantities;
-
-        if (rec.get("metaPart"))
+        if (record.get("metaPart"))
         {
             total = 0;
-            for (i = 0; i < rec.subParts().getCount(); i++)
+            for (i = 0; i < record.subParts().getCount(); i++)
             {
-                if (rec.subParts().getAt(i).get("use"))
+                if (record.subParts().getAt(i).get("use"))
                 {
-                    total += rec.subParts().getAt(i).get("stockToUse");
+                    total += record.subParts().getAt(i).get("stockToUse");
                 }
             }
 
-            return total + " / " + v;
+            return total + " / " + value;
         } else
         {
-            projectQuantities = rec.get("projectQuantities");
-
-            for (i=0;i<projectQuantities.length;i++) {
-
-                titleParts.push(projectQuantities[i].projectName + ": "+ projectQuantities[i].quantity);
-            }
-
-            title = titleParts.join("&#013;&#010;");
-            return '<span class="web-icon fugue-icon information-small-white" title="' + title + '"></span> '+v;
+            title = renderObj.getProjectParts(record);
+            return '<span class="web-icon fugue-icon information-small-white" title="' + title + '"></span> '+ record.get("quantity");
         }
+    },
+    getProjectParts: function (rec) {
+        var report = rec.getReport(),
+            i,j, project, projectPart, projectPartQuantities = [];
+
+        for (i=0;i<report.reportProjects().getCount();i++) {
+            project = report.reportProjects().getAt(i).getProject();
+
+            for (j=0;j<project.parts().getCount();j++) {
+                projectPart = project.parts().getAt(j);
+
+                if (projectPart.getPart().getId() === rec.getPart().getId() ) {
+                    projectPartQuantities.push(project.get("name")+ ": "+projectPart.get("totalQuantity"));
+                }
+            }
+        }
+
+        return projectPartQuantities.join("&#013;&#010;")
     },
 
     statics: {

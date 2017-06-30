@@ -34,11 +34,11 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 renderers: [{
                     rtype: "projectReportMetaPart"
                 }],
-                flex: 1
+                flex: 2
             }, {
                 header: i18n("Part Description"),
                 dataIndex: "part.description",
-                flex: 1
+                flex: 2
             }, {
                 header: i18n("Remarks"),
                 dataIndex: 'remarks',
@@ -52,10 +52,10 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 dataIndex: 'projectNames',
                 flex: 1
             }, {
-                header: i18n("Storage Location"), dataIndex: 'storageLocation_name',
+                header: i18n("Storage Location"), dataIndex: 'part.storageLocation.name',
                 width: 100
             }, {
-                header: i18n("Available"), dataIndex: 'available',
+                header: i18n("Available"), dataIndex: 'part.stockLevel',
                 width: 75
             }, {
                 header: i18n("Distributor"),
@@ -76,20 +76,20 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                     editable: false
                 }
             }, {
-                header: i18n("Distributor Order Number"), dataIndex: 'distributor_order_number',
+                header: i18n("Distributor Order Number"), dataIndex: 'distributorOrderNumber',
                 flex: 1,
                 editor: {
                     xtype: 'textfield'
                 }
             }, {
-                header: i18n("Price per Item"), dataIndex: 'price',
-                renderers: [{
+                header: i18n("Item Price"), dataIndex: 'itemPrice',
+            renderers: [{
                     rtype: 'currency'
                 }],
                 width: 100
             }, {
                 header: i18n("Sum"),
-                dataIndex: 'sum',
+                dataIndex: 'itemSum',
                 renderers: [{
                     rtype: 'currency'
                 }],
@@ -97,11 +97,11 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 summaryRenderer: PartKeepr.getApplication().formatCurrency,
                 width: 100
             }, {
-                header: i18n("Amount to Order"), dataIndex: 'missing',
+                header: i18n("Order Amount"), dataIndex: 'missing',
                 width: 100
             }, {
                 header: i18n("Sum (Order)"),
-                dataIndex: 'sum_order',
+                dataIndex: 'orderSum',
                 renderers: [{
                     rtype: 'currency'
                 }],
@@ -138,6 +138,15 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             }
         });
 
+        this.saveReportButton = Ext.create('Ext.button.Button', {
+            text: i18n("Save Project Report"),
+            iconCls: 'fugue-icon notification-counter-04',
+            listeners: {
+                click: this.onSaveReportClick,
+                scope: this
+            }
+        });
+
         this.autoFillButton = Ext.create('Ext.button.Button', {
             text: i18n("Auto-Fill Distributors"),
             iconCls: 'fugue-icon notification-counter-02',
@@ -167,6 +176,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
         this.bbar = [
             this.autoFillButton,
             this.removeStockButton,
+            this.saveReportButton,
             {xtype: 'tbseparator'},
             this.nextMetaPart,
             this.previousMetaPart,
@@ -182,7 +192,6 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             })
 
         ];
-
 
         this.callParent(arguments);
 
@@ -227,6 +236,22 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
 
         context.column.getEditor().store.clearFilter();
         context.column.getEditor().store.addFilter(filter);
+    },
+    onSaveReportClick: function () {
+        Ext.Msg.prompt(
+            i18n("Project Report Name"),
+            i18n("Please enter the project report name:"),
+            this.doSaveReport,
+            this,
+            false,
+            this.projectReport.get("name")
+            );
+    },
+    doSaveReport: function (button, value) {
+        if (button === "ok") {
+            this.projectReport.set("name", value);
+            this.projectReportManager.doSaveProjectReport();
+        }
     },
     /**
      * Removes all parts in the project view.
@@ -293,6 +318,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             return 0;
         }
     },
+
     removeStocks: function (btn)
     {
         if (btn === "yes")
@@ -305,13 +331,12 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             {
                 var item = store.getAt(i);
 
-
                 removals.push({
                     part: item.getPart().getId(),
                     amount: item.get("quantity"),
-                    comment: item.get("projectNames"),
-                    lotNumber: item.get("lotNumber"),
-                    projects: item.get("projects")
+                    comment: item.getReport().reportProjects().getFieldValues("project.name").join(", "),
+                    lotNumber: item.projectParts().getFieldValues("lotNumber").join(", "),
+                    projects: [] // item.getReport().reportProjects()
                 });
             }
 
@@ -343,10 +368,10 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             {
                 if (partDistributors.getAt(i).getDistributor().getId() === context.record.getDistributor().getId())
                 {
-                    context.record.set("price", partDistributors.getAt(i).get("price"));
-                    context.record.set("distributor_order_number", partDistributors.getAt(i).get("orderNumber"));
-                    context.record.set("sum_order", context.record.get("missing") * context.record.get("price"));
-                    context.record.set("sum", context.record.get("quantity") * context.record.get("price"));
+                    context.record.set("itemPrice", partDistributors.getAt(i).get("price"));
+                    context.record.set("distributorOrderNumber", partDistributors.getAt(i).get("orderNumber"));
+                    context.record.set("orderSum", context.record.get("missing") * context.record.get("itemPrice"));
+                    context.record.set("itemSum", context.record.get("quantity") * context.record.get("itemPrice"));
                 }
             }
         }
@@ -400,10 +425,10 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
         if (cheapestDistributor !== null)
         {
             projectPart.setDistributor(cheapestDistributor.getDistributor());
-            projectPart.set("distributor_order_number", cheapestDistributor.get("orderNumber"));
-            projectPart.set("price", cheapestDistributor.get("price"));
-            projectPart.set("sum_order", projectPart.get("missing") * projectPart.get("price"));
-            projectPart.set("sum", projectPart.get("quantity") * projectPart.get("price"));
+            projectPart.set("distributorOrderNumber", cheapestDistributor.get("orderNumber"));
+            projectPart.set("itemPrice", cheapestDistributor.get("price"));
+            projectPart.set("orderSum", projectPart.get("missing") * projectPart.get("itemPrice"));
+            projectPart.set("itemSum", projectPart.get("quantity") * projectPart.get("itemPrice"));
         }
     },
     getCheapestDistributor: function (part)

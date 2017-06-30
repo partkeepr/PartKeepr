@@ -75,6 +75,8 @@ class ReflectionService
 
         $associationMappings = $this->getDatabaseAssociationMappings($cm, $bTree);
 
+        $associationMappings["ONE_TO_MANY"] = array_merge($associationMappings["ONE_TO_MANY"], $this->getVirtualOneToManyRelationMappings($cm));
+
         $renderParams = [
             'fields'       => $fieldMappings,
             'associations' => $associationMappings,
@@ -118,7 +120,12 @@ class ReflectionService
         $associations = $cm->getAssociationMappings();
         $byReferenceMappings = $this->getByReferenceMappings($cm);
 
-        $associationMappings = [];
+        $associationMappings = [
+            "ONE_TO_ONE" => [],
+            "MANY_TO_ONE" => [],
+            "ONE_TO_MANY" => [],
+            "MANY_TO_MANY" => []
+        ];
 
         foreach ($associations as $association) {
             $getterPlural = false;
@@ -215,6 +222,35 @@ class ReflectionService
         }
 
         return $fieldMappings;
+    }
+
+    /**
+     * Returns all virtual relations mappings.
+     *
+     * @param ClassMetadata $cm
+     *
+     * @return array
+     */
+    protected function getVirtualOneToManyRelationMappings (ClassMetadata $cm)
+    {
+        $virtualRelationMappings = [];
+
+        foreach ($cm->getReflectionClass()->getProperties() as $property) {
+            $virtualOneToManyRelation = $this->reader->getPropertyAnnotation(
+                $property,
+                'PartKeepr\DoctrineReflectionBundle\Annotation\VirtualOneToMany'
+            );
+
+            if ($virtualOneToManyRelation !== null) {
+                $virtualRelationMappings[] =
+                 [
+                    'name'    => $property->getName(),
+                    'target'    => $this->convertPHPToExtJSClassName($virtualOneToManyRelation->target),
+                ];
+            }
+        }
+
+        return $virtualRelationMappings;
     }
 
     /**
