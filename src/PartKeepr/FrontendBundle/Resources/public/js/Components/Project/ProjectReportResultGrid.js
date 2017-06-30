@@ -25,9 +25,12 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
         this.columns = [
             {
                 header: i18n("Qty"), dataIndex: 'quantity',
-                width: 50,
+                width: 100,
                 renderers: [{
-                    rtype: "projectReportQuantity"
+                    rtype: "projectReportQuantity",
+                    rendererConfig: {
+                        quantityField: "quantity"
+                    }
                 }]
             }, {
                 header: i18n("Part Name"),
@@ -83,7 +86,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 }
             }, {
                 header: i18n("Item Price"), dataIndex: 'itemPrice',
-            renderers: [{
+                renderers: [{
                     rtype: 'currency'
                 }],
                 width: 100
@@ -98,6 +101,12 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 width: 100
             }, {
                 header: i18n("Order Amount"), dataIndex: 'missing',
+                renderers: [{
+                    rtype: "projectReportQuantity",
+                    rendererConfig: {
+                        quantityField: "missing"
+                    }
+                }],
                 width: 100
             }, {
                 header: i18n("Sum (Order)"),
@@ -237,7 +246,8 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
         context.column.getEditor().store.clearFilter();
         context.column.getEditor().store.addFilter(filter);
     },
-    onSaveReportClick: function () {
+    onSaveReportClick: function ()
+    {
         Ext.Msg.prompt(
             i18n("Project Report Name"),
             i18n("Please enter the project report name:"),
@@ -245,10 +255,12 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             this,
             false,
             this.projectReport.get("name")
-            );
+        );
     },
-    doSaveReport: function (button, value) {
-        if (button === "ok") {
+    doSaveReport: function (button, value)
+    {
+        if (button === "ok")
+        {
             this.projectReport.set("name", value);
             this.projectReportManager.doSaveProjectReport();
         }

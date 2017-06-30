@@ -5,6 +5,8 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
 
     renderer: function (value, metaData, record, rowIndex, colIndex, store, view, renderObj)
     {
+        var quantityField = renderObj.getRendererConfigItem(renderObj, "quantityField", false);
+
         if (record.get("metaPart"))
         {
             total = 0;
@@ -20,7 +22,7 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
         } else
         {
             title = renderObj.getProjectParts(record);
-            return '<span class="web-icon fugue-icon information-small-white" title="' + title + '"></span> '+ record.get("quantity");
+            return '<span class="web-icon fugue-icon information-small-white" title="' + title + '"></span> '+ record.get(quantityField) + " " + record.getPart().getPartUnit().get("shortName");
         }
     },
     getProjectParts: function (rec) {
@@ -45,6 +47,12 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
     statics: {
         rendererName: i18n("Project Report Quantity Renderer"),
         rendererDescription: i18n("Renders the amount of required metadata quantities"),
+        rendererConfigs: {
+            parameterName: {
+                type: 'quantityField',
+                title: i18n("Field name which denotes the quantity")
+            }
+        },
 
         restrictToEntity: ["PartKeepr.PartBundle.Entity.ProjectReport"]
     }
