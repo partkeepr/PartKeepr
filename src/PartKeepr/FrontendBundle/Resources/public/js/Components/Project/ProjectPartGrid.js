@@ -19,6 +19,8 @@ Ext.define('PartKeepr.ProjectPartGrid', {
                 if (rec.getPart() !== null)
                 {
                     return v + " " + rec.getPart().getPartUnit().get("shortName");
+                } else {
+                    return v;
                 }
             }
         }, {
