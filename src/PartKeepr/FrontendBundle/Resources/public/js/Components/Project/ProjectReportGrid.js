@@ -24,7 +24,7 @@ Ext.define('PartKeepr.Components.Project.ProjectReportGrid', {
             value: ""
         }]
     },
-    bbar: [{
+    bbar: {
         xtype: 'pagingtoolbar',
         itemId: 'pager',
         items: ['-', {
@@ -33,11 +33,5 @@ Ext.define('PartKeepr.Components.Project.ProjectReportGrid', {
             iconCls: "fugue-icon notification-counter",
             itemId: 'loadReportButton'
         }]
-    }],
-
-    initComponent: function () {
-        this.callParent(arguments);
-        this.down("#pager").setStore(this.getStore());
     }
-
 });
