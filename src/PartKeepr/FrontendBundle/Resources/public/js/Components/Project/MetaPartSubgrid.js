@@ -53,6 +53,9 @@ Ext.define('PartKeepr.Components.Project.MetaPartSubgrid', {
                 }
             },
             renderer: function (value, metaData, record) {
+                if (typeof(value) === "undefined") {
+                    value = 0;
+                }
                 return value + " " + record.getPartUnit().get("shortName");
             }
         }
