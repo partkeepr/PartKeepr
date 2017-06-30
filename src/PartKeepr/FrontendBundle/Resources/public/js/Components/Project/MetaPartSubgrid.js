@@ -40,7 +40,10 @@ Ext.define('PartKeepr.Components.Project.MetaPartSubgrid', {
             }
         }, {
             text: i18n("Stock Level"),
-            dataIndex: 'stockLevel'
+            dataIndex: 'stockLevel',
+            renderer: function (value, metaData, record) {
+                return value + " " + record.getPartUnit().get("shortName");
+            }
         }, {
             text: i18n("Stock to use"),
             dataIndex: 'stockToUse',
@@ -48,6 +51,9 @@ Ext.define('PartKeepr.Components.Project.MetaPartSubgrid', {
                 field: {
                     xtype: 'numberfield'
                 }
+            },
+            renderer: function (value, metaData, record) {
+                return value + " " + record.getPartUnit().get("shortName");
             }
         }
     ],
