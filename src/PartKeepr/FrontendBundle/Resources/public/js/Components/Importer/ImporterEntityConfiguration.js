@@ -115,6 +115,8 @@ Ext.define("PartKeepr.Importer.ImporterEntityConfiguration", {
         } else {
             this.down("#importFieldMatcherGrid").setImporterConfig({});
         }
+
+        Ext.apply(this.importerConfig, this.getImporterConfig());
     },
     reconfigureColumns: function (columnsStore)
     {
