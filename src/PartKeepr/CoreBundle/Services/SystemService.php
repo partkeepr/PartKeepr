@@ -118,11 +118,13 @@ class SystemService extends ContainerAware
      */
     public function getSystemStatus()
     {
-        if ($this->container->getParameter('partkeepr.cronjob_check')) {
+        if ($this->container->getParameter('partkeepr.cronjob_check'))
+        {
             $inactiveCronjobs = $this->cronLoggerService->getInactiveCronjobs(
                 $this->container->getParameter('partkeepr.required_cronjobs')
             );
-        } else {
+        } else
+        {
             // Skip cronjob tests
             $inactiveCronjobs = [];
         }
@@ -146,9 +148,11 @@ class SystemService extends ContainerAware
     {
         $queries = $this->getSchemaQueries();
 
-        if (count($queries) > 0) {
+        if (count($queries) > 0)
+        {
             return 'incomplete';
-        } else {
+        } else
+        {
             return 'complete';
         }
     }
@@ -174,18 +178,22 @@ class SystemService extends ContainerAware
      */
     public function getFreeDiskSpace()
     {
-        if ($this->container->getParameter('partkeepr.filesystem.quota') === false) {
+        if ($this->container->getParameter('partkeepr.filesystem.quota') === false)
+        {
             return disk_free_space($this->container->getParameter('partkeepr.filesystem.data_directory'));
-        } else {
+        } else
+        {
             return $this->getTotalDiskSpace() - $this->getUsedDiskSpace();
         }
     }
 
     public function getTotalDiskSpace()
     {
-        if ($this->container->getParameter('partkeepr.filesystem.quota') === false) {
+        if ($this->container->getParameter('partkeepr.filesystem.quota') === false)
+        {
             return disk_total_space($this->container->getParameter('partkeepr.filesystem.data_directory'));
-        } else {
+        } else
+        {
             return $this->container->getParameter('partkeepr.filesystem.quota');
         }
     }
@@ -199,7 +207,8 @@ class SystemService extends ContainerAware
      */
     public function getUsedDiskSpace()
     {
-        if ($this->container->getParameter('partkeepr.filesystem.quota') === false) {
+        if ($this->container->getParameter('partkeepr.filesystem.quota') === false)
+        {
             return $this->getTotalDiskSpace() - $this->getFreeDiskSpace();
         }
 
@@ -213,7 +222,8 @@ class SystemService extends ContainerAware
         ];
 
         $size = 0;
-        foreach ($fileEntities as $fileEntity) {
+        foreach ($fileEntities as $fileEntity)
+        {
             $qb = $this->container->get('doctrine.orm.default_entity_manager')->createQueryBuilder();
             $qb->select('SUM(a.size)')->from($fileEntity, 'a');
 
@@ -237,18 +247,20 @@ class SystemService extends ContainerAware
      * Filter for converting bytes to a human-readable format, as Unix command "ls -h" does.
      *
      * @param string|int $number          A string or integer number value to format.
-     * @param bool $base2conversion       Defines if the conversion has to be strictly performed as binary values or
+     * @param bool       $base2conversion Defines if the conversion has to be strictly performed as binary values or
      *                                    by using a decimal conversion such as 1 KByte = 1000 Bytes.
      *
      * @return string The number converted to human readable representation.
      */
     public function format_bytes($number, $base2conversion = true)
     {
-        if (!$this->is_valid_value($number)) {
+        if (!$this->is_valid_value($number))
+        {
             return;
         }
         $unit = $base2conversion ? 1024 : 1000;
-        if ($number < $unit) {
+        if ($number < $unit)
+        {
             return $number.' B';
         }
         $exp = intval((log($number) / log($unit)));
@@ -270,7 +282,8 @@ class SystemService extends ContainerAware
      */
     public function getBytesFromHumanReadable($size_str)
     {
-        switch (substr($size_str, -1)) {
+        switch (substr($size_str, -1))
+        {
             case 'M':
             case 'm':
                 return (int) $size_str * 1048576;

@@ -1,8 +1,5 @@
 preset: recommended
 
-enabled:
-  - linebreak_after_opening_tag
-  
 disabled:
   - phpdoc_to_comment
   - single_quote
