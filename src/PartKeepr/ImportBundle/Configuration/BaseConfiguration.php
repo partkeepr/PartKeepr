@@ -26,8 +26,45 @@ class BaseConfiguration
 
     public static $persistEntities = [];
 
-    public function __construct(ClassMetadata $classMetadata, $baseEntity, ReflectionService $reflectionService, EntityManager $em, AdvancedSearchFilter $advancedSearchFilter, IriConverter $iriConverter)
+    private $path = [];
+
+    /**
+     * Returns the path of this configuration node with an optional suffix
+     *
+     * @param bool|string $suffix Set to any string to return an additional suffix, or false to skip
+     *
+     * @return array The individual path components
+     */
+    public function getPath($suffix = false)
     {
+        if ($suffix !== false) {
+            $path = $this->path;
+            $path[] = $suffix;
+
+            return $path;
+        } else {
+            return $this->path;
+        }
+    }
+
+    /**
+     * Sets a path for this configuration node
+     * @param array $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+
+
+    public function __construct(
+        ClassMetadata $classMetadata,
+        $baseEntity,
+        ReflectionService $reflectionService,
+        EntityManager $em,
+        AdvancedSearchFilter $advancedSearchFilter,
+        IriConverter $iriConverter
+    ) {
         $this->classMetadata = $classMetadata;
         $this->baseEntity = $baseEntity;
         $this->reflectionService = $reflectionService;
