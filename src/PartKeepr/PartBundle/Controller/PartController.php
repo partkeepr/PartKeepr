@@ -63,8 +63,7 @@ class PartController extends FOSRestController
 
         $user = $this->get('partkeepr.userservice')->getUser();
 
-        foreach ($removals as $removal)
-        {
+        foreach ($removals as $removal) {
             if (!property_exists($removal, 'part')) {
                 throw new \Exception('Each removal must have the part property defined');
             }

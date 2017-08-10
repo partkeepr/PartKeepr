@@ -5,7 +5,6 @@ namespace PartKeepr\ProjectBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
-use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -31,9 +30,11 @@ class Report extends BaseEntity
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"default"})
+     *
      * @var \DateTime
      */
     private $createDateTime;
+
     /**
      * @ORM\OneToMany(
      *     targetEntity="PartKeepr\ProjectBundle\Entity\ReportProject",
@@ -210,5 +211,4 @@ class Report extends BaseEntity
 
         return $this;
     }
-
 }

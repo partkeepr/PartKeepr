@@ -4,7 +4,6 @@ namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
-use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,6 +20,7 @@ class ReportProject extends BaseEntity
     /**
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Report",inversedBy="reportProjects")
+     *
      * @var Report
      */
     private $report;
@@ -56,6 +56,7 @@ class ReportProject extends BaseEntity
 
     /**
      * @param mixed $report
+     *
      * @return ReportProject
      */
     public function setReport($report)
@@ -75,6 +76,7 @@ class ReportProject extends BaseEntity
 
     /**
      * @param Project $project
+     *
      * @return ReportProject
      */
     public function setProject($project)
@@ -94,6 +96,7 @@ class ReportProject extends BaseEntity
 
     /**
      * @param int $quantity
+     *
      * @return ReportProject
      */
     public function setQuantity($quantity)

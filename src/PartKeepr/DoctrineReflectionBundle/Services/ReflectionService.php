@@ -38,8 +38,7 @@ class ReflectionService
 
         $meta = $this->em->getMetadataFactory()->getAllMetadata();
 
-        foreach ($meta as $m)
-        {
+        foreach ($meta as $m) {
             /* @var ClassMetadata $m */
             $entities[] = $this->convertPHPToExtJSClassName($m->getName());
         }
@@ -64,8 +63,7 @@ class ReflectionService
 
         $cm = $this->em->getClassMetadata($entity);
 
-        if ($cm->getReflectionClass()->isSubclassOf("PartKeepr\CategoryBundle\Entity\AbstractCategory"))
-        {
+        if ($cm->getReflectionClass()->isSubclassOf("PartKeepr\CategoryBundle\Entity\AbstractCategory")) {
             $parentClass = 'PartKeepr.data.HydraTreeModel';
             $bTree = true;
         }
@@ -94,8 +92,7 @@ class ReflectionService
             "PartKeepr\DoctrineReflectionBundle\Annotation\TargetService"
         );
 
-        if ($targetService !== null)
-        {
+        if ($targetService !== null) {
             $renderParams['uri'] = $targetService->uri;
         }
 
@@ -104,11 +101,9 @@ class ReflectionService
             "PartKeepr\DoctrineReflectionBundle\Annotation\IgnoreIds"
         );
 
-        if ($ignoreIds !== null)
-        {
+        if ($ignoreIds !== null) {
             $renderParams['ignoreIds'] = true;
-        } else
-        {
+        } else {
             $renderParams['ignoreIds'] = false;
         }
 
@@ -135,13 +130,11 @@ class ReflectionService
             "MANY_TO_MANY" => [],
         ];
 
-        foreach ($associations as $association)
-        {
+        foreach ($associations as $association) {
             $getterPlural = false;
             $associationType = $association['type'];
 
-            switch ($association['type'])
-            {
+            switch ($association['type']) {
                 case ClassMetadataInfo::MANY_TO_MANY:
                     $associationType = 'MANY_TO_MANY';
                     $getterPlural = true;
@@ -167,8 +160,7 @@ class ReflectionService
                     $this->convertPHPToExtJSClassName($association['targetEntity'])
                 );
 
-            if ($getterPlural)
-            {
+            if ($getterPlural) {
                 $getterField .= 's';
             }
 
@@ -178,24 +170,20 @@ class ReflectionService
 
             $nullable = true;
 
-            foreach ($propertyAnnotations as $propertyAnnotation)
-            {
+            foreach ($propertyAnnotations as $propertyAnnotation) {
                 $filter = "Symfony\\Component\\Validator\\Constraints\\NotNull";
 
-                if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter)
-                {
+                if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter) {
                     $nullable = false;
                 }
             }
 
             // The self-referencing association may not be written for trees, because ExtJS can't load all nodes
             // in one go.
-            if (!($bTree && $association['targetEntity'] == $cm->getName()))
-            {
+            if (!($bTree && $association['targetEntity'] == $cm->getName())) {
                 $byReference = false;
 
-                if (in_array($association['fieldName'], $byReferenceMappings))
-                {
+                if (in_array($association['fieldName'], $byReferenceMappings)) {
                     $byReference = true;
                 }
                 $associationMappings[$associationType][] = [
@@ -223,15 +211,13 @@ class ReflectionService
     {
         $fieldMappings = [];
 
-        foreach ($cm->getReflectionClass()->getProperties() as $property)
-        {
+        foreach ($cm->getReflectionClass()->getProperties() as $property) {
             $virtualFieldAnnotation = $this->reader->getPropertyAnnotation(
                 $property,
                 'PartKeepr\DoctrineReflectionBundle\Annotation\VirtualField'
             );
 
-            if ($virtualFieldAnnotation !== null)
-            {
+            if ($virtualFieldAnnotation !== null) {
                 $fieldMappings[] = [
                     'persist' => true,
                     'name'    => $property->getName(),
@@ -254,15 +240,13 @@ class ReflectionService
     {
         $virtualRelationMappings = [];
 
-        foreach ($cm->getReflectionClass()->getProperties() as $property)
-        {
+        foreach ($cm->getReflectionClass()->getProperties() as $property) {
             $virtualOneToManyRelation = $this->reader->getPropertyAnnotation(
                 $property,
                 'PartKeepr\DoctrineReflectionBundle\Annotation\VirtualOneToMany'
             );
 
-            if ($virtualOneToManyRelation !== null)
-            {
+            if ($virtualOneToManyRelation !== null) {
                 $virtualRelationMappings[] =
                     [
                         'name'   => $property->getName(),
@@ -285,15 +269,13 @@ class ReflectionService
     {
         $byReferenceMappings = [];
 
-        foreach ($cm->getReflectionClass()->getProperties() as $property)
-        {
+        foreach ($cm->getReflectionClass()->getProperties() as $property) {
             $byReferenceAnnotation = $this->reader->getPropertyAnnotation(
                 $property,
                 'PartKeepr\DoctrineReflectionBundle\Annotation\ByReference'
             );
 
-            if ($byReferenceAnnotation !== null)
-            {
+            if ($byReferenceAnnotation !== null) {
                 $byReferenceMappings[] = $property->getName();
             }
         }
@@ -315,20 +297,17 @@ class ReflectionService
         $fieldMappings = [];
         $fields = $cm->getFieldNames();
 
-        foreach ($fields as $field)
-        {
+        foreach ($fields as $field) {
             $currentMapping = $cm->getFieldMapping($field);
 
             $asserts = $this->getExtJSAssertMappings($cm, $field);
 
-            if ($currentMapping['fieldName'] == 'id')
-            {
+            if ($currentMapping['fieldName'] == 'id') {
                 $currentMapping['fieldName'] = '@id';
                 $currentMapping['type'] = 'string';
             }
 
-            if (!array_key_exists("nullable", $currentMapping))
-            {
+            if (!array_key_exists("nullable", $currentMapping)) {
                 $currentMapping["nullable"] = false;
             }
 
@@ -353,8 +332,7 @@ class ReflectionService
      */
     protected function getExtJSFieldMapping($type)
     {
-        switch ($type)
-        {
+        switch ($type) {
             case 'integer':
                 return 'int';
                 break;
@@ -386,8 +364,7 @@ class ReflectionService
 
     public function getExtJSAssertMapping(Constraint $assert)
     {
-        switch (get_class($assert))
-        {
+        switch (get_class($assert)) {
             case "Symfony\\Component\\Validator\\Constraints\\NotBlank":
                 /**
                  * @var NotBlank
@@ -404,16 +381,13 @@ class ReflectionService
         $asserts = [];
         $propertyAnnotations = $this->reader->getPropertyAnnotations($cm->getReflectionProperty($field));
 
-        foreach ($propertyAnnotations as $propertyAnnotation)
-        {
+        foreach ($propertyAnnotations as $propertyAnnotation) {
             $filter = "Symfony\\Component\\Validator\\Constraints\\";
 
-            if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter)
-            {
+            if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter) {
                 $assertMapping = $this->getExtJSAssertMapping($propertyAnnotation);
 
-                if ($assertMapping !== false)
-                {
+                if ($assertMapping !== false) {
                     $asserts[] = $assertMapping;
                 }
             }
@@ -429,10 +403,8 @@ class ReflectionService
             'Symfony\Component\Serializer\Annotation\Groups'
         );
 
-        if ($groupsAnnotation !== null)
-        {
-            if (in_array("readonly", $groupsAnnotation->getGroups()))
-            {
+        if ($groupsAnnotation !== null) {
+            if (in_array("readonly", $groupsAnnotation->getGroups())) {
                 return false;
             }
         }
@@ -470,8 +442,7 @@ class ReflectionService
 
         $entities = $this->getEntities();
 
-        foreach ($entities as $entity)
-        {
+        foreach ($entities as $entity) {
             $model = $this->getEntity($entity);
 
             $this->writeCacheFile($cacheDir.'/'.$entity.'.js', $model);
@@ -481,8 +452,7 @@ class ReflectionService
     protected function writeCacheFile($file, $content)
     {
         $tmpFile = tempnam(dirname($file), basename($file));
-        if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $file))
-        {
+        if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $file)) {
             @chmod($file, 0666 & ~umask());
 
             return;

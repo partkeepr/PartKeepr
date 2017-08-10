@@ -5,6 +5,7 @@ namespace PartKeepr\ProjectBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
+use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\DoctrineReflectionBundle\Annotation\VirtualOneToMany;
@@ -23,6 +24,7 @@ class ReportPart extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Report",inversedBy="reportParts")
      * @Groups({"default"})
+     *
      * @var Report
      */
     private $report;
@@ -31,6 +33,7 @@ class ReportPart extends BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part")
      * @Groups({"default"})
+     *
      * @var Part
      */
     private $part;
@@ -38,6 +41,7 @@ class ReportPart extends BaseEntity
     /**
      * @ORM\Column(type="integer",nullable=false)
      * @Groups({"default"})
+     *
      * @var int
      */
     private $quantity;
@@ -45,30 +49,35 @@ class ReportPart extends BaseEntity
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\DistributorBundle\Entity\Distributor")
      * @Groups({"default"})
-     * @var
+     *
+     * @var Distributor
      */
     private $distributor;
 
     /**
      * @Groups({"default"})
+     *
      * @var string
      */
     private $distributorOrderNumber;
 
     /**
      * @Groups({"default"})
+     *
      * @var string
      */
     private $itemPrice;
 
     /**
      * @Groups({"default"})
+     *
      * @var string
      */
     private $orderSum;
 
     /**
      * @Groups({"default"})
+     *
      * @var boolean
      */
     private $metaPart;
@@ -76,6 +85,7 @@ class ReportPart extends BaseEntity
     /**
      * @VirtualOneToMany(target="PartKeepr\PartBundle\Entity\Part")
      * @Groups({"default"})
+     *
      * @var Part[]
      */
     private $subParts;
@@ -83,6 +93,7 @@ class ReportPart extends BaseEntity
     /**
      * @VirtualOneToMany(target="PartKeepr\ProjectBundle\Entity\ProjectPart")
      * @Groups({"default"})
+     *
      * @var ProjectPart[]
      */
     private $projectParts;
@@ -100,6 +111,7 @@ class ReportPart extends BaseEntity
         if (!$this->projectParts instanceof ArrayCollection) {
             $this->projectParts = new ArrayCollection();
         }
+
         return $this->projectParts;
     }
 
@@ -145,6 +157,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param string $distributorOrderNumber
+     *
      * @return ReportPart
      */
     public function setDistributorOrderNumber($distributorOrderNumber)
@@ -164,6 +177,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param string $itemPrice
+     *
      * @return ReportPart
      */
     public function setItemPrice($itemPrice)
@@ -183,6 +197,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param string $orderSum
+     *
      * @return ReportPart
      */
     public function setOrderSum($orderSum)
@@ -202,6 +217,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param string $itemSum
+     *
      * @return ReportPart
      */
     public function setItemSum($itemSum)
@@ -227,6 +243,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param mixed $distributor
+     *
      * @return ReportPart
      */
     public function setDistributor($distributor)
@@ -252,6 +269,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param int $missing
+     *
      * @return ReportPart
      */
     public function setMissing($missing)
@@ -271,6 +289,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param int $quantity
+     *
      * @return ReportPart
      */
     public function setQuantity($quantity)
@@ -290,6 +309,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param Report $report
+     *
      * @return ReportPart
      */
     public function setReport($report)
@@ -309,6 +329,7 @@ class ReportPart extends BaseEntity
 
     /**
      * @param mixed $part
+     *
      * @return ReportPart
      */
     public function setPart($part)
