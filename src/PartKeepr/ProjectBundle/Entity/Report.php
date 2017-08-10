@@ -19,9 +19,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Report extends BaseEntity
 {
     /**
-     * The report name
+     * The report name.
+     *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})
+     *
      * @var string
      */
     private $name;
@@ -39,11 +41,12 @@ class Report extends BaseEntity
      *     cascade={"persist", "remove"},
      *     orphanRemoval=true
      * )
-     *
      * @Groups({"default"})
+     *
      * @var ArrayCollection
      */
     private $reportProjects;
+
     /**
      * @ORM\OneToMany(
      *     targetEntity="PartKeepr\ProjectBundle\Entity\ReportPart",
@@ -51,8 +54,8 @@ class Report extends BaseEntity
      *     cascade={"persist", "remove"},
      *     orphanRemoval=true
      * )
-     *
      * @Groups({"default"})
+     *
      * @var ArrayCollection
      */
     private $reportParts;
@@ -74,6 +77,7 @@ class Report extends BaseEntity
 
     /**
      * @param \DateTime $createDateTime
+     *
      * @return Report
      */
     public function setCreateDateTime($createDateTime)
@@ -93,6 +97,7 @@ class Report extends BaseEntity
 
     /**
      * @param string $name
+     *
      * @return Report
      */
     public function setName($name)
@@ -111,9 +116,10 @@ class Report extends BaseEntity
     }
 
     /**
-     * Adds a Report Project
+     * Adds a Report Project.
      *
      * @param ReportProject $reportProject A report project to add
+     *
      * @return Report
      */
     public function addReportProject($reportProject)
@@ -125,9 +131,10 @@ class Report extends BaseEntity
     }
 
     /**
-     * Removes a Report Project
+     * Removes a Report Project.
      *
      * @param ReportProject $reportProject A report project to add
+     *
      * @return Report
      */
     public function removeReportProject($reportProject)
@@ -142,6 +149,7 @@ class Report extends BaseEntity
      * Removes a Report Part.
      *
      * @param ReportPart $reportPart A report project to add
+     *
      * @return Report
      */
     public function removeReportPart($reportPart)
@@ -192,6 +200,7 @@ class Report extends BaseEntity
      * Adds a Report Part.
      *
      * @param ReportPart $reportPart report project to add
+     *
      * @return Report
      */
     public function addReportPart($reportPart)

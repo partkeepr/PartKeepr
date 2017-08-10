@@ -29,7 +29,7 @@ class BaseConfiguration
     private $path = [];
 
     /**
-     * Returns the path of this configuration node with an optional suffix
+     * Returns the path of this configuration node with an optional suffix.
      *
      * @param bool|string $suffix Set to any string to return an additional suffix, or false to skip
      *
@@ -48,7 +48,8 @@ class BaseConfiguration
     }
 
     /**
-     * Sets a path for this configuration node
+     * Sets a path for this configuration node.
+     *
      * @param array $path
      */
     public function setPath($path)

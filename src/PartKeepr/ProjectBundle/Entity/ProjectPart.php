@@ -98,14 +98,17 @@ class ProjectPart extends BaseEntity
     private $lotNumber;
 
     /**
-     * The total quantity including overage
+     * The total quantity including overage.
+     *
      * @Groups({"default"})
+     *
      * @var int
      */
     private $totalQuantity;
 
     /**
      * Retrieves the total quantity for a project part, including overage.
+     *
      * @return int
      */
     public function getTotalQuantity()

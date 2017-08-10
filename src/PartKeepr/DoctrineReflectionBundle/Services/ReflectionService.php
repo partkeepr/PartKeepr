@@ -75,13 +75,16 @@ class ReflectionService
 
         $associationMappings = $this->getDatabaseAssociationMappings($cm, $bTree);
 
-        $associationMappings["ONE_TO_MANY"] = array_merge($associationMappings["ONE_TO_MANY"], $this->getVirtualOneToManyRelationMappings($cm));
+        $associationMappings["ONE_TO_MANY"] = array_merge(
+            $associationMappings["ONE_TO_MANY"],
+            $this->getVirtualOneToManyRelationMappings($cm)
+        );
 
         $renderParams = [
-            'fields'       => $fieldMappings,
+            'fields' => $fieldMappings,
             'associations' => $associationMappings,
-            'className'    => $this->convertPHPToExtJSClassName($entity),
-            'parentClass'  => $parentClass,
+            'className' => $this->convertPHPToExtJSClassName($entity),
+            'parentClass' => $parentClass,
         ];
 
         $targetService = $this->reader->getClassAnnotation(
@@ -111,7 +114,7 @@ class ReflectionService
      * Returns association mapping for a given entity.
      *
      * @param ClassMetadata $cm
-     * @param bool|false    $bTree
+     * @param bool|false $bTree
      *
      * @return array
      */
@@ -121,10 +124,10 @@ class ReflectionService
         $byReferenceMappings = $this->getByReferenceMappings($cm);
 
         $associationMappings = [
-            "ONE_TO_ONE" => [],
-            "MANY_TO_ONE" => [],
-            "ONE_TO_MANY" => [],
-            "MANY_TO_MANY" => []
+            "ONE_TO_ONE"   => [],
+            "MANY_TO_ONE"  => [],
+            "ONE_TO_MANY"  => [],
+            "MANY_TO_MANY" => [],
         ];
 
         foreach ($associations as $association) {
@@ -161,7 +164,9 @@ class ReflectionService
                 $getterField .= 's';
             }
 
-            $propertyAnnotations = $this->reader->getPropertyAnnotations($cm->getReflectionProperty($association['fieldName']));
+            $propertyAnnotations = $this->reader->getPropertyAnnotations(
+                $cm->getReflectionProperty($association['fieldName'])
+            );
 
             $nullable = true;
 
@@ -182,11 +187,11 @@ class ReflectionService
                     $byReference = true;
                 }
                 $associationMappings[$associationType][] = [
-                    'name'        => $association['fieldName'],
-                    'nullable'    => $nullable,
-                    'target'      => $this->convertPHPToExtJSClassName($association['targetEntity']),
+                    'name' => $association['fieldName'],
+                    'nullable' => $nullable,
+                    'target' => $this->convertPHPToExtJSClassName($association['targetEntity']),
                     'byReference' => $byReference,
-                    'getter'      => $getter,
+                    'getter' => $getter,
                     'getterField' => $getterField,
                 ];
             }
@@ -215,8 +220,8 @@ class ReflectionService
             if ($virtualFieldAnnotation !== null) {
                 $fieldMappings[] = [
                     'persist' => true,
-                    'name'    => $property->getName(),
-                    'type'    => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
+                    'name' => $property->getName(),
+                    'type' => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
                 ];
             }
         }
@@ -231,7 +236,7 @@ class ReflectionService
      *
      * @return array
      */
-    protected function getVirtualOneToManyRelationMappings (ClassMetadata $cm)
+    protected function getVirtualOneToManyRelationMappings(ClassMetadata $cm)
     {
         $virtualRelationMappings = [];
 
@@ -243,10 +248,10 @@ class ReflectionService
 
             if ($virtualOneToManyRelation !== null) {
                 $virtualRelationMappings[] =
-                 [
-                    'name'    => $property->getName(),
-                    'target'    => $this->convertPHPToExtJSClassName($virtualOneToManyRelation->target),
-                ];
+                    [
+                        'name'   => $property->getName(),
+                        'target' => $this->convertPHPToExtJSClassName($virtualOneToManyRelation->target),
+                    ];
             }
         }
 
@@ -307,11 +312,11 @@ class ReflectionService
             }
 
             $fieldMappings[] = [
-                'name'       => $currentMapping['fieldName'],
-                'type'       => $this->getExtJSFieldMapping($currentMapping['type']),
-                'nullable'   => $currentMapping['nullable'],
+                'name' => $currentMapping['fieldName'],
+                'type' => $this->getExtJSFieldMapping($currentMapping['type']),
+                'nullable' => $currentMapping['nullable'],
                 'validators' => json_encode($asserts),
-                'persist'    => $this->allowPersist($cm, $field),
+                'persist' => $this->allowPersist($cm, $field),
             ];
         }
 

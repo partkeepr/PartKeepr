@@ -48,7 +48,7 @@ class ImportController extends Controller
         try {
             list($entities, $logs) = $importService->import(true);
         } catch (\Exception $e) {
-            $logs = [ $e->getMessage() ];
+            $logs = [$e->getMessage()];
         }
 
         return new JsonResponse(["logs" => $logs]);
