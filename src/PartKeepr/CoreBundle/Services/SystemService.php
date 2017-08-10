@@ -129,9 +129,9 @@ class SystemService extends ContainerAware
 
         return [
             'inactiveCronjobCount' => count($inactiveCronjobs),
-            'inactiveCronjobs' => $inactiveCronjobs,
-            'schemaStatus' => $this->getSchemaStatus(),
-            'schemaQueries' => $this->getSchemaQueries(),
+            'inactiveCronjobs'     => $inactiveCronjobs,
+            'schemaStatus'         => $this->getSchemaStatus(),
+            'schemaQueries'        => $this->getSchemaQueries(),
         ];
     }
 
@@ -236,8 +236,8 @@ class SystemService extends ContainerAware
     /**
      * Filter for converting bytes to a human-readable format, as Unix command "ls -h" does.
      *
-     * @param string|int $number A string or integer number value to format.
-     * @param bool $base2conversion Defines if the conversion has to be strictly performed as binary values or
+     * @param string|int $number          A string or integer number value to format.
+     * @param bool $base2conversion       Defines if the conversion has to be strictly performed as binary values or
      *                                    by using a decimal conversion such as 1 KByte = 1000 Bytes.
      *
      * @return string The number converted to human readable representation.
@@ -273,13 +273,13 @@ class SystemService extends ContainerAware
         switch (substr($size_str, -1)) {
             case 'M':
             case 'm':
-                return (int)$size_str * 1048576;
+                return (int) $size_str * 1048576;
             case 'K':
             case 'k':
-                return (int)$size_str * 1024;
+                return (int) $size_str * 1024;
             case 'G':
             case 'g':
-                return (int)$size_str * 1073741824;
+                return (int) $size_str * 1073741824;
             default:
                 return $size_str;
         }

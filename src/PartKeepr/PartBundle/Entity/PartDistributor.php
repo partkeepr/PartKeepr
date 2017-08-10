@@ -86,6 +86,7 @@ class PartDistributor extends BaseEntity
      *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
+     *
      * @var bool
      */
     private $ignoreForReports = 0;

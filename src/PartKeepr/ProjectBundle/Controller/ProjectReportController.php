@@ -36,14 +36,18 @@ class ProjectReportController extends FOSRestController
         /**
          * @var $report Report
          */
-        foreach ($report->getReportProjects() as $reportProject) {
+        foreach ($report->getReportProjects() as $reportProject)
+        {
 
-            foreach ($reportProject->getProject()->getParts() as $projectPart) {
+            foreach ($reportProject->getProject()->getParts() as $projectPart)
+            {
 
-                if ($projectPart->getOverageType() === ProjectPart::OVERAGE_TYPE_PERCENT) {
+                if ($projectPart->getOverageType() === ProjectPart::OVERAGE_TYPE_PERCENT)
+                {
                     $overage = $reportProject->getQuantity() * $projectPart->getQuantity() * ($projectPart->getOverage(
                             ) / 100);
-                } else {
+                } else
+                {
                     $overage = $projectPart->getOverage();
                 }
 
@@ -99,10 +103,12 @@ class ProjectReportController extends FOSRestController
 
     public function calculateMissingParts(Report $report)
     {
-        foreach ($report->getReportParts() as $reportPart) {
+        foreach ($report->getReportParts() as $reportPart)
+        {
             $missing = $reportPart->getQuantity() - $reportPart->getPart()->getStockLevel();
 
-            if ($missing < 0) {
+            if ($missing < 0)
+            {
                 $missing = 0;
             }
 
@@ -112,14 +118,17 @@ class ProjectReportController extends FOSRestController
 
     public function prepareMetaPartInformation(Report $report)
     {
-        foreach ($report->getReportParts() as $reportPart) {
+        foreach ($report->getReportParts() as $reportPart)
+        {
             $subParts = [];
 
-            if ($reportPart->getPart()->isMetaPart()) {
+            if ($reportPart->getPart()->isMetaPart())
+            {
                 $matchingParts = $this->container->get("partkeepr.part_service")->getMatchingMetaParts(
                     $reportPart->getPart()
                 );
-                foreach ($matchingParts as $matchingPart) {
+                foreach ($matchingParts as $matchingPart)
+                {
                     $subParts[] = $this->get('serializer')->normalize(
                         $matchingPart,
                         'jsonld'

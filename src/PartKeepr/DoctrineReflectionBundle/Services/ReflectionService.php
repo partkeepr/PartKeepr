@@ -81,10 +81,10 @@ class ReflectionService
         );
 
         $renderParams = [
-            'fields' => $fieldMappings,
+            'fields'       => $fieldMappings,
             'associations' => $associationMappings,
-            'className' => $this->convertPHPToExtJSClassName($entity),
-            'parentClass' => $parentClass,
+            'className'    => $this->convertPHPToExtJSClassName($entity),
+            'parentClass'  => $parentClass,
         ];
 
         $targetService = $this->reader->getClassAnnotation(
@@ -187,11 +187,11 @@ class ReflectionService
                     $byReference = true;
                 }
                 $associationMappings[$associationType][] = [
-                    'name' => $association['fieldName'],
-                    'nullable' => $nullable,
-                    'target' => $this->convertPHPToExtJSClassName($association['targetEntity']),
+                    'name'        => $association['fieldName'],
+                    'nullable'    => $nullable,
+                    'target'      => $this->convertPHPToExtJSClassName($association['targetEntity']),
                     'byReference' => $byReference,
-                    'getter' => $getter,
+                    'getter'      => $getter,
                     'getterField' => $getterField,
                 ];
             }
@@ -220,8 +220,8 @@ class ReflectionService
             if ($virtualFieldAnnotation !== null) {
                 $fieldMappings[] = [
                     'persist' => true,
-                    'name' => $property->getName(),
-                    'type' => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
+                    'name'    => $property->getName(),
+                    'type'    => $this->getExtJSFieldMapping($virtualFieldAnnotation->type),
                 ];
             }
         }
@@ -312,11 +312,11 @@ class ReflectionService
             }
 
             $fieldMappings[] = [
-                'name' => $currentMapping['fieldName'],
-                'type' => $this->getExtJSFieldMapping($currentMapping['type']),
-                'nullable' => $currentMapping['nullable'],
+                'name'       => $currentMapping['fieldName'],
+                'type'       => $this->getExtJSFieldMapping($currentMapping['type']),
+                'nullable'   => $currentMapping['nullable'],
                 'validators' => json_encode($asserts),
-                'persist' => $this->allowPersist($cm, $field),
+                'persist'    => $this->allowPersist($cm, $field),
             ];
         }
 

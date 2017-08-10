@@ -10,23 +10,31 @@ use PartKeepr\DoctrineReflectionBundle\Services\ReflectionService;
 
 class BaseConfiguration
 {
-    protected $baseEntity;
-
-    protected $classMetadata;
-
-    protected $reflectionService;
-
-    protected $em;
-
-    protected $advancedSearchFilter;
-
-    protected $iriConverter;
-
     public static $logs = [];
-
     public static $persistEntities = [];
-
+    protected $baseEntity;
+    protected $classMetadata;
+    protected $reflectionService;
+    protected $em;
+    protected $advancedSearchFilter;
+    protected $iriConverter;
     private $path = [];
+
+    public function __construct(
+        ClassMetadata $classMetadata,
+        $baseEntity,
+        ReflectionService $reflectionService,
+        EntityManager $em,
+        AdvancedSearchFilter $advancedSearchFilter,
+        IriConverter $iriConverter
+    ) {
+        $this->classMetadata = $classMetadata;
+        $this->baseEntity = $baseEntity;
+        $this->reflectionService = $reflectionService;
+        $this->em = $em;
+        $this->advancedSearchFilter = $advancedSearchFilter;
+        $this->iriConverter = $iriConverter;
+    }
 
     /**
      * Returns the path of this configuration node with an optional suffix.
@@ -55,23 +63,6 @@ class BaseConfiguration
     public function setPath($path)
     {
         $this->path = $path;
-    }
-
-
-    public function __construct(
-        ClassMetadata $classMetadata,
-        $baseEntity,
-        ReflectionService $reflectionService,
-        EntityManager $em,
-        AdvancedSearchFilter $advancedSearchFilter,
-        IriConverter $iriConverter
-    ) {
-        $this->classMetadata = $classMetadata;
-        $this->baseEntity = $baseEntity;
-        $this->reflectionService = $reflectionService;
-        $this->em = $em;
-        $this->advancedSearchFilter = $advancedSearchFilter;
-        $this->iriConverter = $iriConverter;
     }
 
     public function import($row)
