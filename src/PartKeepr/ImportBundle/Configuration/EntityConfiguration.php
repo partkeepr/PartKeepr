@@ -28,7 +28,7 @@ class EntityConfiguration extends Configuration
     public function parseConfiguration($importConfiguration)
     {
         if (!property_exists($importConfiguration, "importBehaviour")) {
-            throw new \Exception("The key importBehaviour does not exist!");
+            throw new \Exception(sprintf("The key importBehaviour does not exist for path /%s!", implode("/", $this->getPath())));
         }
 
         if (!in_array($importConfiguration->importBehaviour, self::importBehaviours)) {
@@ -84,6 +84,8 @@ class EntityConfiguration extends Configuration
             case self::IMPORTBEHAVIOUR_ALWAYSIMPORT:
                 $obj = new $this->baseEntity();
                 $this->persist($obj);
+
+                parent::import($row, $obj);
                 break;
             case self::IMPORTBEHAVIOUR_MATCHDATA:
                 $configuration = [];
