@@ -44,7 +44,12 @@ class ImportController extends Controller
         $importService->setBaseEntity($baseEntity);
         $importService->setImportConfiguration($configuration);
         $importService->setImportData($data);
-        list($entities, $logs) = $importService->import();
+
+        try {
+            list($entities, $logs) = $importService->import(true);
+        } catch (\Exception $e) {
+            $logs = [ $e->getMessage() ];
+        }
 
         return new JsonResponse(["logs" => $logs]);
     }
