@@ -81,7 +81,7 @@ class FieldConfiguration extends BaseConfiguration
     {
         switch ($this->fieldConfiguration) {
             case self::FIELDCONFIGURATION_FIXEDVALUE:
-                $this->log(sprintf("Would set field %s to fixed value %s", $this->fieldName, $this->fixedValue));
+                $this->log(sprintf("Set field %s to fixed value %s", $this->fieldName, $this->fixedValue));
 
                 return $this->fixedValue;
             break;
@@ -91,7 +91,7 @@ class FieldConfiguration extends BaseConfiguration
 
                     return null;
                 }
-                $this->log(sprintf("Would set field %s to value %s (import column %s)", $this->fieldName, $row[$this->copyFromField], $this->copyFromField));
+                $this->log(sprintf("Set field %s to value %s (import column %s)", $this->fieldName, $row[$this->copyFromField], $this->copyFromField));
 
                 return $row[$this->copyFromField];
             break;
