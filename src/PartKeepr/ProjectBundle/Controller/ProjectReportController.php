@@ -37,9 +37,7 @@ class ProjectReportController extends FOSRestController
          * @var $report Report
          */
         foreach ($report->getReportProjects() as $reportProject) {
-
             foreach ($reportProject->getProject()->getParts() as $projectPart) {
-
                 if ($projectPart->getOverageType() === ProjectPart::OVERAGE_TYPE_PERCENT) {
                     $overage = $reportProject->getQuantity() * $projectPart->getQuantity() * ($projectPart->getOverage(
                             ) / 100);

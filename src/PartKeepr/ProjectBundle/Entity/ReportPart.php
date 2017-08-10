@@ -6,14 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DistributorBundle\Entity\Distributor;
-use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\DoctrineReflectionBundle\Annotation\VirtualOneToMany;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Represents a project part
+ * Represents a project part.
  *
  * @ORM\Entity
  * @TargetService("/api/project_report_parts")
@@ -21,7 +20,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class ReportPart extends BaseEntity
 {
     /**
-     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Report",inversedBy="reportParts")
      * @Groups({"default"})
      *
@@ -30,7 +28,6 @@ class ReportPart extends BaseEntity
     private $report;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part")
      * @Groups({"default"})
      *
@@ -78,7 +75,7 @@ class ReportPart extends BaseEntity
     /**
      * @Groups({"default"})
      *
-     * @var boolean
+     * @var bool
      */
     private $metaPart;
 
@@ -97,6 +94,19 @@ class ReportPart extends BaseEntity
      * @var ProjectPart[]
      */
     private $projectParts;
+    /**
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $itemSum;
+
+    /**
+     * @Groups({"default"})
+     *
+     * @var int
+     */
+    private $missing;
 
     public function __construct()
     {
@@ -228,12 +238,6 @@ class ReportPart extends BaseEntity
     }
 
     /**
-     * @Groups({"default"})
-     * @var string
-     */
-    private $itemSum;
-
-    /**
      * @return mixed
      */
     public function getDistributor()
@@ -252,12 +256,6 @@ class ReportPart extends BaseEntity
 
         return $this;
     }
-
-    /**
-     * @Groups({"default"})
-     * @var int
-     */
-    private $missing;
 
     /**
      * @return int

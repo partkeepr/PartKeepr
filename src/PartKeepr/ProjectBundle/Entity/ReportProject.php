@@ -1,6 +1,6 @@
 <?php
-namespace PartKeepr\ProjectBundle\Entity;
 
+namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -14,11 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @TargetService("/api/project_report_projects")
  */
-
 class ReportProject extends BaseEntity
 {
     /**
-     *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Report",inversedBy="reportProjects")
      *
      * @var Report
@@ -26,7 +24,7 @@ class ReportProject extends BaseEntity
     private $report;
 
     /**
-     * The project the report refers to
+     * The project the report refers to.
      *
      * @ORM\ManyToOne(targetEntity="PartKeepr\ProjectBundle\Entity\Project")
      * @Groups({"default"})
