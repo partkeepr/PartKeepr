@@ -91,9 +91,9 @@ class ImporterService
         }
 
         if ($preview) {
-            $this->em->commit();
-        } else {
             $this->em->rollback();
+        } else {
+            $this->em->commit();
         }
 
         return [$configuration->getPersistEntities(), implode("<br/>", $logs)];
