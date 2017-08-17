@@ -113,7 +113,7 @@ Ext.define("PartKeepr.Importer.ImporterManyToOneConfiguration", {
                             boxLabel: i18n("Update data if an item exists"),
                             disabled: true,
                             checked: true,
-                            inputValue: 'update',
+                            inputValue: 'updateData',
                             itemId: 'updateData',
                             name: 'updateBehaviour', listeners: {
                             change: "onChange"

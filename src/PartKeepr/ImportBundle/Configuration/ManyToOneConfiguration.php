@@ -91,7 +91,7 @@ class ManyToOneConfiguration extends Configuration
                 }
 
                 if (!in_array($importConfiguration->updateBehaviour, self::updateBehaviours)) {
-                    throw new \Exception("Invalid value for updateBehaviour");
+                    throw new \Exception(sprintf("Invalid value for updateBehaviour: %s", $importConfiguration->updateBehaviour));
                 }
 
                 $this->updateBehaviour = $importConfiguration->updateBehaviour;
