@@ -249,3 +249,10 @@ $container->setParameter('partkeepr.cronjob.check', true);
  * https://octopart.com/api/home and then registering an application.
  */
 $container->setParameter('partkeepr.octopart.apikey', '');
+
+/**
+ * Specifies which URL contains the patreon status. If you do not wish to display the patreon status,
+ * set this parameter to false. Please note that we rely on your Patreon pledges to ensure further
+ * development of PartKeepr.
+ */
+$container->setParameter('partkeepr.patreon.statusuri', 'https://www.partkeepr.org/patreon.json');

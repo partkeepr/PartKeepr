@@ -65,6 +65,7 @@ class IndexController extends Controller
         $aParameters['tip_of_the_day_uri'] = $this->getParameter('partkeepr.tip_of_the_day_uri');
 
         $aParameters['password_change'] = $this->getParameterWithDefault('partkeepr.auth.allow_password_change', true);
+        $aParameters["patreonStatus"] = $this->get("partkeepr_systemservice")->getPatreonStatus();
 
         $renderParams = [];
         $renderParams['parameters'] = $aParameters;

@@ -2,6 +2,7 @@
 
 namespace PartKeepr\CoreBundle\Services;
 
+use Guzzle\Http\Client;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Version as DBALVersion;
 use Doctrine\ORM\EntityManager;
@@ -282,6 +283,24 @@ class SystemService extends ContainerAware
                 return (int) $size_str * 1073741824;
             default:
                 return $size_str;
+        }
+    }
+
+    public function getPatreonStatus () {
+        $statusURI = $this->container->getParameter("partkeepr.patreon.statusuri");
+
+        if ($statusURI === false) {
+            return false;
+        }
+
+        try {
+            $client = new Client();
+            $request = $client->createRequest('GET', $statusURI, ['timeout' => 3.14]);
+            $request->send();
+
+            return json_decode($request->getResponse()->getBody(), true);
+        } catch (\Exception $e) {
+            return false;
         }
     }
 }

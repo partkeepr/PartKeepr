@@ -202,4 +202,19 @@ margin-left: -75px;
     }
 }
 
-s
+.partkeeprLogo {
+    height: 22px !important;
+    width: 112px !important;
+    background-image: url(../images/partkeepr-header.png);
+}
+
+.patreonLogo {
+   background-image: url(../images/patreon.png);
+}
+
+.patreonButton {
+    display: block;
+    height: 51px;
+    width: 217px;
+    background-image: url(../images/become_a_patron_button.png);
+}

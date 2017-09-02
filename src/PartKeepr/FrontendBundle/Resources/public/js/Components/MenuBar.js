@@ -1,13 +1,15 @@
 Ext.define('PartKeepr.MenuBar', {
     extend: 'Ext.toolbar.Toolbar',
     alias: "widget.MenuBar",
+
+    baseCls: Ext.baseCSSPrefix + 'toolbar mainMenu',
+
     menu: {
         text: "Root",
         menu: []
     },
 
-    createMenu: function (target, menuPath, root)
-    {
+    createMenu: function (target, menuPath, root) {
         var item = menuPath.shift(), newItem;
 
         if (item === undefined) {
@@ -40,8 +42,7 @@ Ext.define('PartKeepr.MenuBar', {
 
         return root;
     },
-    initComponent: function ()
-    {
+    initComponent: function () {
         var target, menuItemIterator;
 
         this.ui = "mainmenu";
@@ -73,6 +74,7 @@ Ext.define('PartKeepr.MenuBar', {
             "PartKeepr.StockHistoryGrid"
         ];
 
+        this.menu.menu.push({xtype: 'tbspacer'});
 
         for (menuItemIterator = 0; menuItemIterator < menuItems.length; menuItemIterator++) {
             target = Ext.ClassManager.get(menuItems[menuItemIterator]);
@@ -104,19 +106,44 @@ Ext.define('PartKeepr.MenuBar', {
                 checked: checked
             });
         }
-        this.menu.menu.push({text: i18n("Theme"), type: 'themes', menu: this.themesMenu});
 
+
+        this.menu.menu.push({text: i18n("Theme"), type: 'themes', menu: this.themesMenu});
+        this.menu.menu.push({xtype: 'tbspacer', width: 50});
+
+        this.menu.menu.push({
+            xtype: 'button',
+            text: i18n("Patreon Status"),
+            iconCls: 'patreonLogo',
+            handler: this.showPatreonStatusDialog,
+            scope: this
+        });
+        if (Ext.isObject(window.parameters.patreonStatus)) {
+            this.menu.menu.push({
+                xtype: 'progressbar',
+                value: (window.parameters.patreonStatus.pledgeSum / window.parameters.patreonStatus.goal),
+                width: 50
+            });
+        }
+
+        this.menu.menu.push({xtype: 'tbfill'});
+        this.menu.menu.push({xtype: 'button', iconCls: 'partkeeprLogo'});
+        this.menu.menu.push({xtype: 'tbspacer', width: 10});
 
         this.items = this.menu.menu;
 
         this.callParent();
     },
+    showPatreonStatusDialog: function () {
+        var window = Ext.create("PartKeepr.Components.PatreonStatusDialog");
+        window.show();
+    },
     selectTheme: function (theme) {
-        var i,j,menuItem;
+        var i, j, menuItem;
 
-        for (i=0;i<this.items.getCount();i++) {
+        for (i = 0; i < this.items.getCount(); i++) {
             if (this.items.getAt(i).type === "themes") {
-                for (j=0;j<this.items.getAt(i).menu.items.getCount();j++) {
+                for (j = 0; j < this.items.getAt(i).menu.items.getCount(); j++) {
                     menuItem = this.items.getAt(i).menu.items.getAt(j);
 
                     if (menuItem.theme === theme) {
