@@ -20,6 +20,11 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('Install the GD library extension'));
 
         $this->addRequirement(
+            function_exists('ldap_connect'),
+            sprintf('LDAP library not found'),
+            sprintf('Install the LDAP library extension'));
+
+        $this->addRequirement(
             function_exists('curl_init'),
             sprintf('CURL library not found'),
             sprintf('Install the CURL library extension'));
@@ -30,9 +35,9 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('The php.ini memory_limit directive must be set to 128MB or higher. Your limit is set to %s',
                 ini_get('memory_limit')));
 
-        $this->checkWritable(realpath(dirname(__FILE__).'/../data/'));
-        $this->checkWritable(realpath(dirname(__FILE__).'/../app/'));
-        $this->checkWritable(realpath(dirname(__FILE__).'/../web/'));
+        $this->checkWritable(realpath(dirname(__FILE__) . '/../data/'));
+        $this->checkWritable(realpath(dirname(__FILE__) . '/../app/'));
+        $this->checkWritable(realpath(dirname(__FILE__) . '/../web/'));
 
         $this->addRecommendation(
             function_exists('apc_fetch'),
@@ -98,7 +103,7 @@ class PartKeeprRequirements extends SymfonyRequirements
      */
     protected function getBytesIniSetting($setting)
     {
-        return (int) $this->returnBytes(ini_get($setting));
+        return (int)$this->returnBytes(ini_get($setting));
     }
 
     /**
@@ -140,24 +145,24 @@ class PartKeeprRequirements extends SymfonyRequirements
     protected function isWritableRecursive($dir)
     {
         if (!is_writable($dir)) {
-            throw new \Exception($dir.' is not writable.');
+            throw new \Exception($dir . ' is not writable.');
         }
 
         $folder = opendir($dir);
         while ($file = readdir($folder)) {
             if ($file != '.' && $file != '..') {
-                if (!is_writable($dir.'/'.$file)) {
+                if (!is_writable($dir . '/' . $file)) {
                     closedir($folder);
-                    throw new \Exception($dir.'/'.$file.' is not writable.');
+                    throw new \Exception($dir . '/' . $file . ' is not writable.');
                 } else {
                     // Skip hidden directories
-                    if ((is_dir($dir.'/'.$file)) && ($file[0] == '.')) {
+                    if ((is_dir($dir . '/' . $file)) && ($file[0] == '.')) {
                         continue;
                     }
-                    if (is_dir($dir.'/'.$file)) {
-                        if (!$this->isWritableRecursive($dir.'/'.$file)) {
+                    if (is_dir($dir . '/' . $file)) {
+                        if (!$this->isWritableRecursive($dir . '/' . $file)) {
                             closedir($folder);
-                            throw new \Exception($dir.'/'.$file.' is not writable.');
+                            throw new \Exception($dir . '/' . $file . ' is not writable.');
                         }
                     }
                 }
