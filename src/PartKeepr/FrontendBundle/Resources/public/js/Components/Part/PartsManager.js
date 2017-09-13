@@ -675,17 +675,17 @@ Ext.define('PartKeepr.PartManager', {
 
             if (minValue !== "" && maxValue !== "")
             {
-                minMaxCombined = minValue + minSiPrefix + "…" + maxValue + maxSiPrefix + unit;
+                minMaxCombined = minValue + " " + minSiPrefix + "…" + maxValue + " " + maxSiPrefix + unit;
             } else
             {
                 if (minValue !== "")
                 {
-                    minMaxCombined = i18n("Min.") + minValue + minSiPrefix + unit;
+                    minMaxCombined = i18n("Min.") + minValue + " " + minSiPrefix + unit;
                 }
 
                 if (maxValue !== "")
                 {
-                    minMaxCombined = i18n("Max.") + maxValue + maxSiPrefix + unit;
+                    minMaxCombined = i18n("Max.") + maxValue + " " + maxSiPrefix + unit;
                 }
             }
 
@@ -693,10 +693,10 @@ Ext.define('PartKeepr.PartManager', {
             {
                 if (minMaxCombined !== "")
                 {
-                    return value + siPrefix + unit + " (" + minMaxCombined + ")";
+                    return value + " " + siPrefix + unit + " (" + minMaxCombined + ")";
                 } else
                 {
-                    return value + siPrefix + unit;
+                    return value + " " + siPrefix + unit;
                 }
             } else
             {
