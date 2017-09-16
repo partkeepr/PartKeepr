@@ -84,7 +84,7 @@ class PartDistributor extends BaseEntity
     /**
      * Defines if the distributor is ignored for pricing calculations.
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",nullable=true)
      * @Groups({"default"})
      *
      * @var bool
