@@ -1,5 +1,16 @@
 # Changelog
 
+## PartKeepr 1.3.0
+
+New Features:
+
+ * [Refactored Project Reports](http://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.3.0#Refactored_Project_Reports)
+ * [Distributor Price Calculation](http://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.3.0#Distributor_Price_Calculation): Ignore distributors for price calculations
+ * [Column Customization](http://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.3.0#Column_Customization)
+ * [Selective OctoPart Import](http://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.3.0#Selective_OctoPart_Import)
+ * [Refactored User Preferences](http://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.3.0#Refactored_User_Preferences)
+
+For a mostly complete list of bugfixes, please refer to [GitHub](https://github.com/partkeepr/PartKeepr/issues?q=milestone%3A1.3.0+is%3Aclosed)
 
 ## PartKeepr 1.2.0
 
