@@ -38,7 +38,7 @@ class OneToManyConfiguration extends Configuration
                 return null;
                 break;
             case self::IMPORTBEHAVIOUR_CREATENEW:
-                $this->log(sprintf("Would create a new entity of type %s for relation %s", $this->baseEntity, $this->getAssociationName()));
+                $this->log(sprintf("Create a new entity of type %s for relation %s", $this->baseEntity, $this->getAssociationName()));
 
                 return parent::import($row);
                 break;

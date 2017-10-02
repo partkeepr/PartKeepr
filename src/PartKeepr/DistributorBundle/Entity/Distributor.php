@@ -96,10 +96,11 @@ class Distributor extends BaseEntity
     private $skuurl;
 
     /**
-     * Defines if the distributor is used for pricing calculations
+     * Defines if the distributor is used for pricing calculations.
      *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
+     *
      * @var bool
      */
     private $enabledForReports = true;

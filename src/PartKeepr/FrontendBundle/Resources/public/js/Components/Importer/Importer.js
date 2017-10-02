@@ -37,7 +37,7 @@ Ext.define("PartKeepr.Importer.Importer", {
                     xtype: 'treecolumn',
                     text: i18n("Field"),
                     dataIndex: 'text',
-                    width: 200,
+                    width: 200
                 }, {
                     xtype: 'checkcolumn',
                     disabled: true,
@@ -75,7 +75,7 @@ Ext.define("PartKeepr.Importer.Importer", {
                 },
                 {
                     xtype: 'importerEntityConfiguration',
-                    itemId: 'importerEntityConfiguration',
+                    itemId: 'importerEntityConfiguration'
                 }, {
                     xtype: 'importerFieldConfiguration',
                     itemId: 'importerFieldConfiguration'
@@ -113,9 +113,9 @@ Ext.define("PartKeepr.Importer.Importer", {
                             text: i18n("Path"),
                             flex: 1,
                             dataIndex: "node",
-                            renderer: function (val)
+                            renderer: function (val,p,rec)
                             {
-                                return val.getPath("text", "/");
+                                return rec.get("node").getPath("text", "/");
                             }
                         }, {
                             text: i18n("Error"),
@@ -124,7 +124,13 @@ Ext.define("PartKeepr.Importer.Importer", {
                         }
                     ],
                     store: {
-                        fields: ["node", "error"]
+                        fields: [{
+                            name: "node",
+                            type: 'auto'
+                        }, {
+                            name: "error",
+                            type: 'auto'
+                        }]
                     }
                 }
             ]
@@ -181,6 +187,7 @@ Ext.define("PartKeepr.Importer.Importer", {
         this.down("#preview").on("afterrender", this.refreshPreview, this);
         this.down("#importerPresetCombo").setConfiguration(this.importConfiguration);
         this.validateConfig();
+
     },
     applyConfiguration: function ()
     {
@@ -228,17 +235,21 @@ Ext.define("PartKeepr.Importer.Importer", {
                 var responseData = Ext.decode(response.responseText);
 
                 var j = Ext.create("Ext.window.Window", {
-                    width: 400,
+                    width: 800,
                     height: 400,
                     layout: "fit",
+                    scrollable: true,
+                    title: i18n("Import Results"),
                     items: [
                         {
-                            xtype: 'panel',
+                            xtype: 'textareafield',
                             itemId: 'resultPanel',
                             listeners: {
                                 render: function (p)
                                 {
                                     p.getEl().dom.innerHTML = "<pre><strong>Import Results</strong>\n\n" + responseData.logs + "</pre>";
+                                    p.getEl().dom.style.overflow = "auto";
+                                    p.getEl().dom.style.userSelect = "initial";
                                 }
                             }
                         }
@@ -327,6 +338,7 @@ Ext.define("PartKeepr.Importer.Importer", {
         return !field.persist;
     },
     /**
+     * Appends default configuration data while populating the tree
      * @param {Ext.data.field.Field} The model
      */
     appendFieldData: function (field, node)
@@ -374,8 +386,6 @@ Ext.define("PartKeepr.Importer.Importer", {
                 fieldData.data.configuration = node.parentNode.data.data.configuration.onetomany[node.data.text];
                 break;
             default:
-
-
                 if (!node.parentNode.data.data.configuration.fields.hasOwnProperty(node.data.text)) {
                     node.parentNode.data.data.configuration.fields[node.data.text] = {};
                 }
@@ -449,12 +459,19 @@ Ext.define("PartKeepr.Importer.Importer", {
         this.down("#sourceFileGrid").reconfigure(store, columns);
         this.validateConfig();
     },
+    /**
+     * Recursively validates all nodes within the importer configuration and populates the errors grid
+     */
     validateConfig: function ()
     {
         this.down("#errorsGrid").setTitle(i18n("Errors"));
         this.down("#errorsGrid").getStore().removeAll();
         this.validateConfigNode(this.down("#fieldTree").getRootNode());
     },
+    /**
+     * Validates a given node in the tree
+     * @param {Ext.data.NodeInterface} node The node to validate
+     */
     validateConfigNode: function (node)
     {
         var configuration = node.data.data.configuration;
@@ -522,13 +539,18 @@ Ext.define("PartKeepr.Importer.Importer", {
             }
         }
     },
+    /**
+     * Appends a specific error for a given node
+     *
+     * @param {Ext.data.NodeInterface} node The node to append an error message
+     * @param {String} error The error message to append
+     */
     appendError: function (node, error)
     {
         this.down("#errorsGrid").getStore().add({node: node, error: error});
 
         var title = i18n("Errors") + " (" +
             this.down("#errorsGrid").getStore().getCount() + ")";
-
 
         this.down("#errorsGrid").setTitle(title);
     }

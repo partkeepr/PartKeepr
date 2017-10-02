@@ -23,22 +23,45 @@ Ext.define('PartKeepr.ProjectReportView', {
     {
         this.createStores();
 
-        this.reportList = Ext.create("PartKeepr.Components.Project.ProjectReportList", {
-            region: 'west',
-            collapsible: true,
+        this.projectList = Ext.create("PartKeepr.Components.Project.ProjectReportList", {
+            region: 'north',
             title: i18n("Choose Projects to create a report for"),
-            split: true,
-            minWidth: 300,
-            width: 500
+            height: 300,
+            maxHeight: 500,
+            split: true
+
+
+        });
+
+        this.reportList = Ext.create("PartKeepr.Components.Project.ProjectReportGrid", {
+            title: i18n("Previous Project Reports"),
+            region: 'center'
         });
 
         this.reportResult = Ext.create("PartKeepr.Components.Project.ProjectReportResultGrid", {
-            store: this.projectReportStore
+            store: null,
+            itemId: "projectReportResult",
+            projectReportManager: this
+        });
+
+        this.emptyReportPartStore = Ext.create("Ext.data.Store", {
+            model: "PartKeepr.ProjectBundle.Entity.ReportPart"
         });
 
 
         this.items = [
-            this.reportList, {
+            {
+                region: 'west',
+                layout: 'border',
+                collapsible: true,
+                split: true,
+                minWidth: 300,
+                width: 500,
+                items: [
+                    this.reportList,
+                    this.projectList
+                ]
+            }, {
                 region: 'center',
                 layout: 'fit',
                 title: i18n("Project Report"),
@@ -50,19 +73,69 @@ Ext.define('PartKeepr.ProjectReportView', {
         this.callParent();
 
         this.down("#createReportButton").on("click", this.onCreateReportClick, this);
+        this.down("#loadReportButton").on("click", this.onLoadReportClick, this);
+    },
+    onLoadReportClick: function ()
+    {
+        this.reportResult.getView().mask(i18n("Loading…"));
+        var selection = this.reportList.getSelection();
+
+        if (selection.length === 1)
+        {
+            this.projectReport = PartKeepr.ProjectBundle.Entity.Report.load(
+                selection[0].getId(),
+                {
+                    success: this.onProjectReportLoaded,
+                    scope: this
+                });
+        }
     },
     /**
      *
      */
     onCreateReportClick: function ()
     {
-        this.reportResult.setProjectsToReport(this.reportList.getProjectsToReport());
+        this.reportResult.getView().mask(i18n("Loading…"));
+        this.reportResult.setProjectsToReport(this.projectList.getProjectsToReport());
 
-        this.projectReportStore.load({
-            params: {
-                projects: Ext.encode(this.reportList.getProjectsToReport())
-            }
+        var projectsToReport = this.projectList.getProjectsToReport();
+
+        this.projectReport = Ext.create("PartKeepr.ProjectBundle.Entity.Report");
+
+        for (var i = 0; i < projectsToReport.length; i++)
+        {
+            this.projectReport.reportProjects().add(
+                Ext.create("PartKeepr.ProjectBundle.Entity.ReportProject", {
+                    project: projectsToReport[i].project,
+                    quantity: projectsToReport[i].quantity
+                }));
+        }
+
+        this.doSaveProjectReport();
+    },
+    doSaveProjectReport: function ()
+    {
+        this.reportResult.getView().mask(i18n("Saving…"));
+        this.reportResult.reconfigure(this.emptyReportPartStore);
+        this.projectReport.save({
+            success: this.onProjectReportSave,
+            scope: this
         });
+    },
+    onProjectReportSave: function ()
+    {
+        this.projectReport.load({
+            success: this.onProjectReportLoaded,
+            scope: this
+        });
+
+        this.reportList.getStore().reload();
+    },
+    onProjectReportLoaded: function ()
+    {
+        this.reportResult.reconfigure(this.projectReport.reportParts());
+        this.reportResult.projectReport = this.projectReport;
+        this.reportResult.getView().unmask();
     },
     /**
      * Creates the store used in this view.
@@ -70,8 +143,12 @@ Ext.define('PartKeepr.ProjectReportView', {
     createStores: function ()
     {
         this.projectReportStore = Ext.create('Ext.data.Store', {
-            model: "PartKeepr.ProjectBundle.Entity.ProjectReport",
-            pageSize: -1
+            model: "PartKeepr.ProjectBundle.Entity.ReportPart",
+            pageSize: -1,
+            proxy: {
+                type: "Hydra",
+                url: '/api/project_reports'
+            }
         });
     },
     statics: {

@@ -29,6 +29,8 @@ class Configuration extends BaseConfiguration
                     $fieldConfiguration = new FieldConfiguration($this->classMetadata, $this->baseEntity,
                         $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
                     $fieldConfiguration->setFieldName($field);
+
+                    $fieldConfiguration->setPath($this->getPath($field));
                     if ($fieldConfiguration->parseConfiguration($configuration) !== false) {
                         $this->fields[] = $fieldConfiguration;
                     }
@@ -43,9 +45,11 @@ class Configuration extends BaseConfiguration
                 if ($this->classMetadata->hasAssociation($manyToOne)) {
                     $targetClass = $this->classMetadata->getAssociationTargetClass($manyToOne);
                     $cm = $this->em->getClassMetadata($targetClass);
+
                     $manyToOneconfiguration = new ManyToOneConfiguration($cm, $targetClass,
                         $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
                     $manyToOneconfiguration->setAssociationName($manyToOne);
+                    $manyToOneconfiguration->setPath($this->getPath($manyToOne));
 
                     if ($manyToOneconfiguration->parseConfiguration($configuration) !== false) {
                         $this->manyToOneAssociations[] = $manyToOneconfiguration;
@@ -64,7 +68,7 @@ class Configuration extends BaseConfiguration
                     $oneToManyConfiguration = new OneToManyConfiguration($cm, $targetClass,
                         $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
                     $oneToManyConfiguration->setAssociationName($oneToMany);
-
+                    $oneToManyConfiguration->setPath($this->getPath($oneToMany));
                     if ($oneToManyConfiguration->parseConfiguration($configuration) !== false) {
                         $this->oneToManyAssociations[] = $oneToManyConfiguration;
                     }

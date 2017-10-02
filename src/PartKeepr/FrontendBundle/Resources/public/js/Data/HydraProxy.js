@@ -192,7 +192,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
             this.processCallActionResponse(options, success, response, ignoreException, action);
 
             if (Ext.isFunction(callback)) {
-                callback(options, success, response);
+                callback(options, success, response, request);
             }
         }.bind(this));
 

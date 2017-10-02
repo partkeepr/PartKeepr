@@ -91,7 +91,7 @@ class ManyToOneConfiguration extends Configuration
                 }
 
                 if (!in_array($importConfiguration->updateBehaviour, self::updateBehaviours)) {
-                    throw new \Exception("Invalid value for updateBehaviour");
+                    throw new \Exception(sprintf("Invalid value for updateBehaviour: %s", $importConfiguration->updateBehaviour));
                 }
 
                 $this->updateBehaviour = $importConfiguration->updateBehaviour;
@@ -128,7 +128,7 @@ class ManyToOneConfiguration extends Configuration
         switch ($this->importBehaviour) {
             case self::IMPORTBEHAVIOUR_ALWAYSSETTO:
                 $targetEntity = $this->iriConverter->getItemFromIri($this->setToEntity);
-                $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $targetEntity->getId()));
+                $this->log(sprintf("Set %s to %s#%s", $this->associationName, $this->baseEntity, $targetEntity->getId()));
 
                 return $targetEntity;
                 break;
@@ -161,7 +161,7 @@ class ManyToOneConfiguration extends Configuration
                         // @todo Update the entity with the specified values
                     }
 
-                    $this->log(sprintf("Would set %s to %s#%s", $this->associationName, $this->baseEntity, $result->getId()));
+                    $this->log(sprintf("Set %s to %s#%s", $this->associationName, $this->baseEntity, $result->getId()));
 
                     return $result;
                 } catch (\Exception $e) {
@@ -169,16 +169,16 @@ class ManyToOneConfiguration extends Configuration
 
                     switch ($this->notFoundBehaviour) {
                         case self::NOTFOUNDBEHAVIOUR_STOPIMPORT:
-                            $this->log(sprintf("Would stop import as the match %s for association %s was not found", implode(",", $descriptions), $this->getAssociationName()));
+                            $this->log(sprintf("Stop import as the match %s for association %s was not found", implode(",", $descriptions), $this->getAssociationName()));
                             break;
                         case self::NOTFOUNDBEHAVIOUR_SETTOENTITY:
                             $targetEntity = $this->iriConverter->getItemFromIri($this->notFoundSetToEntity);
-                            $this->log(sprintf("Would set the association %s to %s, since the match %s for association %s was not found", $this->getAssociationName(), $this->notFoundSetToEntity, implode(",", $descriptions)));
+                            $this->log(sprintf("Set the association %s to %s, since the match %s for association %s was not found", $this->getAssociationName(), $this->notFoundSetToEntity, implode(",", $descriptions)));
 
                             return $targetEntity;
                             break;
                         case self::NOTFOUNDBEHAVIOUR_CREATEENTITY:
-                            $this->log(sprintf("Would create a new entity of type %s", $this->baseEntity));
+                            $this->log(sprintf("Create a new entity of type %s", $this->baseEntity));
 
                             return parent::import($row);
                             break;

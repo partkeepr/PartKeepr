@@ -82,10 +82,11 @@ class PartDistributor extends BaseEntity
     private $sku;
 
     /**
-     * Defines if the distributor is ignored for pricing calculations
+     * Defines if the distributor is ignored for pricing calculations.
      *
      * @ORM\Column(type="boolean")
      * @Groups({"default"})
+     *
      * @var bool
      */
     private $ignoreForReports = 0;

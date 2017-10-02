@@ -1256,6 +1256,91 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.project_report.collection_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments: [ "@resource.project_report", "GET" ]
+
+    resource.project_report.item_operation.custom_post:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
+        arguments:
+             -    "@resource.project_report"               # Resource
+             -    [ "POST" ]                 # Methods
+             -    "/reports"           # Path
+             -    "PartKeeprProjectBundle:ProjectReport:createReport"         # Controller
+             -    "ProjectReportPost"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.project_report.item_operation.custom_get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.project_report"               # Resource
+             -    [ "GET" ]                 # Methods
+             -    "/reports/{id}"           # Path
+             -    "PartKeeprProjectBundle:ProjectReport:getReport"         # Controller
+             -    "ProjectReportGet"                 # Route name
+             -    # Context (will be present in Hydra documentation)
+                  "@type":       "hydra:Operation"
+                  "hydra:title": "A custom operation"
+                  "returns":     "xmls:string"
+
+    resource.project_report.item_operation.put:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createItemOperation" ]
+            arguments: [ "@resource.project_report", "PUT" ]
+
+    resource.project_report:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\Report" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initItemOperations"
+                    arguments: [ [ "@resource.project_report.item_operation.custom_get", "@resource.project_report.item_operation.put" ] ]
+            -       method:    "initCollectionOperations"
+                    arguments: [ [ "@resource.project_report.collection_operation.get", "@resource.project_report.item_operation.custom_post"]]
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default", "readonly" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.project_report_project:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ReportProject" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
+    resource.project_report_part:
+        parent:    "api.resource"
+        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ReportPart" ]
+        tags:      [ { name: "api.resource" } ]
+        calls:
+            -       method:    "initFilters"
+                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
+            -       method:    "initNormalizationContext"
+                    arguments: [ { groups: [ "default" ] } ]
+            -       method:    "initDenormalizationContext"
+                    arguments:
+                        - { groups: [ "default" ] }
+
     resource.project_attachment.item_operation.custom_get_image:
         class:     "Dunglas\ApiBundle\Api\Operation\Operation"
         public:    false

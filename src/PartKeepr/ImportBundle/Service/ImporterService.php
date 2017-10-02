@@ -61,7 +61,7 @@ class ImporterService
         $this->importData = $importData;
     }
 
-    public function import()
+    public function import($preview = false)
     {
         $entities = [];
         $logs = [];
@@ -90,7 +90,11 @@ class ImporterService
             $this->em->commit();
         }
 
-        $this->em->commit();
+        if ($preview) {
+            $this->em->rollback();
+        } else {
+            $this->em->commit();
+        }
 
         return [$configuration->getPersistEntities(), implode("<br/>", $logs)];
     }

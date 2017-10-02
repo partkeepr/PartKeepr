@@ -100,7 +100,11 @@ class SystemService extends ContainerAware
             'PartKeepr'
         );
 
-        $aData[] = new SystemInformationRecord('PartKeepr Version', $this->versionService->getCanonicalVersion(), 'PartKeepr');
+        $aData[] = new SystemInformationRecord(
+            'PartKeepr Version',
+            $this->versionService->getCanonicalVersion(),
+            'PartKeepr'
+        );
 
         return $aData;
     }
@@ -127,7 +131,7 @@ class SystemService extends ContainerAware
             'inactiveCronjobCount' => count($inactiveCronjobs),
             'inactiveCronjobs'     => $inactiveCronjobs,
             'schemaStatus'         => $this->getSchemaStatus(),
-            'schemaQueries'        => $this->getSchemaQueries()
+            'schemaQueries'        => $this->getSchemaQueries(),
         ];
     }
 
@@ -150,10 +154,12 @@ class SystemService extends ContainerAware
     }
 
     /**
-     * Returns all queries to be executed for a proper database update
+     * Returns all queries to be executed for a proper database update.
+     *
      * @return array
      */
-    protected function getSchemaQueries () {
+    protected function getSchemaQueries()
+    {
         $metadatas = $this->entityManager->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($this->entityManager);
@@ -265,10 +271,17 @@ class SystemService extends ContainerAware
     public function getBytesFromHumanReadable($size_str)
     {
         switch (substr($size_str, -1)) {
-            case 'M': case 'm': return (int) $size_str * 1048576;
-            case 'K': case 'k': return (int) $size_str * 1024;
-            case 'G': case 'g': return (int) $size_str * 1073741824;
-            default: return $size_str;
+            case 'M':
+            case 'm':
+                return (int) $size_str * 1048576;
+            case 'K':
+            case 'k':
+                return (int) $size_str * 1024;
+            case 'G':
+            case 'g':
+                return (int) $size_str * 1073741824;
+            default:
+                return $size_str;
         }
     }
 }
