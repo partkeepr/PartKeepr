@@ -22,11 +22,6 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
     initiallyChecked: [],
 
     /**
-     * @var {Array} Contains the models already in the field tree
-     */
-    visitedModels: [],
-
-    /**
      * @var {Boolean} True to recurse into associations, false otherwise.
      */
     recurseSubModels: true,
@@ -50,17 +45,20 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
 
         var rootNode = this.getRootNode();
         rootNode.set("text", this.sourceModel.getName());
-        this.treeMaker(rootNode, this.sourceModel, "");
+        this.treeMaker(rootNode, this.sourceModel, "", undefined, []);
         rootNode.expand();
     },
     /**
      * Builds the field tree recursively. Handles infinite recursions (e.g. in trees).
      *
-     * @param {Ext.data.NodeInterface} The current node
-     * @param {Ext.data.Model} The model
-     * @param {String} The prefix. Omit if first called
+     * @param {Ext.data.NodeInterface} node The current node
+     * @param {Ext.data.Model} model The model
+     * @param {String} prefix The prefix. Omit if first called
+     * @param {Function} callback Te callback, optional
+     * @param {Array}  originalVisitedModels The visited models in te subtree. Omit
+     * 
      */
-    treeMaker: function (node, model, prefix, callback)
+    treeMaker: function (node, model, prefix, callback, originalVisitedModels)
     {
         var fields = model.getFields();
         var checked;
@@ -68,18 +66,18 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
         var j, childNode;
         var skipSubModel = false, associationAlreadyProcessed;
 
-        this.visitedModels.push(model.getName());
+        var visitedModels = originalVisitedModels.slice(0);
+        visitedModels.push(model.getName());
+        
         for (var i = 0; i < fields.length; i++) {
             if (!fields[i]["persist"]) {
                 continue;
             }
 
             if (fields[i]["reference"] === null) {
-                checked = false;
 
-                if (Ext.Array.contains(this.initiallyChecked, prefix + fields[i].name)) {
-                    checked = true;
-                }
+
+                checked = Ext.Array.contains(this.initiallyChecked, prefix + fields[i].name);
 
                 if (!Ext.Array.contains(this.excludeFields, prefix + fields[i].name)) {
                     newNode = {
@@ -99,8 +97,8 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
             } else {
                 if (this.recurseSubModels) {
                     skipSubModel = false;
-                    for (j = 0; j < this.visitedModels.length; j++) {
-                        if (this.visitedModels[j] === fields[i].reference.cls.getName()) {
+                    for (j = 0; j < visitedModels.length; j++) {
+                        if (visitedModels[j] === fields[i].reference.cls.getName()) {
                             skipSubModel = true;
                         }
                     }
@@ -114,7 +112,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                     if (skipSubModel === false) {
                         childNode = node.appendChild({
                             text: fields[i].name,
-                            expanded: true,
+                            expanded: false,
                             data: {
                                 name: prefix + fields[i].name,
                                 type: "manytoone",
@@ -124,7 +122,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                             leaf: false
                         });
 
-                        this.treeMaker(childNode, fields[i].reference.cls, prefix + fields[i].name + ".");
+                        this.treeMaker(childNode, fields[i].reference.cls, prefix + fields[i].name + ".", callback, visitedModels);
                     }
                 }
             }
@@ -137,8 +135,8 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
         for (i in associations) {
             associationAlreadyProcessed = false;
             if (typeof(associations[i].storeName) !== "undefined" && associations[i].isMany === true) {
-                for (j = 0; j < this.visitedModels.length; j++) {
-                    if (this.visitedModels[j] === associations[i].type) {
+                for (j = 0; j < visitedModels.length; j++) {
+                    if (visitedModels[j] === associations[i].type) {
                         associationAlreadyProcessed = true;
                     }
                 }
@@ -146,7 +144,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                 if (!associationAlreadyProcessed) {
                     childNode = node.appendChild({
                         text: associations[i].role,
-                        expanded: true,
+                        expanded: false,
                         data: {
                             name: prefix + associations[i].role,
                             type: "onetomany",
@@ -159,7 +157,7 @@ Ext.define('PartKeepr.Components.Widgets.FieldSelector', {
                         childNode.set(callback(associations[i].cls, childNode));
                     }
 
-                    this.treeMaker(childNode, associations[i].cls, prefix + associations[i].role + ".", callback);
+                    this.treeMaker(childNode, associations[i].cls, prefix + associations[i].role + ".", callback, visitedModels);
                 }
             }
         }
