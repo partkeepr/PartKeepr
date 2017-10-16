@@ -42,7 +42,7 @@ class UnitSetupService
      *
      * @return array An array with the keys "skipped" and "imported" which contain the number of units skipped and imported
      */
-    public function importUnits()
+    public function importUnits($updateExisting = false)
     {
         $path = $this->kernel->locateResource(self::UNIT_PATH.self::UNIT_DATA);
 
@@ -53,13 +53,17 @@ class UnitSetupService
         $skipped = 0;
 
         foreach ($data as $unitName => $unitData) {
+            $existing = true;
             $unit = $this->getUnit($unitName);
 
             if ($unit === null) {
+                $existing = false;
                 $unit = new Unit();
                 $unit->setName($unitName);
                 $unit->setSymbol($unitData['symbol']);
+            }
 
+            if (!$existing || $updateExisting || count($unit->getPrefixes()) === 0) {
                 if (array_key_exists('prefixes', $unitData)) {
                     if (!is_array($unitData['prefixes'])) {
                         throw new \Exception($unitName." doesn't contain a prefix list, or the prefix list is not an array.");
@@ -71,9 +75,10 @@ class UnitSetupService
                             throw new \Exception('Unable to find SI Prefix '.$name);
                         }
 
-                        $unit->getPrefixes()[] = $prefix;
+                        $unit->addPrefix($prefix);
                     }
                 }
+
                 $this->entityManager->persist($unit);
                 $this->entityManager->flush();
                 $count++;
