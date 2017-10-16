@@ -1,6 +1,8 @@
 Ext.define("PartKeepr.Components.ProjectReport.MetaPartRowExpander", {
     extend: "Ext.grid.plugin.RowWidget",
 
+    ptype: 'metapartrowexpander',
+
     getHeaderConfig: function() {
         var config = this.callParent(arguments);
 
