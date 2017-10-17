@@ -154,12 +154,19 @@ Ext.define("PartKeepr.Components.Widgets.ColumnConfigurator.Panel", {
         var i, j;
         var columnRecord;
         this.originalColumnConfigurations = [];
+        var startColumn = 0;
         var columnConfig;
         var fieldsToCopy = this.getFieldsToCopy();
 
         this.columnListGrid.getStore().removeAll();
 
-        for (i = 0; i < columns.length; i++)
+        // In case we have a row expander which adds an additional column, skip the first column
+        if (this.grid.findPlugin("metapartrowexpander"))
+        {
+            startColumn++;
+        }
+
+        for (i = startColumn; i < columns.length; i++)
         {
             columnRecord = Ext.create("PartKeepr.Models.ColumnConfiguration");
             columnConfig = {};
