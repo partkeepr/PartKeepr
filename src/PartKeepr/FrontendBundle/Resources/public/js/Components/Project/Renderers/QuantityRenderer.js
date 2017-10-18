@@ -54,6 +54,6 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.QuantityRenderer", {
             }
         },
 
-        restrictToEntity: ["PartKeepr.PartBundle.Entity.ProjectReport"]
+        restrictToEntity: ["PartKeepr.ProjectBundle.Entity.ProjectReport"]
     }
 });

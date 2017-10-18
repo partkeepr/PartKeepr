@@ -58,7 +58,11 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                 header: i18n("Storage Location"), dataIndex: 'part.storageLocation.name',
                 width: 100
             }, {
-                header: i18n("Available"), dataIndex: 'part.stockLevel',
+                header: i18n("Available"),
+                dataIndex: "part.stockLevel",
+                renderers: [{
+                    rtype: "projectReportMetaPartAvailability"
+                }],
                 width: 75
             }, {
                 header: i18n("Distributor"),
@@ -357,7 +361,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                     "removals": Ext.encode(removals),
                     "projects": Ext.encode(this.getProjectsToReport())
                 },
-                function (options, success, response)
+                function (options, success)
                 {
                     if (success)
                     {
