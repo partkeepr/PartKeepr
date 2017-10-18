@@ -93,6 +93,8 @@ Ext.define("PartKeepr.Components.Widgets.ColumnConfigurator.ColumnListGrid", {
                     xtype: 'presetcombo',
                     model: 'PartKeepr.FrontendBundle.Entity.GridPreset',
                     itemId: 'gridPresetCombo',
+                    allowMarkAsDefault: true,
+                    markedAsDefaultProperty: 'gridDefault',
                     displayField: 'name',
                     blankConfiguration: [
                         {

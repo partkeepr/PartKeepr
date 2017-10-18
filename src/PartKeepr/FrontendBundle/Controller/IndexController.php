@@ -67,6 +67,7 @@ class IndexController extends Controller
         $aParameters['password_change'] = $this->getParameterWithDefault('partkeepr.auth.allow_password_change', true);
         $aParameters["patreonStatus"] = $this->get("partkeepr_systemservice")->getPatreonStatus();
 
+        $aParameters["defaultGridPresets"] = json_encode($this->get("partkeepr.gridpresetservice")->getDefaultPresets());
         $renderParams = [];
         $renderParams['parameters'] = $aParameters;
         $renderParams['debug'] = $this->get('kernel')->isDebug();
