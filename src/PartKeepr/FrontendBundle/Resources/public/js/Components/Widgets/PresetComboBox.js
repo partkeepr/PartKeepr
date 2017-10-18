@@ -41,7 +41,17 @@ Ext.define("PartKeepr.PresetCombobox", {
          * Defines if the configuration should be serialized or not
          * @var bool
          */
-        serializeConfiguration: true
+        serializeConfiguration: true,
+
+        /**
+         * Defines if the mark as default feature should be available
+         */
+        allowMarkAsDefault: false,
+
+        /**
+         * Defines which property defines if the preset is the default
+         */
+        markedAsDefaultProperty: null
 
     },
 
@@ -74,6 +84,14 @@ Ext.define("PartKeepr.PresetCombobox", {
             scope: 'this',
             tooltip: i18n("Delete selected preset"),
             hidden: true
+        },
+        default: {
+            cls: "x-form-trigger-default",
+            weight: 4,
+            handler: 'onMarkPresetAsDefault',
+            scope: 'this',
+            tooltip: i18n("Mark selected preset as default"),
+            hidden: true
         }
     },
 
@@ -90,6 +108,19 @@ Ext.define("PartKeepr.PresetCombobox", {
 
     initComponent: function ()
     {
+        if (this.allowMarkAsDefault) {
+            console.log("FOO1");
+            console.log(config);
+        this.displayTpl = Ext.create('Ext.XTemplate',
+            '<tpl for=".">',
+            '{'+this.displayField+'}',
+            '<tpl if="'+this.markedAsDefaultProperty+'" = 1">',
+            '*',
+            '</tpl>',
+            '</tpl>'
+        );
+        }
+
         if (this.getModel() === null) {
             Ext.raise("The configuration property 'model' is not configured, but is required.");
         }
@@ -145,12 +176,9 @@ Ext.define("PartKeepr.PresetCombobox", {
     onPresetNameEntered: function (buttonId, value)
     {
         if (buttonId === "ok") {
-            if (this.getStore().find(this.nameField, value) === -1) {
-                this.savePreset(value);
-            } else {
-                Ext.Msg.alert(i18n("Save Preset"), i18n("The selected name is already in use"), this.onSavePreset,
-                    this);
-            }
+            this.savePreset(value);
+            // The previous method where save was only allowed if the preset name doesn't exist was removed. Unclear
+            // why this was added in the first place.
         }
     },
     /**
@@ -253,6 +281,9 @@ Ext.define("PartKeepr.PresetCombobox", {
     {
         this.additionalFields = additionalFields;
     },
+    onMarkPresetAsDefault: function () {
+        this.fireEvent("markAsDefault", this.getSelectedRecord());
+    },
     /**
      * Handler to show/hide the delete button
      */
@@ -260,8 +291,13 @@ Ext.define("PartKeepr.PresetCombobox", {
     {
         if (this.getSelectedRecord() !== null) {
             this.triggers.delete.show();
+
+            if (this.allowMarkAsDefault) {
+                this.triggers.default.show();
+            }
         } else {
             this.triggers.delete.hide();
+            this.triggers.default.hide();
         }
     }
 });

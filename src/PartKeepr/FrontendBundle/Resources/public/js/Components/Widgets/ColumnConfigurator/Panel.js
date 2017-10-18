@@ -53,6 +53,7 @@ Ext.define("PartKeepr.Components.Widgets.ColumnConfigurator.Panel", {
         });
 
         this.down("#gridPresetCombo").on("selectPreset", this.onPresetSelect, this);
+        this.down("#gridPresetCombo").on("markAsDefault", this.onMarkAsDefault, this);
         this.down("#gridPresetCombo").setAdditionalFields([
             {
                 fieldName: "grid",
@@ -71,6 +72,9 @@ Ext.define("PartKeepr.Components.Widgets.ColumnConfigurator.Panel", {
             this.grid.reconfigure(this.grid.store, this.grid.getDefaultColumnConfiguration());
             this.applyColumnConfigurationFromGrid();
         }
+    },
+    onMarkAsDefault: function (gridPreset) {
+        gridPreset.callPutAction("markAsDefault")
     },
     onPresetSelect: function (configuration)
     {

@@ -336,11 +336,42 @@ services:
                     arguments:
                         - { groups: [ "default" ] }
 
+    resource.grid_preset.item_operation.get:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.grid_preset", "GET" ]
+
+    resource.grid_preset.item_operation.put:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.grid_preset", "PUT" ]
+
+    resource.grid_preset.item_operation.delete:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments: [ "@resource.grid_preset", "DELETE" ]
+
+    resource.grid_preset.item_operation.markAsDefault:
+        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        public:    false
+        factory:   [ "@api.operation_factory", "createItemOperation" ]
+        arguments:
+             -    "@resource.grid_preset"               # Resource
+             -    [ "PUT" ]                 # Methods
+             -    "/grid_presets/{id}/markAsDefault"           # Path
+             -    "partkeepr.grid_preset.mark_as_default"         # Controller
+             -    "MarkGridPresetAsDefault"                 # Route name
+
     resource.grid_preset:
         parent:    "api.resource"
         arguments: [ "PartKeepr\FrontendBundle\Entity\GridPreset" ]
         tags:      [ { name: "api.resource" } ]
         calls:
+            -       method:     "initItemOperations"
+                    arguments: [ [ "@resource.grid_preset.item_operation.get", "@resource.grid_preset.item_operation.put", "@resource.grid_preset.item_operation.delete", "@resource.grid_preset.item_operation.markAsDefault" ] ]
             -       method:    "initFilters"
                     arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
             -       method:    "initNormalizationContext"
