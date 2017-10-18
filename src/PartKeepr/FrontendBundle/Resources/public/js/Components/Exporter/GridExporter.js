@@ -15,7 +15,7 @@ Ext.define("PartKeepr.Exporter.GridExporter", {
         var store = this.gridPanel.getStore();
         var records = store.getData();
         var record, i, j, value, column, fieldValue;
-        var rows = [], rowValues = [], headers = [];
+        var rows = [], rowValues = [];
 
         for (i = 0; i < columns.length; i++) {
             if (!columns[i].isHidden()) {
@@ -32,7 +32,7 @@ Ext.define("PartKeepr.Exporter.GridExporter", {
             for (j = 0; j < columns.length; j++) {
                 column = columns[j];
 
-                fieldValue = record.data[column.dataIndex];
+                fieldValue = record.get(column.dataIndex);
 
                 if (column.renderer && column.renderer.call) {
                     value = column.renderer.call(
@@ -78,5 +78,5 @@ Ext.define("PartKeepr.Exporter.GridExporter", {
     {
         var blob = new Blob([response.responseText], {type: this.format});
         saveAs(blob, "export." + this.extension);
-    },
+    }
 });
