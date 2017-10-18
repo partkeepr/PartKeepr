@@ -297,6 +297,9 @@ Ext.define('PartKeepr.PartsGrid', {
             }, {
                 header: i18n("Stock"),
                 dataIndex: 'stockLevel',
+                renderers: [{
+                    rtype: "stockLevel"
+                }],
                 editor: {
                     xtype: 'textfield',
                     allowBlank: false
