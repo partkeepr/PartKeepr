@@ -22,7 +22,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
     /**
      * Adds a field to be ignored.
      *
-     * @param {String} The field to be ignored.
+     * @param {String} field The field to be ignored.
      */
     addIgnoreField: function (field)
     {
@@ -35,9 +35,10 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
     /**
      * Builds the field tree recursively. Handles infinite recursions (e.g. in trees).
      *
-     * @param {Ext.data.NodeInterface} The current node
-     * @param {Ext.data.Model} The model
-     * @param {String} The prefix. Omit if first called
+     * @param {Ext.data.NodeInterface} node The current node
+     * @param {Ext.data.Model} model The model
+     * @param {String} prefix The prefix. Omit if first called
+     * @param {Function} callback The calback, optional
      */
     make: function (node, model, prefix, callback)
     {
