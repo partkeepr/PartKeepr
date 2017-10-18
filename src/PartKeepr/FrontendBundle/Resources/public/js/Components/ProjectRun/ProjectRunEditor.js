@@ -64,7 +64,7 @@ Ext.define('PartKeepr.ProjectRunEditor', {
                 }
 
             ],
-            store: this.store,
+            store: this.store
         });
 
         var container = Ext.create("Ext.form.FieldContainer", {
@@ -78,7 +78,7 @@ Ext.define('PartKeepr.ProjectRunEditor', {
         this.items = [
             {
                 xtype: 'displayfield',
-                name: 'project.name',
+                itemId: 'projectName',
                 height: 20,
                 fieldLabel: i18n("Project Name")
             }, {
@@ -102,6 +102,6 @@ Ext.define('PartKeepr.ProjectRunEditor', {
         var store = this.record.parts();
         this.partGrid.bindStore(store);
 
+        this.down("#projectName").setValue(this.record.get("project.name"));
     }
-})
-;
+});

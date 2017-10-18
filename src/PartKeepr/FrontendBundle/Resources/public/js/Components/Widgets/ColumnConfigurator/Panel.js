@@ -74,7 +74,10 @@ Ext.define("PartKeepr.Components.Widgets.ColumnConfigurator.Panel", {
         }
     },
     onMarkAsDefault: function (gridPreset) {
-        gridPreset.callPutAction("markAsDefault")
+        gridPreset.callPutAction("markAsDefault", {}, Ext.bind(this.onMarkedAsDefault, this));
+    },
+    onMarkedAsDefault: function () {
+        this.down("#gridPresetCombo").getStore().load();
     },
     onPresetSelect: function (configuration)
     {

@@ -86,7 +86,7 @@ Ext.define("PartKeepr.PresetCombobox", {
             hidden: true
         },
         default: {
-            cls: "x-form-trigger-default",
+            cls: "x-form-trigger-markdefault",
             weight: 4,
             handler: 'onMarkPresetAsDefault',
             scope: 'this',
@@ -108,16 +108,19 @@ Ext.define("PartKeepr.PresetCombobox", {
 
     initComponent: function ()
     {
+        console.log(this.markedAsDefaultProperty);
         if (this.allowMarkAsDefault) {
-            console.log("FOO1");
-            console.log(config);
-        this.displayTpl = Ext.create('Ext.XTemplate',
-            '<tpl for=".">',
+            this.tpl = Ext.create('Ext.XTemplate',
+            '<ul class="x-list-plain"><tpl for=".">',
+            '<li role="option" class="x-boundlist-item">',
+            '<tpl if="'+this.markedAsDefaultProperty+' == 1">',
+            '<span class="web-icon fugue-icon flag"></span>',
+            '<tpl else>',
+            '<span style="width: 16px; height: 16px; display: inline-block;"></span>',
+            '</tpl> ',
             '{'+this.displayField+'}',
-            '<tpl if="'+this.markedAsDefaultProperty+'" = 1">',
-            '*',
-            '</tpl>',
-            '</tpl>'
+            '</li>',
+            '</tpl></ul>'
         );
         }
 

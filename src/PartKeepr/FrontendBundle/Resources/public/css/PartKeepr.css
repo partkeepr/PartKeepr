@@ -55,6 +55,10 @@
     background-image: url(../images/form/trigger-add.png);
 }
 
+.x-form-trigger-markdefault {
+    background-image: url(../images/form/trigger-default.png);
+}
+
 .x-form-trigger-delete {
     background-image: url(../images/form/trigger-delete.png);
 }

@@ -50,7 +50,7 @@ class GridPreset extends BaseEntity
      * Defines if the selected grid preset is the default
      *
      * @ORM\Column(type="boolean")
-     * @Groups({"readonly"})
+     * @Groups({"default"})
      *
      * @var boolean
      */
