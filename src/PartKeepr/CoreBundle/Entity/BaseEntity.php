@@ -27,4 +27,9 @@ abstract class BaseEntity
     {
         return $this->id;
     }
+
+    public function __toString()
+    {
+        return get_class($this) . " #" . $this->getId();
+    }
 }

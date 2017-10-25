@@ -115,7 +115,7 @@ class ProjectPart extends BaseEntity
     {
         switch ($this->getOverageType()) {
             case self::OVERAGE_TYPE_PERCENT:
-                return (int) $this->getQuantity() * (1 + $this->getOverage() / 100);
+                return (int)$this->getQuantity() * (1 + $this->getOverage() / 100);
             case self::OVERAGE_TYPE_ABSOLUTE:
                 return $this->getQuantity() + $this->getOverage();
             default:
@@ -264,5 +264,11 @@ class ProjectPart extends BaseEntity
     public function setRemarks($remarks)
     {
         $this->remarks = $remarks;
+    }
+
+    public function __toString()
+    {
+        //@todo i18n
+        return sprintf("Used in project %s", $this->getProject()->getName()) . " / " . parent::__toString();
     }
 }
