@@ -23,7 +23,7 @@ class StockEntry extends BaseEntity
     private $stockLevel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="stockEntries")
+     * @ORM\ManyToOne(targetEntity="PartKeepr\PartBundle\Entity\Part", inversedBy="stockLevels")
      * @Groups({"default"})
      */
     private $part;

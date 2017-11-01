@@ -265,4 +265,10 @@ class ProjectPart extends BaseEntity
     {
         $this->remarks = $remarks;
     }
+
+    public function __toString()
+    {
+        //@todo i18n
+        return sprintf("Used in project %s", $this->getProject()->getName()) . " / " . parent::__toString();
+    }
 }

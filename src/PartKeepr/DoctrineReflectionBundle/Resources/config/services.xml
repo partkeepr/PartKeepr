@@ -24,6 +24,10 @@
             <argument type="service" id="doctrine_filter_service"/>
         </service>
 
+        <service id="doctrine_reflection_deletion_service" class="PartKeepr\DoctrineReflectionBundle\Services\DeletionService">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+        </service>
+
         <service id="partkeepr.exceptionwrapper"
                  class="PartKeepr\DoctrineReflectionBundle\Exception\ExceptionWrapperHandler">
         </service>

@@ -19,5 +19,14 @@
             <argument type="service" id="translator"/>
             <argument type="service" id="partkeepr.remote_file_loader.factory"/>
         </service>
+        <service id="partkeepr.listener.request_exception" class="PartKeepr\CoreBundle\EventListener\RequestExceptionListener">
+            <argument type="service" id="api.serializer" />
+            <argument type="service" id="api.data_provider" />
+            <argument type="service" id="api.iri_converter" />
+            <argument type="service" id="doctrine_reflection_deletion_service"/>
+
+
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="999"/>
+        </service>
     </services>
 </container>
