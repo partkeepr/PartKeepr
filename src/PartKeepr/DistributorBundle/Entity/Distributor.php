@@ -98,7 +98,7 @@ class Distributor extends BaseEntity
     /**
      * Defines if the distributor is used for pricing calculations.
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",options={ "default":false})
      * @Groups({"default"})
      *
      * @var bool

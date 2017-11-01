@@ -70,7 +70,7 @@ class ProjectPart extends BaseEntity
     /**
      * The overage type.
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",options={ "default":""})
      * @Groups({"default"})
      *
      * @var string
@@ -80,7 +80,7 @@ class ProjectPart extends BaseEntity
     /**
      * Specifies the overage, which can either be percent or an absolute value depending on overageType.
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",options={ "default":0})
      * @Groups({"default"})
      *
      * @var int
@@ -90,7 +90,7 @@ class ProjectPart extends BaseEntity
     /**
      * Specifies the lot number.
      *
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text",options={ "default":""})
      * @Groups({"default"})
      *
      * @var string
@@ -115,7 +115,7 @@ class ProjectPart extends BaseEntity
     {
         switch ($this->getOverageType()) {
             case self::OVERAGE_TYPE_PERCENT:
-                return (int) $this->getQuantity() * (1 + $this->getOverage() / 100);
+                return (int)$this->getQuantity() * (1 + $this->getOverage() / 100);
             case self::OVERAGE_TYPE_ABSOLUTE:
                 return $this->getQuantity() + $this->getOverage();
             default:

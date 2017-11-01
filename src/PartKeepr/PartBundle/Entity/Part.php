@@ -282,12 +282,12 @@ class Part extends BaseEntity
     /**
      * Defines if the part is a meta-part.
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={ "default":false})
      * @Groups({"default"})
      *
      * @var bool
      */
-    private $metaPart;
+    private $metaPart = false;
 
     /**
      * An array of all matching meta parts.
