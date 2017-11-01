@@ -26,7 +26,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
         ]);
 
         this.masterTemplate = Ext.create("Ext.Template",
-            ["The database must be manually created prior installation.<br/><br/><b>POSTGRES IS UNSUPPORTED; PROCEED AT YOUR OWN RISK</b>"]);
+            ["The database must be manually created prior installation.<br/><br/><b>POSTGRES IS UNSUPPORTED; PROCEED AT YOUR OWN RISK. POSTGRES 10 DOES NOT WORK YET.</b>"]);
 
         this.hostname = Ext.create("Ext.form.field.Text", {
             fieldLabel: 'Database Hostname',
@@ -71,10 +71,15 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
             validateOnChange: false,
             validator: function (value)
             {
-                if (value === "" || value === 0) {
+                if (value === "" || value === 0)
+                {
                     this.setValue(5432);
                 }
                 return true;
+            },
+            listeners: {
+                change: "onUpdateParameters",
+                scope: this
             }
         });
 
@@ -82,18 +87,21 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
             boxLabel: 'Default',
             flex: 1,
             checked: true,
-            listeners: {
-                change: function (field)
+            listeners:
                 {
-                    if (field.getValue()) {
-                        this.port.disable();
-                        this.port.setValue(5432);
-                    } else {
-                        this.port.enable();
-                    }
-                },
-                scope: this
-            }
+                    change: function (field)
+                    {
+                        if (field.getValue())
+                        {
+                            this.port.disable();
+                            this.port.setValue(5432);
+                        } else
+                        {
+                            this.port.enable();
+                        }
+                    },
+                    scope: this
+                }
         });
 
         this.showHintCheckbox = Ext.create("Ext.form.field.Checkbox", {
@@ -156,14 +164,16 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
         this.on("activate", this.onActivate, this);
         this.on("activate", this.onUpdateParameters, this);
     },
-    onActivate: function () {
+    onActivate: function ()
+    {
         this.initial = true;
         this.hostname.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_host);
         this.username.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_user);
         this.password.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_password);
         this.databaseName.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_name);
 
-        if (PartKeeprSetup.getApplication().getSetupConfig().values.database_port) {
+        if (PartKeeprSetup.getApplication().getSetupConfig().values.database_port)
+        {
             this.port.setValue(PartKeeprSetup.getApplication().getSetupConfig().values.database_port);
             this.portDefault.setValue(false);
             this.port.setDisabled(false);
@@ -178,14 +188,20 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
      */
     onUpdateParameters: function ()
     {
-        if (this.initial) { return; }
-        
-        if (this.showHintCheckbox.checked) {
+        if (this.initial)
+        {
+            return;
+        }
+
+        if (this.showHintCheckbox.checked)
+        {
             var host;
 
-            if (this.hostname.getValue() == "localhost" || this.hostname.getValue() == "127.0.0.1") {
+            if (this.hostname.getValue() === "localhost" || this.hostname.getValue() === "127.0.0.1")
+            {
                 host = this.hostname.getValue();
-            } else {
+            } else
+            {
                 host = "&lt;YOUR-CONNECTING-IP&gt;";
             }
 
@@ -197,12 +213,14 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
             });
 
             this.masterTemplate.append(Ext.getCmp("postgresql-parameters-hint").getEl());
-        } else {
+        } else
+        {
             this.masterTemplate.overwrite(Ext.getCmp("postgresql-parameters-hint").getEl());
         }
 
         if (this.hostname.getValue() !== "" && this.username.getValue() !== "" && this.password.getValue() !== "" &&
-            this.databaseName.getValue() !== "") {
+            this.databaseName.getValue() !== "")
+        {
 
             Ext.ComponentQuery.query('#nextBtn')[0].enable();
         }
@@ -219,5 +237,7 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
                 database_port: this.port.getValue()
             }
         });
+
     }
+
 });
