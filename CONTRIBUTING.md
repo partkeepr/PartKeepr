@@ -10,7 +10,7 @@ Guidelines:
  * Ensure you are running the latest version of PartKeepr
  * Try to reproduce the problem on [demo.partkeepr.org](https://demo.partkeepr.org) prior reporting the issue and indicate in the issue that you have done so
  * Report your __browser type and version__, any __JavaScript errors in the console__ and any other details like __server operating system__, __php version__, __SQL Server type and version__ etc.
-
+* Check your logs, especially your __Web Server Log__ as well as __app/logs/partkeepr.log__
 
 Use the dedicated mailing list or IRC for general questions as described on the [PartKeepr Support Page](https://www.partkeepr.org/support/).
 
