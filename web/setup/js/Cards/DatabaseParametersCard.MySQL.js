@@ -82,6 +82,8 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.MySQL', {
             }
         });
 
+        this.port.on("change", this.onUpdateParameters, this);
+
         this.portDefault = Ext.create("Ext.form.field.Checkbox", {
             boxLabel: 'Default',
             flex: 1,

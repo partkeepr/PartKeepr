@@ -83,6 +83,8 @@ Ext.define('PartKeeprSetup.DatabaseParametersCard.PostgreSQL', {
             }
         });
 
+        this.port.on("change", this.onUpdateParameters, this);
+
         this.portDefault = Ext.create("Ext.form.field.Checkbox", {
             boxLabel: 'Default',
             flex: 1,
