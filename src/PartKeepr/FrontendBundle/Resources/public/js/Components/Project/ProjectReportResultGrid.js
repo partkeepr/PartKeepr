@@ -45,6 +45,9 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             }, {
                 header: i18n("Remarks"),
                 dataIndex: 'remarks',
+                renderers: [{
+                    rtype: "projectReportRemarks"
+                }],
                 flex: 1
             }, {
                 header: i18n("Production Remarks"),
