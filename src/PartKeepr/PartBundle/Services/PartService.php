@@ -104,7 +104,7 @@ class PartService
      */
     public function checkPartLimit()
     {
-        if ($this->partLimit !== false) {
+        if ($this->partLimit !== false || $this->partLimit != "-1") {
             if ($this->getPartCount() >= $this->partLimit) {
                 return true;
             }
