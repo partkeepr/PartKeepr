@@ -92,7 +92,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                     xtype: 'textfield'
                 }
             }, {
-                header: i18n("Item Price"), dataIndex: 'itemPrice',
+                header: i18n("Item Price"), dataIndex: 'part.averagePrice',
                 renderers: [{
                     rtype: 'currency'
                 }],
