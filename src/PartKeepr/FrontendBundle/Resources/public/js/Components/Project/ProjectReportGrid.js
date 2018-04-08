@@ -4,6 +4,9 @@
 Ext.define('PartKeepr.Components.Project.ProjectReportGrid', {
     extend: 'PartKeepr.BaseGrid',
     alias: 'widget.ProjectReportGrid',
+
+    reference: 'ProjectReportGrid',
+
     columns: [
         {header: i18n("Name"), dataIndex: 'name', flex: 2},
         {header: i18n("Created"), dataIndex: 'createDateTime', flex: 1, xtype: 'datecolumn'}
@@ -31,7 +34,18 @@ Ext.define('PartKeepr.Components.Project.ProjectReportGrid', {
             xtype: 'button',
             text: i18n("Load Report"),
             iconCls: "fugue-icon notification-counter",
+            bind: {
+                disabled: '{!ProjectReportGrid.selection}'
+            },
             itemId: 'loadReportButton'
+        },{
+            xtype: 'button',
+            text: i18n("Delete Report"),
+            bind: {
+                disabled: '{!ProjectReportGrid.selection}'
+            },
+            iconCls: "fugue-icon minus-circle",
+            itemId: 'deleteReportButton'
         }]
     }
 });

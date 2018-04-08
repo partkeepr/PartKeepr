@@ -1329,13 +1329,19 @@ services:
             factory:   [ "@api.operation_factory", "createItemOperation" ]
             arguments: [ "@resource.project_report", "PUT" ]
 
+    resource.project_report.item_operation.delete:
+            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            public:    false
+            factory:   [ "@api.operation_factory", "createItemOperation" ]
+            arguments: [ "@resource.project_report", "DELETE" ]
+
     resource.project_report:
         parent:    "api.resource"
         arguments: [ "PartKeepr\\ProjectBundle\\Entity\\Report" ]
         tags:      [ { name: "api.resource" } ]
         calls:
             -       method:    "initItemOperations"
-                    arguments: [ [ "@resource.project_report.item_operation.custom_get", "@resource.project_report.item_operation.put" ] ]
+                    arguments: [ [ "@resource.project_report.item_operation.custom_get", "@resource.project_report.item_operation.put", "@resource.project_report.item_operation.delete" ] ]
             -       method:    "initCollectionOperations"
                     arguments: [ [ "@resource.project_report.collection_operation.get", "@resource.project_report.item_operation.custom_post"]]
             -       method:    "initFilters"
