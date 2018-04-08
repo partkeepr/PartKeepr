@@ -44,8 +44,11 @@ Ext.define('PartKeepr.Auth.LoginManager', {
         this.provider = PartKeepr.Auth.AuthenticationProvider.getAuthenticationProvider();
         this.provider.on("authenticate", this.onAuthenticate, this);
 
-        this.loginDialog = Ext.create("PartKeepr.LoginDialog");
-        this.loginDialog.on("login", this.onLoginDialog, this);
+        if (!this.config.autoLogin)
+        {
+            this.loginDialog = Ext.create("PartKeepr.LoginDialog");
+            this.loginDialog.on("login", this.onLoginDialog, this);
+        }
     },
     /**
      * Triggers the login process. If auto-login is required, directly calls authenticate(). If not, the
@@ -90,7 +93,10 @@ Ext.define('PartKeepr.Auth.LoginManager', {
     onAuthenticate: function (success)
     {
         if (success) {
-            this.loginDialog.hide();
+            if (!this.config.autoLogin)
+            {
+                this.loginDialog.hide();
+            }
             this.fireEvent("login");
             this.loggedIn = true;
         } else {

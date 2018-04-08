@@ -38,6 +38,11 @@ PartKeeprPartBundle:
     type:     annotation
     prefix:   /
 
+PartKeeprMobileFrontendBundle:
+    resource: "@PartKeeprMobileFrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 _frontend:
     resource: "@PartKeeprFrontendBundle/Resources/config/routing.yml"
 

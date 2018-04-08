@@ -39,7 +39,7 @@ sensio_framework_extra:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ PartKeeprFrontendBundle ]
+    bundles:        [ PartKeeprFrontendBundle, PartKeeprMobileFrontendBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
