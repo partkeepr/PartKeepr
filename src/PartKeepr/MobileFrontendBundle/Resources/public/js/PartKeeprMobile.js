@@ -30,33 +30,57 @@ Ext.application({
             autoSync: false, // Do not change. If true, new (empty) records would be immediately committed to the database.
             remoteFilter: true,
             remoteSort: true,
-            pageSize: 15
+            pageSize: 50,
+            groupField: 'categoryPath',
+            sorters: [
+                {
+                    property: 'category.categoryPath',
+                    direction: 'ASC'
+                },
+                {
+                    property: 'name',
+                    direction: 'ASC'
+                }
+            ]
         };
 
         var store = Ext.create("Ext.data.Store", config);
 
-        Ext.create('Ext.grid.Grid', {
-            title: 'PartKeepr: Parts List',
+        var grid = Ext.create('Ext.grid.Grid', {
 
             store: store,
 
+            grouped: true,
+            features: [{ftype: 'grouping', groupHeaderTpl: 'Subject: {name}'}],
+
             columns: [
+                {
+                    text: 'Name',
+                    hidden: true,
+                    dataIndex: "categoryPath",
+                    flex: 1,
+                    // Adjust the header text when grouped by this column:
+                },
                 {
                     text: i18n("Name"),
                     dataIndex: 'name',
                     flex: 1,
                     minWidth: 150
-                }, {
-                    text: i18n("Description"),
-                    dataIndex: 'description',
-                    flex: 2,
-                    minWidth: 150
-                }, {
-                    text: i18n("Storage Location"),
-                    dataIndex: 'storageLocation.name'
                 }
             ],
 
+
+        });
+
+        var panel = Ext.create("Ext.panel.Panel", {
+           title: 'Parts List',
+            iconCls: 'partkeeprLogo',
+            tools: [
+                {type: 'refresh'},
+                {type: 'search'},
+                {type: 'menu'}
+            ],
+            items: [grid],
             layout: 'fit',
             fullscreen: true
         });
