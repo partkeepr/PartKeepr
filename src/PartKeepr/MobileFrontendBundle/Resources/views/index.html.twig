@@ -46,7 +46,7 @@
         {% endjavascripts %}
 
     {% endif %}
-    {% javascripts output='js/compiled/main.js'
+    {% javascripts output='js/compiled/mobile_main.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Data/CallActions.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Data/field/Array.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraModel.js'
@@ -64,12 +64,12 @@
 
 
 
-    {% javascripts output='js/compiled/models.js'
+    {% javascripts output='js/compiled/mobile_models.js'
         'bundles/doctrinereflection/*' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-    {% javascripts output='js/compiled/main2.js'
+    {% javascripts output='js/compiled/mobile_app.js'
         '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.Store.getFieldValue.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Data/store/CurrencyStore.js'
