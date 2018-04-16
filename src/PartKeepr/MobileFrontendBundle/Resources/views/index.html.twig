@@ -33,13 +33,13 @@
     {% endimage %}
 
     {% if debug %}
-        {% javascripts output='js/compiled/extjs.js'
+        {% javascripts output='js/compiled/mobile_extjs.js'
             'js/packages/extjs6/build/ext-modern-all-debug.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
     {% else %}
-        {% javascripts output='js/compiled/extjs.js'
+        {% javascripts output='js/compiled/mobile_extjs.js'
             'js/packages/extjs6/build/ext-modern-all.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
