@@ -318,10 +318,10 @@ services:
             -       method:     "initItemOperations"
                     arguments: [ [ "@resource.footprint_category.item_operation.get", "@resource.footprint_category.item_operation.put", "@resource.footprint_category.item_operation.delete", "@resource.footprint_category.item_operation.move" ] ]
             -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
+                    arguments: [ { groups: [ "default", "tree" ] } ]
             -       method:    "initDenormalizationContext"
                     arguments:
-                        - { groups: [ "default" ] }
+                        - { groups: [ "default", "tree" ] }
 
     resource.import_preset:
         parent:    "api.resource"

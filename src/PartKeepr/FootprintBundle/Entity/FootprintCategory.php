@@ -29,7 +29,7 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
     /**
      * @ORM\OneToMany(targetEntity="FootprintCategory", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
-     * @Groups({"default"})
+     * @Groups({"tree"})
      */
     protected $children;
 
