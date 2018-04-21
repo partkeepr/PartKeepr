@@ -2,7 +2,7 @@ Ext.define("PartKeepr.data.HydraProxy", {
     extend: 'Ext.data.proxy.Rest',
     alias: 'proxy.Hydra',
 
-    timeout: 30000,
+    timeout: 300000,
 
     reader: {
         type: 'hydra'
