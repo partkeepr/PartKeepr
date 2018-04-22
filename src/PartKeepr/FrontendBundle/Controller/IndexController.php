@@ -75,8 +75,25 @@ class IndexController extends Controller
         $renderParams = [];
         $renderParams['parameters'] = $aParameters;
         $renderParams['debug'] = $this->get('kernel')->isDebug();
+        $renderParams['baseUrl'] = $this->getBaseURL();
 
         return $renderParams;
+    }
+
+    /**
+     * Returns the base_url, either from the router (default) or overridden by the
+     * partkeepr.frontend.base_url parameter.
+     *
+     * @return string
+     */
+    public function getBaseURL () {
+        $baseUrl = $this->getParameterWithDefault('partkeepr.frontend.base_url', false);
+
+        if ($baseUrl !== false) {
+            return $baseUrl;
+        }
+
+        return $this->container->get('router')->getContext()->getBaseUrl();
     }
 
     public function getParameterWithDefault($name, $default)

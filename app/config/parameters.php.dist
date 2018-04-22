@@ -159,6 +159,20 @@ $container->setParameter('partkeepr.frontend.auto_login.username', 'admin');
 $container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
 
 /**
+ * Specifies the base_url for the PartKeepr frontend.
+ * Usually this is not required, but if you run PartKeepr behind a reverse
+ * proxy with a different path, you can set it here.
+ *
+ * Please note that you need to create an additional file, see
+ * https://wiki.partkeepr.org/wiki/KB00008:PartKeepr_behind_a_reverse_proxy
+ *
+ * Example: If PartKeepr runs on / within a docker container and your reverse
+ * proxy maps it on https://www.example.org/parts, you can set the
+ * base_url to https://www.example.org/parts
+ */
+$container->setParameter('partkeepr.frontend.base_url', false);
+
+/**
  * Specifies the category path separator
  */
 $container->setParameter('partkeepr.category.path_separator', ' ➤ ');

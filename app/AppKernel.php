@@ -28,7 +28,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new JMS\TranslationBundle\JMSTranslationBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
             new \FR3D\LdapBundle\FR3DLdapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),

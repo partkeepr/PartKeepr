@@ -44,9 +44,10 @@
     "symfony/symfony": "~2.7",
     "incenteev/composer-parameter-handler": "~2.0",
     "doctrine/orm": "~2.5",
-    "doctrine/doctrine-bundle": "~1.2",
+    "doctrine/doctrine-bundle": "~1.6",
     "twig/extensions": "*",
-    "symfony/assetic-bundle": "~2.3",
+    "twig/twig": "~1.35",
+    "symfony/assetic-bundle": "~2.8.2",
     "symfony/swiftmailer-bundle": "~2.3",
     "symfony/monolog-bundle": "~2.4",
     "sensio/distribution-bundle": "~4.0.0",
@@ -68,7 +69,6 @@
     "escapestudios/wsse-authentication-bundle": "dev-advancedUserInterface",
     "atelierspierrot/famfamfam-silk-sprite": "^1.0",
     "reputation-vip/composer-assets-installer": "^1.0",
-    "jms/translation-bundle": "dev-master",
     "partkeepr/remote-file-loader": "dev-master",
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "symfony/property-access": "^2.7",
@@ -80,7 +80,7 @@
     "guzzlehttp/guzzle": "6.2.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.2",
+    "phpunit/phpunit": "5.5",
     "codeclimate/php-test-reporter": "dev-master",
     "liip/functional-test-bundle": "~1.1"
   },
