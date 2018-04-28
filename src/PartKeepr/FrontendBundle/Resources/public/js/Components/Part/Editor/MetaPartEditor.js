@@ -189,5 +189,5 @@ Ext.define('PartKeepr.Components.Part.Editor.MetaPartEditor', {
     {
         this.parameterCriterias.bindStore(this.record.metaPartParameterCriterias());
         this.nameField.focus();
-    },
+    }
 });
