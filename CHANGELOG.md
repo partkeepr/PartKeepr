@@ -1,5 +1,19 @@
 # Changelog
 
+## PartKeepr 1.4.0
+
+New Features:
+ * [Easy to use part parameter filter](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.4.0#Easy_Parametric_Filter)
+ * [Mobile Frontend Proof of Concept](https://wiki.partkeepr.org/wiki/New_and_Noteworthy/1.4.0#Mobile_Frontend_Proof_of_Concept)
+ 
+ 
+Bugfixes and other features:
+ * PartKeepr now displays the cause if an item can't be deleted, because it's in use somewhere else 
+ * The default AJAX/XHR request timeout for the frontend has been increased from 30s to 300s [#914](https://github.com/partkeepr/PartKeepr/issues/914)
+ * It's now possible to run PartKeepr in specific reverse proxy scenarios, see [the wiki](https://wiki.partkeepr.org/wiki/KB00008:PartKeepr_behind_a_reverse_proxy) for a description
+ * Several performance improvements to the project reports
+ * Fixed an issue where setup didn't properly write the PostgreSQL configuration to parameters.php
+
 ## PartKeepr 1.3.0
 
 New Features:
