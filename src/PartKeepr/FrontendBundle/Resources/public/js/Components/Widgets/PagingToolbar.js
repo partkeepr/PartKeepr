@@ -7,6 +7,8 @@ Ext.define("PartKeepr.PagingToolbar", {
     {
         var items = this.callParent(arguments);
 
+        items.push({ xtype: 'tbseparator' });
+
         items.push(Ext.create("PartKeepr.Exporter.GridExporterButton", {
             itemId: 'export',
             tooltip: i18n("Export"),
@@ -23,6 +25,8 @@ Ext.define("PartKeepr.PagingToolbar", {
             disabled: this.store.isLoading()
         }));
 
+        items.push({ xtype: 'tbseparator' });
+
         items.push({
             itemId: 'addFilter',
             xtype: 'button',
@@ -34,14 +38,10 @@ Ext.define("PartKeepr.PagingToolbar", {
             scope: this
         });
 
-        items.push(Ext.create("PartKeepr.Components.Grid.GridPresetButton", {
-            grid: this.grid
-        }));
-
         items.push(Ext.create({
-            itemId: 'filter',
+            itemId: 'resetFilter',
             xtype: 'button',
-            iconCls: 'fugue-icon funnel',
+            iconCls: 'fugue-icon funnel--minus',
             tooltip: i18n("Reset Filter"),
             hidden: true, handler: function ()
             {
@@ -51,6 +51,12 @@ Ext.define("PartKeepr.PagingToolbar", {
 
             },
             scope: this
+        }));
+
+        items.push({ xtype: 'tbseparator' });
+
+        items.push(Ext.create("PartKeepr.Components.Grid.GridPresetButton", {
+            grid: this.grid
         }));
 
         return items;

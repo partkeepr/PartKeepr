@@ -115,11 +115,24 @@ Ext.define('PartKeepr.PartsGrid', {
 
         this.bottomToolbar.add({
             xtype: 'button',
-            tooltip: i18n("Collapse all Groups"),
-            iconCls: this.collapseRowButtonIconCls,
+            tooltip: i18n("Expand all Groups"),
+            iconCls: this.expandRowButtonIconCls,
             listeners: {
                 scope: this.groupingFeature,
-                click: this.groupingFeature.collapseAll
+                click: this.groupingFeature.expandAll
+            }
+
+        });
+
+        var insertPosition = this.bottomToolbar.items.indexOf(this.bottomToolbar.down("#addFilter"));
+
+        this.bottomToolbar.insert(insertPosition, {
+            xtype: 'button',
+            tooltip: i18n("Filter by Part Parameter"),
+            iconCls: "fugue-icon table--plus",
+            listeners: {
+                scope: this,
+                click: this.addParameterFilter
             }
         });
 
@@ -371,6 +384,72 @@ Ext.define('PartKeepr.PartsGrid', {
                 break;
         }
     },
+    addParameterFilter: function () {
+        this.addFilterWindow = Ext.create("PartKeepr.Components.Widgets.PartParameterSearchWindow", {
+
+            sourceModel: this.getStore().getModel(),
+            listeners: {
+                "apply": this.onAddParameterFilter,
+                scope: this
+            }
+        });
+
+        this.addFilterWindow.show();
+    },
+    /**
+     * @todo Refactor this function as well as the one in DataApplicator to a single central function
+     *
+     * Note that this function takes the input and multiplies it by the si prefix
+     * @param value
+     * @param siPrefix
+     * @returns {*}
+     */
+    applySiPrefix: function (value, siPrefix)
+    {
+        if (siPrefix instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
+            return Ext.util.Format.round(value * Math.pow(siPrefix.get("base"), siPrefix.get("exponent")), 3);
+        } else {
+            return value;
+        }
+    },
+    onAddParameterFilter: function (rec) {
+        var subFilters = [];
+
+
+        subFilters.push( Ext.create("PartKeepr.util.Filter", {
+            property: "parameters.name",
+            operator: "=",
+            value: rec.get("partParameterName")
+        }));
+
+        var value;
+
+        if (rec.get("valueType") === "numeric") {
+            value = this.applySiPrefix(rec.get("value"), rec.getSiPrefix());
+
+            subFilters.push( Ext.create("PartKeepr.util.Filter", {
+                property: "parameters.normalizedValue",
+                operator: rec.get("operator"),
+                value: value
+            }));
+        } else {
+            value = rec.get("stringValue");
+
+            subFilters.push( Ext.create("PartKeepr.util.Filter", {
+                property: "parameters.stringValue",
+                operator: rec.get("operator"),
+                value: value
+            }));
+        }
+
+
+        var filter = Ext.create("PartKeepr.util.Filter", {
+            type: "AND",
+            subfilters: subFilters
+        });
+        this.getStore().addFilter(filter);
+    },
+
     /**
      * Handles the editing of the stock level field. Checks if the user has opted in to skip the
      * online stock edit confirm window, and runs the changes afterwards.

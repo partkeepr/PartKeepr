@@ -224,9 +224,9 @@ Ext.define('PartKeepr.EditorGrid', {
         var filters = this.getStore().getFilters();
 
         if (filters.length > 0) {
-            this.bottomToolbar.down("#filter").show();
+            this.bottomToolbar.down("#resetFilter").show();
         } else {
-            this.bottomToolbar.down("#filter").hide();
+            this.bottomToolbar.down("#resetFilter").hide();
         }
 
         this.appliedFiltersToolbar.updateFilters(filters);
