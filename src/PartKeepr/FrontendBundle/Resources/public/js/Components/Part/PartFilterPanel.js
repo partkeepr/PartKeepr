@@ -33,6 +33,7 @@ Ext.define('PartKeepr.PartFilterPanel', {
     //bodyStyle: 'background:#DBDBDB;',
 
     ui: 'default-framed',
+    iconCls: "fugue-icon funnel",
 
     partManager: null,
     storageLocationFilter: null,
