@@ -12,16 +12,12 @@ The following steps describe how a new PartKeepr release is being built:
   
   git log <previoustag>..HEAD
   
-* As the ZIP archiver of phing is currently broken, use the .tar.bz file and create a zip file:
-
-  zip -r partkeepr-0.75.zip partkeepr-0.75
-
 * Push the tag to the repository using:
 
   git push --tags
   
 
-* Run the release script on the PartKeepr server:
+* Run the release script on the PartKeepr download server:
 
   partkeepr-release.sh <tag>
   
