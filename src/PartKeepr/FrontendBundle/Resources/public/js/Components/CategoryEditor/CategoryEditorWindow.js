@@ -1,7 +1,7 @@
 Ext.define('PartKeepr.CategoryEditorWindow', {
     extend: 'Ext.window.Window',
     border: false,
-    width: 400,
+    width: 650,
     categoryModel: null,
     layout: 'fit',
     items: [
@@ -9,8 +9,7 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
             xtype: "CategoryEditorForm"
         }
     ],
-    initComponent: function ()
-    {
+    initComponent: function () {
         this.buttons = [
             {
                 text: i18n("Save"),
@@ -23,9 +22,11 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
 
         this.callParent();
 
-        if (!this.record.phantom) {
+        if (!this.record.phantom)
+        {
             this.setTitle(i18n("Edit Category"));
-        } else {
+        } else
+        {
             this.record.set("parent", this.parentRecord.getId());
             this.setTitle(i18n("Add Category"));
         }
@@ -33,33 +34,30 @@ Ext.define('PartKeepr.CategoryEditorWindow', {
         this.down("CategoryEditorForm").loadRecord(this.record);
 
         this.down("textfield[name=name]").on("keypress", this.onEnter, this);
-        this.down("textfield[name=description]").on("keypress", this.onEnter, this);
+        this.down("htmleditor[name=description]").on("keypress", this.onEnter, this);
 
         this.on("show", Ext.bind(this._onShow, this));
     },
-    onEnter: function (field, e)
-    {
-        if (e.getKey() == e.ENTER) {
+    onEnter: function (field, e) {
+        if (e.getKey() == e.ENTER)
+        {
             this.onSave();
         }
     },
     _onShow: function () {
         this.down("CategoryEditorForm").items.first().focus();
     },
-    onSave: function ()
-    {
+    onSave: function () {
         this.down("CategoryEditorForm").updateRecord(this.record);
 
         this.record.save({
-            success: Ext.bind(function (response)
-            {
+            success: Ext.bind(function (response) {
                 this.fireEvent("save", response);
                 this.destroy();
             }, this)
         });
     },
-    onCancel: function ()
-    {
+    onCancel: function () {
         this.destroy();
     }
 });

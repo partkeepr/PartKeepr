@@ -25,8 +25,7 @@ Ext.define('PartKeepr.PartManager', {
 
     selectedCategory: null,
 
-    initComponent: function ()
-    {
+    initComponent: function () {
 
         /**
          * Create the store with the default sorter "name ASC"
@@ -162,8 +161,7 @@ Ext.define('PartKeepr.PartManager', {
             }
         });
 
-        this.thumbnailView.on("selectionchange", function (selModel, selection)
-        {
+        this.thumbnailView.on("selectionchange", function (selModel, selection) {
             var parts = [];
 
             for (var i = 0; i < selection.length; i++)
@@ -174,16 +172,14 @@ Ext.define('PartKeepr.PartManager', {
             this.grid.getSelectionModel().select(parts);
         }, this);
 
-        this.grid.store.on("update", function (store, record)
-        {
+        this.grid.store.on("update", function (store, record) {
             if (this.detail.record !== null && this.detail.record.getId() == record.getId())
             {
                 this.detail.setValues(record);
             }
         }, this);
 
-        this.grid.store.on("load", function ()
-        {
+        this.grid.store.on("load", function () {
             this.thumbnailView.getStore().removeAll();
 
             var data = this.grid.store.getData(),
@@ -238,8 +234,7 @@ Ext.define('PartKeepr.PartManager', {
             items: [this.grid, this.thumbnailPanel]
         });
 
-        this.thumbnailView.on("render", function ()
-        {
+        this.thumbnailView.on("render", function () {
             this.loadMask = Ext.create("Ext.LoadMask", {
                 store: this.grid.store,
                 target: this.thumbnailPanel
@@ -293,8 +288,7 @@ Ext.define('PartKeepr.PartManager', {
      * @param {Ext.tree.View} tree The tree view
      * @param {Ext.data.Model} record the selected record
      */
-    onCategoryClick: function (tree, record)
-    {
+    onCategoryClick: function (tree, record) {
         this.selectedCategory = record;
 
         var filter = Ext.create("PartKeepr.util.Filter", {
@@ -303,6 +297,14 @@ Ext.define('PartKeepr.PartManager', {
             operator: 'IN',
             value: this.getChildrenIds(record)
         });
+
+        if (record.get("description").trim() != "")
+        {
+            this.grid.setNotification(record.get("description"));
+        } else {
+            this.grid.removeNotification();
+        }
+
 
         if (record.parentNode.isRoot())
         {
@@ -315,8 +317,7 @@ Ext.define('PartKeepr.PartManager', {
             this.store.addFilter(filter);
         }
     },
-    getSelectedCategory: function ()
-    {
+    getSelectedCategory: function () {
         return this.selectedCategory;
     },
     /**
@@ -325,8 +326,7 @@ Ext.define('PartKeepr.PartManager', {
      * @param {Ext.data.Model} node The node
      * @return Array
      */
-    getChildrenIds: function (node)
-    {
+    getChildrenIds: function (node) {
         var childNodes = [node];
 
         if (node.hasChildNodes())
@@ -344,8 +344,7 @@ Ext.define('PartKeepr.PartManager', {
      * of the selected part for a short time. We can't select the category
      * as this would affect the parts grid.
      */
-    onSyncCategory: function ()
-    {
+    onSyncCategory: function () {
         var r = this.grid.getSelectionModel().getSelection();
 
         if (r.length != 1)
@@ -369,8 +368,7 @@ Ext.define('PartKeepr.PartManager', {
      *
      * Prompts the user if he really wishes to delete the part. If yes, it calls deletePart.
      */
-    onItemDelete: function ()
-    {
+    onItemDelete: function () {
         var r = this.grid.getSelectionModel().getLastSelected();
 
         Ext.Msg.confirm(i18n("Delete Part"), sprintf(i18n("Do you really wish to delete the part %s?"), r.get("name")),
@@ -380,8 +378,7 @@ Ext.define('PartKeepr.PartManager', {
      * Creates a duplicate with the basic data only from the selected item. Loads the selected part and calls
      * createPartDuplicate after the part was loaded.
      */
-    onDuplicateItemWithBasicData: function ()
-    {
+    onDuplicateItemWithBasicData: function () {
         var r = this.grid.getSelectionModel().getLastSelected();
 
         this.loadPart(r.getId(), Ext.bind(this.createPartDuplicate, this));
@@ -390,8 +387,7 @@ Ext.define('PartKeepr.PartManager', {
      * Creates a full duplicate from the selected item. Loads the selected part and calls createPartDuplicate
      * after the part was loaded.
      */
-    onDuplicateItemWithAllData: function ()
-    {
+    onDuplicateItemWithAllData: function () {
         var r = this.grid.getSelectionModel().getLastSelected();
 
         this.loadPart(r.getId(), Ext.bind(this.createFullPartDuplicate, this));
@@ -400,8 +396,7 @@ Ext.define('PartKeepr.PartManager', {
      * Creates a part duplicate from the given record and opens the editor window.
      * @param rec The record to duplicate
      */
-    createPartDuplicate: function (rec)
-    {
+    createPartDuplicate: function (rec) {
         var data = rec.getData();
         var associationData = rec.getAssociationData();
 
@@ -422,8 +417,7 @@ Ext.define('PartKeepr.PartManager', {
         j.editor.editItem(newItem);
         j.show();
     },
-    onAddMetaPart: function ()
-    {
+    onAddMetaPart: function () {
         var defaults = {};
         var j = Ext.create("PartKeepr.Components.Part.Editor.MetaPartEditorWindow", {});
 
@@ -453,8 +447,7 @@ Ext.define('PartKeepr.PartManager', {
      * Creates a part duplicate from the given record and opens the editor window.
      * @param rec The record to duplicate
      */
-    createFullPartDuplicate: function (rec)
-    {
+    createFullPartDuplicate: function (rec) {
         var data = rec.getData();
 
         var newItem = Ext.create("PartKeepr.PartBundle.Entity.Part");
@@ -476,8 +469,7 @@ Ext.define('PartKeepr.PartManager', {
      * @todo We use the current selection of the grid. If for some reason the selection changes during the user is prompted,
      * we delete the wrong part. Fix that to pass the selected item to the onItemDelete then to this function.
      */
-    deletePart: function (btn)
-    {
+    deletePart: function (btn) {
         var r = this.grid.getSelectionModel().getLastSelected();
 
         if (btn == "yes")
@@ -490,8 +482,7 @@ Ext.define('PartKeepr.PartManager', {
     /**
      * Creates a new, empty part editor window
      */
-    onItemAdd: function (defaults)
-    {
+    onItemAdd: function (defaults) {
         var j = Ext.create("PartKeepr.PartEditorWindow", {
             partMode: 'create'
         });
@@ -521,8 +512,7 @@ Ext.define('PartKeepr.PartManager', {
     /**
      * Called when a part was edited. Refreshes the grid.
      */
-    onEditPart: function (part)
-    {
+    onEditPart: function (part) {
         var editorWindow;
 
         if (part.get("metaPart") === true)
@@ -537,19 +527,16 @@ Ext.define('PartKeepr.PartManager', {
         editorWindow.editor.editItem(part);
         editorWindow.show();
     },
-    onNewPartSaved: function ()
-    {
+    onNewPartSaved: function () {
         this.grid.getStore().reload();
     },
-    onPartSaved: function (record)
-    {
+    onPartSaved: function (record) {
         this.detail.setValues(record);
     },
     /**
      * Called when a part was selected in the grid. Displays the details for this part.
      */
-    onItemSelect: function ()
-    {
+    onItemSelect: function () {
         if (this.grid.getSelection().length > 1)
         {
             this.detailPanel.collapse();
@@ -580,8 +567,7 @@ Ext.define('PartKeepr.PartManager', {
      * @param {Integer} id The ID of the part to load
      * @param {Function} handler The callback to call when the part was loaded
      */
-    loadPart: function (id, handler)
-    {
+    loadPart: function (id, handler) {
         // @todo we have this method duplicated in PartEditor
 
         PartKeepr.PartBundle.Entity.Part.load(id, {
@@ -592,8 +578,7 @@ Ext.define('PartKeepr.PartManager', {
     /**
      * Creates the store
      */
-    createStore: function (config)
-    {
+    createStore: function (config) {
         Ext.Object.merge(config, {
             autoLoad: true,
             autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
@@ -605,13 +590,11 @@ Ext.define('PartKeepr.PartManager', {
         this.store = Ext.create('Ext.data.Store', config);
 
         // Workaround for bug http://www.sencha.com/forum/showthread.php?133767-Store.sync()-does-not-update-dirty-flag&p=607093#post607093
-        this.store.on('write', function (store, operation)
-        {
+        this.store.on('write', function (store, operation) {
             var success = operation.wasSuccessful();
             if (success)
             {
-                Ext.each(operation.records, function (record)
-                {
+                Ext.each(operation.records, function (record) {
                     if (record.dirty)
                     {
                         record.commit();
@@ -623,13 +606,11 @@ Ext.define('PartKeepr.PartManager', {
     /**
      * Returns the store
      */
-    getStore: function ()
-    {
+    getStore: function () {
         return this.store;
     },
     statics: {
-        formatParameter: function (partParameter)
-        {
+        formatParameter: function (partParameter) {
             var minSiPrefix = "", siPrefix = "", maxSiPrefix = "", unit = "", minValue = "", maxValue = "", value = "",
                 minMaxCombined = "";
 

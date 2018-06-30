@@ -105,8 +105,7 @@ Ext.define('PartKeepr.EditorGrid', {
      * Fires if a record was selected within the grid.
      * @param {Object} Ext.data.Record The selected record
      */
-    initComponent: function ()
-    {
+    initComponent: function () {
 
         /**
          * @event itemDeselect
@@ -137,8 +136,7 @@ Ext.define('PartKeepr.EditorGrid', {
             tooltip: this.deleteButtonText,
             icon: this.deleteButtonIcon,
             iconCls: this.deleteButtonIconCls,
-            handler: Ext.bind(function ()
-            {
+            handler: Ext.bind(function () {
                 this.fireEvent("itemDelete");
             }, this),
             disabled: true
@@ -149,8 +147,7 @@ Ext.define('PartKeepr.EditorGrid', {
             tooltip: this.addButtonText,
             icon: this.addButtonIcon,
             iconCls: this.addButtonIconCls,
-            handler: Ext.bind(function ()
-            {
+            handler: Ext.bind(function () {
                 this.fireEvent("itemAdd");
             }, this)
         });
@@ -168,7 +165,8 @@ Ext.define('PartKeepr.EditorGrid', {
 
         var topToolbarItems = [];
 
-        if (this.enableEditing) {
+        if (this.enableEditing)
+        {
             topToolbarItems.push(this.addButton);
             topToolbarItems.push(this.deleteButton);
         }
@@ -195,37 +193,48 @@ Ext.define('PartKeepr.EditorGrid', {
             targetStore: this.store
         });
 
+        this.notificationBar = Ext.create("Ext.panel.Panel", {
+            dock: 'top',
+            hidden: true,
+            ui: 'notification'
+        });
+
         this.dockedItems = new Array();
 
         this.dockedItems.push(this.bottomToolbar);
         this.dockedItems.push(this.appliedFiltersToolbar);
 
-        if (this.enableTopToolbar) {
+        if (this.enableTopToolbar)
+        {
             this.dockedItems.push(this.topToolbar);
         }
 
-        if (!Ext.isArray(this.plugins)) {
+        if (!Ext.isArray(this.plugins))
+        {
             this.plugins = [];
         }
 
         this.callParent();
 
+        this.addDocked(this.notificationBar);
         this.getSelectionModel().on("select", this._onItemSelect, this);
         this.getSelectionModel().on("deselect", this._onItemDeselect, this);
         this.getView().on("itemkeydown", this._onItemKeyPress, this);
         this.getStore().on("filterchange", this._onFilterChange, this);
 
-        if (this.automaticPageSize) {
+        if (this.automaticPageSize)
+        {
             this.on("resize", this.reassignPageSize, this);
         }
     },
-    _onFilterChange: function ()
-    {
+    _onFilterChange: function () {
         var filters = this.getStore().getFilters();
 
-        if (filters.length > 0) {
+        if (filters.length > 0)
+        {
             this.bottomToolbar.down("#resetFilter").show();
-        } else {
+        } else
+        {
             this.bottomToolbar.down("#resetFilter").hide();
         }
 
@@ -233,22 +242,38 @@ Ext.define('PartKeepr.EditorGrid', {
 
     },
     /**
+     * Sets a notification which is displayed on the grid's top dock
+     * @param message
+     */
+    setNotification: function (message) {
+        this.notificationBar.setHtml(message);
+        this.notificationBar.show();
+    },
+    /**
+     * Removes a previously set notification
+     */
+    removeNotification: function () {
+        this.notificationBar.hide();
+    },
+    /**
      * Re-calculates and re-assigns the page size for the assigned store.
      *
      * Automatically reloads the store.
      */
-    reassignPageSize: function ()
-    {
-        if (this.store.isLoading()) {
+    reassignPageSize: function () {
+        if (this.store.isLoading())
+        {
             return;
         }
-        if (this.getView().getHeight() === 0) {
+        if (this.getView().getHeight() === 0)
+        {
             return;
         }
 
         var numRecords = Math.floor(this.getView().getHeight() / this.automaticPageSizeRowHeight);
 
-        if (numRecords < 1) {
+        if (numRecords < 1)
+        {
             numRecords = 1;
         }
 
@@ -258,65 +283,64 @@ Ext.define('PartKeepr.EditorGrid', {
 
         var newStartPage = Math.floor(oldStartIndex / numRecords);
 
-        if (newStartPage < 1) {
+        if (newStartPage < 1)
+        {
             newStartPage = 1;
         }
 
         this.store.loadPage(newStartPage);
     },
-    onReconfigure: function (me, store)
-    {
+    onReconfigure: function (me, store) {
         this.searchField.setStore(store);
         this.bottomToolbar.setStore(store);
 
     },
-    syncChanges: function ()
-    {
+    syncChanges: function () {
         // Simply reload the store for now
         this.store.load();
     },
     /**
      * Called when an item was selected. Enables/disables the delete button.
      */
-    _updateDeleteButton: function ()
-    {
+    _updateDeleteButton: function () {
         /* Right now, we support delete on a single record only */
-        if (this.getSelectionModel().getCount() == 1) {
+        if (this.getSelectionModel().getCount() == 1)
+        {
             this.deleteButton.enable();
-        } else {
+        } else
+        {
             this.deleteButton.disable();
         }
     },
-    _onItemKeyPress: function (view, record, item, index, e)
-    {
-        if (e.getKey() == e.ENTER || e.getKey() == e.TAB) {
+    _onItemKeyPress: function (view, record, item, index, e) {
+        if (e.getKey() == e.ENTER || e.getKey() == e.TAB)
+        {
             this._onItemEdit(view, record);
         }
     },
     /**
      * Called when an item should be edited
      */
-    _onItemEdit: function (view, record)
-    {
-        if (this.editItemAsObject) {
+    _onItemEdit: function (view, record) {
+        if (this.editItemAsObject)
+        {
             this.fireEvent("itemEdit", record);
-        } else {
+        } else
+        {
             this.fireEvent("itemEdit", record.getId());
         }
     },
     /**
      * Called when an item was selected
      */
-    _onItemSelect: function (selectionModel, record)
-    {
+    _onItemSelect: function (selectionModel, record) {
         this._updateDeleteButton(selectionModel, record);
         this.fireEvent("itemSelect", record);
     },
     /**
      * Called when an item was deselected
      */
-    _onItemDeselect: function (selectionModel, record)
-    {
+    _onItemDeselect: function (selectionModel, record) {
         this._updateDeleteButton(selectionModel, record);
         this.fireEvent("itemDeselect", record);
     }

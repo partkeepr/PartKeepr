@@ -13,7 +13,7 @@ Ext.define('PartKeepr.CategoryEditorForm', {
             enableKeyEvents: true,
             fieldLabel: i18n("Name")
         }, {
-            xtype: 'textarea',
+            xtype: 'htmleditor',
             name: 'description',
             anchor: '100%',
             enableKeyEvents: true,
