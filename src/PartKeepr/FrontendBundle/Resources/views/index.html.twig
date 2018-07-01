@@ -8,7 +8,7 @@
 
     <base href="{{ baseUrl }}"/>
 
-    {% set themes = {"classic": "Classic", "crisp":"Crisp", "crisp-touch": "Crisp Touch", "gray":"Gray", "neptune": "Neptune", "neptune-touch": "Neptune Touch", "triton": "Triton", "aria": "Aria"} %}
+    {% set themes = {"partkeepr": "PartKeepr", "classic": "Classic", "crisp":"Crisp", "crisp-touch": "Crisp Touch", "gray":"Gray", "neptune": "Neptune", "neptune-touch": "Neptune Touch", "triton": "Triton", "aria": "Aria"} %}
     {% set defaultTheme = "classic" %}
 
     {% set themeUri %}js/packages/extjs6/build/classic/theme-{{ defaultTheme }}/resources/theme-{{ defaultTheme }}-all.css{% endset %}
@@ -42,7 +42,7 @@
         }
     </script>
     {% if debug %}
-        {% javascripts output='js/compiled/extjs.js'
+        {% javascripts output='js/compiled/extjs-debug.js'
         'js/packages/extjs6/build/ext-all-debug.js'
         'js/packages/extjs6/packages/ux/classic/src/TreePicker.js'
         'js/packages/extjs6/packages/ux/classic/src/TabCloseMenu.js'
@@ -346,6 +346,7 @@
     '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/SearchWindow.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/OctoPart/DataApplicator.js'
     '@PartKeeprFrontendBundle/Resources/public/js/Components/PatreonStatusDialog.js'
+    '@PartKeeprFrontendBundle/Resources/public/js/Components/ThemeTester/ThemeTester.js'
     '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

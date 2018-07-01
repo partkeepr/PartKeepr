@@ -71,7 +71,8 @@ Ext.define('PartKeepr.MenuBar', {
             "PartKeepr.ProjectReportView",
             'PartKeepr.ProjectRunEditorComponent',
             "PartKeepr.SystemNoticeEditorComponent",
-            "PartKeepr.StockHistoryGrid"
+            "PartKeepr.StockHistoryGrid",
+            "PartKeepr.ThemeTester"
         ];
 
         this.menu.menu.push({xtype: 'tbspacer'});
