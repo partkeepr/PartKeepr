@@ -14,8 +14,8 @@
     {% set themeUri %}js/packages/extjs6/build/classic/theme-{{ defaultTheme }}/resources/theme-{{ defaultTheme }}-all.css{% endset %}
     {% set themeUxUri %}js/packages/extjs6/build/packages/ux/classic/{{ defaultTheme }}/resources/ux-all.css{% endset %}
 
-    <link id="theme" rel="stylesheet" href="{{ asset(themeUri) }}"/>
-    <link id="themeUx" rel="stylesheet" href="{{ asset(themeUxUri) }}"/>
+    <link id="theme" rel="stylesheet" href="{{ asset('' ~ themeUri) }}"/>
+    <link id="themeUx" rel="stylesheet" href="{{ asset('' ~ themeUxUri) }}"/>
 
     <!-- Include the ExtJS CSS Theme -->
     {% stylesheets
