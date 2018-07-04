@@ -6,6 +6,8 @@ Ext.define('PartKeepr.LoginDialog', {
 
     title: i18n("PartKeepr: Login"),
 
+    controller: 'LoginController',
+
     maxWidth: 400,
 
     modal: true,
@@ -15,7 +17,6 @@ Ext.define('PartKeepr.LoginDialog', {
     bodyStyle: 'padding: 5px;',
 
     keyMap: {
-        scope: 'this',
         ESC: 'onEsc',
         ENTER: 'login'
     },
@@ -31,6 +32,7 @@ Ext.define('PartKeepr.LoginDialog', {
         this.loginField = Ext.ComponentMgr.create({
             xtype: 'textfield',
             value: "",
+            itemId: 'username',
             fieldLabel: i18n("Username"),
             anchor: '100%'
         });
@@ -38,6 +40,7 @@ Ext.define('PartKeepr.LoginDialog', {
         this.passwordField = Ext.ComponentMgr.create({
             xtype: 'textfield',
             inputType: "password",
+            itemId: 'password',
             value: "",
             fieldLabel: i18n("Password"),
             anchor: '100%'
@@ -80,12 +83,10 @@ Ext.define('PartKeepr.LoginDialog', {
             this.loginField.focus();
         }, this, {delay: 100});
     },
-    /**
-     * Fires the "login" event
-     */
-    login: function ()
-    {
-        this.fireEvent("login", this.loginField.getValue(), this.passwordField.getValue());
+    getUsername: function () {
+        return this.down("#username").getValue();
+    },
+    getPassword: function () {
+        return this.down("#password").getValue();
     }
-
 });

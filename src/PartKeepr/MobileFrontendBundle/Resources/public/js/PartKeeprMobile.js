@@ -20,6 +20,8 @@ Ext.application({
         this.loginManager = Ext.create("PartKeepr.Auth.LoginManager", config);
         this.loginManager.on("login", this.onLogin, this);
         this.loginManager.on("logout", this.onLogout, this);
+
+        Ext.Viewport.add(this.loginManager.loginDialog);
         this.loginManager.login();
     },
 
@@ -67,7 +69,7 @@ Ext.application({
                     flex: 1,
                     minWidth: 150
                 }
-            ],
+            ]
 
 
         });
