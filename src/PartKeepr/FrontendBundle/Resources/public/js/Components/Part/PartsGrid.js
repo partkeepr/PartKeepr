@@ -407,7 +407,15 @@ Ext.define('PartKeepr.PartsGrid', {
     applySiPrefix: function (value, siPrefix)
     {
         if (siPrefix instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
-            return value * Math.pow(siPrefix.get("base"), siPrefix.get("exponent"));
+            var fractionValue = value * Math.pow(siPrefix.get("base"), siPrefix.get("exponent"));
+
+            if (siPrefix.get("exponent") < 0)
+            {
+                return fractionValue.toFixed(Math.abs(siPrefix.get("exponent")));
+            } else
+            {
+                return fractionValue;
+            }
         } else {
             return value;
         }
