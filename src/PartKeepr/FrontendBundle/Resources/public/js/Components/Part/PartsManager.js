@@ -579,29 +579,7 @@ Ext.define('PartKeepr.PartManager', {
      * Creates the store
      */
     createStore: function (config) {
-        Ext.Object.merge(config, {
-            autoLoad: true,
-            autoSync: false, // Do not change. If true, new (empty) records would be immediately commited to the database.
-            remoteFilter: true,
-            remoteSort: true,
-            pageSize: 50
-        });
-
-        this.store = Ext.create('Ext.data.Store', config);
-
-        // Workaround for bug http://www.sencha.com/forum/showthread.php?133767-Store.sync()-does-not-update-dirty-flag&p=607093#post607093
-        this.store.on('write', function (store, operation) {
-            var success = operation.wasSuccessful();
-            if (success)
-            {
-                Ext.each(operation.records, function (record) {
-                    if (record.dirty)
-                    {
-                        record.commit();
-                    }
-                });
-            }
-        });
+        this.store = Ext.create('PartKeepr.Data.Store.PartStore');
     },
     /**
      * Returns the store

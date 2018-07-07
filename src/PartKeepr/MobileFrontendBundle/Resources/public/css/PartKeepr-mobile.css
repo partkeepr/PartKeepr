@@ -1,0 +1,14 @@
+.partkeeprLogo {
+    height: 22px !important;
+    width: 112px !important;
+    background-image: url(../images/partkeepr-header.png);
+    background-repeat: no-repeat;
+}
+
+.partDetails h1 {
+    font-size: 2em;
+}
+
+.partDetails h2 {
+    font-size: 1.4em;
+}

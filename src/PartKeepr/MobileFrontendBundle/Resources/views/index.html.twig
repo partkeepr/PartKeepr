@@ -12,10 +12,8 @@
     {% stylesheets
         filter='cssrewrite'
         'js/packages/extjs6/build/modern/theme-material/resources/theme-material-all.css'
-        'atelierspierrot/famfamfam-silk-sprite/silk-icons-sprite.css'
-        'spritesheets/fugue-16.css'
-        'spritesheets/partkeepr.css'
-        'bundles/partkeeprfrontend/css/PartKeepr.css' %}
+        'bundles/partkeeprmobilefrontend/css/PartKeepr-mobile.css'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 
@@ -26,6 +24,7 @@
     {% if debug %}
         {% javascripts output='js/compiled/mobile_extjs.js'
             'js/packages/extjs6/build/ext-modern-all-debug.js'
+            'js/packages/extjs6/build/modern/theme-material/theme-material.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
@@ -44,6 +43,7 @@
         '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraField.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Data/HydraTreeModel.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Data/store/ModelStore.js'
+        '@PartKeeprFrontendBundle/Resources/public/js/Data/store/BaseStore.js'
         '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Bugfixes/Ext.form.field.Checkbox.EXTJS-21886.js'
         '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.view.Table-renderCell.js'
         '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.field.Date-ISO8601.js' %}
@@ -61,6 +61,7 @@
     {% endjavascripts %}
 
     {% javascripts output='js/compiled/mobile_app.js'
+        '@PartKeeprFrontendBundle/Resources/public/js/Data/store/PartStore.js'
         '@PartKeeprFrontendBundle/Resources/public/js/ExtJS/Enhancements/Ext.data.Store.getFieldValue.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Util/i18n.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Data/store/CurrencyStore.js'
@@ -98,6 +99,12 @@
         '@PartKeeprFrontendBundle/Resources/public/js/Models/Message.js'
         '@PartKeeprMobileFrontendBundle/Resources/public/js/Components/Auth/LoginDialog.js'
         '@PartKeeprFrontendBundle/Resources/public/js/Components/Auth/LoginController.js'
+        '@PartKeeprMobileFrontendBundle/Resources/public/js/Components/Part/PartPanel.js'
+        '@PartKeeprMobileFrontendBundle/Resources/public/js/Components/Part/PartGrid.js'
+        '@PartKeeprMobileFrontendBundle/Resources/public/js/Components/Part/PartController.js'
+        '@PartKeeprMobileFrontendBundle/Resources/public/js/Components/Part/Details/Panel.js'
+        '@PartKeeprMobileFrontendBundle/Resources/public/js/Components/Part/Details/Controller.js'
+        '@PartKeeprMobileFrontendBundle/Resources/public/js/Components/Part/Details/Overview.js'
         '@PartKeeprFrontendBundle/Resources/public/js/php.default.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
