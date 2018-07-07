@@ -6,8 +6,8 @@ Ext.define("PartKeepr.Components.Part.Details.Panel", {
     controller: 'PartDetailsController',
 
     shadow: true,
-    width: "90%",
-    height: "90%",
+    width: Ext.os.is.Phone ? "100%" : "90%",
+    height: Ext.os.is.Phone ? "100%" : "90%",
     centered: true,
     modal: true,
     closable: true,
