@@ -59,30 +59,26 @@ Ext.define("PartKeepr.Components.Part.Details.Panel", {
         cls: 'card',
         iconCls: 'x-fa fa-info-circle'
     }, {
-        title: 'Favorites',
-        html: 'Badges <em>(like the 4, below)</em> can be added by setting <code>badgeText</code> when creating a tab or by using <code>setBadgeText()</code> on the tab later.',
+        title: i18n("Part Parameters"),
+        html: '<span class="action">Not yet implemented</span>',
         cls: 'card',
-        iconCls: 'x-fa fa-star',
-        badgeText: '4'
+        iconCls: 'x-fa fa-list-alt',
     }, {
-        title: 'Downloads',
+        title: i18n("Distributors"),
         id: 'tab3',
-        html: 'Badge labels will truncate if the text is wider than the tab.',
-        badgeText: 'Overflow test',
+        html: '<span class="action">Not yet implemented</span>',
         cls: 'card',
-        iconCls: 'x-fa fa-download',
-        hidden: (Ext.filterPlatform('ie10') && Ext.os.is.Phone) ? true : false
+        iconCls: 'x-fa fa-truck',
     }, {
-        title: 'Settings',
-        html: 'Tabbars are <code>ui:"dark"</code> by default, but also have light variants.',
+        title: i18n("Manufacturers"),
+        html: '<span class="action">Not yet implemented</span>',
         cls: 'card',
-        iconCls: 'x-fa fa-gear',
-        hidden: (Ext.filterPlatform('ie10') && Ext.os.is.Phone) ? true : false
+        iconCls: 'x-fa fa-building',
     }, {
-        title: 'User',
-        html: '<span class="action">User tapped User</span>',
+        title: i18n("Attachments"),
+        html: '<span class="action">Not yet implemented</span>',
         cls: 'card',
-        iconCls: 'x-fa fa-user'
+        iconCls: 'x-fa fa-paperclip'
     }],
 
     setPart: function (part) {
