@@ -11,6 +11,7 @@ Ext.define('PartKeeprSetup.WebserverRewriteTest', {
         this.success = false;
         this.resultMessage = "Web Server misconfiguration";
         this.errors = ['Web Server Configuration error. Please read our <a href="https://wiki.partkeepr.org/wiki/KB00005:Web_Server_Configuration" target="_blank">wiki about the proper web server configuration</a>', response.responseText];
+        this.errors.push('Error 2: Tried to retrieve setup/webserver-test and it did not succeed.');
 
         if (this.callback) {
             this.callback.appendTestResult(this);
