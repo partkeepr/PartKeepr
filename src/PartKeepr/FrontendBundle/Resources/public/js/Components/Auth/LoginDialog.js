@@ -63,7 +63,7 @@ Ext.define('PartKeepr.LoginDialog', {
                         {
                             text: i18n("Connect"),
                             iconCls: "web-icon connect",
-                            handler: Ext.bind(this.login, this)
+                            handler: 'login'
                         }, {
                             text: i18n("Close"),
                             iconCls: "web-icon cancel",
