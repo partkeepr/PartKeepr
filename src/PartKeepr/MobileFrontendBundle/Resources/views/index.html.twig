@@ -22,7 +22,7 @@
     {% endimage %}
 
     {% if debug %}
-        {% javascripts output='js/compiled/mobile_extjs.js'
+        {% javascripts output='js/compiled/mobile_extjs-debug.js'
             'js/packages/extjs6/build/ext-modern-all-debug.js'
             'js/packages/extjs6/build/modern/theme-material/theme-material.js'
         %}
@@ -31,6 +31,7 @@
     {% else %}
         {% javascripts output='js/compiled/mobile_extjs.js'
             'js/packages/extjs6/build/ext-modern-all.js'
+            'js/packages/extjs6/build/modern/theme-material/theme-material.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
