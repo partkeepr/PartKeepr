@@ -108,6 +108,7 @@ class Report extends BaseEntity
         } else {
             $this->name = 'NewReport';
         }
+        
         return $this;
     }
 
