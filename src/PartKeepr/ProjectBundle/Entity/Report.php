@@ -103,7 +103,7 @@ class Report extends BaseEntity
      */
     public function setName($name)
     {
-        if ($name != NULL) {
+        if ($name != null) {
             $this->name = $name;
         } else {
             $this->name = 'NewReport';
