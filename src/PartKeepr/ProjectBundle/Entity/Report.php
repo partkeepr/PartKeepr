@@ -106,9 +106,9 @@ class Report extends BaseEntity
         if ($name != null) {
             $this->name = $name;
         } else {
-            $this->name = 'NewReport';
+            $this->name = 'NewReport'; //@todo i18n
         }
-        
+
         return $this;
     }
 
