@@ -17,14 +17,15 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
         {
             fieldLabel: i18n("Description"),
             name: 'description',
+            itemId: 'description',
             xtype: 'textarea'
         },
         {
             xtype: 'UnitComboBox',
             fieldLabel: i18n("Unit"),
+            name: 'unit',
             itemId: "unit",
-            returnObject: true,
-            name: 'unit'
+            returnObject: true
         },
         {
             fieldLabel: i18n("Value Type"),
@@ -118,6 +119,11 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
                 this.down("#unit").select(unit);
                 this.down("#valueType").setValue({valueType: "numeric"});
             }
+        }
+
+        var description = record.get("description")
+        if (description !== null) {
+            this.down("#description").setRawValue(description);
         }
     },
     onUnitChange: function (combo, newValue) {
