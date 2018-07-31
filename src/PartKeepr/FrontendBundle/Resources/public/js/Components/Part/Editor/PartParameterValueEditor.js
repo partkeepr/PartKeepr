@@ -17,14 +17,15 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
         {
             fieldLabel: i18n("Description"),
             name: 'description',
+            itemId: 'description',
             xtype: 'textarea'
         },
         {
             xtype: 'UnitComboBox',
             fieldLabel: i18n("Unit"),
+            name: 'unit',
             itemId: "unit",
-            returnObject: true,
-            name: 'unit'
+            returnObject: true
         },
         {
             fieldLabel: i18n("Value Type"),
@@ -111,6 +112,11 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
     },
     onPartParameterSelect: function (combo, record) {
 
+        var description = record.get("description");
+        if (description !== null) {
+            this.down("#description").setRawValue(description);
+        }
+
         if (record.get("unitName") !== null) {
             var unit = this.down("#unit").getStore().findRecord("name", record.get("unitName"), 0, false, true, true);
 
@@ -118,7 +124,19 @@ Ext.define("PartKeepr.PartParameterValueEditor", {
                 this.down("#unit").select(unit);
                 this.down("#valueType").setValue({valueType: "numeric"});
             }
+
+        } else {
+            this.down("#unit").select(null);
         }
+
+        var valueType = record.get("valueType");
+        if (valueType == "numeric") {
+            this.down("#valueType").setValue({valueType: "numeric"});
+
+        } else if (valueType == "string") {
+            this.down("#valueType").setValue({valueType: "string"});
+        }
+
     },
     onUnitChange: function (combo, newValue) {
         var prefixes,j, unitFilter = [];
