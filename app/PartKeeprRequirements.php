@@ -59,6 +59,12 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('Please compile PHP with the mbstring functions in case you are using Gentoo, or install php-mbstring on RedHat, Fedora or CentOS.')
         );
 
+        $this->addRequirement(
+            function_exists('bcscale'),
+            sprintf('BCMath library not found'),
+            sprintf('Install the BCMath library extension')
+        );
+
         if (ini_get('opcache.enable')) {
             if (version_compare(phpversion(), '7.0', '<')) {
                 $this->addPhpIniRequirement('opcache.save_comments', 1,
