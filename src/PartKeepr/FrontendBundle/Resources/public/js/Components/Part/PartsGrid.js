@@ -115,11 +115,11 @@ Ext.define('PartKeepr.PartsGrid', {
 
         this.bottomToolbar.add({
             xtype: 'button',
-            tooltip: i18n("Expand all Groups"),
-            iconCls: this.expandRowButtonIconCls,
+            tooltip: i18n("Collapse all Groups"),
+            iconCls: this.collapseRowButtonIconCls,
             listeners: {
                 scope: this.groupingFeature,
-                click: this.groupingFeature.expandAll
+                click: this.groupingFeature.collapseAll
             }
 
         });
