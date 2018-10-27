@@ -117,20 +117,23 @@ class PartKeeprRequirements extends SymfonyRequirements
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val) - 1]);
+        $vali = (int)substr($val, 0, -1);
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
-                $val *= 1073741824;
+                $vali *= 1073741824;
                 break;
             case 'm':
-                $val *= 1048576;
+                $vali *= 1048576;
                 break;
             case 'k':
-                $val *= 1024;
+                $vali *= 1024;
                 break;
+            default:
+                $vali = (int)$val;
         }
 
-        return $val;
+        return $vali;
     }
 
     /**
