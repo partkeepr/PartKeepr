@@ -1,4 +1,11 @@
+#services:
+#    app.doctrine.apc_cache:
+#       class: Doctrine\Common\Cache\ApcCache
+#       calls:
+#           - [setNamespace, [""]]
 framework:
+#    annotations:
+#        cache: "app.doctrine.apc_cache"
     #esi:             ~
     translator:      { fallback: en }
     serializer:      { enable_annotations: true }

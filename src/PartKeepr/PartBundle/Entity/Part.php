@@ -162,7 +162,7 @@ class Part extends BaseEntity
      *
      * @var float
      */
-    private $averagePrice = 0;
+    private $averagePrice = 0; 
 
     /**
      * The stock level history.
@@ -759,7 +759,8 @@ class Part extends BaseEntity
      */
     public function setAveragePrice($price)
     {
-        $this->averagePrice = $price;
+        if($price != 0)
+            $this->averagePrice = $price;
     }
 
     /**
@@ -784,6 +785,10 @@ class Part extends BaseEntity
     public function addStockLevel(StockEntry $stockEntry)
     {
         $stockEntry->setPart($this);
+        
+        if($this->getAveragePrice() != 0)
+            $stockEntry->setPrice($this->getAveragePrice());
+        
         $this->stockLevels->add($stockEntry);
     }
 
