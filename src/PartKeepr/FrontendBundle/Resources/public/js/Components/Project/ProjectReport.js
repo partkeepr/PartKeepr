@@ -151,8 +151,11 @@ Ext.define('PartKeepr.ProjectReportView', {
             success: this.onProjectReportLoaded,
             scope: this
         });
-
-        this.reportList.getStore().reload();
+ 
+ 
+ 
+ 
+ 
     },
     onProjectReportLoaded: function () {
         this.reportResult.reconfigure(this.projectReport.reportParts());
