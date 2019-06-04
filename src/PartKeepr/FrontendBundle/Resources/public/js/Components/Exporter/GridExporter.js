@@ -50,7 +50,12 @@ Ext.define("PartKeepr.Exporter.GridExporter", {
                 }
 
                 if (!column.isHidden()) {
-                    rowValues.push(Ext.util.Format.stripTags(value));
+                    try{
+                        rowValues.push(Ext.util.Format.stripTags(value.replace(/[^\x1F-\x7D]/g,'')))
+                    }
+                    catch(err){
+                        rowValues.push(Ext.util.Format.stripTags(value));
+                    }
                 }
             }
 
