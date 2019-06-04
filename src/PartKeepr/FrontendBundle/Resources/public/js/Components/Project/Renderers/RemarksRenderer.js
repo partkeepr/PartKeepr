@@ -7,6 +7,7 @@ Ext.define("PartKeepr.Components.ProjectReport.Renderers.RemarksRenderer", {
         return renderObj.getProjectParts(record);
     },
     getProjectParts: function (rec) {
+        
         var report = rec.getReport(),
             i, j, project, projectPart, projectPartQuantities = [];
 

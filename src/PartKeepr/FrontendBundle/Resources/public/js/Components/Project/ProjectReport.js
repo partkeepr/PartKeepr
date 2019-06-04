@@ -108,7 +108,7 @@ Ext.define('PartKeepr.ProjectReportView', {
                     quantity: projectsToReport[i].quantity
                 }));
         }
-
+        
         this.doSaveProjectReport();
     },
     /**
@@ -130,7 +130,6 @@ Ext.define('PartKeepr.ProjectReportView', {
         {
             this.reportResult.setProjectsToReport([]);
             this.reportResult.setStore(new Ext.data.Store());
-
             var selection = this.reportList.getSelection();
             if (selection.length === 1)
             {
@@ -151,8 +150,12 @@ Ext.define('PartKeepr.ProjectReportView', {
             success: this.onProjectReportLoaded,
             scope: this
         });
+
  
  
+ 
+ 
+
  
  
  
