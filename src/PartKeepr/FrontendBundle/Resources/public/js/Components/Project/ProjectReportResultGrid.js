@@ -355,7 +355,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
                     amount: item.get("quantity"),
                     comment: item.getReport().reportProjects().getFieldValues("project.name").join(", "),
                     lotNumber: item.projectParts().getFieldValues("lotNumber").join(", "),
-                    projects: [] // item.getReport().reportProjects()
+                    projects: [] 
                 });
             }
 
