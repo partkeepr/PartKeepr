@@ -42,7 +42,7 @@ class ReportPart extends BaseEntity
      * @var int
      */
     private $quantity;
-    
+
     private $remarks;
 
     /**
@@ -338,13 +338,13 @@ class ReportPart extends BaseEntity
 
         return $this;
     }
-    
+
     // remark getter
     public function getRemarks()
     {
         return $this->remarks;
     }
-    
+
     //remark setter
     public function setRemarks($remarks)
     {
@@ -352,12 +352,11 @@ class ReportPart extends BaseEntity
 
         return $this;
     }
-    
 
     public function __toString()
     {
         // @todo i18n
         return sprintf("Used in project report %s %s", $this->getReport()->getName(),
-                $this->getReport()->getCreateDateTime()->format("Y-m-d H:i:s")) . " / " . parent::__toString();
+                $this->getReport()->getCreateDateTime()->format("Y-m-d H:i:s"))." / ".parent::__toString();
     }
 }

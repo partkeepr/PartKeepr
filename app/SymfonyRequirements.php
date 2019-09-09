@@ -171,7 +171,7 @@ class RequirementCollection implements IteratorAggregate
     /**
      * @var Requirement[]
      */
-    private $requirements = array();
+    private $requirements = [];
 
     /**
      * Gets the current RequirementCollection as an Iterator.
@@ -260,7 +260,7 @@ class RequirementCollection implements IteratorAggregate
      *
      * @param RequirementCollection $collection A RequirementCollection instance
      */
-    public function addCollection(RequirementCollection $collection)
+    public function addCollection(self $collection)
     {
         $this->requirements = array_merge($this->requirements, $collection->all());
     }
@@ -282,7 +282,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getRequirements()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if (!$req->isOptional()) {
                 $array[] = $req;
@@ -299,7 +299,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getFailedRequirements()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if (!$req->isFulfilled() && !$req->isOptional()) {
                 $array[] = $req;
@@ -316,7 +316,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getRecommendations()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if ($req->isOptional()) {
                 $array[] = $req;
@@ -333,7 +333,7 @@ class RequirementCollection implements IteratorAggregate
      */
     public function getFailedRecommendations()
     {
-        $array = array();
+        $array = [];
         foreach ($this->requirements as $req) {
             if (!$req->isFulfilled() && $req->isOptional()) {
                 $array[] = $req;
@@ -446,7 +446,7 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         if (false !== $requiredPhpVersion && version_compare($installedPhpVersion, $requiredPhpVersion, '>=')) {
-            $timezones = array();
+            $timezones = [];
             foreach (DateTimeZone::listAbbreviations() as $abbreviations) {
                 foreach ($abbreviations as $abbreviation) {
                     $timezones[$abbreviation['timezone_id']] = true;
@@ -711,8 +711,7 @@ class SymfonyRequirements extends RequirementCollection
             ||
             (extension_loaded('xcache') && ini_get('xcache.cacher'))
             ||
-            (extension_loaded('wincache') && ini_get('wincache.ocenabled'))
-        ;
+            (extension_loaded('wincache') && ini_get('wincache.ocenabled'));
 
         $this->addRecommendation(
             $accelerator,

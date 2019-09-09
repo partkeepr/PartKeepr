@@ -14,12 +14,12 @@
 
 /**
  * Specifies the database driver. Available options are listed on this page:
- * http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#driver
+ * http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#driver.
  */
 $container->setParameter('database_driver', 'pdo_mysql');
 
 /**
- * Specifies the hostname for the database
+ * Specifies the hostname for the database.
  */
 $container->setParameter('database_host', 'localhost');
 /**
@@ -28,17 +28,17 @@ $container->setParameter('database_host', 'localhost');
 $container->setParameter('database_port', '3306');
 
 /**
- * Specifies the database name
+ * Specifies the database name.
  */
 $container->setParameter('database_name', 'symfony');
 
 /**
- * Specifies the username for the database
+ * Specifies the username for the database.
  */
 $container->setParameter('database_user', 'root');
 
 /**
- * Specifies the password for the database
+ * Specifies the password for the database.
  */
 $container->setParameter('database_password', null);
 
@@ -134,7 +134,6 @@ $container->setParameter('fr3d_ldap.user.attribute.username', "samaccountname");
 // The email attribute
 $container->setParameter('fr3d_ldap.user.attribute.email', "email");
 
-
 //======================================================================================================================
 // PartKeepr settings
 //======================================================================================================================
@@ -144,17 +143,17 @@ $container->setParameter('fr3d_ldap.user.attribute.email', "email");
 $container->setParameter('authentication_provider', 'PartKeepr.Auth.WSSEAuthenticationProvider');
 
 /**
- * Specifies if the frontend should perform an auto-login
+ * Specifies if the frontend should perform an auto-login.
  */
 $container->setParameter('partkeepr.frontend.auto_login.enabled', false);
 
 /**
- * Specifies the auto-login username
+ * Specifies the auto-login username.
  */
 $container->setParameter('partkeepr.frontend.auto_login.username', 'admin');
 
 /**
- * Specifies the auto-login password
+ * Specifies the auto-login password.
  */
 $container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
 
@@ -173,14 +172,14 @@ $container->setParameter('partkeepr.frontend.auto_login.password', 'admin');
 $container->setParameter('partkeepr.frontend.base_url', false);
 
 /**
- * Specifies the category path separator
+ * Specifies the category path separator.
  */
 $container->setParameter('partkeepr.category.path_separator', ' ➤ ');
 
 /**
  * Specifies a message of the day. Set to any string instead of false
  * to display a MOTD. Example
- * $container->setParameter('partkeepr.frontend.motd', "This is a MOTD");
+ * $container->setParameter('partkeepr.frontend.motd', "This is a MOTD");.
  */
 $container->setParameter('partkeepr.frontend.motd', false);
 
@@ -226,12 +225,12 @@ $container->setParameter('partkeepr.maintenance.title', '');
 $container->setParameter('partkeepr.maintenance.message', '');
 
 /**
- * Defines a limit for the maximum amount of users allowed. Valid values are false (no limit) or an integer number
+ * Defines a limit for the maximum amount of users allowed. Valid values are false (no limit) or an integer number.
  */
 $container->setParameter('partkeepr.users.limit', false);
 
 /**
- * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number
+ * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number.
  */
 $container->setParameter('partkeepr.parts.limit', false);
 
@@ -244,17 +243,17 @@ $container->setParameter('partkeepr.parts.limit', false);
 $container->setParameter('partkeepr.parts.internalpartnumberunique', false);
 
 /**
- * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number
+ * Defines a limit for the maximum amount of parts allowed. Valid values are false (no limit) or an integer number.
  */
 $container->setParameter('partkeepr.upload.limit', false);
 
 /**
- * Specifies the PartKeepr data directory
+ * Specifies the PartKeepr data directory.
  */
 $container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_dir%/../data/');
 
 /**
- * Specifies if PartKeepr should check for non-running cronjobs
+ * Specifies if PartKeepr should check for non-running cronjobs.
  */
 $container->setParameter('partkeepr.cronjob.check', true);
 
