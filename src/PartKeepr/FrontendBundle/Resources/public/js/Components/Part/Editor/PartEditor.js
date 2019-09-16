@@ -119,7 +119,9 @@ Ext.define('PartKeepr.PartEditor', {
             }, {
                 xtype: 'CategoryComboBox',
                 fieldLabel: i18n("Category"),
+                fieldClass: '',
                 name: 'category',
+                allowBlank: false,
                 displayField: "name",
                 returnObject: true
             },
@@ -400,6 +402,7 @@ Ext.define('PartKeepr.PartEditor', {
                 Ext.String.format(i18n("The number of attachments must be greater than {0}"), minAttachmentCount));
         }
 
+        
         // Force footprint to be "null" when the checkbox is checked.
         if (this.footprintNone.getValue() === true) {
             this.record.setFootprint(null);

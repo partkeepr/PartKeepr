@@ -35,9 +35,9 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('The php.ini memory_limit directive must be set to 128MB or higher. Your limit is set to %s',
                 ini_get('memory_limit')));
 
-        $this->checkWritable(realpath(dirname(__FILE__) . '/../data/'));
-        $this->checkWritable(realpath(dirname(__FILE__) . '/../app/'));
-        $this->checkWritable(realpath(dirname(__FILE__) . '/../web/'));
+        $this->checkWritable(realpath(dirname(__FILE__).'/../data/'));
+        $this->checkWritable(realpath(dirname(__FILE__).'/../app/'));
+        $this->checkWritable(realpath(dirname(__FILE__).'/../web/'));
 
         $this->addRecommendation(
             function_exists('apc_fetch'),
@@ -57,6 +57,12 @@ class PartKeeprRequirements extends SymfonyRequirements
             function_exists('mb_convert_case'),
             sprintf('The PHP function mb_convert_case does not exist.'),
             sprintf('Please compile PHP with the mbstring functions in case you are using Gentoo, or install php-mbstring on RedHat, Fedora or CentOS.')
+        );
+
+        $this->addRequirement(
+            function_exists('bcscale'),
+            sprintf('BCMath library not found'),
+            sprintf('Install the BCMath library extension')
         );
 
         if (ini_get('opcache.enable')) {
@@ -103,7 +109,7 @@ class PartKeeprRequirements extends SymfonyRequirements
      */
     protected function getBytesIniSetting($setting)
     {
-        return (int)$this->returnBytes(ini_get($setting));
+        return (int) $this->returnBytes(ini_get($setting));
     }
 
     /**
@@ -117,20 +123,23 @@ class PartKeeprRequirements extends SymfonyRequirements
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val) - 1]);
+        $vali = (int) substr($val, 0, -1);
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
-                $val *= 1073741824;
+                $vali *= 1073741824;
                 break;
             case 'm':
-                $val *= 1048576;
+                $vali *= 1048576;
                 break;
             case 'k':
-                $val *= 1024;
+                $vali *= 1024;
                 break;
+            default:
+                $vali = (int) $val;
         }
 
-        return $val;
+        return $vali;
     }
 
     /**
@@ -145,24 +154,26 @@ class PartKeeprRequirements extends SymfonyRequirements
     protected function isWritableRecursive($dir)
     {
         if (!is_writable($dir)) {
-            throw new \Exception($dir . ' is not writable.');
+            throw new \Exception($dir.' is not writable.');
         }
 
         $folder = opendir($dir);
         while ($file = readdir($folder)) {
             if ($file != '.' && $file != '..') {
-                if (!is_writable($dir . '/' . $file)) {
+                if (!is_writable($dir.'/'.$file)) {
                     closedir($folder);
-                    throw new \Exception($dir . '/' . $file . ' is not writable.');
+
+                    throw new \Exception($dir.'/'.$file.' is not writable.');
                 } else {
                     // Skip hidden directories
-                    if ((is_dir($dir . '/' . $file)) && ($file[0] == '.')) {
+                    if ((is_dir($dir.'/'.$file)) && ($file[0] == '.')) {
                         continue;
                     }
-                    if (is_dir($dir . '/' . $file)) {
-                        if (!$this->isWritableRecursive($dir . '/' . $file)) {
+                    if (is_dir($dir.'/'.$file)) {
+                        if (!$this->isWritableRecursive($dir.'/'.$file)) {
                             closedir($folder);
-                            throw new \Exception($dir . '/' . $file . ' is not writable.');
+
+                            throw new \Exception($dir.'/'.$file.' is not writable.');
                         }
                     }
                 }

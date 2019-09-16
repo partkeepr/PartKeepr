@@ -49,7 +49,11 @@ Ext.define('PartKeepr.WebcamPanel', {
     },
     handleVideo: function (stream) {
         this.stream = stream;
-        this.video.src = window.URL.createObjectURL(stream);
+        try {
+            this.video.srcObject = stream;
+        } catch (error) {
+            this.video.src = window.URL.createObjectURL(stream);
+        }
     },
     videoError: function () {
         // @todo: Implement video error handler

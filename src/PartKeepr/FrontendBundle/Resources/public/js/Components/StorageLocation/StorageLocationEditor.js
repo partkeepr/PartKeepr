@@ -48,6 +48,8 @@ Ext.define('PartKeepr.StorageLocationEditor', {
             ]
         });
 
+	this.gridPanel.on("itemdblclick", this.onDoubleClick, this);
+
         var container = Ext.create("Ext.form.FieldContainer", {
             fieldLabel: i18n("Contained Parts"),
             labelWidth: 110,
@@ -129,5 +131,27 @@ Ext.define('PartKeepr.StorageLocationEditor', {
 
 
         this.down('#image').setValue(this.record.getImage());
+    },
+    onDoubleClick: function(view, record) {
+        if (record) {
+            this.onEditPart(record);
+        }
+    },
+    onEditPart: function(part) {
+        var editorWindow;
+
+        if (part.get("metaPart") === true)
+        {
+            editorWindow = Ext.create("PartKeepr.Components.Part.Editor.MetaPartEditorWindow");
+        } else
+        {
+            editorWindow = Ext.create("PartKeepr.PartEditorWindow");
+        }
+        editorWindow.on("partSaved", this.onPartSaved, this);
+        editorWindow.editor.editItem(part);
+        editorWindow.show();
+    },
+    onPartSaved: function() {
+        this.grid.getStore().reload();
     }
 });

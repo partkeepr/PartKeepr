@@ -115,11 +115,11 @@ Ext.define('PartKeepr.PartsGrid', {
 
         this.bottomToolbar.add({
             xtype: 'button',
-            tooltip: i18n("Expand all Groups"),
-            iconCls: this.expandRowButtonIconCls,
+            tooltip: i18n("Collapse all Groups"),
+            iconCls: this.collapseRowButtonIconCls,
             listeners: {
                 scope: this.groupingFeature,
-                click: this.groupingFeature.expandAll
+                click: this.groupingFeature.collapseAll
             }
 
         });
@@ -408,10 +408,11 @@ Ext.define('PartKeepr.PartsGrid', {
     {
         if (siPrefix instanceof PartKeepr.SiPrefixBundle.Entity.SiPrefix) {
             var fractionValue = value * Math.pow(siPrefix.get("base"), siPrefix.get("exponent"));
-
+            
             if (siPrefix.get("exponent") < 0)
             {
-                return fractionValue.toFixed(Math.abs(siPrefix.get("exponent")));
+                return fractionValue.toFixed(15); // set to femto by default 
+                //Math.abs(siPrefix.get("exponent")));
             } else
             {
                 return fractionValue;
