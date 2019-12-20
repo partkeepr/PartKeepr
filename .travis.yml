@@ -15,7 +15,7 @@ env:
 
 services:
     - mysql
-    - pgsql
+    - postgresql
 
 matrix:
   exclude:
