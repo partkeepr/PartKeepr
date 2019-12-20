@@ -13,6 +13,10 @@ env:
     - SYMFONY__TESTDB=pgsql DB=pgsql
     - SYMFONY__TESTDB=sqlite DB=sqlite
 
+services:
+    - mysql
+    - pgsql
+
 matrix:
   exclude:
     - php: hhvm
