@@ -9,9 +9,9 @@ script:
     - vendor/bin/phpunit -c app/ --coverage-clover build/logs/clover.xml
 
 env:
-    - SYMFONY__TESTDB=mysql
-    - SYMFONY__TESTDB=pgsql
-    - SYMFONY__TESTDB=sqlite
+    - SYMFONY__TESTDB=mysql DB=mysql
+    - SYMFONY__TESTDB=pgsql DB=pgsql
+    - SYMFONY__TESTDB=sqlite DB=sqlite
 
 matrix:
   exclude:
