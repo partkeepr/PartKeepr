@@ -84,8 +84,8 @@ class RequestExceptionListener extends \Dunglas\ApiBundle\Hydra\EventListener\Re
             ));
 
             //list($resourceType) = $this->extractAttributes($request);
-
             //$systemNotice = $this->getItem($this->dataProvider, $resourceType, $id);
+
             /**
              * @var $exception DBALException
              */
