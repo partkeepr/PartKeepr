@@ -138,6 +138,4 @@ class FixTreeCommand extends ContainerAwareCommand
 
         return $this->entityManager->getConnection()->fetchAssoc($qb->getSQL(), [':nodeid' => $id])['level'];
     }
-
-
 }

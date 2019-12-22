@@ -8,7 +8,6 @@
 
 namespace PartKeepr\DoctrineReflectionBundle\Exception;
 
-
 use PartKeepr\CoreBundle\Exceptions\TranslatableException;
 
 class EntityInUseException extends TranslatableException

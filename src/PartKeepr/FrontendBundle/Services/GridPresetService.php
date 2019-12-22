@@ -2,7 +2,6 @@
 
 namespace PartKeepr\FrontendBundle\Services;
 
-
 use Doctrine\ORM\EntityManager;
 use PartKeepr\FrontendBundle\Entity\GridPreset;
 

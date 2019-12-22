@@ -8,7 +8,6 @@
 
 namespace PartKeepr\DoctrineReflectionBundle\Services;
 
-
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
@@ -19,12 +18,10 @@ class DeletionService
      */
     private $em;
 
-
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
     }
-
 
     public function findUndeletableUsages($entity)
     {
