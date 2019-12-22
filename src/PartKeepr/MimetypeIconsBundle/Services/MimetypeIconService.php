@@ -32,6 +32,7 @@ class MimetypeIconService extends ContainerAware
         $iconDirectory = $this->container->getParameter('partkeepr.directories.mimetype_icons');
 
         $fileLocator = new FileLocator($iconDirectory);
+
         try {
             $iconFile = $fileLocator->locate($file);
         } catch (\InvalidArgumentException $e) {
