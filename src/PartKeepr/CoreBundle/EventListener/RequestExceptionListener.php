@@ -8,7 +8,6 @@
 
 namespace PartKeepr\CoreBundle\EventListener;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\IriConverter;
