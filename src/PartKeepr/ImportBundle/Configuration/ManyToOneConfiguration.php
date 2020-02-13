@@ -49,6 +49,7 @@ class ManyToOneConfiguration extends Configuration
     {
         if (!property_exists($importConfiguration, "importBehaviour")) {
             return false;
+
             throw new \Exception("The key importBehaviour does not exist!");
         }
 

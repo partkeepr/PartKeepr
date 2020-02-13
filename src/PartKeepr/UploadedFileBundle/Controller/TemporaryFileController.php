@@ -62,7 +62,7 @@ class TemporaryFileController extends FileController
                 throw new \Exception($this->get('translator')->trans('The uploaded file is too large.'));
             }
 
-           /*
+            /**
              * @var $file UploadedFile
              */
             $fileService->replace($uploadedFile, new File($file->getPathname()));

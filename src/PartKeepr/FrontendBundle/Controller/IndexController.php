@@ -20,7 +20,8 @@ class IndexController extends Controller
         return $this->render('PartKeeprFrontendBundle::index.html.twig', $this->getRenderParameters());
     }
 
-    public function getRenderParameters () {
+    public function getRenderParameters()
+    {
         if ($this->getParameter('partkeepr.maintenance') !== false) {
             $renderParams['maintenanceTitle'] = $this->getParameter('partkeepr.maintenance.title');
             $renderParams['maintenanceMessage'] = $this->getParameter('partkeepr.maintenance.message');
@@ -86,7 +87,8 @@ class IndexController extends Controller
      *
      * @return string
      */
-    public function getBaseURL () {
+    public function getBaseURL()
+    {
         $baseUrl = $this->getParameterWithDefault('partkeepr.frontend.base_url', false);
 
         if ($baseUrl !== false) {

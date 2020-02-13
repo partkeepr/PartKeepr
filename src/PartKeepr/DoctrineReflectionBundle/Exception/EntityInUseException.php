@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: felicitus
  * Date: 10/25/17
- * Time: 11:45 PM
+ * Time: 11:45 PM.
  */
 
 namespace PartKeepr\DoctrineReflectionBundle\Exception;
-
 
 use PartKeepr\CoreBundle\Exceptions\TranslatableException;
 
@@ -29,6 +28,6 @@ class EntityInUseException extends TranslatableException
 
     public function getMessageKey()
     {
-        return sprintf('%s is in use by:', (string)$this->entityName);
+        return sprintf('%s is in use by:', (string) $this->entityName);
     }
 }
