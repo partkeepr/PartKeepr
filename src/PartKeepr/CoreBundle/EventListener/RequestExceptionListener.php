@@ -82,19 +82,6 @@ class RequestExceptionListener extends \Dunglas\ApiBundle\Hydra\EventListener\Re
                 $status,
                 $headers
             ));
-
-            /**
-             * @var $exception DBALException
-             */
-
-            /*$headers = $exception->getHeaders();
-            $data = $exception;
-
-            $event->setResponse(new Response(
-                $this->normalizer->normalize($data, 'hydra-error'),
-                $status,
-                $headers
-            ));*/
         } else {
             parent::onKernelException($event);
         }
