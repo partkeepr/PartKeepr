@@ -21,7 +21,7 @@ class SyncTipsTest extends WebTestCase
 
         //$this->assertGreaterThan(1, $query->getSingleScalarResult());
         $this->markTestSkipped(
-			'Synchronization of the tips of the day (PartKeepr\TipOfTheDayBundle\Tests\SyncTipsTest) skipped'
+            'Synchronization of the tips of the day (PartKeepr\TipOfTheDayBundle\Tests\SyncTipsTest) skipped'
         );
     }
 }
