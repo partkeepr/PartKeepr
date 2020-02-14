@@ -60,7 +60,7 @@ $container->setParameter('mailer_port', null);
 $container->setParameter('mailer_encryption', null);
 
 // The mail server username
-$container->setParameter('mailer_user', null);
+$container->setParameter('mailer_user', 'user@example.com');
 
 // The mail server password
 $container->setParameter('mailer_password', null);
