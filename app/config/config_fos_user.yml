@@ -2,3 +2,6 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: PartKeepr\AuthBundle\Entity\FOSUser
+    from_email:
+        address: "yourapp@yourapp.com"
+        sender_name: "Demo String"
