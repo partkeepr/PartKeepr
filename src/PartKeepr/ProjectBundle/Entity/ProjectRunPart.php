@@ -123,6 +123,6 @@ class ProjectRunPart extends BaseEntity
         // @todo i18n
         return sprintf("Used in project run for project %s on %s",
                 $this->getProjectRun()->getProject()->getName(),
-                $this->getProjectRun()->getRunDateTime()->format("Y-m-d H:i:s")) . " / " . parent::__toString();
+                $this->getProjectRun()->getRunDateTime()->format("Y-m-d H:i:s"))." / ".parent::__toString();
     }
 }
