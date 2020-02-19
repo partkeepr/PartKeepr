@@ -19,12 +19,8 @@ services:
     - postgresql
 
 matrix:
-  exclude:
-    - php: hhvm
-      env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
   allow_failures:
     - php: nightly
-    - php: hhvm
 
 addons:
   code_climate:
