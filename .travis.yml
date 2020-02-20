@@ -1,5 +1,6 @@
 language: php
 dist: trusty
+os: linux
 
 php:
     - 5.6
@@ -18,7 +19,7 @@ services:
     - mysql
     - postgresql
 
-matrix:
+jobs:
   exclude:
     - php: hhvm
       env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
@@ -28,7 +29,8 @@ matrix:
 
 addons:
   code_climate:
-    repo_token: 9bf99f3d5903f9f2ae2280f49cc469ef219bb965205cd324847f22d4698257d9
+    # This should be set up as a secret or so and regenerated as it is already compromized
+    # repo_token: 9bf99f3d5903f9f2ae2280f49cc469ef219bb965205cd324847f22d4698257d9
 
 before_script:
   - cp app/config/parameters.php.dist app/config/parameters.php
