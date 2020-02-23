@@ -1,5 +1,6 @@
 language: php
 dist: trusty
+os: linux
 
 php:
     - 5.6
@@ -15,7 +16,7 @@ services:
     - mysql
     - postgresql
 
-matrix:
+jobs:
   exclude:
     - php: hhvm
       env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
