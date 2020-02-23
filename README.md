@@ -6,6 +6,8 @@
 [![Code Climate](https://codeclimate.com/github/partkeepr/PartKeepr/badges/gpa.svg)](https://codeclimate.com/github/partkeepr/PartKeepr)
 [![Test Coverage](https://codeclimate.com/github/partkeepr/PartKeepr/badges/coverage.svg)](https://codeclimate.com/github/partkeepr/PartKeepr/coverage)
 [![Dependency Status](https://www.versioneye.com/user/projects/564e098f3d4c250039000001/badge.svg?style=flat)](https://www.versioneye.com/user/projects/564e098f3d4c250039000001)
+[![codecov](https://codecov.io/gh/partkeepr/PartKeepr/branch/master/graph/badge.svg)](https://codecov.io/gh/partkeepr/PartKeepr)
+
 
 PartKeepr is an [inventory management software](https://en.wikipedia.org/wiki/Inventory_management_software), primarily
 designed for electronic components.
