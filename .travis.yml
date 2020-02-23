@@ -6,9 +6,6 @@ php:
     - 7.0
     - nightly
 
-script:
-    - vendor/bin/phpunit -c app/ --coverage-clover build/logs/clover.xml
-
 env:
     - SYMFONY__TESTDB=mysql DB=mysql
     - SYMFONY__TESTDB=pgsql DB=pgsql
@@ -26,10 +23,6 @@ matrix:
     - php: nightly
     - php: hhvm
 
-addons:
-  code_climate:
-    repo_token: 9bf99f3d5903f9f2ae2280f49cc469ef219bb965205cd324847f22d4698257d9
-
 before_script:
   - cp app/config/parameters.php.dist app/config/parameters.php
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS partkeepr_test;" -U postgres; fi
@@ -41,5 +34,8 @@ before_script:
   - app/console cache:warmup --env=test
   - app/console doctrine:schema:create --env=test
 
+script:
+    - vendor/bin/phpunit -c app/ --coverage-clover build/logs/clover.xml
+
 after_script:
-  - vendor/bin/test-reporter
+  - bash <(curl -s https://codecov.io/bash)
