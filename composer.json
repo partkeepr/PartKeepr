@@ -82,7 +82,8 @@
   "require-dev": {
     "phpunit/phpunit": "5.5",
     "codeclimate/php-test-reporter": "dev-master",
-    "liip/functional-test-bundle": "~1.1"
+    "liip/functional-test-bundle": "~1.1",
+    "phing/phing": "2.*"
   },
   "autoload": {
     "psr-0": {
