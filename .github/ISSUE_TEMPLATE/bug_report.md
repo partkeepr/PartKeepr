@@ -38,6 +38,10 @@ assignees: ''
 ## System Information
 
 * PartKeepr Version:
+* Operating System:
+* Web Server: apache/nginx/...
+* PHP Version:
+* Database and version:
 * Reproducible on the demo system: Yes/No.
 
 ## JavaScript errors
