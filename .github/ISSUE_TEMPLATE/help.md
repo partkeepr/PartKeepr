@@ -1,7 +1,7 @@
 ---
 name: Help request
 about: Request help from the developers or ask for another reason
-labels: help-requested
+labels: help-requested, needs-triage
 title: ''
 assignees: ''
 

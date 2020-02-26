@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: Bug
+labels: Bug, needs-triage
 assignees: ''
 
 ---
@@ -38,6 +38,10 @@ assignees: ''
 ## System Information
 
 * PartKeepr Version:
+* Operating System:
+* Web Server: apache/nginx/...
+* PHP Version:
+* Database and version:
 * Reproducible on the demo system: Yes/No.
 
 ## JavaScript errors
