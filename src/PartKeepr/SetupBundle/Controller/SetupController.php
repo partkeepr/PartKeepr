@@ -31,6 +31,11 @@ class SetupController extends SetupBaseController
             $response['success'] = false;
             $response['message'] = 'Connection Error';
             $response['errors'] = [$e->getMessage()];
+        }
+
+        return new JsonResponse($response);
+    }
+
     /**
      * @Route("/setup/_int_test_dbversion")
      */
