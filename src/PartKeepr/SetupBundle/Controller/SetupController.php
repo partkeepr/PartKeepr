@@ -58,21 +58,22 @@ class SetupController extends SetupBaseController
             $response['success'] = false;
             $response['message'] = 'Connection Error';
             $response['errors'] = [$e->getMessage()];
-            
+
             return new JsonResponse($response);
         }
-        
+
         $retArr = $db->fetchArray("SELECT version();");
         $version = $retArr[0];
-        
-        if(preg_match('/^([0-9]*)\.([0-9]*)\.([0-9]*)-mariadb.*/i', $version, $matches)) {
+
+        if (preg_match('/^([0-9]*)\.([0-9]*)\.([0-9]*)-mariadb.*/i', $version, $matches)) {
             // We are running mariadb. This could cause problems.
             $major = $matches[1];
             $minor = $matches[2];
-            if($major == 10 && $minor >= 2) {
+            if ($major == 10 && $minor >= 2) {
                 $response['success'] = false;
                 $response['message'] = 'Incompatible MariaDB version';
                 $response['errors'] = ['Current dependency Symfony is incompatible with MariaDB >= 10.2.'];
+
                 return new JsonResponse($response);
             }
         }
@@ -90,12 +91,12 @@ class SetupController extends SetupBaseController
     public function testDBVersionAction(Request $request)
     {
         $this->dumpConfig($request);
-        
+
         $response = $this->handleRequest($request, '/setup/_int_test_dbversion');
-        
+
         return new Response($response->getContent());
     }
-    
+
     /**
      * @Route("/setup/testConnectivity")
      *
