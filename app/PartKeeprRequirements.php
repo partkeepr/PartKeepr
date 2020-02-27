@@ -20,6 +20,11 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('Install the GD library extension'));
 
         $this->addRequirement(
+            function_exists('imagettftext'),
+            sprintf('GD library has no FreeType support'),
+            sprintf('Install the FreeType extension and make sure GD extention can use it'));
+
+        $this->addRequirement(
             function_exists('ldap_connect'),
             sprintf('LDAP library not found'),
             sprintf('Install the LDAP library extension'));
@@ -78,6 +83,12 @@ class PartKeeprRequirements extends SymfonyRequirements
                     sprintf('The php.ini opcache.load_comments directive must be set to 1.'));
             }
         }
+        
+        $this->addRequirement(
+            version_compare(phpversion(), '7.2', '<'),
+            sprinf('PHP %v found', phpversion()),
+            sprintf('PartKeepr currently only works well with PHP <= 7.1.')
+        );
     }
 
     /**
