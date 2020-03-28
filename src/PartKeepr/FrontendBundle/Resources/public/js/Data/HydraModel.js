@@ -87,7 +87,7 @@ Ext.define("PartKeepr.data.HydraModel", {
         for (i=0;i<this.fields.length;i++) {
             if (this.fields[i].getName() === fieldName) {
                 if (this.fields[i].reference !== null) {
-                    ret = {
+                    return {
                         type: "onetomany",
                         reference: this.fields[i].reference
                     };
