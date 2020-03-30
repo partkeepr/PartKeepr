@@ -1,9 +1,9 @@
 /**
 <?php
 echo '*/';
-if (version_compare(phpversion(), '5.6.0', '<')) {
-    echo '{"success": false, "message": "PHP Version '.phpversion().' is too old, minimum required version is PHP 5.6.",';
-    echo '"errors": ["Your PHP Version is too old. The minimum required version is 5.6.0. ';
+if (version_compare(phpversion(), '7.1.0', '<')) {
+    echo '{"success": false, "message": "PHP Version '.phpversion().' is too old, minimum required version is PHP 7.1.",';
+    echo '"errors": ["Your PHP Version is too old. The minimum required version is 7.1.0. ';
     echo '<a target=\"_blank\" href=\"https://wiki.partkeepr.org/wiki/KB00003:PHP_Version\">Read more…</a>"]}';
 } else {
     echo '{"success": true, "message": "PHP Version '.phpversion().' found"}';
