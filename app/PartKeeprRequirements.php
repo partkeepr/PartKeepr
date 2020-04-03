@@ -83,12 +83,6 @@ class PartKeeprRequirements extends SymfonyRequirements
                     sprintf('The php.ini opcache.load_comments directive must be set to 1.'));
             }
         }
-
-        $this->addRequirement(
-            version_compare(phpversion(), '7.2', '<'),
-            sprinf('PHP %v found', phpversion()),
-            sprintf('PartKeepr currently only works well with PHP <= 7.1.')
-        );
     }
 
     /**
