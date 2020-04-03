@@ -12,33 +12,43 @@ class PartKeeprRequirements extends SymfonyRequirements
         $this->addRequirement(
             ini_get('allow_url_fopen') || function_exists('curl_init'),
             sprintf('No way to remotely load files detected'),
-            sprintf('Either set <strong>allow_url_fopen=true</strong> or install the cURL extension'));
+            sprintf('Either set <strong>allow_url_fopen=true</strong> or install the cURL extension')
+        );
 
         $this->addRequirement(
             function_exists('imagecreate'),
             sprintf('GD library not found'),
-            sprintf('Install the GD library extension'));
+            sprintf('Install the GD library extension')
+        );
 
         $this->addRequirement(
             function_exists('imagettftext'),
             sprintf('GD library has no FreeType support'),
-            sprintf('Install the FreeType extension and make sure GD extention can use it'));
+            sprintf('Install the FreeType extension and make sure GD extention can use it')
+        );
 
         $this->addRequirement(
             function_exists('ldap_connect'),
             sprintf('LDAP library not found'),
-            sprintf('Install the LDAP library extension'));
+            sprintf('Install the LDAP library extension')
+        );
 
         $this->addRequirement(
             function_exists('curl_init'),
             sprintf('CURL library not found'),
-            sprintf('Install the CURL library extension'));
+            sprintf('Install the CURL library extension')
+        );
 
-        $this->addPhpIniRequirement('memory_limit', $this->getBytesIniSetting('memory_limit') > 128000000,
+        $this->addPhpIniRequirement(
+            'memory_limit',
+            $this->getBytesIniSetting('memory_limit') > 128000000,
             false,
             'Memory Limit too small',
-            sprintf('The php.ini memory_limit directive must be set to 128MB or higher. Your limit is set to %s',
-                ini_get('memory_limit')));
+            sprintf(
+                'The php.ini memory_limit directive must be set to 128MB or higher. Your limit is set to %s',
+                ini_get('memory_limit')
+            )
+        );
 
         $this->checkWritable(realpath(dirname(__FILE__).'/../data/'));
         $this->checkWritable(realpath(dirname(__FILE__).'/../app/'));
@@ -50,12 +60,15 @@ class PartKeeprRequirements extends SymfonyRequirements
             sprintf('For best performance install the PHP APCu cache')
         );
 
-        $this->addPhpIniRecommendation('max_execution_time',
+        $this->addPhpIniRecommendation(
+            'max_execution_time',
             ini_get('max_execution_time') > 30,
             true,
             sprintf('Maximum Execution Time might be too low'),
-            sprintf('Your maximum execution time is set to %d seconds, which might be too low for low-end systems. If you encounter problems, please increase the value.',
-                ini_get('max_execution_time'))
+            sprintf(
+                'Your maximum execution time is set to %d seconds, which might be too low for low-end systems. If you encounter problems, please increase the value.',
+                ini_get('max_execution_time')
+            )
         );
 
         $this->addRequirement(
@@ -72,15 +85,21 @@ class PartKeeprRequirements extends SymfonyRequirements
 
         if (ini_get('opcache.enable')) {
             if (version_compare(phpversion(), '7.0', '<')) {
-                $this->addPhpIniRequirement('opcache.save_comments', 1,
+                $this->addPhpIniRequirement(
+                    'opcache.save_comments',
+                    1,
                     false,
                     'opcache.save_comments must be on',
-                    sprintf('The php.ini opcache.save_comments directive must be set to 1.'));
+                    sprintf('The php.ini opcache.save_comments directive must be set to 1.')
+                );
 
-                $this->addPhpIniRequirement('opcache.load_comments', 1,
+                $this->addPhpIniRequirement(
+                    'opcache.load_comments',
+                    1,
                     false,
                     'opcache.load_comments must be on',
-                    sprintf('The php.ini opcache.load_comments directive must be set to 1.'));
+                    sprintf('The php.ini opcache.load_comments directive must be set to 1.')
+                );
             }
         }
     }
@@ -97,9 +116,12 @@ class PartKeeprRequirements extends SymfonyRequirements
         } catch (\Exception $e) {
             $this->addRequirement(
                 false,
-                sprintf('Directory %s and all subfolders/files must be writable.<br/><br/>If you already set the subfolders and files writable, you might have SELinux installed. Read <a href="https://wiki.partkeepr.org/wiki/SELinux" target="_blank">the PartKeepr SELinux Wiki Article</a> for further information.<br/>',
-                    $path),
-                $e->getMessage());
+                sprintf(
+                    'Directory %s and all subfolders/files must be writable.<br/><br/>If you already set the subfolders and files writable, you might have SELinux installed. Read <a href="https://wiki.partkeepr.org/wiki/SELinux" target="_blank">the PartKeepr SELinux Wiki Article</a> for further information.<br/>',
+                    $path
+                ),
+                $e->getMessage()
+            );
         }
     }
 
