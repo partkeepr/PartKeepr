@@ -24,7 +24,7 @@ Requirements
 
 PartKeepr needs:
 
-* PHP 5.6 and up. Some distributions don't have PHP 5.6 yet, but [provide packages](documentation/installation/php56.md). 
+* PHP between 7.0 and 7.1 - migration to newer symfony is needed before we support current php 7.x
 * A MySQL or PostgreSQL database
 
 Installation
