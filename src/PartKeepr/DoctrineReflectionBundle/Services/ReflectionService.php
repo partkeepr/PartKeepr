@@ -155,10 +155,10 @@ class ReflectionService
 
             $getter = 'get'.ucfirst($association['fieldName']);
             $getterField = lcfirst($cm->getReflectionClass()->getShortName()).str_replace(
-                    '.',
-                    '',
-                    $this->convertPHPToExtJSClassName($association['targetEntity'])
-                );
+                '.',
+                '',
+                $this->convertPHPToExtJSClassName($association['targetEntity'])
+            );
 
             if ($getterPlural) {
                 $getterField .= 's';

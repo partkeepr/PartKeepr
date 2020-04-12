@@ -26,8 +26,14 @@ class Configuration extends BaseConfiguration
         if (property_exists($importConfiguration, "fields")) {
             foreach ($importConfiguration->fields as $field => $configuration) {
                 if ($this->classMetadata->hasField($field)) {
-                    $fieldConfiguration = new FieldConfiguration($this->classMetadata, $this->baseEntity,
-                        $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
+                    $fieldConfiguration = new FieldConfiguration(
+                        $this->classMetadata,
+                        $this->baseEntity,
+                        $this->reflectionService,
+                        $this->em,
+                        $this->advancedSearchFilter,
+                        $this->iriConverter
+                    );
                     $fieldConfiguration->setFieldName($field);
 
                     $fieldConfiguration->setPath($this->getPath($field));
@@ -46,8 +52,14 @@ class Configuration extends BaseConfiguration
                     $targetClass = $this->classMetadata->getAssociationTargetClass($manyToOne);
                     $cm = $this->em->getClassMetadata($targetClass);
 
-                    $manyToOneconfiguration = new ManyToOneConfiguration($cm, $targetClass,
-                        $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
+                    $manyToOneconfiguration = new ManyToOneConfiguration(
+                        $cm,
+                        $targetClass,
+                        $this->reflectionService,
+                        $this->em,
+                        $this->advancedSearchFilter,
+                        $this->iriConverter
+                    );
                     $manyToOneconfiguration->setAssociationName($manyToOne);
                     $manyToOneconfiguration->setPath($this->getPath($manyToOne));
 
@@ -65,8 +77,14 @@ class Configuration extends BaseConfiguration
                 if ($this->classMetadata->hasAssociation($oneToMany)) {
                     $targetClass = $this->classMetadata->getAssociationTargetClass($oneToMany);
                     $cm = $this->em->getClassMetadata($targetClass);
-                    $oneToManyConfiguration = new OneToManyConfiguration($cm, $targetClass,
-                        $this->reflectionService, $this->em, $this->advancedSearchFilter, $this->iriConverter);
+                    $oneToManyConfiguration = new OneToManyConfiguration(
+                        $cm,
+                        $targetClass,
+                        $this->reflectionService,
+                        $this->em,
+                        $this->advancedSearchFilter,
+                        $this->iriConverter
+                    );
                     $oneToManyConfiguration->setAssociationName($oneToMany);
                     $oneToManyConfiguration->setPath($this->getPath($oneToMany));
                     if ($oneToManyConfiguration->parseConfiguration($configuration) !== false) {

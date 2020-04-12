@@ -44,10 +44,22 @@ class InternalPartNumberTest extends WebTestCase
             "internalPartNumber" => "foo123",
         ];
 
-        $client->request('POST', '/api/parts', [], [], ['CONTENT_TYPE' => 'application/json'],
-            json_encode($part));
-        $client->request('POST', '/api/parts', [], [], ['CONTENT_TYPE' => 'application/json'],
-            json_encode($part));
+        $client->request(
+            'POST',
+            '/api/parts',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($part)
+        );
+        $client->request(
+            'POST',
+            '/api/parts',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($part)
+        );
 
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
 

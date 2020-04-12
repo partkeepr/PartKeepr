@@ -110,8 +110,10 @@ class ConfigSetupService
 
         ksort($parameters);
 
-        return $this->twig->render('PartKeeprSetupBundle::parameters.php.twig',
-            ['parameters' => $parameters]);
+        return $this->twig->render(
+            'PartKeeprSetupBundle::parameters.php.twig',
+            ['parameters' => $parameters]
+        );
     }
 
     public function legacyConfigParser()

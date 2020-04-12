@@ -58,8 +58,10 @@ class AdvancedSearchFilterTest extends WebTestCase
          */
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $this->assertEquals($iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
-            $data["hydra:member"][0]["@id"]);
+        $this->assertEquals(
+            $iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
+            $data["hydra:member"][0]["@id"]
+        );
     }
 
     public function testEqualFilterSame()
@@ -93,8 +95,10 @@ class AdvancedSearchFilterTest extends WebTestCase
          */
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
-        $this->assertEquals($iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
-            $data["hydra:member"][0]["@id"]);
+        $this->assertEquals(
+            $iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
+            $data["hydra:member"][0]["@id"]
+        );
     }
 
     public function testIDReference()

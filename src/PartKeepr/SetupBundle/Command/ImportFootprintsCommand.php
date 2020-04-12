@@ -19,7 +19,10 @@ class ImportFootprintsCommand extends ContainerAwareCommand
     {
         $return = $this->getContainer()->get('partkeepr.setup.footprint_service')->importFootprints();
 
-        $output->writeln(sprintf('%d footprints imported, %d existing footprints skipped', $return['imported'],
-            $return['skipped']));
+        $output->writeln(sprintf(
+            '%d footprints imported, %d existing footprints skipped',
+            $return['imported'],
+            $return['skipped']
+        ));
     }
 }

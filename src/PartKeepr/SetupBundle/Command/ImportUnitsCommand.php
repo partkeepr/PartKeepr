@@ -23,7 +23,10 @@ class ImportUnitsCommand extends ContainerAwareCommand
 
         $return = $this->getContainer()->get('partkeepr.setup.unit_service')->importUnits($update);
 
-        $output->writeln(sprintf('%d units imported, %d existing units skipped', $return['imported'],
-            $return['skipped']));
+        $output->writeln(sprintf(
+            '%d units imported, %d existing units skipped',
+            $return['imported'],
+            $return['skipped']
+        ));
     }
 }

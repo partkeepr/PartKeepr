@@ -24,7 +24,8 @@ class UserTest extends WebTestCase
         $ormExecutor = $this->loadFixtures(
             [
                 'PartKeepr\AuthBundle\DataFixtures\LoadUserData',
-            ]);
+            ]
+        );
 
         $this->fixtures = $ormExecutor->getReferenceRepository();
     }
@@ -94,10 +95,12 @@ class UserTest extends WebTestCase
         $this->getContainer()->get('doctrine.orm.default_entity_manager')->persist($user);
         $this->getContainer()->get('doctrine.orm.default_entity_manager')->flush($user);
 
-        $client = static::makeClient(false, [
-            'PHP_AUTH_USER' => 'bernd2',
-            'PHP_AUTH_PW'   => 'admin',
-        ]
+        $client = static::makeClient(
+            false,
+            [
+                'PHP_AUTH_USER' => 'bernd2',
+                'PHP_AUTH_PW'   => 'admin',
+            ]
         );
 
         $iriConverter = $this->getContainer()->get('api.iri_converter');
@@ -117,10 +120,12 @@ class UserTest extends WebTestCase
         $this->assertEmpty($response->{'password'});
         $this->assertEmpty($response->{'newPassword'});
 
-        $client = static::makeClient(false, [
-            'PHP_AUTH_USER' => 'bernd2',
-            'PHP_AUTH_PW'   => 'foobar',
-        ]
+        $client = static::makeClient(
+            false,
+            [
+                'PHP_AUTH_USER' => 'bernd2',
+                'PHP_AUTH_PW'   => 'foobar',
+            ]
         );
 
         $client->request('PUT', $iri, $parameters);

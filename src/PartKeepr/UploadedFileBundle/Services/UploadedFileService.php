@@ -75,8 +75,10 @@ class UploadedFileService extends ContainerAware
         try {
             $storage->delete($file->getFullFilename());
         } catch (FileNotFound $e) {
-            $this->container->get('logger')->alert(sprintf('Unable to delete file %s', $file->getFullFilename()),
-                [$e, $file]);
+            $this->container->get('logger')->alert(
+                sprintf('Unable to delete file %s', $file->getFullFilename()),
+                [$e, $file]
+            );
         }
     }
 

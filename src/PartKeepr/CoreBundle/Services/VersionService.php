@@ -124,8 +124,10 @@ class VersionService
         if (version_compare($this->getVersion(), $latestVersion['version'], '<')) {
             $this->systemNoticeService->createUniqueSystemNotice(
                 'PARTKEEPR_VERSION_'.$latestVersion['version'],
-                $this->translator->trans('New PartKeepr Version %version% available',
-                    ['%version%' => $latestVersion['version']]),
+                $this->translator->trans(
+                    'New PartKeepr Version %version% available',
+                    ['%version%' => $latestVersion['version']]
+                ),
                 $this->translator->trans('PartKeepr Version %version% changelog:', [
                     '%version%' => $latestVersion['version']."\n\n".
                         $latestVersion['changelog'],
