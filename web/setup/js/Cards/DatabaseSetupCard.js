@@ -16,6 +16,7 @@ Ext.define('PartKeeprSetup.DatabaseSetupCard', {
     setupTests: function ()
     {
         this.tests.push(new PartKeeprSetup.DatabaseConnectivityTest());
+        this.tests.push(new PartKeeprSetup.DatabaseVersionTest());
         this.tests.push(new PartKeeprSetup.SchemaSetup());
         this.tests.push(new PartKeeprSetup.SchemaMigration());
         this.tests.push(new PartKeeprSetup.PartUnitSetup());
