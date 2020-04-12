@@ -19,7 +19,10 @@ class ImportManufacturersCommand extends ContainerAwareCommand
     {
         $return = $this->getContainer()->get('partkeepr.setup.manufacturer_service')->importManufacturers();
 
-        $output->writeln(sprintf('%d manufacturers imported, %d existing manufacturers skipped', $return['imported'],
-            $return['skipped']));
+        $output->writeln(sprintf(
+            '%d manufacturers imported, %d existing manufacturers skipped',
+            $return['imported'],
+            $return['skipped']
+        ));
     }
 }

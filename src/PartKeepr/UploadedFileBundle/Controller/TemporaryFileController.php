@@ -48,8 +48,10 @@ class TemporaryFileController extends FileController
                         $error = $this->get('translator')->trans('The uploaded file is too large.');
                         break;
                     default:
-                        $error = $this->get('translator')->trans('Unknown error, error code %code',
-                            ['code' => $file->getError()]);
+                        $error = $this->get('translator')->trans(
+                            'Unknown error, error code %code',
+                            ['code' => $file->getError()]
+                        );
                         break;
                 }
 
