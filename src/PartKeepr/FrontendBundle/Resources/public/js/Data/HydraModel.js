@@ -44,7 +44,7 @@ Ext.define("PartKeepr.data.HydraModel", {
                 return ret;
             }
 
-            if (this.associations[parts[0]]) {
+            if (this.associations[parts[0]] && this.getFieldType(parts[0]).type === "onetomany") {
                 role = this.associations[parts[0]];
                 item = role.getAssociatedItem(this);
 
@@ -59,14 +59,19 @@ Ext.define("PartKeepr.data.HydraModel", {
                     subEntity = parts[0].substring(0, openingBracket);
                     closingBracket = parts[0].indexOf("]", openingBracket);
                     index = parts[0].substring(openingBracket+1, closingBracket);
+                }
+                else {
+                    // No index was passed for retrieving this field, try to return the first array member
+                    subEntity = parts[0];
+                    index = 0;    
+                }
 
-                    subEntityStore = this[this.associations[subEntity].role]();
-                    item = subEntityStore.getAt(index);
+                subEntityStore = this[this.associations[subEntity].role]();
+                item = subEntityStore.getAt(index);
 
-                    if (item !== null) {
-                        parts.shift();
-                        return item.get(parts.join("."));
-                    }
+                if (item !== null) {
+                    parts.shift();
+                    return item.get(parts.join("."));
                 }
             }
         }
@@ -87,7 +92,7 @@ Ext.define("PartKeepr.data.HydraModel", {
         for (i=0;i<this.fields.length;i++) {
             if (this.fields[i].getName() === fieldName) {
                 if (this.fields[i].reference !== null) {
-                    ret = {
+                    return {
                         type: "onetomany",
                         reference: this.fields[i].reference
                     };
