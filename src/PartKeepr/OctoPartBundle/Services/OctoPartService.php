@@ -177,9 +177,10 @@ EOD;
     private $apiKey;
     private $limit = "3";
 
-    public function __construct($apiKey)
+    public function __construct($apiKey, $limit)
     {
         $this->apiKey = $apiKey;
+        $this->limit = $limit;
     }
 
     public function getPartByUID($uid)
