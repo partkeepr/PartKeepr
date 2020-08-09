@@ -8,6 +8,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
     {
         this.setImport("parameters", true);
         this.setImport("distributors", true);
+        this.setImport("bestDatasheet", true);
         this.setImport("datasheets", true);
         this.setImport("cadModels", true);
         this.setImport("complianceDocuments", true);
@@ -74,18 +75,20 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         if (this.import.parameters)
         {
-            for (i in this.data.specs)
+            for (i in this.data["specs"])
             {
-                if (this.data.specs[i].metadata.unit !== null)
+                var q_value, q_unit;
+                [q_value,q_unit] = this.parseQuantity( this.data.specs[i].display_value );
+                if (q_unit)
                 {
                     unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol",
-                        this.data.specs[i].metadata.unit.symbol, 0, false, true, true);
+                        q_unit, 0, false, true, true);
                     if (unit === null)
                     {
-                        this.displayWaitWindow(i18n("Creating Unit…"), this.data.specs[i].metadata.unit.name);
+                        this.displayWaitWindow(i18n("Creating Unit…"), q_unit);
                         unit = Ext.create("PartKeepr.UnitBundle.Entity.Unit");
-                        unit.set("name", this.data.specs[i].metadata.unit.name);
-                        unit.set("symbol", this.data.specs[i].metadata.unit.symbol);
+                        unit.set("name", q_unit); // v4 API does not have that anymore
+                        unit.set("symbol", q_unit);
                         unit.save({
                             success: function ()
                             {
@@ -105,17 +108,17 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         if (this.import.distributors)
         {
-            for (i in this.data.offers)
+            for (i in this.data['sellers'])
             {
                 distributor = PartKeepr.getApplication().getDistributorStore().findRecord("name",
-                    this.data.offers[i].seller.name, 0, false, true, true);
+                    this.data.sellers[i].company.name, 0, false, true, true);
 
                 if (distributor === null)
                 {
-                    this.displayWaitWindow(i18n("Creating Distributor…"), this.data.offers[i].seller.name);
+                    this.displayWaitWindow(i18n("Creating Distributor…"), this.data.sellers[i].company.name);
                     distributor = Ext.create("PartKeepr.DistributorBundle.Entity.Distributor");
-                    distributor.set("name", this.data.offers[i].seller.name);
-                    distributor.set("website", this.data.offers[i].seller.homepage_url);
+                    distributor.set("name", this.data.sellers[i].company.name);
+                    distributor.set("url", this.data.sellers[i].company.homepage_url);
                     distributor.save({
                         success: function ()
                         {
@@ -132,11 +135,12 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
             }
         }
 
-        if (this.import.datasheets)
+        if (this.import.bestDatasheet)
         {
-            if (this.data.datasheets.length > 0)
+            if (this.data['best_datasheet'])
             {
-                file = this.data.datasheets.shift();
+                file = this.data.best_datasheet;
+                delete this.data.best_datasheet;
                 this.displayWaitWindow(i18n("Uploading datasheet…"), file.url);
 
                 if (!this.checkIfAttachmentFilenameExists(file.url))
@@ -152,15 +156,36 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
             }
         }
 
-        if (this.import.cadModels)
+/*        if (this.import.datasheets)
         {
-            if (this.data.cad_models.length > 0)
+            if (this.data.document_collections.length > 0)
             {
-                file = this.data.cad_models.shift();
-                this.displayWaitWindow(i18n("Uploading CAD Model…"), file.url);
+                file = this.data.datasheets.shift();
+                this.displayWaitWindow(i18n("Uploading datasheet…"), file.url);
+
                 if (!this.checkIfAttachmentFilenameExists(file.url))
                 {
-                    PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("CAD Model"), this.onFileUploaded,
+                    PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Datasheet"), this.onFileUploaded,
+                        this);
+                } else
+                {
+                    this.applyData();
+                }
+
+                return false;
+            }
+        }*/
+
+        if (this.import.cadModels)
+        {
+            if (this.data['cad'])
+            {
+                file = this.data.cad;
+                delete this.data.cad;
+                this.displayWaitWindow(i18n("Uploading CAD Model…"), file.add_to_library_url);
+                if (!this.checkIfAttachmentFilenameExists(file.add_to_library_url))
+                {
+                    PartKeepr.getApplication().uploadFileFromURL(file.add_to_library_url, i18n("CAD Model"), this.onFileUploaded,
                         this);
                 } else
                 {
@@ -170,7 +195,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
             }
         }
 
-        if (this.import.complianceDocuments)
+/*        if (this.import.complianceDocuments)
         {
             if (this.data.compliance_documents.length > 0)
             {
@@ -187,7 +212,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
                 }
                 return false;
             }
-        }
+        }*/
 
         if (this.import.referenceDesigns)
         {
@@ -210,42 +235,19 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         if (this.import.images)
         {
-            if (this.data.imagesets.length > 0)
+            if (this.data['best_image'])
             {
-                file = this.data.imagesets.shift();
-                image = null;
+                image = this.data.best_image;
+                delete this.data.best_image;
 
-                if (file.swatch_image !== null)
+                this.displayWaitWindow(i18n("Uploading Image…"), image.url);
+                if (!this.checkIfAttachmentFilenameExists(image.url))
                 {
-                    image = file.swatch_image;
-                }
-
-                if (file.small_image !== null)
+                    PartKeepr.getApplication().uploadFileFromURL(image.url, i18n("Image"), this.onFileUploaded,
+                        this);
+                } else
                 {
-                    image = file.small_image;
-                }
-
-                if (file.medium_image !== null)
-                {
-                    image = file.medium_image;
-                }
-
-                if (file.large_image !== null)
-                {
-                    image = file.large_image;
-                }
-
-                if (image !== null)
-                {
-                    this.displayWaitWindow(i18n("Uploading Image…"), image.url);
-                    if (!this.checkIfAttachmentFilenameExists(image.url))
-                    {
-                        PartKeepr.getApplication().uploadFileFromURL(image.url, i18n("Image"), this.onFileUploaded,
-                            this);
-                    } else
-                    {
-                        this.applyData();
-                    }
+                    this.applyData();
                 }
 
                 return false;
@@ -346,26 +348,26 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         if (this.import.distributors)
         {
-            for (i = 0; i < this.data.offers.length; i++)
+            for (i in this.data['sellers'])
             {
                 distributor = PartKeepr.getApplication().getDistributorStore().findRecord("name",
-                    this.data.offers[i].seller.name, 0, false, true, true);
+                    this.data.sellers[i].company.name, 0, false, true, true);
                 if (distributor === null)
                 {
                     // @todo put out error message
                     continue;
                 }
 
-                for (currency in this.data.offers[i].prices)
+                for (o in this.data.sellers[i]['offers'])
                 {
-                    for (j = 0; j < this.data.offers[i].prices[currency].length; j++)
+                    for (p in this.data.sellers[i].offers[o].prices)
                     {
                         partDistributor = Ext.create("PartKeepr.PartBundle.Entity.PartDistributor");
                         partDistributor.setDistributor(distributor);
-                        partDistributor.set("sku", this.data.offers[i].sku);
-                        partDistributor.set("packagingUnit", this.data.offers[i].prices[currency][j][0]);
-                        partDistributor.set("currency", currency);
-                        partDistributor.set("price", this.data.offers[i].prices[currency][j][1]);
+                        partDistributor.set("sku", this.data.sellers[i].offers[o].sku);
+                        partDistributor.set("packagingUnit", this.data.sellers[i].offers[o].prices[p].quantity);
+                        partDistributor.set("currency", this.data.sellers[i].offers[o].prices[p].currency);
+                        partDistributor.set("price", this.data.sellers[i].offers[o].prices[p].price);
 
                         found = null;
 
@@ -382,7 +384,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
                         if (found !== null)
                         {
-                            found.set("price", this.data.offers[i].prices[currency][j][1]);
+                            found.set("price", this.data.sellers[i].offers[o].prices[p].price);
                         } else
                         {
                             this.part.distributors().add(partDistributor);
@@ -394,54 +396,33 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
         if (this.import.parameters)
         {
-            for (i in this.data.specs)
+            for (i in this.data["specs"])
             {
                 spec = Ext.create("PartKeepr.PartBundle.Entity.PartParameter");
-                spec.set("name", this.data.specs[i].metadata.name);
+                spec.set("name", this.data.specs[i].attribute.name);
 
-                if (this.data.specs[i].metadata.unit !== null)
+                var q_value, q_unit;
+                [q_value,q_unit] = this.parseQuantity( this.data.specs[i].display_value );
+
+                if (q_value != null && q_unit != null)
                 {
                     unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol",
-                        this.data.specs[i].metadata.unit.symbol, 0, false, true, true);
+                        q_unit, 0, false, true, true);
 
                     spec.setUnit(unit);
+                    spec.set("valueType", "numeric");
+                    siPrefix = this.findSiPrefixForValueAndUnit(q_value, unit);
+                    spec.set("value", this.applySiPrefix(q_value, siPrefix));
+                    spec.setSiPrefix(siPrefix);
                 }
-
-                switch (this.data.specs[i].metadata.datatype)
+                else if (q_value != null) {
+                    spec.set("valueType", "numeric");
+                    spec.set("value", q_value);
+                }
+                else
                 {
-                    case "string":
-                        spec.set("valueType", "string");
-                        spec.set("stringValue", this.data.specs[i].value[0]);
-                        break;
-                    case "decimal":
-                    case "integer":
-                        spec.set("valueType", "numeric");
-
-                        if (this.data.specs[i].min_value !== null)
-                        {
-                            value = parseFloat(this.data.specs[i].min_value);
-                            siPrefix = this.findSiPrefixForValueAndUnit(value, unit);
-                            spec.set("minValue", this.applySiPrefix(value, siPrefix));
-                            spec.setMinSiPrefix(siPrefix);
-                        }
-
-                        if (this.data.specs[i].max_value !== null)
-                        {
-                            value = parseFloat(this.data.specs[i].max_value);
-                            siPrefix = this.findSiPrefixForValueAndUnit(value, unit);
-                            spec.set("maxValue", this.applySiPrefix(value, siPrefix));
-                            spec.setMaxSiPrefix(siPrefix);
-                        }
-
-                        if (this.data.specs[i].value.length === 1)
-                        {
-                            value = parseFloat(this.data.specs[i].value[0]);
-                            siPrefix = this.findSiPrefixForValueAndUnit(value, unit);
-                            spec.set("value", this.applySiPrefix(value, siPrefix));
-                            spec.setSiPrefix(siPrefix);
-                        }
-
-                        break;
+                    spec.set("valueType", "string");
+                    spec.set("stringValue", this.data.specs[i].display_value);
                 }
 
                 found = null;
@@ -495,5 +476,28 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         }
 
         return siPrefix;
+    },
+    parseQuantity: function( quantity )
+    {
+        try {
+            quantity = quantity.trim();
+            const regex = /[^\d+-.]/g;
+            var idx = quantity.search(regex);
+            if (idx == -1) {
+                // no unit, but maybe value only
+                var value = parseFloat(quantity);
+                if (!isNaN(value)) {
+                    return [value,null];
+                }
+            } else {
+                var value = parseFloat(quantity.slice(0,idx));
+                if (isNaN(value))
+                    return [null,null];
+                var unit = quantity.slice(idx).trim();
+                return [value,unit];
+            }
+        }
+        finally {}
+        return [null,null];
     }
 });

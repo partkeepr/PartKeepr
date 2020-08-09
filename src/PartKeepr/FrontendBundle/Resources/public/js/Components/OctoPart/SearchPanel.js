@@ -97,8 +97,13 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
                 boxLabel: i18n("Parameters")
             },  {
                 xtype: 'checkbox',
+                itemId: "importBestDatasheet",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importBestDatasheet", true),
+                boxLabel: i18n("Best Datasheet")
+            },  {
+                xtype: 'checkbox',
                 itemId: "importDatasheets",
-                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importDatasheets", true),
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importDatasheets", false),
                 boxLabel: i18n("Datasheets")
             },  {
                 xtype: 'checkbox',
@@ -108,7 +113,7 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
             },  {
                 xtype: 'checkbox',
                 itemId: "importComplianceDocuments",
-                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importComplianceDocuments", true),
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importComplianceDocuments", false),
                 boxLabel: i18n("Compliance Documents")
             },  {
                 xtype: 'checkbox',
@@ -186,6 +191,7 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
 
         j.setImport("distributors", this.down("#importDistributors").getValue());
         j.setImport("parameters", this.down("#importParameters").getValue());
+        j.setImport("bestDatasheet", this.down("#importBestDatasheet").getValue());
         j.setImport("datasheets", this.down("#importDatasheets").getValue());
         j.setImport("cadModels", this.down("#importCADModels").getValue());
         j.setImport("complianceDocuments", this.down("#importComplianceDocuments").getValue());

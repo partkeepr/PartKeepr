@@ -259,10 +259,15 @@ $container->setParameter('partkeepr.filesystem.data_directory', '%kernel.root_di
 $container->setParameter('partkeepr.cronjob.check', true);
 
 /**
- * Specifies which API key PartKeepr should use to talk to OctoPart. You can get an API key by registering at
- * https://octopart.com/api/home and then registering an application.
+ * Specifies which v4 API key PartKeepr should use to talk to OctoPart. You can get an API key by registering at
+ * https://octopart.com/api and then registering an application.
  */
 $container->setParameter('partkeepr.octopart.apikey', '');
+
+/**
+ * The number of returned parts from API calls is limited. Try to keep this value low
+ */
+$container->setParameter('partkeepr.octopart.limit', '3');
 
 /**
  * Specifies which URL contains the patreon status. If you do not wish to display the patreon status,
