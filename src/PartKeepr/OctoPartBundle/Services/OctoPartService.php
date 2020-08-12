@@ -190,25 +190,24 @@ EOD;
             $redisclient->connect();
             $part = $redisclient->get($uid);
             if ($part) {
-                return json_decode( $part, true );
+                return json_decode($part, true);
             }
             $redisclient->disconnect();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         $client = new Client();
         $request = $client->createRequest('POST', self::OCTOPART_ENDPOINT);
         $request->setHeader('Content-Type', 'application/json');
         $request->getQuery()->add("token", $this->apiKey);
-        
-        $graphql = array(
-            "query" => self::OCTOPART_PARTQUERY,
+
+        $graphql = [
+            "query"         => self::OCTOPART_PARTQUERY,
             "operationName" => "MyPartSearch",
-            "variables" => [
-                "id" => $uid
-            ]
-        );
+            "variables"     => [
+                "id" => $uid,
+            ],
+        ];
 
         $request->setBody(json_encode($graphql));
         $request->send();
@@ -227,16 +226,16 @@ EOD;
         $request = $client->createRequest('POST', self::OCTOPART_ENDPOINT);
         $request->setHeader('Content-Type', 'application/json');
         $request->getQuery()->add("token", $this->apiKey);
-        
-        $graphql = array(
-            "query" => self::OCTOPART_QUERY,
+
+        $graphql = [
+            "query"         => self::OCTOPART_QUERY,
             "operationName" => "MyPartSearch",
-            "variables" => [
-                "q" => $q,
+            "variables"     => [
+                "q"     => $q,
                 "limit" => $this->limit,
-                "start" => ($startpage - 1) * $this->limit   // "start" is 0-based
-            ]
-        );
+                "start" => ($startpage - 1) * $this->limit,   // "start" is 0-based
+            ],
+        ];
 
         $request->setBody(json_encode($graphql));
         $request->send();
@@ -255,8 +254,7 @@ EOD;
                 $redisclient->set($id, json_encode($result["part"]));
             }
             $redisclient->disconnect();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         return $parts;

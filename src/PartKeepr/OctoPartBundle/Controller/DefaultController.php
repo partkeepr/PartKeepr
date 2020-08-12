@@ -65,7 +65,7 @@ class DefaultController extends FOSRestController
             $responseItem["numOffers"] = count($part["sellers"]);
             $responseItem["numSpecs"] = count($part["specs"]);
             $responseItem["numDatasheets"] = count($part["document_collections"]);
-            $responseItem["url"] = "https://octopart.com" . $part["slug"];
+            $responseItem["url"] = "https://octopart.com".$part["slug"];
             $responseItem["uid"] = $part["id"];
             $responseData["results"][] = $responseItem;
         }
