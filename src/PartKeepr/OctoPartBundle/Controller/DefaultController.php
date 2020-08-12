@@ -38,7 +38,7 @@ class DefaultController extends FOSRestController
      */
     public function getPartsByQueryAction(Request $request)
     {
-        $start = 0;
+        $start = 1;
 
         $responseData = [];
 
@@ -55,19 +55,22 @@ class DefaultController extends FOSRestController
 
         $responseData["hits"] = $data["hits"];
         $responseData["results"] = [];
+        $responseData["errors"] = $errors;
 
-        foreach ($data["results"] as $result) {
-            $part = $result["part"];
-            $responseItem = [];
-            $responseItem["mpn"] = $part["mpn"];
-            $responseItem["title"] = $part["short_description"];
-            $responseItem["manufacturer"] = $part["manufacturer"]["name"];
-            $responseItem["numOffers"] = count($part["sellers"]);
-            $responseItem["numSpecs"] = count($part["specs"]);
-            $responseItem["numDatasheets"] = count($part["document_collections"]);
-            $responseItem["url"] = "https://octopart.com".$part["slug"];
-            $responseItem["uid"] = $part["id"];
-            $responseData["results"][] = $responseItem;
+        if ($data) {
+            foreach ($data["results"] as $result) {
+                $part = $result["part"];
+                $responseItem = [];
+                $responseItem["mpn"] = $part["mpn"];
+                $responseItem["title"] = $part["short_description"];
+                $responseItem["manufacturer"] = $part["manufacturer"]["name"];
+                $responseItem["numOffers"] = count($part["sellers"]);
+                $responseItem["numSpecs"] = count($part["specs"]);
+                $responseItem["numDatasheets"] = count($part["document_collections"]);
+                $responseItem["url"] = "https://octopart.com".$part["slug"];
+                $responseItem["uid"] = $part["id"];
+                $responseData["results"][] = $responseItem;
+            }
         }
 
         return $responseData;

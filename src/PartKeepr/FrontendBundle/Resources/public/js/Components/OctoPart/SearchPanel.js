@@ -25,7 +25,8 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
                 reader: {
                     type: 'json',
                     totalProperty: 'hits',
-                    rootProperty: 'results'
+                    rootProperty: 'results',
+                    transform: this.checkForErrors
                 }
             },
             autoLoad: false
@@ -163,6 +164,8 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
             this.onSelectChange,
             this);
 
+        this.store.on("load", this.checkForApiError, this);
+
         this.callParent(arguments);
 
     },
@@ -212,5 +215,19 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
         );
         this.store.load();
         this.searchBar.setValue(query);
+    },
+    checkForErrors: function (data)
+    {
+        if (data.results.length == 0 && data.errors.length > 0) {
+            Ext.Msg.alert(i18n("OctoPart Error"), data.errors.map(e => e.message).join());
+        }
+
+        return data;
+    },
+    checkForApiError: function (store, records, successful, eOpts )
+    {
+        if (!successful) {
+            Ext.Msg.alert(i18n("OctoPart Error"), "PartKeepr cannot access the OctoPart API");
+        }
     }
 });
