@@ -100,7 +100,7 @@ Ext.define('PartKeepr.Components.UserPreferences.Preferences.OctoPartConfigurati
     },
     statics: {
         iconCls: 'partkeepr-icon octopart',
-        title: i18n('OctoPart'),
+        title: i18n('Octopart'),
         menuPath: [{iconCls: 'fugue-icon ui-scroll-pane-image', text: i18n("User Interface")}]
     }
 });

@@ -25,9 +25,9 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         this.part = part;
     },
     /**
-     * Loads the data via the PartKeepr API from OctoPart.
+     * Loads the data via the PartKeepr API from Octopart.
      *
-     * @param {String} id The OctoPart UID to load
+     * @param {String} id The Octopart UID to load
      */
     loadData: function (id)
     {
@@ -38,7 +38,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         });
     },
     /**
-     * Called after the OctoPart Part data has been loaded.
+     * Called after the Octopart Part data has been loaded.
      *
      * @param {Object} response The response data
      */
