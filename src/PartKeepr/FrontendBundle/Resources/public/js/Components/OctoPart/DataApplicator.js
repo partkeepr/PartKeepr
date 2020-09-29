@@ -406,14 +406,20 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
 
                 if (q_value != null && q_unit != null)
                 {
-                    unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol",
-                        q_unit, 0, false, true, true);
-
-                    spec.setUnit(unit);
+                    [value,unit,siPrefix] = this.SIUnitPrefix(q_value, q_unit);
+                    if (value && unit && siPrefix) {
+                        spec.setUnit(unit);
+                        spec.set("value", value);
+                        spec.setSiPrefix(siPrefix);
+                    } else {
+                        unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol",
+                            q_unit, 0, false, true, true);
+                        spec.setUnit(unit);
+                        siPrefix = this.findSiPrefixForValueAndUnit(q_value, unit);
+                        spec.set("value", this.applySiPrefix(q_value, siPrefix));
+                        spec.setSiPrefix(siPrefix);
+                    }
                     spec.set("valueType", "numeric");
-                    siPrefix = this.findSiPrefixForValueAndUnit(q_value, unit);
-                    spec.set("value", this.applySiPrefix(q_value, siPrefix));
-                    spec.setSiPrefix(siPrefix);
                 }
                 else if (q_value != null) {
                     spec.set("valueType", "numeric");
@@ -499,5 +505,40 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         }
         finally {}
         return [null,null];
+    },
+    SIUnitPrefix: function( q_value, q_unit )
+    {
+        // the new Octopart API returns quantities as display strings: e.g. "12 mm"
+        // try to recognize SI-unit and SI-prefix
+        
+        // check if the unit as a whole is already known
+        var unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol", q_unit, 0, false, true, true);
+        if (unit) {
+            var siPrefix = PartKeepr.getApplication().getSiPrefixStore().findRecord("exponent", 0, 0, false, false, true);
+            return [q_value, unit, siPrefix];
+        }
+
+        // assume the first character is an SI-prefix
+        if (q_unit.length >= 2) {
+            unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol", q_unit.substring(1), 0, false, true, true);
+            if (unit) {
+                // now check that the first character is a valid SI-prefix
+                console.log(unit);
+                var siPrefix;
+                for (var i=0; i<unit.prefixes().getData().length; i++) {
+                    var temp = unit.prefixes().getData().getAt(i);
+                    if (q_unit[0] == temp.get("symbol")) {
+                        siPrefix = temp;
+                        break;
+                    }
+                }
+                if (siPrefix) {
+                    return [q_value, unit, siPrefix];
+                }
+            }
+        }
+
+        // no matching unit found
+        return [null, null, null];
     }
 });
