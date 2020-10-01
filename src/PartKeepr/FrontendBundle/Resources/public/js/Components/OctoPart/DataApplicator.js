@@ -77,10 +77,12 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         {
             for (i in this.data["specs"])
             {
-                var q_value, q_unit;
+                var q_value, q_unit, q_siPrefix;
                 [q_value,q_unit] = this.parseQuantity( this.data.specs[i].display_value );
-                if (q_unit)
+                [q_value,q_unit2,q_siPrefix] = this.SIUnitPrefix(q_value, q_unit);
+                if (q_unit2 === null && q_unit)
                 {
+                    // there is a unit (q_unit), but we do not know about it or the prefix of the unit is disabled
                     unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol",
                         q_unit, 0, false, true, true);
                     if (unit === null)
@@ -404,6 +406,14 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
                 var q_value, q_unit;
                 [q_value,q_unit] = this.parseQuantity( this.data.specs[i].display_value );
 
+                // some fields need to be treated as strings
+                if (this.data.specs[i].attribute.name == "Case/Package" ||
+                    this.data.specs[i].attribute.name == "Case Code (Imperial)" ||
+                    this.data.specs[i].attribute.name == "Case Code (Metric)") {
+                    q_value = null; // force string interpretation
+                    q_unit = null; // force string interpretation
+                }
+            
                 if (q_value != null && q_unit != null)
                 {
                     [value,unit,siPrefix] = this.SIUnitPrefix(q_value, q_unit);
@@ -519,7 +529,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         }
 
         // assume the first character is an SI-prefix
-        if (q_unit.length >= 2) {
+        if (q_unit && q_unit.length >= 2) {
             unit = PartKeepr.getApplication().getUnitStore().findRecord("symbol", q_unit.substring(1), 0, false, true, true);
             if (unit) {
                 // now check that the first character is a valid SI-prefix
@@ -527,7 +537,10 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
                 var siPrefix;
                 for (var i=0; i<unit.prefixes().getData().length; i++) {
                     var temp = unit.prefixes().getData().getAt(i);
-                    if (q_unit[0] == temp.get("symbol")) {
+                    var prefixChar = temp.get("symbol");
+                    if (prefixChar == "μ")
+                    prefixChar = "µ"; // convert upper case µ to lower case µ
+                    if (q_unit[0] == prefixChar) {
                         siPrefix = temp;
                         break;
                     }
