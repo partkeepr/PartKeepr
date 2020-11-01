@@ -9,9 +9,7 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
         this.setImport("parameters", true);
         this.setImport("distributors", true);
         this.setImport("bestDatasheet", true);
-        this.setImport("datasheets", true);
         this.setImport("cadModels", true);
-        this.setImport("complianceDocuments", true);
         this.setImport("referenceDesigns", true);
         this.setImport("images", true);
 
@@ -158,26 +156,6 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
             }
         }
 
-/*        if (this.import.datasheets)
-        {
-            if (this.data.document_collections.length > 0)
-            {
-                file = this.data.datasheets.shift();
-                this.displayWaitWindow(i18n("Uploading datasheet…"), file.url);
-
-                if (!this.checkIfAttachmentFilenameExists(file.url))
-                {
-                    PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Datasheet"), this.onFileUploaded,
-                        this);
-                } else
-                {
-                    this.applyData();
-                }
-
-                return false;
-            }
-        }*/
-
         if (this.import.cadModels)
         {
             if (this.data['cad'])
@@ -196,25 +174,6 @@ Ext.define("PartKeepr.Components.OctoPart.DataApplicator", {
                 return false;
             }
         }
-
-/*        if (this.import.complianceDocuments)
-        {
-            if (this.data.compliance_documents.length > 0)
-            {
-                file = this.data.compliance_documents.shift();
-                this.displayWaitWindow(i18n("Uploading Compliance Document…"), file.url);
-                if (!this.checkIfAttachmentFilenameExists(file.url))
-                {
-                    PartKeepr.getApplication().uploadFileFromURL(file.url, i18n("Compliance Document"),
-                        this.onFileUploaded,
-                        this);
-                } else
-                {
-                    this.applyData();
-                }
-                return false;
-            }
-        }*/
 
         if (this.import.referenceDesigns)
         {
