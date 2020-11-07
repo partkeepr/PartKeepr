@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+Bugfixes and other features:
+ * Updated to the most recent Octopart API version 4 [#1150](https://github.com/partkeepr/PartKeepr/pull/1150)
+
 ## PartKeepr 1.4.0
 
 New Features:
