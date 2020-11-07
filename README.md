@@ -13,11 +13,14 @@ designed for electronic components.
 
 PartKeepr is written in **PHP** and using the [**Symfony2**](http://symfony.com) framework.
 
-Demo Site
----------
+Demo Sites
+----------
 
-To test everything which has been written so far, please visit http://demo.partkeepr.org for a demo which is built from
-the git sources once an hour.
+To test everything which has been written so far, there are two demo pages prepared.
+
+The latest release from github is available at http://demo.partkeepr.org.
+The most up-to-date version of the GitHub `master` branch is published at https://demo-git.partkeepr.org.
+Both demo pages are built from the git sources and reset to a demo state once an hour.
 
 Requirements
 ------------
