@@ -20,7 +20,7 @@ jobs:
       run: git fetch --unshallow origin +refs/tags/*:refs/tags/*
       
     - name: Build the base docker image
-      run: docker pull partkeepr/base-dev:latest && docker build docker/base-dev --file docker/base/Dockerfile --cache-from partkeepr/base-dev:latest --tag partkeepr/base-dev:latest
+      run: docker pull partkeepr/base-dev:latest && docker build docker/base-dev --file docker/base-dev/Dockerfile --cache-from partkeepr/base-dev:latest --tag partkeepr/base-dev:latest
     - name: Tag the base docker image with git hash
       run: docker tag partkeepr/base-dev:latest partkeepr/base-dev:$(git describe)
     - name: Deploy the base docker images
