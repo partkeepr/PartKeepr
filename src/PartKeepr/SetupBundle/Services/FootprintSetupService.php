@@ -132,7 +132,7 @@ class FootprintSetupService
         $category = null;
 
         foreach ($parentNode->getChildren() as $child) {
-            if ($child->getName() == $name) {
+            if ($child->getName() === $name) {
                 $category = $child;
             }
         }
@@ -141,7 +141,7 @@ class FootprintSetupService
             $category = new FootprintCategory();
             $category->setParent($parentNode);
             $category->setName($name);
-            $parentNode->getChildren()[] = $category;
+            $parentNode->addChild($category);
 
             $this->entityManager->persist($category);
         }
