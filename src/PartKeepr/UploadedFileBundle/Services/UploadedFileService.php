@@ -125,8 +125,8 @@ class UploadedFileService extends ContainerAware
         $header[] = 'Accept-Language: en-us,en;q=0.5';
         $header[] = 'Pragma: ';
 
-        $browser = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 ';
-        $browser .= '(KHTML, like Gecko) Version/14.0.1 Safari/605.1.15';
+        $browser = 'Mozilla/5.0 (X11; Linux x86_64; rv:83.0) ';
+        $browser .= 'Gecko/20100101 Firefox/83.0';
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_USERAGENT, $browser);
