@@ -47,9 +47,9 @@ In order to start using the suggested development environment a few steps are re
 This guide assumes, you have just freshly checked out the PartKeer repository from git.
 
 - Navigate in a console to the folder `docker/development`.
-- Copy the file `.github.env.dist` to `.github.env`.
-- Create a github personal access token in the settings on github. You need no additional rights. Put the generated token into the file `.github.env` where the `XXX...XXX` markers are.
-    - Alternatively, you can also remove the line in the `.github.env` file. The reason for this setup is that github poses a rate limit on the number of accesses. When using the `composer` command much, these rate limits might be triggered easily. By logging in, the limits are pushed to higher values.
+- Copy the file `github.env.dist` to `github.env`.
+- Create a github personal access token in the settings on github. You need no additional rights. Put the generated token into the file `github.env` where the `XXX...XXX` markers are.
+    - Alternatively, you can also remove the line in the `github.env` file. The reason for this setup is that github poses a rate limit on the number of accesses. When using the `composer` command much, these rate limits might be triggered easily. By logging in, the limits are pushed to higher values.
 
 - Call `docker-compose pull` to fetch all images from the docker hub. Alternatively you could [build the images manually](#building-the-images-manually).
 - Now you need to fire up the database and let it initialize. This is done by callng `docker-compose up -d db`. You can peek into the process by `docker-compose logs -f db`. Wait for a message that the server is ready for connections and listening on port 3306. Using `<Ctrl><c>`, you can exit from the logs.
