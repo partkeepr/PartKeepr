@@ -132,7 +132,7 @@ class FootprintSetupService
         $category = null;
 
         foreach ($parentNode->getChildren() as $child) {
-            if ($child->getName() === $name) {
+            if ($child->getName() == $name) {
                 $category = $child;
             }
         }
