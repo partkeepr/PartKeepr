@@ -26,7 +26,7 @@ before_script:
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS partkeepr_test;" -uroot; fi
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; fi
-  - composer self-update --1
+  - composer self-update
   - composer install --prefer-source --no-interaction
   - app/console cache:warmup --env=test
   - app/console doctrine:schema:create --env=test
