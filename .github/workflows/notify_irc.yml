@@ -12,7 +12,6 @@ jobs:
           channel: "#partkeepr"
           nickname: PartKeepr
           sasl_password: ${{ secrets.FREENODE_PASSWORD }}
-          verbose: true
           message: |
             ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }}
             ${{ join(github.event.commits.*.message) }}
@@ -23,7 +22,6 @@ jobs:
           channel: "#partkeepr"
           nickname: PartKeepr
           sasl_password: ${{ secrets.FREENODE_PASSWORD }}
-          verbose: true
           message: |
             ${{ github.actor }} opened PR ${{ github.event.html_url }}
       - name: irc tag created
@@ -33,6 +31,5 @@ jobs:
           channel: "#partkeepr"
           nickname: PartKeepr
           sasl_password: ${{ secrets.FREENODE_PASSWORD }}
-          verbose: true
           message: |
             ${{ github.actor }} tagged ${{ github.repository }} ${{ github.event.ref }}
