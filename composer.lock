@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "440755ffdc7a9c540f4a4676481e2004",
+    "content-hash": "999e14e36b0b65c007627a67b7ec579c",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -812,6 +812,7 @@
                 "cache",
                 "caching"
             ],
+            "abandoned": true,
             "time": "2014-11-28T09:43:36+00:00"
         },
         {
@@ -1329,6 +1330,7 @@
                 "json",
                 "rest"
             ],
+            "abandoned": "api-platform/api-pack",
             "time": "2015-09-23T13:09:28+00:00"
         },
         {
@@ -2561,6 +2563,7 @@
                 "bcmath",
                 "math"
             ],
+            "abandoned": "brick/math",
             "time": "2017-02-16T16:54:46+00:00"
         },
         {
@@ -3126,12 +3129,12 @@
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nrk/predis.git",
+                "url": "https://github.com/predis/predis.git",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "url": "https://api.github.com/repos/predis/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "shasum": ""
             },
@@ -3439,6 +3442,7 @@
                 "configuration",
                 "distribution"
             ],
+            "abandoned": true,
             "time": "2017-01-04T13:34:44+00:00"
         },
         {
@@ -4751,6 +4755,7 @@
                 "i18n",
                 "text"
             ],
+            "abandoned": true,
             "time": "2016-10-25T17:34:14+00:00"
         },
         {
@@ -4958,6 +4963,7 @@
                 "code",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2015-07-21T22:40:59+00:00"
         },
         {
@@ -5003,6 +5009,7 @@
                 "eventmanager",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2015-07-16T19:00:49+00:00"
         },
         {
@@ -5059,6 +5066,7 @@
                 "hydrator",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-hydrator",
             "time": "2015-09-17T14:06:43+00:00"
         },
         {
@@ -5111,6 +5119,7 @@
                 "ldap",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-ldap",
             "time": "2015-06-03T15:32:02+00:00"
         },
         {
@@ -5169,68 +5178,11 @@
                 "stdlib",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-stdlib",
             "time": "2015-09-25T04:06:33+00:00"
         }
     ],
     "packages-dev": [
-        {
-            "name": "codeclimate/php-test-reporter",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/codeclimate/php-test-reporter.git",
-                "reference": "02790d733f9eb43d0a5981962c41846092fb387f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/02790d733f9eb43d0a5981962c41846092fb387f",
-                "reference": "02790d733f9eb43d0a5981962c41846092fb387f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3",
-                "satooshi/php-coveralls": "0.6.*",
-                "symfony/console": ">=2.0"
-            },
-            "require-dev": {
-                "ext-xdebug": "*",
-                "phpunit/phpunit": "3.7.*@stable"
-            },
-            "bin": [
-                "composer/bin/test-reporter"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "CodeClimate\\Component": "src/",
-                    "CodeClimate\\Bundle": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Code Climate",
-                    "email": "hello@codeclimate.com",
-                    "homepage": "https://codeclimate.com"
-                }
-            ],
-            "description": "PHP client for reporting test coverage to Code Climate",
-            "homepage": "https://github.com/codeclimate/php-test-reporter",
-            "keywords": [
-                "codeclimate",
-                "coverage"
-            ],
-            "time": "2015-12-17T00:52:54+00:00"
-        },
         {
             "name": "ddeboer/data-import",
             "version": "0.18.0",
@@ -5914,6 +5866,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2016-11-15T14:06:22+00:00"
         },
         {
@@ -6682,6 +6635,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
+            "abandoned": "symfony/maker-bundle",
             "time": "2015-03-17T06:36:52+00:00"
         }
     ],
@@ -6698,13 +6652,13 @@
         "friendsofsymfony/user-bundle": 20,
         "escapestudios/wsse-authentication-bundle": 20,
         "partkeepr/remote-file-loader": 20,
-        "nfq-alpha/sprite-bundle": 20,
-        "codeclimate/php-test-reporter": 20
+        "nfq-alpha/sprite-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.6.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
