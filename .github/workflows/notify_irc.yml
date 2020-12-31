@@ -11,7 +11,6 @@ jobs:
         with:
           channel: "#partkeepr"
           nickname: PartKeepr
-          password: ${{ secrets.FREENODE_PASSWORD }}
           sasl_password: ${{ secrets.FREENODE_PASSWORD }}
           message: |
             ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }}
@@ -22,7 +21,6 @@ jobs:
         with:
           channel: "#partkeepr"
           nickname: PartKeepr
-          password: ${{ secrets.FREENODE_PASSWORD }}
           sasl_password: ${{ secrets.FREENODE_PASSWORD }}
           message: |
             ${{ github.actor }} opened PR ${{ github.event.html_url }}
@@ -32,7 +30,6 @@ jobs:
         with:
           channel: "#partkeepr"
           nickname: PartKeepr
-          password: ${{ secrets.FREENODE_PASSWORD }}
           sasl_password: ${{ secrets.FREENODE_PASSWORD }}
           message: |
             ${{ github.actor }} tagged ${{ github.repository }} ${{ github.event.ref }}
