@@ -40,6 +40,9 @@
     ],
   "require": {
     "php": ">=5.6.0",
+    "atelierspierrot/famfamfam-silk-sprite": "1.0.0",
+    "brainbits/fugue-icons-bundle": "3.5.6",
+    
     "fr3d/ldap-bundle": "dev-master",
     "symfony/symfony": "~2.7",
     "incenteev/composer-parameter-handler": "~2.0",
@@ -58,7 +61,6 @@
     "fortawesome/font-awesome": "4.*",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "dunglas/api-bundle": "dev-master#b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
-    "brainbits/fugue-icons-bundle": "^3.5",
     "imagine/imagine": "^0.6.2",
     "ramsey/uuid": "^3.1.0",
     "moontoast/math": "^1.1",
@@ -67,7 +69,6 @@
     "stof/doctrine-extensions-bundle": "~1.1@dev",
     "friendsofsymfony/user-bundle": "~2.0@dev",
     "escapestudios/wsse-authentication-bundle": "dev-advancedUserInterface",
-    "atelierspierrot/famfamfam-silk-sprite": "^1.0",
     "reputation-vip/composer-assets-installer": "^1.0",
     "partkeepr/remote-file-loader": "dev-master",
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
@@ -81,7 +82,6 @@
   },
   "require-dev": {
     "phpunit/phpunit": "5.5",
-    "codeclimate/php-test-reporter": "dev-master",
     "liip/functional-test-bundle": "~1.1",
     "phing/phing": "2.*"
   },
