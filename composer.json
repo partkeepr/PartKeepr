@@ -42,9 +42,12 @@
     "php": ">=5.6.0",
     "atelierspierrot/famfamfam-silk-sprite": "1.0.0",
     "brainbits/fugue-icons-bundle": "3.5.6",
+    "fortawesome/font-awesome": "5.15.1",
     "guzzlehttp/guzzle": "6.5.5",
-    "fortawesome/font-awesome": "5.*",
+    "imagine/imagine": "1.2.4",
+    "ramsey/uuid": "3.9.3",
 
+   
     "fr3d/ldap-bundle": "dev-master",
     "symfony/symfony": "~2.7",
     "incenteev/composer-parameter-handler": "~2.0",
@@ -62,8 +65,6 @@
     "partkeepr/extjs6": "dev-master",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "dunglas/api-bundle": "dev-master#b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
-    "imagine/imagine": "^0.6.2",
-    "ramsey/uuid": "^3.1.0",
     "moontoast/math": "^1.1",
     "doctrine/migrations": "dev-master",
     "doctrine/doctrine-migrations-bundle": "dev-master",
