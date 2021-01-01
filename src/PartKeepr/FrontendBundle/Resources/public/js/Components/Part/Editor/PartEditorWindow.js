@@ -140,7 +140,9 @@ Ext.define('PartKeepr.PartEditorWindow', {
             this.octoPartQueryWindow = Ext.create("PartKeepr.Components.OctoPart.SearchWindow");
             this.octoPartQueryWindow.show();
             this.octoPartQueryWindow.setPart(this.editor.record);
-            this.octoPartQueryWindow.startSearch(this.editor.nameField.getValue());
+            let name = this.editor.nameField.getValue();
+            if (name !== "")
+                this.octoPartQueryWindow.startSearch(name);
             this.octoPartQueryWindow.on("refreshData", this.onRefreshData, this);
         } else {
             Ext.MessageBox.alert(i18n("Octopart is not configured"), i18n("Your administrator needs to configure the API key for Octopart in the parameters.php file - see parameters.php.dist for instructions"));
