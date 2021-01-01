@@ -46,7 +46,6 @@
     "guzzlehttp/guzzle": "6.5.5",
     "imagine/imagine": "1.2.4",
     "ramsey/uuid": "3.9.3",
-
    
     "fr3d/ldap-bundle": "dev-master",
     "symfony/symfony": "~2.7",
@@ -65,7 +64,6 @@
     "partkeepr/extjs6": "dev-master",
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "dunglas/api-bundle": "dev-master#b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
-    "moontoast/math": "^1.1",
     "doctrine/migrations": "dev-master",
     "doctrine/doctrine-migrations-bundle": "dev-master",
     "stof/doctrine-extensions-bundle": "~1.1@dev",
