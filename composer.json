@@ -46,7 +46,9 @@
     "guzzlehttp/guzzle": "6.5.5",
     "imagine/imagine": "1.2.4",
     "knplabs/knp-gaufrette-bundle": "0.5.3",
+    "predis/predis": "1.1.6",
     "ramsey/uuid": "3.9.3",
+    "sonata-project/exporter": "1.7.1",
     "twig/extensions": "1.5.4",
     "twig/twig": "1.42.2",
    
@@ -74,10 +76,8 @@
     "partkeepr/remote-file-loader": "dev-master",
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "symfony/property-access": "^2.7",
-    "sonata-project/exporter": "^1.4",
     "phpseclib/phpseclib": "~2.0",
-    "snc/redis-bundle": "^1.1",
-    "predis/predis": "^1.0"
+    "snc/redis-bundle": "^1.1"
   },
   "require-dev": {
     "phpunit/phpunit": "5.7.27",
