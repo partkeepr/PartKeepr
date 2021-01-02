@@ -45,6 +45,7 @@
     "fortawesome/font-awesome": "5.15.1",
     "guzzlehttp/guzzle": "6.5.5",
     "imagine/imagine": "1.2.4",
+    "knplabs/knp-gaufrette-bundle": "0.5.3",
     "ramsey/uuid": "3.9.3",
    
     "fr3d/ldap-bundle": "dev-master",
@@ -74,13 +75,13 @@
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "symfony/property-access": "^2.7",
     "sonata-project/exporter": "^1.4",
-    "knplabs/knp-gaufrette-bundle": "^0.2.0",
     "phpseclib/phpseclib": "~2.0",
     "snc/redis-bundle": "^1.1",
     "predis/predis": "^1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.5",
+    "phpunit/phpunit": "5.7.27",
+
     "liip/functional-test-bundle": "~1.1",
     "phing/phing": "2.*"
   },
