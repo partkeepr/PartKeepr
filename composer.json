@@ -77,7 +77,6 @@
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "partkeepr/extjs6": "dev-master",
     "partkeepr/remote-file-loader": "dev-master",
-
     "nelmio/api-doc-bundle": "~2.9@dev"
   },
   "require-dev": {
