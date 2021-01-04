@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b66d4688b843d743573795f7b7bcd21",
+    "content-hash": "e47bc862ea821a2d6ece48bf34d834d0",
     "packages": [
         {
             "name": "atelierspierrot/famfamfam-silk-sprite",
@@ -55,30 +55,35 @@
         },
         {
             "name": "behat/transliterator",
-            "version": "v1.1.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Transliterator.git",
-                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003"
+                "reference": "3c4ec1d77c3d05caa1f0bf8fb3aae4845005c7fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/868e05be3a9f25ba6424c2dd4849567f50715003",
-                "reference": "868e05be3a9f25ba6424c2dd4849567f50715003",
+                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/3c4ec1d77c3d05caa1f0bf8fb3aae4845005c7fc",
+                "reference": "3c4ec1d77c3d05caa1f0bf8fb3aae4845005c7fc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "chuyskywalker/rolling-curl": "^3.1",
+                "php-yaoi/php-yaoi": "^1.0",
+                "phpunit/phpunit": "^4.8.36|^6.3"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Behat\\Transliterator": "src/"
+                "psr-4": {
+                    "Behat\\Transliterator\\": "src/Behat/Transliterator"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -91,7 +96,7 @@
                 "slug",
                 "transliterator"
             ],
-            "time": "2015-09-28T16:26:35+00:00"
+            "time": "2020-01-14T16:39:13+00:00"
         },
         {
             "name": "brainbits/fugue-icons-bundle",
@@ -1793,30 +1798,33 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.26",
+            "version": "v2.4.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "983dd85d6860f87fb7dffd0d9f7ad1462e20a09d"
+                "reference": "b6c4442b4f32ce05673fbdf1fa4a2d5e315cc0a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/983dd85d6860f87fb7dffd0d9f7ad1462e20a09d",
-                "reference": "983dd85d6860f87fb7dffd0d9f7ad1462e20a09d",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/b6c4442b4f32ce05673fbdf1fa4a2d5e315cc0a4",
+                "reference": "b6c4442b4f32ce05673fbdf1fa4a2d5e315cc0a4",
                 "shasum": ""
             },
             "require": {
-                "behat/transliterator": "~1.0",
+                "behat/transliterator": "~1.2",
                 "doctrine/common": "~2.4",
                 "php": ">=5.3.2"
             },
+            "conflict": {
+                "doctrine/annotations": "<1.2",
+                "doctrine/mongodb-odm": ">=2.0"
+            },
             "require-dev": {
                 "doctrine/common": ">=2.5.0",
-                "doctrine/mongodb-odm": ">=1.0.2",
+                "doctrine/mongodb-odm": ">=1.0.2 <2.0",
                 "doctrine/orm": ">=2.5.0",
-                "phpunit/phpunit": "~4.4",
-                "phpunit/phpunit-mock-objects": "~2.3",
-                "symfony/yaml": "~2.6"
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5",
+                "symfony/yaml": "^2.6 || ^3.0 || ^4.0 || ^5.0"
             },
             "suggest": {
                 "doctrine/mongodb-odm": "to use the extensions with the MongoDB ODM",
@@ -1829,8 +1837,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Gedmo\\": "lib/"
+                "psr-4": {
+                    "Gedmo\\": "lib/Gedmo"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1839,16 +1847,16 @@
             ],
             "authors": [
                 {
-                    "name": "David Buchmann",
-                    "email": "david@liip.ch"
-                },
-                {
                     "name": "Gediminas Morkevicius",
                     "email": "gediminas.morkevicius@gmail.com"
                 },
                 {
                     "name": "Gustavo Falco",
                     "email": "comfortablynumb84@gmail.com"
+                },
+                {
+                    "name": "David Buchmann",
+                    "email": "david@liip.ch"
                 }
             ],
             "description": "Doctrine2 behavioral extensions",
@@ -1868,7 +1876,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2016-12-21T13:46:54+00:00"
+            "time": "2020-08-21T01:27:20+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2119,26 +2127,26 @@
         },
         {
             "name": "incenteev/composer-parameter-handler",
-            "version": "v2.1.2",
+            "version": "v2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Incenteev/ParameterHandler.git",
-                "reference": "d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc"
+                "reference": "084befb11ec21faeadcddefb88b66132775ff59b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc",
-                "reference": "d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc",
+                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/084befb11ec21faeadcddefb88b66132775ff59b",
+                "reference": "084befb11ec21faeadcddefb88b66132775ff59b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "symfony/yaml": "~2.3|~3.0"
+                "symfony/yaml": "^2.3 || ^3.0 || ^4.0 || ^5.0"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpspec/prophecy-phpunit": "~1.0",
-                "symfony/filesystem": "~2.2"
+                "composer/composer": "^1.0@dev",
+                "symfony/filesystem": "^2.3 || ^3 || ^4 || ^5",
+                "symfony/phpunit-bridge": "^4.0 || ^5.0"
             },
             "type": "library",
             "extra": {
@@ -2166,7 +2174,7 @@
             "keywords": [
                 "parameters management"
             ],
-            "time": "2015-11-10T17:04:01+00:00"
+            "time": "2020-03-17T21:10:00+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -3656,39 +3664,45 @@
         },
         {
             "name": "snc/redis-bundle",
-            "version": "1.1.10",
-            "target-dir": "Snc/RedisBundle",
+            "version": "2.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/snc/SncRedisBundle.git",
-                "reference": "3b11bdc877f470fa8a1e728ada48c62c0d33e0ed"
+                "reference": "7c8652c1811c573ae567c1bcaa5e1c65723c5907"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/snc/SncRedisBundle/zipball/3b11bdc877f470fa8a1e728ada48c62c0d33e0ed",
-                "reference": "3b11bdc877f470fa8a1e728ada48c62c0d33e0ed",
+                "url": "https://api.github.com/repos/snc/SncRedisBundle/zipball/7c8652c1811c573ae567c1bcaa5e1c65723c5907",
+                "reference": "7c8652c1811c573ae567c1bcaa5e1c65723c5907",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "symfony/framework-bundle": "^2.1",
-                "symfony/yaml": "^2.1"
+                "php": "^5.3.3 || ^7.0",
+                "symfony/framework-bundle": "^2.7 || ^3.0 || ^4.0",
+                "symfony/yaml": "^2.7 || ^3.0 || ^4.0"
             },
             "require-dev": {
-                "doctrine/cache": "^1.0",
-                "phpunit/phpunit": "^4.0",
+                "doctrine/cache": "1.*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5",
                 "predis/predis": "^1.0",
-                "symfony/console": "^2.1"
+                "symfony/console": "^2.7 || ^3.0 || ^4.0",
+                "symfony/phpunit-bridge": "^2.7 || ^3.0 || ^4.0"
             },
             "suggest": {
                 "monolog/monolog": "If you want to use the monolog redis handler.",
                 "predis/predis": "If you want to use predis.",
-                "symfony/console": "If you want to use commands to interact with the redis database"
+                "symfony/console": "If you want to use commands to interact with the redis database",
+                "symfony/proxy-manager-bridge": "If you want to lazy-load some services"
             },
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Snc\\RedisBundle": ""
+                "psr-4": {
+                    "Snc\\RedisBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3705,14 +3719,14 @@
                     "homepage": "https://github.com/snc/SncRedisBundle/contributors"
                 }
             ],
-            "description": "A Redis bundle for Symfony2",
+            "description": "A Redis bundle for Symfony",
             "homepage": "https://github.com/snc/SncRedisBundle",
             "keywords": [
                 "nosql",
                 "redis",
                 "symfony"
             ],
-            "time": "2016-01-21T18:29:37+00:00"
+            "time": "2019-12-09T12:56:15+00:00"
         },
         {
             "name": "sonata-project/exporter",
@@ -3785,22 +3799,26 @@
         },
         {
             "name": "stof/doctrine-extensions-bundle",
-            "version": "dev-master",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-                "reference": "4e7499d25dc5d0862da09fa8e336164948a29a25"
+                "reference": "46db71ec7ffee9122eca3cdddd4ef8d84bae269c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/4e7499d25dc5d0862da09fa8e336164948a29a25",
-                "reference": "4e7499d25dc5d0862da09fa8e336164948a29a25",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/46db71ec7ffee9122eca3cdddd4ef8d84bae269c",
+                "reference": "46db71ec7ffee9122eca3cdddd4ef8d84bae269c",
                 "shasum": ""
             },
             "require": {
-                "gedmo/doctrine-extensions": "^2.3.1",
+                "gedmo/doctrine-extensions": "^2.3.4",
                 "php": ">=5.3.2",
-                "symfony/framework-bundle": "~2.1|~3.0"
+                "symfony/framework-bundle": "~2.7|~3.2|~4.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^4.0",
+                "symfony/security-bundle": "^2.7 || ^3.2 || ^4.0"
             },
             "suggest": {
                 "doctrine/doctrine-bundle": "to use the ORM extensions",
@@ -3809,7 +3827,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -3842,7 +3860,7 @@
                 "translatable",
                 "tree"
             ],
-            "time": "2016-01-26T23:58:32+00:00"
+            "time": "2017-12-24T16:06:50+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -7035,14 +7053,13 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "nfq-alpha/sprite-bundle": 20,
-        "fr3d/ldap-bundle": 20,
-        "nelmio/api-doc-bundle": 20,
-        "partkeepr/extjs6": 20,
         "dunglas/api-bundle": 20,
-        "stof/doctrine-extensions-bundle": 20,
-        "friendsofsymfony/user-bundle": 20,
+        "partkeepr/extjs6": 20,
+        "fr3d/ldap-bundle": 20,
         "escapestudios/wsse-authentication-bundle": 20,
+        "nfq-alpha/sprite-bundle": 20,
+        "nelmio/api-doc-bundle": 20,
+        "friendsofsymfony/user-bundle": 20,
         "partkeepr/remote-file-loader": 20
     },
     "prefer-stable": false,
