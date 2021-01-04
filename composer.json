@@ -48,6 +48,8 @@
     "doctrine/migrations": "1.2.2",
     "doctrine/orm": "2.5.14",
     "fortawesome/font-awesome": "5.15.1",
+    "friendsofsymfony/rest-bundle": "1.7.7",
+    "friendsofsymfony/user-bundle": "2.1.2",
     "guzzlehttp/guzzle": "6.5.5",
     "imagine/imagine": "1.2.4",
     "incenteev/composer-parameter-handler": "2.1.4",
@@ -71,12 +73,9 @@
     "escapestudios/wsse-authentication-bundle": "dev-advancedUserInterface",
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
 
-    
     "sensio/distribution-bundle": "~4.0.0",
     "sensio/framework-extra-bundle": "~3.0",
     "nelmio/api-doc-bundle": "~2.9@dev",
-    "friendsofsymfony/rest-bundle": "~1.7.1",
-    "friendsofsymfony/user-bundle": "~2.0@dev",
     "reputation-vip/composer-assets-installer": "^1.0",
     "partkeepr/remote-file-loader": "dev-master",
     "phpseclib/phpseclib": "~2.0"
