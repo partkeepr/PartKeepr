@@ -11,11 +11,23 @@ use Guzzle\Http\Client;
 use PartKeepr\CoreBundle\System\OperatingSystem;
 use PartKeepr\CoreBundle\System\SystemInformationRecord;
 use PartKeepr\CronLoggerBundle\Services\CronLoggerService;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class SystemService extends ContainerAware
+class SystemService implements ContainerAwareInterface
 {
+     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
     /**
      * @var EntityManager
      */
