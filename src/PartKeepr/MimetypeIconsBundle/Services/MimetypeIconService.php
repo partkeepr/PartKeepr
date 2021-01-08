@@ -4,13 +4,11 @@ namespace PartKeepr\MimetypeIconsBundle\Services;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MimetypeIconService implements ContainerAwareInterface
 {
-     
-    
     /**
      * @var Container
      */

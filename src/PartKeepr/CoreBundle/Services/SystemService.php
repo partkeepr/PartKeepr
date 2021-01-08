@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SystemService implements ContainerAwareInterface
 {
-     /**
+    /**
      * @var ContainerInterface
      */
     private $container;
@@ -28,6 +28,7 @@ class SystemService implements ContainerAwareInterface
     {
         $this->container = $container;
     }
+
     /**
      * @var EntityManager
      */

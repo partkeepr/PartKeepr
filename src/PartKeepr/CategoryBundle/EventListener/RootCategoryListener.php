@@ -13,7 +13,7 @@ use Symfony\component\DependencyInjection\ContainerInterface;
 
 class RootCategoryListener implements ContainerAwareInterface
 {
-     /**
+    /**
      * @var ContainerInterface
      */
     private $container;
@@ -25,7 +25,6 @@ class RootCategoryListener implements ContainerAwareInterface
     {
         $this->container = $container;
     }
-
 
     /**
      * @var string

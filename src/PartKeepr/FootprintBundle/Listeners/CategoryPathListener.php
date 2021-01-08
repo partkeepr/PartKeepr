@@ -6,8 +6,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use PartKeepr\FootprintBundle\Entity\FootprintCategory;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CategoryPathListener implements ContainerAwareInterface
 {
@@ -23,7 +23,7 @@ class CategoryPathListener implements ContainerAwareInterface
     {
         $this->container = $container;
     }
-    
+
     public function __construct(Container $container)
     {
         $this->setContainer($container);

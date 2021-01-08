@@ -23,7 +23,7 @@ class CategoryPathListener implements ContainerAwareInterface
     {
         $this->container = $container;
     }
-    
+
     public function __construct(Container $container)
     {
         $this->setContainer($container);
