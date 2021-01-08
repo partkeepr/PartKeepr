@@ -9,7 +9,7 @@ use Symfony\component\DependencyInjection\ContainerInterface;
 
 class SystemNoticeService implements ContainerAwareInterface
 {
-     /**
+    /**
      * @var ContainerInterface
      */
     private $container;
@@ -21,7 +21,7 @@ class SystemNoticeService implements ContainerAwareInterface
     {
         $this->container = $container;
     }
-    
+
     /**
      * @var EntityManager
      */

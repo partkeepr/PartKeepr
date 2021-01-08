@@ -7,18 +7,17 @@ use Gaufrette\Filesystem;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\UploadedFileBundle\Exceptions\DiskSpaceExhaustedException;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
 class UploadedFileService implements ContainerAwareInterface
 {
-    
     /**
      * @var Container
      */
     protected $container;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -26,7 +25,7 @@ class UploadedFileService implements ContainerAwareInterface
     {
         $this->container = $container;
     }
-    
+
     public function __construct(Container $container)
     {
         $this->setContainer($container);
