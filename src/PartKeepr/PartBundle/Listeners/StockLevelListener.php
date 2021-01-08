@@ -5,10 +5,24 @@ namespace PartKeepr\PartBundle\Listeners;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\StockBundle\Entity\StockEntry;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class StockLevelListener extends ContainerAware
+class StockLevelListener implements ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+    
     /**
      * Recomputes the stock level for each part.
      *

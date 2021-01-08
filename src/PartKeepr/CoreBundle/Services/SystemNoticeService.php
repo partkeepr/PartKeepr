@@ -4,10 +4,24 @@ namespace PartKeepr\CoreBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use PartKeepr\CoreBundle\Entity\SystemNotice;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\component\DependencyInjection\ContainerInterface;
 
-class SystemNoticeService extends ContainerAware
+class SystemNoticeService implements ContainerAwareInterface
 {
+     /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+    
     /**
      * @var EntityManager
      */

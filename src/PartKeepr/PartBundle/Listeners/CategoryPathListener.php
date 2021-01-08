@@ -6,10 +6,24 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use PartKeepr\PartBundle\Entity\PartCategory;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use symfony\component\DependencyInjection\ContainerInterface;
 
-class CategoryPathListener extends ContainerAware
+class CategoryPathListener implements ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+    
     public function __construct(Container $container)
     {
         $this->setContainer($container);
