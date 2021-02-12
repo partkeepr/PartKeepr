@@ -439,7 +439,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
     },
     processCheapestDistributorForProjectPart: function (projectPart)
     {
-        var cheapestDistributor = this.getCheapestDistributor(projectPart.getPart());
+        var cheapestDistributor = this.getCheapestDistributor(projectPart.getPart(), projectPart.get("missing"));
 
         if (cheapestDistributor !== null)
         {
@@ -450,7 +450,7 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             projectPart.set("itemSum", projectPart.get("quantity") * projectPart.get("itemPrice"));
         }
     },
-    getCheapestDistributor: function (part)
+    getCheapestDistributor: function (part, partCount)
     {
         var cheapestDistributor = null;
         var currentPrice;
@@ -471,6 +471,11 @@ Ext.define("PartKeepr.Components.Project.ProjectReportResultGrid", {
             }
 
             if (activeDistributor.get("ignoreForReports") === true)
+            {
+                continue;
+            }
+
+            if (activeDistributor.get("packagingUnit") > partCount)
             {
                 continue;
             }
