@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManager;
 use Gaufrette\Exception\FileNotFound;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PartKeepr\ImageBundle\Entity\CachedImage;
 use PartKeepr\ImageBundle\Entity\Image as PartKeeprImage;
 use PartKeepr\ImageBundle\Response\ImageResponse;
@@ -18,13 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class ImageController extends FileController
 {
     /**
-     * @ApiDoc(
-     *  description="Returns a scaled and cached image. Note that the binary data is directly returned.",
-     *  parameters={
-     *      {"name"="maxWidth", "dataType"="integer", "required"=false, "description"="The width in pixels"},
-     *      {"name"="maxHeight", "dataType"="integer", "required"=false, "description"="The height in pixels"}
-     *  }
-     * )
      *
      * @param Request $request
      * @param         $id

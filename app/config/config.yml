@@ -51,13 +51,14 @@ assetic:
 twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
-dunglas_api:
-    title:       "PartKeepr"
-    description: "The PartKeepr REST API"
-    collection:
-        pagination:
-            items_per_page:
-                client_can_change: true
+#Commenting out because it's got it's own config file.
+#dunglas_api:
+#    title:       "PartKeepr"
+#    description: "The PartKeepr REST API"
+#    collection:
+#        pagination:
+#            items_per_page:
+#                client_can_change: true
 
 sprite_generator:
     sprites:
