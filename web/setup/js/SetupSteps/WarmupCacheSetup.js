@@ -6,4 +6,5 @@ Ext.define('PartKeeprSetup.WarmupCacheSetup', {
     action: 'warmupCache',
     name: "Config File",
     message: "Warming up the cache",
+    timeout: 240000
 });
