@@ -141,7 +141,7 @@ class FootprintSetupService
             $category = new FootprintCategory();
             $category->setParent($parentNode);
             $category->setName($name);
-            $parentNode->getChildren()[] = $category;
+            $parentNode->addChild($category);
 
             $this->entityManager->persist($category);
         }

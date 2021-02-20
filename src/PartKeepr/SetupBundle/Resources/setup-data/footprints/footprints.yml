@@ -68,15 +68,15 @@ PBGA-676:
 # SBGA
 SBGA-256:
   description: 256-Ball Ball Grid Array, Thermally Enhanced
-  category: BGA/PBGA
+  category: BGA/SBGA
   image: BGA/SBGA-256.png
 SBGA-304:
   description: 304-Ball Ball Grid Array, Thermally Enhanced
-  category: BGA/PBGA
+  category: BGA/SBGA
   image: BGA/SBGA-304.png
 SBGA-432:
   description: 432-Ball Ball Grid Array, Thermally Enhanced
-  category: BGA/PBGA
+  category: BGA/SBGA
   image: BGA/SBGA-432.png
 
 # Ceramic DIP
@@ -150,6 +150,9 @@ PDIP-28 Wide:
   description: 28-Lead Plastic Dual In-Line Package, Wide Body
   category: DIP/PDIP
   image: DIP/PDIP-28-W.png
+
+# SOIC
 SOIC-N-EP-8:
   description: 8-Lead Standard Small Outline Package, with Expose Pad
+  category: SOIC
 
