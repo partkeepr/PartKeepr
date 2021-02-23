@@ -38,7 +38,7 @@ app/var/cache/*
 /app/config/parameters.yml
 /app/logs/*
 /vendor/
-/bin/
+/bin/symfony_requirements
 /composer.phar
 
 !.keep
