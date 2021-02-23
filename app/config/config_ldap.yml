@@ -1,22 +1,22 @@
-fr3d_ldap:
-    driver:
-        host:                   "%fr3d_ldap.driver.host%"
-        port:                   "%fr3d_ldap.driver.port%"
-        username:               "%fr3d_ldap.driver.username%"
-        password:               "%fr3d_ldap.driver.password%"
-        bindRequiresDn:         "%fr3d_ldap.driver.bindRequiresDn%"
-        baseDn:                 "%fr3d_ldap.driver.baseDn%"
-        accountFilterFormat:    "%fr3d_ldap.driver.accountFilterFormat%"
-        optReferrals:           "%fr3d_ldap.driver.optReferrals%"
-        useSsl:                 "%fr3d_ldap.driver.useSsl%"
-        useStartTls:            "%fr3d_ldap.driver.useStartTls%"
-        accountCanonicalForm:   "%fr3d_ldap.driver.accountCanonicalForm%"
-        accountDomainName:      "%fr3d_ldap.driver.accountDomainName%"
-        accountDomainNameShort: "%fr3d_ldap.driver.accountDomainNameShort%"
-    user:
-        enabled: "%fr3d_ldap.user.enabled%"
-        baseDn: "%fr3d_ldap.user.baseDn%"
-        filter: "%fr3d_ldap.user.filter%"
-        attributes:
-           - { ldap_attr: %fr3d_ldap.user.attribute.username%,  user_method: setUsername }
-           - { ldap_attr: %fr3d_ldap.user.attribute.email%,  user_method: setEmail }
+#fr3d_ldap:
+#    driver:
+#        host:                   "%fr3d_ldap.driver.host%"
+#        port:                   "%fr3d_ldap.driver.port%"
+#        username:               "%fr3d_ldap.driver.username%"
+#        password:               "%fr3d_ldap.driver.password%"
+#        bindRequiresDn:         "%fr3d_ldap.driver.bindRequiresDn%"
+#        baseDn:                 "%fr3d_ldap.driver.baseDn%"
+#        accountFilterFormat:    "%fr3d_ldap.driver.accountFilterFormat%"
+#        optReferrals:           "%fr3d_ldap.driver.optReferrals%"
+#        useSsl:                 "%fr3d_ldap.driver.useSsl%"
+#        useStartTls:            "%fr3d_ldap.driver.useStartTls%"
+#        accountCanonicalForm:   "%fr3d_ldap.driver.accountCanonicalForm%"
+#        accountDomainName:      "%fr3d_ldap.driver.accountDomainName%"
+#        accountDomainNameShort: "%fr3d_ldap.driver.accountDomainNameShort%"
+#    user:
+#        enabled: "%fr3d_ldap.user.enabled%"
+#        baseDn: "%fr3d_ldap.user.baseDn%"
+#        filter: "%fr3d_ldap.user.filter%"
+#        attributes:
+#           - { ldap_attr: %fr3d_ldap.user.attribute.username%,  user_method: setUsername }
+#           - { ldap_attr: %fr3d_ldap.user.attribute.email%,  user_method: setEmail }

@@ -18,10 +18,6 @@ abstract class ImageController extends FileController
 {
     /**
      *
-     * @param Request $request
-     * @param         $id
-     *
-     * @return ImageResponse|Response
      */
     public function getImageAction(Request $request, $id)
     {
@@ -91,12 +87,6 @@ abstract class ImageController extends FileController
     /**
      * Scales the image to fit within the given size.
      *
-     * @param UploadedFile $image   The image to scale
-     * @param int          $width   The width
-     * @param int          $height  The height
-     * @param bool         $padding If true, pad the output image to the given size (transparent background).
-     *
-     * @return string The path to the scaled file
      */
     public function fitWithin(UploadedFile $image, $width, $height, $padding = false)
     {
@@ -134,12 +124,6 @@ abstract class ImageController extends FileController
     /**
      * Returns the path to an image which has been cached in a particular width, height and mode.
      *
-     * @param UploadedFile $image  The image
-     * @param int          $width  The width
-     * @param int          $height The height
-     * @param string       $mode   The mode
-     *
-     * @return string
      */
     public function getImageCacheFilename(UploadedFile $image, $width, $height, $mode)
     {
@@ -152,13 +136,6 @@ abstract class ImageController extends FileController
 
     /**
      * Checks if the database contains the cache file.
-     *
-     * @param UploadedFile $image
-     * @param              $width
-     * @param              $height
-     * @param              $mode
-     *
-     * @return bool
      */
     protected function hasCacheFile(UploadedFile $image, $width, $height, $mode)
     {

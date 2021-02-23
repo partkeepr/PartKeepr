@@ -2,6 +2,7 @@
 
 namespace PartKeepr\CoreBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -9,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Holds a system notice.
  *
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService("/api/system_notices")
  **/

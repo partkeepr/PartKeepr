@@ -2,6 +2,7 @@
 
 namespace PartKeepr\DistributorBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
@@ -9,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a distributor.
- *
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService(uri="/api/distributors")
  **/

@@ -7,7 +7,7 @@
     <services>
         <service id="partkeepr.grid_preset.mark_as_default"
                  class="PartKeepr\FrontendBundle\Action\MarkAsDefaultAction">
-            <argument type="service" id="api.data_provider"/>
+            <!--<argument type="service" id="api.data_provider"/>-->
             <argument type="service" id="partkeepr.gridpresetservice"/>
         </service>
     </services>

@@ -7,7 +7,7 @@
     <services>
         <service id="partkeepr.system_notice.acknowledge"
                  class="PartKeepr\CoreBundle\Action\SystemNoticeAcknowledgeAction">
-            <argument type="service" id="api.data_provider"/>
+            <!--<argument type="service" id="api.data_provider"/>-->
             <argument type="service" id="doctrine.orm.entity_manager"/>
         </service>
     </services>

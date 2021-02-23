@@ -2,12 +2,14 @@
 
 namespace PartKeepr\FootprintBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
  * Holds a footprint image.
  *
+ * @ApiResource()
  * @ORM\Entity
  **/
 class FootprintImage extends Image

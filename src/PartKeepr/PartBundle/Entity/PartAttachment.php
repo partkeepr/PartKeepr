@@ -2,6 +2,7 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -9,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Holds a part attachment.
  *
+ * @ApiResource()
  * @ORM\Entity
  **/
 class PartAttachment extends UploadedFile

@@ -6,7 +6,6 @@ imports:
     - { resource: config_framework.yml }
     - { resource: config_doctrine.yml }
     - { resource: config_fos_user.yml }
-    - { resource: config_dunglas.yml }
     - { resource: config_ldap.yml }
     - { resource: config_partkeepr.yml }
     - { resource: config_filesystem.yml }

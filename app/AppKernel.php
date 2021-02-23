@@ -16,21 +16,22 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new FOS\RestBundle\FOSRestBundle(),
+            #new FOS\RestBundle\FOSRestBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
-            new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
-            new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
+            #new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
+            #new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
             new SpriteGenerator\SpriteGeneratorBundle(),
-            new Dunglas\ApiBundle\DunglasApiBundle(),
+            #new Dunglas\ApiBundle\DunglasApiBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
-            new \FR3D\LdapBundle\FR3DLdapBundle(),
+            #new \FR3D\LdapBundle\FR3DLdapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle(),
         ];
 
         // Developer bundles
@@ -114,7 +115,7 @@ class AppKernel extends Kernel
             $environment = $this->environment;
         }
 
-        return $this->rootDir.'/cache/'.$environment;
+        return $this->rootDir.'/var/cache/'.$environment;
     }
 
     /**

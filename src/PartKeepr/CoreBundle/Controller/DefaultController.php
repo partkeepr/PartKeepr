@@ -2,20 +2,17 @@
 
 namespace PartKeepr\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\FOSRestController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
+#use FOS\RestBundle\Controller\Annotations\View;
+#use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Component\Intl\Intl;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends FOSRestController
+class DefaultController extends Controller
 {
     /**
      * Returns system status.
      *
-     * @Routing\Route("/api/system_status", defaults={"method" = "get","_format" = "json"})
-     * @View()
-     *
-     * @return array
+
      */
     public function getSystemStatusAction()
     {
@@ -25,10 +22,6 @@ class DefaultController extends FOSRestController
     /**
      * Returns system information.
      *
-     * @Routing\Route("/api/system_information", defaults={"method" = "get","_format" = "json"})
-     * @View()
-     *
-     * @return array
      */
     public function getSystemInformationAction()
     {
@@ -37,11 +30,6 @@ class DefaultController extends FOSRestController
 
     /**
      * Returns available disk space.
-     *
-     * @Routing\Route("/api/disk_space", defaults={"method" = "get","_format" = "json"})
-     * @View()
-     *
-     * @return array
      */
     public function getDiskFreeSpaceAction()
     {
@@ -53,9 +41,6 @@ class DefaultController extends FOSRestController
 
     /**
      * Returns the available currencies.
-     *
-     * @Routing\Route("/api/currencies", defaults={"method" = "get","_format" = "json"})
-     * @View()
      */
     public function getCurrenciesAction()
     {

@@ -2,6 +2,7 @@
 
 namespace PartKeepr\UnitBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This object represents an unit. Units can be: Volt, Hertz etc.
  *
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService(uri="/api/units")
  **/

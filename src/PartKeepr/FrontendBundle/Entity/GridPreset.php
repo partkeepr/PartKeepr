@@ -2,6 +2,7 @@
 
 namespace PartKeepr\FrontendBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
@@ -10,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Stores the grid presets.
  *
+ * @ApiResource()
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="name_grid_unique", columns={"grid", "name"})})
  * @ORM\Entity()
  * @TargetService(uri="/api/grid_presets")

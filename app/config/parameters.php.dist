@@ -139,9 +139,9 @@ $container->setParameter('fr3d_ldap.user.attribute.email', "email");
 // PartKeepr settings
 //======================================================================================================================
 
-// The authentication provider to use. Can be either PartKeepr.Auth.WSSEAuthenticationProvider or
+// The authentication provider to use. Can be 
 // PartKeepr.Auth.HTTPBasicAuthenticationProvider
-$container->setParameter('authentication_provider', 'PartKeepr.Auth.WSSEAuthenticationProvider');
+$container->setParameter('authentication_provider', 'PartKeepr.Auth.HTTPBasicAuthenticationProvider');
 
 /**
  * Specifies if the frontend should perform an auto-login
@@ -189,14 +189,6 @@ $container->setParameter('partkeepr.frontend.motd', false);
  * If set to false, no quota is used. Set it to a numeric value to set a quota in bytes.
  */
 $container->setParameter('partkeepr.filesystem.quota', false);
-
-/**
- * Specifies the dunglas cache. Defaults to false.
- * You can use the APCu cache by specifying "api.mapping.cache.apc" here.
- *
- * Further reading: https://api-platform.com/doc/1.0/api-bundle/performances
- */
-$container->setParameter('cache.dunglas', false);
 
 /**
  * Specifies the doctrine cache. Defaults to "array", but can be "apc".

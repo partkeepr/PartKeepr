@@ -2,6 +2,8 @@
 
 namespace PartKeepr\FootprintBundle\Entity;
 
+
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -11,6 +13,7 @@ use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService(uri="/api/footprints")
  */

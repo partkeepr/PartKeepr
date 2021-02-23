@@ -2,6 +2,7 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
@@ -16,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * Note: If you wish to link against a tip of the day, do it by name and not by id!
  *
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService(uri="/api/tip_of_the_days")
  **/

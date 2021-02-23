@@ -2,12 +2,14 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource()
  * @ORM\Entity()
  */
 class MetaPartParameterCriteria extends BaseEntity

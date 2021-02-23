@@ -2,6 +2,7 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
@@ -12,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * This object represents a parameter. Each parameter can have an unit (defined by the class "Unit") associated with
  * a numeric value.
  *
+ * @ApiResource()
  * @ORM\Entity @ORM\HasLifecycleCallbacks
  */
 class PartParameter extends BaseEntity

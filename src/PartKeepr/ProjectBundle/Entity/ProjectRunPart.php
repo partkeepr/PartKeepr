@@ -2,6 +2,7 @@
 
 namespace PartKeepr\ProjectBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\PartBundle\Entity\Part;
@@ -9,7 +10,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a project run part.
- *
+ * 
+ * @ApiResource()
  * @ORM\Entity
  */
 class ProjectRunPart extends BaseEntity

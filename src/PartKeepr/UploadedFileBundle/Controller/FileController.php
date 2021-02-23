@@ -13,9 +13,6 @@ abstract class FileController extends Controller
     /**
      * Returns the mimetype icon for an uploaded file.
      *
-     * @param int $id The ID of the entity
-     *
-     * @return Response
      */
     public function getMimeTypeIconAction($id)
     {
@@ -37,9 +34,6 @@ abstract class FileController extends Controller
     /**
      * Returns the file. Directly sends the response to the browser.
      *
-     * @param int $id The ID of the file
-     *
-     * @return Response
      */
     public function getFileAction($id)
     {

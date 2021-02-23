@@ -2,6 +2,7 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -13,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * This entity stores each tip of the day the user has already seen.
  *
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService(uri="/api/tip_of_the_day_histories")
  **/

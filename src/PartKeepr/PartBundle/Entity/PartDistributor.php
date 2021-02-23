@@ -2,6 +2,7 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DistributorBundle\Entity\Distributor;
@@ -12,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This class represents the link between a part and a distributor.
  *
+ * @ApiResource()
  * @ORM\Entity
  */
 class PartDistributor extends BaseEntity

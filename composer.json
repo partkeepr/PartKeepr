@@ -3,7 +3,7 @@
   "description": "Open Source Inventory Software",
   "type": "project",
   "homepage": "http://www.partkeepr.org",
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Timo A. Hummel",
@@ -23,15 +23,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle"
-    },
-    {
-      "type": "vcs",
       "url": "https://github.com/partkeepr/extjs6.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/partkeepr/FR3DLdapBundle"
     },
     {
       "type": "vcs",
@@ -44,11 +36,10 @@
     "brainbits/fugue-icons-bundle": "3.5.6",
     "doctrine/doctrine-bundle": "1.10.3",
     "doctrine/doctrine-fixtures-bundle": "2.4.1",
-    "doctrine/doctrine-migrations-bundle": "1.3.2",
+    "doctrine/doctrine-migrations-bundle": "1.2.*",
     "doctrine/migrations": "1.2.2",
     "doctrine/orm": "2.5.14",
     "fortawesome/font-awesome": "5.15.1",
-    "friendsofsymfony/rest-bundle": "1.7.7",
     "friendsofsymfony/user-bundle": "2.1.2",
     "guzzlehttp/guzzle": "6.5.5",
     "imagine/imagine": "1.2.4",
@@ -57,26 +48,25 @@
     "phpseclib/phpseclib": "2.0.30",
     "predis/predis": "1.1.6",
     "ramsey/uuid": "3.9.3",
-    "reputation-vip/composer-assets-installer": "1.0.4",
-    "sensio/distribution-bundle": "4.0.42",
+    "reputation-vip/composer-assets-installer": "2.*",
+    "sensio/distribution-bundle": "5.*",
     "sensio/framework-extra-bundle": "3.0.29",
     "sonata-project/exporter": "1.7.1",
     "snc/redis-bundle": "2.1.13",
-    "stof/doctrine-extensions-bundle": "1.3",
+    "stof/doctrine-extensions-bundle": "1.2.2",
     "symfony/assetic-bundle": "2.8.2",
-    "symfony/monolog-bundle": "3.3.1",
-    "symfony/property-access": "2.8.52",
+    "symfony/monolog-bundle": "3.2.*",
+    "symfony/property-access": "3.*",
     "symfony/swiftmailer-bundle": "3.0.3",
-    "symfony/symfony": "2.8.52",
+    "symfony/symfony": "3.4.*",
     "twig/extensions": "1.5.4",
     "twig/twig": "1.42.2",
-
-    "dunglas/api-bundle": "dev-master#b30de689f94410c7dc0e449f2ecc15cfa8e70f54",
-    "escapestudios/wsse-authentication-bundle": "dev-advancedUserInterface",
-    "fr3d/ldap-bundle": "dev-master",
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "partkeepr/extjs6": "dev-master",
-    "partkeepr/remote-file-loader": "dev-master"
+    "partkeepr/remote-file-loader": "dev-master",
+    "api-platform/api-pack": "^1.3",
+    "api-platform/core": "2.0.*",
+    "symfony/twig-bundle": "3.4.*"
   },
   "require-dev": {
     "phpunit/phpunit": "5.7.27",
@@ -103,6 +93,13 @@
     ]
   },
   "extra": {
+    "symfony-app-dir": "app",
+    "symfony-web-dir": "web",
+    "symfony-var-dir": "var",
+    "symfony-bin-dir": "bin",
+    "incenteev-parameters": {
+        "file": "app/config/parameters.yml"
+    },
     "symfony-assets-install": "relative",
     "assets-dir" : "web/",
     "installer-paths": {
@@ -111,5 +108,6 @@
         "atelierspierrot/famfamfam-silk-sprite"
       ]
     }
+    
   }
 }

@@ -2,6 +2,7 @@
 
 namespace PartKeepr\StockBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -10,6 +11,7 @@ use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource()
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @TargetService(uri="/api/stock_entries")

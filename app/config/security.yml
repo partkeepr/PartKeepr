@@ -18,15 +18,17 @@ security:
     providers:
         chain_provider:
             chain:
-                providers: [in_memory, fos_userbundle, fr3d_ldapbundle, legacy]
+                #providers: [in_memory, fos_userbundle, fr3d_ldapbundle, legacy]
+                providers: [in_memory, fos_userbundle, legacy]
+                
         legacy:
             id: partkeepr_legacy_user_provider
         in_memory:
             memory: ~
         fos_userbundle:
             id: fos_user.user_provider.username
-        fr3d_ldapbundle:
-            id: fr3d_ldap.security.user.provider
+ #       fr3d_ldapbundle:
+ #           id: fr3d_ldap.security.user.provider
 
     firewalls:
         login:
@@ -36,19 +38,19 @@ security:
             stateless: false # Stores authentification within a cookie. This is important to allow file uploads without having to send authentification data.
             pattern: ^/api/.*
             provider: chain_provider
-            fr3d_ldap_httpbasic:
-                provider: chain_provider
+ #           fr3d_ldap_httpbasic:
+ #               provider: chain_provider
             http_basic:
                 provider: chain_provider
             remote_user:
                 provider: chain_provider
-            wsse:
-                realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
-                profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
-                encoder: #digest algorithm
-                    algorithm: sha512
-                    encodeHashAsBase64:    true
-                    iterations: 1
+#            wsse:
+#                realm: "Secured with WSSE" #identifies the set of resources to which the authentication information will apply (WWW-Authenticate)
+#                profile: "UsernameToken" #WSSE profile (WWW-Authenticate)
+#                encoder: #digest algorithm
+#                    algorithm: sha512
+#                    encodeHashAsBase64:    true
+#                    iterations: 1
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }

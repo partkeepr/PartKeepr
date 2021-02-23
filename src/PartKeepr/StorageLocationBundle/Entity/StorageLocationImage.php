@@ -2,12 +2,14 @@
 
 namespace PartKeepr\StorageLocationBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
  * Holds a storage location image.
  *
+ * @ApiResource()
  * @ORM\Entity
  **/
 class StorageLocationImage extends Image

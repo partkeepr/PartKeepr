@@ -2,6 +2,7 @@
 
 namespace PartKeepr\ProjectBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Represents a project part.
  *
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService("/api/project_parts")
  */

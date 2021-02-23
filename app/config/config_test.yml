@@ -12,9 +12,6 @@ web_profiler:
     toolbar: false
     intercept_redirects: false
 
-dunglas_api:
-    cache: false
-
 doctrine:
     dbal:
         default_connection: %testdb%

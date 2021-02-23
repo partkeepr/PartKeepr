@@ -9,8 +9,8 @@
             <argument type="service" id="doctrine"/>
         </service>
         <service id="partkeepr.category.move" class="PartKeepr\CategoryBundle\Action\MoveAction">
-            <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="api.iri_converter" />
+            <!--<argument type="service" id="api.data_provider"/>-->
+            <!--<argument type="service" id="api.iri_converter" />-->
             <argument type="service" id="doctrine"/>
         </service>
     </services>

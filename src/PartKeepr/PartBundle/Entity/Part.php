@@ -2,6 +2,7 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  *
+ * @ApiResource()
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @TargetService(uri="/api/parts")

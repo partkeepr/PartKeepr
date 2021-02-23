@@ -6,7 +6,7 @@
 
     <services>
         <service id="partkeepr.tip_of_the_day.mark_read" class="PartKeepr\TipOfTheDayBundle\Action\MarkTipReadAction">
-            <argument type="service" id="api.data_provider"/>
+            <!--<argument type="service" id="api.data_provider"/>-->
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="partkeepr.userservice"/>
         </service>
@@ -17,7 +17,7 @@
         </service>
         <service id="partkeepr.tip_of_the_day_history.collection_get"
                  class="PartKeepr\TipOfTheDayBundle\Action\GetTipHistoryCollectionAction">
-            <argument type="service" id="api.data_provider"/>
+            <!--<argument type="service" id="api.data_provider"/>-->
             <argument type="service" id="partkeepr.userservice"/>
         </service>
     </services>

@@ -5,30 +5,29 @@ namespace PartKeepr\AuthBundle\Controller;
 use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\FOSRestController;
+#use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
 use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Validator\Constraints\Username;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends FOSRestController
+class DefaultController extends Controller
 {
     /**
      * Retrieves the salt for a given user.
      *
      * @Routing\Route("/api/users/getSalt", defaults={"method" = "post","_format" = "json"})
      * @Routing\Method({"POST"})
-     * @RequestParam(name="username", strict=true, description="The username, 3-50 characters. Allowed characters: a-z, A-Z, 0-9, an underscore (_), a backslash (\), a slash (/), a dot (.) or a dash (-)", requirements=@Username, allowBlank=false)
      * @View()
      *
-     * @param ParamFetcher $paramFetcher
      *
      * @return string The salt
      */
-    public function getSaltAction(ParamFetcher $paramFetcher)
+    public function getSaltAction($username)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -42,7 +41,7 @@ class DefaultController extends FOSRestController
         /**
          * @var FOSUser
          */
-        $user = $repository->findOneBy(['username' => $paramFetcher->get('username')]);
+        $user = $repository->findOneBy($username);
 
         if ($user !== null) {
             return $user->getSalt();

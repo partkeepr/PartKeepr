@@ -2,28 +2,24 @@
 
 namespace PartKeepr\ProjectBundle\Controller;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
+#use Dunglas\ApiBundle\Action\ActionUtilTrait;
+#use Dunglas\ApiBundle\Api\ResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\ProjectBundle\Entity\Report;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class ProjectReportController extends FOSRestController
+class ProjectReportController extends Controller
 {
-    use ActionUtilTrait;
+ #   use ActionUtilTrait;
 
     /**
-     * @param Request $request
-     *
-     * @throws \Exception Thrown if parameters are formatted incorrectly
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createReportAction(Request $request)
     {
         /**
-         * @var ResourceInterface
+         * 
          */
         list($resourceType, $format) = $this->extractAttributes($request);
         $report = $this->get("api.serializer")->deserialize(
@@ -66,11 +62,6 @@ class ProjectReportController extends FOSRestController
     }
 
     /**
-     * @param Request $request
-     *
-     * @throws \Exception Thrown if parameters are formatted incorrectly
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getReportAction(Request $request, $id)
     {

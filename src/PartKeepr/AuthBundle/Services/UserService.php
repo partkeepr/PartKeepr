@@ -87,9 +87,9 @@ class UserService
             case 'Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider':
                 return self::BUILTIN_PROVIDER;
                 break;
-            case 'FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider':
-                return 'LDAP';
-                break;
+#            case 'FR3D\LdapBundle\Security\Authentication\LdapAuthenticationProvider':
+ #               return 'LDAP';
+ #               break;
             default:
                 throw new \Exception('Unknown provider '.$providerClass);
         }

@@ -9,8 +9,9 @@ class XmlExcelFormatPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $container->getDefinition('api.format_negotiator')->addMethodCall('registerFormat', [
-            'xlsx', ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true,
-        ]);
+        //TODO
+        //$container->getDefinition('api.format_negotiator')->addMethodCall('registerFormat', [
+        //    'xlsx', ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'], true,
+        //]);
     }
 }

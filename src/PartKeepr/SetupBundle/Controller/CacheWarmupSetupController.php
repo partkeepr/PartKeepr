@@ -111,7 +111,7 @@ class CacheWarmupSetupController extends SetupBaseController
     public function cacheWarmupAction(Request $request)
     {
         // Clear old cache. We don't do that directly as it could happen that old files are loaded prior clearing the cache
-        $cacheDir = $this->get('kernel')->getRootDir().'/cache/prod';
+        $cacheDir = $this->get('kernel')->getRootDir().'/var/cache/prod';
 
         $filesystem = $this->get('filesystem');
         $filesystem->remove($cacheDir);

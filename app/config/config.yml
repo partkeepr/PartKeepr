@@ -5,34 +5,33 @@ imports:
     - { resource: config_framework.yml }
     - { resource: config_doctrine.yml }
     - { resource: config_fos_user.yml }
-    - { resource: config_dunglas.yml }
     - { resource: config_ldap.yml }
     - { resource: config_partkeepr.yml }
     - { resource: config_filesystem.yml }
 
-fos_rest:
-    body_listener: true
-    format_listener: true
-    param_fetcher_listener: force
-    service:
-        exception_handler: "partkeepr.exceptionwrapper"
-    format_listener:
-        rules:
-            - priorities: [json, xml]
-            - fallback_format: json
-    view:
-        default_engine: php
-        formats:
-            json: true
-            xml: true
-        templating_formats:
-            html: false
-        view_response_listener: true
+#fos_rest:
+#    body_listener: true
+#    format_listener: true
+#    param_fetcher_listener: force
+ #   service:
+ #       exception_handler: "partkeepr.exceptionwrapper"
+#    format_listener:
+#        rules:
+#            - priorities: [json, xml]
+#            - fallback_format: json
+#    view:
+#        default_engine: php
+#        formats:
+#            json: true
+#            xml: true
+#        templating_formats:
+#            html: false
+#        view_response_listener: true
 
 
 
 sensio_framework_extra:
-    view:    { annotations: false }
+    view:    { annotations: true }
     router:  { annotations: true }
 
 # Assetic Configuration
@@ -83,25 +82,6 @@ sprite_generator:
             imagePositioning: min-image
             imageGenerator: gd2
 
-fr3d_ldap:
-    driver:
-        host:                   "%fr3d_ldap.driver.host%"
-        port:                   "%fr3d_ldap.driver.port%"
-        username:               "%fr3d_ldap.driver.username%"
-        password:               "%fr3d_ldap.driver.password%"
-        bindRequiresDn:         "%fr3d_ldap.driver.bindRequiresDn%"
-        baseDn:                 "%fr3d_ldap.driver.baseDn%"
-        accountFilterFormat:    "%fr3d_ldap.driver.accountFilterFormat%"
-        optReferrals:           "%fr3d_ldap.driver.optReferrals%"
-        useSsl:                 "%fr3d_ldap.driver.useSsl%"
-        useStartTls:            "%fr3d_ldap.driver.useStartTls%"
-        accountCanonicalForm:   "%fr3d_ldap.driver.accountCanonicalForm%"
-        accountDomainName:      "%fr3d_ldap.driver.accountDomainName%"
-        accountDomainNameShort: "%fr3d_ldap.driver.accountDomainNameShort%"
-    user:
-        baseDn: "%fr3d_ldap.user.baseDn%"
-        filter: "%fr3d_ldap.user.filter%"
-
 services:
     serializer.normalizer.custom:
         class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
@@ -114,3 +94,8 @@ services:
         calls:
             - method: "setCircularReferenceLimit"
               arguments: [ [ 5 ] ]
+
+api_platform:
+    title: 'PartKeepr'
+    version: '0.0.1'
+    

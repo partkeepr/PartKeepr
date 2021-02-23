@@ -2,6 +2,7 @@
 
 namespace PartKeepr\SystemPreferenceBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\DoctrineReflectionBundle\Annotation\IgnoreIds;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
@@ -15,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * Note that values are stored internally as serialized PHP values to keep their type.
  *
+ * @ApiResource()
  * @ORM\Entity
  * @TargetService(uri="/api/system_preferences")
  * @IgnoreIds()
