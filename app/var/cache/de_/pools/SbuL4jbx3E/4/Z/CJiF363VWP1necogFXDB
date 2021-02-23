@@ -1,3 +1,0 @@
-0
-FOS.UserBundle.Model.UserInterface
-O:49:"Symfony\Component\Validator\Mapping\ClassMetadata":10:{s:11:"constraints";a:0:{}s:18:"constraintsByGroup";a:0:{}s:17:"traversalStrategy";i:1;s:7:"getters";a:0:{}s:13:"groupSequence";a:0:{}s:21:"groupSequenceProvider";b:0;s:7:"members";a:0:{}s:4:"name";s:34:"FOS\UserBundle\Model\UserInterface";s:10:"properties";a:0:{}s:12:"defaultGroup";s:13:"UserInterface";}

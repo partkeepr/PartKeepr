@@ -25,7 +25,7 @@ partkeepr.jsfiles
 app/authkey.php
 app/config/parameters.php
 app/config/parameters_setup.php
-app/var/cache
+app/var/cache/*
 
 /web/bundles/
 /web/images/*
@@ -44,3 +44,8 @@ app/var/cache
 !.keep
 !app/logs/.htaccess
 !app/logs/ignore.json
+app/var/cache/dev/appDevDebugProjectContainer.php
+app/var/cache/dev/appDevDebugProjectContainer.php.meta
+app/var/cache/dev/appDevDebugProjectContainer.xml.meta
+app/var/cache/prod/appProdProjectContainer.php
+app/var/cache/prod/appProdProjectContainer.php.meta

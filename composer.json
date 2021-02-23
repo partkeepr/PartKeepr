@@ -52,7 +52,6 @@
     "sensio/distribution-bundle": "5.*",
     "sensio/framework-extra-bundle": "3.0.29",
     "sonata-project/exporter": "1.7.1",
-    "snc/redis-bundle": "2.1.13",
     "stof/doctrine-extensions-bundle": "1.2.2",
     "symfony/assetic-bundle": "2.8.2",
     "symfony/monolog-bundle": "3.2.*",
