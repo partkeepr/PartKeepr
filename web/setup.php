@@ -2,8 +2,8 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-$loader = require_once __DIR__.'/../app/bootstrap.php.cache';
-
+$loader = require_once __DIR__.'/../var/bootstrap.php.cache';
+require_once __DIR__.'/../app/autoload.php';
 require_once __DIR__.'/../app/SetupAppKernel.php';
 require_once __DIR__.'/../app/AppKernel.php';
 

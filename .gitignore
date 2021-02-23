@@ -25,6 +25,7 @@ partkeepr.jsfiles
 app/authkey.php
 app/config/parameters.php
 app/config/parameters_setup.php
+app/var/cache
 
 /web/bundles/
 /web/images/*
@@ -32,7 +33,7 @@ app/config/parameters_setup.php
 /web/atelierspierrot/*
 /web/js/*
 /web/css/*
-/app/bootstrap.php.cache
+/var/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*

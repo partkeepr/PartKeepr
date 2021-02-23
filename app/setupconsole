@@ -7,7 +7,7 @@
 
 set_time_limit(0);
 
-require_once __DIR__.'/bootstrap.php.cache';
+require_once __DIR__.'/var/bootstrap.php.cache';
 require_once __DIR__.'/SetupAppKernel.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
