@@ -2,6 +2,8 @@
 
 namespace PartKeepr\SetupBundle\Visitor;
 
+use PhpParser\NodeVisitor;
+
 class LegacyConfigVisitor extends \PHPParser_NodeVisitorAbstract
 {
     private static $configValues = [];

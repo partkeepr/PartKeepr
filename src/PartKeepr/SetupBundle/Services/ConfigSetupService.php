@@ -120,8 +120,8 @@ class ConfigSetupService
     public function legacyConfigParser()
     {
         if (file_exists($this->getLegacyConfigPath())) {
-            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
-            $traverser = new \PHPParser_NodeTraverser();
+            $parser = new \PhpParser\Parser(new \PHPParser\Lexer());
+            $traverser = new \PhpParser\NodeTraverser();
             $traverser->addVisitor(new LegacyConfigVisitor());
             $statements = $parser->parse(file_get_contents($this->getLegacyConfigPath()));
             $traverser->traverse($statements);
@@ -135,8 +135,8 @@ class ConfigSetupService
     public function configParser()
     {
         if (file_exists($this->getConfigPath(false))) {
-            $parser = new \PHPParser_Parser(new \PHPParser_Lexer());
-            $traverser = new \PHPParser_NodeTraverser();
+            $parser = new \PhpParser\Parser(new \PhpParser\Lexer());
+            $traverser = new \PhpParser\NodeTraverser();
             $traverser->addVisitor(new ConfigVisitor());
             $statements = $parser->parse(file_get_contents($this->getConfigPath(false)));
             $traverser->traverse($statements);
