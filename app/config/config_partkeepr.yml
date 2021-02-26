@@ -89,7 +89,7 @@ services:
             - "@partkeepr_image_service"
             - "@annotation_reader"
             - "@property_accessor"
- #           - "@api.iri_converter"
+            - "@api_platform.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
  #   resource.distributor:

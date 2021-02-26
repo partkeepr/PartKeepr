@@ -12,6 +12,7 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\UploadedFileBundle\Services\UploadedFileService;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use ApiPlatform\Core\Api\IriConverterInterface;
 
 class TemporaryFileEventListener
 {

@@ -6,7 +6,7 @@
 
     <target name="regenerate-environment">
         <exec command="php ${console} cache:clear --env=${env}"/>
-        <exec command="php ${console} cache:pool:clear --env=${env}"/>
+        <exec command="php ${console} cache:pool:clear cache.global_clearer --env=${env}"/> 
         <exec command="php ${console} cache:warmup --env=${env}"/>
         <exec command="php ${console} nfq:sprite:generate --env=${env}"/>
         <exec command="php ${console} assets:install --env=${env}"/>

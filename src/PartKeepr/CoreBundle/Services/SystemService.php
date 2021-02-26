@@ -7,7 +7,7 @@ use Doctrine\DBAL\Version as DBALVersion;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Version as ORMVersion;
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use PartKeepr\CoreBundle\System\OperatingSystem;
 use PartKeepr\CoreBundle\System\SystemInformationRecord;
 use PartKeepr\CronLoggerBundle\Services\CronLoggerService;
@@ -307,14 +307,14 @@ class SystemService implements ContainerAwareInterface
             return false;
         }
 
-        try {
-            $client = new Client();
-            $request = $client->createRequest('GET', $statusURI, ['timeout' => 3.14]);
-            $request->send();
+        #try {
+        #    $client = new Client();
+        #    $request = $client->createRequest('GET', $statusURI, ['timeout' => 3.14]);
+        #    $request->send();
 
-            return json_decode($request->getResponse()->getBody(), true);
-        } catch (\Exception $e) {
+        #    return json_decode($request->getResponse()->getBody(), true);
+        #} catch (\Exception $e) {
             return false;
-        }
+        #}
     }
 }

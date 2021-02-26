@@ -47,8 +47,9 @@ assetic:
         #yui_css:
         #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
 
-twig:
-    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+#Exception controllers removed from FOSRest..Will figure this out later.
+#twig:
+#    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 #Commenting out because it's got it's own config file.
 #dunglas_api:
@@ -81,6 +82,13 @@ sprite_generator:
             cssFormat: css
             imagePositioning: min-image
             imageGenerator: gd2
+
+services:
+    partkeepr.exception_normalizer:
+        class: PartKeepr\DoctrineReflectionBundle\Normalizer\ExceptionNormalizer
+        tags:
+            - { name: serializer.normalizer }
+
 
 services:
     serializer.normalizer.custom:
