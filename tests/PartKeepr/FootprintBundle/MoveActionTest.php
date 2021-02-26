@@ -2,7 +2,7 @@
 
 namespace PartKeepr\FootprintBundle\Tests;
 
-use PartKeepr\CategoryBundle\Tests\AbstractMoveCategoryTest;
+use Tests\PartKeepr\CategoryBundle\AbstractMoveCategoryTest;
 
 class MoveActionTest extends AbstractMoveCategoryTest
 {

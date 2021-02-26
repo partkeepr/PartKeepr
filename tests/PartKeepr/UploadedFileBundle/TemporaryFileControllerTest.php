@@ -1,8 +1,8 @@
 <?php
 
-namespace PartKeepr\UploadedFileBundle\Tests;
+namespace Tests\PartKeepr\UploadedFileBundle;
 
-use PartKeepr\CoreBundle\Tests\WebTestCase;
+use Tests\PartKeepr\CoreBundle\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class TemporaryFileControllerTest extends WebTestCase

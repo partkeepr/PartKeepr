@@ -76,6 +76,7 @@
     "phing/phing": "2.16.3"
   },
   "autoload": {
+    "psr-4": { "Tests\\": "tests/" },
     "psr-0": {"": "src/","PartKeepr": "src/backend"},
     "files": ["app/AppKernel.php"]
   },
