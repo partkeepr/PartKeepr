@@ -2,7 +2,7 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-#use Dunglas\ApiBundle\Action\ActionUtilTrait;
+//use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class LoginAction
 {
- #   use ActionUtilTrait;
+    //   use ActionUtilTrait;
 
     /**
      * @var UserService

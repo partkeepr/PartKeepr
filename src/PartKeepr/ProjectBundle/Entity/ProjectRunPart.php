@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a project run part.
- * 
+ *
  * @ApiResource()
  * @ORM\Entity
  */
