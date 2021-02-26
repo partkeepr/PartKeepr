@@ -63,7 +63,7 @@ This guide assumes, you have just freshly checked out the PartKeer repository fr
 - The partkeepr instance is avaliable at http://127.0.0.1:8082/.
   - Note: If you don't set `PARTKEEPR_FORCE_UPDATE` to `yes` in the `docker-compose` file on your first run you will get a white screen as you need to start the [setup](http://127.0.0.1:8082/setup/) once. Just accept the defaults but do not create a new set of users (keep the existing ones) and select HTTP Basic authentication.
 - You may or may or not want to set up a cron job as described. The check is disabled by default.
-  - Alternatively, you can run the cron command manually with `php app/console partkeepr:cron:run` after logging in to the container with `docker exec -it partkeepr_dev_app_1 bash`.
+  - Alternatively, you can run the cron command manually with `php bin/console partkeepr:cron:run` after logging in to the container with `docker exec -it partkeepr_dev_app_1 bash`.
 
 ## Building the images manually
 

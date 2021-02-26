@@ -6,13 +6,13 @@ volumes:
     
 services:
     app:
-        image: partkeepr/development:latest
+        #image: partkeepr/development:latest
         
         # Use this instead if you want to develop the docker infrastructure
-        #build:
-            #context: ./app
-            #args:
-                #SRC_IMAGE: partkeepr/base-dev:latest
+        build:
+            context: ./app
+            args:
+                SRC_IMAGE: partkeepr/base-dev:latest
         
         ports:
             - 8082:80
@@ -22,7 +22,8 @@ services:
             - ./github.env
         environment:
             GITHUB_DEBUG_UID: 1000
-            #ADD_PHPINFO_FILE: 1
+            XDEBUG_CONFIG: remote_enable=1 remote_handler=dbgp remote_port=9000 remote_autostart=1 remote_connect_back=0 idekey=docker remote_host=host.docker.internal
+            ADD_PHPINFO_FILE: 1
             #PARTKEEPR_FORCE_UPDATE: "yes"
     
     db:

@@ -19,13 +19,13 @@ composer install
 if [ "x$PARTKEEPR_FORCE_UPDATE" = "xyes" ]; then
 	
 	# Clears the production cache
-	php app/console cache:clear --env=prod
+	php bin/console cache:clear --env=prod
 	
 	# Executes the database migrations
-	php app/console doctrine:migrations:migrate --no-interaction
+	php bin/console doctrine:migrations:migrate --no-interaction
 	
 	# Updates the database schema
-	php app/console doctrine:schema:update --force
+	php bin/console doctrine:schema:update --force
 	
 	# Builds all required files and warms up the cache
 	./vendor/bin/phing
@@ -33,7 +33,7 @@ if [ "x$PARTKEEPR_FORCE_UPDATE" = "xyes" ]; then
 fi
 
 # Runs all crons
-php app/console partkeepr:cron:run
+php bin/console partkeepr:cron:run
 
 # Add phpinfo() file if requested
 if [ -n "$ADD_PHPINFO_FILE" ]; then

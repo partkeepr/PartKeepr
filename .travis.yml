@@ -28,8 +28,8 @@ before_script:
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; fi
   - composer self-update --1 #limit to composer v1
   - composer install --prefer-source --no-interaction
-  - app/console cache:warmup --env=test
-  - app/console doctrine:schema:create --env=test
+  - bin/console cache:warmup --env=test
+  - bin/console doctrine:schema:create --env=test
 
 script:
     - vendor/bin/phpunit -c app/ --coverage-clover build/logs/clover.xml

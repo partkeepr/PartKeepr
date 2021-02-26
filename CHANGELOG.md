@@ -1,6 +1,11 @@
 # Changelog
 
+ 
+
 ## Unreleased
+
+ * added doctrine/annotations as specific in composer.json :EM:3.2
+ * moved tests from bundle dirs to new test dir per 3.x recommendations :EM:3.x
 
 Bugfixes and other features:
  * Updated to the most recent Octopart API version 4 [#1150](https://github.com/partkeepr/PartKeepr/pull/1150)

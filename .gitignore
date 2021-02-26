@@ -33,7 +33,7 @@ app/var/cache/*
 /web/atelierspierrot/*
 /web/js/*
 /web/css/*
-/var/bootstrap.php.cache
+
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*
@@ -44,8 +44,9 @@ app/var/cache/*
 !.keep
 !app/logs/.htaccess
 !app/logs/ignore.json
-app/var/cache/dev/appDevDebugProjectContainer.php
-app/var/cache/dev/appDevDebugProjectContainer.php.meta
-app/var/cache/dev/appDevDebugProjectContainer.xml.meta
-app/var/cache/prod/appProdProjectContainer.php
-app/var/cache/prod/appProdProjectContainer.php.meta
+
+/var/
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+.vscode
+

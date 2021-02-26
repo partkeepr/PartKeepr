@@ -16,7 +16,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            #new FOS\RestBundle\FOSRestBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
@@ -31,7 +31,8 @@ class AppKernel extends Kernel
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
             #new \FR3D\LdapBundle\FR3DLdapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-            new ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle(),
+            new ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle()
+
         ];
 
         // Developer bundles
@@ -39,6 +40,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
         }
 
         // PartKeepr bundles
@@ -91,17 +93,13 @@ class AppKernel extends Kernel
         }
     }
 
-    /**
-     * Returns any custom bundles for a custom setup. Override this
-     * method in a custom AppKernel.
-     *
-     * @return array
-     */
-    public function getCustomBundles()
+    /** 3.x directory structure update */
+    public function getRootDir()
     {
-        return [];
+        return __DIR__;
     }
-
+   
+   
     /**
      * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT.
      *
@@ -117,6 +115,25 @@ class AppKernel extends Kernel
 
         return $this->rootDir.'/var/cache/'.$environment;
     }
+
+    /** 3.x directory structure update */
+    public function getLogDir()
+    {
+        return dirname(__DIR__).'/var/logs';
+    }
+
+    /**
+     * Returns any custom bundles for a custom setup. Override this
+     * method in a custom AppKernel.
+     *
+     * @return array
+     */
+    public function getCustomBundles()
+    {
+        return [];
+    }
+
+
 
     /**
      * Override to avoid stripping comments.

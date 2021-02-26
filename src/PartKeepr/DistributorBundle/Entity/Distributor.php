@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Represents a distributor.
  * @ApiResource()
  * @ORM\Entity
- * @TargetService(uri="/api/distributors")
+ * @TargetService(uri="/api/distributors")  
  **/
 class Distributor extends BaseEntity
 {
@@ -57,7 +57,7 @@ class Distributor extends BaseEntity
     private $phone;
 
     /**
-     * Holds the fax number of the distributor.
+     * Holds the fax(!!) number of the distributor.
      *
      * @ORM\Column(type="string",nullable=true)
      * @Groups({"default"})

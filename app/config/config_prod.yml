@@ -1,9 +1,9 @@
 imports:
     - { resource: config.yml }
 
-#framework:
+#framework: #deprecated in 3.4
 #    validation:
-#        cache: apc
+#        cache: validator.mapping.cache.doctrine.apc
 
 #doctrine:
 #    orm:

@@ -13,7 +13,8 @@ framework:
         engines: ['twig']
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
-    trusted_proxies: ~
+    #trusted_proxies: ~ #Removed, see UPGRADE-3.3.md
     session:         ~
     fragments:       ~
     http_method_override: true
+    assets:          ~

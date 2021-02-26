@@ -67,7 +67,8 @@
     "api-platform/core": "2.0.*",
     "symfony/twig-bundle": "3.4.*",
     "nikic/php-parser": "^1.0",
-    "friendsofsymfony/rest-bundle": "~2.5"
+    "friendsofsymfony/rest-bundle": "~2.8",
+    "doctrine/annotations": "^1.12"
   },
   "require-dev": {
     "phpunit/phpunit": "5.7.27",
@@ -75,10 +76,8 @@
     "phing/phing": "2.16.3"
   },
   "autoload": {
-    "psr-0": {
-      "": "src/",
-      "PartKeepr": "src/backend"
-    }
+    "psr-0": {"": "src/","PartKeepr": "src/backend"},
+    "files": ["app/AppKernel.php"]
   },
   "minimum-stability": "stable",
   "scripts": {
@@ -98,6 +97,7 @@
     "symfony-web-dir": "web",
     "symfony-var-dir": "var",
     "symfony-bin-dir": "bin",
+    "symfony-tests-dir": "tests",
     "incenteev-parameters": {
         "file": "app/config/parameters.yml"
     },
