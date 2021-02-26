@@ -3,12 +3,12 @@
 namespace Tests\PartKeepr\PartBundle\Issues;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Tests\PartKeepr\CoreBundle\WebTestCase;
 use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\ManufacturerBundle\Entity\Manufacturer;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartBundle\Entity\PartDistributor;
 use PartKeepr\PartBundle\Entity\PartManufacturer;
+use Tests\PartKeepr\CoreBundle\WebTestCase;
 
 /**
  * Class DistributorAndManufacturerSearchTest.

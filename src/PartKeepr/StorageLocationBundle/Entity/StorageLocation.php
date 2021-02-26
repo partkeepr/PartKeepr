@@ -9,7 +9,7 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/** 
+/**
  * @ApiResource()
  * @ORM\Entity
  * @TargetService(uri="/api/storage_locations")

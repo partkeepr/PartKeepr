@@ -3,8 +3,8 @@
 namespace Tests\PartKeepr\PartBundle;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Tests\PartKeepr\CoreBundle\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
+use Tests\PartKeepr\CoreBundle\WebTestCase;
 
 class MetaPartTest extends WebTestCase
 {

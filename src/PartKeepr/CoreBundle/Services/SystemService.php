@@ -307,14 +307,14 @@ class SystemService implements ContainerAwareInterface
             return false;
         }
 
-        #try {
-        #    $client = new Client();
-        #    $request = $client->createRequest('GET', $statusURI, ['timeout' => 3.14]);
-        #    $request->send();
+        //try {
+        //    $client = new Client();
+        //    $request = $client->createRequest('GET', $statusURI, ['timeout' => 3.14]);
+        //    $request->send();
 
-        #    return json_decode($request->getResponse()->getBody(), true);
-        #} catch (\Exception $e) {
-            return false;
-        #}
+        //    return json_decode($request->getResponse()->getBody(), true);
+        //} catch (\Exception $e) {
+        return false;
+        //}
     }
 }

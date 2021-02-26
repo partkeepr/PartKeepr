@@ -21,17 +21,17 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
-            #new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
-            #new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
+            //new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
+            //new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
             new SpriteGenerator\SpriteGeneratorBundle(),
-            #new Dunglas\ApiBundle\DunglasApiBundle(),
+            //new Dunglas\ApiBundle\DunglasApiBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
-            #new \FR3D\LdapBundle\FR3DLdapBundle(),
+            //new \FR3D\LdapBundle\FR3DLdapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-            new ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle()
+            new ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle(),
 
         ];
 
@@ -98,8 +98,7 @@ class AppKernel extends Kernel
     {
         return __DIR__;
     }
-   
-   
+
     /**
      * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT.
      *
@@ -132,8 +131,6 @@ class AppKernel extends Kernel
     {
         return [];
     }
-
-
 
     /**
      * Override to avoid stripping comments.
