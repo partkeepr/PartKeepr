@@ -16,9 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class ImageController extends FileController
 {
-    /**
-     *
-     */
     public function getImageAction(Request $request, $id)
     {
         /**
@@ -86,7 +83,6 @@ abstract class ImageController extends FileController
 
     /**
      * Scales the image to fit within the given size.
-     *
      */
     public function fitWithin(UploadedFile $image, $width, $height, $padding = false)
     {
@@ -123,7 +119,6 @@ abstract class ImageController extends FileController
 
     /**
      * Returns the path to an image which has been cached in a particular width, height and mode.
-     *
      */
     public function getImageCacheFilename(UploadedFile $image, $width, $height, $mode)
     {

@@ -3,9 +3,9 @@
 namespace Test\PartKeepr\PartBundle\Issues;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Tests\PartKeepr\CoreBundle\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\StockBundle\Entity\StockEntry;
+use Tests\PartKeepr\CoreBundle\WebTestCase;
 
 /**
  * Class StockHistoryLostTest.

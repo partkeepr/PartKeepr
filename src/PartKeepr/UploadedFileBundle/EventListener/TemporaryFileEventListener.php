@@ -3,7 +3,7 @@
 namespace PartKeepr\UploadedFileBundle\EventListener;
 
 use Doctrine\Common\Annotations\Reader;
-#use Dunglas\ApiBundle\Api\IriConverterInterface;
+//use Dunglas\ApiBundle\Api\IriConverterInterface;
 use PartKeepr\ImageBundle\Entity\Image;
 use PartKeepr\ImageBundle\Entity\TempImage;
 use PartKeepr\ImageBundle\Services\ImageService;

@@ -2,9 +2,9 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-#use Dunglas\ApiBundle\Action\ActionUtilTrait;
-#use Dunglas\ApiBundle\Api\ResourceInterface;
-#use Dunglas\ApiBundle\Exception\RuntimeException;
+//use Dunglas\ApiBundle\Action\ActionUtilTrait;
+//use Dunglas\ApiBundle\Api\ResourceInterface;
+//use Dunglas\ApiBundle\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Serializer;
  */
 class GetPreferencesAction
 {
- #   use ActionUtilTrait;
+    //   use ActionUtilTrait;
 
     /**
      * @var UserService
