@@ -2,8 +2,9 @@
 
 namespace PartKeepr\UploadedFileBundle\EventListener;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
+//use Dunglas\ApiBundle\Api\IriConverterInterface;
 use Doctrine\Common\Annotations\Reader;
-#use Dunglas\ApiBundle\Api\IriConverterInterface;
 use PartKeepr\ImageBundle\Entity\Image;
 use PartKeepr\ImageBundle\Entity\TempImage;
 use PartKeepr\ImageBundle\Services\ImageService;
@@ -12,7 +13,6 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use PartKeepr\UploadedFileBundle\Services\UploadedFileService;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use ApiPlatform\Core\Api\IriConverterInterface;
 
 class TemporaryFileEventListener
 {
