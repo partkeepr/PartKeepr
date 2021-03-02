@@ -2,7 +2,6 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-#use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\UserManipulator;
 use PartKeepr\AuthBundle\Exceptions\OldPasswordWrongException;
@@ -14,8 +13,6 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 
 class ChangePasswordAction
 {
-#    use ActionUtilTrait;
-
     /**
      * @var UserService
      */

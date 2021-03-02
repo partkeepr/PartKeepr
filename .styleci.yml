@@ -1,5 +1,5 @@
-preset: recommended
+#preset: recommended
 
-disabled:
-  - single_quote
-  - phpdoc_var_without_name
+#disabled:
+#  - single_quote
+#  - phpdoc_var_without_name

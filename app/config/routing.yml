@@ -1,7 +1,7 @@
-#part_keepr_auth:
-#    resource: "@PartKeeprAuthBundle/Controller/"
-#    type:     annotation
-#    prefix:   /
+part_keepr_auth:
+    resource: "@PartKeeprAuthBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
 #part_keepr_octopart:
 #    resource: "@PartKeeprOctoPartBundle/Controller/"
@@ -55,12 +55,7 @@ _export:
 _setup:
     resource: "@PartKeeprSetupBundle/Resources/config/routing.yml"
 
-#api:
-#    resource: "."
-#    type:     "api"
-#    prefix:   "/api" # Optional
-
 api_platform:
-    resource: .
-    type: api_platform
-    prefix: /api
+    resource: '.'
+    type:     'api_platform'
+    prefix:   /api

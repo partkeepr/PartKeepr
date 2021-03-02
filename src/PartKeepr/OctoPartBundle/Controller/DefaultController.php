@@ -2,12 +2,12 @@
 
 namespace PartKeepr\OctoPartBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends FOSRestController
+
+class DefaultController extends Controller
 {
     /**
      * @Routing\Route("/api/octopart/get/{id}", defaults={"method" = "GET","_format" = "json"})
@@ -15,7 +15,6 @@ class DefaultController extends FOSRestController
      *
      * @param $id string the Part UID
      *
-     * @View()
      *
      * @return \stdClass
      */
@@ -32,7 +31,6 @@ class DefaultController extends FOSRestController
      *
      * @param Request $request
      *
-     * @View()
      *
      * @return array
      */

@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="PartKeeprUser",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="username_provider", columns={"username", "provider_id"})})
- * @TargetService(uri="/api/users")
  */
 class User extends BaseEntity implements UserInterface, EquatableInterface
 {

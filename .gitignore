@@ -49,4 +49,5 @@ app/var/cache/*
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 .vscode
+*.swp
 

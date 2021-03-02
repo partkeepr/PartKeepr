@@ -6,7 +6,8 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
-    form:            ~
+    form:
+        { enabled: true }
     csrf_protection: ~
     validation:      { enabled: true, enable_annotations: true }
     templating:

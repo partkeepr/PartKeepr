@@ -1,16 +1,6 @@
 imports:
     - { resource: config.yml }
 
-#framework: #deprecated in 3.4
-#    validation:
-#        cache: validator.mapping.cache.doctrine.apc
-
-#doctrine:
-#    orm:
-#        metadata_cache_driver: apc
-#        result_cache_driver: apc
-#        query_cache_driver: apc
-
 monolog:
     handlers:
         main:

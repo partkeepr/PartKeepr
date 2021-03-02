@@ -3,18 +3,16 @@
 namespace PartKeepr\StatisticBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class StatisticController extends FOSRestController
+class StatisticController extends Controller
 {
     /**
      * Returns the current system statistics.
      *
      * @Routing\Route("/api/statistics/current", defaults={"method" = "get","_format" = "json"})
-     * @View()
      *
      * @return array
      */
@@ -37,10 +35,7 @@ class StatisticController extends FOSRestController
     /**
      * Returns the sampled statistics for a given period.
      *
-     * @QueryParam(name="start")
-     * @QueryParam(name="end")
      * @Routing\Route("/api/statistics/sampled", defaults={"method" = "get","_format" = "json"})
-     * @View()
      *
      * @param ParamFetcher $paramFetcher
      *
@@ -58,7 +53,6 @@ class StatisticController extends FOSRestController
      * Returns the range in which statistics are available.
      *
      * @Routing\Route("/api/statistics/range", defaults={"method" = "get","_format" = "json"})
-     * @View()
      *
      * @return array
      */

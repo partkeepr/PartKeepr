@@ -4,19 +4,18 @@ namespace PartKeepr\ExportBundle\Controller;
 
 use Exporter\Writer\CsvWriter;
 use Exporter\Writer\XmlExcelWriter;
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\FOSRestController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class ExportController extends FOSRestController
+
+class ExportController extends Controller
 {
     /**
      * Exports the given data to a given format.
      *
      * @Routing\Route("/api/export", defaults={"method" = "post","_format" = "json"})
-     * @View()
      *
      * @return array
      */

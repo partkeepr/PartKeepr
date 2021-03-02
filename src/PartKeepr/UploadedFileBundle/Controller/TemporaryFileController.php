@@ -4,8 +4,6 @@ namespace PartKeepr\UploadedFileBundle\Controller;
 
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\ResourceInterface;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\View;
 use PartKeepr\ImageBundle\Response\TemporaryImageUploadResponse;
 use PartKeepr\UploadedFileBundle\Entity\TempUploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
@@ -22,7 +20,6 @@ class TemporaryFileController extends FileController
      * Handles a temporary file upload.
      *
      * @RequestParam(name="url",description="An URL where the file is located",strict=false)
-     * @View()
      *
      * @param Request $request The request to process
      *

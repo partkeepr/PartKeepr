@@ -2,9 +2,6 @@
 
 namespace PartKeepr\PartBundle\Controller;
 
-use Dunglas\ApiBundle\Api\IriConverter;
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\ProjectBundle\Entity\Project;
 use PartKeepr\ProjectBundle\Entity\ProjectRun;
@@ -12,12 +9,13 @@ use PartKeepr\ProjectBundle\Entity\ProjectRunPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class PartController extends FOSRestController
+
+class PartController extends Controller
 {
     /**
      * @Routing\Route("/api/parts/massRemoveStock", defaults={"method" = "get","_format" = "json"})
-     * @View()
      *
      * @param Request $request
      *
@@ -110,7 +108,6 @@ class PartController extends FOSRestController
 
     /**
      * @Routing\Route("/api/parts/getPartParameterNames", defaults={"method" = "get","_format" = "json"})
-     * @View()
      *
      * @return array An array with name and description properties
      */
@@ -125,7 +122,6 @@ class PartController extends FOSRestController
 
     /**
      * @Routing\Route("/api/parts/getPartParameterValues", defaults={"method" = "get","_format" = "json"})
-     * @View()
      *
      * @param $request Request The Request to process
      *

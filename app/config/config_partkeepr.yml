@@ -1154,7 +1154,7 @@ services:
 #             -    [ "POST" ]                 # Methods
 #             -    "/users/login"           # Path
 #             -    "partkeepr.auth.login"         # Controller
-#             -    "PartKeeprAuthLogin"
+#             -    "PartKeeprAuthLogin"         #RouteName
 #
 #    resource.user.item_operation.change_password:
 #        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
