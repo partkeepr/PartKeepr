@@ -2,8 +2,8 @@
 
 namespace Tests\PartKeepr\ImageBundle;
 
-use Tests\PartKeepr\CoreBundle\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Tests\PartKeepr\CoreBundle\WebTestCase;
 
 class ImageControllerTest extends WebTestCase
 {

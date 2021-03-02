@@ -92,8 +92,7 @@ class AppKernel extends Kernel
     {
         return __DIR__;
     }
-   
-   
+
     /**
      * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT.
      *
@@ -126,8 +125,6 @@ class AppKernel extends Kernel
     {
         return [];
     }
-
-
 
     /**
      * Override to avoid stripping comments.

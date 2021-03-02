@@ -3,12 +3,12 @@
 namespace Tests\PartKeepr\ProjectBundle;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Tests\PartKeepr\CoreBundle\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\ProjectBundle\Entity\Project;
 use PartKeepr\ProjectBundle\Entity\ProjectAttachment;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Tests\PartKeepr\CoreBundle\WebTestCase;
 
 class ProjectTest extends WebTestCase
 {

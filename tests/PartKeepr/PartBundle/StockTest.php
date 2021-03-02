@@ -5,8 +5,8 @@ namespace Tests\PartKeepr\PartBundle;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\ORM\Query;
 use Dunglas\ApiBundle\Api\IriConverter;
-use Tests\PartKeepr\CoreBundle\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
+use Tests\PartKeepr\CoreBundle\WebTestCase;
 
 class StockTest extends WebTestCase
 {

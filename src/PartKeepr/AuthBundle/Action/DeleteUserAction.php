@@ -2,6 +2,12 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
+<<<<<<< HEAD
+=======
+//use Dunglas\ApiBundle\Action\ActionUtilTrait;
+//use Dunglas\ApiBundle\Exception\RuntimeException;
+//use Dunglas\ApiBundle\Model\DataProviderInterface;
+>>>>>>> 88002e0e118dd92f0c8ad054bce098947c3e13b4
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
@@ -14,6 +20,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DeleteUserAction
 {
+<<<<<<< HEAD
+=======
+//    use ActionUtilTrait;
+
+>>>>>>> 88002e0e118dd92f0c8ad054bce098947c3e13b4
     /**
      * @var DataProviderInterface
      */

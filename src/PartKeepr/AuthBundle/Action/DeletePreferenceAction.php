@@ -2,6 +2,11 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
+<<<<<<< HEAD
+=======
+//use Dunglas\ApiBundle\Action\ActionUtilTrait;
+//use Dunglas\ApiBundle\Exception\RuntimeException;
+>>>>>>> 88002e0e118dd92f0c8ad054bce098947c3e13b4
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
@@ -12,6 +17,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DeletePreferenceAction
 {
+<<<<<<< HEAD
+=======
+//    use ActionUtilTrait;
+
+>>>>>>> 88002e0e118dd92f0c8ad054bce098947c3e13b4
     /**
      * @var UserService
      */

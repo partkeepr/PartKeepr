@@ -22,9 +22,8 @@ class TempImage extends Image
     }
 }
 
-
-#    resource.tempimage.item_operation.get:
-#        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
-#        public:    false
-#        factory:   [ "@api.operation_factory", "createItemOperation" ]
-#        arguments: [ "@resource.tempimage", "GET" ]
+//    resource.tempimage.item_operation.get:
+//        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+//        public:    false
+//        factory:   [ "@api.operation_factory", "createItemOperation" ]
+//        arguments: [ "@resource.tempimage", "GET" ]

@@ -2,6 +2,7 @@
 
 namespace PartKeepr\ProjectBundle\Controller;
 
+<<<<<<< HEAD
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\ProjectBundle\Entity\Report;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,8 +11,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 class ProjectReportController extends Controller
+=======
+//use Dunglas\ApiBundle\Action\ActionUtilTrait;
+use Dunglas\ApiBundle\Api\ResourceInterface;
+use FOS\RestBundle\Controller\FOSRestController;
+use PartKeepr\ProjectBundle\Entity\ProjectPart;
+use PartKeepr\ProjectBundle\Entity\Report;
+use Symfony\Component\HttpFoundation\Request;
+
+class ProjectReportController extends FOSRestController
+>>>>>>> 88002e0e118dd92f0c8ad054bce098947c3e13b4
 {
-    #use ActionUtilTrait;
+    //use ActionUtilTrait;
 
     /**
      * @param Request $request

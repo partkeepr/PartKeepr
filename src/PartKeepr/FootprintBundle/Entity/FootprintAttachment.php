@@ -8,6 +8,7 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
  * Holds a footprint attachment.
+ *
  * @ApiResource()
  * @ORM\Entity
  **/

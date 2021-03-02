@@ -10,9 +10,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a distributor.
+ *
  * @ApiResource()
  * @ORM\Entity
- * @TargetService(uri="/api/distributors")  
+ * @TargetService(uri="/api/distributors")
  **/
 class Distributor extends BaseEntity
 {
