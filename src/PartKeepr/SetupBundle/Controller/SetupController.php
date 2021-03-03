@@ -62,7 +62,7 @@ class SetupController extends SetupBaseController
             return new JsonResponse($response);
         }
 
-        $retArr = $db->fetchArray("SELECT version();");
+        $retArr = $db->fetchArray('SELECT version();');
         $version = $retArr[0];
 
         if (preg_match('/^([0-9]*)\.([0-9]*)\.([0-9]*)-mariadb.*/i', $version, $matches)) {

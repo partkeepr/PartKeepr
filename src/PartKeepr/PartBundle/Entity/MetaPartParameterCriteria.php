@@ -93,7 +93,7 @@ class MetaPartParameterCriteria extends BaseEntity
     public function __construct()
     {
         $this->setValueType(PartParameter::VALUE_TYPE_STRING);
-        $this->setStringValue("");
+        $this->setStringValue('');
     }
 
     /**
@@ -156,7 +156,7 @@ class MetaPartParameterCriteria extends BaseEntity
     public function setValueType($valueType)
     {
         if (!in_array($valueType, PartParameter::VALUE_TYPES)) {
-            throw new \Exception("Invalid value type given:".$valueType);
+            throw new \Exception('Invalid value type given:'.$valueType);
         }
 
         $this->valueType = $valueType;

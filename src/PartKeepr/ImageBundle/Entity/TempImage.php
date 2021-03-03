@@ -21,4 +21,3 @@ class TempImage extends Image
         parent::__construct(Image::IMAGE_TEMP);
     }
 }
-

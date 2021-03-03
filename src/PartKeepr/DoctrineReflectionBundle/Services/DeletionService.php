@@ -35,23 +35,23 @@ class DeletionService
         foreach ($meta as $foo) {
             /* @var ClassMetadata $foo */
             foreach ($foo->getAssociationMappings() as $associationMapping) {
-                if ($associationMapping["targetEntity"] === $realClassName && $associationMapping["isOwningSide"]) {
+                if ($associationMapping['targetEntity'] === $realClassName && $associationMapping['isOwningSide']) {
 
                     //var_dump($associationMapping->
-                    if ($associationMapping["inversedBy"] !== null) {
-                        $inverseAssociationMapping = $sourceEntityMetaData->getAssociationMapping($associationMapping["inversedBy"]);
+                    if ($associationMapping['inversedBy'] !== null) {
+                        $inverseAssociationMapping = $sourceEntityMetaData->getAssociationMapping($associationMapping['inversedBy']);
 
-                        if ($inverseAssociationMapping["isCascadeRemove"]) {
+                        if ($inverseAssociationMapping['isCascadeRemove']) {
                             continue;
                         }
                     }
 
                     $qb = $this->em->createQueryBuilder();
-                    $qb->select("q")->from($associationMapping["sourceEntity"], "q")->where(
-                        $qb->expr()->eq("q.".$associationMapping["fieldName"], ":query")
+                    $qb->select('q')->from($associationMapping['sourceEntity'], 'q')->where(
+                        $qb->expr()->eq('q.'.$associationMapping['fieldName'], ':query')
                     );
 
-                    $qb->setParameter(":query", $entity);
+                    $qb->setParameter(':query', $entity);
 
                     foreach ($qb->getQuery()->getResult() as $result) {
                         $usedIn[] = (string) $result;

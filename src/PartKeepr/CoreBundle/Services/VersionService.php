@@ -49,7 +49,7 @@ class VersionService
      */
     public function extractGITCommit()
     {
-        $result = shell_exec("git rev-parse HEAD");
+        $result = shell_exec('git rev-parse HEAD');
 
         return trim($result);
     }
@@ -61,7 +61,7 @@ class VersionService
      */
     public function extractShortGITCommit()
     {
-        $result = shell_exec("git rev-parse --short HEAD");
+        $result = shell_exec('git rev-parse --short HEAD');
 
         return trim($result);
     }
@@ -94,7 +94,7 @@ class VersionService
     public function getCanonicalVersion()
     {
         if ($this->getVersion() === '{V_GIT}') {
-            return 'GIT development version Commit '.$this->extractGITCommit()." Short Commit ".$this->extractShortGITCommit();
+            return 'GIT development version Commit '.$this->extractGITCommit().' Short Commit '.$this->extractShortGITCommit();
         } else {
             return $this->getVersion();
         }

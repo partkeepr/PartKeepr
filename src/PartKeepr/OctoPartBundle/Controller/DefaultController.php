@@ -3,9 +3,8 @@
 namespace PartKeepr\OctoPartBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -15,12 +14,11 @@ class DefaultController extends Controller
      *
      * @param $id string the Part UID
      *
-     *
      * @return \stdClass
      */
     public function indexAction($id)
     {
-        $data = $this->get("partkeepr.octopart_service")->getPartByUID($id);
+        $data = $this->get('partkeepr.octopart_service')->getPartByUID($id);
 
         return $data;
     }
@@ -31,7 +29,6 @@ class DefaultController extends Controller
      *
      * @param Request $request
      *
-     *
      * @return array
      */
     public function getPartsByQueryAction(Request $request)
@@ -40,34 +37,34 @@ class DefaultController extends Controller
 
         $responseData = [];
 
-        $query = $request->query->get("q");
+        $query = $request->query->get('q');
 
-        if ($request->query->has("page")) {
-            $start = $request->query->get("page");
+        if ($request->query->has('page')) {
+            $start = $request->query->get('page');
         }
 
-        $data = $this->get("partkeepr.octopart_service")->getPartyByQuery($query, $start);
+        $data = $this->get('partkeepr.octopart_service')->getPartyByQuery($query, $start);
 
-        $errors = $data["errors"];
-        $data = $data["data"]["search"];
+        $errors = $data['errors'];
+        $data = $data['data']['search'];
 
-        $responseData["hits"] = $data["hits"];
-        $responseData["results"] = [];
-        $responseData["errors"] = $errors;
+        $responseData['hits'] = $data['hits'];
+        $responseData['results'] = [];
+        $responseData['errors'] = $errors;
 
         if ($data) {
-            foreach ($data["results"] as $result) {
-                $part = $result["part"];
+            foreach ($data['results'] as $result) {
+                $part = $result['part'];
                 $responseItem = [];
-                $responseItem["mpn"] = $part["mpn"];
-                $responseItem["title"] = $part["short_description"];
-                $responseItem["manufacturer"] = $part["manufacturer"]["name"];
-                $responseItem["numOffers"] = count($part["sellers"]);
-                $responseItem["numSpecs"] = count($part["specs"]);
-                $responseItem["numDatasheets"] = count($part["document_collections"]);
-                $responseItem["url"] = "https://octopart.com".$part["slug"];
-                $responseItem["uid"] = $part["id"];
-                $responseData["results"][] = $responseItem;
+                $responseItem['mpn'] = $part['mpn'];
+                $responseItem['title'] = $part['short_description'];
+                $responseItem['manufacturer'] = $part['manufacturer']['name'];
+                $responseItem['numOffers'] = count($part['sellers']);
+                $responseItem['numSpecs'] = count($part['specs']);
+                $responseItem['numDatasheets'] = count($part['document_collections']);
+                $responseItem['url'] = 'https://octopart.com'.$part['slug'];
+                $responseItem['uid'] = $part['id'];
+                $responseData['results'][] = $responseItem;
             }
         }
 

@@ -4,8 +4,8 @@ namespace PartKeepr\ImportBundle\Configuration;
 
 class OneToManyConfiguration extends Configuration
 {
-    const IMPORTBEHAVIOUR_IGNORE = "ignore";
-    const IMPORTBEHAVIOUR_CREATENEW = "createNew";
+    const IMPORTBEHAVIOUR_IGNORE = 'ignore';
+    const IMPORTBEHAVIOUR_CREATENEW = 'createNew';
 
     const importBehaviours = [
         self::IMPORTBEHAVIOUR_IGNORE,
@@ -18,12 +18,12 @@ class OneToManyConfiguration extends Configuration
 
     public function parseConfiguration($importConfiguration)
     {
-        if (!property_exists($importConfiguration, "importBehaviour")) {
+        if (!property_exists($importConfiguration, 'importBehaviour')) {
             return false;
         }
 
         if (!in_array($importConfiguration->importBehaviour, self::importBehaviours)) {
-            throw new \Exception("The key importBehaviour contains an invalid value!");
+            throw new \Exception('The key importBehaviour contains an invalid value!');
         }
 
         $this->importBehaviour = $importConfiguration->importBehaviour;
@@ -38,7 +38,7 @@ class OneToManyConfiguration extends Configuration
                 return null;
                 break;
             case self::IMPORTBEHAVIOUR_CREATENEW:
-                $this->log(sprintf("Create a new entity of type %s for relation %s", $this->baseEntity, $this->getAssociationName()));
+                $this->log(sprintf('Create a new entity of type %s for relation %s', $this->baseEntity, $this->getAssociationName()));
 
                 return parent::import($row);
                 break;

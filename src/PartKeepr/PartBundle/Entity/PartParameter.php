@@ -175,8 +175,8 @@ class PartParameter extends BaseEntity
     public function __construct()
     {
         $this->setValueType(self::VALUE_TYPE_STRING);
-        $this->setDescription("");
-        $this->setStringValue("");
+        $this->setDescription('');
+        $this->setStringValue('');
     }
 
     /**
@@ -264,7 +264,7 @@ class PartParameter extends BaseEntity
     public function setValueType($valueType)
     {
         if (!in_array($valueType, self::VALUE_TYPES)) {
-            throw new \Exception("Invalid value type given:".$valueType);
+            throw new \Exception('Invalid value type given:'.$valueType);
         }
 
         $this->valueType = $valueType;

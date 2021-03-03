@@ -2,7 +2,6 @@
 
 namespace PartKeepr\StatisticBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

@@ -3,10 +3,8 @@
 namespace PartKeepr\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
-use Symfony\Component\Intl\Intl;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration; 
-
+use Symfony\Component\Intl\Intl;
 
 class DefaultController extends Controller
 {
@@ -61,9 +59,9 @@ class DefaultController extends Controller
         $currencies = [];
         foreach ($currencyData as $code => $name) {
             $currencies[] = [
-                "code"   => $code,
-                "name"   => $name,
-                "symbol" => Intl::getCurrencyBundle()->getCurrencySymbol($code),
+                'code'   => $code,
+                'name'   => $name,
+                'symbol' => Intl::getCurrencyBundle()->getCurrencySymbol($code),
             ];
         }
 

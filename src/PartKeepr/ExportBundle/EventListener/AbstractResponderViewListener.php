@@ -104,10 +104,10 @@ abstract class AbstractResponderViewListener
                     }
 
                     if ($finalData[$key][$mapping] === null) {
-                        $finalData[$key][$mapping] = "null";
+                        $finalData[$key][$mapping] = 'null';
                     }
                 } catch (\Exception $e) {
-                    $finalData[$key][$mapping] = "null";
+                    $finalData[$key][$mapping] = 'null';
                 }
             }
         }

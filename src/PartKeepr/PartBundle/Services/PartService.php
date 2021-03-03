@@ -78,14 +78,14 @@ class PartService
          * Empty internal part numbers aren't checked. If you want to require an internal part number, set the
          * field internalPartNumber to mandatory.
          */
-        if ($internalPartNumber == "") {
+        if ($internalPartNumber == '') {
             return true;
         }
 
         $dql = 'SELECT COUNT(p) FROM PartKeepr\\PartBundle\\Entity\\Part p WHERE p.internalPartNumber = :internalPartNumber';
 
         if ($part !== null) {
-            $dql .= " AND p.id != :partId";
+            $dql .= ' AND p.id != :partId';
         }
 
         $query = $this->entityManager->createQuery($dql)->setParameter('internalPartNumber', $internalPartNumber);
@@ -104,7 +104,7 @@ class PartService
      */
     public function checkPartLimit()
     {
-        if ($this->partLimit !== false && $this->partLimit != "-1") {
+        if ($this->partLimit !== false && $this->partLimit != '-1') {
             if ($this->getPartCount() >= $this->partLimit) {
                 return true;
             }
@@ -123,7 +123,7 @@ class PartService
     public function getMatchingMetaParts(Part $metaPart)
     {
         $paramCount = 0;
-        $paramPrefix = ":param";
+        $paramPrefix = ':param';
         $results = [];
 
         if (!$metaPart->isMetaPart()) {
@@ -132,20 +132,20 @@ class PartService
 
         foreach ($metaPart->getMetaPartParameterCriterias() as $metaPartParameterCriteria) {
             $qb = $this->entityManager->createQueryBuilder();
-            $qb->select("p.id AS id")
-                ->from("PartKeeprPartBundle:PartParameter", "pp")
-                ->join("pp.part", "p")
-                ->where("1=1");
+            $qb->select('p.id AS id')
+                ->from('PartKeeprPartBundle:PartParameter', 'pp')
+                ->join('pp.part', 'p')
+                ->where('1=1');
 
             $filter = new Filter();
             $filter->setOperator($metaPartParameterCriteria->getOperator());
-            $filter->setProperty("name");
+            $filter->setProperty('name');
 
             switch ($metaPartParameterCriteria->getValueType()) {
                 case PartParameter::VALUE_TYPE_NUMERIC:
                     $expr = $this->filterService->getExpressionForFilter(
                         $filter,
-                        "pp.normalizedValue",
+                        'pp.normalizedValue',
                         $paramPrefix.$paramCount
                     );
 
@@ -155,17 +155,17 @@ class PartService
                 case PartParameter::VALUE_TYPE_STRING:
                     $expr = $this->filterService->getExpressionForFilter(
                         $filter,
-                        "pp.stringValue",
+                        'pp.stringValue',
                         $paramPrefix.$paramCount
                     );
                     $qb->setParameter($paramPrefix.$paramCount, $metaPartParameterCriteria->getStringValue());
                     $paramCount++;
                     break;
                 default:
-                    throw new \InvalidArgumentException("Unknown value type");
+                    throw new \InvalidArgumentException('Unknown value type');
             }
 
-            $expr2 = $qb->expr()->eq("pp.name", $paramPrefix.$paramCount);
+            $expr2 = $qb->expr()->eq('pp.name', $paramPrefix.$paramCount);
             $qb->setParameter($paramPrefix.$paramCount, $metaPartParameterCriteria->getPartParameterName());
 
             $qb->andWhere(
@@ -174,14 +174,14 @@ class PartService
 
             $result = [];
             foreach ($qb->getQuery()->getScalarResult() as $partId) {
-                $result[] = $partId["id"];
+                $result[] = $partId['id'];
             }
 
             $results[] = $result;
         }
 
         if (count($results) > 1) {
-            $result = call_user_func_array("array_intersect", $results);
+            $result = call_user_func_array('array_intersect', $results);
         } else {
             if (count($results) === 1) {
                 $result = $results[0];
@@ -192,12 +192,12 @@ class PartService
 
         if (count($result) > 0) {
             $qb = $this->entityManager->createQueryBuilder();
-            $qb->select("p")->from("PartKeeprPartBundle:Part", "p")
+            $qb->select('p')->from('PartKeeprPartBundle:Part', 'p')
                 ->where(
-                    $qb->expr()->in("p.id", ":result")
+                    $qb->expr()->in('p.id', ':result')
                 );
 
-            $qb->setParameter(":result", $result);
+            $qb->setParameter(':result', $result);
 
             return $qb->getQuery()->getResult();
         } else {

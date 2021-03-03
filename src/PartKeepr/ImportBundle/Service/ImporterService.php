@@ -78,8 +78,8 @@ class ImporterService
                 $entities[] = $entity;
             }
             $logs[] = implode(
-                "<br/>",
-                ["data" => implode(",", $row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog()), '</p>']
+                '<br/>',
+                ['data' => implode(',', $row), '<p style="text-indent: 50px;">', 'log' => '   '.implode('<br/>   ', $configuration->getLog()), '</p>']
             );
 
             $configuration->clearLog();
@@ -98,7 +98,7 @@ class ImporterService
             $this->em->commit();
         }
 
-        return [$configuration->getPersistEntities(), implode("<br/>", $logs)];
+        return [$configuration->getPersistEntities(), implode('<br/>', $logs)];
     }
 
     public function parseConfiguration()
@@ -126,20 +126,20 @@ class ImporterService
 
         switch ($this->em->getUnitOfWork()->getEntityState($entity)) {
             case UnitOfWork::STATE_NEW:
-                $description["title"] = "Would create a new entity of type ".get_class($entity);
+                $description['title'] = 'Would create a new entity of type '.get_class($entity);
 
                 $cm = $this->em->getClassMetadata(get_class($entity));
                 foreach ($cm->getFieldNames() as $fieldName) {
-                    $description["fields"][$fieldName] = $accessor->getValue($entity, $fieldName);
+                    $description['fields'][$fieldName] = $accessor->getValue($entity, $fieldName);
                 }
 
                 foreach ($cm->getAssociationNames() as $associationMapping) {
                     $foo = $accessor->getValue($entity, $associationMapping);
 
                     if ($foo !== null) {
-                        $description["associations"][$associationMapping] = $foo->getId();
+                        $description['associations'][$associationMapping] = $foo->getId();
                     } else {
-                        $description["error"] = "Would stop import because a mapping was not found";
+                        $description['error'] = 'Would stop import because a mapping was not found';
                     }
                 }
                 break;

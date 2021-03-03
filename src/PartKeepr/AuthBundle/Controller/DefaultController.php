@@ -5,11 +5,10 @@ namespace PartKeepr\AuthBundle\Controller;
 use Doctrine\ORM\EntityRepository;
 use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
-use PartKeepr\AuthBundle\Validator\Constraints\Username;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
@@ -48,7 +47,6 @@ class DefaultController extends Controller
      * Logs out the user.
      *
      * @Routing\Route("/api/users/logout", defaults={"method" = "GET","_format" = "json"})
-     *
      */
     public function logoutAction(Request $request)
     {

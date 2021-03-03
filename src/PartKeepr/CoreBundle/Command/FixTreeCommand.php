@@ -23,7 +23,7 @@ class FixTreeCommand extends ContainerAwareCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->entityManager = $this->getContainer()->get("doctrine.orm.default_entity_manager");
+        $this->entityManager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
         $this->fixTree('PartCategory');
         $this->fixTree('FootprintCategory');
         $this->fixTree('StorageLocationCategory');

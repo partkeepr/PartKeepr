@@ -21,11 +21,11 @@ class GridPresetService
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
-        $queryBuilder->update("PartKeeprFrontendBundle:GridPreset", "gp")->set("gp.gridDefault", ":default")
-        ->where("gp.grid = :grid");
+        $queryBuilder->update('PartKeeprFrontendBundle:GridPreset', 'gp')->set('gp.gridDefault', ':default')
+        ->where('gp.grid = :grid');
 
-        $queryBuilder->setParameter("grid", $gridPreset->getGrid());
-        $queryBuilder->setParameter("default", false);
+        $queryBuilder->setParameter('grid', $gridPreset->getGrid());
+        $queryBuilder->setParameter('default', false);
 
         $queryBuilder->getQuery()->execute();
 
@@ -36,8 +36,8 @@ class GridPresetService
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
-        $queryBuilder->select("gp.grid", "gp.configuration")->from("PartKeeprFrontendBundle:GridPreset", "gp")->where("gp.gridDefault = :default");
-        $queryBuilder->setParameter("default", true);
+        $queryBuilder->select('gp.grid', 'gp.configuration')->from('PartKeeprFrontendBundle:GridPreset', 'gp')->where('gp.gridDefault = :default');
+        $queryBuilder->setParameter('default', true);
 
         return $queryBuilder->getQuery()->getArrayResult();
     }

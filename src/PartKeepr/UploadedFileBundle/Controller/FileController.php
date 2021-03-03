@@ -8,7 +8,6 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-
 abstract class FileController extends Controller
 {
     /**

@@ -53,9 +53,9 @@ class TemporaryFileController extends FileController
                 throw new \Exception($error);
             }
 
-            if ($this->container->hasParameter("partkeepr.upload.limit") &&
-                $this->container->getParameter("partkeepr.upload.limit") !== false &&
-                $file->getSize() > $this->container->getParameter("partkeepr.upload.limit")) {
+            if ($this->container->hasParameter('partkeepr.upload.limit') &&
+                $this->container->getParameter('partkeepr.upload.limit') !== false &&
+                $file->getSize() > $this->container->getParameter('partkeepr.upload.limit')) {
                 throw new \Exception($this->get('translator')->trans('The uploaded file is too large.'));
             }
 
@@ -70,8 +70,8 @@ class TemporaryFileController extends FileController
             throw new \Exception($this->get('translator')->trans('No valid file given'));
         }
 
-        if ($request->request->has("description")) {
-            $uploadedFile->setDescription($request->request->get("description"));
+        if ($request->request->has('description')) {
+            $uploadedFile->setDescription($request->request->get('description'));
         }
 
         $this->getDoctrine()->getManager()->persist($uploadedFile);
