@@ -23,7 +23,7 @@ Debug::enable();
 //require_once __DIR__.'/../app/AppKernel.php'; Moved to composer.json
 
 $kernel = new AppKernel('dev', true);
-#$kernel->loadClassCache();
+//$kernel->loadClassCache();
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

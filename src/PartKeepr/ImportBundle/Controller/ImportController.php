@@ -21,7 +21,7 @@ class ImportController extends Controller
      */
     public function getSourceAction(Request $request)
     {
-        $tempFileIri = $request->get("file");
+        $tempFileIri = $request->get('file');
 
         return new JsonResponse($this->extractCSVData($tempFileIri));
     }
@@ -34,13 +34,13 @@ class ImportController extends Controller
      */
     public function getPreviewAction(Request $request)
     {
-        $tempFileIri = $request->get("file");
+        $tempFileIri = $request->get('file');
 
-        $configuration = json_decode($request->get("configuration"));
-        $baseEntity = $request->get("baseEntity");
+        $configuration = json_decode($request->get('configuration'));
+        $baseEntity = $request->get('baseEntity');
 
         $data = $this->extractCSVData($tempFileIri, false);
-        $importService = $this->get("importer_service");
+        $importService = $this->get('importer_service');
         $importService->setBaseEntity($baseEntity);
         $importService->setImportConfiguration($configuration);
         $importService->setImportData($data);
@@ -51,7 +51,7 @@ class ImportController extends Controller
             $logs = [$e->getMessage()];
         }
 
-        return new JsonResponse(["logs" => $logs]);
+        return new JsonResponse(['logs' => $logs]);
     }
 
     /**
@@ -62,31 +62,31 @@ class ImportController extends Controller
      */
     public function importAction(Request $request)
     {
-        $tempFileIri = $request->get("file");
+        $tempFileIri = $request->get('file');
 
-        $configuration = json_decode($request->get("configuration"));
-        $baseEntity = $request->get("baseEntity");
+        $configuration = json_decode($request->get('configuration'));
+        $baseEntity = $request->get('baseEntity');
 
         $data = $this->extractCSVData($tempFileIri, false);
-        $importService = $this->get("importer_service");
+        $importService = $this->get('importer_service');
         $importService->setBaseEntity($baseEntity);
         $importService->setImportConfiguration($configuration);
         $importService->setImportData($data);
         list($entities, $logs) = $importService->import();
 
-        return new JsonResponse(["logs" => $logs]);
+        return new JsonResponse(['logs' => $logs]);
     }
 
     protected function extractCSVData($tempFileIRI, $includeHeaders = true)
     {
-        $tempUploadedFile = $this->get("api_platform.iri_converter")->getItemFromIri($tempFileIRI);
+        $tempUploadedFile = $this->get('api_platform.iri_converter')->getItemFromIri($tempFileIRI);
         $fileContents = $this->get('partkeepr_uploadedfile_service')->getStorage($tempUploadedFile)->read($tempUploadedFile->getFullFilename());
 
-        $tempFile = tempnam(sys_get_temp_dir(), "import");
+        $tempFile = tempnam(sys_get_temp_dir(), 'import');
 
         file_put_contents($tempFile, $fileContents);
 
-        $fp = fopen($tempFile, "r");
+        $fp = fopen($tempFile, 'r');
 
         $data = [];
 

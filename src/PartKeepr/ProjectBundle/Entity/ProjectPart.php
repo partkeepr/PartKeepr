@@ -2,10 +2,9 @@
 
 namespace PartKeepr\ProjectBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\ByReference;
@@ -16,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a project part.
+ *
  * @ApiResource()
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
@@ -23,9 +23,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ProjectPart extends BaseEntity
 {
-    const OVERAGE_TYPE_ABSOLUTE = "absolute";
+    const OVERAGE_TYPE_ABSOLUTE = 'absolute';
 
-    const OVERAGE_TYPE_PERCENT = "percent";
+    const OVERAGE_TYPE_PERCENT = 'percent';
 
     const OVERAGE_TYPES = [self::OVERAGE_TYPE_ABSOLUTE, self::OVERAGE_TYPE_PERCENT];
 
@@ -132,7 +132,7 @@ class ProjectPart extends BaseEntity
     {
         $this->setOverageType(self::OVERAGE_TYPE_ABSOLUTE);
         $this->setOverage(0);
-        $this->setLotNumber("");
+        $this->setLotNumber('');
     }
 
     /**
@@ -274,6 +274,6 @@ class ProjectPart extends BaseEntity
     public function __toString()
     {
         //@todo i18n
-        return sprintf("Used in project %s", $this->getProject()->getName())." / ".parent::__toString();
+        return sprintf('Used in project %s', $this->getProject()->getName()).' / '.parent::__toString();
     }
 }

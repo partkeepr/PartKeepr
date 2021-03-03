@@ -80,12 +80,12 @@ class ExecuteBatchJobAction
         $queryFields = [];
         $updateFields = [];
 
-        if ($request->request->has("queryFields")) {
-            $queryFields = json_decode($request->request->get("queryFields"), true);
+        if ($request->request->has('queryFields')) {
+            $queryFields = json_decode($request->request->get('queryFields'), true);
         }
 
-        if ($request->request->has("updateFields")) {
-            $updateFields = json_decode($request->request->get("updateFields"), true);
+        if ($request->request->has('updateFields')) {
+            $updateFields = json_decode($request->request->get('updateFields'), true);
         }
 
         $queryFilters = [];
@@ -98,8 +98,8 @@ class ExecuteBatchJobAction
 
             if ($batchJobQueryField->getDynamic()) {
                 foreach ($queryFields as $queryField) {
-                    if ($queryField["property"] == $batchJobQueryField->getProperty()) {
-                        $queryFilter->value = $queryField["value"];
+                    if ($queryField['property'] == $batchJobQueryField->getProperty()) {
+                        $queryFilter->value = $queryField['value'];
                     }
                 }
             }
@@ -116,8 +116,8 @@ class ExecuteBatchJobAction
 
             if ($batchJobUpdateField->getDynamic()) {
                 foreach ($updateFields as $updateField) {
-                    if ($updateField["property"] == $batchJobUpdateField->getProperty()) {
-                        $updateFieldConfig->value = $updateField["value"];
+                    if ($updateField['property'] == $batchJobUpdateField->getProperty()) {
+                        $updateFieldConfig->value = $updateField['value'];
                     }
                 }
             }
@@ -128,7 +128,7 @@ class ExecuteBatchJobAction
         $configuration = $this->advancedSearchFilter->extractConfiguration($queryFilters, []);
 
         $qb = new QueryBuilder($this->em);
-        $qb->select("o")->from($this->reflectionService->convertExtJSToPHPClassName($batchJob->getBaseEntity()), "o");
+        $qb->select('o')->from($this->reflectionService->convertExtJSToPHPClassName($batchJob->getBaseEntity()), 'o');
 
         $this->advancedSearchFilter->filter($qb, $configuration['filters'], $configuration['sorters']);
 

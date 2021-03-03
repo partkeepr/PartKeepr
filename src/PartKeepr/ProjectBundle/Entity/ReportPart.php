@@ -2,10 +2,9 @@
 
 namespace PartKeepr\ProjectBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -347,9 +346,9 @@ class ReportPart extends BaseEntity
     {
         // @todo i18n
         return sprintf(
-            "Used in project report %s %s",
+            'Used in project report %s %s',
             $this->getReport()->getName(),
-            $this->getReport()->getCreateDateTime()->format("Y-m-d H:i:s")
-        )." / ".parent::__toString();
+            $this->getReport()->getCreateDateTime()->format('Y-m-d H:i:s')
+        ).' / '.parent::__toString();
     }
 }

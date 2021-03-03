@@ -7,7 +7,7 @@ use Predis\Client as PredisClient;
 
 class OctoPartService
 {
-    const OCTOPART_ENDPOINT = "https://octopart.com/api/v4/endpoint";
+    const OCTOPART_ENDPOINT = 'https://octopart.com/api/v4/endpoint';
 
     const OCTOPART_QUERY = <<<'EOD'
     query MyPartSearch($q: String!, $filters: Map, $limit: Int!, $start: Int, $country: String = "DE", $currency: String = "EUR") {
@@ -175,7 +175,7 @@ EOD;
 EOD;
 
     private $apiKey;
-    private $limit = "3";
+    private $limit = '3';
 
     public function __construct($apiKey, $limit)
     {
@@ -199,13 +199,13 @@ EOD;
         $client = new Client();
         $request = $client->createRequest('POST', self::OCTOPART_ENDPOINT);
         $request->setHeader('Content-Type', 'application/json');
-        $request->getQuery()->add("token", $this->apiKey);
+        $request->getQuery()->add('token', $this->apiKey);
 
         $graphql = [
-            "query"         => self::OCTOPART_PARTQUERY,
-            "operationName" => "MyPartSearch",
-            "variables"     => [
-                "id" => $uid,
+            'query'         => self::OCTOPART_PARTQUERY,
+            'operationName' => 'MyPartSearch',
+            'variables'     => [
+                'id' => $uid,
             ],
         ];
 
@@ -216,7 +216,7 @@ EOD;
 
         $data = json_decode($body, true);
 
-        return $data["data"]["parts"][0];
+        return $data['data']['parts'][0];
     }
 
     public function getPartyByQuery($q, $startpage = 1)
@@ -225,15 +225,15 @@ EOD;
 
         $request = $client->createRequest('POST', self::OCTOPART_ENDPOINT);
         $request->setHeader('Content-Type', 'application/json');
-        $request->getQuery()->add("token", $this->apiKey);
+        $request->getQuery()->add('token', $this->apiKey);
 
         $graphql = [
-            "query"         => self::OCTOPART_QUERY,
-            "operationName" => "MyPartSearch",
-            "variables"     => [
-                "q"     => $q,
-                "limit" => $this->limit,
-                "start" => ($startpage - 1) * $this->limit,   // "start" is 0-based
+            'query'         => self::OCTOPART_QUERY,
+            'operationName' => 'MyPartSearch',
+            'variables'     => [
+                'q'     => $q,
+                'limit' => $this->limit,
+                'start' => ($startpage - 1) * $this->limit,   // "start" is 0-based
             ],
         ];
 
@@ -248,10 +248,10 @@ EOD;
         try {
             $redisclient = new PredisClient();
             $redisclient->connect();
-            $results = $parts["data"]["search"]["results"];
+            $results = $parts['data']['search']['results'];
             foreach ($results as $result) {
-                $id = $result["part"]["id"];
-                $redisclient->set($id, json_encode($result["part"]));
+                $id = $result['part']['id'];
+                $redisclient->set($id, json_encode($result['part']));
             }
             $redisclient->disconnect();
         } catch (\Exception $e) {

@@ -14,19 +14,19 @@ class SystemPreferenceTest extends WebTestCase
 
     public function testSystemPreferenceService()
     {
-        $this->getContainer()->get("partkeepr.system_preference_service")->setSystemPreference("foo", "bar");
+        $this->getContainer()->get('partkeepr.system_preference_service')->setSystemPreference('foo', 'bar');
 
-        $this->assertEquals("bar", $this->getContainer()->get("partkeepr.system_preference_service")->getSystemPreferenceValue("foo"));
+        $this->assertEquals('bar', $this->getContainer()->get('partkeepr.system_preference_service')->getSystemPreferenceValue('foo'));
 
-        $this->getContainer()->get("partkeepr.system_preference_service")->setSystemPreference("foo", "bar2");
+        $this->getContainer()->get('partkeepr.system_preference_service')->setSystemPreference('foo', 'bar2');
 
-        $this->assertEquals("bar2", $this->getContainer()->get("partkeepr.system_preference_service")->getSystemPreferenceValue("foo"));
+        $this->assertEquals('bar2', $this->getContainer()->get('partkeepr.system_preference_service')->getSystemPreferenceValue('foo'));
 
-        $preference = $this->getContainer()->get("partkeepr.system_preference_service")->getPreference("foo");
-        $this->assertEquals("foo", $preference->getPreferenceKey());
+        $preference = $this->getContainer()->get('partkeepr.system_preference_service')->getPreference('foo');
+        $this->assertEquals('foo', $preference->getPreferenceKey());
 
         $this->expectException(SystemPreferenceNotFoundException::class);
-        $this->assertEquals("bar2", $this->getContainer()->get("partkeepr.system_preference_service")->getSystemPreferenceValue("foo2"));
+        $this->assertEquals('bar2', $this->getContainer()->get('partkeepr.system_preference_service')->getSystemPreferenceValue('foo2'));
     }
 
     public function testSystemPreferenceCreate()
@@ -34,9 +34,9 @@ class SystemPreferenceTest extends WebTestCase
         $client = static::makeClient(true);
 
         $parameters = [
-            "preferenceKey"   => "foobar",
-            "@type"           => "SystemPreference",
-            "preferenceValue" => "test",
+            'preferenceKey'   => 'foobar',
+            '@type'           => 'SystemPreference',
+            'preferenceValue' => 'test',
         ];
 
         // First test: Ensure invalid auth key is returned

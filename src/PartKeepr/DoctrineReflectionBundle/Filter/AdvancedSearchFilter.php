@@ -89,13 +89,13 @@ class AdvancedSearchFilter extends AbstractFilter
         }
 
         if ($request->query->has('filter')) {
-            $filter = json_decode($request->query->get("filter"));
+            $filter = json_decode($request->query->get('filter'));
         } else {
             $filter = null;
         }
 
         if ($request->query->has('order')) {
-            $order = json_decode($request->query->get("order"));
+            $order = json_decode($request->query->get('order'));
         } else {
             $order = null;
         }
@@ -232,9 +232,9 @@ class AdvancedSearchFilter extends AbstractFilter
             }
 
             if ($filter->getType() == Filter::TYPE_AND) {
-                return call_user_func_array([$queryBuilder->expr(), "andX"], $subFilterExpressions);
+                return call_user_func_array([$queryBuilder->expr(), 'andX'], $subFilterExpressions);
             } else {
-                return call_user_func_array([$queryBuilder->expr(), "orX"], $subFilterExpressions);
+                return call_user_func_array([$queryBuilder->expr(), 'orX'], $subFilterExpressions);
             }
         }
 
@@ -352,7 +352,7 @@ class AdvancedSearchFilter extends AbstractFilter
                 $filter->setAssociation(null);
                 $filter->setProperty($data->property);
             }
-        } elseif (property_exists($data, "subfilters")) {
+        } elseif (property_exists($data, 'subfilters')) {
             if (property_exists($data, 'type')) {
                 $filter->setType(strtolower($data->type));
             }
@@ -366,7 +366,7 @@ class AdvancedSearchFilter extends AbstractFilter
 
                 return $filter;
             } else {
-                throw new \Exception("The subfilters must be an array of objects");
+                throw new \Exception('The subfilters must be an array of objects');
             }
         } else {
             throw new \Exception('You need to set the filter property');
@@ -420,15 +420,15 @@ class AdvancedSearchFilter extends AbstractFilter
         if ($data->direction) {
             switch (strtoupper($data->direction)) {
                 case 'DESC':
-                    $sorter->setDirection("DESC");
+                    $sorter->setDirection('DESC');
                     break;
                 case 'ASC':
                 default:
-                    $sorter->setDirection("ASC");
+                    $sorter->setDirection('ASC');
                     break;
             }
         } else {
-            $sorter->setDirection("ASC");
+            $sorter->setDirection('ASC');
         }
 
         return $sorter;

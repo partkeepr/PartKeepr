@@ -21,7 +21,7 @@ class EntityInUseException extends TranslatableException
         $this->usedBy = $usedBy;
         $this->entityName = $entityName;
         $this->{'hydra:title'} = $this->getMessageKey();
-        $this->{'hydra:description'} = implode("<br/>", $usedBy);
+        $this->{'hydra:description'} = implode('<br/>', $usedBy);
 
         parent::__construct($code, $previous);
     }

@@ -45,7 +45,7 @@ class IndexController extends Controller
             $aParameters['maxUploadSize'] = $this->getParameterWithDefault('partkeepr.upload.limit', false);
         }
 
-        if ($this->getParameterWithDefault('partkeepr.octopart.apikey', "") !== "") {
+        if ($this->getParameterWithDefault('partkeepr.octopart.apikey', '') !== '') {
             $aParameters['isOctoPartAvailable'] = true;
         } else {
             $aParameters['isOctoPartAvailable'] = false;
@@ -70,9 +70,9 @@ class IndexController extends Controller
         $aParameters['tip_of_the_day_uri'] = $this->getParameter('partkeepr.tip_of_the_day_uri');
 
         $aParameters['password_change'] = $this->getParameterWithDefault('partkeepr.auth.allow_password_change', true);
-        $aParameters["patreonStatus"] = $this->get("partkeepr_systemservice")->getPatreonStatus();
+        $aParameters['patreonStatus'] = $this->get('partkeepr_systemservice')->getPatreonStatus();
 
-        $aParameters["defaultGridPresets"] = json_encode($this->get("partkeepr.gridpresetservice")->getDefaultPresets());
+        $aParameters['defaultGridPresets'] = json_encode($this->get('partkeepr.gridpresetservice')->getDefaultPresets());
         $renderParams = [];
         $renderParams['parameters'] = $aParameters;
         $renderParams['debug'] = $this->get('kernel')->isDebug();
