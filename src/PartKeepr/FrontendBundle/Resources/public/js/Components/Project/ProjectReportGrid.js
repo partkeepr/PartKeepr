@@ -19,7 +19,7 @@ Ext.define('PartKeepr.Components.Project.ProjectReportGrid', {
         autoSync: false,
         remoteFilter: true,
         remoteSort: true,
-        pageSize: 10,
+        pageSize: 5,
         model: "PartKeepr.ProjectBundle.Entity.Report",
         filters: [{
             property: "name",
