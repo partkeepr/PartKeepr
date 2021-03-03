@@ -3,6 +3,9 @@
 namespace PartKeepr\ProjectBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
@@ -13,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Represents one project and the quantity.
  *
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @TargetService("/api/project_report_projects")
  */

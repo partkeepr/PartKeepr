@@ -1,7 +1,0 @@
-composer install
-vendor/bin/phing -Denv=dev regenerate-environment
-chown -R www-data:www-data app
-chown -R www-data:www-data var
-chown -R www-data:www-data bin
-chown -R www-data:www-data web
-chown -R www-data:www-data vendor

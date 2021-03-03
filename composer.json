@@ -64,7 +64,7 @@
     "partkeepr/extjs6": "dev-master",
     "partkeepr/remote-file-loader": "dev-master",
     "api-platform/api-pack": "^1.3",
-    "api-platform/core": "2.1.*",
+    "api-platform/core": "2.2.*",
     "symfony/twig-bundle": "3.4.*",
     "nikic/php-parser": "^1.0",
     "doctrine/annotations": "^1.12"

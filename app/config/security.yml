@@ -1,6 +1,6 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User:
+        Symfony\Component\Security\Core\User\User: 
           algorithm: sha512
           iterations: 1
         FOS\UserBundle\Model\UserInterface:
@@ -16,10 +16,15 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
+        users_in_memory:
+            memory:
+                users:
+                    admin:
+                        password: admin
+                        roles: 'ROLE_ADMIN'
         chain_provider:
             chain:
                 providers: [in_memory, fos_userbundle, legacy]
-                
         legacy:
             id: partkeepr_legacy_user_provider
         in_memory:

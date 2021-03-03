@@ -3,6 +3,9 @@
 namespace PartKeepr\SiPrefixBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
@@ -15,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @link http://en.wikipedia.org/wiki/Metric_prefix
  *
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @TargetService(uri="/api/si_prefixes")
  */

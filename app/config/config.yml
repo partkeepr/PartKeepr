@@ -49,11 +49,11 @@ sprite_generator:
             imagePositioning: min-image
             imageGenerator: gd2
 
-services:
-    partkeepr.exception_normalizer:
-        class: PartKeepr\DoctrineReflectionBundle\Normalizer\ExceptionNormalizer
-        tags:
-            - { name: serializer.normalizer }
+#services:
+#    partkeepr.exception_normalizer:
+#        class: PartKeepr\DoctrineReflectionBundle\Normalizer\ExceptionNormalizer
+#        tags:
+#            - { name: serializer.normalizer }
 
 
 services:

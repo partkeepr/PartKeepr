@@ -3,6 +3,9 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -23,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Represents a part in the database. The heart of our project. Handle with care!
  *
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @TargetService(uri="/api/parts")

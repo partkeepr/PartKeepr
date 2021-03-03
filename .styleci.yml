@@ -1,5 +1,0 @@
-#preset: recommended
-
-#disabled:
-#  - single_quote
-#  - phpdoc_var_without_name

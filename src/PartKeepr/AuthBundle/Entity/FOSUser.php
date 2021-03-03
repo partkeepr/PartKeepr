@@ -3,14 +3,17 @@
 namespace PartKeepr\AuthBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use FOS\UserBundle\Model\UserInterface;
-use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @ORM\Table(name="FOSUser")
  * @ORM\AttributeOverrides({
@@ -29,7 +32,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          )
  *      )
  * })
- * @TargetService(uri="/api/f_o_s_users")
  */
 class FOSUser extends BaseUser
 {

@@ -3,6 +3,9 @@
 namespace PartKeepr\ProjectBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
@@ -15,6 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Represents a project.
  *
  * @ApiResource
+ * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @TargetService("/api/projects")
  */

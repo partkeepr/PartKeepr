@@ -45,9 +45,15 @@ app/var/cache/*
 !app/logs/.htaccess
 !app/logs/ignore.json
 
-/var/
+/var
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 .vscode
 *.swp
 
+scripts/perm
+scripts/preg
+scripts/regd
+scripts/setupbash.sh
+scripts/perm
+.gitignore

@@ -3,6 +3,9 @@
 namespace PartKeepr\StockBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
@@ -12,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @TargetService(uri="/api/stock_entries")

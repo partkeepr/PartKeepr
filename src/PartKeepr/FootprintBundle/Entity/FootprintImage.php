@@ -3,6 +3,9 @@
 namespace PartKeepr\FootprintBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\ImageBundle\Entity\Image;
 
@@ -10,6 +13,7 @@ use PartKeepr\ImageBundle\Entity\Image;
  * Holds a footprint image.
  *
  * @ApiResource()
+ * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  **/
 class FootprintImage extends Image
