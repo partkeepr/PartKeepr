@@ -15,7 +15,12 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"},
+ *      itemOperations={"put"},
+ *      itemOperations={"delete"},
+ *      collectionOperations={"get"}
+ *      )
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  * @Gedmo\Tree(type="nested")

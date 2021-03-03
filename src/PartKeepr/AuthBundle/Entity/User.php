@@ -16,7 +16,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *  itemOperations={"get"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @ORM\Table(

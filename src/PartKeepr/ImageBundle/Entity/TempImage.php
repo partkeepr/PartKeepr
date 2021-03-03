@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * a user uploaded an image, but not attached it to an entity.
  *
  * @ApiResource(
- *      itemOperations={"get"={"method"="GET"}}
+ *      itemOperations={"get"}
  *      )
  * @ORM\Entity
  */
@@ -22,8 +22,3 @@ class TempImage extends Image
     }
 }
 
-//    resource.tempimage.item_operation.get:
-//        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
-//        public:    false
-//        factory:   [ "@api.operation_factory", "createItemOperation" ]
-//        arguments: [ "@resource.tempimage", "GET" ]

@@ -13,7 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Holds a system notice.
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @TargetService("/api/system_notices")

@@ -12,7 +12,8 @@ use PartKeepr\ImageBundle\Entity\Image;
 /**
  * Holds a storage location image.
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  **/

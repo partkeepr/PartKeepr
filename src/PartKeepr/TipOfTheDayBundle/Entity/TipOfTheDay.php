@@ -20,7 +20,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * Note: If you wish to link against a tip of the day, do it by name and not by id!
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"},
+ *      collectionOperations={"get"},
+ *      collectionOperations={"post"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @TargetService(uri="/api/tip_of_the_days")

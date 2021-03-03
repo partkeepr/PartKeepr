@@ -13,7 +13,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Represents a project part.
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"delete"},
+ *      itemOperations={"put"},
+ *      collectionOperations={"get"})
  * @ORM\Entity
  * @TargetService("/api/reports")
  */

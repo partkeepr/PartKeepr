@@ -12,7 +12,8 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 /**
  * Holds a footprint attachment.
  *
- * @ApiResource()
+ * @ApiResource( 
+ *      itemOperations={"get"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  **/

@@ -13,7 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Holds a part attachment.
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  **/

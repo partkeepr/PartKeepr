@@ -25,7 +25,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"},
+ *      itemOperations={"delete"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks

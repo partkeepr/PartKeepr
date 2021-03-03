@@ -12,7 +12,9 @@ use PartKeepr\ImageBundle\Entity\Image;
 /**
  * Holds a manufacturer IC logo.
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"},
+ *      itemOperations={"put"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  **/

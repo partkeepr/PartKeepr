@@ -16,7 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This entity represents a part measurement unit. Typical measurement units are pieces, centimeters etc.
  *
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={"get"},
+ *      itemOperations={"put"})
  * @ApiFilter(SearchFilter::class)
  * @ORM\Entity
  * @ORM\Table(name="PartUnit")
