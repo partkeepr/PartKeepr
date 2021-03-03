@@ -37,11 +37,11 @@ class InternalPartNumberTest extends WebTestCase
         $iriConverter = $this->getContainer()->get('api.iri_converter');
 
         $part = [
-            "name"               => "foobar",
-            "storageLocation"    => $iriConverter->getIriFromItem($this->fixtures->getReference("storagelocation.first")),
-            "category"           => $iriConverter->getIriFromItem($this->fixtures->getReference("partcategory.first")),
-            "partUnit"           => $iriConverter->getIriFromItem($this->fixtures->getReference("partunit.default")),
-            "internalPartNumber" => "foo123",
+            'name'               => 'foobar',
+            'storageLocation'    => $iriConverter->getIriFromItem($this->fixtures->getReference('storagelocation.first')),
+            'category'           => $iriConverter->getIriFromItem($this->fixtures->getReference('partcategory.first')),
+            'partUnit'           => $iriConverter->getIriFromItem($this->fixtures->getReference('partunit.default')),
+            'internalPartNumber' => 'foo123',
         ];
 
         $client->request(
@@ -65,8 +65,8 @@ class InternalPartNumberTest extends WebTestCase
 
         $response = json_decode($client->getResponse()->getContent());
 
-        $this->assertObjectHasAttribute("@type", $response);
-        $this->assertObjectHasAttribute("@context", $response);
+        $this->assertObjectHasAttribute('@type', $response);
+        $this->assertObjectHasAttribute('@context', $response);
         $this->assertObjectHasAttribute('hydra:title', $response);
         $this->assertObjectHasAttribute('hydra:description', $response);
 

@@ -2,21 +2,16 @@
 
 namespace PartKeepr\FootprintBundle\Entity;
 
-
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
-use Symfony\Component\Serializer\Annotation\Groups;
-
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFile;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()

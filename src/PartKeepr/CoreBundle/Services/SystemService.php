@@ -301,7 +301,7 @@ class SystemService implements ContainerAwareInterface
 
     public function getPatreonStatus()
     {
-        $statusURI = $this->container->getParameter("partkeepr.patreon.statusuri");
+        $statusURI = $this->container->getParameter('partkeepr.patreon.statusuri');
 
         if ($statusURI === false) {
             return false;

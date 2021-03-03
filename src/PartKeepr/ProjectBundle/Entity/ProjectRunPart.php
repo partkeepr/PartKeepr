@@ -2,10 +2,9 @@
 
 namespace PartKeepr\ProjectBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-
 use Doctrine\ORM\Mapping as ORM;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\PartBundle\Entity\Part;
@@ -128,9 +127,9 @@ class ProjectRunPart extends BaseEntity
     {
         // @todo i18n
         return sprintf(
-            "Used in project run for project %s on %s",
+            'Used in project run for project %s on %s',
             $this->getProjectRun()->getProject()->getName(),
-            $this->getProjectRun()->getRunDateTime()->format("Y-m-d H:i:s")
-        )." / ".parent::__toString();
+            $this->getProjectRun()->getRunDateTime()->format('Y-m-d H:i:s')
+        ).' / '.parent::__toString();
     }
 }

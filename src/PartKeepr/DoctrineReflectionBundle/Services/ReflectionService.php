@@ -75,8 +75,8 @@ class ReflectionService
 
         $associationMappings = $this->getDatabaseAssociationMappings($cm, $bTree);
 
-        $associationMappings["ONE_TO_MANY"] = array_merge(
-            $associationMappings["ONE_TO_MANY"],
+        $associationMappings['ONE_TO_MANY'] = array_merge(
+            $associationMappings['ONE_TO_MANY'],
             $this->getVirtualOneToManyRelationMappings($cm)
         );
 
@@ -124,10 +124,10 @@ class ReflectionService
         $byReferenceMappings = $this->getByReferenceMappings($cm);
 
         $associationMappings = [
-            "ONE_TO_ONE"   => [],
-            "MANY_TO_ONE"  => [],
-            "ONE_TO_MANY"  => [],
-            "MANY_TO_MANY" => [],
+            'ONE_TO_ONE'   => [],
+            'MANY_TO_ONE'  => [],
+            'ONE_TO_MANY'  => [],
+            'MANY_TO_MANY' => [],
         ];
 
         foreach ($associations as $association) {
@@ -171,7 +171,7 @@ class ReflectionService
             $nullable = true;
 
             foreach ($propertyAnnotations as $propertyAnnotation) {
-                $filter = "Symfony\\Component\\Validator\\Constraints\\NotNull";
+                $filter = 'Symfony\\Component\\Validator\\Constraints\\NotNull';
 
                 if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter) {
                     $nullable = false;
@@ -307,8 +307,8 @@ class ReflectionService
                 $currentMapping['type'] = 'string';
             }
 
-            if (!array_key_exists("nullable", $currentMapping)) {
-                $currentMapping["nullable"] = false;
+            if (!array_key_exists('nullable', $currentMapping)) {
+                $currentMapping['nullable'] = false;
             }
 
             $fieldMappings[] = [
@@ -365,11 +365,11 @@ class ReflectionService
     public function getExtJSAssertMapping(Constraint $assert)
     {
         switch (get_class($assert)) {
-            case "Symfony\\Component\\Validator\\Constraints\\NotBlank":
+            case 'Symfony\\Component\\Validator\\Constraints\\NotBlank':
                 /**
                  * @var NotBlank
                  */
-                return ["type" => "presence", "message" => $assert->message];
+                return ['type' => 'presence', 'message' => $assert->message];
                 break;
             default:
                 return false;
@@ -382,7 +382,7 @@ class ReflectionService
         $propertyAnnotations = $this->reader->getPropertyAnnotations($cm->getReflectionProperty($field));
 
         foreach ($propertyAnnotations as $propertyAnnotation) {
-            $filter = "Symfony\\Component\\Validator\\Constraints\\";
+            $filter = 'Symfony\\Component\\Validator\\Constraints\\';
 
             if (substr(get_class($propertyAnnotation), 0, strlen($filter)) === $filter) {
                 $assertMapping = $this->getExtJSAssertMapping($propertyAnnotation);
@@ -404,7 +404,7 @@ class ReflectionService
         );
 
         if ($groupsAnnotation !== null) {
-            if (in_array("readonly", $groupsAnnotation->getGroups())) {
+            if (in_array('readonly', $groupsAnnotation->getGroups())) {
                 return false;
             }
         }

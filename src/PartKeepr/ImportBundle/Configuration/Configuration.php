@@ -23,7 +23,7 @@ class Configuration extends BaseConfiguration
 
     public function parseConfiguration($importConfiguration)
     {
-        if (property_exists($importConfiguration, "fields")) {
+        if (property_exists($importConfiguration, 'fields')) {
             foreach ($importConfiguration->fields as $field => $configuration) {
                 if ($this->classMetadata->hasField($field)) {
                     $fieldConfiguration = new FieldConfiguration(
@@ -46,7 +46,7 @@ class Configuration extends BaseConfiguration
             }
         }
 
-        if (property_exists($importConfiguration, "manytoone")) {
+        if (property_exists($importConfiguration, 'manytoone')) {
             foreach ($importConfiguration->manytoone as $manyToOne => $configuration) {
                 if ($this->classMetadata->hasAssociation($manyToOne)) {
                     $targetClass = $this->classMetadata->getAssociationTargetClass($manyToOne);
@@ -72,7 +72,7 @@ class Configuration extends BaseConfiguration
             }
         }
 
-        if (property_exists($importConfiguration, "onetomany")) {
+        if (property_exists($importConfiguration, 'onetomany')) {
             foreach ($importConfiguration->onetomany as $oneToMany => $configuration) {
                 if ($this->classMetadata->hasAssociation($oneToMany)) {
                     $targetClass = $this->classMetadata->getAssociationTargetClass($oneToMany);

@@ -240,11 +240,11 @@ class ProjectTest extends WebTestCase
 
         $project = json_decode($client->getResponse()->getContent());
 
-        $this->assertObjectHasAttribute("parts", $project);
-        $this->assertInternalType("array", $project->parts);
+        $this->assertObjectHasAttribute('parts', $project);
+        $this->assertInternalType('array', $project->parts);
 
         foreach ($project->parts as $part) {
-            $this->assertObjectNotHasAttribute("project", $part);
+            $this->assertObjectNotHasAttribute('project', $part);
         }
     }
 }

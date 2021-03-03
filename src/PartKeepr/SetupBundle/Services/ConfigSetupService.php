@@ -84,8 +84,8 @@ class ConfigSetupService
             'partkeepr.parts.limit'                    => false,
             'partkeepr.users.limit'                    => false,
             'partkeepr.parts.internalpartnumberunique' => false,
-            'partkeepr.octopart.apikey'                => "",
-            'partkeepr.octopart.limit'                 => "3",
+            'partkeepr.octopart.apikey'                => '',
+            'partkeepr.octopart.limit'                 => '3',
         ];
 
         if (function_exists('apc_fetch')) {

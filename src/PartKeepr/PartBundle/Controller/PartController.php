@@ -8,9 +8,8 @@ use PartKeepr\ProjectBundle\Entity\ProjectRun;
 use PartKeepr\ProjectBundle\Entity\ProjectRunPart;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Routing;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\HttpFoundation\Request;
 
 class PartController extends Controller
 {
@@ -115,7 +114,7 @@ class PartController extends Controller
     {
         $dql = "SELECT p.name, p.description, p.valueType, u.name AS unitName, u.symbol AS unitSymbol FROM PartKeepr\PartBundle\Entity\PartParameter p LEFT JOIN p.unit  u GROUP BY p.name, p.description, p.valueType, u.name, u.symbol";
 
-        $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
+        $query = $this->get('doctrine.orm.default_entity_manager')->createQuery($dql);
 
         return $query->getArrayResult();
     }
@@ -129,27 +128,27 @@ class PartController extends Controller
      */
     public function getParameterValuesAction(Request $request)
     {
-        if (!$request->query->has("name")) {
+        if (!$request->query->has('name')) {
             throw new \InvalidArgumentException("The parameter 'name' must be given");
         }
 
-        if (!$request->query->has("valueType")) {
+        if (!$request->query->has('valueType')) {
             throw new \InvalidArgumentException("The parameter 'valueType' must be given");
         }
 
-        if ($request->query->get("valueType") == "string") {
+        if ($request->query->get('valueType') == 'string') {
             $dql = "SELECT p.stringValue AS value FROM PartKeepr\PartBundle\Entity\PartParameter p WHERE p.name = :name AND p.valueType = :valueType GROUP BY p.stringValue";
-            $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
-            $query->setParameter("name", $request->query->get("name"));
-            $query->setParameter("valueType", $request->query->get("valueType"));
+            $query = $this->get('doctrine.orm.default_entity_manager')->createQuery($dql);
+            $query->setParameter('name', $request->query->get('name'));
+            $query->setParameter('valueType', $request->query->get('valueType'));
 
             return $query->getArrayResult();
         } else {
             $dql = "SELECT p.value FROM PartKeepr\PartBundle\Entity\PartParameter p WHERE p.name = :name AND p.valueType = :valueType GROUP BY p.value";
 
-            $query = $this->get("doctrine.orm.default_entity_manager")->createQuery($dql);
-            $query->setParameter("name", $request->query->get("name"));
-            $query->setParameter("valueType", $request->query->get("valueType"));
+            $query = $this->get('doctrine.orm.default_entity_manager')->createQuery($dql);
+            $query->setParameter('name', $request->query->get('name'));
+            $query->setParameter('valueType', $request->query->get('valueType'));
 
             return $query->getArrayResult();
         }
