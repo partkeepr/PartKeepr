@@ -99,7 +99,7 @@ Ext.define('PartKeepr.ProjectRunEditor', {
      */
     onEditStart: function ()
     {
-        var store = this.record.parts();
+        var store = this.record.getProject().parts();
         this.partGrid.bindStore(store);
 
         this.down("#projectName").setValue(this.record.get("project.name"));
