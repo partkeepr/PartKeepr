@@ -201,7 +201,6 @@ Ext.define('PartKeepr.PartStockWindow', {
         this.priceField.hide();
         this.priceCheckbox.hide();
         this.okButton.setIconCls("web-icon brick_delete");
-        this.quantityField.maxValue = this.callbackScope.record.data.stockLevel;
         this.show();
     }
 });
