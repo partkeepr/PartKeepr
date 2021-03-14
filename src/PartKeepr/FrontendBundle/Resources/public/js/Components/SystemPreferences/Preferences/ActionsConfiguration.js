@@ -86,8 +86,10 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.ActionsConfigurat
                                 xtype: 'button',
                                 text: i18n("Delete Action"),
                                 disabled: true,
-                                itemId: 'actionDelete'
-                            }
+                                itemId: 'actionDelete',
+                                handler: this.onDeleteClick,
+                                scope: this
+                           }
                         ]
                     }
                 ]
@@ -124,6 +126,11 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.ActionsConfigurat
         grid.getStore().insert(0, {});
 
         grid.getPlugin("editing").startEdit(0, 0);
+    },
+    onDeleteClick: function ()
+    {
+        var grid = this.down("#actionGrid");
+        grid.getStore().remove(grid.getView().getSelectionModel().getSelection());
     },
     onSelectionChange: function (grid, selection)
     {
