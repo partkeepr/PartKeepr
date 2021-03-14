@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Part extends BaseEntity
 {
+    private $origin;
     /**
      * The category of the part.
      *

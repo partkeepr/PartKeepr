@@ -233,7 +233,7 @@ Ext.application({
         }
 
         if (data.inactiveCronjobCount > 0) {
-            alert(i18n("The following cronjobs aren't running:") + "\n\n" + data.inactiveCronjobs.join("\n"));
+            //alert(i18n("The following cronjobs aren't running:") + "\n\n" + data.inactiveCronjobs.join("\n"));
         }
     },
     /*
