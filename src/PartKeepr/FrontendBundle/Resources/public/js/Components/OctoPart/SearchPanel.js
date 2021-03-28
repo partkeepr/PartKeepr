@@ -206,7 +206,7 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
     },
     checkForErrors: function (data)
     {
-        if (data.results.length == 0 && data.errors && data.errors.length > 0) {
+        if (data.errors && data.errors.length > 0) {
             Ext.Msg.alert(i18n("Octopart Error"), data.errors.map(e => e.message).join());
         }
 

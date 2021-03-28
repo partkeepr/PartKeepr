@@ -55,9 +55,6 @@ class OctoPartService
                 credit_string
                 text
               }
-              cad {
-                add_to_library_url
-              }
               reference_designs {
                   name
                   url
@@ -136,9 +133,6 @@ EOD;
                     descriptions {
                       credit_string
                       text
-                    }
-                    cad {
-                      add_to_library_url
                     }
                     reference_designs {
                         name
