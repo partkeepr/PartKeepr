@@ -134,8 +134,8 @@ class UploadedFileService implements ContainerAwareInterface
         $header[] = 'Accept-Language: en-us,en;q=0.5';
         $header[] = 'Pragma: ';
 
-        $browser = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3) Gecko/2008092510 ';
-        $browser .= 'Ubuntu/8.04 (hardy) Firefox/3.0.3';
+        $browser = 'Mozilla/5.0 (X11; Linux x86_64; rv:83.0) ';
+        $browser .= 'Gecko/20100101 Firefox/83.0';
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_USERAGENT, $browser);
