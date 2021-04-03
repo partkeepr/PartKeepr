@@ -160,11 +160,33 @@ Ext.define('PartKeepr.PartStockWindow', {
             } else {
                 price = this.priceField.getValue() / this.quantityField.getValue();
             }
+            
+            //Warn the user if they want to remove more than the current available 
+            var current_stock = this.callbackScope.record.data.stockLevel;
+            if ((this.title  ==   this.removePartText) & (this.quantityField.getValue() > current_stock)){
 
-            Ext.callback(this.callbackFn,
-                this.callbackScope,
-                [this.quantityField.getValue(), price, this.commentField.getValue()]);
-            this.close();
+                    Ext.Msg.confirm(i18n("Not enough stock"), 
+                                    i18n("You are removing more parts than are in stock. \
+                                          If you continue a negative stock will be tracked. <br><br> \
+                                          Are you sure you want to remove these parts?"),
+                        function(buttonid){
+                            // if yes, submit data as normal
+                            if (buttonid == "yes") {
+                                Ext.callback(this.callbackFn,
+                                this.callbackScope,
+                                [this.quantityField.getValue(), price, this.commentField.getValue()]);
+                                this.close();
+                            }
+                            return; //otherwise, return without doing anything
+                        }, this);
+            }
+            else {  // add or remove stock normally
+            
+                    Ext.callback(this.callbackFn,
+                        this.callbackScope,
+                        [this.quantityField.getValue(), price, this.commentField.getValue()]);
+                    this.close();
+            }
         }
     },
     /**
@@ -201,7 +223,10 @@ Ext.define('PartKeepr.PartStockWindow', {
         this.priceField.hide();
         this.priceCheckbox.hide();
         this.okButton.setIconCls("web-icon brick_delete");
-        this.quantityField.maxValue = this.callbackScope.record.data.stockLevel;
+
+//      Revert max value limitation. Negative stock values are allowed/expected behavior in some circumstances.
+//      this.quantityField.maxValue = this.callbackScope.record.data.stockLevel;
+
         this.show();
     }
 });
