@@ -297,7 +297,63 @@ class Part extends BaseEntity
      * @var array
      */
     private $metaPartMatches;
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL 
+     */
+    
+    /**
+     * The partPresentation
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partPresentation;
 
+    /**
+     * The partCodeManufacturer
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCodeManufacturer;
+
+    /**
+     * The partCodeSupplier
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCodeSupplier;
+    /**
+     * The partCodeAdditional
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCodeAdditional;
+    /**
+     * The partCERNproject
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCERNproject;
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL
+     */
+    
     public function __construct()
     {
         $this->distributors = new ArrayCollection();
@@ -1057,4 +1113,112 @@ class Part extends BaseEntity
     {
         $this->stockLevel = $stockLevel;
     }
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL
+     */
+    /**
+     * Returns the partPresentation of this part.
+     *
+     * @return string The partPresentation
+     */
+    public function getpartPresentation()
+    {
+        return $this->partPresentation;
+    }
+    
+    /**
+     * Sets the partPresentation for this part.
+     *
+     * @param string $partPresentation The partPresentation
+     */
+    public function setpartPresentation($partPresentation)
+    {
+        $this->partPresentation = $partPresentation;
+    }
+
+    /**
+     * Returns the partCodeManufacturer of this part.
+     *
+     * @return string The partCodeManufacturer
+     */
+    public function getPartCodeManufacturer()
+    {
+        return $this->partCodeManufacturer;
+    }
+    
+    /**
+     * Sets the partCodeManufacturer for this part.
+     *
+     * @param string $partCodeManufacturer The partCodeManufacturer
+     */
+    public function setPartCodeManufacturer($partCodeManufacturer)
+    {
+        $this->partCodeManufacturer = $partCodeManufacturer;
+    }
+    
+    /**
+     * Returns the partCodeSupplier of this part.
+     *
+     * @return string The partCodeSupplier
+     */
+    public function getPartCodeSupplier()
+    {
+        return $this->partCodeSupplier;
+    }
+    
+    /**
+     * Sets the partCodeSupplier for this part.
+     *
+     * @param string $partCodeSupplier The partCodeSupplier
+     */
+    public function setPartCodeSupplier($partCodeSupplier)
+    {
+        $this->partCodeSupplier = $partCodeSupplier;
+    }
+    
+    /**
+     * Returns the partCodeAdditional of this part.
+     *
+     * @return string The partCodeAdditional
+     */
+    public function getPartCodeAdditional()
+    {
+        return $this->partCodeAdditional;
+    }
+    
+    /**
+     * Sets the partCodeAdditional for this part.
+     *
+     * @param string $partCodeAdditional The partCodeAdditional
+     */
+    public function setPartCodeAdditional($partCodeAdditional)
+    {
+        $this->partCodeAdditional = $partCodeAdditional;
+    }
+    
+    /**
+     * Returns the partCERNproject of this part.
+     *
+     * @return string The partCERNproject
+     */
+    public function getPartCERNproject()
+    {
+        return $this->partCERNproject;
+    }
+    
+    /**
+     * Sets the partCERNproject for this part.
+     *
+     * @param string $partCERNproject The partCERNproject
+     */
+    public function setPartCERNproject($partCERNproject)
+    {
+        $this->partCERNproject = $partCERNproject;
+    }
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL
+     */
+    
 }

@@ -15,8 +15,11 @@ Ext.define('PartKeepr.PartEditorWindow', {
     /* Width and height settings */
     width: 750,
     minWidth: 600,
-    minHeight: 435,
-    height: 435,
+/* DANIEL DANIEL DANIEL DANIEL DANIEL */
+//    minHeight: 435,
+//    height: 435,
+    minHeight: 575,
+    height: 575,
 
     saveText: i18n("Save"),
     cancelText: i18n("Cancel"),
@@ -39,9 +42,12 @@ Ext.define('PartKeepr.PartEditorWindow', {
         });
 
         /* If the edit mode is "create", we need to enlarge the window a bit to fit the fields without scrolling */
+/* DANIEL DANIEL DANIEL DANIEL DANIEL */
         if (this.partMode && this.partMode == "create") {
-            this.height = 500;
-            this.minHeight = 500;
+//            this.height = 500; 
+//            this.minHeight = 500;
+            this.height = 620;
+            this.minHeight = 620;
         }
 
         this.items = [this.editor];
@@ -140,7 +146,11 @@ Ext.define('PartKeepr.PartEditorWindow', {
             this.octoPartQueryWindow = Ext.create("PartKeepr.Components.OctoPart.SearchWindow");
             this.octoPartQueryWindow.show();
             this.octoPartQueryWindow.setPart(this.editor.record);
-            this.octoPartQueryWindow.startSearch(this.editor.nameField.getValue());
+            // don't autosearch octo for empty name
+            let name = this.editor.nameField.getValue();
+            if (name !== "")
+                this.octoPartQueryWindow.startSearch(name);   
+//          this.octoPartQueryWindow.startSearch(this.editor.nameField.getValue());
             this.octoPartQueryWindow.on("refreshData", this.onRefreshData, this);
         } else {
             Ext.MessageBox.alert(i18n("Octopart is not configured"), i18n("Your administrator needs to configure the API key for Octopart in the parameters.php file - see parameters.php.dist for instructions"));
