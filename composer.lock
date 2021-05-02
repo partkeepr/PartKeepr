@@ -2626,17 +2626,17 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "dev-master",
+            "version": "2.10.0",
             "target-dir": "Nelmio/ApiDocBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "9af37448fa2f82856d068205afa96e9874527672"
+                "reference": "fb863954d8aec29bdc6d9b2b03f15759d4bf2995"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/9af37448fa2f82856d068205afa96e9874527672",
-                "reference": "9af37448fa2f82856d068205afa96e9874527672",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/fb863954d8aec29bdc6d9b2b03f15759d4bf2995",
+                "reference": "fb863954d8aec29bdc6d9b2b03f15759d4bf2995",
                 "shasum": ""
             },
             "require": {
