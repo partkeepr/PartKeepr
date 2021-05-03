@@ -2626,24 +2626,24 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "2.10.3",
+            "version": "2.13.5",
             "target-dir": "Nelmio/ApiDocBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "be90e8aad60b7701097b900c4a3a971a50f9862e"
+                "reference": "158149568863c688abfa3df94037257bbed628ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/be90e8aad60b7701097b900c4a3a971a50f9862e",
-                "reference": "be90e8aad60b7701097b900c4a3a971a50f9862e",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/158149568863c688abfa3df94037257bbed628ed",
+                "reference": "158149568863c688abfa3df94037257bbed628ed",
                 "shasum": ""
             },
             "require": {
                 "michelf/php-markdown": "~1.4",
-                "symfony/console": "~2.3",
-                "symfony/framework-bundle": "~2.3",
-                "symfony/twig-bundle": "~2.3"
+                "symfony/console": "~2.3|~3.0|~4.0",
+                "symfony/framework-bundle": "~2.3|~3.0|~4.0",
+                "symfony/twig-bundle": "~2.3|~3.0|~4.0"               
             },
             "conflict": {
                 "jms/serializer": "<0.12",
