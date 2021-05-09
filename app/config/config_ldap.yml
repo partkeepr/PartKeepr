@@ -14,7 +14,7 @@ fr3d_ldap:
         accountDomainName:      "%fr3d_ldap.driver.accountDomainName%"
         accountDomainNameShort: "%fr3d_ldap.driver.accountDomainNameShort%"
     user:
-        enabled: "%fr3d_ldap.user.enabled%"
+#       enabled: "%fr3d_ldap.user.enabled%"
         baseDn: "%fr3d_ldap.user.baseDn%"
         filter: "%fr3d_ldap.user.filter%"
         attributes:

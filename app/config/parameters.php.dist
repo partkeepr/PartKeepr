@@ -120,7 +120,7 @@ $container->setParameter('fr3d_ldap.driver.accountDomainName', null);
 $container->setParameter('fr3d_ldap.driver.accountDomainNameShort', null);
 
 // set to true to enable LDAP
-$container->setParameter('fr3d_ldap.user.enabled', false);
+#$container->setParameter('fr3d_ldap.user.enabled', false);
 
 // sets the base DN
 $container->setParameter('fr3d_ldap.user.baseDn', 'dc=blabla,dc=com');

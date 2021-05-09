@@ -1641,16 +1641,16 @@
         },
         {
             "name": "fr3d/ldap-bundle",
-            "version": "dev-master",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/partkeepr/FR3DLdapBundle.git",
-                "reference": "492a4ac6d2edf95aa0a252fbca4376aad42d05c1"
+                "url": "https://github.com/Maks3w/FR3DLdapBundle",
+                "reference": "5a8927c11af45fa06331b97221c6da1a4a237475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/partkeepr/FR3DLdapBundle/zipball/492a4ac6d2edf95aa0a252fbca4376aad42d05c1",
-                "reference": "492a4ac6d2edf95aa0a252fbca4376aad42d05c1",
+                "url": "https://api.github.com/repos/Maks3w/FR3DLdapBundle/zipball/5a8927c11af45fa06331b97221c6da1a4a237475",
+                "reference": "5a8927c11af45fa06331b97221c6da1a4a237475",
                 "shasum": ""
             },
             "require": {

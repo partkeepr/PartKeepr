@@ -73,7 +73,7 @@
 
     "api-platform/core": "dev-main#3815fde6b7f29d52af40327308755124a1d640a0",
     "escapestudios/wsse-authentication-bundle": "2.3.0",
-    "fr3d/ldap-bundle": "dev-master",
+    "fr3d/ldap-bundle": "v3.0.0",
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "partkeepr/extjs6": "dev-master",
     "partkeepr/remote-file-loader": "dev-master",
