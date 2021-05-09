@@ -1518,17 +1518,17 @@
         },
         {
             "name": "escapestudios/wsse-authentication-bundle",
-            "version": "dev-advancedUserInterface",
+            "version": "2.3.0",
             "target-dir": "Escape/WSSEAuthenticationBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Drachenkaetzchen/EscapeWSSEAuthenticationBundle.git",
-                "reference": "f0f75ff74a1fcb960d7b1f39dd10600f8cdaa20a"
+                "url": "https://github.com/escapestudios/EscapeWSSEAuthenticationBundle",
+                "reference": "fe5585f20570c89a3e6f9b889104c1263a734a22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Drachenkaetzchen/EscapeWSSEAuthenticationBundle/zipball/f0f75ff74a1fcb960d7b1f39dd10600f8cdaa20a",
-                "reference": "f0f75ff74a1fcb960d7b1f39dd10600f8cdaa20a",
+                "url": "https://api.github.com/repos/djoos/EscapeWSSEAuthenticationBundle/zipball/fe5585f20570c89a3e6f9b889104c1263a734a22",
+                "reference": "fe5585f20570c89a3e6f9b889104c1263a734a22",
                 "shasum": ""
             },
             "require": {

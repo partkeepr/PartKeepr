@@ -72,7 +72,7 @@
     "twig/twig": "v1.42.2",
 
     "api-platform/core": "dev-main#3815fde6b7f29d52af40327308755124a1d640a0",
-    "escapestudios/wsse-authentication-bundle": "dev-advancedUserInterface",
+    "escapestudios/wsse-authentication-bundle": "2.3.0",
     "fr3d/ldap-bundle": "dev-master",
     "nfq-alpha/sprite-bundle": "dev-min-image-fix",
     "partkeepr/extjs6": "dev-master",
