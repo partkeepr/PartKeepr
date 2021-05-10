@@ -23,7 +23,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/felicitus/EscapeWSSEAuthenticationBundle"
+      "url": "https://github.com/escapestudiosEscapeWSSEAuthenticationBundle"
     },
     {
       "type": "vcs",
