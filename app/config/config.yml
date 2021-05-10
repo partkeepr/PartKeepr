@@ -55,9 +55,12 @@ dunglas_api:
     title:       "PartKeepr"
     description: "The PartKeepr REST API"
     collection:
+        order_parameter_name:          'order'
+        order:                         'ASC'
         pagination:
-            items_per_page:
-                client_can_change: true
+            client_enabled:            true
+            client_items_per_page:     true
+#           items_per_page:            3
 
 sprite_generator:
     sprites:
