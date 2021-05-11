@@ -21,10 +21,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.batchjob.item_operation.get"},
- *         "put"={"method"="@resource.batchjob.item_operation.put"},
- *         "delete"={"method"="@resource.batchjob.item_operation.delete"},
- *         "execute"={"method"="@resource.batchjob.item_operation.execute"}
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT"},
+ *         "delete"={"method"="DELETE"},
+ *         "execute"={"route_name"="BatchJobExecute"}
  *     }
  * )
  * @ORM\Entity

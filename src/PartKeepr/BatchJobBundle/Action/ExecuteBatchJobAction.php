@@ -68,6 +68,15 @@ class ExecuteBatchJobAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo:I'm not sure about the class to declare for "_api_resource_class"=BatchJob::class or ExecuteBatchJobAction::class
+    /**
+     * @Route(
+     *     name="BatchJobExecute",
+     *     path="/batch_jobs/{id}/execute",
+     *     defaults={"_api_resource_class"=BatchJob::class, "_api_item_operation_name"="execute"}
+     * )
+     * @Method("PUT")
+     */
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);
