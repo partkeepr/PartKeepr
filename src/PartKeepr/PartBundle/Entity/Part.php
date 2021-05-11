@@ -3,7 +3,9 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
@@ -21,6 +23,28 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default", "readonly" }},
+ *          "denormalization_context"={"groups"={"default", "stock"}} 
+ *     },
+ *     collectionOperations={
+ *       "custom_get"={"method"="@resource.part.collection_operation.custom_get"},
+ *       "custom_post"={"method"="@resource.part.collection_operation.custom_post"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.part.item_operation.get"},
+ *         "custom_put"={"method"="@resource.part.item_operation.custom_put"},
+ *         "delete"={"method"="@resource.part.item_operation.delete"},
+ *         "add_stock"={"method"="@resource.part.item_operation.add_stock"},
+ *         "remove_stock"={"method"="@resource.part.item_operation.remove_stock"},
+ *         "set_stock"={"method"="@resource.part.item_operation.set_stock"}
+ *     }
+ * )
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @TargetService(uri="/api/parts")

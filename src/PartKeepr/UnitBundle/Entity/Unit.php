@@ -3,7 +3,9 @@
 namespace PartKeepr\UnitBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
@@ -13,6 +15,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This object represents an unit. Units can be: Volt, Hertz etc.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     }
+ * )
  * @ORM\Entity
  * @TargetService(uri="/api/units")
  **/

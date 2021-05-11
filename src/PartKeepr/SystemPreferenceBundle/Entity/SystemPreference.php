@@ -2,7 +2,9 @@
 
 namespace PartKeepr\SystemPreferenceBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\DoctrineReflectionBundle\Annotation\IgnoreIds;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -15,6 +17,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * Note that values are stored internally as serialized PHP values to keep their type.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     collectionOperations={
+ *       "get_preferences"={"method"="@resource.system_preference.item_operation.get_preferences"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "set_preference"={"method"="@resource.system_preference.item_operation.set_preference"},
+ *         "delete_preference"={"method"="@resource.system_preference.item_operation.delete_preference"}
+ *     }
+ * )
  * @ORM\Entity
  * @TargetService(uri="/api/system_preferences")
  * @IgnoreIds()

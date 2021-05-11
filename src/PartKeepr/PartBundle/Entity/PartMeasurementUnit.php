@@ -3,7 +3,9 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -12,6 +14,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This entity represents a part measurement unit. Typical measurement units are pieces, centimeters etc.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.partmeasurementunit.item_operation.get"},
+ *         "put"={"method"="@resource.partmeasurementunit.item_operation.put"},
+ *         "custom_put"={"method"="@resource.partmeasurementunit.item_operation.custom_put"}
+ *     }
+ * )
  * @ORM\Entity
  * @ORM\Table(name="PartUnit")
  * @TargetService(uri="/api/part_measurement_units")

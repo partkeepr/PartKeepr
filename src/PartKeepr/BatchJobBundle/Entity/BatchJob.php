@@ -3,12 +3,30 @@
 namespace PartKeepr\BatchJobBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.batchjob.item_operation.get"},
+ *         "put"={"method"="@resource.batchjob.item_operation.put"},
+ *         "delete"={"method"="@resource.batchjob.item_operation.delete"},
+ *         "execute"={"method"="@resource.batchjob.item_operation.execute"}
+ *     }
+ * )
  * @ORM\Entity
  * @TargetService(uri="/api/batch_jobs")
  */

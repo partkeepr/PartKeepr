@@ -2,7 +2,9 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
@@ -13,6 +15,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * This entity stores each tip of the day the user has already seen.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     collectionOperations={
+ *       "custom_get"={"method"="@resource.tip_of_the_day_history.collection_operation.custom_get"}
+ *     }
+ * )
  * @ORM\Entity
  * @TargetService(uri="/api/tip_of_the_day_histories")
  **/

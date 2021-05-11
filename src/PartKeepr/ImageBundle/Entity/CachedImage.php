@@ -2,7 +2,9 @@
 
 namespace PartKeepr\ImageBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
@@ -11,6 +13,7 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
  * operations, so that the resize/scale operation doesn't need to be done
  * every time a scaled/resized image is requested.
  *
+ * @ApiResource
  * @ORM\Entity
  */
 class CachedImage extends BaseEntity

@@ -2,12 +2,29 @@
 
 namespace PartKeepr\ManufacturerBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
  * Holds a manufacturer IC logo.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.manufacturer_ic_logo.item_operation.get"},
+ *         "put"={"method"="@resource.manufacturer_ic_logo.item_operation.put"},
+ *         "custom_get"={"method"="@resource.manufacturer_ic_logo.item_operation.custom_get"}
+ *     }
+ * )
  * @ORM\Entity
  **/
 class ManufacturerICLogo extends Image

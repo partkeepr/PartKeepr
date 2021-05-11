@@ -3,7 +3,9 @@
 namespace PartKeepr\ProjectBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
@@ -12,6 +14,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Represents a project part.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default", "readonly"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     collectionOperations={
+ *       "get"={"method"="@resource.project_report.collection_operation.get"},
+ *       "custom_post"={"method"="@resource.project_report.item_operation.custom_post"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "custom_get"={"method"="@resource.project_report.item_operation.custom_get"},
+ *         "put"={"method"="@resource.project_report.item_operation.put"},
+ *         "delete"={"method"="@resource.project_report.item_operation.delete"}
+ *     }
+ * )
  * @ORM\Entity
  * @TargetService("/api/reports")
  */

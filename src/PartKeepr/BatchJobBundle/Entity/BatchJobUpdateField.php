@@ -2,13 +2,22 @@
 
 namespace PartKeepr\BatchJobBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Represents a batch job update field.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     }
+ * )
  * @ORM\Entity
  */
 class BatchJobUpdateField extends BaseEntity

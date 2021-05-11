@@ -2,7 +2,9 @@
 
 namespace PartKeepr\AuthBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\DoctrineReflectionBundle\Annotation\VirtualField;
@@ -12,6 +14,31 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     collectionOperations={
+ *       "get"={"method"="@resource.user.collection_operation.get"},
+ *       "get_providers"={"method"="@resource.user.collection_operation.get_providers"},    
+ *       "post_custom"={"method"="@resource.user.collection_operation.post_custom"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *          "get"={"method"="@resource.user.item_operation.get"},
+ *          "put_custom"={"method"="@resource.user.item_operation.put_custom"},
+ *          "delete_custom"={"method"="@resource.user.item_operation.delete_custom"},
+ *          "get_preferences"={"method"="@resource.user.item_operation.get_preferences"},
+ *          "set_preference"={"method"="@resource.user.item_operation.set_preference"},
+ *          "delete_preference"={"method"="@resource.user.item_operation.delete_preference"},
+ *          "login"={"method"="@resource.user.item_operation.login"},
+ *          "change_password"={"method"="@resource.user.item_operation.change_password"}
+ *     }
+ * )
  * @ORM\Entity
  * @ORM\Table(
  *      name="PartKeeprUser",

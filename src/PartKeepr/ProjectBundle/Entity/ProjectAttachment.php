@@ -2,13 +2,31 @@
 
 namespace PartKeepr\ProjectBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
  * Holds a project attachment.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.project_attachment.item_operation.get"},
+ *         "custom_get"={"method"="@resource.project_attachment.item_operation.custom_get"},
+ *         "custom_get_mime"={"method"="@resource.project_attachment.item_operation.custom_get_mime"},
+ *         "custom_get_image"={"method"="@resource.project_attachment.item_operation.custom_get_image"}
+ *     }
+ * )
  * @ORM\Entity
  * @TargetService("/api/project_attachments")
  **/

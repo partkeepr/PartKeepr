@@ -92,97 +92,25 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-    resource.distributor:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\DistributorBundle\Entity\Distributor" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.footprint:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\FootprintBundle\Entity\Footprint" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
     resource.batchjob.item_operation.execute:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+    class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
-             -    "@resource.batchjob"               # Resource
-             -    [ "PUT" ]                 # Methods
-             -    "/batch_jobs/{id}/execute"           # Path
-             -    "partkeepr.batchjob.execute"         # Controller
-             -    "BatchJobExecute"                 # Route name
-
-    resource.batchjob:
-        parent:    "api.resource"
-        arguments: [ 'PartKeepr\BatchJobBundle\Entity\BatchJob' ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.batchjob.item_operation.get", "@resource.batchjob.item_operation.put", "@resource.batchjob.item_operation.delete", "@resource.batchjob.item_operation.execute" ] ]
-
-
-
-
-
-    resource.batchjob_queryfield:
-        parent:    "api.resource"
-        arguments: [ 'PartKeepr\BatchJobBundle\Entity\BatchJobQueryField' ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.batchjob_updatefield:
-        parent:    "api.resource"
-        arguments: [ 'PartKeepr\BatchJobBundle\Entity\BatchJobUpdateField' ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
+        -    "@resource.batchjob"               # Resource
+        -    [ "PUT" ]                 # Methods
+        -    "/batch_jobs/{id}/execute"           # Path
+        -    "partkeepr.batchjob.execute"         # Controller
+        -    "BatchJobExecute"                 # Route name
 
     resource.footprint_image.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.footprint_image", "GET" ]
 
     resource.footprint_image.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -196,23 +124,9 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
-    resource.footprint_image:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintImage" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.footprint_image.item_operation.get", "@resource.footprint_image.item_operation.custom_get" ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.footprint_attachment.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -227,7 +141,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.footprint_attachment.item_operation.custom_get_mime:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -242,28 +156,14 @@ services:
                   "returns":     "xmls:string"
 
     resource.footprint_attachment.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.footprint_attachment", "GET" ]
 
-    resource.footprint_attachment:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintAttachment" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.footprint_attachment.item_operation.get", "@resource.footprint_attachment.item_operation.custom_get", "@resource.footprint_attachment.item_operation.custom_get_mime"  ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.footprint_category.item_operation.move:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -274,13 +174,13 @@ services:
              -    "FootprintCategoryMove"                 # Route name
 
     resource.footprint_category.collection_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments: [ "@resource.footprint_category", "GET" ]
 
     resource.footprint_category.collection_operation.get_root:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -291,71 +191,44 @@ services:
              -    "PartKeeprFootprintCategoryGetRootNode"
 
     resource.footprint_category.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.footprint_category", "GET" ]
 
     resource.footprint_category.item_operation.put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.footprint_category", "PUT" ]
 
     resource.footprint_category.item_operation.delete:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.footprint_category", "DELETE" ]
 
-    resource.footprint_category:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\FootprintBundle\Entity\FootprintCategory" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.footprint_category.collection_operation.get", "@resource.footprint_category.collection_operation.get_root", "@resource.footprint_category.collection_operation.post" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.footprint_category.item_operation.get", "@resource.footprint_category.item_operation.put", "@resource.footprint_category.item_operation.delete", "@resource.footprint_category.item_operation.move" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default", "tree" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default", "tree" ] }
-
-    resource.import_preset:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\ImportBundle\Entity\ImportPreset" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.grid_preset.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.grid_preset", "GET" ]
 
     resource.grid_preset.item_operation.put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.grid_preset", "PUT" ]
 
     resource.grid_preset.item_operation.delete:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.grid_preset", "DELETE" ]
 
     resource.grid_preset.item_operation.markAsDefault:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -365,23 +238,8 @@ services:
              -    "partkeepr.grid_preset.mark_as_default"         # Controller
              -    "MarkGridPresetAsDefault"                 # Route name
 
-    resource.grid_preset:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\FrontendBundle\Entity\GridPreset" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.grid_preset.item_operation.get", "@resource.grid_preset.item_operation.put", "@resource.grid_preset.item_operation.delete", "@resource.grid_preset.item_operation.markAsDefault" ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
     resource.part.collection_operation.custom_post:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -392,7 +250,7 @@ services:
             -   "PartPost"
 
     resource.part.collection_operation.custom_get:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
@@ -403,13 +261,13 @@ services:
               - "PartsGet"
 
     resource.part.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.part", "GET" ]
 
     resource.part.item_operation.custom_put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -421,13 +279,13 @@ services:
 
 
     resource.part.item_operation.delete:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.part", "DELETE" ]
 
     resource.part.item_operation.add_stock:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -438,7 +296,7 @@ services:
              -    "PartAddStock"                 # Route name
 
     resource.part.item_operation.remove_stock:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -449,7 +307,7 @@ services:
              -    "PartRemoveStock"                 # Route name
 
     resource.part.item_operation.set_stock:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -459,25 +317,9 @@ services:
              -    "partkeepr.part.set_stock"         # Controller
              -    "PartSetStock"                 # Route name
 
-    resource.part:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\\Entity\\Part" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.part.item_operation.get", "@resource.part.item_operation.custom_put", "@resource.part.item_operation.delete", "@resource.part.item_operation.add_stock", "@resource.part.item_operation.remove_stock", "@resource.part.item_operation.set_stock" ] ]
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.part.collection_operation.custom_get", "@resource.part.collection_operation.custom_post" ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default", "readonly" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default", "stock" ] }
 
     resource.part_attachment.item_operation.custom_get_image:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -492,7 +334,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.part_attachment.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -507,7 +349,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.part_attachment.item_operation.custom_get_mime:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -522,28 +364,14 @@ services:
                   "returns":     "xmls:string"
 
     resource.part_attachment.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.part_attachment", "GET" ]
 
-    resource.part_attachment:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartAttachment" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.part_attachment.item_operation.get", "@resource.part_attachment.item_operation.custom_get", "@resource.part_attachment.item_operation.custom_get_mime", "@resource.part_attachment.item_operation.custom_get_image"  ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.part_category.item_operation.move:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -554,7 +382,7 @@ services:
              -    "PartKeeprPartCategoryMove"
 
     resource.part_category.collection_operation.get_root:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -565,97 +393,27 @@ services:
              -    "PartKeeprPartCategoryGetRootNode"
 
     resource.part_category.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.part_category", "GET" ]
 
     resource.part_category.item_operation.put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.part_category", "PUT" ]
 
     resource.part_category.item_operation.delete:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.part_category", "DELETE" ]
 
-    resource.part_category:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\Entity\\PartCategory" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.part_category.collection_operation.get", "@resource.part_category.collection_operation.get_root", "@resource.part_category.collection_operation.post" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.part_category.item_operation.get", "@resource.part_category.item_operation.put", "@resource.part_category.item_operation.delete", "@resource.part_category.item_operation.move" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default", "tree" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default", "tree" ] }
 
-    resource.part_distributor:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartDistributor" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.part_manufacturer:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartManufacturer" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.part_parameter:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartParameter" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.meta_part_parameter_criteria:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\\Entity\\MetaPartParameterCriteria" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.manufacturer:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ManufacturerBundle\\Entity\\Manufacturer" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.manufacturer_ic_logo.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -670,34 +428,20 @@ services:
                   "returns":     "xmls:string"
 
     resource.manufacturer_ic_logo.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.manufacturer_ic_logo", "GET" ]
 
     resource.manufacturer_ic_logo.item_operation.put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.manufacturer_ic_logo", "PUT" ]
 
-    resource.manufacturer_ic_logo:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ManufacturerBundle\Entity\ManufacturerICLogo" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.manufacturer_ic_logo.item_operation.get", "@resource.manufacturer_ic_logo.item_operation.put", "@resource.manufacturer_ic_logo.item_operation.custom_get"  ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.partmeasurementunit.item_operation.custom_put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -712,90 +456,22 @@ services:
                   "returns":     "xmls:string"
 
     resource.partmeasurementunit.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.partmeasurementunit", "GET" ]
 
     resource.partmeasurementunit.item_operation.put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.partmeasurementunit", "PUT" ]
 
-    resource.partmeasurementunit:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\PartBundle\\Entity\\PartMeasurementUnit" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.partmeasurementunit.item_operation.custom_put", "@resource.partmeasurementunit.item_operation.get", "@resource.partmeasurementunit.item_operation.put"  ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-
-    resource.unit:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\UnitBundle\\Entity\\Unit" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.siprefix:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\SiPrefixBundle\\Entity\\SiPrefix" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-# ######################## Storage Location Categories######################################
-    resource.storage_location:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\StorageLocationBundle\Entity\StorageLocation" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.stock_entry:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\StockBundle\Entity\StockEntry" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
 # ######################## Storage Location Categories######################################
 
     resource.storage_location_category.item_operation.move:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -806,7 +482,7 @@ services:
              -    "StorageLocationCategoryMove"                 # Route name
 
     resource.storage_location_category.collection_operation.get_root:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -817,52 +493,38 @@ services:
              -    "StorageLocationCategoryGetRoot"                 # Route name
 
     resource.storage_location_category.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.storage_location_category", "GET" ]
 
     resource.storage_location_category.item_operation.put:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.storage_location_category", "PUT" ]
 
     resource.storage_location_category.item_operation.delete:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.storage_location_category", "DELETE" ]
 
     resource.storage_location_category.collection_operation.post:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments: [ "@resource.storage_location_category", "POST" ]
 
-    resource.storage_location_category:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\StorageLocationBundle\Entity\StorageLocationCategory" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.storage_location_category.collection_operation.get", "@resource.storage_location_category.collection_operation.get_root", "@resource.storage_location_category.collection_operation.post" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.storage_location_category.item_operation.get", "@resource.storage_location_category.item_operation.put", "@resource.storage_location_category.item_operation.delete", "@resource.storage_location_category.item_operation.move" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default", "tree" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default", "tree" ] }
 
     resource.storage_location_image.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.storage_location_image", "GET" ]
 
     resource.storage_location_image.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -876,30 +538,16 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
-    resource.storage_location_image:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\StorageLocationBundle\Entity\StorageLocationImage" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.storage_location_image.item_operation.get", "@resource.storage_location_image.item_operation.custom_get" ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
 # ######################## Temporary Images ######################################
     resource.tempimage.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.tempimage", "GET" ]
 
     resource.tempimage.collection_operation.custom_post:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
@@ -914,7 +562,7 @@ services:
                       "returns":     "xmls:string"
 
     resource.tempimage.collection_operation.custom_post_webcam:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
@@ -929,7 +577,7 @@ services:
                       "returns":     "xmls:string"
 
     resource.tempimage.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -943,18 +591,9 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
-    resource.tempimage:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ImageBundle\\Entity\\TempImage" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.tempimage.collection_operation.custom_post", "@resource.tempimage.collection_operation.custom_post_webcam" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.tempimage.item_operation.get", "@resource.tempimage.item_operation.custom_get" ] ]
 
     resource.tempfile.collection_operation.custom_post:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -969,7 +608,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.tempfile.collection_operation.custom_post_webcam:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
@@ -984,13 +623,13 @@ services:
                       "returns":     "xmls:string"
 
     resource.tempfile.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.tempfile", "GET" ]
 
     resource.tempfile.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1005,7 +644,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.tempfile.item_operation.custom_get_mimetype:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1019,24 +658,15 @@ services:
                   "hydra:title": "A custom operation"
                   "returns":     "xmls:string"
 
-    resource.tempfile:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\UploadedFileBundle\\Entity\\TempUploadedFile" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.tempfile.collection_operation.custom_post" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.tempfile.item_operation.get", "@resource.tempfile.item_operation.custom_get", "@resource.tempfile.item_operation.custom_get_mimetype", "@resource.tempfile.collection_operation.custom_post_webcam" ] ]
 
     resource.tip_of_the_day.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.tip_of_the_day", "GET" ]
 
     resource.tip_of_the_day.item_operation.mark_read:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1048,19 +678,19 @@ services:
 
 
     resource.tip_of_the_day.collection_operation.get:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments: [ "@resource.tip_of_the_day", "GET" ]
 
     resource.tip_of_the_day.collection_operation.post:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments: [ "@resource.tip_of_the_day", "POST" ]
 
     resource.tip_of_the_day.collection_operation.mark_all_unread:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
@@ -1070,25 +700,9 @@ services:
                 - "partkeepr.tip_of_the_day.mark_all_unread"
                 - "TipMarkAllUnrad"
 
-    resource.tip_of_the_day:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\TipOfTheDayBundle\\Entity\\TipOfTheDay" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.tip_of_the_day.collection_operation.get", "@resource.tip_of_the_day.collection_operation.post", "@resource.tip_of_the_day.collection_operation.mark_all_unread" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.tip_of_the_day.item_operation.get", "@resource.tip_of_the_day.item_operation.mark_read" ] ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.tip_of_the_day_history.collection_operation.custom_get:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
@@ -1098,23 +712,8 @@ services:
               - "partkeepr.tip_of_the_day_history.collection_get"
               - "TipHistoriesGet"
 
-    resource.tip_of_the_day_history:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\TipOfTheDayBundle\\Entity\\TipOfTheDayHistory" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.tip_of_the_day_history.collection_operation.custom_get" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
     resource.user.item_operation.get_preferences:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -1125,7 +724,7 @@ services:
              -    "PartKeeprUserPreferenceGet"
 
     resource.user.item_operation.set_preference:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -1136,7 +735,7 @@ services:
              -    "PartKeeprUserPreferenceSet"
 
     resource.user.item_operation.delete_preference:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1147,7 +746,7 @@ services:
              -    "PartKeeprUserPreferenceDelete"
 
     resource.user.item_operation.login:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1158,7 +757,7 @@ services:
              -    "PartKeeprAuthLogin"
 
     resource.user.item_operation.change_password:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1169,7 +768,7 @@ services:
              -    "PartKeeprAuthChangePassword"
 
     resource.user.collection_operation.get_providers:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1180,13 +779,13 @@ services:
              -    "PartKeeprAuthGetProviders"
 
     resource.user.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.user", "GET" ]
 
     resource.user.item_operation.put_custom:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1197,7 +796,7 @@ services:
              -    "PartKeeprUserPut"
 
     resource.user.collection_operation.post_custom:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -1208,7 +807,7 @@ services:
              -    "PartKeeprUserPost"
 
     resource.user.item_operation.delete_custom:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1218,83 +817,15 @@ services:
             -    "partkeepr.user.delete"         # Controller
             -    "PartKeeprUserDelete"
 
-    resource.user_provider:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\AuthBundle\\Entity\\UserProvider" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.user:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\AuthBundle\\Entity\\User" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.user.collection_operation.get", "@resource.user.collection_operation.post_custom", "@resource.user.collection_operation.get_providers" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.user.item_operation.get", "@resource.user.item_operation.get", "@resource.user.item_operation.put_custom", "@resource.user.item_operation.delete_custom", "@resource.user.item_operation.get_preferences", "@resource.user.item_operation.set_preference", "@resource.user.item_operation.delete_preference", "@resource.user.item_operation.login", "@resource.user.item_operation.change_password" ] ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.fos_user:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\AuthBundle\\Entity\\FOSUser" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.project:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\Project" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.project_part:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectPart" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.project_report.collection_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments: [ "@resource.project_report", "GET" ]
 
     resource.project_report.item_operation.custom_post:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -1309,7 +840,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.project_report.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1324,62 +855,20 @@ services:
                   "returns":     "xmls:string"
 
     resource.project_report.item_operation.put:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createItemOperation" ]
             arguments: [ "@resource.project_report", "PUT" ]
 
     resource.project_report.item_operation.delete:
-            class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
             public:    false
             factory:   [ "@api.operation_factory", "createItemOperation" ]
             arguments: [ "@resource.project_report", "DELETE" ]
 
-    resource.project_report:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\Report" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initItemOperations"
-                    arguments: [ [ "@resource.project_report.item_operation.custom_get", "@resource.project_report.item_operation.put", "@resource.project_report.item_operation.delete" ] ]
-            -       method:    "initCollectionOperations"
-                    arguments: [ [ "@resource.project_report.collection_operation.get", "@resource.project_report.item_operation.custom_post"]]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default", "readonly" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.project_report_project:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ReportProject" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.project_report_part:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ReportPart" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.project_attachment.item_operation.custom_get_image:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1394,7 +883,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.project_attachment.item_operation.custom_get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1409,7 +898,7 @@ services:
                   "returns":     "xmls:string"
 
     resource.project_attachment.item_operation.custom_get_mime:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1424,60 +913,21 @@ services:
                   "returns":     "xmls:string"
 
     resource.project_attachment.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.project_attachment", "GET" ]
 
-    resource.project_attachment:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectAttachment" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.project_attachment.item_operation.get", "@resource.project_attachment.item_operation.custom_get", "@resource.project_attachment.item_operation.custom_get_mime", "@resource.project_attachment.item_operation.custom_get_image"  ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
-    resource.project_run:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectRun" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
-
-    resource.project_run_part:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\ProjectBundle\\Entity\\ProjectRunPart" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.system_notice.item_operation.get:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments: [ "@resource.system_notice", "GET" ]
 
     resource.system_notice.item_operation.acknowledge:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1487,23 +937,9 @@ services:
              -    "partkeepr.system_notice.acknowledge"         # Controller
              -    "SystemNoticeAcknowledge"                 # Route name
 
-    resource.system_notice:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\CoreBundle\\Entity\\SystemNotice" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.system_notice.item_operation.get", "@resource.system_notice.item_operation.acknowledge" ] ]
-            -       method:    "initFilters"
-                    arguments: [ [ "@doctrine_reflection_service.search_filter" ] ]
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }
 
     resource.system_preference.item_operation.get_preferences:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -1514,7 +950,7 @@ services:
              -    "PartKeeprSystemPreferenceGet"
 
     resource.system_preference.item_operation.set_preference:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createCollectionOperation" ]
         arguments:
@@ -1525,7 +961,7 @@ services:
              -    "PartKeeprSystemPreferenceSet"
 
     resource.system_preference.item_operation.delete_preference:
-        class:     "Dunglas\ApiBundle\Api\Operation\Operation"
+        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
@@ -1535,17 +971,3 @@ services:
              -    "partkeepr.system_preference.delete_preference"         # Controller
              -    "PartKeeprSystemPreferenceDelete"
 
-    resource.system_preference:
-        parent:    "api.resource"
-        arguments: [ "PartKeepr\\SystemPreferenceBundle\\Entity\\SystemPreference" ]
-        tags:      [ { name: "api.resource" } ]
-        calls:
-            -       method:    "initNormalizationContext"
-                    arguments: [ { groups: [ "default" ] } ]
-            -       method:     "initCollectionOperations"
-                    arguments: [ [ "@resource.system_preference.item_operation.get_preferences" ] ]
-            -       method:     "initItemOperations"
-                    arguments: [ [ "@resource.system_preference.item_operation.set_preference", "@resource.system_preference.item_operation.delete_preference"  ] ]
-            -       method:    "initDenormalizationContext"
-                    arguments:
-                        - { groups: [ "default" ] }

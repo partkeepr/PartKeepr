@@ -2,12 +2,29 @@
 
 namespace PartKeepr\FootprintBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
 /**
  * Holds a footprint attachment.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.footprint_attachment.item_operation.get"},
+ *         "custom_get"={"method"="@resource.footprint_attachment.item_operation.custom_get"},
+ *         "custom_get_mime"={"method"="@resource.footprint_attachment.item_operation.custom_get_mime"}
+ *     }
+ * )
  * @ORM\Entity
  **/
 class FootprintAttachment extends UploadedFile

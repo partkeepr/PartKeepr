@@ -3,7 +3,9 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
 use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
@@ -11,6 +13,26 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     attributes={
+ *          "normalization_context"={"groups"={"default", "tree"}},
+ *          "denormalization_context"={"groups"={"default", "tree"}} 
+ *     },
+ *     collectionOperations={
+ *       "get"={"method"="@resource.part_category.collection_operation.get"},
+ *       "get_root"={"method"="@resource.part_category.collection_operation.get_root"},    
+ *       "post"={"method"="@resource.part_category.collection_operation.post"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.part_category.item_operation.get"},
+ *         "put"={"method"="@resource.part_category.item_operation.put"},
+ *         "delete"={"method"="@resource.part_category.item_operation.delete"},
+ *         "move"={"method"="@resource.part_category.item_operation.move"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  * @ORM\Table(indexes={@ORM\Index(columns={"lft"}),@ORM\Index(columns={"rgt"})})
  * @Gedmo\Tree(type="nested")

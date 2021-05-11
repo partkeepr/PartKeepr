@@ -2,7 +2,9 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DistributorBundle\Entity\Distributor;
 use PartKeepr\PartBundle\Exceptions\PackagingUnitOutOfRangeException;
@@ -12,6 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This class represents the link between a part and a distributor.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     }
+ * )
  * @ORM\Entity
  */
 class PartDistributor extends BaseEntity

@@ -2,12 +2,15 @@
 
 namespace PartKeepr\CronLoggerBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 
 /**
  * Holds a project attachment.
  *
+ * @ApiResource
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="cronjob", columns={"cronjob"})})
  * @ORM\Entity
  **/

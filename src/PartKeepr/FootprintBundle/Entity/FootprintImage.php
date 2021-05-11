@@ -2,12 +2,28 @@
 
 namespace PartKeepr\FootprintBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\ImageBundle\Entity\Image;
 
 /**
  * Holds a footprint image.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.footprint_image.item_operation.get"},
+ *         "custom_get"={"method"="@resource.footprint_image.item_operation.custom_get"}
+ *     }
+ * )
  * @ORM\Entity
  **/
 class FootprintImage extends Image

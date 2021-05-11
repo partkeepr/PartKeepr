@@ -2,7 +2,9 @@
 
 namespace PartKeepr\FrontendBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,6 +12,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Stores the grid presets.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="@resource.grid_preset.item_operation.get"},
+ *         "put"={"method"="@resource.grid_preset.item_operation.put"},
+ *         "delete"={"method"="@resource.grid_preset.item_operation.delete"},
+ *         "markAsDefault"={"method"="@resource.grid_preset.item_operation.markAsDefault"}
+ *     }
+ * )
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="name_grid_unique", columns={"grid", "name"})})
  * @ORM\Entity()
  * @TargetService(uri="/api/grid_presets")
