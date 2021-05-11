@@ -12,7 +12,7 @@ web_profiler:
     toolbar: false
     intercept_redirects: false
 
-dunglas_api:
+api_platform:
     cache: false
 
 doctrine:

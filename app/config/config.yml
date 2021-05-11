@@ -10,12 +10,22 @@ imports:
     - { resource: config_partkeepr.yml }
     - { resource: config_filesystem.yml }
 
+framework:
+    serializer: true
+# enable serialier for fos_rest 
+#    serializer:
+#        enabled: true
+        
 fos_rest:
     body_listener: true
     format_listener: true
     param_fetcher_listener: force
-    service:
-        exception_handler: "partkeepr.exceptionwrapper"
+#    service:
+#        exception_handler: "partkeepr.exceptionwrapper"
+#       fos_rest.service.serializer
+#         serializer:
+#             serialize_null: true
+# scope: request
     format_listener:
         rules:
             - priorities: [json, xml]
@@ -29,10 +39,8 @@ fos_rest:
             html: false
         view_response_listener: true
 
-
-
 sensio_framework_extra:
-    view:    { annotations: false }
+    view:    { annotations: true }
     router:  { annotations: true }
 
 # Assetic Configuration
@@ -51,7 +59,7 @@ assetic:
 twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
-dunglas_api:
+api_platform:
     title:       "PartKeepr"
     description: "The PartKeepr REST API"
     collection:

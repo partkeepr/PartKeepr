@@ -1,4 +1,4 @@
-dunglas_api:
+api_platform:
     title:       "PartKeepr"
     description: "The PartKeepr REST API"
     collection:
@@ -8,5 +8,12 @@ dunglas_api:
             client_enabled:            true
             client_items_per_page:     true
 #           items_per_page:            3
-    supported_formats: [ "jsonld", "csv", "xlsx" ]
-    cache: %cache.dunglas%
+    formats:
+        jsonld:   ['application/ld+json']
+        xml:      ['application/xml', 'text/xml']
+#        csv:      ['text/csv']
+        csv:      ['text/comma-separated-values']
+        xlsx:     ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+#    supported_formats: [ "jsonld", "csv", "xlsx" ]
+#   cache: %cache.dunglas%
+#in v1   cache:           false  # The caching service to use. Set to "dunglas_api.mapping.cache.apc" to enable APC metadata caching.

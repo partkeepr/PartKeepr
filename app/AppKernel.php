@@ -24,7 +24,7 @@ class AppKernel extends Kernel
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
             new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
             new SpriteGenerator\SpriteGeneratorBundle(),
-            new Dunglas\ApiBundle\DunglasApiBundle(),
+            new ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
@@ -115,8 +115,10 @@ class AppKernel extends Kernel
         }
 
         return $this->rootDir.'/cache/'.$environment;
+//      return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
     }
-
+    
+    
     /**
      * Override to avoid stripping comments.
      *
