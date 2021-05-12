@@ -21,7 +21,7 @@ use PartKeepr\ImageBundle\Entity\Image;
  *          "method"="GET",
  *          },
  *         "get"={"method"="GET"},
- *         "custom_get"={"route_name"="FootprintImageGetImage"}
+ *         "custom_get"={"route_name"="FootprintImageGetImage","hydra_context"={"title"="A custom operation","returns"="xmls:string"}}
  *     }
  * )
  * @ORM\Entity
