@@ -12,6 +12,30 @@ use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.category.get_root_node"         # Controller
+
+/**
+* @Route(
+*     name="PartKeeprFootprintCategoryGetRootNode",
+*     path="/footprint_categories/getExtJSRootNode",
+*     defaults={"_api_resource_class"=FootprintCategory::class, "_api_item_operation_name"="get_root"}
+* )
+* @Method("GET")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.category.move"         # Controller
+
+/**
+* @Route(
+*     name="FootprintCategoryMove",
+*     path="/footprint_categories/{id}/move",
+*     defaults={"_api_resource_class"=FootprintCategory::class, "_api_item_operation_name"="move"}
+* )
+* @Method("PUT")
+**/
+
 /**
  * @ApiResource(
  *     attributes={
@@ -19,18 +43,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "denormalization_context"={"groups"={"default", "tree"}} 
  *     },
  *     collectionOperations={
- *       "get"={"method"="@resource.footprint_category.collection_operation.get"},
- *       "get_root"={"method"="@resource.footprint_category.collection_operation.get_root"},    
- *       "post"={"method"="@resource.footprint_category.collection_operation.post"}
+ *       "get"={"method"="GET"},
+ *       "get_root"={"route_name"="PartKeeprFootprintCategoryGetRootNode"},    
+ *       "post"={"method"="POST"}
  *     },
  *     itemOperations={
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.footprint_category.item_operation.get"},
- *         "put"={"method"="@resource.footprint_category.item_operation.put"},
- *         "delete"={"method"="@resource.footprint_category.item_operation.delete"},
- *         "move"={"method"="@resource.footprint_category.item_operation.move"}
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT"},
+ *         "delete"={"method"="DELETE"},
+ *         "move"={"route_name"="FootprintCategoryMove"}
  *     }
  * )
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
@@ -38,7 +62,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(indexes={@ORM\Index(columns={"lft"}),@ORM\Index(columns={"rgt"})})
  * The entity for our footprint categories
  * @TargetService(uri="/api/footprint_categories")
- */
+**/
 class FootprintCategory extends AbstractCategory implements CategoryPathInterface
 {
     /**
