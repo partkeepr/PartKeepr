@@ -27,7 +27,7 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 * @Route(
 *     name="FootprintAttachmentMimeTypeIcon",
 *     path="/footprint_attachments/{id}/getMimeTypeIcon",
-*     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
+*     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get_mime"}
 * )
 * @Method("GET")
 */
