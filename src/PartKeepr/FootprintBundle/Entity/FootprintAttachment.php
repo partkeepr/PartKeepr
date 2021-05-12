@@ -7,10 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
-
 // ToDo: fix this - move this Route annotation to the correct place
 // "PartKeeprFootprintBundle:FootprintAttachment:getFile"         # Controller
- 
+
 /**
 * @Route(
 *     name="FootprintAttachmentGet",
@@ -18,11 +17,11 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
 * )
 * @Method("GET")
-*/
+**/
 
 // ToDo: fix this - move this Route annotation to the correct place
 // "PartKeeprFootprintBundle:FootprintAttachment:getMimeTypeIcon"         # Controller
-    
+
 /**
 * @Route(
 *     name="FootprintAttachmentMimeTypeIcon",
@@ -30,8 +29,7 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get_mime"}
 * )
 * @Method("GET")
-*/
-    
+**/
 
 /**
  * Holds a footprint attachment.
