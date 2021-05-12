@@ -20,8 +20,8 @@ use PartKeepr\ImageBundle\Entity\Image;
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.footprint_image.item_operation.get"},
- *         "custom_get"={"method"="@resource.footprint_image.item_operation.custom_get"}
+ *         "get"={"method"="GET"},
+ *         "custom_get"={"route_name"="FootprintImageGetImage"}
  *     }
  * )
  * @ORM\Entity

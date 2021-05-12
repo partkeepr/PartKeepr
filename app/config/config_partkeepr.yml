@@ -93,28 +93,6 @@ services:
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
 
-    resource.footprint_image.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.footprint_image", "GET" ]
-
-    resource.footprint_image.item_operation.custom_get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.footprint_image"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/footprint_images/{id}/getImage"           # Path
-             -    "PartKeeprFootprintBundle:FootprintImage:getImage"         # Controller
-             -    "FootprintImageGetImage"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-
     resource.footprint_attachment.item_operation.custom_get:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
