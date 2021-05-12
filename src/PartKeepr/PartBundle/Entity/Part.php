@@ -20,6 +20,72 @@ use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.part.post"       # Controller
+/**
+* @Route(
+*     name="PartPost",
+*     path="/parts",
+*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_post"}
+* )
+* @Method("POST")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.parts.collection_get"   # Controller
+/**
+* @Route(
+*     name="PartsGet",
+*     path="/parts",
+*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_get"}
+* )
+* @Method("GET")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.part.put"        # Controller
+/**
+* @Route(
+*     name="PartPut",
+*     path="/parts/{id}",
+*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_put"}
+* )
+* @Method("PUT")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.part.add_stock"     # Controller
+/**
+* @Route(
+*     name="PartAddStock",
+*     path="/parts/{id}/addStock",
+*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="add_stock"}
+* )
+* @Method("PUT")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.part.remove_stock"         # Controller
+/**
+* @Route(
+*     name="PartRemoveStock",
+*     path="/parts/{id}/removeStock",
+*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="remove_stock"}
+* )
+* @Method("PUT")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.part.set_stock"         # Controller
+/**
+* @Route(
+*     name="PartSetStock",
+*     path="/parts/{id}/setStock",
+*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="set_stock"}
+* )
+* @Method("PUT")
+**/
+            
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  *
@@ -30,19 +96,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "denormalization_context"={"groups"={"default", "stock"}} 
  *     },
  *     collectionOperations={
- *       "custom_get"={"method"="@resource.part.collection_operation.custom_get"},
- *       "custom_post"={"method"="@resource.part.collection_operation.custom_post"}
+ *       "custom_get"={"route_name"="PartsGet"},
+ *       "custom_post"={"route_name"="PartPost"}
  *     },
  *     itemOperations={
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.part.item_operation.get"},
- *         "custom_put"={"method"="@resource.part.item_operation.custom_put"},
- *         "delete"={"method"="@resource.part.item_operation.delete"},
- *         "add_stock"={"method"="@resource.part.item_operation.add_stock"},
- *         "remove_stock"={"method"="@resource.part.item_operation.remove_stock"},
- *         "set_stock"={"method"="@resource.part.item_operation.set_stock"}
+ *         "get"={"method"="GET"},
+ *         "custom_put"={"route_name"="PartPut"},
+ *         "delete"={"method"="DELETE"},
+ *         "add_stock"={"route_name"="PartAddStock"},
+ *         "remove_stock"={"route_name"="PartRemoveStock"},
+ *         "set_stock"={"route_name"="PartSetStock"}
  *     }
  * )
  * @ORM\Entity

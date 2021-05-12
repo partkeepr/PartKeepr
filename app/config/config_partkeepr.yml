@@ -92,86 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-    resource.part.collection_operation.custom_post:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-        arguments:
-            -   "@resource.part"
-            -   [ "POST" ]
-            -   "/parts"
-            -   "partkeepr.part.post"
-            -   "PartPost"
-
-    resource.part.collection_operation.custom_get:
-            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-            public:    false
-            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-            arguments:
-              - "@resource.part"
-              - [ "GET" ]
-              - "/parts"
-              - "partkeepr.parts.collection_get"
-              - "PartsGet"
-
-    resource.part.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.part", "GET" ]
-
-    resource.part.item_operation.custom_put:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-              -   "@resource.part"
-              -   [ "PUT" ]
-              -   "/parts/{id}"
-              -   "partkeepr.part.put"
-              -   "PartPut"
-
-
-    resource.part.item_operation.delete:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.part", "DELETE" ]
-
-    resource.part.item_operation.add_stock:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.part"               # Resource
-             -    [ "PUT" ]                 # Methods
-             -    "/parts/{id}/addStock"           # Path
-             -    "partkeepr.part.add_stock"         # Controller
-             -    "PartAddStock"                 # Route name
-
-    resource.part.item_operation.remove_stock:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.part"               # Resource
-             -    [ "PUT" ]                 # Methods
-             -    "/parts/{id}/removeStock"           # Path
-             -    "partkeepr.part.remove_stock"         # Controller
-             -    "PartRemoveStock"                 # Route name
-
-    resource.part.item_operation.set_stock:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.part"               # Resource
-             -    [ "PUT" ]                 # Methods
-             -    "/parts/{id}/setStock"           # Path
-             -    "partkeepr.part.set_stock"         # Controller
-             -    "PartSetStock"                 # Route name
-
-
     resource.part_attachment.item_operation.custom_get_image:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
@@ -524,11 +444,11 @@ services:
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
-            - "@resource.tip_of_the_day"
-            - "PUT"
-            - "/tip_of_the_days/{id}/markTipRead"
-            - "partkeepr.tip_of_the_day.mark_read"
-            - "TipMarkRead"
+            - "@resource.tip_of_the_day"              # Resource
+            - "PUT"                                   # Methods
+            - "/tip_of_the_days/{id}/markTipRead"     # Path
+            - "partkeepr.tip_of_the_day.mark_read"    # Controller
+            - "TipMarkRead"                           # Route name
 
 
     resource.tip_of_the_day.collection_operation.get:
@@ -548,11 +468,11 @@ services:
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
-                - "@resource.tip_of_the_day"
-                - [ "POST" ]
-                - "/tip_of_the_days/markAllTipsAsUnread"
-                - "partkeepr.tip_of_the_day.mark_all_unread"
-                - "TipMarkAllUnrad"
+                - "@resource.tip_of_the_day"                    # Resource
+                - [ "POST" ]                                    # Methods
+                - "/tip_of_the_days/markAllTipsAsUnread"        # Path
+                - "partkeepr.tip_of_the_day.mark_all_unread"    # Controller
+                - "TipMarkAllUnrad"                             # Route name
 
 
     resource.tip_of_the_day_history.collection_operation.custom_get:
@@ -560,11 +480,11 @@ services:
             public:    false
             factory:   [ "@api.operation_factory", "createCollectionOperation" ]
             arguments:
-              - "@resource.tip_of_the_day_history"
-              - [ "GET" ]
-              - "/tip_of_the_day_histories"
-              - "partkeepr.tip_of_the_day_history.collection_get"
-              - "TipHistoriesGet"
+              - "@resource.tip_of_the_day_history"                   # Resource
+              - [ "GET" ]                                            # Methods
+              - "/tip_of_the_day_histories"                          # Path
+              - "partkeepr.tip_of_the_day_history.collection_get"    # Controller
+              - "TipHistoriesGet"                                    # Route name
 
     resource.user.item_operation.get_preferences:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
@@ -665,11 +585,11 @@ services:
         public:    false
         factory:   [ "@api.operation_factory", "createItemOperation" ]
         arguments:
-            -    "@resource.user"
-            -    [ "DELETE" ]
-            -    "/users/{id}"           # Path
-            -    "partkeepr.user.delete"         # Controller
-            -    "PartKeeprUserDelete"
+            -    "@resource.user"                              # Resource
+            -    [ "DELETE" ]                                  # Methods
+            -    "/users/{id}"           # Path                # Path
+            -    "partkeepr.user.delete"         # Controller  # Controller
+            -    "PartKeeprUserDelete"                         # Route name
 
 
     resource.project_report.collection_operation.get:
@@ -824,4 +744,3 @@ services:
              -    "/system_preferences"           # Path
              -    "partkeepr.system_preference.delete_preference"         # Controller
              -    "PartKeeprSystemPreferenceDelete"
-
