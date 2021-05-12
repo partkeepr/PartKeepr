@@ -7,6 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\ImageBundle\Entity\Image;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprFootprintBundle:FootprintImage:getImage"         # Controller
+/**
+ * @Route(
+ *     name="FootprintImageGetImage",
+ *     path="/footprint_images/{id}/getImage",
+ *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
+ * )
+ * @Method("GET")
+ */
+
 /**
  * Holds a footprint image.
  *

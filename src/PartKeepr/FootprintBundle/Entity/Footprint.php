@@ -191,29 +191,6 @@ class Footprint extends BaseEntity
         }
     }
 
-/*
- information to use during migration to api_platform v2
-This was in config_partkeepr.yml
-    resource.footprint_image.item_operation.custom_get:
-    -    [ "GET" ]                 # Methods
-    -    "/footprint_images/{id}/getImage"           # Path
-    -    "PartKeeprFootprintBundle:FootprintImage:getImage"         # Controller
-    -    "FootprintImageGetImage"                 # Route name
-    -    # Context (will be present in Hydra documentation)
-    "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-                  
-ToDo: fix this, i don't know how wrong it is
- */    
-    /**
-    * @Route(
-    *     name="FootprintImageGetImage",
-    *     path="/footprint_images/{id}/getImage",
-    *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
-    * )
-    * @Method("GET")
-    */
     /**
      * Returns the footprint image.
      *
