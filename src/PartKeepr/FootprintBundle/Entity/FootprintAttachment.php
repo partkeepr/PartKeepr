@@ -7,6 +7,32 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprFootprintBundle:FootprintAttachment:getFile"         # Controller
+ 
+/**
+* @Route(
+*     name="FootprintAttachmentGet",
+*     path="/footprint_attachments/{id}/getFile",
+*     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
+* )
+* @Method("GET")
+*/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprFootprintBundle:FootprintAttachment:getMimeTypeIcon"         # Controller
+    
+/**
+* @Route(
+*     name="FootprintAttachmentMimeTypeIcon",
+*     path="/footprint_attachments/{id}/getMimeTypeIcon",
+*     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
+* )
+* @Method("GET")
+*/
+    
+
 /**
  * Holds a footprint attachment.
  *
@@ -20,9 +46,9 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.footprint_attachment.item_operation.get"},
- *         "custom_get"={"method"="@resource.footprint_attachment.item_operation.custom_get"},
- *         "custom_get_mime"={"method"="@resource.footprint_attachment.item_operation.custom_get_mime"}
+ *         "get"={"method"="GET"},
+ *         "custom_get"={"route_name"="FootprintAttachmentGet","hydra_context"={"title"="A custom operation","returns"="xmls:string"}},
+ *         "custom_get_mime"={"route_name"="FootprintAttachmentMimeTypeIcon","hydra_context"={"title"="A custom operation","returns"="xmls:string"}}
  *     }
  * )
  * @ORM\Entity

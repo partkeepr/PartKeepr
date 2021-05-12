@@ -92,44 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-
-    resource.footprint_attachment.item_operation.custom_get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.footprint_attachment"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/footprint_attachments/{id}/getFile"           # Path
-             -    "PartKeeprFootprintBundle:FootprintAttachment:getFile"         # Controller
-             -    "FootprintAttachmentGet"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-    resource.footprint_attachment.item_operation.custom_get_mime:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.footprint_attachment"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/footprint_attachments/{id}/getMimeTypeIcon"           # Path
-             -    "PartKeeprFootprintBundle:FootprintAttachment:getMimeTypeIcon"         # Controller
-             -    "FootprintAttachmentMimeTypeIcon"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-    resource.footprint_attachment.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.footprint_attachment", "GET" ]
-
-
     resource.footprint_category.item_operation.move:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
