@@ -81,6 +81,16 @@ abstract class ImageController extends FileController
      * )
      * @Method("GET")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprFootprintBundle:FootprintImage:getImage"         # Controller
+    /**
+     * @Route(
+     *     name="FootprintImageGetImage",
+     *     path="/footprint_images/{id}/getImage",
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     */
     public function getImageAction(Request $request, $id)
     {
         /**
