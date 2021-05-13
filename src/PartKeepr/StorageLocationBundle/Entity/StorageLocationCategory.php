@@ -12,28 +12,6 @@ use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.category.move"         # Controller
-/**
-* @Route(
-*     name="StorageLocationCategoryMove",
-*     path="/storage_location_categories/{id}/move",
-*     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="move"}
-* )
-* @Method("PUT")
-**/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.category.get_root_node"         # Controller
-/**
-* @Route(
-*     name="StorageLocationCategoryGetRoot",
-*     path="/storage_location_categories/getExtJSRootNode",
-*     defaults={"_api_resource_class"=StorageLocationCategory::class, "_api_collection_operation_name"="get_root"}
-* )
-* @Method("GET")
-**/
-
 /**
  * @ApiResource(
  *     attributes={

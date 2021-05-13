@@ -54,6 +54,16 @@ class MoveAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.category.move"         # Controller
+    /**
+     * @Route(
+     *     name="StorageLocationCategoryMove",
+     *     path="/storage_location_categories/{id}/move",
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="move"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);
