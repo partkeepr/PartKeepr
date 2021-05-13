@@ -13,6 +13,115 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.user_preference.get_preferences"         # Controller
+/**
+* @Route(
+*     name="PartKeeprUserPreferenceGet",
+*     path="/user_preferences",
+*     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="get_preferences"}
+* )
+* @Method("GET")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.user_preference.set_preference"         # Controller
+/**
+* @Route(
+*     name="PartKeeprUserPreferenceSet",
+*     path="/user_preferences",
+*     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="set_preference"}
+* )
+* @Method("POST")
+**/
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.user_preference.set_preference"         # Controller
+/**
+* @Route(
+*     name="PartKeeprUserPreferenceSet",
+*     path="/user_preferences",
+*     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="set_preference"}
+* )
+* @Method("PUT")
+**/
+             
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.user.post"         # Controller
+/**
+* @Route(
+*     name="PartKeeprUserPost",
+*     path="/users",
+*     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="post_custom"}
+* )
+* @Method("POST")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.auth.get_providers"         # Controller
+/**
+* @Route(
+*     name="PartKeeprAuthGetProviders",
+*     path="/users/get_user_providers",
+*     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="get_providers"}
+* )
+* @Method("GET")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.user.put"         # Controller
+/**
+* @Route(
+*     name="PartKeeprUserPut",
+*     path="/users/{id}",
+*     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="put_custom"}
+* )
+* @Method("PUT")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.user.delete"         # Controller
+/**
+* @Route(
+*     name="PartKeeprUserDelete",
+*     path="/users/{id}",
+*     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="delete_custom"}
+* )
+* @Method("DELETE")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.user_preference.delete_preference"         # Controller
+/**
+* @Route(
+*     name="PartKeeprUserPreferenceDelete",
+*     path="/user_preferences",
+*     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="delete_preference"}
+* )
+* @Method("DELETE")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.auth.login"         # Controller
+/**
+* @Route(
+*     name="PartKeeprAuthLogin",
+*     path="/users/login",
+*     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="login"}
+* )
+* @Method("POST")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.auth.change_password"         # Controller
+/**
+* @Route(
+*     name="PartKeeprAuthChangePassword",
+*     path="/users/{id}/changePassword",
+*     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="change_password"}
+* )
+* @Method("PUT")
+**/
+
 /**
  * @ApiResource(
  *     attributes={
@@ -21,22 +130,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "denormalization_context"={"groups"={"default"}} 
  *     },
  *     collectionOperations={
- *       "get"={"method"="@resource.user.collection_operation.get"},
- *       "get_providers"={"method"="@resource.user.collection_operation.get_providers"},    
- *       "post_custom"={"method"="@resource.user.collection_operation.post_custom"}
+ *       "get"={"method"="GET"},
+ *       "get_preferences"={"route_name"="PartKeeprUserPreferenceGet"},
+ *       "set_preference"={"route_name"="PartKeeprUserPreferenceSet"},
+ *       "post_custom"={"route_name"="PartKeeprUserPost"}
  *     },
  *     itemOperations={
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *          "get"={"method"="@resource.user.item_operation.get"},
- *          "put_custom"={"method"="@resource.user.item_operation.put_custom"},
- *          "delete_custom"={"method"="@resource.user.item_operation.delete_custom"},
- *          "get_preferences"={"method"="@resource.user.item_operation.get_preferences"},
- *          "set_preference"={"method"="@resource.user.item_operation.set_preference"},
- *          "delete_preference"={"method"="@resource.user.item_operation.delete_preference"},
- *          "login"={"method"="@resource.user.item_operation.login"},
- *          "change_password"={"method"="@resource.user.item_operation.change_password"}
+ *          "get"={"method"="GET"},
+ *          "get_providers"={"route_name"="PartKeeprAuthGetProviders"},    
+ *          "put_custom"={"route_name"="PartKeeprUserPut"},
+ *          "delete_custom"={"route_name"="PartKeeprUserDelete"},
+ *          "delete_preference"={"route_name"="PartKeeprUserPreferenceDelete"},
+ *          "login"={"route_name"="PartKeeprAuthLogin"},
+ *          "change_password"={"route_name"="PartKeeprAuthChangePassword"}
  *     }
  * )
  * @ORM\Entity
