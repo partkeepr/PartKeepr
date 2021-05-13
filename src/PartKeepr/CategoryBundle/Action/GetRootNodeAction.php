@@ -56,6 +56,16 @@ class GetRootNodeAction
      * )
      * @Method("GET")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.category.get_root_node"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprPartCategoryGetRootNode",
+     *     path="/part_categories/getExtJSRootNode",
+     *     defaults={"_api_resource_class"=PartCategory::class, "_api_collection_operation_name"="get_root"}
+     * )
+     * @Method("GET")
+     **/
     public function __invoke(Request $request)
     {
         list($resourceType) = $this->extractAttributes($request);

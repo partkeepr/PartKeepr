@@ -74,6 +74,16 @@ class MoveAction
      * )
      * @Method("PUT")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.category.move"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprPartCategoryMove",
+     *     path="/part_categories/{id}/move",
+     *     defaults={"_api_resource_class"=PartCategory::class, "_api_item_operation_name"="move"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);
