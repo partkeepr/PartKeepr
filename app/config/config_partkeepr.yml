@@ -92,17 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-    resource.tip_of_the_day_history.collection_operation.custom_get:
-            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-            public:    false
-            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-            arguments:
-              - "@resource.tip_of_the_day_history"                   # Resource
-              - [ "GET" ]                                            # Methods
-              - "/tip_of_the_day_histories"                          # Path
-              - "partkeepr.tip_of_the_day_history.collection_get"    # Controller
-              - "TipHistoriesGet"                                    # Route name
-
     resource.user.item_operation.get_preferences:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false

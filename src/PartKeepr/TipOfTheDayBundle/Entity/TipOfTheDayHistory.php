@@ -10,6 +10,17 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.tip_of_the_day_history.collection_get"         # Controller
+/**
+* @Route(
+*     name="TipHistoriesGet",
+*     path="/tip_of_the_day_histories",
+*     defaults={"_api_resource_class"=TipOfTheDayHistory::class, "_api_collection_operation_name"="custom_get"}
+* )
+* @Method("GET")
+**/
+
 /**
  * Represents a tip of the day history entry.
  *
@@ -22,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "denormalization_context"={"groups"={"default"}} 
  *     },
  *     collectionOperations={
- *       "custom_get"={"method"="@resource.tip_of_the_day_history.collection_operation.custom_get"}
+ *       "custom_get"={"route_name"="TipHistoriesGet"}
  *     }
  * )
  * @ORM\Entity
