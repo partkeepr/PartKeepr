@@ -31,6 +31,16 @@ abstract class ImageController extends FileController
      *
      * @return ImageResponse|Response
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprProjectBundle:ProjectAttachment:getImage"         # Controller
+    /**
+     * @Route(
+     *     name="ProjectAttachmentGetImage",
+     *     path="/project_attachments/{id}/getImage",
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_image"}
+     * )
+     * @Method("GET")
+     **/
     public function getImageAction(Request $request, $id)
     {
         /**

@@ -17,6 +17,16 @@ abstract class FileController extends Controller
      *
      * @return Response
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprProjectBundle:ProjectAttachment:getMimeTypeIcon"         # Controller
+    /**
+     * @Route(
+     *     name="ProjectAttachmentMimeTypeIcon",
+     *     path="/project_attachments/{id}/getMimeTypeIcon",
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_mime"}
+     * )
+     * @Method("GET")
+     **/
     public function getMimeTypeIconAction($id)
     {
         /**
@@ -41,6 +51,16 @@ abstract class FileController extends Controller
      *
      * @return Response
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprProjectBundle:ProjectAttachment:getFile"         # Controller
+    /**
+     * @Route(
+     *     name="ProjectAttachmentGet",
+     *     path="/project_attachments/{id}/getFile",
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     **/
     public function getFileAction($id)
     {
         /**
