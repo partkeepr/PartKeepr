@@ -8,39 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "PartKeeprPartBundle:PartAttachment:getImage"         # Controller
-/**
-* @Route(
-*     name="PartAttachmentGetImage",
-*     path="/part_attachments/{id}/getImage",
-*     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_image"}
-* )
-* @Method("GET")
-**/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "PartKeeprPartBundle:PartAttachment:getFile"         # Controller
-/**
-* @Route(
-*     name="PartAttachmentGet",
-*     path="/part_attachments/{id}/getFile",
-*     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get"}
-* )
-* @Method("GET")
-**/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "PartKeeprPartBundle:PartAttachment:getMimeTypeIcon"         # Controller
-/**
-* @Route(
-*     name="PartAttachmentMimeTypeIcon",
-*     path="/part_attachments/{id}/getMimeTypeIcon",
-*     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_mime"}
-* )
-* @Method("GET")
-**/
-
 /**
  * Holds a part attachment.
  *
