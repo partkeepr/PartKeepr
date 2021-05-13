@@ -41,6 +41,16 @@ abstract class ImageController extends FileController
      * )
      * @Method("GET")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprImageBundle:TemporaryImage:getImage"         # Controller
+    /**
+     * @Route(
+     *     name="TemporaryImageGet",
+     *     path="/temp_images/{id}/getImage",
+     *     defaults={"_api_resource_class"=TempImage::class, "_api_item_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     **/
     public function getImageAction(Request $request, $id)
     {
         /**
