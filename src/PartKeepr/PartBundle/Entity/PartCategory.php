@@ -12,6 +12,28 @@ use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.category.move"         # Controller
+/**
+* @Route(
+*     name="PartKeeprPartCategoryMove",
+*     path="/part_categories/{id}/move",
+*     defaults={"_api_resource_class"=PartCategory::class, "_api_item_operation_name"="move"}
+* )
+* @Method("PUT")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.category.get_root_node"         # Controller
+/**
+* @Route(
+*     name="PartKeeprPartCategoryGetRootNode",
+*     path="/part_categories/getExtJSRootNode",
+*     defaults={"_api_resource_class"=PartCategory::class, "_api_item_operation_name"="get_root"}
+* )
+* @Method("GET")
+**/
+
 /**
  * @ApiResource(
  *     attributes={
@@ -19,18 +41,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "denormalization_context"={"groups"={"default", "tree"}} 
  *     },
  *     collectionOperations={
- *       "get"={"method"="@resource.part_category.collection_operation.get"},
- *       "get_root"={"method"="@resource.part_category.collection_operation.get_root"},    
- *       "post"={"method"="@resource.part_category.collection_operation.post"}
+ *       "get"={"method"="GET"},
+ *       "get_root"={"route_name"="PartKeeprPartCategoryGetRootNode"},    
+ *       "post"={"method"="POST"}
  *     },
  *     itemOperations={
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.part_category.item_operation.get"},
- *         "put"={"method"="@resource.part_category.item_operation.put"},
- *         "delete"={"method"="@resource.part_category.item_operation.delete"},
- *         "move"={"method"="@resource.part_category.item_operation.move"}
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT"},
+ *         "delete"={"method"="DELETE"},
+ *         "move"={"route_name"="PartKeeprPartCategoryMove"}
  *     }
  * )
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")

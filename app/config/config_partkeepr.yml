@@ -92,49 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-
-    resource.part_category.item_operation.move:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.part_category"               # Resource
-             -    [ "PUT" ]                 # Methods
-             -    "/part_categories/{id}/move"           # Path
-             -    "partkeepr.category.move"         # Controller
-             -    "PartKeeprPartCategoryMove"
-
-    resource.part_category.collection_operation.get_root:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-        arguments:
-             -    "@resource.part_category"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/part_categories/getExtJSRootNode"           # Path
-             -    "partkeepr.category.get_root_node"         # Controller
-             -    "PartKeeprPartCategoryGetRootNode"
-
-    resource.part_category.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.part_category", "GET" ]
-
-    resource.part_category.item_operation.put:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.part_category", "PUT" ]
-
-    resource.part_category.item_operation.delete:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.part_category", "DELETE" ]
-
-
-
     resource.manufacturer_ic_logo.item_operation.custom_get:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
