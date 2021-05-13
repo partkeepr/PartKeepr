@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 * @Route(
 *     name="PartKeeprPartCategoryGetRootNode",
 *     path="/part_categories/getExtJSRootNode",
-*     defaults={"_api_resource_class"=PartCategory::class, "_api_item_operation_name"="get_root"}
+*     defaults={"_api_resource_class"=PartCategory::class, "_api_collection_operation_name"="get_root"}
 * )
 * @Method("GET")
 **/
