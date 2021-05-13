@@ -7,17 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\ImageBundle\Entity\Image;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "PartKeeprStorageLocationBundle:StorageLocationImage:getImage"         # Controller
-/**
-* @Route(
-*     name="StorageLocationGetImage",
-*     path="/storage_location_images/{id}/getImage",
-*     defaults={"_api_resource_class"=StorageLocationImage::class, "_api_item_operation_name"="custom_get"}
-* )
-* @Method("GET")
-**/
-
 /**
  * Holds a storage location image.
  *

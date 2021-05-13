@@ -51,6 +51,16 @@ abstract class ImageController extends FileController
      * )
      * @Method("GET")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprStorageLocationBundle:StorageLocationImage:getImage"         # Controller
+    /**
+     * @Route(
+     *     name="StorageLocationGetImage",
+     *     path="/storage_location_images/{id}/getImage",
+     *     defaults={"_api_resource_class"=StorageLocationImage::class, "_api_item_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     **/
     public function getImageAction(Request $request, $id)
     {
         /**
