@@ -92,57 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-    resource.part_attachment.item_operation.custom_get_image:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.part_attachment"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/part_attachments/{id}/getImage"           # Path
-             -    "PartKeeprPartBundle:PartAttachment:getImage"         # Controller
-             -    "PartAttachmentGetImage"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-    resource.part_attachment.item_operation.custom_get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.part_attachment"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/part_attachments/{id}/getFile"           # Path
-             -    "PartKeeprPartBundle:PartAttachment:getFile"         # Controller
-             -    "PartAttachmentGet"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-    resource.part_attachment.item_operation.custom_get_mime:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.part_attachment"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/part_attachments/{id}/getMimeTypeIcon"           # Path
-             -    "PartKeeprPartBundle:PartAttachment:getMimeTypeIcon"         # Controller
-             -    "PartAttachmentMimeTypeIcon"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-    resource.part_attachment.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.part_attachment", "GET" ]
-
 
     resource.part_category.item_operation.move:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
