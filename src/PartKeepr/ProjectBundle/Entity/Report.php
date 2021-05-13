@@ -11,6 +11,28 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprProjectBundle:ProjectReport:createReport"         # Controller
+/**
+* @Route(
+*     name="ProjectReportPost",
+*     path="/reports",
+*     defaults={"_api_resource_class"=Report::class, "_api_collection_operation_name"="custom_post"}
+* )
+* @Method("POST")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprProjectBundle:ProjectReport:getReport"         # Controller
+/**
+* @Route(
+*     name="ProjectReportGet",
+*     path="/reports/{id}",
+*     defaults={"_api_resource_class"=Report::class, "_api_item_operation_name"="custom_get"}
+* )
+* @Method("GET")
+**/
+
 /**
  * Represents a project part.
  *
@@ -21,16 +43,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "denormalization_context"={"groups"={"default"}} 
  *     },
  *     collectionOperations={
- *       "get"={"method"="@resource.project_report.collection_operation.get"},
- *       "custom_post"={"method"="@resource.project_report.item_operation.custom_post"}
+ *       "get"={"method"="GET"},
+ *       "custom_post"={"route_name"="ProjectReportPost","hydra_context"={"title"="A custom operation","returns"="xmls:string"}}
  *     },
  *     itemOperations={
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "custom_get"={"method"="@resource.project_report.item_operation.custom_get"},
- *         "put"={"method"="@resource.project_report.item_operation.put"},
- *         "delete"={"method"="@resource.project_report.item_operation.delete"}
+ *         "custom_get"={"route_name"="ProjectReportGet","hydra_context"={"title"="A custom operation","returns"="xmls:string"}},
+ *         "put"={"method"="PUT"},
+ *         "delete"={"method"="DELETE"}
  *     }
  * )
  * @ORM\Entity
