@@ -27,6 +27,16 @@ abstract class FileController extends Controller
      * )
      * @Method("GET")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprUploadedFileBundle:TemporaryFile:getMimeTypeIcon"         # Controller
+    /**
+     * @Route(
+     *     name="TemporaryFileGetMimeTypeIcon",
+     *     path="/temp_uploaded_files/{id}/getMimeTypeIcon",
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get_mimetype"}
+     * )
+     * @Method("GET")
+     **/
     public function getMimeTypeIconAction($id)
     {
         /**
@@ -58,6 +68,16 @@ abstract class FileController extends Controller
      *     name="ProjectAttachmentGet",
      *     path="/project_attachments/{id}/getFile",
      *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprUploadedFileBundle:TemporaryFile:getFile"         # Controller
+    /**
+     * @Route(
+     *     name="TemporaryFileGet",
+     *     path="/temp_uploaded_files/{id}/getFile",
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get"}
      * )
      * @Method("GET")
      **/
