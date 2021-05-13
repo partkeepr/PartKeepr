@@ -92,24 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-    resource.system_notice.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.system_notice", "GET" ]
-
-    resource.system_notice.item_operation.acknowledge:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.system_notice"               # Resource
-             -    [ "PUT" ]                 # Methods
-             -    "/system_notices/{id}/acknowledge"           # Path
-             -    "partkeepr.system_notice.acknowledge"         # Controller
-             -    "SystemNoticeAcknowledge"                 # Route name
-
-
     resource.system_preference.item_operation.get_preferences:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
