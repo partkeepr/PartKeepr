@@ -9,28 +9,6 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.tip_of_the_day.mark_all_unread"         # Controller
-/**
-* @Route(
-*     name="TipMarkAllUnrad",
-*     path="/tip_of_the_days/markAllTipsAsUnread",
-*     defaults={"_api_resource_class"=TipOfTheDay, "_api_collection_operation_name"="mark_all_unread"}
-* )
-* @Method("POST")
-**/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.tip_of_the_day.mark_read"         # Controller
-/**
-* @Route(
-*     name="TipMarkRead",
-*     path="/tip_of_the_days/{id}/markTipRead",
-*     defaults={"_api_resource_class"=TipOfTheDay, "_api_item_operation_name"="mark_read"}
-* )
-* @Method("PUT")
-**/
-
 /**
  * Represents a tip of the day.
  *

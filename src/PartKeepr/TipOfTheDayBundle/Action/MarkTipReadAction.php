@@ -50,6 +50,16 @@ class MarkTipReadAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.tip_of_the_day.mark_read"         # Controller
+    /**
+     * @Route(
+     *     name="TipMarkRead",
+     *     path="/tip_of_the_days/{id}/markTipRead",
+     *     defaults={"_api_resource_class"=TipOfTheDay, "_api_item_operation_name"="mark_read"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);
