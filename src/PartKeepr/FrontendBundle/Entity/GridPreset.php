@@ -9,17 +9,6 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.grid_preset.mark_as_default"         # Controller
-/**
-* @Route(
-*     name="MarkGridPresetAsDefault",
-*     path="/grid_presets/{id}/markAsDefault",
-*     defaults={"_api_resource_class"=FootprintCategory::class, "_api_item_operation_name"="move"}
-* )
-* @Method("PUT")
-**/
-
 /**
  * Stores the grid presets.
  *
