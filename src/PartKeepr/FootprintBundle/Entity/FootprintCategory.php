@@ -12,28 +12,6 @@ use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.category.get_root_node"         # Controller
-/**
-* @Route(
-*     name="PartKeeprFootprintCategoryGetRootNode",
-*     path="/footprint_categories/getExtJSRootNode",
-*     defaults={"_api_resource_class"=FootprintCategory::class, "_api_collection_operation_name"="get_root"}
-* )
-* @Method("GET")
-**/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.category.move"         # Controller
-/**
-* @Route(
-*     name="FootprintCategoryMove",
-*     path="/footprint_categories/{id}/move",
-*     defaults={"_api_resource_class"=FootprintCategory::class, "_api_item_operation_name"="move"}
-* )
-* @Method("PUT")
-**/
-
 /**
  * @ApiResource(
  *     attributes={
