@@ -39,6 +39,16 @@ class SetDefaultUnitAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.part_measurement_unit.set_default"         # Controller
+    /**
+     * @Route(
+     *     name="PartMeasurementUnitSetDefault",
+     *     path="/part_measurement_units/{id}/setDefault",
+     *     defaults={"_api_resource_class"=PartMeasurementUnit::class, "_api_item_operation_name"="custom_put"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);

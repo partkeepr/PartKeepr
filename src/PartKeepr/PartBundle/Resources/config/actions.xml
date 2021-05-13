@@ -34,6 +34,7 @@
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="doctrine"/>
         </service>
+<!-- partkeepr.part_measurement_unit.set_default was related to annotation in PartMeasurementUnit.php, is this config still valid? -->
         <service id="partkeepr.part_measurement_unit.set_default"
                  class="PartKeepr\PartBundle\Action\SetDefaultUnitAction">
             <argument type="service" id="api.data_provider"/>

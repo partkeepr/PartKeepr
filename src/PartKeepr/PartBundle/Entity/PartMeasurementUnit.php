@@ -11,17 +11,6 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.part_measurement_unit.set_default"         # Controller
-/**
-* @Route(
-*     name="PartMeasurementUnitSetDefault",
-*     path="/part_measurement_units/{id}/setDefault",
-*     defaults={"_api_resource_class"=PartMeasurementUnit::class, "_api_item_operation_name"="custom_put"}
-* )
-* @Method("PUT")
-**/
-
 /**
  * This entity represents a part measurement unit. Typical measurement units are pieces, centimeters etc.
  *
