@@ -8,6 +8,39 @@ use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprProjectBundle:ProjectAttachment:getImage"         # Controller
+/**
+* @Route(
+*     name="ProjectAttachmentGetImage",
+*     path="/project_attachments/{id}/getImage",
+*     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_image"}
+* )
+* @Method("GET")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprProjectBundle:ProjectAttachment:getFile"         # Controller
+/**
+* @Route(
+*     name="ProjectAttachmentGet",
+*     path="/project_attachments/{id}/getFile",
+*     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get"}
+* )
+* @Method("GET")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprProjectBundle:ProjectAttachment:getMimeTypeIcon"         # Controller
+/**
+* @Route(
+*     name="ProjectAttachmentMimeTypeIcon",
+*     path="/project_attachments/{id}/getMimeTypeIcon",
+*     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_mime"}
+* )
+* @Method("GET")
+**/
+
 /**
  * Holds a project attachment.
  *
@@ -21,10 +54,10 @@ use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.project_attachment.item_operation.get"},
- *         "custom_get"={"method"="@resource.project_attachment.item_operation.custom_get"},
- *         "custom_get_mime"={"method"="@resource.project_attachment.item_operation.custom_get_mime"},
- *         "custom_get_image"={"method"="@resource.project_attachment.item_operation.custom_get_image"}
+ *         "get"={"method"="GET"},
+ *         "custom_get"={"route_name"="ProjectAttachmentGet","hydra_context"={"title"="A custom operation","returns"="xmls:string"}},
+ *         "custom_get_mime"={"route_name"="ProjectAttachmentMimeTypeIcon","hydra_context"={"title"="A custom operation","returns"="xmls:string"}},
+ *         "custom_get_image"={"route_name"="ProjectAttachmentGetImage","hydra_context"={"title"="A custom operation","returns"="xmls:string"}}
  *     }
  * )
  * @ORM\Entity
