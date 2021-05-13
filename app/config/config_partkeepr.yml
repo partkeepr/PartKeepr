@@ -92,59 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-# ######################## Temporary Images ######################################
-    resource.tempimage.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.tempimage", "GET" ]
-
-    resource.tempimage.collection_operation.custom_post:
-            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-            public:    false
-            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-            arguments:
-                 -    "@resource.tempimage"               # Resource
-                 -    [ "POST" ]                 # Methods
-                 -    "/temp_images/upload"           # Path
-                 -    "PartKeeprImageBundle:TemporaryImage:upload"         # Controller
-                 -    "TemporaryImageUpload"                 # Route name
-                 -    # Context (will be present in Hydra documentation)
-                      "@type":       "hydra:Operation"
-                      "hydra:title": "A custom operation"
-                      "returns":     "xmls:string"
-
-    resource.tempimage.collection_operation.custom_post_webcam:
-            class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-            public:    false
-            factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-            arguments:
-                 -    "@resource.tempimage"               # Resource
-                 -    [ "POST" ]                 # Methods
-                 -    "/temp_images/webcamUpload"           # Path
-                 -    "PartKeeprImageBundle:TemporaryImage:webcamUpload"         # Controller
-                 -    "TemporaryImageUploadWebcam"                 # Route name
-                 -    # Context (will be present in Hydra documentation)
-                      "@type":       "hydra:Operation"
-                      "hydra:title": "A custom operation"
-                      "returns":     "xmls:string"
-
-    resource.tempimage.item_operation.custom_get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.tempimage"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/temp_images/{id}/getImage"           # Path
-             -    "PartKeeprImageBundle:TemporaryImage:getImage"         # Controller
-             -    "TemporaryImageGet"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-
     resource.tempfile.collection_operation.custom_post:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
