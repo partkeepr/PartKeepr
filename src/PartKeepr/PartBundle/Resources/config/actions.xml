@@ -5,25 +5,30 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+<!-- partkeepr.part.post was related to annotation in Part.php, is this config still valid? -->
         <service id="partkeepr.part.post" class="PartKeepr\PartBundle\Action\PartPostAction">
             <argument type="service" id="api.serializer"/>
             <argument type="service" id="partkeepr.part_service"/>
         </service>
+<!-- partkeepr.part.put was related to annotation in Part.php, is this config still valid? -->
         <service id="partkeepr.part.put" class="PartKeepr\PartBundle\Action\PartPutAction">
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="api.serializer"/>
             <argument type="service" id="partkeepr.part_service"/>
         </service>
+<!-- partkeepr.part.add_stock was related to annotation in Part.php, is this config still valid? -->
         <service id="partkeepr.part.add_stock" class="PartKeepr\PartBundle\Action\AddStockAction">
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="doctrine"/>
         </service>
+<!-- partkeepr.part.remove_stock was related to annotation in Part.php, is this config still valid? -->
         <service id="partkeepr.part.remove_stock" class="PartKeepr\PartBundle\Action\RemoveStockAction">
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="doctrine"/>
         </service>
+<!-- partkeepr.part.set_stock was related to annotation in Part.php, is this config still valid? -->
         <service id="partkeepr.part.set_stock" class="PartKeepr\PartBundle\Action\SetStockAction">
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="partkeepr.userservice"/>
@@ -34,6 +39,7 @@
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="partkeepr.part_measurement_unit_service"/>
         </service>
+<!-- partkeepr.parts.collection_get was related to annotation in Part.php, is this config still valid? -->
         <service id="partkeepr.parts.collection_get"
                  class="PartKeepr\PartBundle\Action\GetPartsAction">
             <argument type="service" id="api.data_provider"/>

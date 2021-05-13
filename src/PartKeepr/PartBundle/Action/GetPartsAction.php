@@ -50,6 +50,16 @@ class GetPartsAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.parts.collection_get"   # Controller
+    /**
+     * @Route(
+     *     name="PartsGet",
+     *     path="/parts",
+     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     **/
     public function __invoke(Request $request)
     {
         list($resourceType) = $this->extractAttributes($request);

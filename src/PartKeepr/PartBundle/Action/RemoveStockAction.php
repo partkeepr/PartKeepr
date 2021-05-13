@@ -54,6 +54,16 @@ class RemoveStockAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.part.remove_stock"         # Controller
+    /**
+     * @Route(
+     *     name="PartRemoveStock",
+     *     path="/parts/{id}/removeStock",
+     *     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="remove_stock"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);

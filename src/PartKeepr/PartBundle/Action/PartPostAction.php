@@ -45,6 +45,16 @@ class PartPostAction
      *
      * @return mixed
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.part.post"       # Controller
+    /**
+     * @Route(
+     *     name="PartPost",
+     *     path="/parts",
+     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_post"}
+     * )
+     * @Method("POST")
+     **/
     public function __invoke(Request $request)
     {
         if ($this->partService->checkPartLimit()) {
