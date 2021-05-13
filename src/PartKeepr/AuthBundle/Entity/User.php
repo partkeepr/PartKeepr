@@ -13,17 +13,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.auth.get_providers"         # Controller
-/**
-* @Route(
-*     name="PartKeeprAuthGetProviders",
-*     path="/users/get_user_providers",
-*     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="get_providers"}
-* )
-* @Method("GET")
-**/
-
 /**
  * @ApiResource(
  *     attributes={
@@ -270,6 +259,16 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      *
      * @return UserProvider
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.auth.get_providers"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprAuthGetProviders",
+     *     path="/users/get_user_providers",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="get_providers"}
+     * )
+     * @Method("GET")
+     **/
     public function getProvider()
     {
         return $this->provider;
