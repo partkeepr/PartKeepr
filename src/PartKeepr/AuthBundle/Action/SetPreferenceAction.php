@@ -54,6 +54,26 @@ class SetPreferenceAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.user_preference.set_preference"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprUserPreferenceSet",
+     *     path="/user_preferences",
+     *     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="set_preference"}
+     * )
+     * @Method("POST")
+     **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.user_preference.set_preference"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprUserPreferenceSet",
+     *     path="/user_preferences",
+     *     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="set_preference"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request)
     {
         $user = $this->userService->getUser();

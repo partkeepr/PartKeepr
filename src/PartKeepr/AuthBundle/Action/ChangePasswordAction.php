@@ -55,6 +55,16 @@ class ChangePasswordAction
         $this->container = $container;
     }
 
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.auth.change_password"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprAuthChangePassword",
+     *     path="/users/{id}/changePassword",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="change_password"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request)
     {
         if ($this->container->hasParameter('partkeepr.auth.allow_password_change') &&

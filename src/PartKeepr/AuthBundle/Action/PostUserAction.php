@@ -53,6 +53,16 @@ class PostUserAction
      *
      * @return mixed
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.user.post"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprUserPost",
+     *     path="/users",
+     *     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="post_custom"}
+     * )
+     * @Method("POST")
+     **/
     public function __invoke(Request $request)
     {
         /**

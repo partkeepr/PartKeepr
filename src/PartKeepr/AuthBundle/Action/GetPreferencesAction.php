@@ -53,6 +53,16 @@ class GetPreferencesAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.user_preference.get_preferences"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprUserPreferenceGet",
+     *     path="/user_preferences",
+     *     defaults={"_api_resource_class"=User::class, "_api_collection_operation_name"="get_preferences"}
+     * )
+     * @Method("GET")
+     **/
     public function __invoke(Request $request)
     {
         $user = $this->userService->getUser();

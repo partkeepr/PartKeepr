@@ -37,6 +37,16 @@ class LoginAction
         $this->userPreferenceService = $userPreferenceService;
     }
 
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.auth.login"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprAuthLogin",
+     *     path="/users/login",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="login"}
+     * )
+     * @Method("POST")
+     **/
     public function __invoke(Request $request)
     {
         $user = $this->userService->getUser();

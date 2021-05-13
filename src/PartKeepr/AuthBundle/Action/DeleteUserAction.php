@@ -56,6 +56,16 @@ class DeleteUserAction
      *
      * @return mixed
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.user.delete"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprUserDelete",
+     *     path="/users/{id}",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="delete_custom"}
+     * )
+     * @Method("DELETE")
+     **/
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);

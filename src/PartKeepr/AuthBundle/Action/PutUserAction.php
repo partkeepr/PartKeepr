@@ -56,6 +56,16 @@ class PutUserAction
      *
      * @return mixed
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.user.put"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprUserPut",
+     *     path="/users/{id}",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="put_custom"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request, $id)
     {
         /**
