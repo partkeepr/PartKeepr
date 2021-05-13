@@ -9,6 +9,28 @@ use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.tip_of_the_day.mark_all_unread"         # Controller
+/**
+* @Route(
+*     name="TipMarkAllUnrad",
+*     path="/tip_of_the_days/markAllTipsAsUnread",
+*     defaults={"_api_resource_class"=TipOfTheDay, "_api_collection_operation_name"="mark_all_unread"}
+* )
+* @Method("POST")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.tip_of_the_day.mark_read"         # Controller
+/**
+* @Route(
+*     name="TipMarkRead",
+*     path="/tip_of_the_days/{id}/markTipRead",
+*     defaults={"_api_resource_class"=TipOfTheDay, "_api_item_operation_name"="mark_read"}
+* )
+* @Method("PUT")
+**/
+
 /**
  * Represents a tip of the day.
  *
@@ -25,16 +47,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "denormalization_context"={"groups"={"default"}} 
  *     },
  *     collectionOperations={
- *       "get"={"method"="@resource.tip_of_the_day.collection_operation.get"},
- *       "mark_all_unread"={"method"="@resource.tip_of_the_day.collection_operation.mark_all_unread"},    
- *       "post"={"method"="@resource.tip_of_the_day.collection_operation.post"}
+ *       "get"={"method"="GET"},
+ *       "mark_all_unread"={"route_name"="TipMarkAllUnrad"},    
+ *       "post"={"method"="POST"}
  *     },
  *     itemOperations={
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.tip_of_the_day.item_operation.get"},
- *         "mark_read"={"method"="@resource.tip_of_the_day.item_operation.mark_read"}
+ *         "get"={"method"="GET"}},
+ *         "mark_read"={"route_name"="TipMarkRead"}
  *     }
  * )
  * @ORM\Entity
