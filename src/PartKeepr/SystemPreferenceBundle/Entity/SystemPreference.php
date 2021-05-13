@@ -9,49 +9,6 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\IgnoreIds;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.system_preference.get_preferences"         # Controller
-/**
-* @Route(
-*     name="PartKeeprSystemPreferenceGet",
-*     path="/system_preferences",
-*     defaults={"_api_resource_class"=SystemPreference::class, "_api_collection_operation_name"="get_preferences"}
-* )
-* @Method("GET")
-**/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.system_preference.set_preference"         # Controller
-/**
-* @Route(
-*     name="PartKeeprSystemPreferenceSet",
-*     path="/system_preferences",
-*     defaults={"_api_resource_class"=SystemPreference::class, "_api_collection_operation_name"="set_preference"}
-* )
-* @Method("POST")
-**/
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.system_preference.set_preference"         # Controller
-/**
- * @Route(
- *     name="PartKeeprSystemPreferenceSet",
- *     path="/system_preferences",
- *     defaults={"_api_resource_class"=SystemPreference::class, "_api_collection_operation_name"="set_preference"}
- * )
- * @Method("PUT")
- **/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.system_preference.delete_preference"         # Controller
-/**
-* @Route(
-*     name="PartKeeprSystemPreferenceDelete",
-*     path="/system_preferences",
-*     defaults={"_api_resource_class"=SystemPreference::class, "_api_item_operation_name"="delete_preference"}
-* )
-* @Method("DELETE")
-**/
-
 /**
  * Represents a system preference entry.
  *

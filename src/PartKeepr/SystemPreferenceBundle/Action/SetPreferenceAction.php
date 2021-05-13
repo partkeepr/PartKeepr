@@ -46,6 +46,26 @@ class SetPreferenceAction
      *
      * @return JsonResponse
      */
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.system_preference.set_preference"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprSystemPreferenceSet",
+     *     path="/system_preferences",
+     *     defaults={"_api_resource_class"=SystemPreference::class, "_api_collection_operation_name"="set_preference"}
+     * )
+     * @Method("POST")
+     **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.system_preference.set_preference"         # Controller
+    /**
+     * @Route(
+     *     name="PartKeeprSystemPreferenceSet",
+     *     path="/system_preferences",
+     *     defaults={"_api_resource_class"=SystemPreference::class, "_api_collection_operation_name"="set_preference"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request)
     {
         $data = json_decode($request->getContent());
