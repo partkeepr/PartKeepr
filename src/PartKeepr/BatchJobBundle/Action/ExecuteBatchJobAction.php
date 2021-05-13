@@ -68,7 +68,8 @@ class ExecuteBatchJobAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
-    // ToDo:I'm not sure about the class to declare for "_api_resource_class"=BatchJob::class or ExecuteBatchJobAction::class
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.batchjob.execute"         # Controller
     /**
      * @Route(
      *     name="BatchJobExecute",

@@ -3,8 +3,8 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-<!-- partkeepr.batchjob.execute was related to annotation in BatchJob.php, is this config still valid? -->
     <services>
+<!-- partkeepr.batchjob.execute was related to annotation in BatchJob.php, is this config still valid? -->
         <service id="partkeepr.batchjob.execute" class="PartKeepr\BatchJobBundle\Action\ExecuteBatchJobAction">
             <argument type="service" id="api.data_provider"/>
             <argument type="service" id="api.iri_converter"/>
