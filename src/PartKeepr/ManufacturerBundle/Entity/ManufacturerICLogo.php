@@ -7,6 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\ImageBundle\Entity\Image;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "PartKeeprManufacturerBundle:ManufacturerIcLogo:getImage"         # Controller
+/**
+* @Route(
+*     name="ManufacturerIcLogoGetImage",
+*     path="/manufacturer_i_c_logos/{id}/getImage",
+*     defaults={"_api_resource_class"=ManufacturerICLogo::class, "_api_item_operation_name"="custom_get"}
+* )
+* @Method("GET")
+**/
+
 /**
  * Holds a manufacturer IC logo.
  *
@@ -20,9 +31,9 @@ use PartKeepr\ImageBundle\Entity\Image;
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.manufacturer_ic_logo.item_operation.get"},
- *         "put"={"method"="@resource.manufacturer_ic_logo.item_operation.put"},
- *         "custom_get"={"method"="@resource.manufacturer_ic_logo.item_operation.custom_get"}
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT"},
+ *         "custom_get"={"route_name"="ManufacturerIcLogoGetImage","hydra_context"={"title"="A custom operation","returns"="xmls:string"}}
  *     }
  * )
  * @ORM\Entity
