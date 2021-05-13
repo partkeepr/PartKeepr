@@ -11,28 +11,6 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "PartKeeprProjectBundle:ProjectReport:createReport"         # Controller
-/**
-* @Route(
-*     name="ProjectReportPost",
-*     path="/reports",
-*     defaults={"_api_resource_class"=Report::class, "_api_collection_operation_name"="custom_post"}
-* )
-* @Method("POST")
-**/
-
-// ToDo: fix this - move this Route annotation to the correct place
-// "PartKeeprProjectBundle:ProjectReport:getReport"         # Controller
-/**
-* @Route(
-*     name="ProjectReportGet",
-*     path="/reports/{id}",
-*     defaults={"_api_resource_class"=Report::class, "_api_item_operation_name"="custom_get"}
-* )
-* @Method("GET")
-**/
-
 /**
  * Represents a project part.
  *
