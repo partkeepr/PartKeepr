@@ -92,28 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-    resource.storage_location_image.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.storage_location_image", "GET" ]
-
-    resource.storage_location_image.item_operation.custom_get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.storage_location_image"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/storage_location_images/{id}/getImage"           # Path
-             -    "PartKeeprStorageLocationBundle:StorageLocationImage:getImage"         # Controller
-             -    "StorageLocationGetImage"                 # Route name
-             -    # Context (will be present in Hydra documentation)
-                  "@type":       "hydra:Operation"
-                  "hydra:title": "A custom operation"
-                  "returns":     "xmls:string"
-
-
 # ######################## Temporary Images ######################################
     resource.tempimage.item_operation.get:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
