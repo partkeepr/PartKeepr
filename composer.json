@@ -23,7 +23,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/escapestudiosEscapeWSSEAuthenticationBundle"
+      "url": "https://github.com/djoos/EscapeWSSEAuthenticationBundle"
     },
     {
       "type": "vcs",
@@ -31,7 +31,7 @@
     },
     {
       "type": "vcs",
-      "url": "https://github.com/Maks3wFR3DLdapBundle"
+      "url": "https://github.com/Maks3w/FR3DLdapBundle"
     },
     {
       "type": "vcs",

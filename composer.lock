@@ -1581,7 +1581,7 @@
             "target-dir": "Escape/WSSEAuthenticationBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/escapestudios/EscapeWSSEAuthenticationBundle",
+                "url": "https://github.com/djoos/EscapeWSSEAuthenticationBundle",
                 "reference": "fe5585f20570c89a3e6f9b889104c1263a734a22"
             },
             "dist": {
@@ -1620,18 +1620,18 @@
                 },
                 {
                     "name": "Community contributors",
-                    "homepage": "https://github.com/escapestudios/EscapeWSSEAuthenticationBundle/graphs/contributors"
+                    "homepage": "https://github.com/djoos/EscapeWSSEAuthenticationBundle/graphs/contributors"
                 }
             ],
             "description": "Symfony2 bundle to implement WSSE authentication",
-            "homepage": "https://github.com/escapestudios/EscapeWSSEAuthenticationBundle",
+            "homepage": "https://github.com/djoos/EscapeWSSEAuthenticationBundle",
             "keywords": [
                 "authentication",
                 "bundle",
                 "wsse"
             ],
             "support": {
-                "source": "https://github.com/Drachenkaetzchen/EscapeWSSEAuthenticationBundle/tree/PSR3Logging"
+                "source": "https://github.com/djoos/EscapeWSSEAuthenticationBundle/tree/PSR3Logging"
             },
             "time": "2016-01-03T15:44:13+00:00"
         },
