@@ -47,6 +47,16 @@ abstract class FileController extends Controller
      * )
      * @Method("GET")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprFootprintBundle:FootprintAttachment:getMimeTypeIcon"         # Controller
+    /**
+     * @Route(
+     *     name="FootprintAttachmentMimeTypeIcon",
+     *     path="/footprint_attachments/{id}/getMimeTypeIcon",
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get_mime"}
+     * )
+     * @Method("GET")
+     **/
     public function getMimeTypeIconAction($id)
     {
         /**
@@ -98,6 +108,16 @@ abstract class FileController extends Controller
      *     name="PartAttachmentGet",
      *     path="/part_attachments/{id}/getFile",
      *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprFootprintBundle:FootprintAttachment:getFile"         # Controller
+    /**
+     * @Route(
+     *     name="FootprintAttachmentGet",
+     *     path="/footprint_attachments/{id}/getFile",
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
      * )
      * @Method("GET")
      **/
