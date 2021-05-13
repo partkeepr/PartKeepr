@@ -12,6 +12,28 @@ use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.category.move"         # Controller
+/**
+* @Route(
+*     name="StorageLocationCategoryMove",
+*     path="/storage_location_categories/{id}/move",
+*     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="move"}
+* )
+* @Method("PUT")
+**/
+
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.category.get_root_node"         # Controller
+/**
+* @Route(
+*     name="StorageLocationCategoryGetRoot",
+*     path="/storage_location_categories/getExtJSRootNode",
+*     defaults={"_api_resource_class"=StorageLocationCategory::class, "_api_collection_operation_name"="get_root"}
+* )
+* @Method("GET")
+**/
+
 /**
  * @ApiResource(
  *     attributes={
@@ -19,18 +41,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "denormalization_context"={"groups"={"default", "tree"}} 
  *     },
  *     collectionOperations={
- *       "get"={"method"="@resource.storage_location_category.collection_operation.get"},
- *       "get_root"={"method"="@resource.storage_location_category.collection_operation.get_root"},    
- *       "post"={"method"="@resource.storage_location_category.collection_operation.post"}
+ *       "get"={"method"="GET"},
+ *       "get_root"={"route_name"="StorageLocationCategoryGetRoot"},    
+ *       "post"={"method"="POST"}
  *     },
  *     itemOperations={
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.storage_location_category.item_operation.get"},
- *         "put"={"method"="@resource.storage_location_category.item_operation.put"},
- *         "delete"={"method"="@resource.storage_location_category.item_operation.delete"},
- *         "move"={"method"="@resource.storage_location_category.item_operation.move"}
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT"},
+ *         "delete"={"method"="DELETE"},
+ *         "move"={"route_name"="StorageLocationCategoryMove"}
  *     }
  * )
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")

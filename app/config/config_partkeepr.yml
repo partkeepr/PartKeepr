@@ -92,55 +92,6 @@ services:
             - "@api.iri_converter"
         tags:  [ { name: "kernel.event_listener", event: "kernel.view", method: "replaceTemporaryFile", priority: 100 } ]
 
-# ######################## Storage Location Categories######################################
-
-    resource.storage_location_category.item_operation.move:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments:
-             -    "@resource.storage_location_category"               # Resource
-             -    [ "PUT" ]                 # Methods
-             -    "/storage_location_categories/{id}/move"           # Path
-             -    "partkeepr.category.move"         # Controller
-             -    "StorageLocationCategoryMove"                 # Route name
-
-    resource.storage_location_category.collection_operation.get_root:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-        arguments:
-             -    "@resource.storage_location_category"               # Resource
-             -    [ "GET" ]                 # Methods
-             -    "/storage_location_categories/getExtJSRootNode"           # Path
-             -    "partkeepr.category.get_root_node"         # Controller
-             -    "StorageLocationCategoryGetRoot"                 # Route name
-
-    resource.storage_location_category.item_operation.get:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.storage_location_category", "GET" ]
-
-    resource.storage_location_category.item_operation.put:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.storage_location_category", "PUT" ]
-
-    resource.storage_location_category.item_operation.delete:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createItemOperation" ]
-        arguments: [ "@resource.storage_location_category", "DELETE" ]
-
-    resource.storage_location_category.collection_operation.post:
-        class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
-        public:    false
-        factory:   [ "@api.operation_factory", "createCollectionOperation" ]
-        arguments: [ "@resource.storage_location_category", "POST" ]
-
-
     resource.storage_location_image.item_operation.get:
         class:     "Dunglas\\ApiBundle\\Api\\Operation\\Operation"
         public:    false
