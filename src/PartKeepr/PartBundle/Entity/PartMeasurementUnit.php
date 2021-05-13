@@ -11,6 +11,17 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+// ToDo: fix this - move this Route annotation to the correct place
+// "partkeepr.part_measurement_unit.set_default"         # Controller
+/**
+* @Route(
+*     name="PartMeasurementUnitSetDefault",
+*     path="/part_measurement_units/{id}/setDefault",
+*     defaults={"_api_resource_class"=PartMeasurementUnit::class, "_api_item_operation_name"="custom_put"}
+* )
+* @Method("PUT")
+**/
+
 /**
  * This entity represents a part measurement unit. Typical measurement units are pieces, centimeters etc.
  *
@@ -24,9 +35,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="@resource.partmeasurementunit.item_operation.get"},
- *         "put"={"method"="@resource.partmeasurementunit.item_operation.put"},
- *         "custom_put"={"method"="@resource.partmeasurementunit.item_operation.custom_put"}
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT"},
+ *         "custom_put"={"route_name"="PartMeasurementUnitSetDefault","hydra_context"={"title"="A custom operation","returns"="xmls:string"}}
  *     }
  * )
  * @ORM\Entity
