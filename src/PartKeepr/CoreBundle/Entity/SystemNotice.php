@@ -8,17 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-// ToDo: fix this - move this Route annotation to the correct place
-// "partkeepr.system_notice.acknowledge"         # Controller
-/**
-* @Route(
-*     name="SystemNoticeAcknowledge",
-*     path="/system_notices/{id}/acknowledge",
-*     defaults={"_api_resource_class"=SystemNotice::class, "_api_item_operation_name"="acknowledge"}
-* )
-* @Method("PUT")
-**/
-
 /**
  * Holds a system notice.
  *

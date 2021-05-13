@@ -41,6 +41,17 @@ class SystemNoticeAcknowledgeAction
      *
      * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
      */
+    
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "partkeepr.system_notice.acknowledge"         # Controller
+    /**
+     * @Route(
+     *     name="SystemNoticeAcknowledge",
+     *     path="/system_notices/{id}/acknowledge",
+     *     defaults={"_api_resource_class"=SystemNotice::class, "_api_item_operation_name"="acknowledge"}
+     * )
+     * @Method("PUT")
+     **/
     public function __invoke(Request $request, $id)
     {
         list($resourceType) = $this->extractAttributes($request);
