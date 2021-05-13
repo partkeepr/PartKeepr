@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 * @Route(
 *     name="PartPost",
 *     path="/parts",
-*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_post"}
+*     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_post"}
 * )
 * @Method("POST")
 **/
@@ -37,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 * @Route(
 *     name="PartsGet",
 *     path="/parts",
-*     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_get"}
+*     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_get"}
 * )
 * @Method("GET")
 **/
