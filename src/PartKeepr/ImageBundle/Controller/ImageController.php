@@ -61,6 +61,16 @@ abstract class ImageController extends FileController
      * )
      * @Method("GET")
      **/
+    // ToDo: fix this - move this Route annotation to the correct place
+    // "PartKeeprManufacturerBundle:ManufacturerIcLogo:getImage"         # Controller
+    /**
+     * @Route(
+     *     name="ManufacturerIcLogoGetImage",
+     *     path="/manufacturer_i_c_logos/{id}/getImage",
+     *     defaults={"_api_resource_class"=ManufacturerICLogo::class, "_api_item_operation_name"="custom_get"}
+     * )
+     * @Method("GET")
+     **/
     public function getImageAction(Request $request, $id)
     {
         /**
