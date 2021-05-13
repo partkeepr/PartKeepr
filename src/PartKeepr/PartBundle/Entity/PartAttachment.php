@@ -41,8 +41,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 * @Method("GET")
 **/
 
-
- */
 /**
  * Holds a part attachment.
  *
