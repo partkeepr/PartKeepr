@@ -30,8 +30,8 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
             new \FR3D\LdapBundle\FR3DLdapBundle(),
-            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-            new AppBundle\AppBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
+//            new AppBundle\AppBundle(),
         ];
 
         // Developer bundles
@@ -39,7 +39,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+//          $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 
@@ -70,7 +70,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\BatchJobBundle\PartKeeprBatchJobBundle();
         $bundles[] = new PartKeepr\OctoPartBundle\PartKeeprOctoPartBundle();
         $bundles[] = new PartKeepr\MobileFrontendBundle\PartKeeprMobileFrontendBundle();
-
+        
         return array_merge($bundles, $this->getCustomBundles());
     }
 
