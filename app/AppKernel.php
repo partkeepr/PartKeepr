@@ -1,7 +1,7 @@
 <?php
 
-use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
@@ -13,12 +13,12 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
@@ -31,13 +31,15 @@ class AppKernel extends Kernel
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
             new \FR3D\LdapBundle\FR3DLdapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new AppBundle\AppBundle(),
         ];
 
         // Developer bundles
-        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 
@@ -80,10 +82,10 @@ class AppKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
 
         if ($this->getEnvironment() !== 'test') {
-            $customConfig = __DIR__.'/config/config_custom.yml';
+            $customConfig = $this->getRootDir().'/config/config_custom.yml';
 
             if (file_exists($customConfig)) {
                 $loader->load($customConfig);
@@ -102,6 +104,11 @@ class AppKernel extends Kernel
         return [];
     }
 
+    public function getRootDir()
+    {
+        return __DIR__;
+    }
+    
     /**
      * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT.
      *
@@ -117,6 +124,11 @@ class AppKernel extends Kernel
 
         return $this->rootDir.'/cache/'.$environment;
 //      return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
+    }
+    
+    public function getLogDir()
+    {
+        return dirname(__DIR__).'/var/logs';
     }
     
     
