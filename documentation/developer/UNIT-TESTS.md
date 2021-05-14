@@ -28,4 +28,4 @@ If you need to run individual tests, you can do so by using the following comman
 
 Full example:
 
-`phpunit -c app/ src/PartKeepr/AuthBundle/Tests/Controller/DefaultControllerTest`
+`phpunit -c app/ tests/PartKeepr/AuthBundle/Controller/DefaultControllerTest`
