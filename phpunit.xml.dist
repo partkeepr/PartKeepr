@@ -11,7 +11,7 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "bootstrap.php.cache" >
+    bootstrap                   = "vendor/autoload.php" >
 
     <testsuites>
         <testsuite name="Project Test Suite">
@@ -20,11 +20,9 @@
         </testsuite>
     </testsuites>
 
-    <!--
     <php>
-        <server name="KERNEL_DIR" value="/path/to/your/app/" />
+        <server name="KERNEL_DIR" value="app/" />
     </php>
-    -->
 
     <!-- codeclimate is deprecated.  removing for now.
     <logging>
@@ -38,13 +36,12 @@
             <directory>../src</directory>
             <exclude>
                 <directory>../src/*/*Bundle/Resources</directory>
-                <directory>../tests/*/*Bundle</directory>
                 <directory>../src/*/*Bundle/DataFixtures</directory>
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
-                <directory>../tests/*/Bundle/*Bundle</directory>
                 <directory>../src/backend</directory>
                 <directory>../src/frontend</directory>
                 <directory>../src/setup</directory>
+                <directory>tests</directory>
             </exclude>
         </whitelist>
     </filter>
