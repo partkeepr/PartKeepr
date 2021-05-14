@@ -35,6 +35,7 @@ class AppKernel extends Kernel
 
         // Developer bundles
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {
+            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
