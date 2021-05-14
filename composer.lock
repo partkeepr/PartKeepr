@@ -7773,7 +7773,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.1.33"
+        "php": ">=7.1.0"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
