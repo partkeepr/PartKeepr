@@ -30,15 +30,13 @@ security:
 
     firewalls:
         login:
-#sym 2x ?   pattern: ^/api/users/getSalt
-#symf 3 ?
-            path: ^/api/users/getSalt
+            pattern: ^/api/users/getSalt
+#symf 3 ?   path: ^/api/users/getSalt
             security: false
         main:
             stateless: false # Stores authentification within a cookie. This is important to allow file uploads without having to send authentification data.
-#symf 2x ?  pattern: ^/api/.*
-#symf 3 ?
-            path: ^/api/.*
+            pattern: ^/api/.*
+#symf 3 ?   path: ^/api/.*
             provider: chain_provider
             fr3d_ldap_httpbasic:
                 provider: chain_provider
