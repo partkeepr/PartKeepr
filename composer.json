@@ -129,7 +129,6 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         },
-    "symfony-assets-install": "relative",
     "assets-dir" : "web/",
     "installer-paths": {
       "web/js/packages/{$name}": [
