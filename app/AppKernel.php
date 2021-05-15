@@ -16,7 +16,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-//          new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
@@ -29,9 +29,8 @@ class AppKernel extends Kernel
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
-            new \FR3D\LdapBundle\FR3DLdapBundle(),
-            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
-//            new AppBundle\AppBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+//          new AppBundle\AppBundle(),
         ];
 
         // Developer bundles
