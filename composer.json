@@ -47,7 +47,7 @@
     "doctrine/doctrine-fixtures-bundle": "v2.4.1",
     "doctrine/doctrine-migrations-bundle": "v1.3.2",
     "doctrine/migrations": "v1.2.2",
-    "doctrine/orm": "v2.5.14",
+    "doctrine/orm": "v2.6.6",
     "fortawesome/font-awesome": "5.15.1",
     "friendsofsymfony/rest-bundle": "2.0.1",
     "friendsofsymfony/user-bundle": "v2.1.2",
