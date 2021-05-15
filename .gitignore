@@ -1,8 +1,11 @@
 /.web-server-pid
 /app/config/parameters.yml
 /app/authkey.php
-/app/config/parameters.php
-/app/config/parameters_setup.php
+
+# temporarely enabled for development 
+# /app/config/parameters.php
+# /app/config/parameters_setup.php
+
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*
