@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Request\ParamFetcher;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use PartKeepr\AuthBundle\Entity\FOSUser;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Validator\Constraints\Username;
