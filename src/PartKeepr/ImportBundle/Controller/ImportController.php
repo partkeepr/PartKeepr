@@ -27,9 +27,12 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/getPreview/")
-     * @Method({"POST"})
-     *
+     * @Route(
+     *     path="/getPreview/",
+     *     methods={"POST"}
+     * )
+     **/
+    /**
      * @return JsonResponse
      */
     public function getPreviewAction(Request $request)
@@ -55,9 +58,12 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/executeImport/")
-     * @Method({"POST"})
-     *
+     * @Route(
+     *     path="/executeImport/",
+     *     methods={"POST"}
+     * )
+     **/
+    /**
      * @return JsonResponse
      */
     public function importAction(Request $request)

@@ -12,6 +12,7 @@ use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Default API action retrieving a collection of resources.
@@ -53,15 +54,13 @@ class GetPartsAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.parts.collection_get"   # Controller
     /**
      * @Route(
      *     name="PartsGet",
      *     path="/parts",
-     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
     public function __invoke(Request $request)
     {

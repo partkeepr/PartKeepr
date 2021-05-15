@@ -10,6 +10,7 @@ use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\FrontendBundle\Entity\GridPreset;
 use PartKeepr\FrontendBundle\Services\GridPresetService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class MarkAsDefaultAction
 {
@@ -43,15 +44,13 @@ class MarkAsDefaultAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.grid_preset.mark_as_default"         # Controller
     /**
      * @Route(
      *     name="MarkGridPresetAsDefault",
      *     path="/grid_presets/{id}/markAsDefault",
-     *     defaults={"_api_resource_class"=GridPreset::class, "_api_item_operation_name"="markAsDefault"}
+     *     defaults={"_api_resource_class"=GridPreset::class, "_api_item_operation_name"="markAsDefault"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
     public function __invoke(Request $request, $id)
     {

@@ -11,6 +11,7 @@ use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\CoreBundle\Entity\SystemNotice;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SystemNoticeAcknowledgeAction
 {
@@ -45,15 +46,13 @@ class SystemNoticeAcknowledgeAction
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.system_notice.acknowledge"         # Controller
     /**
      * @Route(
      *     name="SystemNoticeAcknowledge",
      *     path="/system_notices/{id}/acknowledge",
-     *     defaults={"_api_resource_class"=SystemNotice::class, "_api_item_operation_name"="acknowledge"}
+     *     defaults={"_api_resource_class"=SystemNotice::class, "_api_item_operation_name"="acknowledge"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
     public function __invoke(Request $request, $id)
     {

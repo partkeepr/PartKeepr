@@ -2,6 +2,8 @@
 
 namespace PartKeepr\UploadedFileBundle\Controller;
 
+use Symfony\Component\Routing\Annotation\Route;
+
 //use ApiPlatform\Core\Action\ActionUtilTrait;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
@@ -34,15 +36,13 @@ class TemporaryFileController extends FileController
      *
      * @return JsonResponse The JSON response from the temporary file upload
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprUploadedFileBundle:TemporaryFile:upload"         # Controller
     /**
      * @Route(
      *     name="TemporaryFileUpload",
      *     path="/temp_uploaded_files/upload",
-     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_collection_operation_name"="custom_post"}
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function uploadAction(Request $request)
     {
@@ -115,15 +115,13 @@ class TemporaryFileController extends FileController
      *
      * @return Response
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprUploadedFileBundle:TemporaryFile:webcamUpload"         # Controller
     /**
      * @Route(
      *     name="TemporaryFileUploadWebcam",
      *     path="/temp_uploaded_files/webcamUpload",
-     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_collection_operation_name"="custom_post_webcam"}
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_collection_operation_name"="custom_post_webcam"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function webcamUploadAction(Request $request)
     {

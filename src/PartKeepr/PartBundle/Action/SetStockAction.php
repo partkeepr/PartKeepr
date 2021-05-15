@@ -13,6 +13,7 @@ use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\StockBundle\Entity\StockEntry;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Sets the stock for a given part.
@@ -56,15 +57,13 @@ class SetStockAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.part.set_stock"         # Controller
     /**
      * @Route(
      *     name="PartSetStock",
      *     path="/parts/{id}/setStock",
-     *     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="set_stock"}
+     *     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="set_stock"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
     public function __invoke(Request $request, $id)
     {

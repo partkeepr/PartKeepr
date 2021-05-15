@@ -13,6 +13,7 @@ use PartKeepr\PartBundle\Exceptions\PartLimitExceededException;
 use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PartPostAction
 {
@@ -47,15 +48,13 @@ class PartPostAction
      *
      * @return mixed
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.part.post"       # Controller
     /**
      * @Route(
      *     name="PartPost",
      *     path="/parts",
-     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_post"}
+     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function __invoke(Request $request)
     {

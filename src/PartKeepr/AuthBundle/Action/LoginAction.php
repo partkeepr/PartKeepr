@@ -8,6 +8,7 @@ use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Routing\Annotation\Route;
 
 class LoginAction
 {
@@ -38,15 +39,13 @@ class LoginAction
         $this->userPreferenceService = $userPreferenceService;
     }
 
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.auth.login"         # Controller
     /**
      * @Route(
      *     name="PartKeeprAuthLogin",
      *     path="/users/login",
-     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="login"}
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="login"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function __invoke(Request $request)
     {

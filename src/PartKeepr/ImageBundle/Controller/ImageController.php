@@ -14,6 +14,7 @@ use PartKeepr\UploadedFileBundle\Controller\FileController;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 abstract class ImageController extends FileController
 {
@@ -31,65 +32,53 @@ abstract class ImageController extends FileController
      *
      * @return ImageResponse|Response
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprProjectBundle:ProjectAttachment:getImage"         # Controller
     /**
      * @Route(
      *     name="ProjectAttachmentGetImage",
      *     path="/project_attachments/{id}/getImage",
-     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_image"}
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_image"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprImageBundle:TemporaryImage:getImage"         # Controller
     /**
      * @Route(
      *     name="TemporaryImageGet",
      *     path="/temp_images/{id}/getImage",
-     *     defaults={"_api_resource_class"=TempImage::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=TempImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprStorageLocationBundle:StorageLocationImage:getImage"         # Controller
     /**
      * @Route(
      *     name="StorageLocationGetImage",
      *     path="/storage_location_images/{id}/getImage",
-     *     defaults={"_api_resource_class"=StorageLocationImage::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=StorageLocationImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprManufacturerBundle:ManufacturerIcLogo:getImage"         # Controller
     /**
      * @Route(
      *     name="ManufacturerIcLogoGetImage",
      *     path="/manufacturer_i_c_logos/{id}/getImage",
-     *     defaults={"_api_resource_class"=ManufacturerICLogo::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=ManufacturerICLogo::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprPartBundle:PartAttachment:getImage"         # Controller
     /**
      * @Route(
      *     name="PartAttachmentGetImage",
      *     path="/part_attachments/{id}/getImage",
-     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_image"}
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_image"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprFootprintBundle:FootprintImage:getImage"         # Controller
     /**
      * @Route(
      *     name="FootprintImageGetImage",
      *     path="/footprint_images/{id}/getImage",
-     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      */
     public function getImageAction(Request $request, $id)
     {

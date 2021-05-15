@@ -10,6 +10,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\ProjectBundle\Entity\Report;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectReportController extends FOSRestController
 {
@@ -22,15 +23,13 @@ class ProjectReportController extends FOSRestController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprProjectBundle:ProjectReport:createReport"         # Controller
     /**
      * @Route(
      *     name="ProjectReportPost",
      *     path="/reports",
-     *     defaults={"_api_resource_class"=Report::class, "_api_collection_operation_name"="custom_post"}
+     *     defaults={"_api_resource_class"=Report::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function createReportAction(Request $request)
     {
@@ -84,15 +83,13 @@ class ProjectReportController extends FOSRestController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprProjectBundle:ProjectReport:getReport"         # Controller
     /**
      * @Route(
      *     name="ProjectReportGet",
      *     path="/reports/{id}",
-     *     defaults={"_api_resource_class"=Report::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=Report::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
     public function getReportAction(Request $request, $id)
     {

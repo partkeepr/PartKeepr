@@ -2,6 +2,8 @@
 
 namespace PartKeepr\UploadedFileBundle\Controller;
 
+use Symfony\Component\Routing\Annotation\Route;
+
 use Doctrine\ORM\EntityManager;
 use Gaufrette\Exception\FileNotFound;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
@@ -17,45 +19,37 @@ abstract class FileController extends Controller
      *
      * @return Response
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprProjectBundle:ProjectAttachment:getMimeTypeIcon"         # Controller
     /**
      * @Route(
      *     name="ProjectAttachmentMimeTypeIcon",
      *     path="/project_attachments/{id}/getMimeTypeIcon",
-     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_mime"}
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_mime"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprUploadedFileBundle:TemporaryFile:getMimeTypeIcon"         # Controller
     /**
      * @Route(
      *     name="TemporaryFileGetMimeTypeIcon",
      *     path="/temp_uploaded_files/{id}/getMimeTypeIcon",
-     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get_mimetype"}
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get_mimetype"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprPartBundle:PartAttachment:getMimeTypeIcon"         # Controller
     /**
      * @Route(
      *     name="PartAttachmentMimeTypeIcon",
      *     path="/part_attachments/{id}/getMimeTypeIcon",
-     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_mime"}
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_mime"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprFootprintBundle:FootprintAttachment:getMimeTypeIcon"         # Controller
     /**
      * @Route(
      *     name="FootprintAttachmentMimeTypeIcon",
      *     path="/footprint_attachments/{id}/getMimeTypeIcon",
-     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get_mime"}
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get_mime"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
     public function getMimeTypeIconAction($id)
     {
@@ -81,45 +75,37 @@ abstract class FileController extends Controller
      *
      * @return Response
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprProjectBundle:ProjectAttachment:getFile"         # Controller
     /**
      * @Route(
      *     name="ProjectAttachmentGet",
      *     path="/project_attachments/{id}/getFile",
-     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprUploadedFileBundle:TemporaryFile:getFile"         # Controller
     /**
      * @Route(
      *     name="TemporaryFileGet",
      *     path="/temp_uploaded_files/{id}/getFile",
-     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprPartBundle:PartAttachment:getFile"         # Controller
     /**
      * @Route(
      *     name="PartAttachmentGet",
      *     path="/part_attachments/{id}/getFile",
-     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprFootprintBundle:FootprintAttachment:getFile"         # Controller
     /**
      * @Route(
      *     name="FootprintAttachmentGet",
      *     path="/footprint_attachments/{id}/getFile",
-     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
     public function getFileAction($id)
     {

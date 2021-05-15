@@ -50,7 +50,13 @@ Ext.define('PartKeepr.Auth.WSSEAuthenticationProvider', {
     },
 
     /**
-     * @method add
+     * @Route(
+     *     path="/getPreview/",
+     *     methods={"add"}
+     * )
+     **/
+
+    /**
      * @inheritdoc PartKeepr.Auth.AuthenticationProvider#getHeaders
      */
     getHeaders: function ()

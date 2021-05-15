@@ -10,6 +10,7 @@ use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GetTipHistoryCollectionAction
 {
@@ -40,15 +41,13 @@ class GetTipHistoryCollectionAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.tip_of_the_day_history.collection_get"         # Controller
     /**
      * @Route(
      *     name="TipHistoriesGet",
      *     path="/tip_of_the_day_histories",
-     *     defaults={"_api_resource_class"=TipOfTheDayHistory::class, "_api_collection_operation_name"="custom_get"}
+     *     defaults={"_api_resource_class"=TipOfTheDayHistory::class, "_api_collection_operation_name"="custom_get"},
+     *     methods={"GET"}
      * )
-     * @Method("GET")
      **/
     public function __invoke(Request $request)
     {

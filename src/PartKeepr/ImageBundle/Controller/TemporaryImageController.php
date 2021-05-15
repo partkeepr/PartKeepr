@@ -2,6 +2,8 @@
 
 namespace PartKeepr\ImageBundle\Controller;
 
+use Symfony\Component\Routing\Annotation\Route;
+
 //use ApiPlatform\Core\Action\ActionUtilTrait;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
@@ -33,15 +35,13 @@ class TemporaryImageController extends ImageController
      *
      * @return JsonResponse The JSON response from the temporary image upload
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprImageBundle:TemporaryImage:upload"         # Controller
     /**
      * @Route(
      *     name="TemporaryImageUpload",
      *     path="/temp_images/upload",
-     *     defaults={"_api_resource_class"=TempImage::class, "_api_collection_operation_name"="custom_post"}
+     *     defaults={"_api_resource_class"=TempImage::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function uploadAction(Request $request)
     {
@@ -85,15 +85,13 @@ class TemporaryImageController extends ImageController
      *
      * @return Response
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "PartKeeprImageBundle:TemporaryImage:webcamUpload"         # Controller
     /**
      * @Route(
      *     name="TemporaryImageUploadWebcam",
      *     path="/temp_images/webcamUpload",
-     *     defaults={"_api_resource_class"=TempImage::class, "_api_collection_operation_name"="custom_post_webcam"}
+     *     defaults={"_api_resource_class"=TempImage::class, "_api_collection_operation_name"="custom_post_webcam"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function webcamUploadAction(Request $request)
     {

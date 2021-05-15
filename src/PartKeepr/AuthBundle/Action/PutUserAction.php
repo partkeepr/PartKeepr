@@ -15,6 +15,7 @@ use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PutUserAction
 {
@@ -58,15 +59,13 @@ class PutUserAction
      *
      * @return mixed
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.user.put"         # Controller
     /**
      * @Route(
      *     name="PartKeeprUserPut",
      *     path="/users/{id}",
-     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="put_custom"}
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="put_custom"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
     public function __invoke(Request $request, $id)
     {

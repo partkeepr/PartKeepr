@@ -2,6 +2,7 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
+use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManager;
 
 // use ApiPlatform\Core\Action\ActionUtilTrait;
@@ -40,15 +41,13 @@ class MarkTipsAsUnreadAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.tip_of_the_day.mark_all_unread"         # Controller
     /**
      * @Route(
      *     name="TipMarkAllUnrad",
      *     path="/tip_of_the_days/markAllTipsAsUnread",
-     *     defaults={"_api_resource_class"=TipOfTheDay, "_api_collection_operation_name"="mark_all_unread"}
+     *     defaults={"_api_resource_class"=TipOfTheDay, "_api_collection_operation_name"="mark_all_unread"},
+     *     methods={"POST"}
      * )
-     * @Method("POST")
      **/
     public function __invoke(Request $request)
     {

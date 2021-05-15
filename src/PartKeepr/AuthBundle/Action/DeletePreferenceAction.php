@@ -9,6 +9,7 @@ use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Returns the tree root node.
@@ -45,15 +46,13 @@ class DeletePreferenceAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.user_preference.delete_preference"         # Controller
     /**
      * @Route(
      *     name="PartKeeprUserPreferenceDelete",
      *     path="/user_preferences",
-     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="delete_preference"}
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="delete_preference"},
+     *     methods={"DELETE"}
      * )
-     * @Method("DELETE")
      **/
     public function __invoke(Request $request)
     {

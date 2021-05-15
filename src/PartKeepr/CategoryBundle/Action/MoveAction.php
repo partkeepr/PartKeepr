@@ -14,6 +14,7 @@ use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Returns the tree root node.
@@ -56,35 +57,29 @@ class MoveAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.category.move"         # Controller
     /**
      * @Route(
      *     name="StorageLocationCategoryMove",
      *     path="/storage_location_categories/{id}/move",
-     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="move"}
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="move"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.category.move"         # Controller
     /**
      * @Route(
      *     name="FootprintCategoryMove",
      *     path="/footprint_categories/{id}/move",
-     *     defaults={"_api_resource_class"=FootprintCategory::class, "_api_item_operation_name"="move"}
+     *     defaults={"_api_resource_class"=FootprintCategory::class, "_api_item_operation_name"="move"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.category.move"         # Controller
     /**
      * @Route(
      *     name="PartKeeprPartCategoryMove",
      *     path="/part_categories/{id}/move",
-     *     defaults={"_api_resource_class"=PartCategory::class, "_api_item_operation_name"="move"}
+     *     defaults={"_api_resource_class"=PartCategory::class, "_api_item_operation_name"="move"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
     public function __invoke(Request $request, $id)
     {

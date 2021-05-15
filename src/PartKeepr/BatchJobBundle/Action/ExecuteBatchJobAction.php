@@ -17,6 +17,7 @@ use PartKeepr\DoctrineReflectionBundle\Filter\AdvancedSearchFilter;
 use PartKeepr\DoctrineReflectionBundle\Services\ReflectionService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ExecuteBatchJobAction
 {
@@ -71,15 +72,13 @@ class ExecuteBatchJobAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.batchjob.execute"         # Controller
     /**
      * @Route(
      *     name="BatchJobExecute",
      *     path="/batch_jobs/{id}/execute",
-     *     defaults={"_api_resource_class"=BatchJob::class, "_api_item_operation_name"="execute"}
+     *     defaults={"_api_resource_class"=BatchJob::class, "_api_item_operation_name"="execute"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      */
     public function __invoke(Request $request, $id)
     {

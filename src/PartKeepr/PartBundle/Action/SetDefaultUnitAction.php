@@ -10,6 +10,7 @@ use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
 use PartKeepr\PartBundle\Services\PartMeasurementUnitService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SetDefaultUnitAction
 {
@@ -41,15 +42,13 @@ class SetDefaultUnitAction
      *
      * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.part_measurement_unit.set_default"         # Controller
     /**
      * @Route(
      *     name="PartMeasurementUnitSetDefault",
      *     path="/part_measurement_units/{id}/setDefault",
-     *     defaults={"_api_resource_class"=PartMeasurementUnit::class, "_api_item_operation_name"="custom_put"}
+     *     defaults={"_api_resource_class"=PartMeasurementUnit::class, "_api_item_operation_name"="custom_put"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
     public function __invoke(Request $request, $id)
     {

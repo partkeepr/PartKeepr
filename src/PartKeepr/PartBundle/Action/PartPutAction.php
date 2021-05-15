@@ -16,6 +16,7 @@ use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PartPutAction
 {
@@ -59,15 +60,13 @@ class PartPutAction
      *
      * @return mixed
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.part.put"        # Controller
     /**
      * @Route(
      *     name="PartPut",
      *     path="/parts/{id}",
-     *     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_put"}
+     *     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_put"},
+     *     methods={"PUT"}
      * )
-     * @Method("PUT")
      **/
     public function __invoke(Request $request, $id)
     {

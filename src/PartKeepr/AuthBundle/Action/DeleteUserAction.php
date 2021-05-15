@@ -13,6 +13,7 @@ use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Custom API action deleting an user.
@@ -58,15 +59,13 @@ class DeleteUserAction
      *
      * @return mixed
      */
-    // ToDo: fix this - move this Route annotation to the correct place
-    // "partkeepr.user.delete"         # Controller
     /**
      * @Route(
      *     name="PartKeeprUserDelete",
      *     path="/users/{id}",
-     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="delete_custom"}
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="delete_custom"},
+     *     methods={"DELETE"}
      * )
-     * @Method("DELETE")
      **/
     public function __invoke(Request $request, $id)
     {
