@@ -2,7 +2,8 @@
 
 namespace PartKeepr\SystemPreferenceBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\SystemPreferenceBundle\Service\SystemPreferenceService;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DeletePreferenceAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var SystemPreferenceService

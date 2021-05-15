@@ -2,7 +2,9 @@
 
 namespace PartKeepr\CategoryBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\IriConverter;
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
@@ -18,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MoveAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -86,7 +88,7 @@ class MoveAction
      **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $entity = $this->getItem($this->dataProvider, $resourceType, $id);
 

@@ -2,7 +2,9 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
@@ -16,7 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PutUserAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -71,7 +73,7 @@ class PutUserAction
         /**
          * @var ResourceInterface
          */
-        list($resourceType, $format) = $this->extractAttributes($request);
+        list($resourceType, $format) = RequestAttributesExtractor::extractAttributes($request);
 
         /**
          * @var User

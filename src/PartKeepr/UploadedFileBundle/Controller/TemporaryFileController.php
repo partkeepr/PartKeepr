@@ -2,7 +2,9 @@
 
 namespace PartKeepr\UploadedFileBundle\Controller;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -17,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryFileController extends FileController
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * Handles a temporary file upload.
@@ -95,7 +97,7 @@ class TemporaryFileController extends FileController
         /**
          * @var ResourceInterface
          */
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $serializedData = $this->get('serializer')->normalize(
             $uploadedFile,

@@ -2,7 +2,9 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
@@ -17,7 +19,7 @@ use Symfony\Component\Serializer\Serializer;
  */
 class GetPreferencesAction
 {
-    use ActionUtilTrait;
+//   use ActionUtilTrait;
 
     /**
      * @var UserService
@@ -69,7 +71,7 @@ class GetPreferencesAction
 
         $preferences = $this->userPreferenceService->getPreferences($user);
 
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /*
          * @var ResourceInterface $resourceType

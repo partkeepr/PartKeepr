@@ -2,7 +2,9 @@
 
 namespace PartKeepr\CategoryBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use ApiPlatform\Core\Exception\RuntimeException;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
@@ -15,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class GetRootNodeAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var ManagerRegistry
@@ -68,7 +70,7 @@ class GetRootNodeAction
      **/
     public function __invoke(Request $request)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /*
          * @var ResourceInterface $resourceType

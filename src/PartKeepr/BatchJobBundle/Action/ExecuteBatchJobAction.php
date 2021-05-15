@@ -4,7 +4,10 @@ namespace PartKeepr\BatchJobBundle\Action;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use ApiPlatform\Core\Action\ActionUtilTrait;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\IriConverter;
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
@@ -17,7 +20,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class ExecuteBatchJobAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -80,7 +83,7 @@ class ExecuteBatchJobAction
      */
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /**
          * @var BatchJob

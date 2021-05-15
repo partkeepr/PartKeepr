@@ -2,7 +2,9 @@
 
 namespace PartKeepr\PartBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\PartBundle\Entity\Part;
@@ -14,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class PartPostAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var SerializerInterface
@@ -64,7 +66,7 @@ class PartPostAction
         /**
          * @var ResourceInterface
          */
-        list($resourceType, $format) = $this->extractAttributes($request);
+        list($resourceType, $format) = RequestAttributesExtractor::extractAttributes($request);
 
         /**
          * @var Part

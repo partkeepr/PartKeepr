@@ -2,7 +2,8 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DeletePreferenceAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var UserService

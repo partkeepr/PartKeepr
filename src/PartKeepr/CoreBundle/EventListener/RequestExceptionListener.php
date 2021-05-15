@@ -9,7 +9,9 @@
 namespace PartKeepr\CoreBundle\EventListener;
 
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use ApiPlatform\Core\Action\ActionUtilTrait;
+
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
 use ApiPlatform\Core\Api\IriConverter;
 use ApiPlatform\Core\JsonLd\Response;
 use ApiPlatform\Core\Model\DataProviderInterface;
@@ -23,7 +25,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class RequestExceptionListener extends \ApiPlatform\Core\Hydra\EventListener\RequestExceptionListener
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     const FORMAT = 'jsonld';
 

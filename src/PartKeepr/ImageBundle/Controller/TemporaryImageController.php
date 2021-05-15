@@ -2,7 +2,9 @@
 
 namespace PartKeepr\ImageBundle\Controller;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -16,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryImageController extends ImageController
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * Handles a temporary image upload.
@@ -65,7 +67,7 @@ class TemporaryImageController extends ImageController
         /**
          * @var ResourceInterface
          */
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $serializedData = $this->get('serializer')->normalize(
             $image,

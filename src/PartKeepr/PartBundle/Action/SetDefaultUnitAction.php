@@ -2,7 +2,9 @@
 
 namespace PartKeepr\PartBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SetDefaultUnitAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var PartMeasurementUnitService
@@ -51,7 +53,7 @@ class SetDefaultUnitAction
      **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /**
          * @var PartMeasurementUnit

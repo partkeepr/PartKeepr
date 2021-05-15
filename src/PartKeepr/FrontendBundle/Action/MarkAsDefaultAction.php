@@ -2,7 +2,9 @@
 
 namespace PartKeepr\FrontendBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\FrontendBundle\Entity\GridPreset;
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MarkAsDefaultAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -53,7 +55,7 @@ class MarkAsDefaultAction
      **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /**
          * @var GridPreset

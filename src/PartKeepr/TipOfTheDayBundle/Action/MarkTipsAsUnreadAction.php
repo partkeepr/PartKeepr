@@ -3,7 +3,9 @@
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use ApiPlatform\Core\Action\ActionUtilTrait;
+
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MarkTipsAsUnreadAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var EntityManager

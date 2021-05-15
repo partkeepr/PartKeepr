@@ -3,7 +3,10 @@
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use ApiPlatform\Core\Action\ActionUtilTrait;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Services\UserService;
@@ -13,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MarkTipReadAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -62,7 +65,7 @@ class MarkTipReadAction
      **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $tip = $this->getItem($this->dataProvider, $resourceType, $id);
 

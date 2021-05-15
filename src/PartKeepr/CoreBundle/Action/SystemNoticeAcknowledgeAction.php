@@ -3,7 +3,10 @@
 namespace PartKeepr\CoreBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use ApiPlatform\Core\Action\ActionUtilTrait;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\CoreBundle\Entity\SystemNotice;
@@ -11,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SystemNoticeAcknowledgeAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -54,7 +57,7 @@ class SystemNoticeAcknowledgeAction
      **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $systemNotice = $this->getItem($this->dataProvider, $resourceType, $id);
 

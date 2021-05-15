@@ -2,7 +2,9 @@
 
 namespace PartKeepr\ProjectBundle\Controller;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProjectReportController extends FOSRestController
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @param Request $request
@@ -35,7 +37,7 @@ class ProjectReportController extends FOSRestController
         /**
          * @var ResourceInterface
          */
-        list($resourceType, $format) = $this->extractAttributes($request);
+        list($resourceType, $format) = RequestAttributesExtractor::extractAttributes($request);
         $report = $this->get("api_platform.serializer")->deserialize(
             $request->getContent(),
             $resourceType->getEntityClass(),

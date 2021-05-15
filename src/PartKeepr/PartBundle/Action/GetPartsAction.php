@@ -3,7 +3,10 @@
 namespace PartKeepr\PartBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use ApiPlatform\Core\Action\ActionUtilTrait;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Exception\RuntimeException;
 use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\PartBundle\Entity\Part;
@@ -17,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class GetPartsAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -62,7 +65,7 @@ class GetPartsAction
      **/
     public function __invoke(Request $request)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $items = $this->dataProvider->getCollection($resourceType);
 

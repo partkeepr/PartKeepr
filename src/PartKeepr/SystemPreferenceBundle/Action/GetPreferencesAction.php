@@ -2,7 +2,9 @@
 
 namespace PartKeepr\SystemPreferenceBundle\Action;
 
-use ApiPlatform\Core\Action\ActionUtilTrait;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
 use ApiPlatform\Core\Api\ResourceInterface;
 use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
@@ -16,7 +18,7 @@ use Symfony\Component\Serializer\Serializer;
  */
 class GetPreferencesAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var SystemPreferenceService
@@ -62,7 +64,7 @@ class GetPreferencesAction
         /**
          * @var ResourceInterface
          */
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /*
          * @var ResourceInterface $resourceType
