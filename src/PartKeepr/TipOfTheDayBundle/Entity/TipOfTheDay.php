@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "swagger"= {
  *          "method"="GET",
  *          },
- *         "get"={"method"="GET"}},
+ *         "get"={"method"="GET"},
  *         "mark_read"={"route_name"="TipMarkRead"}
  *     }
  * )
