@@ -9,12 +9,12 @@
                  class="PartKeepr\AuthBundle\Action\GetPreferencesAction">
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="partkeepr.user_preference_service"/>
-            <argument type="service" id="api.serializer"/>
+            <argument type="service" id="api_platform.serializer"/>
         </service>
         <service id="partkeepr.user_preference.set_preference" class="PartKeepr\AuthBundle\Action\SetPreferenceAction">
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="partkeepr.user_preference_service"/>
-            <argument type="service" id="api.serializer"/>
+            <argument type="service" id="api_platform.serializer"/>
         </service>
         <service id="partkeepr.user_preference.delete_preference"
                  class="PartKeepr\AuthBundle\Action\DeletePreferenceAction">
@@ -22,23 +22,29 @@
             <argument type="service" id="partkeepr.user_preference_service"/>
         </service>
         <service id="partkeepr.user.put" class="PartKeepr\AuthBundle\Action\PutUserAction">
-            <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="api.serializer"/>
+<!--        <argument type="service" id="api_platform.data_provider"/> -->
+            <argument type="service" id="api_platform.collection_data_provider" />
+            <argument type="service" id="api_platform.item_data_provider" />
+            <argument type="service" id="api_platform.serializer"/>
             <argument type="service" id="partkeepr.userservice"/>
         </service>
         <service id="partkeepr.user.post" class="PartKeepr\AuthBundle\Action\PostUserAction">
-            <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="api.serializer"/>
+<!--        <argument type="service" id="api_platform.data_provider"/> -->
+            <argument type="service" id="api_platform.collection_data_provider" />
+            <argument type="service" id="api_platform.item_data_provider" />
+            <argument type="service" id="api_platform.serializer"/>
             <argument type="service" id="partkeepr.userservice"/>
         </service>
         <service id="partkeepr.user.delete" class="PartKeepr\AuthBundle\Action\DeleteUserAction">
-            <argument type="service" id="api.data_provider"/>
+<!--        <argument type="service" id="api_platform.data_provider"/> -->
+            <argument type="service" id="api_platform.collection_data_provider" />
+            <argument type="service" id="api_platform.item_data_provider" />
             <argument type="service" id="partkeepr.userservice"/>
             <argument type="service" id="partkeepr.user_preference_service"/>
         </service>
         <service id="partkeepr.auth.login" class="PartKeepr\AuthBundle\Action\LoginAction">
             <argument type="service" id="partkeepr.userservice"/>
-            <argument type="service" id="api.serializer"/>
+            <argument type="service" id="api_platform.serializer"/>
             <argument type="service" id="partkeepr.user_preference_service"/>
         </service>
         <service id="partkeepr.auth.change_password" class="PartKeepr\AuthBundle\Action\ChangePasswordAction">

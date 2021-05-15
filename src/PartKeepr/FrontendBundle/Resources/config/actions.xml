@@ -8,7 +8,9 @@
 <!-- partkeepr.grid_preset.mark_as_default was related to annotation in GridPreset.php, is this config still valid? -->
         <service id="partkeepr.grid_preset.mark_as_default"
                  class="PartKeepr\FrontendBundle\Action\MarkAsDefaultAction">
-            <argument type="service" id="api.data_provider"/>
+<!--        <argument type="service" id="api_platform.data_provider"/> -->
+            <argument type="service" id="api_platform.collection_data_provider" />
+            <argument type="service" id="api_platform.item_data_provider" />
             <argument type="service" id="partkeepr.gridpresetservice"/>
         </service>
     </services>

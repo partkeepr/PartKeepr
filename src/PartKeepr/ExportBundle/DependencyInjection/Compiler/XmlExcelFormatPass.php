@@ -9,7 +9,7 @@ class XmlExcelFormatPass implements CompilerPassInterface
 {
     /*
      before
-     <service id="api.format_negotiator" class="Negotiation\FormatNegotiator" public="false" />
+     <service id="api_platform.format_negotiator" class="Negotiation\FormatNegotiator" public="false" />
      
      now
      <service id="api_platform.negotiator" class="Negotiation\Negotiator" public="false" />

@@ -38,7 +38,7 @@ abstract class AbstractCategoryCreateTest extends WebTestCase
             'name'   => 'test',
         ];
 
-        $resource = $this->getContainer()->get('api.resource_collection')->getResourceForEntity($this->getResourceClass());
+        $resource = $this->getContainer()->get('api_platform.resource_collection')->getResourceForEntity($this->getResourceClass());
         $iri = $iriConverter->getIriFromResource($resource);
 
         $client->request(
@@ -76,7 +76,7 @@ abstract class AbstractCategoryCreateTest extends WebTestCase
             'name' => 'test',
         ];
 
-        $resource = $this->getContainer()->get('api.resource_collection')->getResourceForEntity($this->getResourceClass());
+        $resource = $this->getContainer()->get('api_platform.resource_collection')->getResourceForEntity($this->getResourceClass());
         $iri = $iriConverter->getIriFromResource($resource);
 
         $client->request(

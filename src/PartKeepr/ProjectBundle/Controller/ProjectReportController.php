@@ -36,7 +36,7 @@ class ProjectReportController extends FOSRestController
          * @var ResourceInterface
          */
         list($resourceType, $format) = $this->extractAttributes($request);
-        $report = $this->get("api.serializer")->deserialize(
+        $report = $this->get("api_platform.serializer")->deserialize(
             $request->getContent(),
             $resourceType->getEntityClass(),
             $format,

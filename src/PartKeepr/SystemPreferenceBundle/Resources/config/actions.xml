@@ -8,11 +8,11 @@
         <service id="partkeepr.system_preference.get_preferences"
                  class="PartKeepr\SystemPreferenceBundle\Action\GetPreferencesAction">
             <argument type="service" id="partkeepr.system_preference_service"/>
-            <argument type="service" id="api.serializer"/>
+            <argument type="service" id="api_platform.serializer"/>
         </service>
         <service id="partkeepr.system_preference.set_preference" class="PartKeepr\SystemPreferenceBundle\Action\SetPreferenceAction">
             <argument type="service" id="partkeepr.system_preference_service"/>
-            <argument type="service" id="api.serializer"/>
+            <argument type="service" id="api_platform.serializer"/>
         </service>
         <service id="partkeepr.system_preference.delete_preference"
                  class="PartKeepr\SystemPreferenceBundle\Action\DeletePreferenceAction">

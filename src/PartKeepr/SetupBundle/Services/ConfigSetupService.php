@@ -88,7 +88,7 @@ class ConfigSetupService
         ];
 
         if (function_exists('apc_fetch')) {
-            $parameters['cache.dunglas'] = 'api.mapping.cache.apc';
+            $parameters['cache.dunglas'] = 'api_platform.mapping.cache.apc';
             $parameters['cache.doctrine'] = 'apc';
         }
 
