@@ -7,7 +7,7 @@ if (version_compare(phpversion(), '7.0.0', '<')) {
     echo '<a target=\"_blank\" href=\"https://wiki.partkeepr.org/wiki/KB00003:PHP_Version\">Read more…</a>"]}';
 } elseif (version_compare(phpversion(), '7.5', '>=')) {
     echo '{"success": false, "message": "PHP Version '.phpversion().' is not supported.",';
-    echo '"errors": ["Your PHP Version is too new. PartKeepr currently only works well with PHP <= 7.1."]}';
+    echo '"errors": ["Your PHP Version is too new. PartKeepr currently only works well with PHP <= 7.4."]}';
 } else {
     echo '{"success": true, "message": "PHP Version '.phpversion().' found"}';
 }
