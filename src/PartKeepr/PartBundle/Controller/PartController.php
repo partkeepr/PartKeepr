@@ -28,7 +28,7 @@ class PartController extends FOSRestController
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->get('api.iri_converter');
+        $iriConverter = $this->get('api_platform.iri_converter');
 
         $removals = json_decode($request->get('removals'));
 

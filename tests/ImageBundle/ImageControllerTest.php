@@ -47,7 +47,7 @@ class ImageControllerTest extends WebTestCase
         $this->assertEquals(51, $imageSize[0]);
         $this->assertEquals(23, $imageSize[1]);
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $image = $iriConverter->getItemFromIri($imageId);
 

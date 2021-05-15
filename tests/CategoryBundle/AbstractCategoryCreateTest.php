@@ -31,7 +31,7 @@ abstract class AbstractCategoryCreateTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $request = [
             'parent' => $iriConverter->getIriFromItem($rootCategory),
@@ -70,7 +70,7 @@ abstract class AbstractCategoryCreateTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $request = [
             'name' => 'test',

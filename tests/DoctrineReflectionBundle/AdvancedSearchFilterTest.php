@@ -56,7 +56,7 @@ class AdvancedSearchFilterTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $this->assertEquals(
             $iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
@@ -93,7 +93,7 @@ class AdvancedSearchFilterTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $this->assertEquals(
             $iriConverter->getIriFromItem($this->fixtures->getReference("part.1")),
@@ -108,7 +108,7 @@ class AdvancedSearchFilterTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $filter = [
             [
@@ -139,7 +139,7 @@ class AdvancedSearchFilterTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $filter = [
             [

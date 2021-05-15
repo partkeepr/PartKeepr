@@ -53,7 +53,7 @@ class StockTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $iri = $iriConverter->getIriFromItem($part);
         $iri .= '/addStock';
@@ -92,7 +92,7 @@ class StockTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $iri = $iriConverter->getIriFromItem($part);
         $iri .= '/removeStock';
@@ -130,7 +130,7 @@ class StockTest extends WebTestCase
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
 
         $iri = $iriConverter->getIriFromItem($part);
         $iri .= '/setStock';

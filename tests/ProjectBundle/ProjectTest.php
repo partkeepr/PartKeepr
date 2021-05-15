@@ -145,7 +145,7 @@ class ProjectTest extends WebTestCase
             'jsonld'
         );
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriConverter->getIriFromItem($project);
 
         $client->request(
@@ -192,7 +192,7 @@ class ProjectTest extends WebTestCase
             'jsonld'
         );
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriConverter->getIriFromItem($project);
 
         $client->request(
@@ -227,7 +227,7 @@ class ProjectTest extends WebTestCase
 
         $project = $this->fixtures->getReference('project');
 
-        $iriConverter = $this->getContainer()->get('api.iri_converter');
+        $iriConverter = $this->getContainer()->get('api_platform.iri_converter');
         $iri = $iriConverter->getIriFromItem($project);
 
         $client->request(

@@ -7,7 +7,7 @@
 <!-- partkeepr.batchjob.execute was related to annotation in BatchJob.php, is this config still valid? -->
         <service id="partkeepr.batchjob.execute" class="PartKeepr\BatchJobBundle\Action\ExecuteBatchJobAction">
             <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="api.iri_converter"/>
+            <argument type="service" id="api_platform.iri_converter"/>
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <argument type="service" id="doctrine_reflection_service.search_filter"/>
             <argument type="service" id="doctrine_reflection_service"/>
