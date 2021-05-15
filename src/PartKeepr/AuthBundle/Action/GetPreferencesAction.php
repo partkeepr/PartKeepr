@@ -2,9 +2,9 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
@@ -51,7 +51,7 @@ class GetPreferencesAction
      *
      * @throws RuntimeException|RootNodeNotFoundException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.user_preference.get_preferences"         # Controller

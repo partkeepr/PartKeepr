@@ -2,9 +2,9 @@
 
 namespace PartKeepr\FrontendBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\FrontendBundle\Entity\GridPreset;
 use PartKeepr\FrontendBundle\Services\GridPresetService;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +39,7 @@ class MarkAsDefaultAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.grid_preset.mark_as_default"         # Controller

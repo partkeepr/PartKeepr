@@ -2,9 +2,9 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +36,7 @@ class GetTipHistoryCollectionAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.tip_of_the_day_history.collection_get"         # Controller

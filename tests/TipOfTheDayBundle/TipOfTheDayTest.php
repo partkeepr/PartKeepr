@@ -3,7 +3,7 @@
 namespace PartKeepr\Tests\TipOfTheDayBundle;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 use PartKeepr\Tests\CoreBundle\WebTestCase;
 
 class TipOfTheDayTest extends WebTestCase

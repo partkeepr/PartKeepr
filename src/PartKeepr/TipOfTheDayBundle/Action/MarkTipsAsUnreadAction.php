@@ -3,8 +3,8 @@
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +36,7 @@ class MarkTipsAsUnreadAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.tip_of_the_day.mark_all_unread"         # Controller

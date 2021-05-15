@@ -2,9 +2,9 @@
 
 namespace PartKeepr\CategoryBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Exception\RuntimeException;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
@@ -34,7 +34,7 @@ class GetRootNodeAction
      *
      * @throws RuntimeException|RootNodeNotFoundException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.category.get_root_node"         # Controller

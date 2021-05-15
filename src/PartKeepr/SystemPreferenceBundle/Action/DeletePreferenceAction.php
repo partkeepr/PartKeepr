@@ -2,8 +2,8 @@
 
 namespace PartKeepr\SystemPreferenceBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\SystemPreferenceBundle\Service\SystemPreferenceService;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +34,7 @@ class DeletePreferenceAction
      * @throws \Exception                                 If the format is invalid
      * @throws RuntimeException|RootNodeNotFoundException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     
     // ToDo: fix this - move this Route annotation to the correct place

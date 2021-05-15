@@ -2,7 +2,7 @@
 
 namespace PartKeepr\PartBundle\Controller;
 
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\PartBundle\Entity\Part;

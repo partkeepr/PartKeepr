@@ -2,9 +2,9 @@
 
 namespace PartKeepr\PartBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
 use PartKeepr\PartBundle\Services\PartMeasurementUnitService;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +37,7 @@ class SetDefaultUnitAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.part_measurement_unit.set_default"         # Controller

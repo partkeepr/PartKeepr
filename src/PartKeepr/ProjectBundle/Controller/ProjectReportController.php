@@ -2,8 +2,8 @@
 
 namespace PartKeepr\ProjectBundle\Controller;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\ProjectBundle\Entity\Report;

@@ -9,10 +9,10 @@
 namespace PartKeepr\CoreBundle\EventListener;
 
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\IriConverter;
-use Dunglas\ApiBundle\JsonLd\Response;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\IriConverter;
+use ApiPlatform\Core\JsonLd\Response;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\DoctrineReflectionBundle\Exception\EntityInUseException;
 use PartKeepr\DoctrineReflectionBundle\Services\DeletionService;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 /**
  * Handle referential integrity errors.
  */
-class RequestExceptionListener extends \Dunglas\ApiBundle\Hydra\EventListener\RequestExceptionListener
+class RequestExceptionListener extends \ApiPlatform\Core\Hydra\EventListener\RequestExceptionListener
 {
     use ActionUtilTrait;
 

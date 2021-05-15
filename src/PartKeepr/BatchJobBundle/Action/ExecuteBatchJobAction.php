@@ -4,10 +4,10 @@ namespace PartKeepr\BatchJobBundle\Action;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\IriConverter;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\IriConverter;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\BatchJobBundle\Entity\BatchJob;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\DoctrineReflectionBundle\Filter\AdvancedSearchFilter;
@@ -66,7 +66,7 @@ class ExecuteBatchJobAction
      *
      * @throws RuntimeException|RootNodeNotFoundException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.batchjob.execute"         # Controller

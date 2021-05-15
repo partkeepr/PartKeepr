@@ -2,7 +2,7 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
+use ApiPlatform\Core\Action\ActionUtilTrait;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;

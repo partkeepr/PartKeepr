@@ -2,8 +2,8 @@
 
 namespace PartKeepr\ImageBundle\Controller;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use PartKeepr\ImageBundle\Entity\TempImage;

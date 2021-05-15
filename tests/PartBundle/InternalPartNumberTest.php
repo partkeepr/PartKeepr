@@ -3,7 +3,7 @@
 namespace PartKeepr\Tests\PartBundle;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 use PartKeepr\Tests\CoreBundle\WebTestCase;
 
 class InternalPartNumberTest extends WebTestCase

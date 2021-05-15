@@ -3,7 +3,7 @@
 namespace PartKeepr\Tests\CategoryBundle;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
 use PartKeepr\Tests\CoreBundle\WebTestCase;
 

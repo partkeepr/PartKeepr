@@ -3,9 +3,9 @@
 namespace PartKeepr\PartBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +48,7 @@ class GetPartsAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.parts.collection_get"   # Controller

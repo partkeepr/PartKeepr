@@ -4,7 +4,7 @@ namespace PartKeepr\Tests\PartBundle;
 
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\ORM\Query;
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 use PartKeepr\Tests\CoreBundle\WebTestCase;
 use PartKeepr\PartBundle\Entity\Part;
 

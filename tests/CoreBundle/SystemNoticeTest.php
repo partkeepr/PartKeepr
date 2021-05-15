@@ -2,7 +2,7 @@
 
 namespace PartKeepr\Tests\CoreBundle;
 
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 
 class SystemNoticeTest extends WebTestCase
 {

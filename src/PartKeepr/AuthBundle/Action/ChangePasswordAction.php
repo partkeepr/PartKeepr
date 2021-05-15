@@ -2,7 +2,7 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
+use ApiPlatform\Core\Action\ActionUtilTrait;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\UserManipulator;
 use PartKeepr\AuthBundle\Exceptions\OldPasswordWrongException;

@@ -2,10 +2,10 @@
 
 namespace PartKeepr\CategoryBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\IriConverter;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\IriConverter;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
 use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
@@ -52,7 +52,7 @@ class MoveAction
      *
      * @throws RuntimeException|RootNodeNotFoundException|RootMayNotBeMovedException|MissingParentCategoryException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
     // ToDo: fix this - move this Route annotation to the correct place
     // "partkeepr.category.move"         # Controller

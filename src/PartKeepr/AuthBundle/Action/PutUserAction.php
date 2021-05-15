@@ -2,10 +2,10 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\Model\DataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Exceptions\UserLimitReachedException;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;

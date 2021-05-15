@@ -4,9 +4,9 @@ namespace PartKeepr\DoctrineReflectionBundle\Filter;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-use Dunglas\ApiBundle\Api\IriConverterInterface;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Doctrine\Orm\Filter\AbstractFilter;
 use PartKeepr\DoctrineReflectionBundle\Services\FilterService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
