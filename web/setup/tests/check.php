@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../../../app/SymfonyRequirements.php';
+require_once dirname(__FILE__).'/../../../var/SymfonyRequirements.php';
 require_once dirname(__FILE__).'/../../../app/PartKeeprRequirements.php';
 
 $partKeeprRequirements = new PartKeeprRequirements();

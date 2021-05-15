@@ -563,7 +563,7 @@ class SymfonyRequirements extends RequirementCollection
             try {
                 $r = new ReflectionClass('Sensio\Bundle\DistributionBundle\SensioDistributionBundle');
 
-                $contents = file_get_contents(dirname($r->getFileName()).'/Resources/skeleton/app/SymfonyRequirements.php');
+                $contents = file_get_contents(dirname($r->getFileName()).'/Resources/skeleton/var/SymfonyRequirements.php');
             } catch (ReflectionException $e) {
                 $contents = '';
             }
