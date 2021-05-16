@@ -2,6 +2,8 @@
 
 namespace PartKeepr\UploadedFileBundle\Controller;
 
+use Symfony\Component\Routing\Annotation\Route;
+
 use Doctrine\ORM\EntityManager;
 use Gaufrette\Exception\FileNotFound;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
@@ -17,6 +19,38 @@ abstract class FileController extends Controller
      *
      * @return Response
      */
+    /**
+     * @Route(
+     *     name="ProjectAttachmentMimeTypeIcon",
+     *     path="/project_attachments/{id}/getMimeTypeIcon",
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_mime"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="TemporaryFileGetMimeTypeIcon",
+     *     path="/temp_uploaded_files/{id}/getMimeTypeIcon",
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get_mimetype"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="PartAttachmentMimeTypeIcon",
+     *     path="/part_attachments/{id}/getMimeTypeIcon",
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_mime"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="FootprintAttachmentMimeTypeIcon",
+     *     path="/footprint_attachments/{id}/getMimeTypeIcon",
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get_mime"},
+     *     methods={"GET"}
+     * )
+     **/
     public function getMimeTypeIconAction($id)
     {
         /**
@@ -41,6 +75,38 @@ abstract class FileController extends Controller
      *
      * @return Response
      */
+    /**
+     * @Route(
+     *     name="ProjectAttachmentGet",
+     *     path="/project_attachments/{id}/getFile",
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="TemporaryFileGet",
+     *     path="/temp_uploaded_files/{id}/getFile",
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="PartAttachmentGet",
+     *     path="/part_attachments/{id}/getFile",
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="FootprintAttachmentGet",
+     *     path="/footprint_attachments/{id}/getFile",
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
     public function getFileAction($id)
     {
         /**

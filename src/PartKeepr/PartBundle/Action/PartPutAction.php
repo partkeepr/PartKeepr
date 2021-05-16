@@ -2,10 +2,12 @@
 
 namespace PartKeepr\PartBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\AuthBundle\Exceptions\UserLimitReachedException;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
 use PartKeepr\PartBundle\Entity\Part;
@@ -14,10 +16,11 @@ use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PartPutAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -57,12 +60,20 @@ class PartPutAction
      *
      * @return mixed
      */
+    /**
+     * @Route(
+     *     name="PartPut",
+     *     path="/parts/{id}",
+     *     defaults={"_api_resource_class"=Part::class, "_api_item_operation_name"="custom_put"},
+     *     methods={"PUT"}
+     * )
+     **/
     public function __invoke(Request $request, $id)
     {
         /**
          * @var ResourceInterface
          */
-        list($resourceType, $format) = $this->extractAttributes($request);
+        list($resourceType, $format) = RequestAttributesExtractor::extractAttributes($request);
 
         /*
          * Workaround to ensure stockLevels are not overwritten in a PUT request.

@@ -2,8 +2,12 @@
 
 namespace PartKeepr\UploadedFileBundle\Controller;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
+use Symfony\Component\Routing\Annotation\Route;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -17,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryFileController extends FileController
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * Handles a temporary file upload.
@@ -32,6 +36,14 @@ class TemporaryFileController extends FileController
      *
      * @return JsonResponse The JSON response from the temporary file upload
      */
+    /**
+     * @Route(
+     *     name="TemporaryFileUpload",
+     *     path="/temp_uploaded_files/upload",
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
+     * )
+     **/
     public function uploadAction(Request $request)
     {
         $uploadedFile = new TempUploadedFile();
@@ -85,7 +97,7 @@ class TemporaryFileController extends FileController
         /**
          * @var ResourceInterface
          */
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $serializedData = $this->get('serializer')->normalize(
             $uploadedFile,
@@ -103,6 +115,14 @@ class TemporaryFileController extends FileController
      *
      * @return Response
      */
+    /**
+     * @Route(
+     *     name="TemporaryFileUploadWebcam",
+     *     path="/temp_uploaded_files/webcamUpload",
+     *     defaults={"_api_resource_class"=TempUploadedFile::class, "_api_collection_operation_name"="custom_post_webcam"},
+     *     methods={"POST"}
+     * )
+     **/
     public function webcamUploadAction(Request $request)
     {
         $file = new TempUploadedFile();

@@ -2,18 +2,20 @@
 
 namespace PartKeepr\SystemPreferenceBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
+use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\SystemPreferenceBundle\Service\SystemPreferenceService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Returns the tree root node.
  */
 class DeletePreferenceAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var SystemPreferenceService
@@ -34,8 +36,18 @@ class DeletePreferenceAction
      * @throws \Exception                                 If the format is invalid
      * @throws RuntimeException|RootNodeNotFoundException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    
+    /**
+     * @Route(
+     *     name="PartKeeprSystemPreferenceDelete",
+     *     path="/system_preferences",
+     *     defaults={"_api_resource_class"=SystemPreference::class, "_api_item_operation_name"="delete_preference"},
+     *     methods={"DELETE"}
+     * )
+     **/
+    
     public function __invoke(Request $request)
     {
         if ($request->request->has('preferenceKey')) {

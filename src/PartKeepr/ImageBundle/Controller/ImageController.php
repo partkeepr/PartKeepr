@@ -14,6 +14,7 @@ use PartKeepr\UploadedFileBundle\Controller\FileController;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 abstract class ImageController extends FileController
 {
@@ -30,6 +31,54 @@ abstract class ImageController extends FileController
      * @param         $id
      *
      * @return ImageResponse|Response
+     */
+    /**
+     * @Route(
+     *     name="ProjectAttachmentGetImage",
+     *     path="/project_attachments/{id}/getImage",
+     *     defaults={"_api_resource_class"=ProjectAttachment::class, "_api_item_operation_name"="custom_get_image"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="TemporaryImageGet",
+     *     path="/temp_images/{id}/getImage",
+     *     defaults={"_api_resource_class"=TempImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="StorageLocationGetImage",
+     *     path="/storage_location_images/{id}/getImage",
+     *     defaults={"_api_resource_class"=StorageLocationImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="ManufacturerIcLogoGetImage",
+     *     path="/manufacturer_i_c_logos/{id}/getImage",
+     *     defaults={"_api_resource_class"=ManufacturerICLogo::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="PartAttachmentGetImage",
+     *     path="/part_attachments/{id}/getImage",
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="custom_get_image"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="FootprintImageGetImage",
+     *     path="/footprint_images/{id}/getImage",
+     *     defaults={"_api_resource_class"=FootprintImage::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
      */
     public function getImageAction(Request $request, $id)
     {

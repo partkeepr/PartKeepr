@@ -2,21 +2,24 @@
 
 namespace PartKeepr\SystemPreferenceBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\SystemPreferenceBundle\Service\SystemPreferenceService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Returns the tree root node.
  */
 class SetPreferenceAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var SystemPreferenceService
@@ -46,6 +49,22 @@ class SetPreferenceAction
      *
      * @return JsonResponse
      */
+    /**
+     * @Route(
+     *     name="PartKeeprSystemPreferenceSet",
+     *     path="/system_preferences",
+     *     defaults={"_api_resource_class"=SystemPreference::class, "_api_collection_operation_name"="set_preference"},
+     *     methods={"POST"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="PartKeeprSystemPreferenceSet",
+     *     path="/system_preferences",
+     *     defaults={"_api_resource_class"=SystemPreference::class, "_api_collection_operation_name"="set_preference"},
+     *     methods={"PUT"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
         $data = json_decode($request->getContent());
@@ -62,7 +81,7 @@ class SetPreferenceAction
         /**
          * @var ResourceInterface
          */
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $serializedData = $this->serializer->normalize(
             $preference,

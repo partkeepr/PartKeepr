@@ -2,7 +2,9 @@
 
 namespace PartKeepr\ProjectBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\PartBundle\Entity\Part;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,6 +12,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Represents a project run part.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     }
+ * )
  * @ORM\Entity
  */
 class ProjectRunPart extends BaseEntity

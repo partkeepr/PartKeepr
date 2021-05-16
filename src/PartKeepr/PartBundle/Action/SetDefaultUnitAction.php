@@ -2,16 +2,19 @@
 
 namespace PartKeepr\PartBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
 use PartKeepr\PartBundle\Services\PartMeasurementUnitService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SetDefaultUnitAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var PartMeasurementUnitService
@@ -37,11 +40,19 @@ class SetDefaultUnitAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    /**
+     * @Route(
+     *     name="PartMeasurementUnitSetDefault",
+     *     path="/part_measurement_units/{id}/setDefault",
+     *     defaults={"_api_resource_class"=PartMeasurementUnit::class, "_api_item_operation_name"="custom_put"},
+     *     methods={"PUT"}
+     * )
+     **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /**
          * @var PartMeasurementUnit

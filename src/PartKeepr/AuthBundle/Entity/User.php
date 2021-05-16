@@ -2,16 +2,43 @@
 
 namespace PartKeepr\AuthBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\DoctrineReflectionBundle\Annotation\VirtualField;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     collectionOperations={
+ *       "get"={"method"="GET"},
+ *       "get_preferences"={"route_name"="PartKeeprUserPreferenceGet"},
+ *       "set_preference"={"route_name"="PartKeeprUserPreferenceSet"},
+ *       "post_custom"={"route_name"="PartKeeprUserPost"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *          "get"={"method"="GET"},
+ *          "get_providers"={"route_name"="PartKeeprAuthGetProviders"},    
+ *          "put_custom"={"route_name"="PartKeeprUserPut"},
+ *          "delete_custom"={"route_name"="PartKeeprUserDelete"},
+ *          "delete_preference"={"route_name"="PartKeeprUserPreferenceDelete"},
+ *          "login"={"route_name"="PartKeeprAuthLogin"},
+ *          "change_password"={"route_name"="PartKeeprAuthChangePassword"}
+ *     }
+ * )
  * @ORM\Entity
  * @ORM\Table(
  *      name="PartKeeprUser",
@@ -232,6 +259,14 @@ class User extends BaseEntity implements UserInterface, EquatableInterface
      *
      * @return UserProvider
      */
+    /**
+     * @Route(
+     *     name="PartKeeprAuthGetProviders",
+     *     path="/users/get_user_providers",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="get_providers"},
+     *     methods={"GET"}
+     * )
+     **/
     public function getProvider()
     {
         return $this->provider;

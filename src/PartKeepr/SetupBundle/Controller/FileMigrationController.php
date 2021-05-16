@@ -2,10 +2,11 @@
 
 namespace PartKeepr\SetupBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+// use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class FileMigrationController extends SetupBaseController
 {
@@ -44,8 +45,8 @@ class FileMigrationController extends SetupBaseController
 
         $legacyConfig = $this->get('partkeepr.setup.config_service')->legacyConfigParser();
 
-        $legacyFilePath = $this->get('kernel')->getRootDir().'/../data/';
-        $legacyImagePath = $this->get('kernel')->getRootDir().'/../data/images/';
+        $legacyFilePath = $this->get('kernel')->getProjectDir().'/data/';
+        $legacyImagePath = $this->get('kernel')->getProjectDir().'/data/images/';
 
         $legacyFileDirectories = ['FootprintAttachment', 'PartAttachment', 'ProjectAttachment'];
 

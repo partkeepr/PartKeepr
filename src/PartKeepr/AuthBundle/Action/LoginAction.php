@@ -2,15 +2,17 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Routing\Annotation\Route;
 
 class LoginAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var UserService
@@ -37,6 +39,14 @@ class LoginAction
         $this->userPreferenceService = $userPreferenceService;
     }
 
+    /**
+     * @Route(
+     *     name="PartKeeprAuthLogin",
+     *     path="/users/login",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="login"},
+     *     methods={"POST"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
         $user = $this->userService->getUser();

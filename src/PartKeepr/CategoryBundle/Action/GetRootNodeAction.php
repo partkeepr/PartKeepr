@@ -2,20 +2,23 @@
 
 namespace PartKeepr\CategoryBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Exception\RuntimeException;
 use Gedmo\Tree\Entity\Repository\AbstractTreeRepository;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Returns the tree root node.
  */
 class GetRootNodeAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var ManagerRegistry
@@ -34,11 +37,35 @@ class GetRootNodeAction
      *
      * @throws RuntimeException|RootNodeNotFoundException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    /**
+     * @Route(
+     *     name="StorageLocationCategoryGetRoot",
+     *     path="/storage_location_categories/getExtJSRootNode",
+     *     defaults={"_api_resource_class"=StorageLocationCategory::class, "_api_collection_operation_name"="get_root"},
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="PartKeeprFootprintCategoryGetRootNode",
+     *     path="/footprint_categories/getExtJSRootNode",
+     *     defaults={"_api_resource_class"=FootprintCategory::class, "_api_collection_operation_name"="get_root"}
+     *     methods={"GET"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="PartKeeprPartCategoryGetRootNode",
+     *     path="/part_categories/getExtJSRootNode",
+     *     defaults={"_api_resource_class"=PartCategory::class, "_api_collection_operation_name"="get_root"},
+     *     methods={"GET"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         /*
          * @var ResourceInterface $resourceType

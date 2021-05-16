@@ -27,9 +27,12 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/getPreview/")
-     * @Method({"POST"})
-     *
+     * @Route(
+     *     path="/getPreview/",
+     *     methods={"POST"}
+     * )
+     **/
+    /**
      * @return JsonResponse
      */
     public function getPreviewAction(Request $request)
@@ -55,9 +58,12 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/executeImport/")
-     * @Method({"POST"})
-     *
+     * @Route(
+     *     path="/executeImport/",
+     *     methods={"POST"}
+     * )
+     **/
+    /**
      * @return JsonResponse
      */
     public function importAction(Request $request)
@@ -79,7 +85,7 @@ class ImportController extends Controller
 
     protected function extractCSVData($tempFileIRI, $includeHeaders = true)
     {
-        $tempUploadedFile = $this->get("api.iri_converter")->getItemFromIri($tempFileIRI);
+        $tempUploadedFile = $this->get("api_platform.iri_converter")->getItemFromIri($tempFileIRI);
         $fileContents = $this->get('partkeepr_uploadedfile_service')->getStorage($tempUploadedFile)->read($tempUploadedFile->getFullFilename());
 
         $tempFile = tempnam(sys_get_temp_dir(), "import");

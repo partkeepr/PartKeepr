@@ -2,16 +2,19 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GetTipHistoryCollectionAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -36,11 +39,19 @@ class GetTipHistoryCollectionAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    /**
+     * @Route(
+     *     name="TipHistoriesGet",
+     *     path="/tip_of_the_day_histories",
+     *     defaults={"_api_resource_class"=TipOfTheDayHistory::class, "_api_collection_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $collection = $this->dataProvider->getCollection($resourceType);
         $user = $this->userService->getUser();

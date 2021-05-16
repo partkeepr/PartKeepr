@@ -19,8 +19,19 @@ Ext.define('PartKeepr.PartEditor', {
      */
     initComponent: function ()
     {
-        // Defines the overall height of all fields, used to calculate the anchoring for the description field
-        var overallHeight = (this.partMode == "create") ? 320: 265;
+/* DANIEL DANIEL DANIEL DANIEL DANIEL ToDo: fix the comment in the master, say wrongly "decription" while is for "comment"*/
+	
+        // Defines the overall height of all fields, used to calculate the anchoring for the comment field
+//      var overallHeight = (this.partMode == "create") ? 320: 265;
+/* DANIEL DANIEL DANIEL DANIEL DANIEL */
+/*
+435 total = 265 + 170 (comment 4 rows) 42.5 points per row
+500 total = 320 + 180 (comment 4 rows) 45 points per row
+
+575 - 170 -> 405
+620 - 170 -> 450
+*/
+        var overallHeight = (this.partMode == "create") ? 450: 405;
 
         this.nameField = Ext.create("Ext.form.field.Text", {
             name: 'name',
@@ -216,7 +227,35 @@ Ext.define('PartKeepr.PartEditor', {
                     }
                 ]
 
+            } 
+/* DANIEL DANIEL DANIEL DANIEL DANIEL */
+              , {
+                xtype: 'textfield',
+                fieldLabel: i18n("Presentation"),
+                name: 'partPresentation',
+                allowBlank: this.isOptional("partPresentation"),
+            } , {
+                xtype: 'textfield',
+                fieldLabel: i18n("Code Manufacturer"),
+                name: 'partCodeManufacturer',
+                allowBlank: this.isOptional("partCodeManufacturer"),
+            } , {
+                xtype: 'textfield',
+                fieldLabel: i18n("Code Supplier"),
+                name: 'partCodeSupplier',
+                allowBlank: this.isOptional("partCodeSupplier"),
+            } , {
+                xtype: 'textfield',
+                fieldLabel: i18n("Code Additional"),
+                name: 'partCodeAdditional',
+                allowBlank: this.isOptional("partCodeAdditional"),
+            } , {
+                xtype: 'textfield',
+                fieldLabel: i18n("CERN project"),
+                name: 'partCERNproject',
+                allowBlank: this.isOptional("partCERNproject"),
             }
+/* DANIEL DANIEL DANIEL DANIEL DANIEL */
         ];
 
         // Creates the distributor grid

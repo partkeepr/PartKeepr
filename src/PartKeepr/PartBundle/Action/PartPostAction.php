@@ -2,19 +2,22 @@
 
 namespace PartKeepr\PartBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\ResourceInterface;
+use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartBundle\Exceptions\InternalPartNumberNotUniqueException;
 use PartKeepr\PartBundle\Exceptions\PartLimitExceededException;
 use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PartPostAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var SerializerInterface
@@ -45,6 +48,14 @@ class PartPostAction
      *
      * @return mixed
      */
+    /**
+     * @Route(
+     *     name="PartPost",
+     *     path="/parts",
+     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
         if ($this->partService->checkPartLimit()) {
@@ -54,7 +65,7 @@ class PartPostAction
         /**
          * @var ResourceInterface
          */
-        list($resourceType, $format) = $this->extractAttributes($request);
+        list($resourceType, $format) = RequestAttributesExtractor::extractAttributes($request);
 
         /**
          * @var Part

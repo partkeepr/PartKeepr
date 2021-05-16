@@ -22,6 +22,21 @@ Ext.define("PartKeepr.Components.Part.PartInfoGrid", {
         comment: {
             displayName: i18n("Comment")
         },
+/* DANIEL DANIEL DANIEL DANIEL DANIEL */
+        partCodeManufacturer: {
+            displayName: i18n("Code Manufacturer")
+        },
+        partCodeSupplier: {
+            displayName: i18n("Code Supplier")
+        },
+        partCodeAdditional: {
+            displayName: i18n("Code Additional")
+        },
+        partCERNproject: {
+            displayName: i18n("Project")
+        },
+
+/* DANIEL DANIEL DANIEL DANIEL DANIEL */
         createDate: {
             displayName: i18n("Create Date"),
             type: 'date'

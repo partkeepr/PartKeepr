@@ -5,7 +5,7 @@ namespace PartKeepr\ImportBundle\Service;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 use PartKeepr\DoctrineReflectionBundle\Filter\AdvancedSearchFilter;
 use PartKeepr\DoctrineReflectionBundle\Services\ReflectionService;
 use PartKeepr\ImportBundle\Configuration\EntityConfiguration;

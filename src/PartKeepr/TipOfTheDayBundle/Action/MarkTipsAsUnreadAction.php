@@ -2,16 +2,19 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Action;
 
+use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
+
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
+use ApiPlatform\Core\Exception\RuntimeException;
 use PartKeepr\AuthBundle\Services\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MarkTipsAsUnreadAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var EntityManager
@@ -36,8 +39,16 @@ class MarkTipsAsUnreadAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    /**
+     * @Route(
+     *     name="TipMarkAllUnrad",
+     *     path="/tip_of_the_days/markAllTipsAsUnread",
+     *     defaults={"_api_resource_class"=TipOfTheDay, "_api_collection_operation_name"="mark_all_unread"},
+     *     methods={"POST"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
         $dql = "DELETE FROM PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory th WHERE th.user = :user";

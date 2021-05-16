@@ -3,12 +3,16 @@
 namespace PartKeepr\PartBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Default API action retrieving a collection of resources.
@@ -17,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class GetPartsAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -48,11 +52,19 @@ class GetPartsAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    /**
+     * @Route(
+     *     name="PartsGet",
+     *     path="/parts",
+     *     defaults={"_api_resource_class"=Part::class, "_api_collection_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $items = $this->dataProvider->getCollection($resourceType);
 

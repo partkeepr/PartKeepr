@@ -5,7 +5,13 @@ Ext.define('PartKeepr.Auth.HTTPBasicAuthenticationProvider', {
     extend: 'PartKeepr.Auth.AuthenticationProvider',
 
     /**
-     * @method add
+     * @Route(
+     *     path="/getPreview/",
+     *     methods={"add"}
+     * )
+     **/
+
+    /**
      * @inheritdoc PartKeepr.Auth.AuthenticationProvider#getHeaders
      */
     getHeaders: function ()

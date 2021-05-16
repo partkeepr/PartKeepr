@@ -2,16 +2,19 @@
 
 namespace PartKeepr\ProjectBundle\Controller;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\ProjectBundle\Entity\ProjectPart;
 use PartKeepr\ProjectBundle\Entity\Report;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ProjectReportController extends FOSRestController
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @param Request $request
@@ -20,13 +23,21 @@ class ProjectReportController extends FOSRestController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
+    /**
+     * @Route(
+     *     name="ProjectReportPost",
+     *     path="/reports",
+     *     defaults={"_api_resource_class"=Report::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
+     * )
+     **/
     public function createReportAction(Request $request)
     {
         /**
          * @var ResourceInterface
          */
-        list($resourceType, $format) = $this->extractAttributes($request);
-        $report = $this->get("api.serializer")->deserialize(
+        list($resourceType, $format) = RequestAttributesExtractor::extractAttributes($request);
+        $report = $this->get("api_platform.serializer")->deserialize(
             $request->getContent(),
             $resourceType->getEntityClass(),
             $format,
@@ -72,6 +83,14 @@ class ProjectReportController extends FOSRestController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
+    /**
+     * @Route(
+     *     name="ProjectReportGet",
+     *     path="/reports/{id}",
+     *     defaults={"_api_resource_class"=Report::class, "_api_item_operation_name"="custom_get"},
+     *     methods={"GET"}
+     * )
+     **/
     public function getReportAction(Request $request, $id)
     {
         /**

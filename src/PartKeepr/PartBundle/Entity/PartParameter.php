@@ -2,7 +2,9 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\SiPrefixBundle\Entity\SiPrefix;
 use PartKeepr\UnitBundle\Entity\Unit;
@@ -12,6 +14,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * This object represents a parameter. Each parameter can have an unit (defined by the class "Unit") associated with
  * a numeric value.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     }
+ * )
  * @ORM\Entity @ORM\HasLifecycleCallbacks
  */
 class PartParameter extends BaseEntity

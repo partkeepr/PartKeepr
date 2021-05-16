@@ -120,7 +120,7 @@ $container->setParameter('fr3d_ldap.driver.accountDomainName', null);
 $container->setParameter('fr3d_ldap.driver.accountDomainNameShort', null);
 
 // set to true to enable LDAP
-$container->setParameter('fr3d_ldap.user.enabled', false);
+#$container->setParameter('fr3d_ldap.user.enabled', false);
 
 // sets the base DN
 $container->setParameter('fr3d_ldap.user.baseDn', 'dc=blabla,dc=com');
@@ -192,7 +192,7 @@ $container->setParameter('partkeepr.filesystem.quota', false);
 
 /**
  * Specifies the dunglas cache. Defaults to false.
- * You can use the APCu cache by specifying "api.mapping.cache.apc" here.
+ * You can use the APCu cache by specifying "api_platform.mapping.cache.apc" here.
  *
  * Further reading: https://api-platform.com/doc/1.0/api-bundle/performances
  */

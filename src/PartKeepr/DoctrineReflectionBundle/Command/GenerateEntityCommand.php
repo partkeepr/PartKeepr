@@ -18,7 +18,7 @@ class GenerateEntityCommand extends ContainerAwareCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $reflectionService = $this->getContainer()->get('doctrine_reflection_service');
-        $cacheDir = $this->getContainer()->get('kernel')->getRootDir().'/../web/bundles/doctrinereflection/';
+        $cacheDir = $this->getContainer()->get('kernel')->getProjectDir().'/web/bundles/doctrinereflection/';
         $reflectionService->createCache($cacheDir);
     }
 }

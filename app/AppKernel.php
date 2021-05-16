@@ -1,7 +1,7 @@
 <?php
 
-use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
@@ -13,30 +13,32 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new PartKeepr\DoctrineReflectionBundle\PartKeeprDoctrineReflectionBundle(),
             new PartKeepr\RESTBundle\PartKeeprRESTBundle(),
             new Escape\WSSEAuthenticationBundle\EscapeWSSEAuthenticationBundle(),
             new SpriteGenerator\SpriteGeneratorBundle(),
-            new Dunglas\ApiBundle\DunglasApiBundle(),
+            new ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Brainbits\FugueIconsBundle\BrainbitsFugueIconsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new \PartKeepr\RemoteFileLoader\PartKeeprRemoteFileLoaderBundle(),
-            new \FR3D\LdapBundle\FR3DLdapBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+//          new AppBundle\AppBundle(),
         ];
 
         // Developer bundles
-        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 
@@ -67,7 +69,7 @@ class AppKernel extends Kernel
         $bundles[] = new PartKeepr\BatchJobBundle\PartKeeprBatchJobBundle();
         $bundles[] = new PartKeepr\OctoPartBundle\PartKeeprOctoPartBundle();
         $bundles[] = new PartKeepr\MobileFrontendBundle\PartKeeprMobileFrontendBundle();
-
+        
         return array_merge($bundles, $this->getCustomBundles());
     }
 
@@ -79,10 +81,10 @@ class AppKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getProjectDir().'/app/config/config_'.$this->getEnvironment().'.yml');
 
         if ($this->getEnvironment() !== 'test') {
-            $customConfig = __DIR__.'/config/config_custom.yml';
+            $customConfig = $this->getProjectDir().'/app/config/config_custom.yml';
 
             if (file_exists($customConfig)) {
                 $loader->load($customConfig);
@@ -115,8 +117,15 @@ class AppKernel extends Kernel
         }
 
         return $this->rootDir.'/cache/'.$environment;
+//      return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
     }
-
+    
+    public function getLogDir()
+    {
+        return dirname(__DIR__).'/var/logs';
+    }
+    
+    
     /**
      * Override to avoid stripping comments.
      *

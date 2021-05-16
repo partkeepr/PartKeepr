@@ -3,15 +3,19 @@
 namespace PartKeepr\CoreBundle\Action;
 
 use Doctrine\ORM\EntityManager;
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\CoreBundle\Entity\SystemNotice;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SystemNoticeAcknowledgeAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -39,11 +43,20 @@ class SystemNoticeAcknowledgeAction
      *
      * @throws RuntimeException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    
+    /**
+     * @Route(
+     *     name="SystemNoticeAcknowledge",
+     *     path="/system_notices/{id}/acknowledge",
+     *     defaults={"_api_resource_class"=SystemNotice::class, "_api_item_operation_name"="acknowledge"},
+     *     methods={"PUT"}
+     * )
+     **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $systemNotice = $this->getItem($this->dataProvider, $resourceType, $id);
 

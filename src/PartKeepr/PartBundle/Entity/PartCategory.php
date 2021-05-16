@@ -3,7 +3,9 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PartKeepr\CategoryBundle\Entity\AbstractCategory;
 use PartKeepr\CategoryBundle\Entity\CategoryPathInterface;
@@ -11,6 +13,26 @@ use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     attributes={
+ *          "normalization_context"={"groups"={"default", "tree"}},
+ *          "denormalization_context"={"groups"={"default", "tree"}} 
+ *     },
+ *     collectionOperations={
+ *       "get"={"method"="GET"},
+ *       "get_root"={"route_name"="PartKeeprPartCategoryGetRootNode"},    
+ *       "post"={"method"="POST"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="GET"},
+ *         "put"={"method"="PUT"},
+ *         "delete"={"method"="DELETE"},
+ *         "move"={"route_name"="PartKeeprPartCategoryMove"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  * @ORM\Table(indexes={@ORM\Index(columns={"lft"}),@ORM\Index(columns={"rgt"})})
  * @Gedmo\Tree(type="nested")

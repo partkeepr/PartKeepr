@@ -2,23 +2,26 @@
 
 namespace PartKeepr\CategoryBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\IriConverter;
-use Dunglas\ApiBundle\Exception\RuntimeException;
-use Dunglas\ApiBundle\Model\DataProviderInterface;
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\IriConverter;
+use ApiPlatform\Core\Exception\RuntimeException;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
 use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Returns the tree root node.
  */
 class MoveAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var DataProviderInterface
@@ -52,11 +55,35 @@ class MoveAction
      *
      * @throws RuntimeException|RootNodeNotFoundException|RootMayNotBeMovedException|MissingParentCategoryException
      *
-     * @return array|\Dunglas\ApiBundle\Model\PaginatorInterface|\Traversable
+     * @return array|\ApiPlatform\Core\Model\PaginatorInterface|\Traversable
      */
+    /**
+     * @Route(
+     *     name="StorageLocationCategoryMove",
+     *     path="/storage_location_categories/{id}/move",
+     *     defaults={"_api_resource_class"=PartAttachment::class, "_api_item_operation_name"="move"},
+     *     methods={"PUT"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="FootprintCategoryMove",
+     *     path="/footprint_categories/{id}/move",
+     *     defaults={"_api_resource_class"=FootprintCategory::class, "_api_item_operation_name"="move"},
+     *     methods={"PUT"}
+     * )
+     **/
+    /**
+     * @Route(
+     *     name="PartKeeprPartCategoryMove",
+     *     path="/part_categories/{id}/move",
+     *     defaults={"_api_resource_class"=PartCategory::class, "_api_item_operation_name"="move"},
+     *     methods={"PUT"}
+     * )
+     **/
     public function __invoke(Request $request, $id)
     {
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $entity = $this->getItem($this->dataProvider, $resourceType, $id);
 

@@ -2,7 +2,9 @@
 
 namespace PartKeepr\TipOfTheDayBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -16,6 +18,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * Note: If you wish to link against a tip of the day, do it by name and not by id!
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     collectionOperations={
+ *       "get"={"method"="GET"},
+ *       "mark_all_unread"={"route_name"="TipMarkAllUnrad"},    
+ *       "post"={"method"="POST"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="GET"},
+ *         "mark_read"={"route_name"="TipMarkRead"}
+ *     }
+ * )
  * @ORM\Entity
  * @TargetService(uri="/api/tip_of_the_days")
  **/

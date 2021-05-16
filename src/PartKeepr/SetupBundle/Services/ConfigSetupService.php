@@ -65,7 +65,7 @@ class ConfigSetupService
             'fr3d_ldap.driver.accountCanonicalForm'   => null,
             'fr3d_ldap.driver.accountDomainName'      => null,
             'fr3d_ldap.driver.accountDomainNameShort' => null,
-            'fr3d_ldap.user.enabled'                  => false,
+#           'fr3d_ldap.user.enabled'                  => false,
             'fr3d_ldap.user.baseDn'                   => 'dc=example,dc=com',
             'fr3d_ldap.user.filter'                   => null,
             'fr3d_ldap.user.attribute.username'       => 'samaccountname',
@@ -88,7 +88,7 @@ class ConfigSetupService
         ];
 
         if (function_exists('apc_fetch')) {
-            $parameters['cache.dunglas'] = 'api.mapping.cache.apc';
+            $parameters['cache.dunglas'] = 'api_platform.mapping.cache.apc';
             $parameters['cache.doctrine'] = 'apc';
         }
 

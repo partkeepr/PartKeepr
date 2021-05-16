@@ -2,8 +2,12 @@
 
 namespace PartKeepr\ImageBundle\Controller;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
-use Dunglas\ApiBundle\Api\ResourceInterface;
+use Symfony\Component\Routing\Annotation\Route;
+
+//use ApiPlatform\Core\Action\ActionUtilTrait;
+use ApiPlatform\Core\Util\RequestAttributesExtractor;
+
+use ApiPlatform\Core\Api\ResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\View;
 use PartKeepr\ImageBundle\Entity\TempImage;
@@ -16,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TemporaryImageController extends ImageController
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * Handles a temporary image upload.
@@ -31,6 +35,14 @@ class TemporaryImageController extends ImageController
      *
      * @return JsonResponse The JSON response from the temporary image upload
      */
+    /**
+     * @Route(
+     *     name="TemporaryImageUpload",
+     *     path="/temp_images/upload",
+     *     defaults={"_api_resource_class"=TempImage::class, "_api_collection_operation_name"="custom_post"},
+     *     methods={"POST"}
+     * )
+     **/
     public function uploadAction(Request $request)
     {
         $image = new TempImage();
@@ -55,7 +67,7 @@ class TemporaryImageController extends ImageController
         /**
          * @var ResourceInterface
          */
-        list($resourceType) = $this->extractAttributes($request);
+        list($resourceType) = RequestAttributesExtractor::extractAttributes($request);
 
         $serializedData = $this->get('serializer')->normalize(
             $image,
@@ -73,6 +85,14 @@ class TemporaryImageController extends ImageController
      *
      * @return Response
      */
+    /**
+     * @Route(
+     *     name="TemporaryImageUploadWebcam",
+     *     path="/temp_images/webcamUpload",
+     *     defaults={"_api_resource_class"=TempImage::class, "_api_collection_operation_name"="custom_post_webcam"},
+     *     methods={"POST"}
+     * )
+     **/
     public function webcamUploadAction(Request $request)
     {
         $image = new TempImage();

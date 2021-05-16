@@ -2,7 +2,7 @@
 
 namespace PartKeepr\PartBundle\Controller;
 
-use Dunglas\ApiBundle\Api\IriConverter;
+use ApiPlatform\Core\Api\IriConverter;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\FOSRestController;
 use PartKeepr\PartBundle\Entity\Part;
@@ -28,7 +28,7 @@ class PartController extends FOSRestController
         /**
          * @var IriConverter
          */
-        $iriConverter = $this->get('api.iri_converter');
+        $iriConverter = $this->get('api_platform.iri_converter');
 
         $removals = json_decode($request->get('removals'));
 

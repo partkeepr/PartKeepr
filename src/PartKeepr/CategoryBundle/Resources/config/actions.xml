@@ -5,12 +5,20 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+<!-- partkeepr.category.get_root_node was related to annotation in PartCategory.php, is this config still valid? -->
+<!-- partkeepr.category.get_root_node was related to annotation in FootprintCategory.php, is this config still valid? -->
+<!-- partkeepr.category.get_root_node was related to annotation in StorageLocationCategory.php, is this config still valid? -->
         <service id="partkeepr.category.get_root_node" class="PartKeepr\CategoryBundle\Action\GetRootNodeAction">
             <argument type="service" id="doctrine"/>
         </service>
+<!-- partkeepr.category.move was related to annotation in PartCategory.php, is this config still valid? -->
+<!-- partkeepr.category.move was related to annotation in FootprintCategory.php, is this config still valid? -->
+<!-- partkeepr.category.move was related to annotation in StorageLocationCategory.php, is this config still valid? -->
         <service id="partkeepr.category.move" class="PartKeepr\CategoryBundle\Action\MoveAction">
-            <argument type="service" id="api.data_provider"/>
-            <argument type="service" id="api.iri_converter" />
+<!--        <argument type="service" id="api_platform.data_provider"/> -->
+            <argument type="service" id="api_platform.collection_data_provider" />
+            <argument type="service" id="api_platform.item_data_provider" />
+            <argument type="service" id="api_platform.iri_converter" />
             <argument type="service" id="doctrine"/>
         </service>
     </services>

@@ -3,7 +3,9 @@
 namespace PartKeepr\PartBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\CoreBundle\Entity\BaseEntity;
 use PartKeepr\DoctrineReflectionBundle\Annotation\TargetService;
 use PartKeepr\FootprintBundle\Entity\Footprint;
@@ -16,11 +18,32 @@ use PartKeepr\StockBundle\Entity\StockEntry;
 use PartKeepr\StorageLocationBundle\Entity\StorageLocation;
 use PartKeepr\UploadedFileBundle\Annotation\UploadedFileCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Represents a part in the database. The heart of our project. Handle with care!
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default", "readonly" }},
+ *          "denormalization_context"={"groups"={"default", "stock"}} 
+ *     },
+ *     collectionOperations={
+ *       "custom_get"={"route_name"="PartsGet"},
+ *       "custom_post"={"route_name"="PartPost"}
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="GET"},
+ *         "custom_put"={"route_name"="PartPut"},
+ *         "delete"={"method"="DELETE"},
+ *         "add_stock"={"route_name"="PartAddStock"},
+ *         "remove_stock"={"route_name"="PartRemoveStock"},
+ *         "set_stock"={"route_name"="PartSetStock"}
+ *     }
+ * )
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @TargetService(uri="/api/parts")
@@ -297,7 +320,63 @@ class Part extends BaseEntity
      * @var array
      */
     private $metaPartMatches;
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL 
+     */
+    
+    /**
+     * The partPresentation
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partPresentation;
 
+    /**
+     * The partCodeManufacturer
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCodeManufacturer;
+
+    /**
+     * The partCodeSupplier
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCodeSupplier;
+    /**
+     * The partCodeAdditional
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCodeAdditional;
+    /**
+     * The partCERNproject
+     *
+     * @ORM\Column(type="string",nullable=true)
+     * @Groups({"default"})
+     *
+     * @var string
+     */
+    private $partCERNproject;
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL
+     */
+    
     public function __construct()
     {
         $this->distributors = new ArrayCollection();
@@ -1057,4 +1136,112 @@ class Part extends BaseEntity
     {
         $this->stockLevel = $stockLevel;
     }
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL
+     */
+    /**
+     * Returns the partPresentation of this part.
+     *
+     * @return string The partPresentation
+     */
+    public function getpartPresentation()
+    {
+        return $this->partPresentation;
+    }
+    
+    /**
+     * Sets the partPresentation for this part.
+     *
+     * @param string $partPresentation The partPresentation
+     */
+    public function setpartPresentation($partPresentation)
+    {
+        $this->partPresentation = $partPresentation;
+    }
+
+    /**
+     * Returns the partCodeManufacturer of this part.
+     *
+     * @return string The partCodeManufacturer
+     */
+    public function getPartCodeManufacturer()
+    {
+        return $this->partCodeManufacturer;
+    }
+    
+    /**
+     * Sets the partCodeManufacturer for this part.
+     *
+     * @param string $partCodeManufacturer The partCodeManufacturer
+     */
+    public function setPartCodeManufacturer($partCodeManufacturer)
+    {
+        $this->partCodeManufacturer = $partCodeManufacturer;
+    }
+    
+    /**
+     * Returns the partCodeSupplier of this part.
+     *
+     * @return string The partCodeSupplier
+     */
+    public function getPartCodeSupplier()
+    {
+        return $this->partCodeSupplier;
+    }
+    
+    /**
+     * Sets the partCodeSupplier for this part.
+     *
+     * @param string $partCodeSupplier The partCodeSupplier
+     */
+    public function setPartCodeSupplier($partCodeSupplier)
+    {
+        $this->partCodeSupplier = $partCodeSupplier;
+    }
+    
+    /**
+     * Returns the partCodeAdditional of this part.
+     *
+     * @return string The partCodeAdditional
+     */
+    public function getPartCodeAdditional()
+    {
+        return $this->partCodeAdditional;
+    }
+    
+    /**
+     * Sets the partCodeAdditional for this part.
+     *
+     * @param string $partCodeAdditional The partCodeAdditional
+     */
+    public function setPartCodeAdditional($partCodeAdditional)
+    {
+        $this->partCodeAdditional = $partCodeAdditional;
+    }
+    
+    /**
+     * Returns the partCERNproject of this part.
+     *
+     * @return string The partCERNproject
+     */
+    public function getPartCERNproject()
+    {
+        return $this->partCERNproject;
+    }
+    
+    /**
+     * Sets the partCERNproject for this part.
+     *
+     * @param string $partCERNproject The partCERNproject
+     */
+    public function setPartCERNproject($partCERNproject)
+    {
+        $this->partCERNproject = $partCERNproject;
+    }
+    
+    /*
+     * DANIEL DANIEL DANIEL DANIEL DANIEL
+     */
+    
 }

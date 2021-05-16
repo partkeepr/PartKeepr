@@ -2,7 +2,8 @@
 
 namespace PartKeepr\AuthBundle\Action;
 
-use Dunglas\ApiBundle\Action\ActionUtilTrait;
+// use ApiPlatform\Core\Action\ActionUtilTrait;
+
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\UserManipulator;
 use PartKeepr\AuthBundle\Exceptions\OldPasswordWrongException;
@@ -14,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 
 class ChangePasswordAction
 {
-    use ActionUtilTrait;
+//    use ActionUtilTrait;
 
     /**
      * @var UserService
@@ -55,6 +56,14 @@ class ChangePasswordAction
         $this->container = $container;
     }
 
+    /**
+     * @Route(
+     *     name="PartKeeprAuthChangePassword",
+     *     path="/users/{id}/changePassword",
+     *     defaults={"_api_resource_class"=User::class, "_api_item_operation_name"="change_password"},
+     *     methods={"PUT"}
+     * )
+     **/
     public function __invoke(Request $request)
     {
         if ($this->container->hasParameter('partkeepr.auth.allow_password_change') &&

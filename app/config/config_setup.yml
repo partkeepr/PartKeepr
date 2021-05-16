@@ -6,7 +6,7 @@ framework:
         engines: ['twig', 'php']
 
 sensio_framework_extra:
-    view:    { annotations: false }
+    view:    { annotations: true }
     router:  { annotations: true }
 
 monolog:

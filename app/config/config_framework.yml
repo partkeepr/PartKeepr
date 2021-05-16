@@ -8,12 +8,21 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enabled: true, enable_annotations: true }
+#   validation:      { enabled: true, api: auto, enable_annotations: true, strict_email: true }
+    validation:      { enabled: true, enable_annotations: true, strict_email: true, cache: validator.mapping.cache.doctrine.apc }
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
     session:         ~
+### http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+##      handler_id:  session.handler.native_file
+##      save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"        
     fragments:       ~
     http_method_override: true
+    cache:
+#       directory: '%kernel.cache_dir%/pools' # Only used with cache.adapter.filesystem
+        directory: '/var/www/partkeepr/app/cache'
+        app: cache.adapter.apcu
+ 

@@ -2,13 +2,31 @@
 
 namespace PartKeepr\PartBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use PartKeepr\UploadedFileBundle\Entity\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Holds a part attachment.
  *
+ * @ApiResource(
+ *     attributes={
+ *          "filters": {"@doctrine_reflection_service.search_filter"},
+ *          "normalization_context"={"groups"={"default"}},
+ *          "denormalization_context"={"groups"={"default"}} 
+ *     },
+ *     itemOperations={
+ *         "swagger"= {
+ *          "method"="GET",
+ *          },
+ *         "get"={"method"="GET"},
+ *         "custom_get"={"route_name"="PartAttachmentGet","hydra_context"={"title"="A custom operation","returns"="xmls:string"}},
+ *         "custom_get_mime"={"route_name"="PartAttachmentMimeTypeIcon","hydra_context"={"title"="A custom operation","returns"="xmls:string"}},
+ *         "custom_get_image"={"route_name"="PartAttachmentGetImage","hydra_context"={"title"="A custom operation","returns"="xmls:string"}}
+ *     }
+ * )
  * @ORM\Entity
  **/
 class PartAttachment extends UploadedFile

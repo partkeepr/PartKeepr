@@ -6,16 +6,25 @@ imports:
     - { resource: config_doctrine.yml }
     - { resource: config_fos_user.yml }
     - { resource: config_dunglas.yml }
-    - { resource: config_ldap.yml }
     - { resource: config_partkeepr.yml }
     - { resource: config_filesystem.yml }
 
+framework:
+    serializer: true
+# enable serialier for fos_rest 
+#    serializer:
+#        enabled: true
+        
 fos_rest:
     body_listener: true
     format_listener: true
     param_fetcher_listener: force
-    service:
-        exception_handler: "partkeepr.exceptionwrapper"
+#    service:
+#        exception_handler: "partkeepr.exceptionwrapper"
+#       fos_rest.service.serializer
+#         serializer:
+#             serialize_null: true
+# scope: request
     format_listener:
         rules:
             - priorities: [json, xml]
@@ -29,35 +38,37 @@ fos_rest:
             html: false
         view_response_listener: true
 
-
-
 sensio_framework_extra:
-    view:    { annotations: false }
+    view:    { annotations: true }
     router:  { annotations: true }
 
 # Assetic Configuration
-assetic:
-    debug:          %kernel.debug%
-    use_controller: false
-    bundles:        [ PartKeeprFrontendBundle, PartKeeprMobileFrontendBundle ]
-    #java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-        #closure:
-        #    jar: %kernel.root_dir%/Resources/java/compiler.jar
-        #yui_css:
-        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+## assetic:
+##     debug:          %kernel.debug%
+##     use_controller: false
+##     bundles:        [ PartKeeprFrontendBundle, PartKeeprMobileFrontendBundle ]
+##     #java: /usr/bin/java
+##     filters:
+##         cssrewrite: ~
+##         #closure:
+##         #    jar: %kernel.root_dir%/Resources/java/compiler.jar
+##         #yui_css:
+##         #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
 
 twig:
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
-
-dunglas_api:
+    cache: false
+    
+api_platform:
     title:       "PartKeepr"
     description: "The PartKeepr REST API"
     collection:
+        order_parameter_name:          'order'
+        order:                         'ASC'
         pagination:
-            items_per_page:
-                client_can_change: true
+            client_enabled:            true
+            client_items_per_page:     true
+#           items_per_page:            3
 
 sprite_generator:
     sprites:
@@ -81,25 +92,6 @@ sprite_generator:
             cssFormat: css
             imagePositioning: min-image
             imageGenerator: gd2
-
-fr3d_ldap:
-    driver:
-        host:                   "%fr3d_ldap.driver.host%"
-        port:                   "%fr3d_ldap.driver.port%"
-        username:               "%fr3d_ldap.driver.username%"
-        password:               "%fr3d_ldap.driver.password%"
-        bindRequiresDn:         "%fr3d_ldap.driver.bindRequiresDn%"
-        baseDn:                 "%fr3d_ldap.driver.baseDn%"
-        accountFilterFormat:    "%fr3d_ldap.driver.accountFilterFormat%"
-        optReferrals:           "%fr3d_ldap.driver.optReferrals%"
-        useSsl:                 "%fr3d_ldap.driver.useSsl%"
-        useStartTls:            "%fr3d_ldap.driver.useStartTls%"
-        accountCanonicalForm:   "%fr3d_ldap.driver.accountCanonicalForm%"
-        accountDomainName:      "%fr3d_ldap.driver.accountDomainName%"
-        accountDomainNameShort: "%fr3d_ldap.driver.accountDomainNameShort%"
-    user:
-        baseDn: "%fr3d_ldap.user.baseDn%"
-        filter: "%fr3d_ldap.user.filter%"
 
 services:
     serializer.normalizer.custom:

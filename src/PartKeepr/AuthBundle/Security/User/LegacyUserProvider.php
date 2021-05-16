@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+// recomendation : implement UserLoaderInterface for Symf 3
 class LegacyUserProvider implements UserProviderInterface
 {
     /**

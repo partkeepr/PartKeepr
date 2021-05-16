@@ -1,0 +1,4 @@
+parameters:
+    api_platform:
+        cache: false
+        
