@@ -16,8 +16,10 @@ class CsvFormatPass implements CompilerPassInterface
 */        
     public function process(ContainerBuilder $container)
     {
+/*        
         $container->getDefinition('api_platform.negotiator')->addMethodCall('registerFormat', [
             'csv', ['text/comma-separated-values'], true,
         ]);
+*/
     }
 }
