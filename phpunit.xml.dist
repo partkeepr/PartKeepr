@@ -20,6 +20,7 @@
         </testsuite>
     </testsuites>
 
+    <!-- KERNEL_DIR is deprecated, Set the KERNEL_CLASS environment variable to the fully-qualified class name of your Kernel instead  -->
     <php>
         <server name="KERNEL_DIR" value="app/" />
     </php>

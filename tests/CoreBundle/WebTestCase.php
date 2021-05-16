@@ -17,6 +17,7 @@ class WebTestCase extends \Liip\FunctionalTestBundle\Test\WebTestCase
 {
     protected static function getKernelClass()
     {
+        // KERNEL_DIR is deprecated, Set the KERNEL_CLASS environment variable to the fully-qualified class name of your Kernel instead
         $dir = isset($_SERVER['KERNEL_DIR']) ? $_SERVER['KERNEL_DIR'] : self::getPhpUnitXmlDir();
 
         $class = 'AppKernel';
