@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 $loader = require_once __DIR__.'/../vendor/autoload.php';
 
 require_once  __DIR__ . "/../app/SetupAppKernel.php";
-require_once  __DIR__ . "/../app/AppKernel.php";
+//require_once  __DIR__ . "/../app/AppKernel.php";
 
 $kernel = new SetupAppKernel('setup', true);
 $kernel->loadClassCache();
