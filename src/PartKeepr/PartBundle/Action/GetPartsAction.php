@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
 use ApiPlatform\Core\Exception\RuntimeException;
-use ApiPlatform\Core\Model\DataProviderInterface;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\PartBundle\Entity\Part;
 use PartKeepr\PartBundle\Services\PartService;
 use Symfony\Component\HttpFoundation\Request;

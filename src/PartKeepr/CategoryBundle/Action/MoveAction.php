@@ -7,7 +7,7 @@ use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
 use ApiPlatform\Core\Api\IriConverter;
 use ApiPlatform\Core\Exception\RuntimeException;
-use ApiPlatform\Core\Model\DataProviderInterface;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\CategoryBundle\Exception\MissingParentCategoryException;
 use PartKeepr\CategoryBundle\Exception\RootMayNotBeMovedException;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;

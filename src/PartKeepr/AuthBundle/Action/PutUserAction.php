@@ -7,7 +7,7 @@ use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
 use ApiPlatform\Core\Api\ResourceInterface;
 use ApiPlatform\Core\Exception\RuntimeException;
-use ApiPlatform\Core\Model\DataProviderInterface;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Exceptions\UserLimitReachedException;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;

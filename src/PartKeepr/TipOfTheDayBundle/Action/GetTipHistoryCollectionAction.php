@@ -6,7 +6,7 @@ namespace PartKeepr\TipOfTheDayBundle\Action;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
 use ApiPlatform\Core\Exception\RuntimeException;
-use ApiPlatform\Core\Model\DataProviderInterface;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\AuthBundle\Services\UserService;
 use PartKeepr\TipOfTheDayBundle\Entity\TipOfTheDayHistory;
 use Symfony\Component\HttpFoundation\Request;

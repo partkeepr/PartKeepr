@@ -10,7 +10,7 @@ use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
 use ApiPlatform\Core\Api\IriConverter;
 use ApiPlatform\Core\Exception\RuntimeException;
-use ApiPlatform\Core\Model\DataProviderInterface;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\BatchJobBundle\Entity\BatchJob;
 use PartKeepr\CategoryBundle\Exception\RootNodeNotFoundException;
 use PartKeepr\DoctrineReflectionBundle\Filter\AdvancedSearchFilter;

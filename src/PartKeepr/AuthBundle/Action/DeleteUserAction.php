@@ -6,7 +6,7 @@ namespace PartKeepr\AuthBundle\Action;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;
 
 use ApiPlatform\Core\Exception\RuntimeException;
-use ApiPlatform\Core\Model\DataProviderInterface;
+use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use PartKeepr\AuthBundle\Entity\User;
 use PartKeepr\AuthBundle\Exceptions\UserProtectedException;
 use PartKeepr\AuthBundle\Services\UserPreferenceService;
