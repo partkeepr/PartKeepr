@@ -25,13 +25,4 @@ framework:
 #       directory: '%kernel.cache_dir%/pools' # Only used with cache.adapter.filesystem
         directory: '/var/www/partkeepr/app/cache'
         app: cache.adapter.apcu
-        system: cache.adapter.apcu
-#       app: cache.adapter.apcu
-#       app: cache.adapter.filesystem
-#       system: cache.adapter.system
-#       pools:
-#              app.cache.api:
-#              adapter : [cache.app]
-#              adapter : [cache.adapter.memcached]
-#              default_lifetime : 3600
  
