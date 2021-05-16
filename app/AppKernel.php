@@ -81,10 +81,10 @@ class AppKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getProjectDir().'/app/config/config_'.$this->getEnvironment().'.yml');
 
         if ($this->getEnvironment() !== 'test') {
-            $customConfig = $this->getRootDir().'/config/config_custom.yml';
+            $customConfig = $this->getProjectDir().'/app/config/config_custom.yml';
 
             if (file_exists($customConfig)) {
                 $loader->load($customConfig);
@@ -103,11 +103,6 @@ class AppKernel extends Kernel
         return [];
     }
 
-    public function getRootDir()
-    {
-        return __DIR__;
-    }
-    
     /**
      * Override to allow different cache environments set by the environment variable PARTKEEPR_ENVIRONMENT.
      *

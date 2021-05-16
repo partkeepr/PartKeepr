@@ -45,8 +45,8 @@ class FileMigrationController extends SetupBaseController
 
         $legacyConfig = $this->get('partkeepr.setup.config_service')->legacyConfigParser();
 
-        $legacyFilePath = $this->get('kernel')->getRootDir().'/../data/';
-        $legacyImagePath = $this->get('kernel')->getRootDir().'/../data/images/';
+        $legacyFilePath = $this->get('kernel')->getProjectDir().'/data/';
+        $legacyImagePath = $this->get('kernel')->getProjectDir().'/data/images/';
 
         $legacyFileDirectories = ['FootprintAttachment', 'PartAttachment', 'ProjectAttachment'];
 
