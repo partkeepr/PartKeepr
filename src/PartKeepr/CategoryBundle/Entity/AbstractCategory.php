@@ -27,6 +27,13 @@ abstract class AbstractCategory extends BaseEntity
     protected $parent;
 
     /**
+     * @ORM\OneToMany(targetEntity="FootprintCategory", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
+     * @Groups({"tree"})
+     */
+    protected $children;
+
+    /**
      * The "left" property of the nested set.
      *
      * @ORM\Column(type="integer")
