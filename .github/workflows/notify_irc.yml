@@ -1,8 +1,23 @@
 name: "Push Notification"
-on: [push, pull_request, create]
+on:
+    create:
+    discussion:
+    gollum:
+    issue_comment:
+    project_card:
+    pull_request_target:
+    # pull_request:
+      types: [opened, closed, reopened, synchronize, edited, ready_for_review, review_requested]
+    pull_request_review:
+    pull_request_review_comment:
+      types: [created, edited]
+    push:
+      # branches:
+        # - master
+    release:
 
 jobs:
-  test:
+  notify-irc:
     runs-on: ubuntu-latest
     steps:
       - name: irc push
@@ -33,3 +48,110 @@ jobs:
           password: ${{ secrets.FREENODE_PASSWORD }}
           message: |
             ${{ github.actor }} tagged ${{ github.repository }} ${{ github.event.ref }}
+  
+  notify-matrix:
+    runs-on: ubuntu-latest
+    env:
+      ROOM_ID: "!iMJVofTBVECrWOimWY:matrix.org"
+    steps:
+      - name: Matrix Push
+        if: github.event_name == 'push'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }}
+            ${{ join(github.event.commits.*.message) }}
+      - name: Matrix Pull Request
+        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} opened/changed/closed ${{ github.event.pull_request.url }}
+      - name: Matrix Add tag
+        if: github.event_name == 'create' && github.event.ref_type == 'tag'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} tagged ${{ github.repository }} ${{ github.event.ref }}
+      - name: Matrix Discussions
+        if: github.event_name == 'discussions'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} changed the discussion in ${{ github.event.html_url }}.
+      - name: Matrix Wiki
+        if: github.event_name == 'gollum'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} changed the wiki
+      - name: Matrix Issue commented
+        if: github.event_name == 'issue_comment'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} commented on the issue ${{ github.event.comment.html_url }}
+            ${{ github.event.comment.body }}
+      - name: Matrix Project Card
+        if: github.event_name == 'project_card'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} changed the project card ${{ github.event.project_card.url }}
+      - name: Matrix PR review
+        if: github.event_name == 'pull_request_review'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} reviewed PR ${{ github.event.pull_request_url }}
+      - name: Matrix PR review comment
+        if: github.event_name == 'pull_request_review_comment'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} added a comment to review in PR ${{ github.event.review.pull_request_url }}
+      - name: Matrix PR review comment
+        if: github.event_name == 'pull_request_review'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} reviewed PR ${{ github.event.comment.html_url }}
+      - name: Matrix Release
+        if: github.event_name == 'pull_request_review'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: ${{ env.ROOM_ID }}
+          server: "matrix.org"
+          access_token: ${{ secrets.MATRIX_API}}
+          message: |
+            ${{ github.actor }} created a new release ${{ github.event.release.url }}
