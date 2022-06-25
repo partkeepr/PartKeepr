@@ -72,7 +72,7 @@ jobs:
           server: "matrix.org"
           access_token: ${{ secrets.MATRIX_API}}
           message: |
-            ${{ github.actor }} opened/changed/closed ${{ github.event.html_url }}
+            ${{ github.actor }} opened/changed/closed ${{ github.event.pull_request.url }}
       - name: Matrix Add tag
         if: github.event_name == 'create' && github.event.ref_type == 'tag'
         uses: s3krit/Matrix-Message@v0.0.3
