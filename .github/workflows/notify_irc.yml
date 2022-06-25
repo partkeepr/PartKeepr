@@ -12,8 +12,8 @@ on:
     pull_request_review_comment:
       types: [created, edited]
     push:
-      branches:
-        - master
+      # branches:
+        # - master
     release:
 
 jobs:
