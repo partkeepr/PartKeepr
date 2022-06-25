@@ -1,8 +1,24 @@
 name: "Push Notification"
-on: [push, pull_request, create]
+on:
+    create:
+    discussion:
+    gollum:
+    issue_comment:
+    project:
+    project_card:
+    # pull_request_target:
+    pull_request:
+      types: [opened, closed, reopened, synchronize, edited, ready_for_review, review_requested]
+    pull_request_review:
+    pull_request_review_comment:
+      types: [created, edited]
+    push:
+      branches:
+        - master
+    release:
 
 jobs:
-  test:
+  notify-irc:
     runs-on: ubuntu-latest
     steps:
       - name: irc push
@@ -33,3 +49,14 @@ jobs:
           password: ${{ secrets.FREENODE_PASSWORD }}
           message: |
             ${{ github.actor }} tagged ${{ github.repository }} ${{ github.event.ref }}
+  notify-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Matrix Push
+        # if: github.event_name == 'push'
+        uses: s3krit/Matrix-Message@v0.0.3
+        with:
+          room_id: "!iMJVofTBVECrWOimWY:matrix.org"
+          server: "matrix.org"
+          message: "Test Message"
+          access_token: ${{ secrets.MATRIX_API}}
