@@ -53,7 +53,7 @@ class OperatingSystem
                  * Mac stores its version number in a public readable plist file, which
                  * is in XML format.
                  */
-                $document = new \DomDocument();
+                $document = new \DOMDocument();
                 $document->load('/System/Library/CoreServices/SystemVersion.plist');
                 $xpath = new \DOMXPath($document);
                 $entries = $xpath->query('/plist/dict/*');

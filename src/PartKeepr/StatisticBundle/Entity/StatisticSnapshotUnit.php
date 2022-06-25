@@ -2,7 +2,7 @@
 
 namespace PartKeepr\StatisticBundle\Entity;
 
-use Doctrine\ORM\Mapping as Mapping;
+use Doctrine\ORM\Mapping;
 use PartKeepr\PartBundle\Entity\PartMeasurementUnit;
 
 /**
