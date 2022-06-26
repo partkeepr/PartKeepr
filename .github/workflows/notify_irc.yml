@@ -72,7 +72,7 @@ jobs:
           server: "matrix.org"
           access_token: ${{ secrets.MATRIX_API}}
           message: |
-            ${{ github.actor }} opened/changed/closed ${{ github.event.pull_request.url }}
+            ${{ github.actor }} altered ${{ github.event.pull_request.url }} (state=${{ github.event.pull_request.url }})
       - name: Matrix Add tag
         if: github.event_name == 'create' && github.event.ref_type == 'tag'
         uses: s3krit/Matrix-Message@v0.0.3
@@ -127,7 +127,7 @@ jobs:
           server: "matrix.org"
           access_token: ${{ secrets.MATRIX_API}}
           message: |
-            ${{ github.actor }} reviewed PR ${{ github.event.pull_request_url }}
+            ${{ github.actor }} reviewed PR ${{ github.event.review.html_url }}
       - name: Matrix PR review comment
         if: github.event_name == 'pull_request_review_comment'
         uses: s3krit/Matrix-Message@v0.0.3
@@ -136,16 +136,8 @@ jobs:
           server: "matrix.org"
           access_token: ${{ secrets.MATRIX_API}}
           message: |
-            ${{ github.actor }} added a comment to review in PR ${{ github.event.review.pull_request_url }}
-      - name: Matrix PR review comment
-        if: github.event_name == 'pull_request_review'
-        uses: s3krit/Matrix-Message@v0.0.3
-        with:
-          room_id: ${{ env.ROOM_ID }}
-          server: "matrix.org"
-          access_token: ${{ secrets.MATRIX_API}}
-          message: |
-            ${{ github.actor }} reviewed PR ${{ github.event.comment.html_url }}
+            ${{ github.actor }} added a comment to review in PR ${{ github.event.comment.html_url }}
+            ${{ github.event.comment.body }}
       - name: Matrix Release
         if: github.event_name == 'pull_request_review'
         uses: s3krit/Matrix-Message@v0.0.3
@@ -154,4 +146,4 @@ jobs:
           server: "matrix.org"
           access_token: ${{ secrets.MATRIX_API}}
           message: |
-            ${{ github.actor }} created a new release ${{ github.event.release.url }}
+            ${{ github.actor }} created a new release ${{ github.event.release.html_url }}
