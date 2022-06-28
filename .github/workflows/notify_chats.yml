@@ -7,7 +7,7 @@ on:
     project_card:
     pull_request_target:
     # pull_request:
-      types: [opened, closed, reopened, synchronize, edited, ready_for_review, review_requested]
+      types: [opened, reopened, synchronize, edited, ready_for_review, review_requested]
     pull_request_review:
     pull_request_review_comment:
       types: [created, edited]
@@ -41,7 +41,7 @@ jobs:
           server: "matrix.org"
           access_token: ${{ secrets.MATRIX_API}}
           message: |
-            ${{ github.actor }} altered ${{ github.event.pull_request.url }} (state=${{ github.event.pull_request.url }})
+            ${{ github.actor }} altered ${{ github.event.pull_request.url }} (state=${{ github.event.pull_request.state }})
       - name: Matrix Add tag
         if: github.event_name == 'create' && github.event.ref_type == 'tag'
         uses: s3krit/Matrix-Message@v0.0.3
