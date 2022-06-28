@@ -21,7 +21,7 @@ jobs:
   notify-matrix:
     runs-on: ubuntu-latest
     env:
-      ROOM_ID: "!iMJVofTBVECrWOimWY:matrix.org"
+      ROOM_ID: "!yAWZbZcjAWXdqpjYQK:matrix.org"
     steps:
       - name: Matrix Push
         if: github.event_name == 'push'
