@@ -78,7 +78,6 @@ jobs:
           access_token: ${{ secrets.MATRIX_API}}
           message: |
             ${{ github.actor }} commented on the issue ${{ github.event.comment.html_url }}
-            ${{ github.event.comment.body }}
       - name: Matrix Project Card
         if: github.event_name == 'project_card'
         uses: s3krit/Matrix-Message@v0.0.3
