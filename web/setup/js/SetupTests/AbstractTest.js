@@ -55,6 +55,11 @@ Ext.define('PartKeeprSetup.AbstractTest', {
      *
      */
     params: {},
+	
+    /**
+     * Request timeout, in milliseconds.
+     */
+    timeout: 120000,
 
     /**
      * Constructs the test
@@ -93,7 +98,7 @@ Ext.define('PartKeeprSetup.AbstractTest', {
             method: this.method,
             scope: this,
             params: Ext.encode(this.params),
-            timeout: 120000
+            timeout: this.timeout
         });
     },
 
