@@ -4,12 +4,10 @@
  * @return {*}
  */
 
-import translation from "./translation.json" assert {type: 'json'}
-
 function i18n (string) {
-	if(string in translation.translation)
+	if(string in translation)
 	{
-		return translation.translation[string];
+		return translation[string];
 	}
 	else
 	{
