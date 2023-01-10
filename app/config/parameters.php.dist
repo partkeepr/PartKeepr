@@ -96,7 +96,7 @@ $container->setParameter('fr3d_ldap.driver.username', null);
 // The password to use for LDAP queries
 $container->setParameter('fr3d_ldap.driver.password', null);
 
-// true to require a DN for binding attemts, false otherwise
+// true to require a DN for binding attempts, false otherwise
 $container->setParameter('fr3d_ldap.driver.bindRequiresDn', false);
 
 // The base DN to query for users

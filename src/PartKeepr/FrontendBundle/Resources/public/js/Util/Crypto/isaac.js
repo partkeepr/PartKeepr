@@ -26,12 +26,12 @@
  * (or CSPRNG for short) designed by Robert J. Jenkins Jr. in 1996 and
  * based on RC4. It is designed for speed and security.
  *
- * ISAAC's informations & analysis:
+ * ISAAC's information & analysis:
  *   http://burtleburtle.net/bob/rand/isaac.html
  * ISAAC's implementation details:
  *   http://burtleburtle.net/bob/rand/isaacafa.html
  *
- * ISAAC succesfully passed TestU01
+ * ISAAC successfully passed TestU01
  *
  * ----------------------------------------------------------------------
  *

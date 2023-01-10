@@ -96,7 +96,7 @@ class UserService
     }
 
     /**
-     * Syncronizes the data of the given user with the FOSRestBundle.
+     * Synchronizes the data of the given user with the FOSRestBundle.
      *
      *
      * @param $user

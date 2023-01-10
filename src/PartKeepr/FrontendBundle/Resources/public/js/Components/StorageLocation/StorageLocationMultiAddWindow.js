@@ -82,7 +82,7 @@ Ext.define("PartKeepr.StorageLocationMultiCreateWindow", {
         this.addButton.enable();
 
         if (response.data.length > 0) {
-            Ext.Msg.alert(i18n("Errors occured"), implode("<br>", response.data));
+            Ext.Msg.alert(i18n("Errors occurred"), implode("<br>", response.data));
         } else {
             this.close();
         }

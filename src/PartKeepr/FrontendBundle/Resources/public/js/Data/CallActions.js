@@ -94,7 +94,7 @@ Ext.define("PartKeepr.data.CallActions", {
     /**
      * Sets data to all associations
      *
-     * @param {Object} data The associations to set. Silently ignores non-existant associations.
+     * @param {Object} data The associations to set. Silently ignores non-existent associations.
      */
     setAssociationData: function (data)
     {

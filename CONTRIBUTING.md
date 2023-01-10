@@ -12,8 +12,8 @@ Guidelines:
  * Report your __browser type and version__, any __JavaScript errors in the console__ and any other details like __server operating system__, __php version__, __SQL Server type and version__ etc.
 * Check your logs, especially your __Web Server Log__ as well as __app/logs/partkeepr.log__
 * Only attach the parts of the logs which are __relevant__ to the problem.
-* Make sure the problem is __reproducable__. If it only happened one time, you have to find out on how to reproduce it.
-* Explain, in simple words, __when__ the issue occured. For example: Don't write "I can't create a part". Rather write: "I clicked on Add Part, entered a Part Name, then I clicked the save button, then nothing happens. There were no JavaScript errors in the console, and no HTTP Request was sent."
+* Make sure the problem is __reproducible__. If it only happened one time, you have to find out on how to reproduce it.
+* Explain, in simple words, __when__ the issue occurred. For example: Don't write "I can't create a part". Rather write: "I clicked on Add Part, entered a Part Name, then I clicked the save button, then nothing happens. There were no JavaScript errors in the console, and no HTTP Request was sent."
 * Try to limit your bug report to only __essential__ steps on how to reproduce the issue.
 * In short, help the volunteers maintaining the project to spend as little effort as possible on the issue, so that we can have more time adding features and fixing bugs more easily.
 
