@@ -24,7 +24,7 @@ class PartKeeprRequirements extends SymfonyRequirements
         $this->addRequirement(
             function_exists('imagettftext'),
             sprintf('GD library has no FreeType support'),
-            sprintf('Install the FreeType extension and make sure GD extention can use it')
+            sprintf('Install the FreeType extension and make sure GD extension can use it')
         );
 
         $this->addRequirement(

@@ -4,7 +4,7 @@ cd /var/www/pk
 
 # Check if parameters are present
 if [ ! -f app/config/parameters.php ]; then
-	echo 'No configuration was found yet. A defult configuration was generated.' >&2
+	echo 'No configuration was found yet. A default configuration was generated.' >&2
 	echo 'Please visit the setup page if you encounter issues.' >&2
 	
 	# Remove any db related config from the dist file

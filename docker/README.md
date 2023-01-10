@@ -19,7 +19,7 @@ This image is not ready to run but serves as a basis for the other images relate
 
 The docker-compose file registers multiple container services. The main PartKeepr application is called `app`. The database is a basic configuration with `mariadb:10.1` for compatibility. Third, there is a service called `initdb`. Its purpose is to restore the database and `data` folder to a pristine state. This one should normally not be used unless one wants to reset the database.
 
-**Note:** There needs to be a useful default inserted into the initdb. At the moment it only clears out the database to be valid but containing no parts at all. Exactly the situtation you have after a fresh installation. Some test data might be useful here.
+**Note:** There needs to be a useful default inserted into the initdb. At the moment it only clears out the database to be valid but containing no parts at all. Exactly the situation you have after a fresh installation. Some test data might be useful here.
 
 ## The main development image
 
@@ -54,13 +54,13 @@ This guide assumes, you have just freshly checked out the PartKeer repository fr
 - Call `docker-compose pull` to fetch all images from the docker hub. Alternatively you could [build the images manually](#building-the-images-manually).
 - Now you need to fire up the database and let it initialize. This is done by callng `docker-compose up -d db`. You can peek into the process by `docker-compose logs -f db`. Wait for a message that the server is ready for connections and listening on port 3306. Using `<Ctrl><c>`, you can exit from the logs.
 - Build the `initdb` image by calling `docker-compose build initdb`. This will take a few moments as it builds a docker image.
-  By default the line `RESET_DATABASE: 'yes'` in the file `docker-compose.yml` is commented. This is to avoid accidentially removing your data. Uncomment the line. Then:
+  By default the line `RESET_DATABASE: 'yes'` in the file `docker-compose.yml` is commented. This is to avoid accidentally removing your data. Uncomment the line. Then:
   - Initialize the data by calling `docker-compose up initdb`.
   - Recomment the line in the `docker-compose.yml` file you just uncommented.
 - Now, you can fire up the main container by calling `docker-compose up -d app`.
 - The container will initialize some dependencies. This might take some time as well. Again using `docker-compose logs -f app` you can peek into the process and with `<Ctrl><c>` you can return to the console.
    There might be some error messages regarding missing tables.
-- The partkeepr instance is avaliable at http://127.0.0.1:8082/.
+- The partkeepr instance is available at http://127.0.0.1:8082/.
   - Note: If you don't set `PARTKEEPR_FORCE_UPDATE` to `yes` in the `docker-compose` file on your first run you will get a white screen as you need to start the [setup](http://127.0.0.1:8082/setup/) once. Just accept the defaults but do not create a new set of users (keep the existing ones) and select HTTP Basic authentication.
 - You may or may or not want to set up a cron job as described. The check is disabled by default.
   - Alternatively, you can run the cron command manually with `php app/console partkeepr:cron:run` after logging in to the container with `docker exec -it partkeepr_dev_app_1 bash`.

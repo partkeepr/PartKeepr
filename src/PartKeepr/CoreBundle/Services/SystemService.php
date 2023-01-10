@@ -113,7 +113,7 @@ class SystemService extends ContainerAware
     /**
      * Returns the database schema status.
      *
-     * This method is usuall called once the user logs in, and alerts him if the schema is not up-to-date.
+     * This method is usually called once the user logs in, and alerts him if the schema is not up-to-date.
      *
      * Returns either status incomplete if the schema is not up-to-date, or complete if everything is OK.
      */

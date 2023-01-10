@@ -38,7 +38,7 @@ class UnitSetupService
     /**
      * Imports units.
      *
-     * @throws \Exception If an error occured
+     * @throws \Exception If an error occurred
      *
      * @return array An array with the keys "skipped" and "imported" which contain the number of units skipped and imported
      */
