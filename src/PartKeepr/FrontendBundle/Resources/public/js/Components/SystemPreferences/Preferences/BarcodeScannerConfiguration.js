@@ -77,10 +77,10 @@ Ext.define('PartKeepr.Components.SystemPreferences.Preferences.BarcodeScannerCon
                 },
                 {
                     text: i18n("Action"), dataIndex: 'action', flex: 1,
-                    renderer: function (v)
+                    renderer: function (v, m, record)
                     {
-                        if (v instanceof Ext.data.Model) {
-                            return v.get("name");
+                        if (record.get("action") instanceof Ext.data.Model) {
+                            return record.get("action").get("name");
                         } else {
                             return i18n("No action selected");
                         }
