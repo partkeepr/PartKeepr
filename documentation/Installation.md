@@ -3,7 +3,7 @@ Dependencies
 
 * PHP5.6 or PHP7 (preferred), along with the following extensions:
     * php-curl php-ldap php-bcmath php-gd php-dom
-* [Composer](https://getcomposer.org/download/) (If using Git)
+* [Composer](https://getcomposer.org/download/) (If using Git) (USE COMPOSER VERSION 1, or you will get package dependencies errors)
 * mysql-server
 * NGINX or Apache
 
