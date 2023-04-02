@@ -89,6 +89,16 @@ class FootprintCategory extends AbstractCategory implements CategoryPathInterfac
     }
 
     /**
+     * Adds a child to the list
+     *
+     * @return ArrayCollection
+     */
+    public function addChild( $child )
+    {
+        $this->children->add( $child );
+    }
+
+    /**
      * Returns the category path.
      *
      * @return string
