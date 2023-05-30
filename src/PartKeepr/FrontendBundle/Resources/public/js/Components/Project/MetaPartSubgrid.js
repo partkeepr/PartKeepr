@@ -85,7 +85,7 @@ Ext.define('PartKeepr.Components.Project.MetaPartSubgrid', {
     onApplyMetaPartsClick: function (button)
     {
         var parentRecord = button.up("grid").parentRecord;
-
+ 
         this.convertMetaPartsToParts(parentRecord);
     },
     /**
@@ -113,13 +113,17 @@ Ext.define('PartKeepr.Components.Project.MetaPartSubgrid', {
                 } else {
                     missing = Math.abs(missing);
                 }
-
+                
+                if(subPart.get("comment").indexOf("DO NOT CHANGE") == -1)
+                    subPart.set("comment", subPart.get("comment") + "\nDO NOT CHANGE:" + record.data.report + record._part.data.name);
+                else if(subPart.get("comment").indexOf(record.data.report) != -1)
+                    subPart.set("comment", subPart.get("comment") + record._part.data.name);
+                else 
+                    subPart.set("comment", subPart.get("comment").slice(0,subPart.get("comment").indexOf("DO NOT CHANGE")+14) + record.data.report + record._part.data.name);
                 projectReportItem = Ext.create("PartKeepr.ProjectBundle.Entity.ReportPart");
                 projectReportItem.setPart(subPart);
                 projectReportItem.set("quantity", subPart.get("stockToUse"));
                 projectReportItem.setReport(this.up("#projectReportResult").projectReport);
-
-
                 record.store.add(projectReportItem);
             }
         }

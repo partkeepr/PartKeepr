@@ -498,7 +498,7 @@ Ext.define('PartKeepr.PartManager', {
             record.setCategory(this.getSelectedCategory());
         } else
         {
-            record.setCategory(this.tree.getRootNode().firstChild);
+            //record.setCategory(this.tree.getRootNode().firstChild);
         }
 
         record.setPartUnit(defaultPartUnit);

@@ -43,6 +43,8 @@ class ReportPart extends BaseEntity
      */
     private $quantity;
 
+    private $remarks;
+
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\DistributorBundle\Entity\Distributor")
      * @Groups({"default"})
@@ -337,13 +339,25 @@ class ReportPart extends BaseEntity
         return $this;
     }
 
+    // remark getter
+    public function getRemarks()
+    {
+        return $this->remarks;
+    }
+
+    //remark setter
+    public function setRemarks($remarks)
+    {
+        $this->remarks = $remarks;
+
+        return $this;
+    }
+
     public function __toString()
     {
         // @todo i18n
-        return sprintf(
-            "Used in project report %s %s",
-            $this->getReport()->getName(),
-            $this->getReport()->getCreateDateTime()->format("Y-m-d H:i:s")
-        )." / ".parent::__toString();
+
+        return sprintf("Used in project report %s %s", $this->getReport()->getName(),
+                $this->getReport()->getCreateDateTime()->format("Y-m-d H:i:s"))." / ".parent::__toString();
     }
 }

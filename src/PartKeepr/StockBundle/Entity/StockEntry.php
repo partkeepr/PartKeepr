@@ -213,7 +213,7 @@ class StockEntry extends BaseEntity
     public function checkPrice()
     {
         if ($this->getStockLevel() < 0 && $this->getPrice() !== null) {
-            $this->setPrice(null);
+            //$this->setPrice(null);
         }
     }
 

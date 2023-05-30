@@ -200,7 +200,8 @@ class PartKeeprRequirements extends SymfonyRequirements
                         if (!$this->isWritableRecursive($dir.'/'.$file)) {
                             closedir($folder);
 
-                            throw new \Exception($dir.'/'.$file.'is not writable.');
+                            throw new \Exception($dir.'/'.$file.' is not writable.');
+
                         }
                     }
                 }
