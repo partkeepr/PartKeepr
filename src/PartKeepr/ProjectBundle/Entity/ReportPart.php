@@ -42,6 +42,8 @@ class ReportPart extends BaseEntity
      * @var int
      */
     private $quantity;
+    
+    private $remarks;
 
     /**
      * @ORM\ManyToOne(targetEntity="PartKeepr\DistributorBundle\Entity\Distributor")
@@ -336,6 +338,21 @@ class ReportPart extends BaseEntity
 
         return $this;
     }
+    
+    // remark getter
+    public function getRemarks()
+    {
+        return $this->remarks;
+    }
+    
+    //remark setter
+    public function setRemarks($remarks)
+    {
+        $this->remarks = $remarks;
+
+        return $this;
+    }
+    
 
     public function __toString()
     {
