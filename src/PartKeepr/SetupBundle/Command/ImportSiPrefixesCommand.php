@@ -19,7 +19,10 @@ class ImportSiPrefixesCommand extends ContainerAwareCommand
     {
         $return = $this->getContainer()->get('partkeepr.setup.si_prefix_service')->importSiPrefixes();
 
-        $output->writeln(sprintf('%d SI prefixes imported, %d existing SI Prefixes updated', $return['imported'],
-            $return['updated']));
+        $output->writeln(sprintf(
+            '%d SI prefixes imported, %d existing SI Prefixes updated',
+            $return['imported'],
+            $return['updated']
+        ));
     }
 }

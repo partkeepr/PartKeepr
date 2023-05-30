@@ -85,6 +85,7 @@ class ConfigSetupService
             'partkeepr.users.limit'                    => false,
             'partkeepr.parts.internalpartnumberunique' => false,
             'partkeepr.octopart.apikey'                => "",
+            'partkeepr.octopart.limit'                 => "3",
         ];
 
         if (function_exists('apc_fetch')) {
@@ -110,8 +111,10 @@ class ConfigSetupService
 
         ksort($parameters);
 
-        return $this->twig->render('PartKeeprSetupBundle::parameters.php.twig',
-            ['parameters' => $parameters]);
+        return $this->twig->render(
+            'PartKeeprSetupBundle::parameters.php.twig',
+            ['parameters' => $parameters]
+        );
     }
 
     public function legacyConfigParser()

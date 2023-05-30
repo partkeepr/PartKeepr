@@ -38,7 +38,7 @@ Ext.define("PartKeepr.ModelTreeMaker.ModelTreeMaker", {
      * @param {Ext.data.NodeInterface} node The current node
      * @param {Ext.data.Model} model The model
      * @param {String} prefix The prefix. Omit if first called
-     * @param {Function} callback The calback, optional
+     * @param {Function} callback The callback, optional
      */
     make: function (node, model, prefix, callback)
     {

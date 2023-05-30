@@ -2,12 +2,12 @@
 
 namespace PartKeepr\CoreBundle\Services;
 
-use Guzzle\Http\Client;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Version as DBALVersion;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Version as ORMVersion;
+use Guzzle\Http\Client;
 use PartKeepr\CoreBundle\System\OperatingSystem;
 use PartKeepr\CoreBundle\System\SystemInformationRecord;
 use PartKeepr\CronLoggerBundle\Services\CronLoggerService;
@@ -113,7 +113,7 @@ class SystemService extends ContainerAware
     /**
      * Returns the database schema status.
      *
-     * This method is usuall called once the user logs in, and alerts him if the schema is not up-to-date.
+     * This method is usually called once the user logs in, and alerts him if the schema is not up-to-date.
      *
      * Returns either status incomplete if the schema is not up-to-date, or complete if everything is OK.
      */
@@ -286,7 +286,8 @@ class SystemService extends ContainerAware
         }
     }
 
-    public function getPatreonStatus () {
+    public function getPatreonStatus()
+    {
         $statusURI = $this->container->getParameter("partkeepr.patreon.statusuri");
 
         if ($statusURI === false) {

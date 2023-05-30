@@ -49,9 +49,9 @@ class EntityConfiguration extends Configuration
 
                 foreach ($importConfiguration->matchers as $matcher) {
                     if (!property_exists($matcher, "matchField") || !property_exists(
-                            $matcher,
-                            "importField"
-                        ) || $matcher->importField === ""
+                        $matcher,
+                        "importField"
+                    ) || $matcher->importField === ""
                     ) {
                         throw new \Exception("matcher configuration error");
                     }

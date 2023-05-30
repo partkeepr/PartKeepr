@@ -46,8 +46,10 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
 
         foreach ($providers as $provider) {
             if (!$provider instanceof AuthenticationProviderInterface) {
-                throw new \InvalidArgumentException(sprintf('UserProvider "%s" must implement the AuthenticationProviderInterface.',
-                    get_class($provider)));
+                throw new \InvalidArgumentException(sprintf(
+                    'UserProvider "%s" must implement the AuthenticationProviderInterface.',
+                    get_class($provider)
+                ));
             }
         }
 
@@ -95,21 +97,27 @@ class AuthenticationProviderManager implements AuthenticationManagerInterface
             }
 
             if (null !== $this->eventDispatcher) {
-                $this->eventDispatcher->dispatch(AuthenticationEvents::AUTHENTICATION_SUCCESS,
-                    new AuthenticationEvent($result));
+                $this->eventDispatcher->dispatch(
+                    AuthenticationEvents::AUTHENTICATION_SUCCESS,
+                    new AuthenticationEvent($result)
+                );
             }
 
             return $result;
         }
 
         if (null === $lastException) {
-            $lastException = new ProviderNotFoundException(sprintf('No Authentication UserProvider found for token of class "%s".',
-                get_class($token)));
+            $lastException = new ProviderNotFoundException(sprintf(
+                'No Authentication UserProvider found for token of class "%s".',
+                get_class($token)
+            ));
         }
 
         if (null !== $this->eventDispatcher) {
-            $this->eventDispatcher->dispatch(AuthenticationEvents::AUTHENTICATION_FAILURE,
-                new AuthenticationFailureEvent($token, $lastException));
+            $this->eventDispatcher->dispatch(
+                AuthenticationEvents::AUTHENTICATION_FAILURE,
+                new AuthenticationFailureEvent($token, $lastException)
+            );
         }
 
         $lastException->setToken($token);

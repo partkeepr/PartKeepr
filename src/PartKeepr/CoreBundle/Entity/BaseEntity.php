@@ -30,6 +30,6 @@ abstract class BaseEntity
 
     public function __toString()
     {
-        return get_class($this) . " #" . $this->getId();
+        return get_class($this)." #".$this->getId();
     }
 }

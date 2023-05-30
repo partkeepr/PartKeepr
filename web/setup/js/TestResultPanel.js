@@ -120,7 +120,7 @@ Ext.define('PartKeeprSetup.TestResultPanel', {
     },
     /**
      * Appends the specific test to the output panel,
-     * and fires the error event if an error occured.
+     * and fires the error event if an error occurred.
      *
      * @param test    PartKeeprSetup.AbstractTest
      */

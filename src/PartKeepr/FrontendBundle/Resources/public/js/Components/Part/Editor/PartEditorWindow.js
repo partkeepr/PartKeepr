@@ -62,7 +62,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
         this.editor.on("itemSaved", this.onItemSaved, this);
 
         this.octoPartButton = Ext.create("Ext.button.Button", {
-            text: i18n("OctoPart…"),
+            text: i18n("Octopart…"),
             iconCls: 'partkeepr-icon octopart',
             handler: Ext.bind(this.onOctoPartClick, this)
         });
@@ -143,7 +143,7 @@ Ext.define('PartKeepr.PartEditorWindow', {
             this.octoPartQueryWindow.startSearch(this.editor.nameField.getValue());
             this.octoPartQueryWindow.on("refreshData", this.onRefreshData, this);
         } else {
-            Ext.MessageBox.alert(i18n("OctoPart is not configured"), i18n("Your administrator needs to configure the API key for OctoPart in the parameters.php file - see parameters.php.dist for instructions"));
+            Ext.MessageBox.alert(i18n("Octopart is not configured"), i18n("Your administrator needs to configure the API key for Octopart in the parameters.php file - see parameters.php.dist for instructions"));
         }
     },
     onRefreshData: function () {

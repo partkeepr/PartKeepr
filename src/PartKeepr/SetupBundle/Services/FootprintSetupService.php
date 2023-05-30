@@ -95,8 +95,10 @@ class FootprintSetupService
         }
 
         if (array_key_exists('category', $footprintData)) {
-            $footprintCategory = $this->addFootprintCategoryPath(explode('/', $footprintData['category']),
-                $footprintCategoryRootNode);
+            $footprintCategory = $this->addFootprintCategoryPath(
+                explode('/', $footprintData['category']),
+                $footprintCategoryRootNode
+            );
             $footprint->setCategory($footprintCategory);
         }
 

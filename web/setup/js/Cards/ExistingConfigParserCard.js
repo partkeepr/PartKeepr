@@ -1,5 +1,5 @@
 /**
- * This card runs the prequisites test to make sure basic things like PHP and Doctrine are installed and configured.
+ * This card runs the prerequisites test to make sure basic things like PHP and Doctrine are installed and configured.
  */
 Ext.define('PartKeeprSetup.ExistingConfigParserCard', {
     extend: 'PartKeeprSetup.AbstractTestCard',

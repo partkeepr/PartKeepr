@@ -143,15 +143,21 @@ class PartService
 
             switch ($metaPartParameterCriteria->getValueType()) {
                 case PartParameter::VALUE_TYPE_NUMERIC:
-                    $expr = $this->filterService->getExpressionForFilter($filter, "pp.normalizedValue",
-                        $paramPrefix.$paramCount);
+                    $expr = $this->filterService->getExpressionForFilter(
+                        $filter,
+                        "pp.normalizedValue",
+                        $paramPrefix.$paramCount
+                    );
 
                     $qb->setParameter($paramPrefix.$paramCount, $metaPartParameterCriteria->getNormalizedValue());
                     $paramCount++;
                     break;
                 case PartParameter::VALUE_TYPE_STRING:
-                    $expr = $this->filterService->getExpressionForFilter($filter, "pp.stringValue",
-                        $paramPrefix.$paramCount);
+                    $expr = $this->filterService->getExpressionForFilter(
+                        $filter,
+                        "pp.stringValue",
+                        $paramPrefix.$paramCount
+                    );
                     $qb->setParameter($paramPrefix.$paramCount, $metaPartParameterCriteria->getStringValue());
                     $paramCount++;
                     break;
@@ -163,7 +169,8 @@ class PartService
             $qb->setParameter($paramPrefix.$paramCount, $metaPartParameterCriteria->getPartParameterName());
 
             $qb->andWhere(
-                $qb->expr()->andX($expr, $expr2));
+                $qb->expr()->andX($expr, $expr2)
+            );
 
             $result = [];
             foreach ($qb->getQuery()->getScalarResult() as $partId) {

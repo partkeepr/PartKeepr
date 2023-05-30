@@ -1,32 +1,24 @@
 language: php
+dist: trusty
+os: linux
 
 php:
-    - 5.6
-    - 7.0
-    - nightly
-
-script:
-    - vendor/bin/phpunit -c app/ --coverage-clover build/logs/clover.xml
+    #- 7.0
+    - 7.1
+    #- nightly
 
 env:
-    - SYMFONY__TESTDB=mysql
-    - SYMFONY__TESTDB=pgsql
-    - SYMFONY__TESTDB=sqlite
+    - SYMFONY__TESTDB=mysql DB=mysql
+    - SYMFONY__TESTDB=pgsql DB=pgsql
+    - SYMFONY__TESTDB=sqlite DB=sqlite
 
-matrix:
-  exclude:
-    - php: hhvm
-      env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
+services:
+    - mysql
+    - postgresql
+
+jobs:
   allow_failures:
     - php: nightly
-    - php: hhvm
-
-addons:
-  code_climate:
-    repo_token: 9bf99f3d5903f9f2ae2280f49cc469ef219bb965205cd324847f22d4698257d9
-
-before_install:
-  - echo "extension=ldap.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 
 before_script:
   - cp app/config/parameters.php.dist app/config/parameters.php
@@ -34,10 +26,13 @@ before_script:
   - if [[ "$SYMFONY__TESTDB" == "pgsql" ]]; then psql -c "create database partkeepr_test;" -U postgres; fi
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS partkeepr_test;" -uroot; fi
   - if [[ "$SYMFONY__TESTDB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS partkeepr_test;" -uroot; fi
-  - composer self-update
+  - composer self-update --1 #limit to composer v1
   - composer install --prefer-source --no-interaction
   - app/console cache:warmup --env=test
   - app/console doctrine:schema:create --env=test
 
+script:
+    - vendor/bin/phpunit -c app/ --coverage-clover build/logs/clover.xml
+
 after_script:
-  - vendor/bin/test-reporter
+  - bash <(curl -s https://codecov.io/bash)

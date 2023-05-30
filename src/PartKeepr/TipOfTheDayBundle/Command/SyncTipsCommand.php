@@ -12,7 +12,7 @@ class SyncTipsCommand extends ContainerAwareCommand
     {
         $this
             ->setName('partkeepr:cron:synctips')
-            ->setDescription('Syncronizes the tips from the PartKeepr website');
+            ->setDescription('Synchronizes the tips from the PartKeepr website');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

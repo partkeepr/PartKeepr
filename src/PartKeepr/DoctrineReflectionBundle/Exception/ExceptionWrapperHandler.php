@@ -15,8 +15,8 @@ class ExceptionWrapperHandler implements ExceptionWrapperHandlerInterface
     public function wrap($data)
     {
         $data = [
-            '@type' => 'Error',
-            'hydra:title' => isset($context['title']) ? $context['title'] : 'An error occurred',
+            '@type'             => 'Error',
+            'hydra:title'       => isset($context['title']) ? $context['title'] : 'An error occurred',
             'hydra:description' => $data['message'],
         ];
 

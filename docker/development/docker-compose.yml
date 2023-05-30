@@ -1,0 +1,51 @@
+---
+version: "3.7"
+
+volumes:
+    db:
+    
+services:
+    app:
+        image: partkeepr/development:latest
+        
+        # Use this instead if you want to develop the docker infrastructure
+        #build:
+            #context: ./app
+            #args:
+                #SRC_IMAGE: partkeepr/base-dev:latest
+        
+        ports:
+            - 8082:80
+        volumes:
+            - "../..:/var/www/pk"
+        env_file:
+            - ./github.env
+        environment:
+            GITHUB_DEBUG_UID: 1000
+            #ADD_PHPINFO_FILE: 1
+            #PARTKEEPR_FORCE_UPDATE: "yes"
+    
+    db:
+        image: mariadb:10.1
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: partkeepr
+            MYSQL_PASSWORD: partkeepr
+            MYSQL_DATABASE: partkeepr
+    
+    initdb:
+        build: initdb
+        depends_on:
+            - db
+        environment:
+            MYSQL_USER: partkeepr
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: partkeepr
+            # Setting this to yes will enable reset upon running
+            #RESET_DATABASE: 'yes'
+            GITHUB_DEBUG_UID: 1000
+        volumes:
+            - "../../data:/data"
+            

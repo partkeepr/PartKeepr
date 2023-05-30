@@ -21,7 +21,9 @@ class LegacyAuthTest extends WebTestCase
         $this->getContainer()->get('doctrine.orm.default_entity_manager')->persist($user);
         $this->getContainer()->get('doctrine.orm.default_entity_manager')->flush($user);
 
-        $client = static::makeClient(false, [
+        $client = static::makeClient(
+            false,
+            [
                 'PHP_AUTH_USER' => 'foobar',
                 'PHP_AUTH_PW'   => 'admin',
             ]
@@ -31,7 +33,9 @@ class LegacyAuthTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $client = static::makeClient(false, [
+        $client = static::makeClient(
+            false,
+            [
                 'PHP_AUTH_USER' => 'foobar',
                 'PHP_AUTH_PW'   => 'admin2',
             ]

@@ -25,7 +25,8 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
                 reader: {
                     type: 'json',
                     totalProperty: 'hits',
-                    rootProperty: 'results'
+                    rootProperty: 'results',
+                    transform: this.checkForErrors
                 }
             },
             autoLoad: false
@@ -97,19 +98,14 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
                 boxLabel: i18n("Parameters")
             },  {
                 xtype: 'checkbox',
-                itemId: "importDatasheets",
-                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importDatasheets", true),
-                boxLabel: i18n("Datasheets")
+                itemId: "importBestDatasheet",
+                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importBestDatasheet", true),
+                boxLabel: i18n("Best Datasheet")
             },  {
                 xtype: 'checkbox',
                 itemId: "importCADModels",
                 checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importCADModels", true),
                 boxLabel: i18n("CAD Models")
-            },  {
-                xtype: 'checkbox',
-                itemId: "importComplianceDocuments",
-                checked: PartKeepr.getApplication().getUserPreference("partkeepr.octopart.importComplianceDocuments", true),
-                boxLabel: i18n("Compliance Documents")
             },  {
                 xtype: 'checkbox',
                 itemId: "importReferenceDesigns",
@@ -158,6 +154,8 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
             this.onSelectChange,
             this);
 
+        this.store.on("load", this.checkForApiError, this);
+
         this.callParent(arguments);
 
     },
@@ -186,9 +184,8 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
 
         j.setImport("distributors", this.down("#importDistributors").getValue());
         j.setImport("parameters", this.down("#importParameters").getValue());
-        j.setImport("datasheets", this.down("#importDatasheets").getValue());
+        j.setImport("bestDatasheet", this.down("#importBestDatasheet").getValue());
         j.setImport("cadModels", this.down("#importCADModels").getValue());
-        j.setImport("complianceDocuments", this.down("#importComplianceDocuments").getValue());
         j.setImport("referenceDesigns", this.down("#importReferenceDesigns").getValue());
         j.setImport("images", this.down("#importImages").getValue());
 
@@ -206,5 +203,19 @@ Ext.define("PartKeepr.Components.OctoPart.SearchPanel", {
         );
         this.store.load();
         this.searchBar.setValue(query);
+    },
+    checkForErrors: function (data)
+    {
+        if (data.results.length == 0 && data.errors && data.errors.length > 0) {
+            Ext.Msg.alert(i18n("Octopart Error"), data.errors.map(e => e.message).join());
+        }
+
+        return data;
+    },
+    checkForApiError: function (store, records, successful, eOpts )
+    {
+        if (!successful) {
+            Ext.Msg.alert(i18n("Octopart Error"), "PartKeepr cannot access the Octopart API");
+        }
     }
 });

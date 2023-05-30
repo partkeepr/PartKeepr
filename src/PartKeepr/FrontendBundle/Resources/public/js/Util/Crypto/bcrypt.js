@@ -420,10 +420,10 @@ bCrypt.prototype.crypt_raw = function(password, salt, log_rounds, cdata, callbac
 	var one_percent;
 
 	if (log_rounds < 4) {
-        throw "Minium of 4 rounds required, changing to default";
+        throw "Minimum of 4 rounds required, changing to default";
     }
 	if (log_rounds > 30) {
-        throw "Maximum of 30 rounds exceded";
+        throw "Maximum of 30 rounds exceeded";
     }
 
 	if (salt.length != this.BCRYPT_SALT_LEN)
@@ -556,7 +556,7 @@ bCrypt.prototype.hashpw = function(password, salt, callback, progress) {
 bCrypt.prototype.gensalt = function(rounds) {
 	var iteration_count = rounds;
 	if (iteration_count < 4 || iteration_count > 30) {
-		throw "Rounds exceded maximum (30)!"
+		throw "Rounds exceeded maximum (30)!"
 	}
 	var output = [];
 	output.push("$2a$");

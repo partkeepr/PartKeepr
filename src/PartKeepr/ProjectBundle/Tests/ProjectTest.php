@@ -160,8 +160,11 @@ class ProjectTest extends WebTestCase
         $response = json_decode($client->getResponse()->getContent());
 
         $this->assertInternalType('array', $response->parts);
-        $this->assertArrayNotHasKey(1, $response->parts,
-            'When removing an entry from the ArrayCollection, the array must be resorted!');
+        $this->assertArrayNotHasKey(
+            1,
+            $response->parts,
+            'When removing an entry from the ArrayCollection, the array must be resorted!'
+        );
         $this->assertEquals(1, count($response->parts));
     }
 
@@ -204,8 +207,11 @@ class ProjectTest extends WebTestCase
         $response = json_decode($client->getResponse()->getContent());
 
         $this->assertInternalType('array', $response->attachments);
-        $this->assertArrayNotHasKey(1, $response->attachments,
-            'When removing an entry from the ArrayCollection, the array must be resorted!');
+        $this->assertArrayNotHasKey(
+            1,
+            $response->attachments,
+            'When removing an entry from the ArrayCollection, the array must be resorted!'
+        );
 
         $this->assertEquals(0, count($response->attachments));
     }

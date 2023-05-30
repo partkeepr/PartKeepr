@@ -34,7 +34,8 @@ class ImageResponse extends Response
 
         $black = $image->palette()->color('000');
 
-        $path = realpath(__DIR__.
+        $path = realpath(
+            __DIR__.
             '/../Resources/public/fonts/OpenSans-Regular.ttf'
         );
 

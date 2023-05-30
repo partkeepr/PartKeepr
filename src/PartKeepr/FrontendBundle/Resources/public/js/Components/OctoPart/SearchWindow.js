@@ -1,6 +1,6 @@
 Ext.define("PartKeepr.Components.OctoPart.SearchWindow", {
     extend: "Ext.window.Window",
-    title: i18n("OctoPart Search"),
+    title: i18n("Octopart Search"),
     iconCls: "partkeepr-icon octopart",
     width: 750,
     height: 300,

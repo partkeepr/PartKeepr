@@ -75,8 +75,10 @@ class UploadedFileService extends ContainerAware
         try {
             $storage->delete($file->getFullFilename());
         } catch (FileNotFound $e) {
-            $this->container->get('logger')->alert(sprintf('Unable to delete file %s', $file->getFullFilename()),
-                [$e, $file]);
+            $this->container->get('logger')->alert(
+                sprintf('Unable to delete file %s', $file->getFullFilename()),
+                [$e, $file]
+            );
         }
     }
 
@@ -142,6 +144,7 @@ class UploadedFileService extends ContainerAware
             // Strip ANY tags from the error message. curl tends to spit out <url> is not valid, which then
             // confuses the error message parser on the client side.
             $curlError = str_replace(['>', '<'], '', $curlError);
+
             throw new \Exception('replaceFromURL error: '.$curlError);
         }
 

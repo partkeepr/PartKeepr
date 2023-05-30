@@ -14,7 +14,7 @@ class ImportUnitsCommand extends ContainerAwareCommand
         parent::configure();
         $this->setName('partkeepr:setup:import-units');
         $this->setDescription('Imports the default PartKeepr units');
-        $this->addOption("update", null, InputOption::VALUE_NONE, "Updates existing units" );
+        $this->addOption("update", null, InputOption::VALUE_NONE, "Updates existing units");
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -23,7 +23,10 @@ class ImportUnitsCommand extends ContainerAwareCommand
 
         $return = $this->getContainer()->get('partkeepr.setup.unit_service')->importUnits($update);
 
-        $output->writeln(sprintf('%d units imported, %d existing units skipped', $return['imported'],
-            $return['skipped']));
+        $output->writeln(sprintf(
+            '%d units imported, %d existing units skipped',
+            $return['imported'],
+            $return['skipped']
+        ));
     }
 }

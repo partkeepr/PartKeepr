@@ -254,8 +254,8 @@ Ext.define("PartKeepr.Widgets.EntityQueryPanel", {
 
     },
     /**
-     * Syncronizes the internal columns storage with the grid. The reason it is done that way is because we can't
-     * operate on the return value of getColumns() directly, as these are instanciated objects which get removed
+     * Synchronizes the internal columns storage with the grid. The reason it is done that way is because we can't
+     * operate on the return value of getColumns() directly, as these are instantiated objects which get removed
      * during a reconfigure operation.
      */
     syncColumns: function ()

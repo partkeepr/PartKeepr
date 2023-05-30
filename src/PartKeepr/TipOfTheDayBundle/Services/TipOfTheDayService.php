@@ -39,7 +39,7 @@ class TipOfTheDayService
     }
 
     /**
-     * Syncronizes the tip database against the master wiki.
+     * Synchronizes the tip database against the master wiki.
      *
      * @throws \Exception
      */
@@ -58,7 +58,7 @@ class TipOfTheDayService
      * Updates the tip database. Expects an array of page names.
      *
      * This method clears all page names and re-creates them. This saves
-     * alot of engineering, because we don't need to match contents
+     * a lot of engineering, because we don't need to match contents
      * within the database against contents in an array.
      *
      * @param array $aPageNames The page names as array. Page names are stored as string.

@@ -51,8 +51,13 @@ class AdminUserSetupController extends SetupBaseController
 
             if ($user === null) {
                 $manipulator = $this->get('fos_user.util.user_manipulator');
-                $manipulator->create($request->query->get('username'), $request->query->get('password'),
-                    $request->query->get('email'), true, true);
+                $manipulator->create(
+                    $request->query->get('username'),
+                    $request->query->get('password'),
+                    $request->query->get('email'),
+                    true,
+                    true
+                );
             }
         } catch (\Exception $e) {
             $response['success'] = false;

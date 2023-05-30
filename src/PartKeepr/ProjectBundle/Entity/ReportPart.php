@@ -356,6 +356,7 @@ class ReportPart extends BaseEntity
     public function __toString()
     {
         // @todo i18n
+
         return sprintf("Used in project report %s %s", $this->getReport()->getName(),
                 $this->getReport()->getCreateDateTime()->format("Y-m-d H:i:s"))." / ".parent::__toString();
     }

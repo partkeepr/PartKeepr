@@ -32,7 +32,7 @@ class ImporterService
         Registry $doctrine,
         ReflectionService $reflectionService,
         AdvancedSearchFilter $advancedSearchFilter,
-    IriConverter $iriConverter
+        IriConverter $iriConverter
     ) {
         $this->em = $doctrine->getManager();
         $this->reflectionService = $reflectionService;
@@ -77,8 +77,10 @@ class ImporterService
             if ($entity !== null) {
                 $entities[] = $entity;
             }
-            $logs[] = implode("<br/>",
-                ["data" => implode(",", $row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog()), '</p>']);
+            $logs[] = implode(
+                "<br/>",
+                ["data" => implode(",", $row), '<p style="text-indent: 50px;">', "log" => "   ".implode("<br/>   ", $configuration->getLog()), '</p>']
+            );
 
             $configuration->clearLog();
 
@@ -103,8 +105,14 @@ class ImporterService
     {
         $cm = $this->em->getClassMetadata($this->baseEntity);
 
-        $configuration = new EntityConfiguration($cm, $this->baseEntity, $this->reflectionService, $this->em,
-            $this->advancedSearchFilter, $this->iriConverter);
+        $configuration = new EntityConfiguration(
+            $cm,
+            $this->baseEntity,
+            $this->reflectionService,
+            $this->em,
+            $this->advancedSearchFilter,
+            $this->iriConverter
+        );
         $configuration->parseConfiguration($this->importConfiguration);
 
         return $configuration;

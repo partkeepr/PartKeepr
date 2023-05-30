@@ -23,20 +23,20 @@ class PartMeasurementUnitService
         $this->entityManager->createQuery($dql)
             ->setParameter('id', $partMeasurementUnit->getId())
             ->setParameter(
-            'default',
-            true,
-            \PDO::PARAM_BOOL
-        )->execute();
+                'default',
+                true,
+                \PDO::PARAM_BOOL
+            )->execute();
 
         $dql = 'UPDATE PartKeepr\PartBundle\Entity\PartMeasurementUnit pu SET pu.default = :default WHERE pu.id != :id';
 
         $this->entityManager->createQuery($dql)
             ->setParameter('id', $partMeasurementUnit->getId())
             ->setParameter(
-            'default',
-            false,
-            \PDO::PARAM_BOOL
-        )->execute();
+                'default',
+                false,
+                \PDO::PARAM_BOOL
+            )->execute();
 
         $this->entityManager->commit();
     }

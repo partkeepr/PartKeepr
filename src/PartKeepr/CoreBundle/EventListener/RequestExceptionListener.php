@@ -3,12 +3,11 @@
  * Created by PhpStorm.
  * User: felicitus
  * Date: 10/25/17
- * Time: 11:01 PM
+ * Time: 11:01 PM.
  */
 
 namespace PartKeepr\CoreBundle\EventListener;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Dunglas\ApiBundle\Action\ActionUtilTrait;
 use Dunglas\ApiBundle\Api\IriConverter;
@@ -69,40 +68,21 @@ class RequestExceptionListener extends \Dunglas\ApiBundle\Hydra\EventListener\Re
         $headers = [];
 
         if ($exception instanceof ForeignKeyConstraintViolationException) {
-
             $item = $this->iriConverter->getItemFromIri($request->getRequestUri());
 
             $usedIn = $this->deletionService->findUndeletableUsages($item);
 
-            $data = new EntityInUseException((string)$item, $usedIn);
+            $data = new EntityInUseException((string) $item, $usedIn);
 
             $status = Response::HTTP_FAILED_DEPENDENCY;
-
 
             $event->setResponse(new \Symfony\Component\HttpFoundation\Response(
                 json_encode($data),
                 $status,
                 $headers
-            ));//list($resourceType) = $this->extractAttributes($request);
-            ;
-
-            //$systemNotice = $this->getItem($this->dataProvider, $resourceType, $id);
-            /**
-             * @var $exception DBALException
-             */
-
-            /*$headers = $exception->getHeaders();
-            $data = $exception;
-
-            $event->setResponse(new Response(
-                $this->normalizer->normalize($data, 'hydra-error'),
-                $status,
-                $headers
-            ));*/
+            ));
         } else {
             parent::onKernelException($event);
         }
-
-
     }
 }

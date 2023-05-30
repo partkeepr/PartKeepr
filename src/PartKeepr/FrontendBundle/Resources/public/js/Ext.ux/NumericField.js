@@ -26,7 +26,7 @@ Ext.define('Ext.ux.NumericField', {
     },
 
     /**
-     * Converts a Float value into a currency formated value ready to display .
+     * Converts a Float value into a currency formatted value ready to display .
      *
      * @param {Object} value
      * @return {Object} The converted value.
@@ -45,7 +45,7 @@ Ext.define('Ext.ux.NumericField', {
      *
      * See {@link #rawToValue} for the opposite conversion.
      *
-     * This implementation converts the raw value to a value formated as currency.
+     * This implementation converts the raw value to a value formatted as currency.
      *
      * @param {Object} value The mixed-type value to convert to the raw representation.
      * @return {Object} The converted raw value.

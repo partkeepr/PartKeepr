@@ -5,25 +5,29 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a9f5bdce-ac86-4c51-b87d-56fd0f241155/mini.png)](https://insight.sensiolabs.com/projects/a9f5bdce-ac86-4c51-b87d-56fd0f241155)
 [![Code Climate](https://codeclimate.com/github/partkeepr/PartKeepr/badges/gpa.svg)](https://codeclimate.com/github/partkeepr/PartKeepr)
 [![Test Coverage](https://codeclimate.com/github/partkeepr/PartKeepr/badges/coverage.svg)](https://codeclimate.com/github/partkeepr/PartKeepr/coverage)
-[![Dependency Status](https://www.versioneye.com/user/projects/564e098f3d4c250039000001/badge.svg?style=flat)](https://www.versioneye.com/user/projects/564e098f3d4c250039000001)
+[![codecov](https://codecov.io/gh/partkeepr/PartKeepr/branch/master/graph/badge.svg)](https://codecov.io/gh/partkeepr/PartKeepr)
+
 
 PartKeepr is an [inventory management software](https://en.wikipedia.org/wiki/Inventory_management_software), primarily
 designed for electronic components.
 
 PartKeepr is written in **PHP** and using the [**Symfony2**](http://symfony.com) framework.
 
-Demo Site
----------
+Demo Sites
+----------
 
-To test everything which has been written so far, please visit http://demo.partkeepr.org for a demo which is built from
-the git sources once an hour.
+To test everything which has been written so far, there are two demo pages prepared.
+
+The latest release from github is available at http://demo.partkeepr.org.
+The most up-to-date version of the GitHub `master` branch is published at https://demo-git.partkeepr.org.
+Both demo pages are built from the git sources and reset to a demo state once an hour.
 
 Requirements
 ------------
 
 PartKeepr needs:
 
-* PHP 5.6 and up. Some distributions don't have PHP 5.6 yet, but [provide packages](documentation/installation/php56.md). 
+* PHP between 7.0 and 7.1 - migration to newer symfony is needed before we support current php 7.x
 * A MySQL or PostgreSQL database
 
 Installation
